@@ -115,14 +115,17 @@ img {
     overflow-y: auto;
     overflow-x: hidden;
 
+    /* height: calc(100vh - 2.5em + 1px);
+    min-height: calc(100vh - 2.5em + 1px); */
     height: calc(100vh - 2.5em);
     min-height: calc(100vh - 2.5em);
 
     position: sticky;
-    top: 2.5em;
+    /* top: calc(2.5em + 1px); */
+    top: calc(2.5em);
 }
 
-.pure-menu-list{
+.pure-menu-list {
     padding-bottom: 6em !important;
 }
 
@@ -137,6 +140,11 @@ img {
     min-width: 3.75em;
 
     overflow: hidden;
+
+
+    top: calc(2.5em + 1px);
+    height: calc(100vh - 2.5em - 1px);
+    min-height: calc(100vh - 2.5em - 1px);
 }
 
 .main.sidebar-collapsed {
@@ -145,9 +153,13 @@ img {
 
 .sidebar.hover-expanded {
     position: fixed;
-    top: 3em;
+    /* top: calc(2.5em + 1px);
+    height: calc(100vh - 2.5em + 1px); */
+    top: calc(2.5em);
     height: calc(100vh - 2.5em);
     z-index: 1000;
+
+
     width: 250px;
     max-width: 250px;
 }
@@ -500,7 +512,7 @@ table th {
     text-transform: uppercase;
 }
 
-.sidebar.hover-expanded ~ .main {
+.sidebar.hover-expanded~.main {
     margin-left: 3.75em;
 }
 
@@ -565,7 +577,7 @@ table th {
         top: 3em;
 
         width: 90vw;
-        min-width: 90vw;        
+        min-width: 90vw;
     }
 
     .sidebar.overlay .pure-menu-link span {
@@ -578,14 +590,14 @@ table th {
     .right-sidebar {
         background-color: #700000;
         box-shadow: -4px 0 6px rgba(0, 0, 0, 0.25);
-    
+
         width: 90vw;
         height: 50vh;
-    
+
         position: fixed;
         right: -90vw;
         bottom: 0;
-    
+
         overflow-y: auto;
         overflow-x: hidden;
 
@@ -594,7 +606,7 @@ table th {
 
         justify-content: flex-end;
     }
-    
+
     .right-sidebar.overlay {
         right: 0;
     }
@@ -622,12 +634,14 @@ table th {
         display: block;
         max-width: 100%;
     }
+
     .right-sidebar .pure-menu-link i {
         flex-shrink: 0;
         margin-right: 0.5em;
         width: 1.5em;
         text-align: center;
     }
+
     .right-sidebar .pure-menu {
         align-items: flex-end;
     }
