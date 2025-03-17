@@ -7,6 +7,7 @@
   let isSidebarCollapsed = window.innerWidth < 1400;
   let isMobile = window.innerWidth < 800;
   let isSidebarHidden = isSidebarCollapsed;
+  let isSidebarOverlay = false;
 
   let sidebar;
   let startY;
@@ -29,6 +30,11 @@
       main.classList.toggle("sidebar-collapsed", isSidebarCollapsed);
       isSidebarHidden = sidebar.classList.contains("collapsed");
     }
+
+
+    isSidebarOverlay = sidebar.classList.contains("overlay");
+    console.log("je overlay " + isSidebarOverlay);
+
   }
 
   onMount(() => {
@@ -248,6 +254,9 @@
 
   <div class="content-wrapper">
     <div class="row">
+      {#if isSidebarOverlay}
+      <div class="overlay-bg" on:click={handleClickOutside}></div>
+      {/if}
       <div class="sidebar" id="sidebar" bind:this={sidebar}>
         <div class="pure-menu pure-menu-vertical">
           <ul class="pure-menu-list">
@@ -293,10 +302,16 @@
             {#if !isSidebarHidden}
               <ul class="submenu {isSubmenuOpen ? 'submenu-open' : ''}">
                 <li class="pure-menu-item">
-                  <a href="#" class="pure-menu-link">Test 1</a>
+                  <a href="#" class="pure-menu-link">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Test 1</span>
+                  </a>
                 </li>
                 <li class="pure-menu-item">
-                  <a href="#" class="pure-menu-link">Test 2</a>
+                  <a href="#" class="pure-menu-link">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Test 2</span>
+                  </a>
                 </li>
               </ul>
             {/if}
