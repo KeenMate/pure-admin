@@ -1,6 +1,4 @@
 <script>
-  import toastr from "toastr";
-  import Select from "svelte-select";
   import { onMount, onDestroy } from "svelte";
   import SidebarModal from "./lib/SidebarModal.svelte";
 
@@ -126,31 +124,7 @@
     }
   }
 
-  function toggleLoading() {
-    if (!isLoading) {
-      isLoading = true;
-    } else {
-      stopRequest = true;
-    }
-  }
-
-  toastr.options = {
-    closeButton: true,
-    progressBar: true,
-    positionClass: "toast-bottom-right",
-    timeOut: "3000",
-  };
-
-  function showToast() {
-    toastr.success("Connection established.");
-  }
-
-  let options = [
-    { label: "Option1", value: 1 },
-    { label: "Option2", value: 2 },
-    { label: "Option3", value: 3 },
-  ];
-  let selectedOption = options[0];
+  
 
   let modalOpen = false;
 
@@ -182,25 +156,7 @@
     isSubmenuOpen = !isSubmenuOpen;
   }
 
-  let selectedFontSize = 16;
-  let appliedFontSize = 16;
-
-  function applyFontSize() {
-    appliedFontSize = selectedFontSize;
-    document.documentElement.style.fontSize = `${appliedFontSize}px`;
-  }
-
-  let dateInput;
-  let dateInput2;
-
-  function openDatePicker() {
-    if (dateInput) {
-      dateInput.showPicker();
-    }
-    if (dateInput2) {
-      dateInput2.showPicker();
-    }
-  }
+  
 
   function handleClickOutside() {
     if (isMobile && !sidebar.classList.contains("collapsed")) {
@@ -472,7 +428,6 @@
           <div class="pure-g card">
             <div class="pure-u-1-2">
               <a href="/#/test" class="pure-menu-link" style="display: inline-block;">Test</a>
-              <a href="/#/form" class="pure-menu-link" style="display: inline-block;">Form</a>
             </div>
             
             <div class="pure-u-1-2" style="text-align: right;">
@@ -495,224 +450,16 @@
             </div>
           </div>
 
-          <div class="pure-g card">
-            <div class="pure-u-1 card-header">Change font size</div>
-            <div class="mixed-container">
-              <input
-                type="range"
-                min="10"
-                max="30"
-                step="1"
-                bind:value={selectedFontSize}
-              />
-              <span class="font-size-display">{selectedFontSize}px</span>
-              <button
-                class="pure-button btn-primary ripple"
-                on:click={applyFontSize}
-              >
-                Apply
-              </button>
-            </div>
-          </div>
+          
 
-          <div class="pure-g card">
-            <div class="pure-u-1 card-header">Date picker</div>
-            <div class="pure-form centered-container mixed-container">
-              <div class="input-icon-wrapper">
-                <div class="input-icon-container" on:click={openDatePicker}>
-                  <i class="input-icon fas fa-calendar-alt"></i>
-                </div>
-                <input
-                  type="date"
-                  bind:this={dateInput}
-                  class="pure-input input-with-icon hidden-calendar"
-                />
-              </div>
+          
 
+          
 
-                <input
-                  type="date"
-                  bind:this={dateInput2}
-                  class="pure-input"
-                />
-              </div>
-          </div>
+          
 
-          <div class="pure-g card">
-            <div class="pure-u-1-3 pure-u-lg-1-4 pure-u-xl-1-8">
-              <div class="box">Počet dokumentů</div>
-            </div>
-            <div class="pure-u-1-3 pure-u-lg-1-4 pure-u-xl-1-8">
-              <div class="box">Počet obrazců</div>
-            </div>
-            <div class="pure-u-1-3 pure-u-lg-1-4 pure-u-xl-1-8">
-              <div class="box">Počet velkolepych panu</div>
-            </div>
-          </div>
-
-          <div class="pure-g card">
-            <table>
-              <caption>Statement Summary</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Account</th>
-                  <th scope="col">Due Date</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Period</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Account">Visa - 3412</td>
-                  <td data-label="Due Date">04/01/2016</td>
-                  <td data-label="Amount">$1,190</td>
-                  <td data-label="Period">03/01/2016 - 03/31/2016</td>
-                </tr>
-                <tr>
-                  <td scope="row" data-label="Account">Visa - 6076</td>
-                  <td data-label="Due Date">03/01/2016</td>
-                  <td data-label="Amount">$2,443</td>
-                  <td data-label="Period">02/01/2016 - 02/29/2016</td>
-                </tr>
-                <tr>
-                  <td scope="row" data-label="Account">Corporate AMEX</td>
-                  <td data-label="Due Date">03/01/2016</td>
-                  <td data-label="Amount">$1,181</td>
-                  <td data-label="Period">02/01/2016 - 02/29/2016</td>
-                </tr>
-                <tr>
-                  <td scope="row" data-label="Acount">Visa - 3412</td>
-                  <td data-label="Due Date">02/01/2016</td>
-                  <td data-label="Amount">$842</td>
-                  <td data-label="Period">01/01/2016 - 01/31/2016</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="pure-g card">
-            <div class="pure-u-1-2">
-              <table class="pure-table pure-table-horizontal">
-                <thead>
-                  <tr>
-                    <th>Katalog</th>
-                    <th>Kód</th>
-                    <th>Název</th>
-                    <th>Počet stažení</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="pure-u-1-2">
-              <table class="pure-table pure-table-horizontal">
-                <thead>
-                  <tr>
-                    <th>Katalog</th>
-                    <th>Kód</th>
-                    <th>Název</th>
-                    <th>Počet stažení</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>Správa ŽP</td>
-                    <td>AAAAA</td>
-                    <td>Připomínky a návrhy na změnu rozcestníku</td>
-                    <td>4</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="pure-g card">
-            <div class="pure-u-1 card-header">Button experiments</div>
-            <div class="pure-form centered-container">
-              <div class="input-icon-wrapper">
-                <div class="input-icon-container">
-                  <i class="input-icon fas fa-envelope"></i>
-                </div>
-                <input
-                  type="email"
-                  class="pure-input input-with-icon"
-                  placeholder="Email"
-                />
-              </div>
-            </div>
-            <div class="centered-container mixed-container">
-              <button class="pure-button btn-primary ripple">Ripple</button>
-              <button
-                class="pure-button loading-button btn-primary ripple"
-                id="loadingButton"
-                on:click={toggleLoading}>Loading</button
-              >
-              <button
-                class="pure-button btn-primary ripple"
-                id="show-toast"
-                on:click={showToast}>Toastr</button
-              >
-
-              <div class="icheck-primary centered-container">
-                <input type="checkbox" id="someCheckboxId" />
-                <label for="someCheckboxId">i-check</label>
-              </div>
-
-              <Select
-                bind:value={selectedOption}
-                items={options}
-                placeholder="Select"
-                class="svelte-select"
-              ></Select>
-
-              <button
-                class="pure-button btn-primary ripple"
-                on:click={openModal}>Modal</button
-              >
-            </div>
-          </div>
+          
+          
         </div>
         <div class="footer" id="footer">
           <div class="footer-content">Všechna práva vyhrazena.</div>
