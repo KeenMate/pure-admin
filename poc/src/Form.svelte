@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from "svelte";
   import SidebarModal from "./lib/SidebarModal.svelte";
+  import "../public/stylesform.css";
 
   let isSidebarCollapsed = window.innerWidth < 1400;
   let isMobile = window.innerWidth < 800;
@@ -29,10 +30,8 @@
       isSidebarHidden = sidebar.classList.contains("collapsed");
     }
 
-
     isSidebarOverlay = sidebar.classList.contains("overlay");
     console.log("je overlay " + isSidebarOverlay);
-
   }
 
   onMount(() => {
@@ -124,8 +123,6 @@
     }
   }
 
-  
-
   let modalOpen = false;
 
   function openModal() {
@@ -137,11 +134,11 @@
   }
 
   let userModalOpen = false;
-  let userModalSize = "45vw"
+  let userModalSize = "45vw";
 
   function openUserModal(modalSize) {
-    userModalSize=modalSize
-    console.log("velikost " + userModalSize)
+    userModalSize = modalSize;
+    console.log("velikost " + userModalSize);
     userModalOpen = true;
   }
 
@@ -155,8 +152,6 @@
     event.preventDefault();
     isSubmenuOpen = !isSubmenuOpen;
   }
-
-  
 
   function handleClickOutside() {
     if (isMobile && !sidebar.classList.contains("collapsed")) {
@@ -181,12 +176,14 @@
       <div class="pure-u-1-2">
         <div class="header-right">
           {#if isMobile}
-            <button class="icon-btn" on:click={()=>openUserModal("45vw")}>
+            <button class="icon-btn" on:click={() => openUserModal("45vw")}>
               <i class="fas fa-user"></i>
             </button>
           {:else}
-            <a href="#" class="pure-menu-link" on:click={()=>openUserModal("30vw")}
-              >email@email.com</a
+            <a
+              href="#"
+              class="pure-menu-link"
+              on:click={() => openUserModal("30vw")}>email@email.com</a
             >
           {/if}
         </div>
@@ -211,7 +208,7 @@
   <div class="content-wrapper">
     <div class="row">
       {#if isSidebarOverlay}
-      <div class="overlay-bg" on:click={handleClickOutside}></div>
+        <div class="overlay-bg" on:click={handleClickOutside}></div>
       {/if}
       <div class="sidebar" id="sidebar" bind:this={sidebar}>
         <div class="pure-menu pure-menu-vertical">
@@ -409,8 +406,13 @@
         </div>
       </div>
 
-      <div class="main" id="main" on:click={handleClickOutside}>
-        <div class="main-content">
+      <div
+        class="main"
+        id="main"
+        on:click={handleClickOutside}
+        style="width:100%;"
+      >
+        <div class="main-content" style="width:100%;">
           <div
             class="loader-line {isLoading ? 'active infinite' : ''}"
             id="loaderLine"
@@ -422,44 +424,30 @@
             orientation="right"
             on:close={closeModal}
           >
-            <p>test testtesttest test</p>
+            <p>test</p>
           </SidebarModal>
 
           <div class="pure-g card">
-            <div class="pure-u-1-2">
-              <a href="/#/test" class="pure-menu-link" style="display: inline-block;">Test</a>
+            <div class="pure-u-1-2 title-container">
+              <h3 class="card-title">Hoooooooodne Dlouhy Nazev</h3>
             </div>
-            
-            <div class="pure-u-1-2" style="text-align: right;">
-              <button class="pure-button btn-primary ripple">Obnovit</button>
+
+            <div class="pure-u-1-2 button-group">
+              
+              <button class="pure-button btn-primary icon-button">
+                <i class="fas fa-file-import fa-fw"></i>
+              </button>
+              <button class="pure-button btn-info" >
+                <i class="fa fa-refresh fa-fw"></i> Obnovit
+              </button>
+
+              <button class="pure-button btn-success important-button">
+                <i class="fa fa-save fa-fw"></i> Uložit
+              </button>
             </div>
+
+
           </div>
-
-          <div class="pure-g card">
-            <div class="pure-u-1 card-header">Button colors</div>
-            <div class="button-container centered-container">
-              <button class="pure-button btn-primary ripple">Primary</button>
-              <button class="pure-button btn-secondary ripple">Secondary</button
-              >
-              <button class="pure-button btn-success ripple">Success</button>
-              <button class="pure-button btn-danger ripple">Danger</button>
-              <button class="pure-button btn-warning ripple">Warning</button>
-              <button class="pure-button btn-info ripple">Info</button>
-              <button class="pure-button btn-light ripple">Light</button>
-              <button class="pure-button btn-dark ripple">Dark</button>
-            </div>
-          </div>
-
-          
-
-          
-
-          
-
-          
-
-          
-          
         </div>
         <div class="footer" id="footer">
           <div class="footer-content">Všechna práva vyhrazena.</div>
