@@ -12,7 +12,10 @@
   let sidebar;
   let startY;
 
+  let hasUserToggledSidebar = false;
+
   function toggleSidebar() {
+    hasUserToggledSidebar = true;
     isSidebarCollapsed = !isSidebarCollapsed;
     updateSidebarClass();
   }
@@ -30,11 +33,7 @@
       main.classList.toggle("sidebar-collapsed", isSidebarCollapsed);
       isSidebarHidden = sidebar.classList.contains("collapsed");
     }
-
-
     isSidebarOverlay = sidebar.classList.contains("overlay");
-    console.log("je overlay " + isSidebarOverlay);
-
   }
 
   onMount(() => {
@@ -42,8 +41,11 @@
     updateSidebarClass();
 
     const handleResize = () => {
-      isSidebarCollapsed = window.innerWidth < 1400;
       isMobile = window.innerWidth < 800;
+
+      if (isMobile) hasUserToggledSidebar = false;
+
+      if (!hasUserToggledSidebar) isSidebarCollapsed = window.innerWidth < 1400;
 
       updateSidebarClass();
     };
@@ -163,11 +165,11 @@
   }
 
   let userModalOpen = false;
-  let userModalSize = "45vw"
+  let userModalSize = "33vw";
 
   function openUserModal(modalSize) {
-    userModalSize=modalSize
-    console.log("velikost " + userModalSize)
+    userModalSize = modalSize;
+    console.log("velikost " + userModalSize);
     userModalOpen = true;
   }
 
@@ -225,12 +227,14 @@
       <div class="pure-u-1-2">
         <div class="header-right">
           {#if isMobile}
-            <button class="icon-btn" on:click={()=>openUserModal("45vw")}>
+            <button class="icon-btn" on:click={() => openUserModal("45vw")}>
               <i class="fas fa-user"></i>
             </button>
           {:else}
-            <a href="#" class="pure-menu-link" on:click={()=>openUserModal("30vw")}
-              >email@email.com</a
+            <a
+              href="#"
+              class="pure-menu-link"
+              on:click={() => openUserModal("30vw")}>email@email.com</a
             >
           {/if}
         </div>
@@ -244,18 +248,38 @@
     on:close={closeUserModal}
     targetSize={userModalSize}
   >
-    <a href="#" class="pure-menu-heading">
-      <span>Petr Novák</span>
-    </a>
-    <a href="#" class="pure-menu-link" style="padding-left: 5px;"
-      >email@email.com</a
-    >
+
+    <div class="modalContentContainer">
+    
+      <div style="display: flex; justify-content: flex-end;">
+        <button 
+          on:click={closeUserModal} 
+          class="modalCloseButton"
+        >
+          &times;
+        </button>
+      </div>
+  
+      <h1 class="modalTitle">Petr Novak (IT Services)</h1>
+  
+      <div class="modalInfoContainer">
+        <div class="modalInfoRow">
+          <div><strong>Username:</strong></div>
+          <div>Petr Novák</div>
+        </div>
+        <div class="modalInfoRow">
+          <div><strong>Email:</strong></div>
+          <div>email@email.com</div>
+        </div>
+      </div>
+  
+    </div>
   </SidebarModal>
 
   <div class="content-wrapper">
     <div class="row">
       {#if isSidebarOverlay}
-      <div class="overlay-bg" on:click={handleClickOutside}></div>
+        <div class="overlay-bg" on:click={handleClickOutside}></div>
       {/if}
       <div class="sidebar" id="sidebar" bind:this={sidebar}>
         <div class="pure-menu pure-menu-vertical">
@@ -471,10 +495,18 @@
 
           <div class="pure-g card">
             <div class="pure-u-1-2">
-              <a href="/#/test" class="pure-menu-link" style="display: inline-block;">Test</a>
-              <a href="/#/form" class="pure-menu-link" style="display: inline-block;">Form</a>
+              <a
+                href="/#/test"
+                class="pure-menu-link"
+                style="display: inline-block;">Test</a
+              >
+              <a
+                href="/#/form"
+                class="pure-menu-link"
+                style="display: inline-block;">Form</a
+              >
             </div>
-            
+
             <div class="pure-u-1-2" style="text-align: right;">
               <button class="pure-button btn-primary ripple">Obnovit</button>
             </div>
@@ -529,13 +561,8 @@
                 />
               </div>
 
-
-                <input
-                  type="date"
-                  bind:this={dateInput2}
-                  class="pure-input"
-                />
-              </div>
+              <input type="date" bind:this={dateInput2} class="pure-input" />
+            </div>
           </div>
 
           <div class="pure-g card">

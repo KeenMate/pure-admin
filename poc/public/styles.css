@@ -22,7 +22,7 @@ body {
     left: 0;
     right: 0;
     height: 2.5em;
-    z-index: 1001;
+    z-index: 1003;
     background: white;
     border-bottom: 1px solid #ccc;
 }
@@ -217,7 +217,7 @@ img {
 }
 
 .main-content {
-    padding: 0.3em 0.5em 3em 0.5em;
+    padding: 0.25em 0.5em 3em 0.5em;
     position: relative;
     max-width: 100%;
     box-sizing: border-box;
@@ -247,7 +247,8 @@ img {
     border: 1px solid #ccc;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 0.5em;
-    border-radius: 0.2em;
+    /* border-radius: 0.2em; */
+    border-radius: 2px;
     background-color: #fff;
     margin: 0 0 0.5em 0;
 }
@@ -574,7 +575,7 @@ table th {
         position: fixed;
         height: calc(100vh - 2.5em);
         min-height: calc(100vh - 2.5em);
-        z-index: 1000;
+        z-index: 2000;
         top: 2.5em;
 
         width: 90vw;
@@ -870,4 +871,39 @@ input.hidden-calendar::-webkit-inner-spin-button,
 input.hidden-calendar::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.modalCloseButton {
+    border: none;
+    background: none;
+    font-size: 3em;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    margin-right:0.25em ;
+}
+
+.modalTitle {
+    margin: 0;
+    padding-left: 0.5em;
+}
+
+.modalInfoContainer {
+    padding-left: 0.9em;
+}
+
+.modalContentContainer {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+}
+
+.modalInfoRow{
+    margin-bottom: 1.5em;
+    font-size: 1.1em;
 }
