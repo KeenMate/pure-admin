@@ -19,8 +19,8 @@
   }
 
   function updateSidebarClass() {
-    const sidebar = document.getElementById("sidebarForm");
-    const main = document.getElementById("mainForm");
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("main");
 
     if (isMobile) {
       sidebar.classList.toggle("collapsed", isSidebarCollapsed);
@@ -36,7 +36,7 @@
   }
 
   onMount(() => {
-    const sidebar = document.getElementById("sidebarForm");
+    const sidebar = document.getElementById("sidebar");
     updateSidebarClass();
 
     const handleResize = () => {
@@ -218,7 +218,7 @@
       {#if isSidebarOverlay}
         <div class="overlay-bg" on:click={handleClickOutside}></div>
       {/if}
-      <div class="sidebar" id="sidebarForm" bind:this={sidebar}>
+      <div class="sidebar" id="sidebar" bind:this={sidebar}>
         <div class="pure-menu pure-menu-vertical">
           <ul class="pure-menu-list">
             <li class="pure-menu-item first-item">
@@ -416,7 +416,7 @@
 
       <div
         class="main"
-        id="mainForm"
+        id="main"
         on:click={handleClickOutside}
         style="width:100%;"
       >
@@ -598,7 +598,7 @@
     min-width: 0;
   }
 
-  .sidebar.collapsed {
+  :global(.sidebar.collapsed) {
     /* width: 3.75em;
     min-width: 3.75em; */
     width: 3em;
@@ -611,11 +611,11 @@
     min-height: calc(100vh - 2.5em - 1px);
   }
 
-  .main.sidebar-collapsed {
+  :global(.main.sidebar-collapsed){
     margin-left: 0;
   }
 
-  .sidebar.hover-expanded {
+  :global(.sidebar.hover-expanded) {
     position: fixed;
     /* top: calc(2.5em + 1px);
     height: calc(100vh - 2.5em + 1px); */
@@ -627,7 +627,7 @@
     max-width: 250px;
   }
 
-  .sidebar.hover-expanded + .main {
+  :global(.sidebar.hover-expanded + .main) {
     margin-left: 3em;
   }
 
@@ -654,7 +654,7 @@
     max-width: 100%;
   }
 
-  .sidebar.collapsed .pure-menu-link span {
+  :global(.sidebar.collapsed .pure-menu-link span) {
     display: none;
   }
 
@@ -665,7 +665,7 @@
     text-align: center;
   }
 
-  .sidebar.collapsed .pure-menu-link i {
+  :global(.sidebar.collapsed .pure-menu-link i) {
     margin-right: 0;
   }
 
@@ -736,7 +736,7 @@
     flex: 1;
   }
 
-  .important-button {
+  /* .important-button {
     order: 1;
   }
 
@@ -749,7 +749,7 @@
       order: -1;
       margin-left: 0;
     }
-  }
+  } */
 
   /* @media (max-width: 500px) {
 
@@ -1030,7 +1030,7 @@
     text-transform: uppercase;
   }
 
-  .sidebar.hover-expanded ~ .main {
+  :global(.sidebar.hover-expanded ~ .main) {
     margin-left: 3em;
   }
 
@@ -1082,12 +1082,12 @@
       border-bottom: 0;
     }
 
-    .sidebar.collapsed {
+    :global(.sidebar.collapsed) {
       width: 0;
       min-width: 0;
     }
 
-    .sidebar.overlay {
+    :global(.sidebar.overlay) {
       position: fixed;
       height: calc(100vh - 2.5em);
       min-height: calc(100vh - 2.5em);
@@ -1109,7 +1109,7 @@
       display: block;
     }
 
-    .sidebar.overlay .pure-menu-link span {
+    :global(.sidebar.overlay .pure-menu-link span) {
       word-break: break-word;
       overflow-wrap: break-word;
       display: block;
@@ -1135,11 +1135,11 @@
       justify-content: flex-end;
     }
 
-    .right-sidebar.overlay {
+    :global(.right-sidebar.overlay) {
       right: 0;
     }
 
-    .right-sidebar .pure-menu-link {
+    :global(.right-sidebar .pure-menu-link) {
       color: white;
       display: flex;
       align-items: baseline;
