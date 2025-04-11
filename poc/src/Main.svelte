@@ -43,7 +43,7 @@
     const handleResize = () => {
       isMobile = window.innerWidth < 800;
 
-      if (isMobile) hasUserToggledSidebar = false;
+      //if (isMobile) hasUserToggledSidebar = false;
 
       if (!hasUserToggledSidebar) isSidebarCollapsed = window.innerWidth < 1400;
 
@@ -248,20 +248,15 @@
     on:close={closeUserModal}
     targetSize={userModalSize}
   >
-
     <div class="modalContentContainer">
-    
       <div style="display: flex; justify-content: flex-end;">
-        <button 
-          on:click={closeUserModal} 
-          class="modalCloseButton"
-        >
+        <button on:click={closeUserModal} class="modalCloseButton">
           &times;
         </button>
       </div>
-  
+
       <h1 class="modalTitle">Petr Novak (IT Services)</h1>
-  
+
       <div class="modalInfoContainer">
         <div class="modalInfoRow">
           <div><strong>Username:</strong></div>
@@ -272,7 +267,6 @@
           <div>email@email.com</div>
         </div>
       </div>
-  
     </div>
   </SidebarModal>
 
@@ -286,16 +280,93 @@
           <ul class="pure-menu-list">
             <li class="pure-menu-item first-item">
               <a href="#" class="pure-menu-link">
-                <i class="fas fa-dashboard"></i>
-                <span>Nástěnka</span>
+                  <input type="checkbox" disabled checked/>
+                  <span class="sidebarItemText">ToDo List</span>
               </a>
             </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled />
+                  <span class="sidebarItemText">Low width warning message</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled />
+                  <span class="sidebarItemText">Recreate more form elements</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Right Modal content alignment changes</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Sidebar remembers user mobile toggle</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Sidebar/Burger alignment changes</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Right Modal layout changes</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Sidebar remembers user toggle</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Form buttons alignment on narrow screens</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Overlay layering fixes</span>
+              </a>
+            </li>
+
+            <li class="pure-menu-item">
+              <a href="#" class="pure-menu-link">
+                  <input type="checkbox" disabled checked />
+                  <span class="sidebarItemText">Right Modal and its content more narrow</span>
+              </a>
+            </li>
+
             <li class="pure-menu-item">
               <a href="#" class="pure-menu-link">
                 <i class="fas fa-file"></i>
-                <span>Dokumenty</span>
+                <span>Test</span>
               </a>
             </li>
+
+            <!-- <a href="#" class="pure-menu-link">
+                <i class="fas fa-dashboard"></i>
+                <span>Nástěnka</span>
+              </a> -->
+            <!-- 
             <li class="pure-menu-item">
               <a href="#" class="pure-menu-link">
                 <i class="fas fa-layer-group"></i>
@@ -472,7 +543,7 @@
                 <i class="fas fa-list"></i>
                 <span>Umístění</span>
               </a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
