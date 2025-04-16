@@ -173,7 +173,11 @@
     <div class="pure-g">
       <div class="pure-u-1-2">
         <div class="header-left">
-          <button class="hamburger-btn" on:click={toggleSidebar}>
+          <button
+            class="hamburger-btn"
+            on:click={toggleSidebar}
+            aria-label="hamburger"
+          >
             <i class="fas fa-bars"></i>
           </button>
           <a href="#" class="pure-menu-heading">
@@ -414,6 +418,8 @@
         </div>
       </div>
 
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="main"
         id="main"
@@ -437,7 +443,7 @@
 
           <div class="pure-g card">
             <div class="pure-u-1-2 title-container">
-              <h3 class="card-title">Hoooooooodne Dlouhy Nazev</h3>
+              <h3 class="card-title">Novy dokument</h3>
             </div>
 
             <div class="pure-u-1-2 button-group">
@@ -453,6 +459,137 @@
                 <i class="fa fa-save fa-fw"></i>
                 <span class="btn-text">Uložit</span>
               </button>
+            </div>
+          </div>
+
+          <div class="pure-g">
+            <div class="pure-u-2-3">
+              <div class="card">
+                <div class="pure-u-1 card-header">Vlastnosti dokumentu</div>
+
+                <div class="pure-u-1">
+                  <div class="pure-g pure-form pure-form-stacked g-space">
+                    <div class="pure-u-2-3">
+                      <label for="viditlnyNazev"
+                        >Viditelny nazev pro uzivatele</label
+                      >
+                      <input
+                        id="viditlnyNazev"
+                        type="text"
+                        class="pure-input-1"
+                      />
+
+                      <label for="tooltip">Tooltip</label>
+                      <input id="tooltip" type="text" class="pure-input-1" />
+
+                      <label for="priorita">Priorita</label>
+                      <div class="pure-g">
+                        <div class="pure-u-1-8">
+                          <input
+                            id="priorita"
+                            type="number"
+                            class="pure-input-1"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="pure-u-1-3">
+                      <div class="formElementGap">
+                        <label for="klicovaSlova">Klicova slova</label>
+                        <textarea
+                          id="klicovaSlova"
+                          class="pure-input-1"
+                          placeholder="Klicova slova pro tento dokument"
+                          rows="9"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pure-g pure-form g-space">
+                    <div class="pure-u-1-4">
+                      <label for="publikovatOd">Publikovat od</label>
+                      <input
+                        type="date"
+                        id="publikovatOd"
+                        class="pure-input-1"
+                      />
+                    </div>
+                    <div class="pure-u-1-4">
+                      <div class="formElementGap">
+                        <label for="publikovatDo">Publikovat do</label>
+                        <input
+                          type="date"
+                          id="publikovatDo"
+                          class="pure-input-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="pure-u-1-4">
+                      <div class="formElementGap">
+                        <label for="ucinnostOd">Ucinnost od</label>
+                        <input
+                          type="date"
+                          id="ucinnostOd"
+                          class="pure-input-1"
+                        />
+                      </div>
+                    </div>
+                    <div class="pure-u-1-4">
+                      <div class="formElementGap">
+                        <label for="ucinnostDo">Ucinnost do</label>
+                        <input
+                          type="date"
+                          id="ucinnostDo"
+                          class="pure-input-1"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="pure-g pure-form">
+                    <div class="pure-u-1-4 pure-form-stacked">
+                      <label class="switch-label">
+                        <label class="switch">
+                          <input type="checkbox" checked />
+                          <span class="slider"></span>
+                        </label>
+                        <span class="switch-text">Novinka</span>
+                      </label>
+
+                      <label class="switch-label">
+                        <label class="switch">
+                          <input type="checkbox" />
+                          <span class="slider"></span>
+                        </label>
+                        <span class="switch-text">Aktualizace</span>
+                      </label>
+                    </div>
+
+                    <div class="pure-u-1-4">
+                      <div class="formElementGap">
+                        <input type="date" class="pure-input-1" />
+                      </div>
+                    </div>
+
+                    <div class="pure-u-1-4">
+                      <div class="formElementGap">
+                        <input type="date" class="pure-input-1" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pure-u-1-3">
+              <div class="card">
+                <div class="pure-u-1 card-header">Umisteni a zarazeni</div>
+              </div>
             </div>
           </div>
         </div>
@@ -611,7 +748,7 @@
     min-height: calc(100vh - 2.5em - 1px);
   }
 
-  :global(.main.sidebar-collapsed){
+  :global(.main.sidebar-collapsed) {
     margin-left: 0;
   }
 
@@ -1389,5 +1526,89 @@
   input.hidden-calendar::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
+  }
+
+  .pure-form input {
+    box-shadow: none !important;
+  }
+
+  .pure-form textarea {
+    box-shadow: none !important;
+    resize: vertical;
+  }
+
+  .formElementGap {
+    padding-left: 1em;
+  }
+
+  .g-space{
+    margin-bottom: 1em!important;
+  }
+
+  hr{
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+
+
+  .switch-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  /* The switch track */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+  }
+
+  /* Hide default checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 5px;
+  }
+
+  /* The knob */
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 21px;
+    width: 21px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 25%;
+  }
+
+  /* Checked state */
+  input:checked + .slider {
+    background-color: #2196f3;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196f3;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(25px);
   }
 </style>
