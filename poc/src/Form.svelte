@@ -2,6 +2,8 @@
   import { onMount, onDestroy } from "svelte";
   import SidebarModal from "./lib/SidebarModal.svelte";
 
+  import Select from "svelte-select";
+
   let isSidebarCollapsed = window.innerWidth < 1400;
   let isMobile = window.innerWidth < 800;
   let isSidebarHidden = isSidebarCollapsed;
@@ -166,6 +168,13 @@
       toggleSidebar();
     }
   }
+
+  let options = [
+    { label: "Option1", value: 1 },
+    { label: "Option2", value: 2 },
+    { label: "Option3", value: 3 },
+  ];
+  let selectedOption = options[0];
 </script>
 
 <div class="layout-wrapper">
@@ -463,8 +472,8 @@
           </div>
 
           <div class="pure-g">
-            <div class="pure-u-2-3">
-              <div class="card">
+            <div class="cardRow">
+              <div class="pure-u-2-3 card">
                 <div class="pure-u-1 card-header">Vlastnosti dokumentu</div>
 
                 <div class="pure-u-1">
@@ -549,7 +558,7 @@
                     </div>
                   </div>
 
-                  <hr>
+                  <hr />
 
                   <div class="pure-g pure-form">
                     <div class="pure-u-1-4 pure-form-stacked">
@@ -584,11 +593,47 @@
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="pure-u-1-3">
-              <div class="card">
+              <div class="pure-u-1-3 card">
                 <div class="pure-u-1 card-header">Umisteni a zarazeni</div>
+                <div class="pure-g pure-u-1">
+                  <Select
+                    placeholder="Vyberte umisteni"
+                    bind:value={selectedOption}
+                    items={options}
+                    class="svelte-select"
+                  ></Select>
+                </div>
+
+                <hr />
+
+                <div class="pure-g"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pure-g">
+            <div class="pure-u-2-3">
+              <div class="cardRow">
+                <div class="pure-u-1-2 card">
+                  <label class="switch-label">
+                    <label class="switch">
+                      <input type="checkbox" checked />
+                      <span class="slider"></span>
+                    </label>
+                    <span class="switch-text">Pro všechny</span>
+                  </label>
+                </div>
+
+                <div class="pure-u-1-2 card">
+                  <label class="switch-label">
+                    <label class="switch">
+                      <input type="checkbox" checked />
+                      <span class="slider"></span>
+                    </label>
+                    <span class="switch-text">Pro všechny</span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -852,8 +897,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    /* flex: 1; */
+    box-sizing: border-box;
 
     flex-wrap: wrap;
+  }
+
+  .cardRow {
+    display: flex;
+    gap: 1em;
   }
 
   .button-group {
@@ -1541,15 +1593,14 @@
     padding-left: 1em;
   }
 
-  .g-space{
-    margin-bottom: 1em!important;
+  .g-space {
+    margin-bottom: 1em !important;
   }
 
-  hr{
+  hr {
     border: 0;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-
 
   .switch-label {
     display: flex;
@@ -1610,5 +1661,22 @@
 
   input:checked + .slider:before {
     transform: translateX(25px);
+  }
+
+  .svelte-select {
+    margin-left: 0 !important;
+  }
+
+  .gapMarginThird {
+    margin-left: 1em;
+    width: calc(33.33% - 1em);
+  }
+
+  /* .gapMarginHalf{y
+    margin-left: 1em;
+    width:calc(50% - 1em)
+  } */
+  .gapMargin {
+    margin-left: 1em;
   }
 </style>
