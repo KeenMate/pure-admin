@@ -473,7 +473,7 @@
 
           <div class="pure-g">
             <div class="cardRow">
-              <div class="pure-u-2-3 card">
+              <div class="card">
                 <div class="pure-u-1 card-header">Vlastnosti dokumentu</div>
 
                 <div class="pure-u-1">
@@ -594,7 +594,7 @@
                 </div>
               </div>
 
-              <div class="pure-u-1-3 card">
+              <div class="card">
                 <div class="pure-u-1 card-header">Umisteni a zarazeni</div>
                 <div class="pure-g pure-u-1">
                   <Select
@@ -614,8 +614,8 @@
 
           <div class="pure-g">
             <div class="pure-u-2-3">
-              <div class="cardRow">
-                <div class="pure-u-1-2 card">
+              <div class="cardRow oneHalf">
+                <div class="card">
                   <label class="switch-label">
                     <label class="switch">
                       <input type="checkbox" checked />
@@ -625,14 +625,42 @@
                   </label>
                 </div>
 
-                <div class="pure-u-1-2 card">
-                  <label class="switch-label">
-                    <label class="switch">
-                      <input type="checkbox" checked />
-                      <span class="slider"></span>
-                    </label>
-                    <span class="switch-text">Pro všechny</span>
-                  </label>
+                <div class="card">
+                  <div class="pure-u-1">
+                    <div class="pure-form pure-form-stacked">
+                      <label class="switch-label">
+                        <span class="switch-text">Soubor</span>
+                        <label class="switch">
+                          <input type="checkbox" checked />
+                          <span class="slider"></span>
+                        </label>
+                        <span class="switch-text">Odkaz</span>
+                      </label>
+                      <hr />
+                      <div
+                        class="input-icon-wrapper input-icon-wrapper pure-u-1"
+                      >
+                        <input
+                          type="text"
+                          class="pure-input input-with-icon"
+                          placeholder="Nahrát nový soubor"
+                        />
+
+                        <div class="input-icon-container">
+                          <i class="input-icon fas fa-upload"></i>
+                        </div>
+                      </div>
+                      <label for="nazevSouboru"
+                        >Nazev souboru pri stazeni</label
+                      >
+                      <input
+                        id="nazevSouboru"
+                        type="text"
+                        class="pure-input-1"
+                      />
+                      <label>Velikost souboru: 0kb</label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -906,6 +934,8 @@
   .cardRow {
     display: flex;
     gap: 1em;
+    align-items: flex-start;
+    width: 100%;
   }
 
   .button-group {
@@ -922,6 +952,17 @@
   }
 
   .title-container {
+    flex: 1;
+  }
+
+  .twoThirds {
+    flex: 2;
+  }
+  .oneThird {
+    flex: 1;
+  }
+
+  .oneHalf > .card {
     flex: 1;
   }
 
@@ -1089,7 +1130,6 @@
 
   .input-icon-wrapper {
     position: relative;
-    /* margin-bottom: 1em; */
   }
 
   .input-icon {
@@ -1107,17 +1147,40 @@
 
   .input-icon-container {
     position: absolute;
-    left: 0;
+    /* left: 0; */
     top: 0;
     bottom: 0;
-    width: 2em;
+    width: auto;
+    min-width: 2em;
     background-color: #e6e6e6;
     border: 1px solid #ccc;
-    border-right: none;
-    border-radius: 4px 0 0 4px;
+    /* border-right: none; */
+    /* border-radius: 4px 0 0 4px; */
     display: flex;
     align-items: center;
     justify-content: center;
+
+    margin: 0.25em 0;
+  }
+
+  .input-icon-wrapper:not(.input-icon-wrapper--right) .input-icon-container {
+    left: 0;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+  }
+
+  .input-icon-wrapper:not(.input-icon-wrapper--right) .input-with-icon {
+    padding-left: 3em !important;
+  }
+
+  .input-icon-wrapper--right .input-icon-container {
+    right: 0;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .input-icon-wrapper--right .input-with-icon {
+    padding-right: 5em !important;
   }
 
   .pure-menu-heading {
