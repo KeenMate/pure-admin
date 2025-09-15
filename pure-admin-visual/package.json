@@ -1,0 +1,21 @@
+{
+  "name": "pure-admin-visual",
+  "version": "1.0.0",
+  "description": "Lightweight data-focused admin framework based on PureCSS",
+  "main": "index.html",
+  "scripts": {
+    "build-css": "sass src/scss/main.scss dist/css/main.css",
+    "watch-css": "sass --watch src/scss/main.scss:dist/css/main.css",
+    "dev": "npm run watch-css",
+    "dev-server": "concurrently \"npm run watch-css\" \"live-server --port=8000 --wait=500\"",
+    "serve": "live-server --port=8000"
+  },
+  "keywords": ["admin", "framework", "purecss", "sass", "lightweight"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.69.0",
+    "live-server": "^1.2.2",
+    "concurrently": "^8.2.2"
+  }
+}

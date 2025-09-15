@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Admin Visual - Components</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="dist/css/main.css">
+    <link rel="stylesheet" href="src/themes/dark.css">
+    <link rel="stylesheet" href="src/themes/minimal.css">
+    <link rel="stylesheet" href="src/themes/corporate.css">
+</head>
+<body>
+    <!-- Fixed Header -->
+    <header class="admin-header">
+        <div class="admin-header__left">
+            <button class="burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="admin-header__brand">
+                <h1>Pure Admin</h1>
+            </div>
+        </div>
+        <nav class="admin-header__nav">
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="components.html" class="active">Components</a></li>
+                <li><a href="#">Settings</a></li>
+                <li>
+                    <div class="theme-switcher">
+                        <label for="theme-select">Theme:</label>
+                        <select id="theme-select" onchange="switchTheme(this.value)">
+                            <option value="default">Default</option>
+                            <option value="dark">Dark</option>
+                            <option value="minimal">Minimal</option>
+                            <option value="corporate">Corporate</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Fixed Sidebar -->
+    <aside class="admin-sidebar">
+        <nav class="admin-sidebar__nav">
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="components.html" class="active">Components</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="buttons.html">Buttons</a></li>
+                <li><a href="cards.html">Cards</a></li>
+                <li><a href="alerts.html">Alerts</a></li>
+                <li><a href="#" onclick="window.open('https://github.com/your-repo', '_blank')">GitHub</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-content">
+        <div class="admin-content__inner">
+            <h2>Component Library</h2>
+            <p>Pure Admin Visual framework provides a comprehensive set of components for building data-focused admin interfaces.</p>
+
+            <!-- Components Overview Grid -->
+            <div class="pure-g">
+                <!-- Form Components -->
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="component-category">
+                        <h3>Form Components</h3>
+                        <div class="component-list">
+                            <a href="forms.html" class="component-card">
+                                <h4>Form Elements</h4>
+                                <p>Text inputs, selects, textareas with various styles and states</p>
+                                <span class="component-count">8 variants</span>
+                            </a>
+
+                            <a href="buttons.html" class="component-card">
+                                <h4>Buttons</h4>
+                                <p>Primary, secondary, and utility buttons in multiple sizes</p>
+                                <span class="component-count">12 variants</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layout Components -->
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="component-category">
+                        <h3>Layout Components</h3>
+                        <div class="component-list">
+                            <a href="cards.html" class="component-card">
+                                <h4>Cards</h4>
+                                <p>Content containers with headers, footers, and actions</p>
+                                <span class="component-count">8 variants</span>
+                            </a>
+
+                            <a href="alerts.html" class="component-card">
+                                <h4>Alerts</h4>
+                                <p>Contextual feedback messages with icons and actions</p>
+                                <span class="component-count">5 variants</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Components -->
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="component-category">
+                        <h3>Data Components</h3>
+                        <div class="component-list">
+                            <div class="component-card disabled">
+                                <h4>Tables</h4>
+                                <p>Data tables with sorting, filtering, and pagination</p>
+                                <span class="component-count">Coming soon</span>
+                            </div>
+
+                            <div class="component-card disabled">
+                                <h4>Charts</h4>
+                                <p>Simple chart components for data visualization</p>
+                                <span class="component-count">Coming soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Components -->
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="component-category">
+                        <h3>Navigation Components</h3>
+                        <div class="component-list">
+                            <div class="component-card disabled">
+                                <h4>Breadcrumbs</h4>
+                                <p>Navigation trail for hierarchical content</p>
+                                <span class="component-count">Coming soon</span>
+                            </div>
+
+                            <div class="component-card disabled">
+                                <h4>Pagination</h4>
+                                <p>Page navigation for large datasets</p>
+                                <span class="component-count">Coming soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Examples -->
+            <div class="quick-examples">
+                <h3>Quick Examples</h3>
+
+                <div class="example-section">
+                    <h4>Basic Form</h4>
+                    <div class="pa-card">
+                        <div class="pa-card__body">
+                            <form class="pa-form">
+                                <div class="pa-form-group">
+                                    <label for="example-input">Email Address</label>
+                                    <input type="email" id="example-input" class="pa-input" placeholder="Enter email">
+                                </div>
+                                <div class="pa-form-group">
+                                    <label for="example-select">Select Option</label>
+                                    <select id="example-select" class="pa-select">
+                                        <option>Choose...</option>
+                                        <option>Option 1</option>
+                                        <option>Option 2</option>
+                                    </select>
+                                </div>
+                                <div class="pa-form-actions">
+                                    <button type="submit" class="pa-btn pa-btn--primary">Submit</button>
+                                    <button type="button" class="pa-btn pa-btn--secondary">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-section">
+                    <h4>Alert Messages</h4>
+                    <div class="pa-alert pa-alert--success">
+                        <strong>Success!</strong> Your action was completed successfully.
+                    </div>
+                    <div class="pa-alert pa-alert--warning">
+                        <strong>Warning!</strong> Please check your input.
+                    </div>
+                    <div class="pa-alert pa-alert--danger">
+                        <strong>Error!</strong> Something went wrong.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Fixed Footer -->
+    <footer class="admin-footer">
+        <div class="admin-footer__content">
+            <p>&copy; 2024 Pure Admin Visual Framework</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTheme(theme) {
+            const body = document.body;
+            body.removeAttribute('data-theme');
+            if (theme !== 'default') {
+                body.setAttribute('data-theme', theme);
+            }
+            localStorage.setItem('preferred-theme', theme);
+        }
+
+        function toggleSidebar() {
+            const body = document.body;
+            const burgerMenu = document.querySelector('.burger-menu');
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                body.classList.toggle('sidebar-visible');
+                burgerMenu.classList.toggle('active');
+                const isVisible = body.classList.contains('sidebar-visible');
+                localStorage.setItem('mobile-sidebar-visible', isVisible);
+            } else {
+                body.classList.toggle('sidebar-hidden');
+                burgerMenu.classList.toggle('active');
+                const isHidden = body.classList.contains('sidebar-hidden');
+                localStorage.setItem('sidebar-hidden', isHidden);
+            }
+        }
+
+        function checkMobileLayout() {
+            const body = document.body;
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                body.classList.remove('sidebar-hidden');
+                body.classList.remove('sidebar-visible');
+                const mobileSidebarVisible = localStorage.getItem('mobile-sidebar-visible') === 'true';
+                if (mobileSidebarVisible) {
+                    body.classList.add('sidebar-visible');
+                    document.querySelector('.burger-menu').classList.add('active');
+                } else {
+                    document.querySelector('.burger-menu').classList.remove('active');
+                }
+            } else {
+                body.classList.remove('sidebar-visible');
+                const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+                if (sidebarHidden) {
+                    body.classList.add('sidebar-hidden');
+                    document.querySelector('.burger-menu').classList.add('active');
+                } else {
+                    body.classList.remove('sidebar-hidden');
+                    document.querySelector('.burger-menu').classList.remove('active');
+                }
+            }
+        }
+
+        function closeMobileSidebar(event) {
+            const body = document.body;
+            if (body.classList.contains('sidebar-visible') && event.target === body) {
+                body.classList.remove('sidebar-visible');
+                document.querySelector('.burger-menu').classList.remove('active');
+                localStorage.setItem('mobile-sidebar-visible', false);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            const themeSelect = document.getElementById('theme-select');
+
+            if (savedTheme !== 'default') {
+                document.body.setAttribute('data-theme', savedTheme);
+            }
+            themeSelect.value = savedTheme;
+
+            checkMobileLayout();
+            window.addEventListener('resize', checkMobileLayout);
+            document.body.addEventListener('click', closeMobileSidebar);
+        });
+    </script>
+</body>
+</html>
