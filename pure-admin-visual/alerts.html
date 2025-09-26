@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Admin Visual - Alerts</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="dist/css/main.css">
+    <link rel="stylesheet" href="src/themes/dark.css">
+    <link rel="stylesheet" href="src/themes/minimal.css">
+    <link rel="stylesheet" href="src/themes/corporate.css">
+</head>
+<body>
+    <!-- Fixed Header -->
+    <header class="admin-header">
+        <div class="admin-header__left">
+            <button class="burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="admin-header__brand">
+                <h1>Pure Admin</h1>
+            </div>
+            <h2 class="admin-header__title">Alert Components</h2>
+        </div>
+        <nav class="admin-header__nav">
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="alerts.html" class="active">Alerts</a></li>
+                <li>
+                    <div class="theme-switcher">
+                        <label for="theme-select">Theme:</label>
+                        <select id="theme-select" onchange="switchTheme(this.value)">
+                            <option value="default">Default</option>
+                            <option value="dark">Dark</option>
+                            <option value="minimal">Minimal</option>
+                            <option value="corporate">Corporate</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Fixed Sidebar -->
+    <aside class="admin-sidebar">
+        <nav class="admin-sidebar__nav">
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="buttons.html">Buttons</a></li>
+                <li><a href="cards.html">Cards</a></li>
+                <li><a href="alerts.html" class="active">Alerts</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-content">
+        <div class="admin-content__inner">
+            <p>Contextual feedback messages for typical user actions with flexible alert messages.</p>
+
+            <!-- Basic Alerts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Basic Alerts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--primary">
+                        <strong>Primary!</strong> This is a primary alert — check it out!
+                    </div>
+
+                    <div class="pa-alert pa-alert--secondary">
+                        <strong>Secondary!</strong> This is a secondary alert — check it out!
+                    </div>
+
+                    <div class="pa-alert pa-alert--success">
+                        <strong>Success!</strong> This is a success alert — your operation completed successfully.
+                    </div>
+
+                    <div class="pa-alert pa-alert--danger">
+                        <strong>Danger!</strong> This is a danger alert — something went wrong!
+                    </div>
+
+                    <div class="pa-alert pa-alert--warning">
+                        <strong>Warning!</strong> This is a warning alert — please review before proceeding.
+                    </div>
+
+                    <div class="pa-alert pa-alert--info">
+                        <strong>Info!</strong> This is an info alert — here's some useful information.
+                    </div>
+
+                    <div class="pa-alert pa-alert--light">
+                        <strong>Light!</strong> This is a light alert — subtle but important.
+                    </div>
+
+                    <div class="pa-alert pa-alert--dark">
+                        <strong>Dark!</strong> This is a dark alert — for high contrast messaging.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts with Icons -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Alerts with Icons</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--success">
+                        <span class="pa-alert__icon">✓</span>
+                        <div class="pa-alert__content">
+                            <strong>Success!</strong> Your changes have been saved successfully.
+                        </div>
+                    </div>
+
+                    <div class="pa-alert pa-alert--danger">
+                        <span class="pa-alert__icon">⚠</span>
+                        <div class="pa-alert__content">
+                            <strong>Error!</strong> Unable to process your request. Please try again.
+                        </div>
+                    </div>
+
+                    <div class="pa-alert pa-alert--warning">
+                        <span class="pa-alert__icon">!</span>
+                        <div class="pa-alert__content">
+                            <strong>Warning!</strong> Your session will expire in 5 minutes.
+                        </div>
+                    </div>
+
+                    <div class="pa-alert pa-alert--info">
+                        <span class="pa-alert__icon">ⓘ</span>
+                        <div class="pa-alert__content">
+                            <strong>Information!</strong> New features are now available in your account.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dismissible Alerts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Dismissible Alerts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--success pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Well done!</strong> You successfully read this important alert message.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="pa-alert pa-alert--danger pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Oh snap!</strong> Change a few things and try submitting again.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="pa-alert pa-alert--warning pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Warning!</strong> Better check yourself, you're not looking too good.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="pa-alert pa-alert--info pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts with Additional Content -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Alerts with Additional Content</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <div class="pa-alert pa-alert--success">
+                                <h4 class="pa-alert__heading">Success!</h4>
+                                <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                <hr>
+                                <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                            </div>
+                        </div>
+
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <div class="pa-alert pa-alert--info">
+                                <h4 class="pa-alert__heading">System Update</h4>
+                                <p>A new version of the application is available. This update includes:</p>
+                                <ul class="pa-alert__list">
+                                    <li>Performance improvements</li>
+                                    <li>Bug fixes</li>
+                                    <li>New dashboard features</li>
+                                </ul>
+                                <div class="pa-alert__actions">
+                                    <button class="pa-btn pa-btn--sm pa-btn--primary">Update Now</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary">Remind Me Later</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outline Alerts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Outline Alerts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--outline-primary">
+                        <strong>Primary Outline!</strong> This is a primary outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-success">
+                        <strong>Success Outline!</strong> This is a success outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-danger">
+                        <strong>Danger Outline!</strong> This is a danger outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-warning">
+                        <strong>Warning Outline!</strong> This is a warning outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-info">
+                        <strong>Info Outline!</strong> This is an info outline alert.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compact Alerts Grid -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Compact Alerts in Grid</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <div class="pa-alert pa-alert--success pa-alert--sm">
+                                <span class="pa-alert__icon">✓</span> Saved
+                            </div>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <div class="pa-alert pa-alert--warning pa-alert--sm">
+                                <span class="pa-alert__icon">!</span> Pending
+                            </div>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <div class="pa-alert pa-alert--danger pa-alert--sm">
+                                <span class="pa-alert__icon">×</span> Failed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Fixed Footer -->
+    <footer class="admin-footer">
+        <div class="admin-footer__content">
+            <p>&copy; 2024 Pure Admin Visual Framework</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTheme(theme) {
+            const body = document.body;
+            body.removeAttribute('data-theme');
+            if (theme !== 'default') {
+                body.setAttribute('data-theme', theme);
+            }
+            localStorage.setItem('preferred-theme', theme);
+        }
+
+        function toggleSidebar() {
+            const body = document.body;
+            const burgerMenu = document.querySelector('.burger-menu');
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                body.classList.toggle('sidebar-visible');
+                burgerMenu.classList.toggle('active');
+                const isVisible = body.classList.contains('sidebar-visible');
+                localStorage.setItem('mobile-sidebar-visible', isVisible);
+            } else {
+                body.classList.toggle('sidebar-hidden');
+                burgerMenu.classList.toggle('active');
+                const isHidden = body.classList.contains('sidebar-hidden');
+                localStorage.setItem('sidebar-hidden', isHidden);
+            }
+        }
+
+        function checkMobileLayout() {
+            const body = document.body;
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                body.classList.remove('sidebar-hidden');
+                body.classList.remove('sidebar-visible');
+                const mobileSidebarVisible = localStorage.getItem('mobile-sidebar-visible') === 'true';
+                if (mobileSidebarVisible) {
+                    body.classList.add('sidebar-visible');
+                    document.querySelector('.burger-menu').classList.add('active');
+                } else {
+                    document.querySelector('.burger-menu').classList.remove('active');
+                }
+            } else {
+                body.classList.remove('sidebar-visible');
+                const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+                if (sidebarHidden) {
+                    body.classList.add('sidebar-hidden');
+                    document.querySelector('.burger-menu').classList.add('active');
+                } else {
+                    body.classList.remove('sidebar-hidden');
+                    document.querySelector('.burger-menu').classList.remove('active');
+                }
+            }
+        }
+
+        function closeMobileSidebar(event) {
+            const body = document.body;
+            if (body.classList.contains('sidebar-visible') && event.target === body) {
+                body.classList.remove('sidebar-visible');
+                document.querySelector('.burger-menu').classList.remove('active');
+                localStorage.setItem('mobile-sidebar-visible', false);
+            }
+        }
+
+        function dismissAlert(button) {
+            const alert = button.closest('.pa-alert');
+            alert.style.transition = 'opacity 0.3s ease';
+            alert.style.opacity = '0';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            const themeSelect = document.getElementById('theme-select');
+
+            if (savedTheme !== 'default') {
+                document.body.setAttribute('data-theme', savedTheme);
+            }
+            themeSelect.value = savedTheme;
+
+            checkMobileLayout();
+            window.addEventListener('resize', checkMobileLayout);
+            document.body.addEventListener('click', closeMobileSidebar);
+        });
+    </script>
+</body>
+</html>

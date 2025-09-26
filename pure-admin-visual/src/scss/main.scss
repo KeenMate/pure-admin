@@ -1,18 +1,18 @@
 // Pure Admin Visual Framework
 // Lightweight data-focused admin framework based on PureCSS
 
-@import 'utilities';
+@use 'utilities';
 
 // CSS Custom Properties for theming
 :root {
   // Layout dimensions
-  --header-height: 2.5rem;
+  --header-height: 3rem;
   --footer-height: 2rem;
   --sidebar-width: 12rem;
 
   // Border radius
-  --border-radius: 0.25rem;
-  --border-radius-lg: 0.5rem;
+  --border-radius: 1px;
+  --border-radius-lg: 2px;
 
   // Responsive breakpoints
   --mobile-breakpoint: 768px;
@@ -35,6 +35,14 @@
 $header-height: var(--header-height);
 $footer-height: var(--footer-height);
 $sidebar-width: var(--sidebar-width);
+
+// Animation variables
+$transition-fast: 0.1s;
+$transition-normal: 0.15s;
+$transition-slow: 0.3s;
+$easing-snappy: ease-out;
+$easing-smooth: ease;
+$easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
 // Reset and base styles
 * {
@@ -80,6 +88,13 @@ body {
     }
   }
 
+  &__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
   &__nav {
     ul {
       list-style: none;
@@ -95,7 +110,7 @@ body {
           font-weight: 500;
           padding: 0.25rem 0.5rem;
           border-radius: var(--border-radius);
-          transition: all 0.2s ease;
+          transition: all $transition-fast $easing-snappy;
 
           &:hover {
             color: var(--accent-color);
@@ -124,7 +139,7 @@ body {
     height: 2px;
     background-color: var(--text-primary);
     border-radius: 1px;
-    transition: all 0.3s ease;
+    transition: all $transition-normal $easing-snappy;
     transform-origin: center;
   }
 
@@ -184,7 +199,7 @@ body {
   border-right: 1px solid var(--border-color);
   z-index: 900;
   overflow-y: auto;
-  transition: transform 0.3s ease;
+  transition: transform $transition-normal $easing-snappy;
 
   &__nav {
     padding: 0.5rem 0;
@@ -201,7 +216,7 @@ body {
           color: var(--text-secondary);
           text-decoration: none;
           font-weight: 500;
-          transition: all 0.2s ease;
+          transition: all $transition-fast $easing-snappy;
 
           &:hover {
             color: var(--text-primary);
@@ -227,7 +242,7 @@ body {
 
   .admin-content {
     margin-left: 0;
-    transition: margin-left 0.3s ease;
+    transition: margin-left $transition-normal $easing-snappy;
   }
 }
 
@@ -237,7 +252,7 @@ body {
   margin-left: $sidebar-width;
   margin-bottom: $footer-height;
   min-height: calc(100vh - #{$header-height} - #{$footer-height});
-  transition: margin-left 0.3s ease;
+  transition: margin-left $transition-normal $easing-snappy;
 
   &__inner {
     padding: 1rem;
@@ -482,7 +497,7 @@ body {
   padding: 1rem;
   text-decoration: none;
   color: inherit;
-  transition: all 0.2s ease;
+  transition: all $transition-fast $easing-snappy;
   display: block;
 
   &:hover {
@@ -559,7 +574,7 @@ body {
   border-radius: var(--border-radius-lg);
   margin-bottom: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow $transition-fast $easing-snappy;
   display: flex;
   flex-direction: column;
 
@@ -576,6 +591,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-width: 0; // Enable text truncation
 
     h3,
     h4,
@@ -583,6 +599,30 @@ body {
       margin: 0;
       color: var(--text-primary);
       font-size: 1rem;
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0; // Enable text truncation
+    flex: 1;
+
+    &-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    &-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 600;
     }
   }
 
@@ -702,7 +742,7 @@ body {
     background: none;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all $transition-fast $easing-snappy;
     border-bottom: 2px solid transparent;
 
     &:hover {
@@ -909,7 +949,7 @@ body {
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all $transition-fast $easing-snappy;
   background: none;
   color: var(--text-primary);
 
@@ -1210,6 +1250,197 @@ body {
   }
 }
 
+// Alerts
+.pa-alert {
+  position: relative;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  // Basic alert variants
+  &--primary {
+    color: #084298;
+    background-color: #cff4fc;
+    border-color: #b6effb;
+  }
+
+  &--secondary {
+    color: #41464b;
+    background-color: #e2e3e5;
+    border-color: #d3d6d8;
+  }
+
+  &--success {
+    color: #0f5132;
+    background-color: #d1edcc;
+    border-color: #badbcc;
+  }
+
+  &--danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+  }
+
+  &--warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+  }
+
+  &--info {
+    color: #055160;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+
+  &--light {
+    color: #636464;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+  }
+
+  &--dark {
+    color: #141619;
+    background-color: #d3d3d4;
+    border-color: #bcbebf;
+  }
+
+  // Outline variants
+  &--outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    background-color: transparent;
+  }
+
+  &--outline-success {
+    color: #28a745;
+    border-color: #28a745;
+    background-color: transparent;
+  }
+
+  &--outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    background-color: transparent;
+  }
+
+  &--outline-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+    background-color: transparent;
+  }
+
+  &--outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+    background-color: transparent;
+  }
+
+  // Alert sizes
+  &--sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  &--lg {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  // Dismissible alerts
+  &--dismissible {
+    padding-right: 3rem;
+  }
+
+  // Alert components
+  &__icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__heading {
+    margin: 0 0 0.5rem 0;
+    color: inherit;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  &__list {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  &__actions {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity $transition-fast $easing-snappy;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+      opacity: 1;
+    }
+  }
+
+  // Remove margin from last child
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Links styling
+  a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  // Headings inside alerts
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+  }
+
+  // Horizontal rule
+  hr {
+    margin: 0.5rem 0;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
 // Form Elements
 .pa-form {
   .pa-form-group {
@@ -1238,7 +1469,7 @@ body {
   font-size: 0.875rem;
   background-color: white;
   color: var(--text-primary);
-  transition: border-color 0.2s ease;
+  transition: border-color $transition-fast $easing-snappy;
 
   &:focus {
     outline: none;
@@ -1255,7 +1486,7 @@ body {
   font-size: 0.875rem;
   background-color: white;
   color: var(--text-primary);
-  transition: border-color 0.2s ease;
+  transition: border-color $transition-fast $easing-snappy;
 
   &:focus {
     outline: none;
@@ -1272,7 +1503,7 @@ body {
   font-size: 0.875rem;
   background-color: white;
   color: var(--text-primary);
-  transition: border-color 0.2s ease;
+  transition: border-color $transition-fast $easing-snappy;
 
   &:focus {
     outline: none;
@@ -1472,7 +1703,7 @@ body {
     height: 1rem;
     margin-right: 0.5rem;
     border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
+    transition: all $transition-fast $easing-snappy;
 
     &::after {
       content: "";
