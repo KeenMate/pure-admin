@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %> - Pure Admin Visual</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="/dist/css/main.css">
+    <link rel="stylesheet" href="/src/themes/dark.css">
+    <link rel="stylesheet" href="/src/themes/dark-blue.css">
+    <link rel="stylesheet" href="/src/themes/dark-green.css">
+    <link rel="stylesheet" href="/src/themes/dark-red.css">
+    <link rel="stylesheet" href="/src/themes/minimal.css">
+    <link rel="stylesheet" href="/src/themes/corporate.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <%- include('partials/sidebar') %>
+
+    <!-- Main Content Area -->
+    <main class="admin-content">
+        <div class="admin-content__inner">
+            <%- body %>
+        </div>
+    </main>
+
+    <!-- Fixed Footer -->
+    <footer class="admin-footer">
+        <div class="admin-footer__content">
+            <p>&copy; 2024 Pure Admin Visual Framework</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTheme(theme) {
+            const body = document.body;
+            body.removeAttribute('data-theme');
+            if (theme !== 'default') {
+                body.setAttribute('data-theme', theme);
+            }
+            localStorage.setItem('preferred-theme', theme);
+        }
+
+        function toggleSidebar() {
+            const body = document.body;
+            const burgerMenu = document.querySelector('.burger-menu');
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                body.classList.toggle('sidebar-visible');
+                burgerMenu.classList.toggle('active');
+                const isVisible = body.classList.contains('sidebar-visible');
+                localStorage.setItem('mobile-sidebar-visible', isVisible);
+            } else {
+                body.classList.toggle('sidebar-hidden');
+                burgerMenu.classList.toggle('active');
+                const isHidden = body.classList.contains('sidebar-hidden');
+                localStorage.setItem('sidebar-hidden', isHidden);
+            }
+        }
+
+        function checkMobileLayout() {
+            const body = document.body;
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                body.classList.remove('sidebar-hidden');
+                body.classList.remove('sidebar-visible');
+                const mobileSidebarVisible = localStorage.getItem('mobile-sidebar-visible') === 'true';
+                if (mobileSidebarVisible) {
+                    body.classList.add('sidebar-visible');
+                    document.querySelector('.burger-menu').classList.add('active');
+                } else {
+                    document.querySelector('.burger-menu').classList.remove('active');
+                }
+            } else {
+                body.classList.remove('sidebar-visible');
+                const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+                if (sidebarHidden) {
+                    body.classList.add('sidebar-hidden');
+                    document.querySelector('.burger-menu').classList.add('active');
+                } else {
+                    body.classList.remove('sidebar-hidden');
+                    document.querySelector('.burger-menu').classList.remove('active');
+                }
+            }
+        }
+
+        function closeMobileSidebar(event) {
+            const body = document.body;
+            if (body.classList.contains('sidebar-visible') && event.target === body) {
+                body.classList.remove('sidebar-visible');
+                document.querySelector('.burger-menu').classList.remove('active');
+                localStorage.setItem('mobile-sidebar-visible', false);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            const themeSelect = document.getElementById('theme-select');
+
+            if (savedTheme !== 'default') {
+                document.body.setAttribute('data-theme', savedTheme);
+            }
+            themeSelect.value = savedTheme;
+
+            checkMobileLayout();
+            window.addEventListener('resize', checkMobileLayout);
+            document.body.addEventListener('click', closeMobileSidebar);
+        });
+    </script>
+</body>
+</html>

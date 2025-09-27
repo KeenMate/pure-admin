@@ -7,6 +7,7 @@
 
   // Dark theme colors
   --primary-bg: #1a1a1a;
+  --content-background-color: #1a1a1a;
   --header-bg: #2d2d2d;
   --sidebar-bg: #242424;
   --footer-bg: #2d2d2d;
@@ -16,13 +17,137 @@
   --accent-color: #4dabf7;
   --accent-hover: rgba(77, 171, 247, 0.15);
   --accent-light: rgba(77, 171, 247, 0.08);
+
+  // Card colors
+  --card-bg: #2a2a2a;
+  --card-header-bg: #333333;
+  --card-footer-bg: #333333;
+  --card-tabs-bg: #333333;
+
+  // Input colors
+  --input-bg: #333333;
+  --input-border: var(--border-color);
+  --input-text: var(--text-primary);
+
+  // Table colors
+  --table-header-bg: #333333;
+  --table-hover-bg: #333333;
+
+  // Button colors
+  --btn-primary-bg: var(--accent-color);
+  --btn-primary-bg-hover: #339af0;
+  --btn-secondary-bg: #495057;
+  --btn-secondary-bg-hover: #6c757d;
+  --btn-success-bg: #51cf66;
+  --btn-warning-bg: #ffd43b;
+  --btn-warning-text: #212529;
+  --btn-danger-bg: #ff6b6b;
+}
+
+/* Body and content background */
+[data-theme="dark"] body {
+  background-color: var(--content-background-color);
+}
+
+[data-theme="dark"] .admin-content {
+  background-color: var(--content-background-color);
 }
 
 /* Override content section background for dark theme */
 [data-theme="dark"] .content-section {
-  background: #2a2a2a;
+  background: var(--card-bg);
 }
 
 [data-theme="dark"] .long-content .content-block {
-  background: #2a2a2a;
+  background: var(--card-bg);
+}
+
+/* Fix card components for dark theme */
+[data-theme="dark"] .pa-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .pa-card__header {
+  background: var(--card-header-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .pa-card__footer {
+  background: var(--card-footer-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .pa-input,
+[data-theme="dark"] .pa-select,
+[data-theme="dark"] .pa-textarea {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--input-text);
+}
+
+[data-theme="dark"] .pa-input:focus,
+[data-theme="dark"] .pa-select:focus,
+[data-theme="dark"] .pa-textarea:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+[data-theme="dark"] .pa-table th {
+  background-color: var(--table-header-bg);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .pa-table tr:hover {
+  background-color: var(--table-hover-bg);
+}
+
+[data-theme="dark"] .component-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Button styling for dark theme */
+[data-theme="dark"] .pa-btn--primary {
+  background-color: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .pa-btn--primary:hover {
+  background-color: var(--btn-primary-bg-hover);
+  border-color: var(--btn-primary-bg-hover);
+}
+
+[data-theme="dark"] .pa-btn--secondary {
+  background-color: var(--btn-secondary-bg);
+  border-color: var(--btn-secondary-bg);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .pa-btn--secondary:hover {
+  background-color: var(--btn-secondary-bg-hover);
+  border-color: var(--btn-secondary-bg-hover);
+}
+
+[data-theme="dark"] .pa-btn--success {
+  background-color: var(--btn-success-bg);
+  border-color: var(--btn-success-bg);
+}
+
+[data-theme="dark"] .pa-btn--warning {
+  background-color: var(--btn-warning-bg);
+  border-color: var(--btn-warning-bg);
+  color: var(--btn-warning-text);
+}
+
+[data-theme="dark"] .pa-btn--danger {
+  background-color: var(--btn-danger-bg);
+  border-color: var(--btn-danger-bg);
+}
+
+/* Card tabs styling */
+[data-theme="dark"] .pa-card__tabs {
+  background: var(--card-tabs-bg);
+  border-color: var(--border-color);
 }

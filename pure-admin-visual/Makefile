@@ -1,4 +1,4 @@
-.PHONY: install build watch dev clean serve
+.PHONY: install build watch dev clean serve start
 
 # Install dependencies
 install:
@@ -12,20 +12,28 @@ build:
 watch:
 	npm run watch-css
 
-# Development server with live reload
+# Start Express server with EJS templates
+start:
+	node server.js
+
+# Start Express server with auto-restart (requires nodemon)
 dev:
-	npm run dev-server
+	npx nodemon server.js
+
+# Development with CSS watch in parallel (requires concurrently)
+dev-full:
+	npx concurrently "npm run watch-css" "node server.js"
 
 # Clean build artifacts
 clean:
 	rm -rf dist/css/*
 	rm -rf node_modules
 
-# Simple HTTP server (if you have Python)
+# Simple HTTP server for static files (if you have Python)
 serve-python:
 	python -m http.server 8000
 
-# Simple HTTP server (if you have Node.js http-server)
+# Simple HTTP server for static files (if you have Node.js http-server)
 serve-node:
 	npx http-server -p 8000 -o
 
@@ -40,8 +48,10 @@ help:
 	@echo "  make install     - Install npm dependencies"
 	@echo "  make build       - Build CSS from SCSS"
 	@echo "  make watch       - Watch SCSS and auto-rebuild CSS"
-	@echo "  make dev         - Start development server with live reload"
+	@echo "  make start       - Start Express server on port 3000"
+	@echo "  make dev         - Start Express server with auto-restart (nodemon)"
+	@echo "  make dev-full    - Run CSS watch + Express server together"
 	@echo "  make clean       - Clean build artifacts"
-	@echo "  make serve-python - Start Python HTTP server on port 8000"
-	@echo "  make serve-node  - Start Node HTTP server on port 8000"
+	@echo "  make serve-python - Start Python HTTP server on port 8000 (static files)"
+	@echo "  make serve-node  - Start Node HTTP server on port 8000 (static files)"
 	@echo "  make help        - Show this help"

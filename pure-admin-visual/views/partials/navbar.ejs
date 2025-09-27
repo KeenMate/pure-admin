@@ -1,0 +1,35 @@
+<!-- Fixed Header -->
+<header class="admin-header">
+    <div class="admin-header__left">
+        <button class="burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="admin-header__brand">
+            <h1>Pure Admin</h1>
+        </div>
+        <h2 class="admin-header__title"><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %></h2>
+    </div>
+    <nav class="admin-header__nav">
+        <ul>
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/components">Components</a></li>
+            <li><a href="/forms">Forms</a></li>
+            <li>
+                <div class="theme-switcher">
+                    <label for="theme-select">Theme:</label>
+                    <select id="theme-select" onchange="switchTheme(this.value)">
+                        <option value="default">Default</option>
+                        <option value="dark">Dark</option>
+                        <option value="dark-blue">Dark Blue</option>
+                        <option value="dark-green">Dark Green</option>
+                        <option value="dark-red">Dark Red</option>
+                        <option value="minimal">Minimal</option>
+                        <option value="corporate">Corporate</option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</header>
