@@ -1,0 +1,454 @@
+/* Audi Theme for Pure Admin Visual - Sharp German Design */
+[data-theme="audi"] {
+  // Layout dimensions (same across themes)
+  --header-height: 2.5rem;
+  --footer-height: 2rem;
+  --sidebar-width: 12rem;
+
+  // Audi theme colors - Sharp black/red German aesthetic
+  --primary-bg: #0a0a0a;
+  --content-background-color: #0a0a0a;
+  --header-bg: #000000;
+  --sidebar-bg: #1a1a1a;
+  --footer-bg: #000000;
+  --border-color: #333333;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --accent-color: #ff0000;
+  --accent-hover: rgba(255, 0, 0, 0.2);
+  --accent-light: rgba(255, 0, 0, 0.1);
+
+  // Card colors - Sharp contrasts
+  --card-bg: #1a1a1a;
+  --card-header-bg: #000000;
+  --card-footer-bg: #000000;
+  --card-tabs-bg: #333333;
+
+  // Input colors - Clean and precise
+  --input-bg: #000000;
+  --input-border: #333333;
+  --input-text: #ffffff;
+
+  // Table colors - Professional data display
+  --table-bg: #1a1a1a;
+  --table-header-bg: #000000;
+  --table-hover-bg: #2a2a2a;
+  --table-stripe: #1a1a1a;
+
+  // Button colors - German precision with red accents
+  --btn-primary-bg: #ff0000;
+  --btn-primary-bg-hover: #cc0000;
+  --btn-secondary-bg: #333333;
+  --btn-secondary-bg-hover: #4d4d4d;
+  --btn-success-bg: #00cc44;
+  --btn-success-bg-hover: #009933;
+  --btn-warning-bg: #ff6600;
+  --btn-warning-text: #ffffff;
+  --btn-danger-bg: #ff0000;
+  --btn-danger-bg-hover: #cc0000;
+  --btn-info-bg: #0099ff;
+  --btn-info-bg-hover: #0077cc;
+  --btn-light-bg: #666666;
+  --btn-light-text: #ffffff;
+  --btn-light-bg-hover: #808080;
+  --btn-dark-bg: #000000;
+  --btn-dark-bg-hover: #1a1a1a;
+
+  // Body and content styling with nesting
+  body {
+    background-color: var(--content-background-color);
+  }
+
+  .admin-content {
+    background-color: var(--content-background-color);
+  }
+
+  // Content sections
+  .content-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+  }
+
+  .long-content .content-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+  }
+
+  // Card components - Sharp edges and precise borders
+  .pa-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+
+    &__header {
+      background: var(--card-header-bg);
+      border-bottom: 2px solid var(--accent-color);
+      border-radius: 0;
+    }
+
+    &__footer {
+      background: var(--card-footer-bg);
+      border-top: 1px solid var(--border-color);
+      border-radius: 0;
+    }
+
+    &__tabs {
+      background: var(--card-tabs-bg);
+      border-bottom: 2px solid var(--accent-color);
+      border-radius: 0;
+    }
+
+    // Color variations with Audi red accents
+    &--primary .pa-card__header {
+      background: linear-gradient(135deg, #ff0000, #cc0000);
+      color: #ffffff;
+    }
+
+    &--success .pa-card__header {
+      background: linear-gradient(135deg, #00cc44, #009933);
+      color: #ffffff;
+    }
+
+    &--warning .pa-card__header {
+      background: linear-gradient(135deg, #ff6600, #cc5200);
+      color: #ffffff;
+    }
+
+    &--danger .pa-card__header {
+      background: linear-gradient(135deg, #ff0000, #990000);
+      color: #ffffff;
+    }
+  }
+
+  // Input styling
+  .pa-input,
+  .pa-select,
+  .pa-textarea {
+    background-color: var(--input-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 0;
+    color: var(--text-primary);
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+      outline: none;
+    }
+  }
+
+  // Table styling - Sharp and professional
+  .pa-table {
+    background-color: var(--table-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 0;
+
+    th {
+      background-color: var(--table-header-bg);
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--accent-color);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      background-color: var(--table-bg);
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tr {
+      background-color: var(--table-bg);
+
+      &:hover {
+        background-color: var(--table-hover-bg);
+        border-left: 3px solid var(--accent-color);
+      }
+
+      &:nth-child(even) {
+        background-color: var(--table-bg);
+
+        &:hover {
+          background-color: var(--table-hover-bg);
+          border-left: 3px solid var(--accent-color);
+        }
+      }
+    }
+
+    // Additional table styling to override any default white backgrounds
+    tbody {
+      tr {
+        background-color: var(--table-bg) !important;
+
+        &:hover {
+          background-color: var(--table-hover-bg) !important;
+          border-left: 3px solid var(--accent-color);
+        }
+      }
+
+      td {
+        background-color: transparent !important;
+        color: var(--text-primary);
+      }
+    }
+  }
+
+  // Pure CSS table overrides
+  .pure-table {
+    background-color: var(--table-bg);
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+
+    td,
+    th {
+      background-color: var(--table-bg);
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    thead th {
+      background-color: var(--table-header-bg);
+      border-bottom: 2px solid var(--accent-color);
+    }
+
+    tr:hover td {
+      background-color: var(--table-hover-bg);
+    }
+
+    &-striped tr:nth-child(2n-1) td {
+      background-color: var(--table-bg);
+    }
+  }
+
+  .component-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 0;
+  }
+
+  // Button styling - Sharp and precise
+  .pa-btn {
+    &--primary {
+      background-color: var(--accent-color);
+      border: 2px solid var(--accent-color);
+      border-radius: 0;
+      color: #ffffff;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: var(--btn-primary-bg-hover);
+        border-color: var(--btn-primary-bg-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+      }
+    }
+
+    &--secondary {
+      background-color: var(--btn-secondary-bg);
+      border: 2px solid var(--btn-secondary-bg);
+      border-radius: 0;
+      color: #ffffff;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      &:hover {
+        background-color: var(--btn-secondary-bg-hover);
+        border-color: var(--btn-secondary-bg-hover);
+        transform: translateY(-1px);
+      }
+    }
+
+    &--success {
+      background-color: var(--btn-success-bg);
+      border: 2px solid var(--btn-success-bg);
+      border-radius: 0;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    &--warning {
+      background-color: var(--btn-warning-bg);
+      border: 2px solid var(--btn-warning-bg);
+      border-radius: 0;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    &--danger {
+      background-color: var(--btn-danger-bg);
+      border: 2px solid var(--btn-danger-bg);
+      border-radius: 0;
+      color: #ffffff;
+      font-weight: 600;
+    }
+  }
+
+  // Settings Panel styling
+  .pa-settings-panel {
+    &__content {
+      background: #1a1a1a;
+      border: 2px solid #333333;
+      border-radius: 0;
+      box-shadow: -8px 0 24px rgba(0, 0, 0, 0.8);
+    }
+
+    &__title {
+      color: #ffffff;
+      border-bottom: 2px solid #ff0000;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    &__label {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    &__select {
+      background: #000000;
+      border: 2px solid #333333;
+      border-radius: 0;
+      color: #ffffff;
+
+      &:focus {
+        border-color: #ff0000;
+        box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+      }
+    }
+
+    &__checkbox {
+      color: #ffffff;
+    }
+  }
+
+  // Alert styling - Sharp and attention-grabbing
+  .pa-alert {
+    font-weight: 600;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+
+    &--success {
+      background-color: rgba(0, 204, 68, 0.15);
+      border-color: #00cc44;
+      color: #00ff55;
+      box-shadow: 0 0 20px rgba(0, 204, 68, 0.3);
+    }
+
+    &--info {
+      background-color: rgba(0, 153, 255, 0.15);
+      border-color: #0099ff;
+      color: #33aaff;
+      box-shadow: 0 0 20px rgba(0, 153, 255, 0.3);
+    }
+
+    &--warning {
+      background-color: rgba(255, 102, 0, 0.15);
+      border-color: #ff6600;
+      color: #ff8833;
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+    }
+
+    &--danger {
+      background-color: rgba(255, 0, 0, 0.2);
+      border-color: #ff0000;
+      color: #ff3333;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+      border-width: 3px;
+    }
+
+    &--primary {
+      background-color: rgba(255, 0, 0, 0.15);
+      border-color: #ff0000;
+      color: #ff3333;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    }
+
+    &--secondary {
+      background-color: rgba(51, 51, 51, 0.3);
+      border-color: #333333;
+      color: #cccccc;
+      box-shadow: 0 0 15px rgba(51, 51, 51, 0.2);
+    }
+
+    &--light {
+      background-color: rgba(102, 102, 102, 0.15);
+      border-color: #666666;
+      color: #cccccc;
+      box-shadow: 0 0 15px rgba(102, 102, 102, 0.2);
+    }
+
+    &--dark {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-color: #000000;
+      color: #ffffff;
+      box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.1);
+    }
+  }
+
+  // Sidebar enhancements for German precision
+  .admin-sidebar__nav ul li a {
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+
+    &:hover,
+    &.active {
+      border-left-color: var(--accent-color);
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+  }
+
+  // Header styling - Clean and commanding
+  .admin-header {
+    border-bottom: 2px solid var(--accent-color);
+  }
+
+  // Footer styling
+  .admin-footer {
+    border-top: 1px solid var(--border-color);
+  }
+
+  // Audi theme scrollbar overrides - darker red for better visibility
+  *::-webkit-scrollbar-thumb {
+    background: #990000; // Darker red instead of border-color
+    border: 1px solid var(--primary-bg);
+
+    &:hover {
+      background: var(--accent-color); // Bright red on hover
+      border-color: #cc0000;
+    }
+
+    &:active {
+      background: #cc0000; // Medium red when active
+    }
+  }
+
+  // Sidebar scrollbar - same darker red treatment
+  .pa-sidebar::-webkit-scrollbar-thumb {
+    background: #990000;
+    border: 1px solid var(--sidebar-bg);
+
+    &:hover {
+      background: var(--accent-color);
+      border-color: #cc0000;
+    }
+
+    &:active {
+      background: #cc0000;
+    }
+  }
+
+  // Firefox override
+  * {
+    scrollbar-color: #990000 var(--primary-bg);
+  }
+}

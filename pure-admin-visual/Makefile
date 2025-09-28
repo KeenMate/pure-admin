@@ -16,9 +16,9 @@ watch:
 start:
 	node server.js
 
-# Start Express server with auto-restart (requires nodemon)
+# Development with CSS watch + Express server (full setup)
 dev:
-	npx nodemon server.js
+	npx concurrently "npm run watch-css" "npx nodemon server.js"
 
 # Development with CSS watch in parallel (requires concurrently)
 dev-full:
@@ -49,7 +49,7 @@ help:
 	@echo "  make build       - Build CSS from SCSS"
 	@echo "  make watch       - Watch SCSS and auto-rebuild CSS"
 	@echo "  make start       - Start Express server on port 3000"
-	@echo "  make dev         - Start Express server with auto-restart (nodemon)"
+	@echo "  make dev         - Full development: CSS watch + Express server with auto-restart"
 	@echo "  make dev-full    - Run CSS watch + Express server together"
 	@echo "  make clean       - Clean build artifacts"
 	@echo "  make serve-python - Start Python HTTP server on port 8000 (static files)"

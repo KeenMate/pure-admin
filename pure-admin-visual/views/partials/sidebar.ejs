@@ -1,13 +1,88 @@
 <!-- Fixed Sidebar -->
-<aside class="admin-sidebar">
-    <nav class="admin-sidebar__nav">
+<aside class="pa-sidebar">
+    <nav class="pa-sidebar__nav">
         <ul>
-            <li><a href="/" class="<%= typeof currentPage !== 'undefined' && currentPage === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
-            <li><a href="/components" class="<%= typeof currentPage !== 'undefined' && currentPage === 'components' ? 'active' : '' %>">Components</a></li>
-            <li><a href="/forms" class="<%= typeof currentPage !== 'undefined' && currentPage === 'forms' ? 'active' : '' %>">Forms</a></li>
-            <li><a href="/buttons" class="<%= typeof currentPage !== 'undefined' && currentPage === 'buttons' ? 'active' : '' %>">Buttons</a></li>
-            <li><a href="/cards" class="<%= typeof currentPage !== 'undefined' && currentPage === 'cards' ? 'active' : '' %>">Cards</a></li>
-            <li><a href="/alerts" class="<%= typeof currentPage !== 'undefined' && currentPage === 'alerts' ? 'active' : '' %>">Alerts</a></li>
+            <li class="pa-sidebar__item"><a href="/" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'dashboard' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">📊</span>
+                <span class="pa-sidebar__label">Dashboard</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/components" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'components' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">🧩</span>
+                <span class="pa-sidebar__label">Components</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/forms" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'forms' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">📝</span>
+                <span class="pa-sidebar__label">Forms</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/buttons" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'buttons' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">🔘</span>
+                <span class="pa-sidebar__label">Buttons</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/cards" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'cards' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">🃏</span>
+                <span class="pa-sidebar__label">Cards</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/badges" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'badges' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">🏷️</span>
+                <span class="pa-sidebar__label">Badges & Labels</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/modals" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'modals' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">🪟</span>
+                <span class="pa-sidebar__label">Modal Windows</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/alerts" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'alerts' ? 'pa-sidebar__link--active' : '' %>">
+                <span class="pa-sidebar__icon">⚠️</span>
+                <span class="pa-sidebar__label">Alerts</span>
+            </a></li>
+
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">📋</span>
+                    <span class="pa-sidebar__label">Tables</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item"><a href="/tables" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'tables' ? 'pa-sidebar__link--active' : '' %>">
+                        <span class="pa-sidebar__icon">📊</span>
+                        <span class="pa-sidebar__label">Standard Tables</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/tables-lazy" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'tables-lazy' ? 'pa-sidebar__link--active' : '' %>">
+                        <span class="pa-sidebar__icon">⚡</span>
+                        <span class="pa-sidebar__label">Lazy Loading</span>
+                    </a></li>
+                </ul>
+            </li>
+
+            <!-- Demo three-level menu -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">⚙️</span>
+                    <span class="pa-sidebar__label">Demo Item 1</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item">
+                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pa-sidebar__icon">🔧</span>
+                            <span class="pa-sidebar__label">Demo Item 2</span>
+                            <span class="pa-sidebar__chevron">›</span>
+                        </button>
+                        <ul class="pa-sidebar__submenu">
+                            <li class="pa-sidebar__item"><a href="#demo3" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Demo Item 3</span>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </aside>

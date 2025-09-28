@@ -5,9 +5,13 @@
   "main": "index.html",
   "scripts": {
     "build-css": "sass src/scss/main.scss dist/css/main.css",
+    "build-themes": "sass src/scss/themes:dist/css/themes",
+    "build-all": "npm run build-css && npm run build-themes",
     "watch-css": "sass --watch src/scss/main.scss:dist/css/main.css",
-    "dev": "npm run watch-css",
-    "dev-server": "concurrently \"npm run watch-css\" \"live-server --port=8000 --wait=500\"",
+    "watch-themes": "sass --watch src/scss/themes:dist/css/themes",
+    "watch-all": "concurrently \"npm run watch-css\" \"npm run watch-themes\"",
+    "dev": "npm run watch-all",
+    "dev-server": "concurrently \"npm run watch-all\" \"live-server --port=8000 --wait=500\"",
     "serve": "live-server --port=8000"
   },
   "keywords": [

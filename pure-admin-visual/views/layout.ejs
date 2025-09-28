@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/src/themes/dark-blue.css">
     <link rel="stylesheet" href="/src/themes/dark-green.css">
     <link rel="stylesheet" href="/src/themes/dark-red.css">
+    <link rel="stylesheet" href="/dist/css/themes/audi.css">
     <link rel="stylesheet" href="/src/themes/minimal.css">
     <link rel="stylesheet" href="/src/themes/corporate.css">
 </head>
@@ -31,6 +32,149 @@
             <p>&copy; 2024 Pure Admin Visual Framework</p>
         </div>
     </footer>
+
+    <!-- Floating Settings Panel -->
+    <div class="pa-settings-panel" id="settingsPanel">
+        <button class="pa-settings-panel__toggle" id="settingsToggle" title="Settings">
+            ⚙
+        </button>
+
+        <div class="pa-settings-panel__content">
+            <h3 class="pa-settings-panel__title">Settings</h3>
+
+            <!-- Theme Selector -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Theme</label>
+                <select class="pa-settings-panel__select" id="themeSelector">
+                    <option value="default">Light (Default)</option>
+                    <option value="dark">Dark</option>
+                    <option value="dark-blue">Dark Blue</option>
+                    <option value="dark-green">Dark Green</option>
+                    <option value="dark-red">Dark Red</option>
+                    <option value="audi">Audi (German)</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="corporate">Corporate</option>
+                </select>
+            </div>
+
+            <!-- Font Size -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Font Size</label>
+                <select class="pa-settings-panel__select" id="fontSizeSelector">
+                    <option value="small">Small (14px)</option>
+                    <option value="default">Default (16px)</option>
+                    <option value="large">Large (18px)</option>
+                    <option value="xlarge">Extra Large (20px)</option>
+                </select>
+            </div>
+
+            <!-- Font Family -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Font Family</label>
+                <select class="pa-settings-panel__select" id="fontFamilySelector">
+                    <option value="system">System Default</option>
+                    <option value="sans">Sans Serif</option>
+                    <option value="serif">Serif</option>
+                    <option value="mono">Monospace</option>
+                    <option value="delivery">Delivery</option>
+                    <option value="cuprum">Cuprum</option>
+                    <option value="fira-sans-condensed">Fira Sans Condensed</option>
+                    <option value="manrope">Manrope</option>
+                    <option value="martel">Martel</option>
+                    <option value="maven-pro">Maven Pro</option>
+                    <option value="monda">Monda</option>
+                    <option value="play">Play</option>
+                    <option value="signika">Signika</option>
+                    <option value="yanone-kaffeesatz">Yanone Kaffeesatz</option>
+                </select>
+            </div>
+
+            <!-- Sidebar Position -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Sidebar</label>
+                <div class="pa-settings-panel__checkbox-group">
+                    <label class="pa-settings-panel__checkbox">
+                        <input type="checkbox" id="sidebarCollapsed">
+                        <span>Collapsed</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Compact Mode -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Display</label>
+                <div class="pa-settings-panel__checkbox-group">
+                    <label class="pa-settings-panel__checkbox">
+                        <input type="checkbox" id="compactMode">
+                        <span>Compact Mode</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="pa-settings-panel__section">
+                <button class="pa-btn pa-btn--secondary pa-btn--block" id="resetSettings">
+                    Reset to Defaults
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Panel -->
+    <div class="pa-profile-panel" id="profilePanel">
+        <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+        <div class="pa-profile-panel__content">
+            <div class="pa-profile-panel__header">
+                <div class="pa-profile-panel__avatar">
+                    <span class="pa-profile-panel__avatar-icon">👤</span>
+                </div>
+                <div class="pa-profile-panel__info">
+                    <h3 class="pa-profile-panel__name">John Doe</h3>
+                    <p class="pa-profile-panel__email">john.doe@company.com</p>
+                    <span class="pa-profile-panel__role">Administrator</span>
+                </div>
+                <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                    ✕
+                </button>
+            </div>
+
+            <div class="pa-profile-panel__body">
+                <nav class="pa-profile-panel__nav">
+                    <ul>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">👤</span>
+                            Profile Settings
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">🔒</span>
+                            Security
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">🔔</span>
+                            Notifications
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">⚙️</span>
+                            Preferences
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">❓</span>
+                            Help & Support
+                        </a></li>
+                    </ul>
+                </nav>
+
+                <div class="pa-profile-panel__actions">
+                    <button class="pa-btn pa-btn--secondary pa-btn--block">
+                        Switch Account
+                    </button>
+                    <button class="pa-btn pa-btn--danger pa-btn--block">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         function switchTheme(theme) {
@@ -98,16 +242,217 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('preferred-theme') || 'default';
-            const themeSelect = document.getElementById('theme-select');
 
             if (savedTheme !== 'default') {
                 document.body.setAttribute('data-theme', savedTheme);
             }
-            themeSelect.value = savedTheme;
 
             checkMobileLayout();
             window.addEventListener('resize', checkMobileLayout);
             document.body.addEventListener('click', closeMobileSidebar);
+
+            // Settings Panel Functionality
+            const settingsPanel = document.getElementById('settingsPanel');
+            const settingsToggle = document.getElementById('settingsToggle');
+            const themeSelector = document.getElementById('themeSelector');
+            const fontSizeSelector = document.getElementById('fontSizeSelector');
+            const fontFamilySelector = document.getElementById('fontFamilySelector');
+            const sidebarCollapsed = document.getElementById('sidebarCollapsed');
+            const compactMode = document.getElementById('compactMode');
+            const resetSettings = document.getElementById('resetSettings');
+            const body = document.body;
+
+            // Load saved settings
+            const loadSettings = () => {
+                // Theme
+                const savedPanelTheme = localStorage.getItem('preferred-theme') || 'default';
+                themeSelector.value = savedPanelTheme;
+                if (savedPanelTheme !== 'default') {
+                    body.setAttribute('data-theme', savedPanelTheme);
+                }
+
+                // Font size
+                const savedFontSize = localStorage.getItem('font-size') || 'default';
+                fontSizeSelector.value = savedFontSize;
+                body.classList.remove('font-size-small', 'font-size-default', 'font-size-large', 'font-size-xlarge');
+                if (savedFontSize !== 'default') {
+                    body.classList.add(`font-size-${savedFontSize}`);
+                }
+
+                // Font family
+                const savedFontFamily = localStorage.getItem('font-family') || 'system';
+                fontFamilySelector.value = savedFontFamily;
+                body.classList.remove('font-family-system', 'font-family-sans', 'font-family-serif', 'font-family-mono', 'font-family-delivery', 'font-family-cuprum', 'font-family-fira-sans-condensed', 'font-family-manrope', 'font-family-martel', 'font-family-maven-pro', 'font-family-monda', 'font-family-play', 'font-family-signika', 'font-family-yanone-kaffeesatz');
+                body.classList.add(`font-family-${savedFontFamily}`);
+
+                // Sidebar collapsed
+                const isSidebarCollapsed = localStorage.getItem('sidebar-hidden') === 'true';
+                sidebarCollapsed.checked = isSidebarCollapsed;
+
+                // Compact mode
+                const isCompactMode = localStorage.getItem('compact-mode') === 'true';
+                compactMode.checked = isCompactMode;
+                if (isCompactMode) {
+                    body.classList.add('compact-mode');
+                }
+            };
+
+            // Toggle panel
+            settingsToggle.addEventListener('click', () => {
+                settingsPanel.classList.toggle('pa-settings-panel--open');
+            });
+
+            // Close panel when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!settingsPanel.contains(e.target) && settingsPanel.classList.contains('pa-settings-panel--open')) {
+                    settingsPanel.classList.remove('pa-settings-panel--open');
+                }
+            });
+
+            // Theme change
+            themeSelector.addEventListener('change', (e) => {
+                const theme = e.target.value;
+                switchTheme(theme);
+            });
+
+            // Font size change
+            fontSizeSelector.addEventListener('change', (e) => {
+                const size = e.target.value;
+                body.classList.remove('font-size-small', 'font-size-default', 'font-size-large', 'font-size-xlarge');
+                if (size !== 'default') {
+                    body.classList.add(`font-size-${size}`);
+                }
+                localStorage.setItem('font-size', size);
+            });
+
+            // Font family change
+            fontFamilySelector.addEventListener('change', (e) => {
+                const family = e.target.value;
+                body.classList.remove('font-family-system', 'font-family-sans', 'font-family-serif', 'font-family-mono', 'font-family-delivery', 'font-family-cuprum', 'font-family-fira-sans-condensed', 'font-family-manrope', 'font-family-martel', 'font-family-maven-pro', 'font-family-monda', 'font-family-play', 'font-family-signika', 'font-family-yanone-kaffeesatz');
+                body.classList.add(`font-family-${family}`);
+                localStorage.setItem('font-family', family);
+            });
+
+            // Sidebar toggle
+            sidebarCollapsed.addEventListener('change', (e) => {
+                toggleSidebar();
+            });
+
+            // Compact mode toggle
+            compactMode.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    body.classList.add('compact-mode');
+                    localStorage.setItem('compact-mode', 'true');
+                } else {
+                    body.classList.remove('compact-mode');
+                    localStorage.setItem('compact-mode', 'false');
+                }
+            });
+
+            // Reset settings
+            resetSettings.addEventListener('click', () => {
+                localStorage.removeItem('preferred-theme');
+                localStorage.removeItem('font-size');
+                localStorage.removeItem('font-family');
+                localStorage.removeItem('sidebar-hidden');
+                localStorage.removeItem('compact-mode');
+                loadSettings();
+                window.location.reload();
+            });
+
+            // Load settings on init
+            loadSettings();
+        });
+
+        // Profile Panel Functions
+        function toggleProfilePanel() {
+            const profilePanel = document.getElementById('profilePanel');
+            profilePanel.classList.toggle('pa-profile-panel--open');
+        }
+
+        function closeProfilePanel() {
+            const profilePanel = document.getElementById('profilePanel');
+            profilePanel.classList.remove('pa-profile-panel--open');
+        }
+
+        // Close profile panel when clicking outside
+        document.addEventListener('click', (e) => {
+            const profilePanel = document.getElementById('profilePanel');
+            const profileBtn = document.querySelector('.admin-header__profile-btn');
+
+            if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target) &&
+                profilePanel.classList.contains('pa-profile-panel--open')) {
+                closeProfilePanel();
+            }
+        });
+
+        // Sidebar Submenu Functions - No accordion behavior for multilevel support
+        function toggleSubmenu(button) {
+            const parentItem = button.closest('.pa-sidebar__item');
+            const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+
+            if (!submenu) return;
+
+            const isOpen = parentItem.classList.contains('pa-sidebar__item--open');
+
+            // Simply toggle current submenu without closing others
+            if (isOpen) {
+                parentItem.classList.remove('pa-sidebar__item--open');
+                submenu.classList.remove('pa-sidebar__submenu--open');
+            } else {
+                parentItem.classList.add('pa-sidebar__item--open');
+                submenu.classList.add('pa-sidebar__submenu--open');
+            }
+
+            // Save state to localStorage
+            const submenuId = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
+            localStorage.setItem(`submenu-${submenuId}`, !isOpen ? 'open' : 'closed');
+        }
+
+        // Clear all submenu states (for debugging)
+        function clearAllSubmenuStates() {
+            // Clear localStorage
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('submenu-')) {
+                    localStorage.removeItem(key);
+                }
+            });
+
+            // Close all open submenus
+            document.querySelectorAll('.pa-sidebar__item--open').forEach(item => {
+                item.classList.remove('pa-sidebar__item--open');
+            });
+            document.querySelectorAll('.pa-sidebar__submenu--open').forEach(submenu => {
+                submenu.classList.remove('pa-sidebar__submenu--open');
+            });
+
+            console.log('All submenu states cleared');
+        }
+
+        // Restore submenu states on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Clear all states first to ensure clean start
+            document.querySelectorAll('.pa-sidebar__item').forEach(item => {
+                item.classList.remove('pa-sidebar__item--open');
+            });
+            document.querySelectorAll('.pa-sidebar__submenu').forEach(submenu => {
+                submenu.classList.remove('pa-sidebar__submenu--open');
+            });
+
+            // Then restore saved states
+            document.querySelectorAll('.pa-sidebar__toggle').forEach(button => {
+                const submenuId = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
+                const savedState = localStorage.getItem(`submenu-${submenuId}`);
+
+                if (savedState === 'open') {
+                    const parentItem = button.closest('.pa-sidebar__item');
+                    const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+                    if (submenu) {
+                        parentItem.classList.add('pa-sidebar__item--open');
+                        submenu.classList.add('pa-sidebar__submenu--open');
+                    }
+                }
+            });
         });
     </script>
 </body>

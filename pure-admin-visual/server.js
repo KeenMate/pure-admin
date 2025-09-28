@@ -55,9 +55,46 @@ app.get('/components', (req, res) => {
     });
 });
 
+app.get('/tables', (req, res) => {
+    res.render('tables', {
+        pageTitle: 'Tables',
+        currentPage: 'tables'
+    });
+});
+
+app.get('/tables-sizing', (req, res) => {
+    res.render('tables-sizing', {
+        pageTitle: 'Tables - Sizing',
+        currentPage: 'tables-sizing'
+    });
+});
+
+app.get('/tables-lazy', (req, res) => {
+    res.render('tables-lazy', {
+        pageTitle: 'Tables - Lazy Load',
+        currentPage: 'tables-lazy'
+    });
+});
+
+app.get('/badges', (req, res) => {
+    res.render('badges', {
+        pageTitle: 'Badges & Labels',
+        currentPage: 'badges'
+    });
+});
+
+app.get('/modals', (req, res) => {
+    res.render('modals', {
+        pageTitle: 'Modal Windows',
+        currentPage: 'modals'
+    });
+});
+
 // Serve static files (after routes so EJS takes precedence)
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 app.use('/src', express.static(path.join(__dirname, 'src')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/fonts', express.static(path.join(__dirname, 'fonts')));
 
 app.listen(port, () => {
     console.log(`Pure Admin server running at http://localhost:${port}`);

@@ -1,35 +1,43 @@
 <!-- Fixed Header -->
 <header class="admin-header">
-    <div class="admin-header__left">
-        <button class="burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="admin-header__brand">
-            <h1>Pure Admin</h1>
-        </div>
-        <h2 class="admin-header__title"><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %></h2>
+    <!-- Hamburger Menu -->
+    <button class="admin-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Brand -->
+    <div class="admin-header__brand">
+        <h1>Pure Admin</h1>
     </div>
-    <nav class="admin-header__nav">
+
+    <!-- Left Navigation Links -->
+    <nav class="admin-header__nav admin-header__nav--left">
         <ul>
-            <li><a href="/">Dashboard</a></li>
-            <li><a href="/components">Components</a></li>
-            <li><a href="/forms">Forms</a></li>
-            <li>
-                <div class="theme-switcher">
-                    <label for="theme-select">Theme:</label>
-                    <select id="theme-select" onchange="switchTheme(this.value)">
-                        <option value="default">Default</option>
-                        <option value="dark">Dark</option>
-                        <option value="dark-blue">Dark Blue</option>
-                        <option value="dark-green">Dark Green</option>
-                        <option value="dark-red">Dark Red</option>
-                        <option value="minimal">Minimal</option>
-                        <option value="corporate">Corporate</option>
-                    </select>
-                </div>
-            </li>
+            <li><a href="/">📊 Dashboard</a></li>
+            <li><a href="/components">🧩 Components</a></li>
+            <li><a href="/forms">📝 Forms</a></li>
         </ul>
     </nav>
+
+    <!-- Page Title (flexible, with ellipsis) -->
+    <div class="admin-header__title">
+        <h2><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %></h2>
+    </div>
+
+    <!-- Right Navigation Links -->
+    <nav class="admin-header__nav admin-header__nav--right">
+        <ul>
+            <li><a href="/alerts">⚠️ Alerts</a></li>
+            <li><a href="/tables">📋 Tables</a></li>
+            <li><a href="#settings">⚙️ Settings</a></li>
+        </ul>
+    </nav>
+
+    <!-- Profile Button -->
+    <button class="admin-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+        <span class="admin-header__profile-avatar">👤</span>
+        <span class="admin-header__profile-name">John Doe</span>
+    </button>
 </header>

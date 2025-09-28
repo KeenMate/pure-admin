@@ -1,0 +1,414 @@
+/* Audi Theme for Pure Admin Visual - Sharp German Design */
+[data-theme="audi"] {
+  // Layout dimensions (same across themes)
+  --header-height: 2.5rem;
+  --footer-height: 2rem;
+  --sidebar-width: 12rem;
+
+  // Audi theme colors - Sharp black/red German aesthetic
+  --primary-bg: #0a0a0a;
+  --content-background-color: #0a0a0a;
+  --header-bg: #000000;
+  --sidebar-bg: #1a1a1a;
+  --footer-bg: #000000;
+  --border-color: #333333;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --accent-color: #ff0000;
+  --accent-hover: rgba(255, 0, 0, 0.2);
+  --accent-light: rgba(255, 0, 0, 0.1);
+
+  // Card colors - Sharp contrasts
+  --card-bg: #1a1a1a;
+  --card-header-bg: #000000;
+  --card-footer-bg: #000000;
+  --card-tabs-bg: #333333;
+
+  // Input colors - Clean and precise
+  --input-bg: #000000;
+  --input-border: #333333;
+  --input-text: #ffffff;
+
+  // Table colors - Professional data display
+  --table-bg: #1a1a1a;
+  --table-header-bg: #000000;
+  --table-hover-bg: #2a2a2a;
+  --table-stripe: #1a1a1a;
+
+  // Button colors - German precision with red accents
+  --btn-primary-bg: #ff0000;
+  --btn-primary-bg-hover: #cc0000;
+  --btn-secondary-bg: #333333;
+  --btn-secondary-bg-hover: #4d4d4d;
+  --btn-success-bg: #00cc44;
+  --btn-success-bg-hover: #009933;
+  --btn-warning-bg: #ff6600;
+  --btn-warning-text: #ffffff;
+  --btn-danger-bg: #ff0000;
+  --btn-danger-bg-hover: #cc0000;
+  --btn-info-bg: #0099ff;
+  --btn-info-bg-hover: #0077cc;
+  --btn-light-bg: #666666;
+  --btn-light-text: #ffffff;
+  --btn-light-bg-hover: #808080;
+  --btn-dark-bg: #000000;
+  --btn-dark-bg-hover: #1a1a1a;
+}
+
+/* Body and content background */
+[data-theme="audi"] body {
+  background-color: var(--content-background-color);
+}
+
+[data-theme="audi"] .admin-content {
+  background-color: var(--content-background-color);
+}
+
+/* Override content section background for Audi theme */
+[data-theme="audi"] .content-section {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="audi"] .long-content .content-block {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+/* Fix card components for Audi theme - Sharp edges and precise borders */
+[data-theme="audi"] .pa-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="audi"] .pa-card__header {
+  background: var(--card-header-bg);
+  border-bottom: 2px solid var(--accent-color);
+  border-radius: 0;
+}
+
+[data-theme="audi"] .pa-card__footer {
+  background: var(--card-footer-bg);
+  border-top: 1px solid var(--border-color);
+  border-radius: 0;
+}
+
+[data-theme="audi"] .pa-input,
+[data-theme="audi"] .pa-select,
+[data-theme="audi"] .pa-textarea {
+  background-color: var(--input-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 0;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease;
+}
+
+[data-theme="audi"] .pa-input:focus,
+[data-theme="audi"] .pa-select:focus,
+[data-theme="audi"] .pa-textarea:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+  outline: none;
+}
+
+[data-theme="audi"] .pa-table {
+  background-color: var(--table-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 0;
+}
+
+[data-theme="audi"] .pa-table th {
+  background-color: var(--table-header-bg);
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--accent-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+[data-theme="audi"] .pa-table td {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="audi"] .pa-table tr {
+  background-color: var(--table-bg);
+}
+
+[data-theme="audi"] .pa-table tr:hover {
+  background-color: var(--table-hover-bg);
+  border-left: 3px solid var(--accent-color);
+}
+
+[data-theme="audi"] .pa-table tr:nth-child(even) {
+  background-color: var(--table-bg);
+}
+
+[data-theme="audi"] .pa-table tr:nth-child(even):hover {
+  background-color: var(--table-hover-bg);
+  border-left: 3px solid var(--accent-color);
+}
+
+/* Additional table styling to override any default white backgrounds */
+[data-theme="audi"] .pa-table tbody tr {
+  background-color: var(--table-bg) !important;
+}
+
+[data-theme="audi"] .pa-table tbody tr:hover {
+  background-color: var(--table-hover-bg) !important;
+  border-left: 3px solid var(--accent-color);
+}
+
+[data-theme="audi"] .pa-table tbody td {
+  background-color: transparent !important;
+  color: var(--text-primary);
+}
+
+/* Pure CSS table overrides */
+[data-theme="audi"] .pure-table {
+  background-color: var(--table-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="audi"] .pure-table td,
+[data-theme="audi"] .pure-table th {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="audi"] .pure-table thead th {
+  background-color: var(--table-header-bg);
+  border-bottom: 2px solid var(--accent-color);
+}
+
+[data-theme="audi"] .pure-table-striped tr:nth-child(2n-1) td {
+  background-color: var(--table-bg);
+}
+
+[data-theme="audi"] .pure-table tr:hover td {
+  background-color: var(--table-hover-bg);
+}
+
+[data-theme="audi"] .component-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 0;
+}
+
+/* Color variations with Audi red accents */
+[data-theme="audi"] .pa-card--primary .pa-card__header {
+  background: linear-gradient(135deg, #ff0000, #cc0000);
+  color: #ffffff;
+}
+
+[data-theme="audi"] .pa-card--success .pa-card__header {
+  background: linear-gradient(135deg, #00cc44, #009933);
+  color: #ffffff;
+}
+
+[data-theme="audi"] .pa-card--warning .pa-card__header {
+  background: linear-gradient(135deg, #ff6600, #cc5200);
+  color: #ffffff;
+}
+
+[data-theme="audi"] .pa-card--danger .pa-card__header {
+  background: linear-gradient(135deg, #ff0000, #990000);
+  color: #ffffff;
+}
+
+/* Button styling for Audi theme - Sharp and precise */
+[data-theme="audi"] .pa-btn--primary {
+  background-color: var(--accent-color);
+  border: 2px solid var(--accent-color);
+  border-radius: 0;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+[data-theme="audi"] .pa-btn--primary:hover {
+  background-color: var(--btn-primary-bg-hover);
+  border-color: var(--btn-primary-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+}
+
+[data-theme="audi"] .pa-btn--secondary {
+  background-color: var(--btn-secondary-bg);
+  border: 2px solid var(--btn-secondary-bg);
+  border-radius: 0;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+[data-theme="audi"] .pa-btn--secondary:hover {
+  background-color: var(--btn-secondary-bg-hover);
+  border-color: var(--btn-secondary-bg-hover);
+  transform: translateY(-1px);
+}
+
+[data-theme="audi"] .pa-btn--success {
+  background-color: var(--btn-success-bg);
+  border: 2px solid var(--btn-success-bg);
+  border-radius: 0;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+[data-theme="audi"] .pa-btn--warning {
+  background-color: var(--btn-warning-bg);
+  border: 2px solid var(--btn-warning-bg);
+  border-radius: 0;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+[data-theme="audi"] .pa-btn--danger {
+  background-color: var(--btn-danger-bg);
+  border: 2px solid var(--btn-danger-bg);
+  border-radius: 0;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Card tabs styling - Sharp German precision */
+[data-theme="audi"] .pa-card__tabs {
+  background: var(--card-tabs-bg);
+  border-bottom: 2px solid var(--accent-color);
+  border-radius: 0;
+}
+
+/* Settings Panel styling for Audi theme */
+[data-theme="audi"] .pa-settings-panel__content {
+  background: #1a1a1a;
+  border: 2px solid #333333;
+  border-radius: 0;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="audi"] .pa-settings-panel__title {
+  color: #ffffff;
+  border-bottom: 2px solid #ff0000;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+[data-theme="audi"] .pa-settings-panel__label {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+[data-theme="audi"] .pa-settings-panel__select {
+  background: #000000;
+  border: 2px solid #333333;
+  border-radius: 0;
+  color: #ffffff;
+}
+
+[data-theme="audi"] .pa-settings-panel__select:focus {
+  border-color: #ff0000;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+}
+
+[data-theme="audi"] .pa-settings-panel__checkbox {
+  color: #ffffff;
+}
+
+/* Alert styling - Sharp and attention-grabbing in Audi theme */
+[data-theme="audi"] .pa-alert {
+  font-weight: 600;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+[data-theme="audi"] .pa-alert--success {
+  background-color: rgba(0, 204, 68, 0.15);
+  border-color: #00cc44;
+  color: #00ff55;
+  box-shadow: 0 0 20px rgba(0, 204, 68, 0.3);
+}
+
+[data-theme="audi"] .pa-alert--info {
+  background-color: rgba(0, 153, 255, 0.15);
+  border-color: #0099ff;
+  color: #33aaff;
+  box-shadow: 0 0 20px rgba(0, 153, 255, 0.3);
+}
+
+[data-theme="audi"] .pa-alert--warning {
+  background-color: rgba(255, 102, 0, 0.15);
+  border-color: #ff6600;
+  color: #ff8833;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+}
+
+[data-theme="audi"] .pa-alert--danger {
+  background-color: rgba(255, 0, 0, 0.2);
+  border-color: #ff0000;
+  color: #ff3333;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+  border-width: 3px;
+}
+
+[data-theme="audi"] .pa-alert--primary {
+  background-color: rgba(255, 0, 0, 0.15);
+  border-color: #ff0000;
+  color: #ff3333;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+[data-theme="audi"] .pa-alert--secondary {
+  background-color: rgba(51, 51, 51, 0.3);
+  border-color: #333333;
+  color: #cccccc;
+  box-shadow: 0 0 15px rgba(51, 51, 51, 0.2);
+}
+
+[data-theme="audi"] .pa-alert--light {
+  background-color: rgba(102, 102, 102, 0.15);
+  border-color: #666666;
+  color: #cccccc;
+  box-shadow: 0 0 15px rgba(102, 102, 102, 0.2);
+}
+
+[data-theme="audi"] .pa-alert--dark {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-color: #000000;
+  color: #ffffff;
+  box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+/* Sidebar enhancements for German precision */
+[data-theme="audi"] .admin-sidebar__nav ul li a {
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+[data-theme="audi"] .admin-sidebar__nav ul li a:hover,
+[data-theme="audi"] .admin-sidebar__nav ul li a.active {
+  border-left-color: var(--accent-color);
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+/* Header styling - Clean and commanding */
+[data-theme="audi"] .admin-header {
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* Footer styling */
+[data-theme="audi"] .admin-footer {
+  border-top: 1px solid var(--border-color);
+}
