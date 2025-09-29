@@ -1,4 +1,11 @@
-.PHONY: install build watch dev clean serve start
+# Variables
+PROJECT_NAME := registry.km8.es/pure-admin-showcase:production
+DOCKER_IMAGE := $(PROJECT_NAME)
+DOCKER_CONTAINER := $(PROJECT_NAME)
+HOST_PORT := 8080
+CONTAINER_PORT := 3000
+
+.PHONY: install build watch dev clean serve start docker-build docker-run docker-stop help
 
 # Install dependencies
 install:
@@ -37,6 +44,17 @@ serve-python:
 serve-node:
 	npx http-server -p 8000 -o
 
+# Docker commands
+docker-build:
+	docker build --progress plain -t $(DOCKER_IMAGE) .
+
+docker-run:
+	docker run -d --name $(DOCKER_CONTAINER) -p $(HOST_PORT):$(CONTAINER_PORT) $(DOCKER_IMAGE)
+
+docker-stop:
+	docker stop $(DOCKER_CONTAINER) || true
+	docker rm $(DOCKER_CONTAINER) || true
+
 # Default development command
 dev-simple: build
 	@echo "CSS built. Open index.html in your browser and manually refresh for changes."
@@ -54,4 +72,7 @@ help:
 	@echo "  make clean       - Clean build artifacts"
 	@echo "  make serve-python - Start Python HTTP server on port 8000 (static files)"
 	@echo "  make serve-node  - Start Node HTTP server on port 8000 (static files)"
+	@echo "  make docker-build - Build Docker image ($(DOCKER_IMAGE))"
+	@echo "  make docker-run  - Run Docker container ($(DOCKER_CONTAINER) on port $(HOST_PORT):$(CONTAINER_PORT))"
+	@echo "  make docker-stop - Stop and remove Docker container ($(DOCKER_CONTAINER))"
 	@echo "  make help        - Show this help"

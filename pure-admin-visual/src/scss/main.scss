@@ -303,7 +303,7 @@ body {
   transition: transform $transition-normal $easing-snappy;
 
   &__nav {
-    padding: 0.5rem 0;
+    padding: 1rem 0;
 
     ul {
       list-style: none;
@@ -480,7 +480,10 @@ body {
 
   .admin-content {
     margin-left: 0;
-    transition: margin-left $transition-normal $easing-snappy;
+    // Transition only when page is loaded to prevent FOUC
+    body.loaded & {
+      transition: margin-left $transition-normal $easing-snappy;
+    }
   }
 }
 
@@ -490,7 +493,10 @@ body {
   margin-left: $sidebar-width;
   margin-bottom: $footer-height;
   min-height: calc(100vh - #{$header-height} - #{$footer-height});
-  transition: margin-left $transition-normal $easing-snappy;
+  // Transition only when page is loaded to prevent FOUC
+  body.loaded & {
+    transition: margin-left $transition-normal $easing-snappy;
+  }
 
   &__inner {
     padding: 1rem;
@@ -2860,8 +2866,8 @@ body {
   }
 
   &__content {
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
+    background: var(--content-background-color);
+    border: 1px solid var(--border-color);
     border-right: none;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);

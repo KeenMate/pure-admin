@@ -1,454 +1,181 @@
-/* Audi Theme for Pure Admin Visual - Sharp German Design */
-[data-theme="audi"] {
-  // Layout dimensions (same across themes)
-  --header-height: 2.5rem;
-  --footer-height: 2rem;
-  --sidebar-width: 12rem;
-
-  // Audi theme colors - Sharp black/red German aesthetic
-  --primary-bg: #0a0a0a;
-  --content-background-color: #0a0a0a;
-  --header-bg: #000000;
-  --sidebar-bg: #1a1a1a;
-  --footer-bg: #000000;
-  --border-color: #333333;
-  --text-primary: #ffffff;
-  --text-secondary: #cccccc;
-  --accent-color: #ff0000;
-  --accent-hover: rgba(255, 0, 0, 0.2);
-  --accent-light: rgba(255, 0, 0, 0.1);
-
-  // Card colors - Sharp contrasts
-  --card-bg: #1a1a1a;
-  --card-header-bg: #000000;
-  --card-footer-bg: #000000;
-  --card-tabs-bg: #333333;
-
-  // Input colors - Clean and precise
-  --input-bg: #000000;
-  --input-border: #333333;
-  --input-text: #ffffff;
-
-  // Table colors - Professional data display
-  --table-bg: #1a1a1a;
-  --table-header-bg: #000000;
-  --table-hover-bg: #2a2a2a;
-  --table-stripe: #1a1a1a;
-
-  // Button colors - German precision with red accents
-  --btn-primary-bg: #ff0000;
-  --btn-primary-bg-hover: #cc0000;
-  --btn-secondary-bg: #333333;
-  --btn-secondary-bg-hover: #4d4d4d;
-  --btn-success-bg: #00cc44;
-  --btn-success-bg-hover: #009933;
-  --btn-warning-bg: #ff6600;
-  --btn-warning-text: #ffffff;
-  --btn-danger-bg: #ff0000;
-  --btn-danger-bg-hover: #cc0000;
-  --btn-info-bg: #0099ff;
-  --btn-info-bg-hover: #0077cc;
-  --btn-light-bg: #666666;
-  --btn-light-text: #ffffff;
-  --btn-light-bg-hover: #808080;
-  --btn-dark-bg: #000000;
-  --btn-dark-bg-hover: #1a1a1a;
-
-  // Body and content styling with nesting
-  body {
-    background-color: var(--content-background-color);
-  }
-
-  .admin-content {
-    background-color: var(--content-background-color);
-  }
-
-  // Content sections
-  .content-section {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-  }
-
-  .long-content .content-block {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-  }
-
-  // Card components - Sharp edges and precise borders
-  .pa-card {
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-
-    &__header {
-      background: var(--card-header-bg);
-      border-bottom: 2px solid var(--accent-color);
-      border-radius: 0;
-    }
-
-    &__footer {
-      background: var(--card-footer-bg);
-      border-top: 1px solid var(--border-color);
-      border-radius: 0;
-    }
-
-    &__tabs {
-      background: var(--card-tabs-bg);
-      border-bottom: 2px solid var(--accent-color);
-      border-radius: 0;
-    }
-
-    // Color variations with Audi red accents
-    &--primary .pa-card__header {
-      background: linear-gradient(135deg, #ff0000, #cc0000);
-      color: #ffffff;
-    }
-
-    &--success .pa-card__header {
-      background: linear-gradient(135deg, #00cc44, #009933);
-      color: #ffffff;
-    }
-
-    &--warning .pa-card__header {
-      background: linear-gradient(135deg, #ff6600, #cc5200);
-      color: #ffffff;
-    }
-
-    &--danger .pa-card__header {
-      background: linear-gradient(135deg, #ff0000, #990000);
-      color: #ffffff;
-    }
-  }
-
-  // Input styling
-  .pa-input,
-  .pa-select,
-  .pa-textarea {
-    background-color: var(--input-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 0;
-    color: var(--text-primary);
-    transition: border-color 0.2s ease;
-
-    &:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
-      outline: none;
-    }
-  }
-
-  // Table styling - Sharp and professional
-  .pa-table {
-    background-color: var(--table-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 0;
-
-    th {
-      background-color: var(--table-header-bg);
-      color: var(--text-primary);
-      border-bottom: 2px solid var(--accent-color);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    td {
-      background-color: var(--table-bg);
-      color: var(--text-primary);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    tr {
-      background-color: var(--table-bg);
-
-      &:hover {
-        background-color: var(--table-hover-bg);
-        border-left: 3px solid var(--accent-color);
-      }
-
-      &:nth-child(even) {
-        background-color: var(--table-bg);
-
-        &:hover {
-          background-color: var(--table-hover-bg);
-          border-left: 3px solid var(--accent-color);
-        }
-      }
-    }
-
-    // Additional table styling to override any default white backgrounds
-    tbody {
-      tr {
-        background-color: var(--table-bg) !important;
-
-        &:hover {
-          background-color: var(--table-hover-bg) !important;
-          border-left: 3px solid var(--accent-color);
-        }
-      }
-
-      td {
-        background-color: transparent !important;
-        color: var(--text-primary);
-      }
-    }
-  }
-
-  // Pure CSS table overrides
-  .pure-table {
-    background-color: var(--table-bg);
-    border: 2px solid var(--border-color);
-    color: var(--text-primary);
-
-    td,
-    th {
-      background-color: var(--table-bg);
-      color: var(--text-primary);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    thead th {
-      background-color: var(--table-header-bg);
-      border-bottom: 2px solid var(--accent-color);
-    }
-
-    tr:hover td {
-      background-color: var(--table-hover-bg);
-    }
-
-    &-striped tr:nth-child(2n-1) td {
-      background-color: var(--table-bg);
-    }
-  }
-
-  .component-card {
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 0;
-  }
-
-  // Button styling - Sharp and precise
-  .pa-btn {
-    &--primary {
-      background-color: var(--accent-color);
-      border: 2px solid var(--accent-color);
-      border-radius: 0;
-      color: #ffffff;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background-color: var(--btn-primary-bg-hover);
-        border-color: var(--btn-primary-bg-hover);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
-      }
-    }
-
-    &--secondary {
-      background-color: var(--btn-secondary-bg);
-      border: 2px solid var(--btn-secondary-bg);
-      border-radius: 0;
-      color: #ffffff;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-
-      &:hover {
-        background-color: var(--btn-secondary-bg-hover);
-        border-color: var(--btn-secondary-bg-hover);
-        transform: translateY(-1px);
-      }
-    }
-
-    &--success {
-      background-color: var(--btn-success-bg);
-      border: 2px solid var(--btn-success-bg);
-      border-radius: 0;
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    &--warning {
-      background-color: var(--btn-warning-bg);
-      border: 2px solid var(--btn-warning-bg);
-      border-radius: 0;
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    &--danger {
-      background-color: var(--btn-danger-bg);
-      border: 2px solid var(--btn-danger-bg);
-      border-radius: 0;
-      color: #ffffff;
-      font-weight: 600;
-    }
-  }
-
-  // Settings Panel styling
-  .pa-settings-panel {
-    &__content {
-      background: #1a1a1a;
-      border: 2px solid #333333;
-      border-radius: 0;
-      box-shadow: -8px 0 24px rgba(0, 0, 0, 0.8);
-    }
-
-    &__title {
-      color: #ffffff;
-      border-bottom: 2px solid #ff0000;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    &__label {
-      color: #ffffff;
-      font-weight: 500;
-    }
-
-    &__select {
-      background: #000000;
-      border: 2px solid #333333;
-      border-radius: 0;
-      color: #ffffff;
-
-      &:focus {
-        border-color: #ff0000;
-        box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
-      }
-    }
-
-    &__checkbox {
-      color: #ffffff;
-    }
-  }
-
-  // Alert styling - Sharp and attention-grabbing
-  .pa-alert {
-    font-weight: 600;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-
-    &--success {
-      background-color: rgba(0, 204, 68, 0.15);
-      border-color: #00cc44;
-      color: #00ff55;
-      box-shadow: 0 0 20px rgba(0, 204, 68, 0.3);
-    }
-
-    &--info {
-      background-color: rgba(0, 153, 255, 0.15);
-      border-color: #0099ff;
-      color: #33aaff;
-      box-shadow: 0 0 20px rgba(0, 153, 255, 0.3);
-    }
-
-    &--warning {
-      background-color: rgba(255, 102, 0, 0.15);
-      border-color: #ff6600;
-      color: #ff8833;
-      box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
-    }
-
-    &--danger {
-      background-color: rgba(255, 0, 0, 0.2);
-      border-color: #ff0000;
-      color: #ff3333;
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
-      border-width: 3px;
-    }
-
-    &--primary {
-      background-color: rgba(255, 0, 0, 0.15);
-      border-color: #ff0000;
-      color: #ff3333;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-    }
-
-    &--secondary {
-      background-color: rgba(51, 51, 51, 0.3);
-      border-color: #333333;
-      color: #cccccc;
-      box-shadow: 0 0 15px rgba(51, 51, 51, 0.2);
-    }
-
-    &--light {
-      background-color: rgba(102, 102, 102, 0.15);
-      border-color: #666666;
-      color: #cccccc;
-      box-shadow: 0 0 15px rgba(102, 102, 102, 0.2);
-    }
-
-    &--dark {
-      background-color: rgba(0, 0, 0, 0.5);
-      border-color: #000000;
-      color: #ffffff;
-      box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.1);
-    }
-  }
-
-  // Sidebar enhancements for German precision
-  .admin-sidebar__nav ul li a {
-    border-left: 3px solid transparent;
-    transition: all 0.2s ease;
-
-    &:hover,
-    &.active {
-      border-left-color: var(--accent-color);
-      background-color: rgba(255, 0, 0, 0.1);
-    }
-  }
-
-  // Header styling - Clean and commanding
-  .admin-header {
-    border-bottom: 2px solid var(--accent-color);
-  }
-
-  // Footer styling
-  .admin-footer {
-    border-top: 1px solid var(--border-color);
-  }
-
-  // Audi theme scrollbar overrides - darker red for better visibility
-  *::-webkit-scrollbar-thumb {
-    background: #990000; // Darker red instead of border-color
-    border: 1px solid var(--primary-bg);
-
-    &:hover {
-      background: var(--accent-color); // Bright red on hover
-      border-color: #cc0000;
-    }
-
-    &:active {
-      background: #cc0000; // Medium red when active
-    }
-  }
-
-  // Sidebar scrollbar - same darker red treatment
-  .pa-sidebar::-webkit-scrollbar-thumb {
-    background: #990000;
-    border: 1px solid var(--sidebar-bg);
-
-    &:hover {
-      background: var(--accent-color);
-      border-color: #cc0000;
-    }
-
-    &:active {
-      background: #cc0000;
-    }
-  }
-
-  // Firefox override
-  * {
-    scrollbar-color: #990000 var(--primary-bg);
-  }
+/* Pure Admin Visual - Audi Theme (Pure SCSS Variables) */
+
+// 1. Import framework variables first (all defaults with !default flags)
+@import '../variables';
+
+// 2. Override SCSS variables for Audi theme
+$header-height: 2.5rem;
+$sidebar-width: 12rem;
+$border-radius: 1px;
+$border-radius-lg: 2px;
+
+// Audi color palette
+$audi-black: #000000;        // Pure black
+$audi-near-black: #0a0a0a;   // Near black
+$audi-dark: #1a1a1a;         // Dark gray
+$audi-gray: #2a2a2a;         // Medium gray
+$audi-gray-light: #333333;   // Light gray
+$audi-gray-lighter: #4d4d4d; // Lighter gray
+$audi-gray-lightest: #666666;// Lightest gray
+$audi-red: #ff0000;          // Signature red
+$audi-red-dark: #cc0000;     // Dark red
+
+// Audi theme colors - Sharp black/red German aesthetic
+$primary-bg: $audi-near-black;
+$bg-secondary: $audi-near-black;
+$header-bg: $audi-black;
+$sidebar-bg: $audi-dark;
+$sidebar-submenu-bg: $audi-gray-light;
+$sidebar-submenu-hover-bg: $audi-gray-lighter;
+$footer-bg: $audi-black;
+$border-color: $audi-gray-light;
+$text-primary: #ffffff;
+$text-secondary: #cccccc;
+$accent-color: $audi-red;
+$accent-hover: rgba($audi-red, 0.2);
+$accent-light: rgba($audi-red, 0.1);
+
+// Card colors
+$card-bg: $audi-dark;
+$card-header-bg: $audi-black;
+$card-footer-bg: $audi-black;
+$card-tabs-bg: $audi-gray-light;
+
+// Input colors
+$input-bg: $audi-black;
+$input-border: $audi-gray-light;
+$input-text: #ffffff;
+
+// Table colors
+$table-stripe: $audi-dark;
+$table-bg: $audi-dark;
+$table-header-bg: $audi-black;
+$table-hover-bg: $audi-gray;
+
+// Enable red accent on table row hover (Audi signature detail)
+$table-hover-accent-width: 3px;
+$table-hover-accent-color: $accent-color; // Uses the red #ff0000
+$table-hover-accent-position: left;
+
+// Modal colors
+$modal-content-bg: $audi-dark;
+$modal-overlay-bg: rgba($audi-black, 0.8);
+$modal-header-padding-v: $spacing-md; // Reduced vertical padding (0.75rem)
+$modal-header-padding-h: $spacing-lg; // Horizontal padding (1.5rem)
+$modal-header-padding: $modal-header-padding-v $modal-header-padding-h;
+
+// Button colors - German precision with red accents
+$btn-primary-bg: $audi-red;
+$btn-primary-bg-hover: $audi-red-dark;
+$btn-primary-text: #ffffff;
+$btn-secondary-bg: $audi-gray-light;
+$btn-secondary-bg-hover: $audi-gray-lighter;
+$btn-secondary-text: #ffffff;
+$btn-success-bg: #00cc44;
+$btn-success-bg-hover: #009933;
+$btn-success-text: #ffffff;
+$btn-danger-bg: $audi-red;
+$btn-danger-bg-hover: $audi-red-dark;
+$btn-danger-text: #ffffff;
+$btn-warning-bg: #ff6600;
+$btn-warning-bg-hover: #e55a00;
+$btn-warning-text: #ffffff;
+$btn-info-bg: #0099ff;
+$btn-info-bg-hover: #0077cc;
+$btn-info-text: #ffffff;
+$btn-light-bg: $audi-gray-lightest;
+$btn-light-bg-hover: #808080;
+$btn-light-text: #ffffff;
+$btn-dark-bg: $audi-black;
+$btn-dark-bg-hover: $audi-dark;
+$btn-dark-text: #ffffff;
+
+// 3. Add Fira Sans Condensed fonts
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfvtrftV.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfLtrftV.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfrtrftV.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfXtrftV.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfntrftV.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfjtrftV.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfbtrQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// 4. Override font family SCSS variable after fonts are defined
+$body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
+
+// 5. Import core framework styles (will use all our SCSS variables)
+@import '../core';
+
+// 6. Audi-specific styling overrides
+.pa-btn--primary {
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: $spacing-xs;
+  border-radius: 0 !important; // Sharp edges for German precision
+}
+
+.pa-card {
+  border-radius: 0 !important; // Sharp edges
+  border: $border-width-medium solid $border-color;
+  box-shadow: 0 $spacing-xs ($spacing-sm * 2) rgba($audi-black, 0.8);
+}
+
+// Sidebar active link styling
+.pa-sidebar__link--active {
+  border-right: none !important;
+  border-left: 3px solid $accent-color !important;
+  color: $accent-color !important;
+}
+
+.pa-sidebar__link--active .pa-sidebar__label,
+.pa-sidebar__link--active .pa-sidebar__icon {
+  color: $accent-color !important;
 }

@@ -13,7 +13,8 @@ This is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE
 ## Key Technical Decisions
 - **BEM Naming Convention:** `pa-[block]__[element]--[modifier]` (strict adherence)
 - Use rem units in whole numbers and halves (1, 1.5, 2, 2.5, 3)
-- CSS custom properties for theming system
+- **SCSS Variables ONLY:** Pure SCSS variable system (NO CSS variables `var(--*)`)
+- **Modular Architecture:** `_variables.scss` + `_core.scss` + theme overrides
 - Flex-based card layout with proper header/body/footer distribution
 - UTF-8 icons for better visual design (« ‹ › » for pagers)
 - Grid column padding removed inside cards to prevent spacing conflicts
@@ -21,9 +22,12 @@ This is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE
 ## Framework Structure
 - **Server:** `server.js` - Express.js with EJS layouts
 - **Views:** `views/` - EJS templates with shared layout and partials
-- **Main SCSS:** `src/scss/main.scss` - Core framework styles
+- **SCSS Architecture:**
+  - `_variables.scss` - Complete list of all framework SCSS variables with `!default`
+  - `_core.scss` - Core framework styles using SCSS variables
+  - `themes/` - Theme files that override SCSS variables and import core
+- **Theme Structure:** `@import '../variables'` → override variables → add fonts → `@import '../core'`
 - **Utilities:** `src/scss/utilities.scss` - Spacing and utility classes
-- **Themes:** `src/themes/` - Dark, minimal, corporate themes
 - **Components:** Cards, forms, buttons, alerts, tables, pagers (AdminLTE-inspired but lighter)
 
 ## Component Library
@@ -43,11 +47,13 @@ This is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE
 - Server runs on `localhost:3000` with hot reloading
 
 ## Critical Rules
-1. **ONLY use `pa-` prefixed classes or PureCSS classes** - No demo-specific classes
-2. **Follow BEM strictly** - Components must be reusable framework elements
-3. **Grid columns inside cards have no bottom padding** - Prevents spacing conflicts
-4. **All spacing uses consistent rem units** - Framework-wide consistency
-5. **Use UTF-8 icons where appropriate** - Better visual design than HTML entities
+1. **ALWAYS use SCSS variables** - NO CSS variables (`var(--*)`) anywhere in the system
+2. **ONLY use `pa-` prefixed classes or PureCSS classes** - No demo-specific classes
+3. **Follow BEM strictly** - Components must be reusable framework elements
+4. **Themes override SCSS variables only** - All themes import `_variables.scss` and override specific variables
+5. **Grid columns inside cards have no bottom padding** - Prevents spacing conflicts
+6. **All spacing uses consistent rem units** - Framework-wide consistency
+7. **Use UTF-8 icons where appropriate** - Better visual design than HTML entities
 
 ## Recent Work
 - Converted from static HTML to EJS with Express.js server
@@ -55,19 +61,51 @@ This is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE
 - Implemented comprehensive table and pager components with UTF-8 icons
 - Fixed grid column padding conflicts inside card bodies
 - Achieved strict BEM naming convention compliance across all components
+- **SCSS Variable Architecture (2025-01):** Complete migration to pure SCSS variables:
+  - Converted ALL CSS variables to SCSS variables in `_variables.scss` and `_core.scss`
+  - Created modular theme system: themes import variables → override → add fonts → import core
+  - All themes now compile to single CSS files with actual values (no runtime CSS variables)
+  - Eliminated ALL `var(--*)` usage throughout the entire framework
 - **Composite Badges System:** Created three-part [icon][label][button] badges with:
   - Independent color control for each section
   - SCSS variables for configurable dimensions
-  - CSS variables for theme compatibility (all colors use `var(--btn-*-bg)`)
   - Standard color variations (primary, secondary, success, etc.)
   - Advanced mixed-color examples and interactive demos
 - **Modal Windows System:** Complete modal framework with:
-  - CSS variables for theming (`--modal-overlay-bg`, `--modal-content-bg`, etc.)
+  - SCSS variables for theming dimensions and colors
   - Multiple sizes (sm: 20rem, md: 30rem, lg: 50rem, xl: 70rem)
   - Themed modal headers (primary, success, warning, danger)
   - Form modals with proper spacing and validation states
   - Confirmation dialogs and basic information modals
   - Smooth animations and responsive behavior
   - Full JavaScript interaction system for open/close functionality
+
+## Architecture Notes
+- **ALWAYS work with SCSS versions** - Never use CSS variables (`var(--*)`)
+- **Core base:** `_core.scss` contains all framework styles using SCSS variables
+- **Theme pattern:** Import `_variables.scss` → override variables → add fonts → import `_core.scss`
+- **Single output:** Each theme compiles to one CSS file with all values resolved
+
+## Complete Variable System Transformation (2025-01-15)
+**Major achievement:** Eliminated ALL hardcoded values from the framework in favor of a comprehensive SCSS variable system.
+
+### **Variable Categories Added:**
+- **Font System:** `$font-size-2xs` through `$font-size-4xl`, `$line-height-*`, `$font-weight-*`
+- **Spacing System:** `$spacing-xs` through `$spacing-2xl` (0.25rem to 3rem) - used for padding, margin, gap
+- **Border System:** `$border-width-thin/base/medium/thick` (1px to 3px)
+- **Component-Specific:** Button padding, burger menu, modal dimensions, table hover accents
+
+### **Key Fixes:**
+- **Font-family utilities:** `.font-family-system/.font-family-sans` now use `$body-font-family` instead of hardcoded fonts
+- **Legacy CSS cleanup:** Removed all `[data-theme="dark"]` selectors that interfered with variable system
+- **Table hover accents:** Added `$table-hover-accent-*` variables so themes can control row hover borders
+- **Modal system:** Added `$modal-close-font-size`, `$modal-header-padding-v/h` for better control
+- **Audi theme:** Now uses Fira Sans Condensed consistently throughout, reduced modal padding, enabled red table accents
+
+### **Benefits:**
+- **Systematic theming:** Themes can override ANY aspect via variables
+- **No magic numbers:** Every spacing, font size, border uses named variables
+- **Consistent inheritance:** Font utilities respect theme fonts instead of overriding them
+- **Clean compilation:** No legacy CSS conflicts
 
 Remember: User appreciates thorough, systematic work and clear communication! 🚀

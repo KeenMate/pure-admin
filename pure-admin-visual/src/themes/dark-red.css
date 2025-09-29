@@ -18,6 +18,17 @@
   --accent-hover: rgba(239, 68, 68, 0.15);
   --accent-light: rgba(239, 68, 68, 0.08);
 
+  // Card colors
+  --card-bg: #2d1a1a;
+  --card-header-bg: #1f0f0f;
+  --card-footer-bg: #1f0f0f;
+  --card-tabs-bg: #5b2d2d;
+
+  // Input colors
+  --input-bg: #1f0f0f;
+  --input-border: var(--border-color);
+  --input-text: var(--text-primary);
+
   // Table colors
   --table-bg: #2d1b1b;
   --table-header-bg: #1a0e0e;
@@ -97,13 +108,68 @@
   box-shadow: 0 0 0 3px var(--accent-light);
 }
 
-[data-theme="dark-red"] .pa-table th {
-  background-color: #1f0f0f;
+/* Table styling - comprehensive overrides for dark-red theme */
+[data-theme="dark-red"] .pa-table {
+  background-color: var(--table-bg);
   color: var(--text-primary);
 }
 
+[data-theme="dark-red"] .pa-table th {
+  background-color: var(--table-header-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark-red"] .pa-table td {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark-red"] .pa-table tr {
+  background-color: var(--table-bg);
+}
+
 [data-theme="dark-red"] .pa-table tr:hover {
-  background-color: #1f0f0f;
+  background-color: var(--table-hover-bg);
+}
+
+[data-theme="dark-red"] .pa-table tbody tr {
+  background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark-red"] .pa-table tbody tr:hover {
+  background-color: var(--table-hover-bg) !important;
+}
+
+[data-theme="dark-red"] .pa-table tbody td {
+  background-color: transparent !important;
+  color: var(--text-primary);
+}
+
+/* Pure CSS table overrides */
+[data-theme="dark-red"] .pure-table {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+}
+
+[data-theme="dark-red"] .pure-table td,
+[data-theme="dark-red"] .pure-table th {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark-red"] .pure-table thead th {
+  background-color: var(--table-header-bg);
+}
+
+[data-theme="dark-red"] .pure-table-striped tr:nth-child(2n-1) td {
+  background-color: var(--table-stripe);
+}
+
+[data-theme="dark-red"] .pure-table tr:hover td {
+  background-color: var(--table-hover-bg);
 }
 
 [data-theme="dark-red"] .component-card {

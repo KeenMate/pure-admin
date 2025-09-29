@@ -6,7 +6,8 @@
   "scripts": {
     "build-css": "sass src/scss/main.scss dist/css/main.css",
     "build-themes": "sass src/scss/themes:dist/css/themes",
-    "build-all": "npm run build-css && npm run build-themes",
+    "build-themes-unified": "sass src/scss/themes/audi-complete.scss dist/css/themes/audi-complete.css",
+    "build-all": "npm run build-css && npm run build-themes && npm run build-themes-unified",
     "watch-css": "sass --watch src/scss/main.scss:dist/css/main.css",
     "watch-themes": "sass --watch src/scss/themes:dist/css/themes",
     "watch-all": "concurrently \"npm run watch-css\" \"npm run watch-themes\"",

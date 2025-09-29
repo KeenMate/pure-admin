@@ -108,13 +108,68 @@
   box-shadow: 0 0 0 3px var(--accent-light);
 }
 
-[data-theme="dark-blue"] .pa-table th {
-  background-color: #0f172a;
+/* Table styling - comprehensive overrides for dark-blue theme */
+[data-theme="dark-blue"] .pa-table {
+  background-color: var(--table-bg);
   color: var(--text-primary);
 }
 
+[data-theme="dark-blue"] .pa-table th {
+  background-color: var(--table-header-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark-blue"] .pa-table td {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark-blue"] .pa-table tr {
+  background-color: var(--table-bg);
+}
+
 [data-theme="dark-blue"] .pa-table tr:hover {
-  background-color: #0f172a;
+  background-color: var(--table-hover-bg);
+}
+
+[data-theme="dark-blue"] .pa-table tbody tr {
+  background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark-blue"] .pa-table tbody tr:hover {
+  background-color: var(--table-hover-bg) !important;
+}
+
+[data-theme="dark-blue"] .pa-table tbody td {
+  background-color: transparent !important;
+  color: var(--text-primary);
+}
+
+/* Pure CSS table overrides */
+[data-theme="dark-blue"] .pure-table {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+}
+
+[data-theme="dark-blue"] .pure-table td,
+[data-theme="dark-blue"] .pure-table th {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark-blue"] .pure-table thead th {
+  background-color: var(--table-header-bg);
+}
+
+[data-theme="dark-blue"] .pure-table-striped tr:nth-child(2n-1) td {
+  background-color: var(--table-stripe);
+}
+
+[data-theme="dark-blue"] .pure-table tr:hover td {
+  background-color: var(--table-hover-bg);
 }
 
 [data-theme="dark-blue"] .component-card {

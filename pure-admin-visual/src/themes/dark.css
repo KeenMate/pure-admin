@@ -1,11 +1,9 @@
 /* Dark Theme for Pure Admin Visual */
-[data-theme="dark"] {
-  // Layout dimensions (same across themes)
+/* Dark Theme Base Template - Reusable mixin for dark theme variants */
+[data-theme=dark] {
   --header-height: 2.5rem;
   --footer-height: 2rem;
   --sidebar-width: 12rem;
-
-  // Dark theme colors
   --primary-bg: #1a1a1a;
   --content-background-color: #1a1a1a;
   --header-bg: #2d2d2d;
@@ -17,27 +15,17 @@
   --accent-color: #4dabf7;
   --accent-hover: rgba(77, 171, 247, 0.15);
   --accent-light: rgba(77, 171, 247, 0.08);
-  --table-stripe: #333333;
-  --table-bg: #2a2a2a;
-  --table-header-bg: #333333;
-  --table-hover-bg: #353535;
-
-  // Card colors
   --card-bg: #2a2a2a;
   --card-header-bg: #333333;
   --card-footer-bg: #333333;
   --card-tabs-bg: #333333;
-
-  // Input colors
   --input-bg: #333333;
   --input-border: var(--border-color);
   --input-text: var(--text-primary);
-
-  // Table colors
+  --table-bg: #2a2a2a;
   --table-header-bg: #333333;
-  --table-hover-bg: #333333;
-
-  // Button colors - muted for dark theme
+  --table-hover-bg: #353535;
+  --table-stripe: #333333;
   --btn-primary-bg: #2563eb;
   --btn-primary-bg-hover: #1d4ed8;
   --btn-secondary-bg: #374151;
@@ -48,10 +36,6 @@
   --btn-warning-text: #ffffff;
   --btn-danger-bg: #dc2626;
   --btn-danger-bg-hover: #b91c1c;
-
-  // Modal colors for dark theme
-  --modal-overlay-bg: rgba(0, 0, 0, 0.7);
-  --modal-content-bg: #2a2a2a;
   --btn-info-bg: #0891b2;
   --btn-info-bg-hover: #0e7490;
   --btn-light-bg: #374151;
@@ -59,252 +43,105 @@
   --btn-light-bg-hover: #4b5563;
   --btn-dark-bg: #111827;
   --btn-dark-bg-hover: #030712;
+  --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+  --modal-content-bg: #2a2a2a;
 }
 
-/* Body and content background */
-[data-theme="dark"] body {
+[data-theme=dark] body {
   background-color: var(--content-background-color);
 }
-
-[data-theme="dark"] .admin-content {
+[data-theme=dark] .admin-content {
   background-color: var(--content-background-color);
 }
-
-/* Override content section background for dark theme */
-[data-theme="dark"] .content-section {
-  background: var(--card-bg);
+[data-theme=dark] .content-section {
+  background: #2a2a2a;
+  border: 1px solid var(--border-color);
 }
-
-[data-theme="dark"] .long-content .content-block {
-  background: var(--card-bg);
+[data-theme=dark] .long-content .content-block {
+  background: #2a2a2a;
+  border: 1px solid var(--border-color);
 }
-
-/* Fix card components for dark theme */
-[data-theme="dark"] .pa-card {
+[data-theme=dark] .pa-card {
   background: var(--card-bg);
   border-color: var(--border-color);
 }
-
-[data-theme="dark"] .pa-card__header {
+[data-theme=dark] .pa-card__header {
   background: var(--card-header-bg);
   border-color: var(--border-color);
 }
-
-[data-theme="dark"] .pa-card__footer {
+[data-theme=dark] .pa-card__footer {
   background: var(--card-footer-bg);
   border-color: var(--border-color);
 }
-
-[data-theme="dark"] .pa-input,
-[data-theme="dark"] .pa-select,
-[data-theme="dark"] .pa-textarea {
+[data-theme=dark] .pa-input,
+[data-theme=dark] .pa-select,
+[data-theme=dark] .pa-textarea {
   background-color: var(--input-bg);
-  border-color: var(--input-border);
-  color: var(--input-text);
+  border-color: var(--border-color);
+  color: var(--text-primary);
 }
-
-[data-theme="dark"] .pa-input:focus,
-[data-theme="dark"] .pa-select:focus,
-[data-theme="dark"] .pa-textarea:focus {
+[data-theme=dark] .pa-input:focus,
+[data-theme=dark] .pa-select:focus,
+[data-theme=dark] .pa-textarea:focus {
   border-color: var(--accent-color);
   box-shadow: 0 0 0 3px var(--accent-light);
 }
-
-[data-theme="dark"] .pa-table th {
+[data-theme=dark] {
+  /* Table styling - comprehensive overrides */
+}
+[data-theme=dark] .pa-table {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+}
+[data-theme=dark] .pa-table th {
   background-color: var(--table-header-bg);
   color: var(--text-primary);
+  border-color: var(--border-color);
 }
-
-[data-theme="dark"] .pa-table tr:hover {
+[data-theme=dark] .pa-table td {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+[data-theme=dark] .pa-table tr {
+  background-color: var(--table-bg);
+}
+[data-theme=dark] .pa-table tr:hover {
   background-color: var(--table-hover-bg);
 }
-
-[data-theme="dark"] .component-card {
+[data-theme=dark] .pa-table tbody tr {
+  background-color: var(--table-bg) !important;
+}
+[data-theme=dark] .pa-table tbody tr:hover {
+  background-color: var(--table-hover-bg) !important;
+}
+[data-theme=dark] .pa-table tbody td {
+  background-color: transparent !important;
+  color: var(--text-primary);
+}
+[data-theme=dark] {
+  /* Pure CSS table overrides */
+}
+[data-theme=dark] .pure-table {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+}
+[data-theme=dark] .pure-table td,
+[data-theme=dark] .pure-table th {
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+[data-theme=dark] .pure-table thead th {
+  background-color: var(--table-header-bg);
+}
+[data-theme=dark] .pure-table-striped tr:nth-child(2n-1) td {
+  background-color: var(--table-stripe);
+}
+[data-theme=dark] .pure-table tr:hover td {
+  background-color: var(--table-hover-bg);
+}
+[data-theme=dark] .component-card {
   background: var(--card-bg);
   border-color: var(--border-color);
-}
-
-/* Button styling for dark theme */
-[data-theme="dark"] .pa-btn--primary {
-  background-color: var(--btn-primary-bg);
-  border-color: var(--btn-primary-bg);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .pa-btn--primary:hover {
-  background-color: var(--btn-primary-bg-hover);
-  border-color: var(--btn-primary-bg-hover);
-}
-
-[data-theme="dark"] .pa-btn--secondary {
-  background-color: var(--btn-secondary-bg);
-  border-color: var(--btn-secondary-bg);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .pa-btn--secondary:hover {
-  background-color: var(--btn-secondary-bg-hover);
-  border-color: var(--btn-secondary-bg-hover);
-}
-
-[data-theme="dark"] .pa-btn--success {
-  background-color: var(--btn-success-bg);
-  border-color: var(--btn-success-bg);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .pa-btn--success:hover {
-  background-color: var(--btn-success-bg-hover);
-  border-color: var(--btn-success-bg-hover);
-}
-
-[data-theme="dark"] .pa-btn--warning {
-  background-color: var(--btn-warning-bg);
-  border-color: var(--btn-warning-bg);
-  color: var(--btn-warning-text);
-}
-
-[data-theme="dark"] .pa-btn--danger {
-  background-color: var(--btn-danger-bg);
-  border-color: var(--btn-danger-bg);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .pa-btn--danger:hover {
-  background-color: var(--btn-danger-bg-hover);
-  border-color: var(--btn-danger-bg-hover);
-}
-
-[data-theme="dark"] .pa-btn--info {
-  background-color: var(--btn-info-bg);
-  border-color: var(--btn-info-bg);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .pa-btn--info:hover {
-  background-color: var(--btn-info-bg-hover);
-  border-color: var(--btn-info-bg-hover);
-}
-
-[data-theme="dark"] .pa-btn--light {
-  background-color: var(--btn-light-bg);
-  border-color: var(--btn-light-bg);
-  color: var(--btn-light-text);
-}
-
-[data-theme="dark"] .pa-btn--light:hover {
-  background-color: var(--btn-light-bg-hover);
-  border-color: var(--btn-light-bg-hover);
-}
-
-[data-theme="dark"] .pa-btn--dark {
-  background-color: var(--btn-dark-bg);
-  border-color: var(--btn-dark-bg);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .pa-btn--dark:hover {
-  background-color: var(--btn-dark-bg-hover);
-  border-color: var(--btn-dark-bg-hover);
-}
-
-/* Card tabs styling */
-[data-theme="dark"] .pa-card__tabs {
-  background: var(--card-tabs-bg);
-  border-color: var(--border-color);
-}
-
-/* Settings Panel styling for dark theme */
-[data-theme="dark"] .pa-settings-panel__toggle {
-  background: var(--accent-color);
-  color: #ffffff;
-  box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .pa-settings-panel__content {
-  background: #2a2a2a;
-  border-color: #404040;
-  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .pa-settings-panel__title {
-  color: var(--text-primary);
-  border-color: var(--border-color);
-}
-
-[data-theme="dark"] .pa-settings-panel__label {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .pa-settings-panel__select {
-  background: #333333;
-  border-color: #404040;
-  color: #ffffff;
-}
-
-[data-theme="dark"] .pa-settings-panel__checkbox {
-  color: var(--text-primary);
-}
-
-/* Alert styling - more pungent/striking in dark theme */
-[data-theme="dark"] .pa-alert {
-  font-weight: 500;
-  border-width: 1px;
-  border-style: solid;
-}
-
-[data-theme="dark"] .pa-alert--success {
-  background-color: rgba(16, 185, 129, 0.15);
-  border-color: rgba(16, 185, 129, 0.4);
-  color: #6ee7b7;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
-}
-
-[data-theme="dark"] .pa-alert--info {
-  background-color: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.4);
-  color: #93bbfc;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
-}
-
-[data-theme="dark"] .pa-alert--warning {
-  background-color: rgba(251, 191, 36, 0.15);
-  border-color: rgba(251, 191, 36, 0.4);
-  color: #fcd34d;
-  box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
-}
-
-[data-theme="dark"] .pa-alert--danger {
-  background-color: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
-}
-
-[data-theme="dark"] .pa-alert--primary {
-  background-color: rgba(37, 99, 235, 0.15);
-  border-color: rgba(37, 99, 235, 0.4);
-  color: #93bbfc;
-  box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
-}
-
-[data-theme="dark"] .pa-alert--secondary {
-  background-color: rgba(107, 114, 128, 0.15);
-  border-color: rgba(107, 114, 128, 0.4);
-  color: #d1d5db;
-  box-shadow: 0 0 15px rgba(107, 114, 128, 0.08);
-}
-
-[data-theme="dark"] .pa-alert--light {
-  background-color: rgba(243, 244, 246, 0.08);
-  border-color: rgba(243, 244, 246, 0.2);
-  color: #e5e7eb;
-  box-shadow: 0 0 15px rgba(243, 244, 246, 0.05);
-}
-
-[data-theme="dark"] .pa-alert--dark {
-  background-color: rgba(17, 24, 39, 0.3);
-  border-color: rgba(17, 24, 39, 0.6);
-  color: #9ca3af;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
