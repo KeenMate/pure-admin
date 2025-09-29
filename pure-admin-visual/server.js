@@ -1,5 +1,6 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const app = express();
 const port = 3000;
@@ -12,81 +13,108 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layout');
 
+// Add cookie parser middleware
+app.use(cookieParser());
+
+// Middleware to determine current theme
+app.use((req, res, next) => {
+    const theme = req.query.theme || req.cookies.selectedTheme || 'audi';
+    res.locals.currentTheme = theme;
+
+    // Set cookie if theme was changed via query param
+    if (req.query.theme) {
+        res.cookie('selectedTheme', theme, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    }
+
+    next();
+});
+
 // Routes
 app.get('/', (req, res) => {
     res.render('dashboard', {
         pageTitle: 'Dashboard',
-        currentPage: 'dashboard'
+        currentPage: 'dashboard',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/forms', (req, res) => {
     res.render('forms', {
         pageTitle: 'Forms',
-        currentPage: 'forms'
+        currentPage: 'forms',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/cards', (req, res) => {
     res.render('cards', {
         pageTitle: 'Cards',
-        currentPage: 'cards'
+        currentPage: 'cards',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/buttons', (req, res) => {
     res.render('buttons', {
         pageTitle: 'Buttons',
-        currentPage: 'buttons'
+        currentPage: 'buttons',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/alerts', (req, res) => {
     res.render('alerts', {
         pageTitle: 'Alerts',
-        currentPage: 'alerts'
+        currentPage: 'alerts',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/components', (req, res) => {
     res.render('components', {
         pageTitle: 'Components',
-        currentPage: 'components'
+        currentPage: 'components',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/tables', (req, res) => {
     res.render('tables', {
         pageTitle: 'Tables',
-        currentPage: 'tables'
+        currentPage: 'tables',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/tables-sizing', (req, res) => {
     res.render('tables-sizing', {
         pageTitle: 'Tables - Sizing',
-        currentPage: 'tables-sizing'
+        currentPage: 'tables-sizing',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/tables-lazy', (req, res) => {
     res.render('tables-lazy', {
         pageTitle: 'Tables - Lazy Load',
-        currentPage: 'tables-lazy'
+        currentPage: 'tables-lazy',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/badges', (req, res) => {
     res.render('badges', {
         pageTitle: 'Badges & Labels',
-        currentPage: 'badges'
+        currentPage: 'badges',
+        currentTheme: res.locals.currentTheme
     });
 });
 
 app.get('/modals', (req, res) => {
     res.render('modals', {
         pageTitle: 'Modal Windows',
-        currentPage: 'modals'
+        currentPage: 'modals',
+        currentTheme: res.locals.currentTheme
     });
 });
 

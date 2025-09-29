@@ -6,8 +6,8 @@
     <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %> - Pure Admin Visual</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <!-- SCSS VARIABLE THEME: Pure SCSS variable architecture -->
-    <link rel="stylesheet" href="/src/themes/audi.css">
+    <!-- SCSS VARIABLE THEME: Dynamic theme loading -->
+    <link rel="stylesheet" href="/dist/css/themes/<%= currentTheme %>.css">
     <!-- Analytics -->
     <script defer data-domain="pure-admin.keenmate.dev" src="https://stats.keenmate.services/js/plausible.js"></script>
     <!-- ORIGINAL SPLIT FILES (commented out to test unified approach):
@@ -46,14 +46,13 @@
             <div class="pa-settings-panel__section">
                 <label class="pa-settings-panel__label">Theme</label>
                 <select class="pa-settings-panel__select" id="themeSelector">
-                    <option value="default">Light (Default)</option>
+                    <option value="audi">Audi</option>
+                    <option value="corporate">Corporate</option>
                     <option value="dark">Dark</option>
                     <option value="dark-blue">Dark Blue</option>
                     <option value="dark-green">Dark Green</option>
                     <option value="dark-red">Dark Red</option>
-                    <option value="audi">Audi (German)</option>
                     <option value="minimal">Minimal</option>
-                    <option value="corporate">Corporate</option>
                 </select>
             </div>
 
@@ -178,12 +177,10 @@
 
     <script>
         function switchTheme(theme) {
-            const body = document.body;
-            body.removeAttribute('data-theme');
-            if (theme !== 'default') {
-                body.setAttribute('data-theme', theme);
-            }
-            localStorage.setItem('preferred-theme', theme);
+            // Redirect to current page with theme parameter
+            const url = new URL(window.location);
+            url.searchParams.set('theme', theme);
+            window.location.href = url.toString();
         }
 
         function toggleSidebar() {
@@ -241,10 +238,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // For unified theme, variables are in :root so no data-theme needed
-            // But keep this for compatibility with any remaining [data-theme] selectors
-            const savedTheme = 'audi'; // Hardcoded for unified Audi theme
-            document.body.setAttribute('data-theme', savedTheme);
+            // Set data-theme attribute for any remaining [data-theme] selectors
+            const currentTheme = '<%= currentTheme %>';
+            document.body.setAttribute('data-theme', currentTheme);
 
             // Add loaded class after a short delay to prevent FOUC transitions
             setTimeout(() => {
@@ -268,12 +264,10 @@
 
             // Load saved settings
             const loadSettings = () => {
-                // Theme
-                const savedPanelTheme = localStorage.getItem('preferred-theme') || 'default';
-                themeSelector.value = savedPanelTheme;
-                if (savedPanelTheme !== 'default') {
-                    body.setAttribute('data-theme', savedPanelTheme);
-                }
+                // Theme - use server-provided currentTheme
+                const currentTheme = '<%= currentTheme %>';
+                themeSelector.value = currentTheme;
+                body.setAttribute('data-theme', currentTheme);
 
                 // Font size
                 const savedFontSize = localStorage.getItem('font-size') || 'default';
@@ -355,13 +349,17 @@
 
             // Reset settings
             resetSettings.addEventListener('click', () => {
-                localStorage.removeItem('preferred-theme');
+                // Clear localStorage settings
                 localStorage.removeItem('font-size');
                 localStorage.removeItem('font-family');
                 localStorage.removeItem('sidebar-hidden');
                 localStorage.removeItem('compact-mode');
-                loadSettings();
-                window.location.reload();
+
+                // Reset theme to default (audi)
+                const url = new URL(window.location);
+                url.searchParams.set('theme', 'audi');
+                url.searchParams.delete('theme'); // Remove theme param to use default
+                window.location.href = url.toString();
             });
 
             // Load settings on init
