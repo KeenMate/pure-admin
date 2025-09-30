@@ -6,8 +6,12 @@
     <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %> - Pure Admin Visual</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- SCSS VARIABLE THEME: Dynamic theme loading -->
     <link rel="stylesheet" href="/dist/css/themes/<%= currentTheme %>.css">
+    <!-- D3.js for charts -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Analytics -->
     <script defer data-domain="pure-admin.keenmate.dev" src="https://stats.keenmate.services/js/plausible.js"></script>
     <!-- ORIGINAL SPLIT FILES (commented out to test unified approach):
@@ -16,8 +20,9 @@
     -->
 </head>
 <body>
-    <%- include('partials/navbar') %>
-    <%- include('partials/sidebar') %>
+    <div class="pa-layout-container<%= containerWidth !== 'fluid' ? ' pa-layout-container--' + containerWidth : '' %>" id="layoutContainer">
+        <%- include('partials/navbar') %>
+        <%- include('partials/sidebar') %>
 
     <!-- Main Content Area -->
     <main class="admin-content">
@@ -26,12 +31,13 @@
         </div>
     </main>
 
-    <!-- Fixed Footer -->
-    <footer class="admin-footer">
-        <div class="admin-footer__content">
-            <p>&copy; 2024 Pure Admin Visual Framework</p>
-        </div>
-    </footer>
+        <!-- Fixed Footer -->
+        <footer class="admin-footer">
+            <div class="admin-footer__content">
+                <p>&copy; 2024 Pure Admin Visual Framework</p>
+            </div>
+        </footer>
+    </div><!-- /.pa-layout-container -->
 
     <!-- Floating Settings Panel -->
     <div class="pa-settings-panel" id="settingsPanel">
@@ -108,6 +114,19 @@
                         <span>Compact Mode</span>
                     </label>
                 </div>
+            </div>
+
+            <!-- Layout Width -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Layout Width</label>
+                <select class="pa-settings-panel__select" id="containerWidthSelector">
+                    <option value="fluid">Fluid (Full Width)</option>
+                    <option value="sm">Small (768px)</option>
+                    <option value="md">Medium (1024px)</option>
+                    <option value="lg">Large (1280px)</option>
+                    <option value="xl">Extra Large (1600px)</option>
+                    <option value="2xl">2X Large (1920px)</option>
+                </select>
             </div>
 
             <!-- Reset Button -->
@@ -259,6 +278,7 @@
             const fontFamilySelector = document.getElementById('fontFamilySelector');
             const sidebarCollapsed = document.getElementById('sidebarCollapsed');
             const compactMode = document.getElementById('compactMode');
+            const containerWidthSelector = document.getElementById('containerWidthSelector');
             const resetSettings = document.getElementById('resetSettings');
             const body = document.body;
 
@@ -293,6 +313,10 @@
                 if (isCompactMode) {
                     body.classList.add('compact-mode');
                 }
+
+                // Container width - use server-provided containerWidth
+                const currentContainerWidth = '<%= containerWidth %>';
+                containerWidthSelector.value = currentContainerWidth;
             };
 
             // Toggle panel
@@ -347,6 +371,14 @@
                 }
             });
 
+            // Container width change - reload page with query param to set cookie
+            containerWidthSelector.addEventListener('change', (e) => {
+                const width = e.target.value;
+                const url = new URL(window.location);
+                url.searchParams.set('containerWidth', width);
+                window.location.href = url.toString();
+            });
+
             // Reset settings
             resetSettings.addEventListener('click', () => {
                 // Clear localStorage settings
@@ -355,10 +387,10 @@
                 localStorage.removeItem('sidebar-hidden');
                 localStorage.removeItem('compact-mode');
 
-                // Reset theme to default (audi)
+                // Reset theme and container width to defaults
                 const url = new URL(window.location);
                 url.searchParams.set('theme', 'audi');
-                url.searchParams.delete('theme'); // Remove theme param to use default
+                url.searchParams.set('containerWidth', 'fluid');
                 window.location.href = url.toString();
             });
 

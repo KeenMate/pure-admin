@@ -127,14 +127,15 @@
                             <h3>Buttons with Text Icons</h3>
                         </div>
                         <div class="pa-card__body">
+                            <p class="mb-1">Buttons with icons are automatically left-aligned with fixed-width icon container:</p>
                             <div class="pa-btn-group">
                                 <button class="pa-btn pa-btn--primary">
                                     <span class="pa-btn__icon">→</span>
                                     Next
                                 </button>
                                 <button class="pa-btn pa-btn--secondary">
-                                    ←
-                                    <span class="pa-btn__icon">Previous</span>
+                                    <span class="pa-btn__icon">←</span>
+                                    Previous
                                 </button>
                                 <button class="pa-btn pa-btn--success">
                                     <span class="pa-btn__icon">✓</span>
@@ -156,13 +157,245 @@
                             <h3>Icon Only Buttons</h3>
                         </div>
                         <div class="pa-card__body">
-                            <div class="pa-btn-group">
-                                <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Edit">✎</button>
-                                <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Settings">⚙</button>
-                                <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Check">✓</button>
-                                <button class="pa-btn pa-btn--warning pa-btn--icon-only" title="Warning">⚠</button>
-                                <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Delete">×</button>
-                                <button class="pa-btn pa-btn--info pa-btn--icon-only" title="Info">ⓘ</button>
+                            <p class="mb-2">Basic icon-only buttons with text icons:</p>
+                            <div class="pure-g mb-2">
+                                <div class="pure-u-1">
+                                    <div class="pa-btn-group">
+                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Edit">✎</button>
+                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Settings">⚙</button>
+                                        <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Check">✓</button>
+                                        <button class="pa-btn pa-btn--warning pa-btn--icon-only" title="Warning">⚠</button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Delete">×</button>
+                                        <button class="pa-btn pa-btn--info pa-btn--icon-only" title="Info">ⓘ</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-2">Icon-only buttons with Font Awesome icons:</p>
+                            <div class="pure-g mb-2">
+                                <div class="pure-u-1">
+                                    <div class="pa-btn-group">
+                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save"><i class="fa-solid fa-floppy-disk"></i></button>
+                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Check"><i class="fa-solid fa-check"></i></button>
+                                        <button class="pa-btn pa-btn--warning pa-btn--icon-only" title="Warning"><i class="fa-solid fa-triangle-exclamation"></i></button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Trash"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="pa-btn pa-btn--info pa-btn--icon-only" title="Info"><i class="fa-solid fa-circle-info"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-2">Icon-only buttons with ripple and loading states (click to test):</p>
+                            <div class="pure-g">
+                                <div class="pure-u-1">
+                                    <div class="pa-btn-group">
+                                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Save" data-ripple data-loading-demo><i class="fa-solid fa-floppy-disk"></i></button>
+                                        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Refresh" data-ripple data-loading-demo><i class="fa-solid fa-rotate-right"></i></button>
+                                        <button class="pa-btn pa-btn--success pa-btn--icon-only" title="Upload" data-ripple data-loading-demo><i class="fa-solid fa-upload"></i></button>
+                                        <button class="pa-btn pa-btn--warning pa-btn--icon-only" title="Download" data-ripple data-loading-demo><i class="fa-solid fa-download"></i></button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--icon-only" title="Delete" data-ripple data-loading-demo><i class="fa-solid fa-trash"></i></button>
+                                        <button class="pa-btn pa-btn--info pa-btn--icon-only" title="Sync" data-ripple data-loading-demo><i class="fa-solid fa-arrows-rotate"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fixed Width Buttons -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Fixed Width Buttons</h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-1">Use fixed-width classes for consistent button sizing regardless of text length:</p>
+                    <div class="pa-btn-group pa-btn-group--vertical">
+                        <button class="pa-btn pa-btn--primary pa-btn--w-6x">
+                            <span class="pa-btn__icon">✓</span>
+                            OK
+                        </button>
+                        <button class="pa-btn pa-btn--success pa-btn--w-6x">
+                            <span class="pa-btn__icon">→</span>
+                            Save
+                        </button>
+                        <button class="pa-btn pa-btn--secondary pa-btn--w-6x">
+                            <span class="pa-btn__icon">×</span>
+                            Cancel
+                        </button>
+                    </div>
+
+                    <h4 style="margin-top: 1.5rem;">Different Width Multipliers (1x = 1rem)</h4>
+                    <div class="pa-btn-group pa-btn-group--vertical">
+                        <button class="pa-btn pa-btn--primary pa-btn--w-3x">
+                            <span class="pa-btn__icon">📄</span>
+                            3x (3rem)
+                        </button>
+                        <button class="pa-btn pa-btn--primary pa-btn--w-5x">
+                            <span class="pa-btn__icon">📄</span>
+                            5x (5rem)
+                        </button>
+                        <button class="pa-btn pa-btn--primary pa-btn--w-7x">
+                            <span class="pa-btn__icon">📄</span>
+                            7x (7rem)
+                        </button>
+                        <button class="pa-btn pa-btn--primary pa-btn--w-9x">
+                            <span class="pa-btn__icon">📄</span>
+                            9x (9rem)
+                        </button>
+                        <button class="pa-btn pa-btn--primary pa-btn--w-10x">
+                            <span class="pa-btn__icon">📄</span>
+                            10x (10rem)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button Text Alignment (Two Column Layout) -->
+            <div class="pure-g">
+                <!-- Left Column: Text Icons -->
+                <div class="pure-u-1 pure-u-lg-1-2">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Button Text Alignment</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="mb-1">Control text alignment within fixed-width buttons:</p>
+
+                            <h4>Left Aligned (icon has no left padding)</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-8x pa-btn--align-left">
+                                    <span class="pa-btn__icon">✓</span>
+                                    Save
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-8x pa-btn--align-left">
+                                    <span class="pa-btn__icon">→</span>
+                                    Continue
+                                </button>
+                                <button class="pa-btn pa-btn--secondary pa-btn--w-8x pa-btn--align-left">
+                                    <span class="pa-btn__icon">×</span>
+                                    Cancel
+                                </button>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">Right Aligned (icon has no right padding)</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-8x pa-btn--align-right">
+                                    Save
+                                    <span class="pa-btn__icon">✓</span>
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-8x pa-btn--align-right">
+                                    Continue
+                                    <span class="pa-btn__icon">→</span>
+                                </button>
+                                <button class="pa-btn pa-btn--secondary pa-btn--w-8x pa-btn--align-right">
+                                    Cancel
+                                    <span class="pa-btn__icon">×</span>
+                                </button>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">Center Aligned</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-8x pa-btn--align-center">
+                                    <span class="pa-btn__icon">✓</span>
+                                    Save
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-8x pa-btn--align-center">
+                                    Continue
+                                </button>
+                                <button class="pa-btn pa-btn--secondary pa-btn--w-8x pa-btn--align-center">
+                                    Cancel
+                                </button>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">Justified</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-8x pa-btn--align-justify">
+                                    <span class="pa-btn__icon">✓</span>
+                                    Save
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-8x pa-btn--align-justify">
+                                    <span class="pa-btn__icon">→</span>
+                                    Continue
+                                </button>
+                                <button class="pa-btn pa-btn--secondary pa-btn--w-8x pa-btn--align-justify">
+                                    <span class="pa-btn__icon">×</span>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Font Awesome Icons -->
+                <div class="pure-u-1 pure-u-lg-1-2">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Font Awesome Icons</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="mb-1">Demonstrating Font Awesome icons with alignments:</p>
+
+                            <h4>Left Aligned</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-10x pa-btn--align-left">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-floppy-disk"></i></span>
+                                    Save Changes
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-10x pa-btn--align-left">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-check"></i></span>
+                                    Approve
+                                </button>
+                                <button class="pa-btn pa-btn--danger pa-btn--w-10x pa-btn--align-left">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-trash"></i></span>
+                                    Delete
+                                </button>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">Right Aligned</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-10x pa-btn--align-right">
+                                    Save Changes
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-floppy-disk"></i></span>
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-10x pa-btn--align-right">
+                                    Continue
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-arrow-right"></i></span>
+                                </button>
+                                <button class="pa-btn pa-btn--secondary pa-btn--w-10x pa-btn--align-right">
+                                    Settings
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-gear"></i></span>
+                                </button>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">Center Aligned</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-10x pa-btn--align-center">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-upload"></i></span>
+                                    Upload File
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-10x pa-btn--align-center">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-plus"></i></span>
+                                    Add New
+                                </button>
+                                <button class="pa-btn pa-btn--info pa-btn--w-10x pa-btn--align-center">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    Search
+                                </button>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">Justified</h4>
+                            <div class="pa-btn-group pa-btn-group--vertical">
+                                <button class="pa-btn pa-btn--primary pa-btn--w-10x pa-btn--align-justify">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-user"></i></span>
+                                    Profile
+                                </button>
+                                <button class="pa-btn pa-btn--success pa-btn--w-10x pa-btn--align-justify">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-envelope"></i></span>
+                                    Messages
+                                </button>
+                                <button class="pa-btn pa-btn--danger pa-btn--w-10x pa-btn--align-justify">
+                                    <span class="pa-btn__icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                                    Logout
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -259,26 +492,18 @@
 
                 function addLoadingDemo(button) {
                     const originalHTML = button.innerHTML;
-
-                    // Store original dimensions
                     const originalWidth = button.offsetWidth;
                     const originalHeight = button.offsetHeight;
 
                     button.addEventListener('click', function() {
-                        // Prevent multiple clicks
                         if (this.classList.contains('pa-btn--loading')) return;
 
-                        // Store dimensions as CSS custom property
-                        this.style.setProperty('--btn-min-width', originalWidth + 'px');
+                        // Lock dimensions to prevent layout shift
+                        this.style.width = originalWidth + 'px';
                         this.style.minHeight = originalHeight + 'px';
 
-                        // Wrap original content and add spinner
-                        this.innerHTML = `
-                            <span class="pa-btn__content">${originalHTML}</span>
-                            <span class="pa-btn__spinner"></span>
-                        `;
-
-                        // Add loading state
+                        // Replace content with spinner
+                        this.innerHTML = `<span class="pa-btn__spinner"></span>`;
                         this.classList.add('pa-btn--loading');
                         this.disabled = true;
 
@@ -286,13 +511,10 @@
                         const loadingTime = Math.random() * 2000 + 1000;
 
                         setTimeout(() => {
-                            // Remove loading state
                             this.classList.remove('pa-btn--loading');
                             this.innerHTML = originalHTML;
                             this.disabled = false;
-
-                            // Clear inline styles
-                            this.style.removeProperty('--btn-min-width');
+                            this.style.removeProperty('width');
                             this.style.removeProperty('min-height');
                         }, loadingTime);
                     });

@@ -156,12 +156,18 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 // 5. Import core framework styles (will use all our SCSS variables)
 @import '../core';
 
+// 5b. Import utility classes
+@import '../utilities';
+
 // 6. Audi-specific styling overrides
 .pa-btn--primary {
   font-weight: $font-weight-bold;
   text-transform: uppercase;
-  letter-spacing: $spacing-xs;
   border-radius: 0 !important; // Sharp edges for German precision
+}
+
+.pa-btn--secondary {
+  border-color: $audi-gray-lightest !important; // Lighter border for better visibility
 }
 
 .pa-card {
@@ -173,7 +179,7 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 // Sidebar active link styling
 .pa-sidebar__link--active {
   border-right: none !important;
-  border-left: 3px solid $accent-color !important;
+  border-left: $border-width-thick solid $accent-color !important;
   color: $accent-color !important;
 }
 

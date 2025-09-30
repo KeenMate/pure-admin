@@ -34,14 +34,27 @@ body {
   color: $text-primary;
   background-color: $primary-bg;
   line-height: $line-height-base;
+
+  // Background pattern for constrained layouts
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 20% 80%, rgba($accent-color, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba($accent-color, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
 }
 
-// Header - Fixed at top, full width
+// Header - Sticky at top, within container
 .admin-header {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   height: $header-height;
   background-color: $header-bg;
   border-bottom: $border-width-base solid $border-color;
@@ -191,19 +204,19 @@ body {
   }
 }
 
-// Sidebar - Fixed left, between header and footer
+// Sidebar - Absolute positioned, flows with container
 .pa-sidebar {
-  position: fixed;
+  position: absolute;
   top: $header-height;
   left: 0;
   width: $sidebar-width;
   max-width: $sidebar-max-width;
   bottom: $footer-height;
   background-color: $sidebar-bg;
-  border-right: 1px solid $border-color;
+  border-right: $border-width-base solid $border-color;
   z-index: 900;
   overflow-y: auto;
-  transition: transform $transition-normal $easing-snappy;
+  transition: left $transition-normal $easing-snappy;
 
   &__nav {
     padding: $spacing-base 0;
@@ -298,7 +311,7 @@ body {
     transition: max-height $transition-normal $easing-snappy;
 
     &--open {
-      max-height: 500px; // Generous height for animation
+      max-height: $submenu-max-height; // Generous height for animation
     }
   }
 
@@ -358,7 +371,7 @@ body {
   &::-webkit-scrollbar-thumb {
     background: $border-color;
     border-radius: $border-radius;
-    border: 1px solid $sidebar-bg;
+    border: $border-width-base solid $sidebar-bg;
 
     &:hover {
       background: $accent-color;
@@ -378,7 +391,7 @@ body {
 // Sidebar hidden state
 .sidebar-hidden {
   .pa-sidebar {
-    transform: translateX(-100%);
+    left: -$sidebar-width; // Move left by sidebar width instead of transform
   }
 
   .admin-content {
@@ -390,12 +403,10 @@ body {
   }
 }
 
-// Main Content - Full page scroll
+// Main Content - Relative positioning, flows with container
 .admin-content {
-  margin-top: $header-height;
   margin-left: $sidebar-width;
-  margin-bottom: $footer-height;
-  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+  flex: 1; // Take remaining space
   // Transition only when page is loaded to prevent FOUC
   body.loaded & {
     transition: margin-left $transition-normal $easing-snappy;
@@ -411,30 +422,66 @@ body {
     font-weight: $font-weight-semibold;
     color: $text-primary;
   }
+}
 
-  h3 {
-    margin: 1rem 0 0.5rem 0;
-    font-size: $font-size-xl;
-    font-weight: $font-weight-semibold;
-    color: $text-primary;
+// Container wrapper - centers entire layout (header, sidebar, content, footer)
+.pa-layout-container {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $primary-bg;
+  overflow: hidden; // Hide sidebar when it's outside container
+
+  // PureCSS breakpoints: sm=568px, md=768px, lg=1024px, xl=1280px
+  &--sm {
+    max-width: $layout-container-sm; // ~768px
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
   }
 
-  p {
-    margin: 0 0 0.5rem 0;
-    color: $text-secondary;
+  &--md {
+    max-width: $layout-container-md; // ~1024px
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+  }
+
+  &--lg {
+    max-width: $layout-container-lg; // ~1280px
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+  }
+
+  &--xl {
+    max-width: $layout-container-xl; // ~1600px
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.12);
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+  }
+
+  &--2xl {
+    max-width: $layout-container-2xl; // ~1920px
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.12);
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+  }
+
+  &--fluid {
+    max-width: none;
   }
 }
 
-// Footer - Fixed at bottom, full width
+// Footer - Relative positioning at bottom
 .admin-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   height: $footer-height;
   background-color: $footer-bg;
-  border-top: 1px solid $border-color;
-  z-index: 1000;
+  border-top: $border-width-base solid $border-color;
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -451,7 +498,7 @@ body {
 // Demo content styles
 .content-section {
   background: $card-bg;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   border-radius: $border-radius-lg;
   padding: $spacing-base;
   margin-bottom: $spacing-base;
@@ -489,7 +536,7 @@ body {
   // Mobile: Auto-hide sidebar, content takes full width
   body:not(.sidebar-visible) {
     .pa-sidebar {
-      transform: translateX(-100%);
+      left: -$sidebar-width;
     }
 
     .admin-content {
@@ -508,7 +555,6 @@ body {
       width: 100vw;
       z-index: 1050;
       background-color: $sidebar-bg;
-      transform: translateX(0);
     }
 
     .admin-content {
@@ -643,7 +689,7 @@ body {
 
 .component-card {
   background: $card-bg;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   border-radius: $border-radius-lg;
   padding: $spacing-base;
   text-decoration: none;
@@ -697,7 +743,7 @@ body {
 
 // Quick Examples
 .quick-examples {
-  margin: 2rem 0;
+  margin: $section-margin-v 0;
 
   h3 {
     color: $text-primary;
@@ -706,7 +752,7 @@ body {
 }
 
 .example-section {
-  margin: 1.5rem 0;
+  margin: $section-margin-sm 0;
 
   h4 {
     color: $text-primary;
@@ -721,7 +767,7 @@ body {
 // Cards
 .pa-card {
   background: $card-bg;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   border-radius: $border-radius-lg;
   margin-bottom: $spacing-base;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -734,7 +780,7 @@ body {
   }
 
   &__header {
-    padding: 0.5rem 1rem;
+    padding: $card-header-padding-v $card-header-padding-h;
     border-top-left-radius: $border-radius-lg;
     border-top-right-radius: $border-radius-lg;
     border-bottom: $border-width-base solid $border-color;
@@ -788,7 +834,7 @@ body {
   }
 
   &__footer {
-    padding: 0.75rem 1rem;
+    padding: $card-footer-padding-v $card-footer-padding-h;
     border-top: $border-width-base solid $border-color;
     border-bottom-left-radius: $border-radius-lg;
     border-bottom-right-radius: $border-radius-lg;
@@ -889,7 +935,7 @@ body {
   }
 
   &__tab {
-    padding: 0.75rem 1rem;
+    padding: $card-footer-padding-v $card-footer-padding-h;
     border: none;
     background: none;
     color: $text-secondary;
@@ -924,8 +970,8 @@ body {
   gap: $spacing-base;
 
   &__icon {
-    width: 3rem;
-    height: 3rem;
+    width: $stat-icon-size;
+    height: $stat-icon-size;
     border-radius: $border-radius-lg;
     display: flex;
     align-items: center;
@@ -968,6 +1014,148 @@ body {
     color: $text-secondary;
     font-size: $font-size-sm;
   }
+
+  // Hero variant - big focus on the number
+  &--hero {
+    display: block;
+    text-align: center;
+    padding: $spacing-lg;
+
+    .pa-stat__label {
+      font-size: $font-size-sm;
+      text-transform: uppercase;
+      letter-spacing: $stat-label-letter-spacing;
+      font-weight: $font-weight-medium;
+      color: $text-secondary;
+      margin-bottom: $spacing-sm;
+    }
+
+    .pa-stat__value {
+      font-size: $font-size-4xl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      line-height: 1;
+      margin-bottom: $spacing-sm;
+    }
+
+    .pa-stat__change {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+
+      &--positive {
+        color: #28a745;
+      }
+
+      &--negative {
+        color: #dc3545;
+      }
+
+      &--neutral {
+        color: $text-secondary;
+      }
+    }
+  }
+
+  // Square variant - compact square with big number and shadowed symbol
+  &--square {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-lg;
+    min-height: $stat-square-min-size;
+    min-width: $stat-square-min-size;
+    position: relative;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: $spacing-sm;
+    transition: transform $transition-fast $easing-snappy, box-shadow $transition-fast $easing-snappy;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .pa-stat__number {
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      color: inherit;
+      z-index: 2;
+      position: relative;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.25),
+                   0 2px 4px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+
+    .pa-stat__symbol {
+      font-size: clamp(4rem, 10vw, 6rem);
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      opacity: 0.12;
+      color: inherit;
+      position: absolute;
+      right: $spacing-lg;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .pa-stat__label {
+      position: absolute;
+      bottom: $spacing-base;
+      left: $spacing-lg;
+      font-size: $font-size-xs;
+      text-transform: uppercase;
+      letter-spacing: $stat-label-letter-spacing;
+      font-weight: $font-weight-medium;
+      color: inherit;
+      opacity: 0.8;
+      z-index: 2;
+      max-width: calc(100% - #{$spacing-lg * 2});
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    // Color variants
+    &.pa-stat--primary {
+      background-color: $accent-color;
+      color: #ffffff;
+    }
+
+    &.pa-stat--success {
+      background-color: #28a745;
+      color: #ffffff;
+    }
+
+    &.pa-stat--info {
+      background-color: #17a2b8;
+      color: #ffffff;
+    }
+
+    &.pa-stat--warning {
+      background-color: #ffc107;
+      color: #212529;
+    }
+
+    &.pa-stat--danger {
+      background-color: #dc3545;
+      color: #ffffff;
+    }
+
+    &.pa-stat--secondary {
+      background-color: $text-secondary;
+      color: #ffffff;
+    }
+  }
+}
+
+// KPI Grid - spacing for square stats
+.pa-kpi-grid {
+  margin: -#{$spacing-sm};
 }
 
 // Tables
@@ -1000,7 +1188,7 @@ body {
 // Badges
 .pa-badge {
   display: inline-block;
-  padding: 0.125rem 0.5rem;
+  padding: $badge-padding-v $badge-padding-h;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   border-radius: $border-radius;
@@ -1058,7 +1246,7 @@ body {
     cursor: pointer;
     transition: background-color 0.15s ease;
     user-select: none;
-    min-width: 3rem;
+    min-width: $stat-icon-size;
 
     &:hover {
       background-color: #dee2e6;
@@ -1484,7 +1672,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    padding: $card-footer-padding-v $card-footer-padding-h;
     border-bottom: $border-width-base solid $border-color;
 
     &:last-child {
@@ -1497,8 +1685,8 @@ body {
   }
 
   &__avatar {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: $btn-icon-only-size;
+    height: $btn-icon-only-size;
     border-radius: 50%;
     background-color: $primary-bg;
     display: flex;
@@ -1583,12 +1771,12 @@ body {
   }
 
   &--xs {
-    padding: 0.125rem 0.5rem;
+    padding: $badge-padding-v $badge-padding-h;
     font-size: $font-size-xs;
   }
 
   &--sm {
-    padding: 0.375rem 0.75rem;
+    padding: $btn-padding-sm-v $btn-padding-sm-h;
     font-size: $font-size-sm;
   }
 
@@ -1598,7 +1786,7 @@ body {
   }
 
   &--xl {
-    padding: 1rem 2rem;
+    padding: $btn-padding-xl-v $btn-padding-xl-h;
     font-size: $font-size-lg;
   }
 
@@ -1747,22 +1935,17 @@ body {
     position: relative;
     pointer-events: none;
 
-    // Maintain button dimensions during loading
-    min-width: $btn-min-width;
-
-    .pa-btn__content {
-      opacity: 0;
-    }
-
     .pa-btn__spinner {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 1rem;
-      height: 1rem;
-      border: 2px solid transparent;
-      border-top: 2px solid currentColor;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: $spinner-size;
+      height: $spinner-size;
+      border: $spinner-border-width solid transparent;
+      border-top: $spinner-border-width solid currentColor;
       border-radius: 50%;
       animation: pa-spin 1s linear infinite;
     }
@@ -1788,8 +1971,8 @@ body {
     }
 
     &.pa-btn--ripple-active::before {
-      width: 300px;
-      height: 300px;
+      width: $ripple-size;
+      height: $ripple-size;
     }
   }
 
@@ -1801,8 +1984,8 @@ body {
 
   // Icon buttons
   &--icon-only {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: $btn-icon-only-size;
+    height: $btn-icon-only-size;
     padding: 0;
     display: flex;
     align-items: center;
@@ -1810,55 +1993,112 @@ body {
   }
 
   &__icon {
-    margin-right: 0.5rem;
+    margin-right: $btn-icon-margin;
 
     &:last-child {
       margin-right: 0;
-      margin-left: 0.5rem;
-    }
-  }
-}
-
-// Button Groups
-.pa-btn-group {
-  display: flex;
-
-  .pa-btn {
-    border-radius: 0;
-    margin-left: -1px;
-
-    &:first-child {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
-      margin-left: 0;
-    }
-
-    &:last-child {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-    }
-
-    &:hover,
-    &:focus {
-      z-index: 1;
+      margin-left: $btn-icon-margin;
     }
   }
 
-  &--vertical {
-    flex-direction: column;
+  // Buttons with icons align left like sidebar menu items
+  &:has(.pa-btn__icon) {
+    text-align: left;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
 
-    .pa-btn {
-      margin-left: 0;
-      margin-top: -1px;
-
-      &:first-child {
-        border-radius: $border-radius $border-radius 0 0;
-        margin-top: 0;
-      }
+    .pa-btn__icon {
+      width: $sidebar-icon-size;
+      min-width: $sidebar-icon-size;
+      height: $sidebar-icon-size;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin: 0;
 
       &:last-child {
-        border-radius: 0 0 $border-radius $border-radius;
+        margin: 0;
       }
+    }
+  }
+
+  // Fixed width buttons - multipliers of 1rem
+  &--w-1x {
+    min-width: $spinner-size;
+  }
+
+  &--w-2x {
+    min-width: 2rem;
+  }
+
+  &--w-3x {
+    min-width: $stat-icon-size;
+  }
+
+  &--w-4x {
+    min-width: 4rem;
+  }
+
+  &--w-5x {
+    min-width: 5rem;
+  }
+
+  &--w-6x {
+    min-width: 6rem;
+  }
+
+  &--w-7x {
+    min-width: 7rem;
+  }
+
+  &--w-8x {
+    min-width: $stat-square-min-size;
+  }
+
+  &--w-9x {
+    min-width: 9rem;
+  }
+
+  &--w-10x {
+    min-width: 10rem;
+  }
+
+  // Content alignment modifiers (position content within button)
+  // Button always keeps its horizontal padding (0.75rem on both sides)
+  // These classes control content position and remove icon padding on aligned sides
+
+  &--align-left {
+    justify-content: flex-start;
+
+    .pa-btn__icon {
+      padding-left: 0;
+    }
+  }
+
+  &--align-right {
+    justify-content: flex-end;
+
+    .pa-btn__icon {
+      padding-right: 0;
+    }
+  }
+
+  &--align-center {
+    justify-content: center;
+  }
+
+  &--align-justify {
+    justify-content: space-between;
+
+    .pa-btn__icon:first-child {
+      padding-left: 0;
+    }
+
+    // Remove padding from last element (text or icon)
+    > *:last-child {
+      padding-right: 0;
     }
   }
 }
@@ -1872,7 +2112,7 @@ body {
 
   &--vertical {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
   }
 }
 
@@ -1889,9 +2129,9 @@ body {
 // Alerts
 .pa-alert {
   position: relative;
-  padding: 0.75rem 1rem;
+  padding: $card-footer-padding-v $card-footer-padding-h;
   margin-bottom: $spacing-base;
-  border: 1px solid transparent;
+  border: $border-width-base solid transparent;
   border-radius: $border-radius;
   font-size: $font-size-sm;
   display: flex;
@@ -1906,53 +2146,53 @@ body {
   }
   gap: $spacing-sm;
 
-  // Basic alert variants
+  // Basic alert variants - using theme colors with subtle backgrounds
   &--primary {
-    color: #084298;
-    background-color: #cff4fc;
-    border-color: #b6effb;
+    color: $accent-color;
+    background-color: rgba($accent-color, 0.08);
+    border-color: rgba($accent-color, 0.2);
   }
 
   &--secondary {
-    color: #41464b;
-    background-color: #e2e3e5;
-    border-color: #d3d6d8;
+    color: $text-secondary;
+    background-color: rgba($text-secondary, 0.05);
+    border-color: $border-color;
   }
 
   &--success {
-    color: #0f5132;
-    background-color: #d1edcc;
-    border-color: #badbcc;
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.08);
+    border-color: rgba(40, 167, 69, 0.2);
   }
 
   &--danger {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.08);
+    border-color: rgba(220, 53, 69, 0.2);
   }
 
   &--warning {
-    color: #664d03;
-    background-color: #fff3cd;
-    border-color: #ffecb5;
+    color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.08);
+    border-color: rgba(255, 193, 7, 0.2);
   }
 
   &--info {
-    color: #055160;
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.08);
+    border-color: rgba(23, 162, 184, 0.2);
   }
 
   &--light {
-    color: #636464;
-    background-color: #fefefe;
-    border-color: #fdfdfe;
+    color: $text-primary;
+    background-color: rgba($text-primary, 0.03);
+    border-color: $border-color;
   }
 
   &--dark {
-    color: #141619;
-    background-color: #d3d3d4;
-    border-color: #bcbebf;
+    color: $text-primary;
+    background-color: rgba($text-primary, 0.08);
+    border-color: rgba($text-primary, 0.2);
   }
 
   // Outline variants
@@ -2036,7 +2276,7 @@ body {
     top: 0;
     right: 0;
     z-index: 2;
-    padding: 0.75rem 1rem;
+    padding: $card-footer-padding-v $card-footer-padding-h;
     background: none;
     border: none;
     font-size: $font-size-xl;
@@ -2131,7 +2371,7 @@ body {
 .pa-input {
   width: 100%;
   padding: 0.5rem 0.75rem;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   border-radius: $border-radius;
   font-size: $font-size-sm;
   background-color: $input-bg;
@@ -2148,7 +2388,7 @@ body {
 .pa-select {
   width: 100%;
   padding: 0.45rem 0.75rem;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   border-radius: $border-radius;
   font-size: $font-size-sm;
   background-color: $input-bg;
@@ -2165,7 +2405,7 @@ body {
 .pa-textarea {
   width: 100%;
   padding: 0.5rem 0.75rem;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   border-radius: $border-radius;
   font-size: $font-size-sm;
   background-color: $input-bg;
@@ -2203,7 +2443,7 @@ body {
 
 .pa-input--lg,
 .pa-select--lg {
-  padding: 0.75rem 1rem;
+  padding: $card-footer-padding-v $card-footer-padding-h;
   font-size: $font-size-base;
 }
 
@@ -2347,88 +2587,21 @@ body {
 
   input {
     margin-top: 0.125rem;
-    width: 1rem;
-    height: 1rem;
+    width: $spinner-size;
+    height: $spinner-size;
     cursor: pointer;
     flex-shrink: 0;
   }
 }
 
-// Alerts
-.pa-alert {
-  padding: 0.75rem 1rem;
-  margin-bottom: $spacing-base;
-  border: 1px solid transparent;
-  border-radius: $border-radius;
-  position: relative;
-
-  // Remove margins when first/last child in card body
-  .pa-card__body &:first-child {
-    margin-top: 0;
-  }
-  .pa-card__body &:last-child {
-    margin-bottom: 0;
-  }
-
-  strong {
-    font-weight: $font-weight-semibold;
-  }
-
-  &--success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
-  }
-
-  &--info {
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-    color: #0c5460;
-  }
-
-  &--warning {
-    background-color: #fff3cd;
-    border-color: #ffeaa7;
-    color: #856404;
-  }
-
-  &--danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
-  }
-
-  &--primary {
-    background-color: #cfe2ff;
-    border-color: #b6d4fe;
-    color: #084298;
-  }
-
-  &--secondary {
-    background-color: #e2e3e5;
-    border-color: #d3d6d8;
-    color: #41464b;
-  }
-
-  &--light {
-    background-color: #fefefe;
-    border-color: #fdfdfe;
-    color: #636464;
-  }
-
-  &--dark {
-    background-color: #d3d3d4;
-    border-color: #bcbcbd;
-    color: #141619;
-  }
-}
+// Duplicate alert definition removed - consolidated above with theme-aware colors
 
 
 // Tables
 .pa-table-container {
   overflow-x: auto;
   border-radius: $border-radius;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   background-color: $table-bg;
 }
 
@@ -2634,10 +2807,10 @@ body {
   }
 
   &__spinner {
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid $border-color;
-    border-top: 2px solid $accent-color;
+    width: $spinner-size;
+    height: $spinner-size;
+    border: $spinner-border-width solid $border-color;
+    border-top: $spinner-border-width solid $accent-color;
     border-radius: 50%;
   }
 
@@ -2654,7 +2827,7 @@ body {
 
 // Virtual Table Styles
 .pa-virtual-table {
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   border-radius: $border-radius;
   height: 400px;
   overflow: auto;
@@ -2676,7 +2849,7 @@ body {
 .pa-virtual-table__header-cell {
   padding: 0.3rem 0.5rem;
   font-weight: $font-weight-semibold;
-  border-right: 1px solid $border-color;
+  border-right: $border-width-base solid $border-color;
   background: $table-header-bg;
   color: $text-primary;
 }
@@ -2692,7 +2865,7 @@ body {
 .pa-virtual-table__row {
   display: grid;
   grid-template-columns: 80px 1fr 1fr 120px 100px 100px;
-  border-bottom: 1px solid $border-color;
+  border-bottom: $border-width-base solid $border-color;
   background: $table-bg;
 
   // Setup for hover accent border (same as pa-table)
@@ -2717,7 +2890,7 @@ body {
 
 .pa-virtual-table__cell {
   padding: 0.3rem 0.5rem;
-  border-right: 1px solid $border-color;
+  border-right: $border-width-base solid $border-color;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2785,8 +2958,8 @@ body {
     padding: $spacing-lg;
     width: 100%;
     height: 33.33vh; // Panel height is 1/3 of screen
-    min-height: 300px;
-    max-height: 500px;
+    min-height: $ripple-size;
+    max-height: $submenu-max-height;
     overflow-y: auto;
   }
 
@@ -2846,7 +3019,7 @@ body {
     font-size: $font-size-sm;
 
     input[type="checkbox"] {
-      margin-right: 0.5rem;
+      margin-right: $btn-icon-margin;
       cursor: pointer;
     }
 
@@ -2911,7 +3084,11 @@ body {
 .font-family-system {
   font-family: $body-font-family;
 
-  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
     font-family: inherit;
   }
 }
@@ -2919,7 +3096,11 @@ body {
 .font-family-sans {
   font-family: $body-font-family;
 
-  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
     font-family: inherit;
   }
 }
@@ -2927,7 +3108,11 @@ body {
 .font-family-serif {
   font-family: Georgia, "Times New Roman", Times, serif;
 
-  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
     font-family: inherit;
   }
 }
@@ -2935,7 +3120,11 @@ body {
 .font-family-mono {
   font-family: "Courier New", Courier, monospace;
 
-  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
     font-family: inherit;
   }
 }
@@ -3164,7 +3353,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    padding: $card-footer-padding-v $card-footer-padding-h;
     color: $text-primary;
     text-decoration: none;
     border-radius: $border-radius;
@@ -3224,7 +3413,7 @@ body {
 *::-webkit-scrollbar-thumb {
   background: $border-color;
   border-radius: $border-radius;
-  border: 1px solid $primary-bg;
+  border: $border-width-base solid $primary-bg;
 
   &:hover {
     background: $accent-color;
@@ -3261,7 +3450,7 @@ body {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: $border-radius;
-  border: 1px solid transparent;
+  border: $border-width-base solid transparent;
   transition: all $transition-fast $easing-snappy;
 
   &__icon {
@@ -3276,7 +3465,7 @@ body {
   }
 
   &--lg {
-    padding: 0.375rem 0.75rem;
+    padding: $btn-padding-sm-v $btn-padding-sm-h;
     font-size: $font-size-sm;
   }
 
@@ -3340,7 +3529,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.375rem 0.75rem;
+  padding: $btn-padding-sm-v $btn-padding-sm-h;
   background-color: $accent-light;
   color: $text-primary;
   font-size: $font-size-sm;
@@ -3348,7 +3537,7 @@ body {
   line-height: 1.2;
   text-decoration: none;
   border-radius: $border-radius;
-  border: 1px solid $border-color;
+  border: $border-width-base solid $border-color;
   transition: all $transition-fast $easing-snappy;
 
   &:hover {
@@ -3363,7 +3552,7 @@ body {
   }
 
   &--lg {
-    padding: 0.5rem 1rem;
+    padding: $card-header-padding-v $card-header-padding-h;
     font-size: $font-size-base;
   }
 
@@ -3591,7 +3780,7 @@ body {
 // Modal header
 .pa-modal__header {
   padding: $modal-header-padding;
-  border-bottom: 1px solid $border-color;
+  border-bottom: $border-width-base solid $border-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3644,7 +3833,7 @@ body {
 // Modal footer
 .pa-modal__footer {
   padding: $modal-footer-padding;
-  border-top: 1px solid $border-color;
+  border-top: $border-width-base solid $border-color;
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
@@ -3766,7 +3955,7 @@ body {
 
   .pa-modal__header,
   .pa-modal__footer {
-    padding: 0.75rem 1rem;
+    padding: $card-footer-padding-v $card-footer-padding-h;
   }
 
   .pa-modal__body {

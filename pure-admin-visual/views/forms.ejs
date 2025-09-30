@@ -1,9 +1,19 @@
             <p>Complete set of form elements with various styles and states for data input.</p>
 
-            <!-- Basic Form Elements -->
+            <!-- Form with Buttons in Header -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>Basic Form Elements - Two Column Layout</h3>
+                    <h3>User Profile</h3>
+                    <div class="pa-card__header-actions">
+                        <button type="button" class="pa-btn pa-btn--secondary pa-btn--sm">
+                            <span class="pa-btn__icon">×</span>
+                            Cancel
+                        </button>
+                        <button type="submit" class="pa-btn pa-btn--success pa-btn--sm">
+                            <span class="pa-btn__icon">✓</span>
+                            Save
+                        </button>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <form class="pa-form">
@@ -61,6 +71,92 @@
                                     <textarea id="textarea" class="pa-textarea" placeholder="Enter your message here..."></textarea>
                                 </div>
                             </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Form with Buttons in Footer -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Contact Information</h3>
+                </div>
+                <div class="pa-card__body">
+                    <form class="pa-form">
+                        <div class="pure-g">
+                            <div class="pure-u-1 pure-u-md-1-2">
+                                <div class="pa-form-group">
+                                    <label for="fname2">First Name</label>
+                                    <input type="text" id="fname2" class="pa-input" placeholder="John">
+                                </div>
+                            </div>
+
+                            <div class="pure-u-1 pure-u-md-1-2">
+                                <div class="pa-form-group">
+                                    <label for="lname2">Last Name</label>
+                                    <input type="text" id="lname2" class="pa-input" placeholder="Doe">
+                                </div>
+                            </div>
+
+                            <div class="pure-u-1">
+                                <div class="pa-form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" id="address" class="pa-input" placeholder="123 Main St">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="pa-card__footer">
+                    <button type="button" class="pa-btn pa-btn--secondary">
+                        <span class="pa-btn__icon">←</span>
+                        Back
+                    </button>
+                    <button type="button" class="pa-btn pa-btn--light">
+                        <span class="pa-btn__icon">🗑</span>
+                        Delete
+                    </button>
+                    <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+                        <button type="button" class="pa-btn pa-btn--secondary">Cancel</button>
+                        <button type="submit" class="pa-btn pa-btn--success">
+                            <span class="pa-btn__icon">✓</span>
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form with Buttons in Body -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Quick Settings</h3>
+                </div>
+                <div class="pa-card__body">
+                    <form class="pa-form">
+                        <div class="pa-form-group">
+                            <label for="setting1">Setting Name</label>
+                            <input type="text" id="setting1" class="pa-input" placeholder="Enter value">
+                        </div>
+
+                        <div class="pa-form-group">
+                            <label for="setting2">Notification Preference</label>
+                            <select id="setting2" class="pa-select">
+                                <option>All notifications</option>
+                                <option>Important only</option>
+                                <option>None</option>
+                            </select>
+                        </div>
+
+                        <div class="pa-btn-group">
+                            <button type="button" class="pa-btn pa-btn--secondary">Cancel</button>
+                            <button type="button" class="pa-btn pa-btn--primary">
+                                <span class="pa-btn__icon">📄</span>
+                                Preview
+                            </button>
+                            <button type="submit" class="pa-btn pa-btn--success">
+                                <span class="pa-btn__icon">✓</span>
+                                Apply
+                            </button>
                         </div>
                     </form>
                 </div>

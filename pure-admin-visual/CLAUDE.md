@@ -33,7 +33,12 @@ This is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE
 ## Component Library
 - **Cards:** `.pa-card` with header/body/footer variants
 - **Buttons:** `.pa-btn` with size and style modifiers, grouped with `.pa-btn-group`
+  - Icon support with `.pa-btn__icon` wrapper for fixed-width icon containers
+  - Fixed-width classes: `pa-btn--w-1x` through `pa-btn--w-10x` (1rem to 10rem)
+  - Alignment classes: `pa-btn--align-left/right/center/justify`
+  - Horizontal padding: 0.75rem (configurable via `$btn-padding-h`)
 - **Forms:** `.pa-form` with comprehensive input types and states
+  - Button placement examples in card headers, footers, and body
 - **Alerts:** `.pa-alert` with dismissible and contextual variants
 - **Tables:** `.pa-table` with striped, compact, and responsive options
 - **Pager:** `.pa-pager` with left/center/right positioning and UTF-8 icons
@@ -107,5 +112,50 @@ This is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE
 - **No magic numbers:** Every spacing, font size, border uses named variables
 - **Consistent inheritance:** Font utilities respect theme fonts instead of overriding them
 - **Clean compilation:** No legacy CSS conflicts
+
+## Button System Enhancements (2025-01-30)
+**Major enhancement:** Complete button icon system with alignment control and fixed-width utilities.
+
+### **Button Icon System:**
+- **Icon wrapper pattern:** All button icons use `<span class="pa-btn__icon">` for consistent sizing
+- **Fixed-width icon container:** Icons get `$sidebar-icon-size` (1.5rem) width, aligning with sidebar pattern
+- **Auto left-alignment:** Buttons with icons automatically use flexbox left-alignment with fixed icon container
+- **Font Awesome 6 integration:** Added FA6 CDN and proper icon exclusions from font utility classes
+
+### **Fixed-Width Button Classes:**
+- **Width multipliers:** `pa-btn--w-1x` through `pa-btn--w-10x` for 1rem to 10rem button widths
+- **Uses min-width:** Allows buttons to grow if content exceeds specified width
+
+### **Button Alignment Classes:**
+- **`pa-btn--align-left`:** Content at left edge with `justify-content: flex-start`, icon has no left padding
+- **`pa-btn--align-right`:** Content at right edge with `justify-content: flex-end`, icon has no right padding
+- **`pa-btn--align-center`:** Content centered with `justify-content: center`, keeps all padding
+- **`pa-btn--align-justify`:** Content spread with `justify-content: space-between`, icon at left, text at right
+
+### **Button Padding Update:**
+- **Horizontal padding reduced:** Changed `$btn-padding-h` from 1rem to 0.75rem for more compact buttons
+- **Alignment classes preserve padding:** Button keeps 0.75rem padding; alignment controls content position within padded area
+
+### **SCSS Variable Consolidation (Phase 2):**
+Added comprehensive variables to eliminate remaining hardcoded values:
+- **Layout containers:** `$layout-container-sm/md/lg/xl/2xl` for centered layout widths
+- **Card padding:** `$card-header-padding-v/h`, `$card-footer-padding-v/h`
+- **Stats system:** `$stat-icon-size`, `$stat-square-min-size`, `$stat-label-letter-spacing`
+- **Badge system:** `$badge-padding-v/h`, `$composite-badge-min-label-width`
+- **Button system:** `$btn-padding-xs/xl`, `$btn-icon-only-size`, `$btn-icon-margin`
+- **Animation:** `$spinner-size`, `$spinner-border-width`, `$ripple-size`
+- **Utility spacing:** `$section-margin-v/sm`, `$submenu-max-height`
+
+### **Font Utility Class Fix:**
+- **Icon font exclusion:** Font utility classes (`.font-family-system/sans/serif/mono`) now exclude FA icons
+- **Selector pattern:** Use `:not([class*="fa-"])` to prevent overriding Font Awesome 6 Free font
+- **Affected elements:** Applied exclusions to `*` and `span` selectors
+
+### **Forms Page Updates:**
+- **Button placement examples:** Added three patterns for form buttons
+  - Header: Right-aligned with Cancel + Save (green save always last)
+  - Footer: Left actions + right save group with proper spacing
+  - Body: Inline `pa-btn-group` for form actions
+- **Icon integration:** All examples use proper `.pa-btn__icon` wrapper pattern
 
 Remember: User appreciates thorough, systematic work and clear communication! 🚀

@@ -16,7 +16,7 @@ app.set('layout', 'layout');
 // Add cookie parser middleware
 app.use(cookieParser());
 
-// Middleware to determine current theme
+// Middleware to determine current theme and container width
 app.use((req, res, next) => {
     const theme = req.query.theme || req.cookies.selectedTheme || 'audi';
     res.locals.currentTheme = theme;
@@ -24,6 +24,15 @@ app.use((req, res, next) => {
     // Set cookie if theme was changed via query param
     if (req.query.theme) {
         res.cookie('selectedTheme', theme, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    }
+
+    // Container width
+    const containerWidth = req.query.containerWidth || req.cookies.containerWidth || 'fluid';
+    res.locals.containerWidth = containerWidth;
+
+    // Set cookie if container width was changed via query param
+    if (req.query.containerWidth) {
+        res.cookie('containerWidth', containerWidth, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
     }
 
     next();
@@ -114,6 +123,14 @@ app.get('/modals', (req, res) => {
     res.render('modals', {
         pageTitle: 'Modal Windows',
         currentPage: 'modals',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
+app.get('/layouts', (req, res) => {
+    res.render('layouts', {
+        pageTitle: 'Layouts',
+        currentPage: 'layouts',
         currentTheme: res.locals.currentTheme
     });
 });
