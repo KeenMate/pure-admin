@@ -1,0 +1,330 @@
+        <div class="pa-layout-container">
+            <h1 class="mb-4">Tooltips & Popovers</h1>
+            <p class="mb-6">Hover tooltips for quick info, click popovers for rich interactive content.</p>
+
+            <div class="pure-g">
+                <!-- Left Column -->
+                <div class="pure-u-1 pure-u-lg-1-2">
+                    <!-- Tooltip Positions & Colors -->
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Tooltip Positions & Colors</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pure-g">
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip" data-tooltip="Tooltip on top">Top</span>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip pa-tooltip--right" data-tooltip="Tooltip on right">Right</span>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Tooltip on bottom">Bottom</span>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip pa-tooltip--left" data-tooltip="Tooltip on left">Left</span>
+                                </div>
+                            </div>
+                            <hr class="my-3">
+                            <div class="pure-g">
+                                <div class="pure-u-1-3 pure-u-md-1-5 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip" data-tooltip="Default dark">Default</span>
+                                </div>
+                                <div class="pure-u-1-3 pure-u-md-1-5 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip pa-tooltip--primary" data-tooltip="Primary blue">Primary</span>
+                                </div>
+                                <div class="pure-u-1-3 pure-u-md-1-5 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip pa-tooltip--success" data-tooltip="Success green">Success</span>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-5 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip pa-tooltip--warning" data-tooltip="Warning yellow">Warning</span>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-5 text-center mb-3" style="padding: 1rem;">
+                                    <span class="pa-tooltip pa-tooltip--danger" data-tooltip="Danger red">Danger</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons with Tooltips -->
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Buttons & Icon-Only</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="mb-3 text-sm">Regular buttons:</p>
+                            <div class="text-center mb-4">
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--sm pa-btn--primary pa-tooltip pa-tooltip--left" data-tooltip="Save your changes">
+                                        <i class="fa-solid fa-floppy-disk"></i> Save
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary pa-tooltip pa-tooltip--bottom" data-tooltip="Cancel and go back">
+                                        <i class="fa-solid fa-xmark"></i> Cancel
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--danger pa-tooltip pa-tooltip--bottom" data-tooltip="Delete this item">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="mb-3 text-sm">Icon-only buttons:</p>
+                            <div class="text-center">
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--sm pa-btn--primary pa-btn--icon-only pa-tooltip pa-tooltip--bottom" data-tooltip="Edit" title="">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary pa-btn--icon-only pa-tooltip pa-tooltip--bottom" data-tooltip="Copy" title="">
+                                        <i class="fa-solid fa-copy"></i>
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--success pa-btn--icon-only pa-tooltip pa-tooltip--bottom" data-tooltip="Download" title="">
+                                        <i class="fa-solid fa-download"></i>
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--warning pa-btn--icon-only pa-tooltip pa-tooltip--bottom" data-tooltip="Settings" title="">
+                                        <i class="fa-solid fa-gear"></i>
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--danger pa-btn--icon-only pa-tooltip pa-tooltip--bottom" data-tooltip="Delete" title="">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--info pa-btn--icon-only pa-tooltip pa-tooltip--bottom" data-tooltip="Info" title="">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Multiline Tooltips -->
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Multiline Tooltips</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="mb-3 text-sm">Use <code>.pa-tooltip--multiline</code> for longer text (20rem width, left-aligned):</p>
+                            <div class="text-center">
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--sm pa-btn--primary pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
+                                            data-tooltip="This button will save your changes to the database. Make sure you have reviewed all fields before clicking. Changes cannot be undone after saving.">
+                                        <i class="fa-solid fa-floppy-disk"></i> Save
+                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--danger pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
+                                            data-tooltip="This action will permanently delete the selected item and all associated data. This operation cannot be reversed. Please confirm you want to proceed.">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inline Text Tooltips -->
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Inline Text Tooltips</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p>
+                                Tooltips can explain <span class="pa-tooltip pa-tooltip--primary" data-tooltip="Application Programming Interface" style="border-bottom: 1px dotted;">API</span> terms,
+                                <span class="pa-tooltip pa-tooltip--success" data-tooltip="Cascading Style Sheets" style="border-bottom: 1px dotted;">CSS</span>, or
+                                <span class="pa-tooltip pa-tooltip--danger" data-tooltip="HyperText Markup Language" style="border-bottom: 1px dotted;">HTML</span> abbreviations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="pure-u-1 pure-u-lg-1-2">
+                    <!-- Popovers -->
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Popovers - Interactive Help</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="mb-3 text-sm">Rich content with links, formatting. Click <strong>?</strong> to open:</p>
+                            <div class="pure-g">
+                                <div class="pure-u-1-2 pure-u-md-1-4 mb-3 text-center" style="padding: 0.5rem;">
+                                    <label class="text-sm">Basic
+                                        <div class="pa-popover pa-popover--bottom">
+                                            <button class="pa-popover__trigger">?</button>
+                                            <div class="pa-popover__content">
+                                                <div class="pa-popover__header">
+                                                    <h4>Help</h4>
+                                                    <button class="pa-popover__close">×</button>
+                                                </div>
+                                                <div class="pa-popover__body">
+                                                    <p>Basic popover with <strong>bold</strong>, <em>italic</em>, and <a href="#">links</a>.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 mb-3 text-center" style="padding: 0.5rem;">
+                                    <label class="text-sm">With List
+                                        <div class="pa-popover pa-popover--bottom">
+                                            <button class="pa-popover__trigger">?</button>
+                                            <div class="pa-popover__content">
+                                                <div class="pa-popover__header">
+                                                    <h4>Options</h4>
+                                                    <button class="pa-popover__close">×</button>
+                                                </div>
+                                                <div class="pa-popover__body">
+                                                    <p>Select from:</p>
+                                                    <ul>
+                                                        <li>Option A</li>
+                                                        <li>Option B</li>
+                                                        <li>Option C</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 mb-3 text-center" style="padding: 0.5rem;">
+                                    <label class="text-sm">Large
+                                        <div class="pa-popover pa-popover--bottom pa-popover--lg">
+                                            <button class="pa-popover__trigger">?</button>
+                                            <div class="pa-popover__content">
+                                                <div class="pa-popover__header">
+                                                    <h4>Documentation</h4>
+                                                    <button class="pa-popover__close">×</button>
+                                                </div>
+                                                <div class="pa-popover__body">
+                                                    <p>Use <code>--lg</code> modifier for wider content (up to 28rem).</p>
+                                                    <p>Perfect for detailed explanations and <a href="/components">documentation</a>.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 mb-3 text-center" style="padding: 0.5rem;">
+                                    <label class="text-sm">Small
+                                        <div class="pa-popover pa-popover--bottom pa-popover--sm">
+                                            <button class="pa-popover__trigger">?</button>
+                                            <div class="pa-popover__content">
+                                                <div class="pa-popover__header">
+                                                    <h4>Tip</h4>
+                                                    <button class="pa-popover__close">×</button>
+                                                </div>
+                                                <div class="pa-popover__body">
+                                                    <p>Brief hints use <code>--sm</code>.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Popover Positions -->
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Popover Positions</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pure-g">
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="text-sm">Top </span>
+                                    <div class="pa-popover">
+                                        <button class="pa-popover__trigger">?</button>
+                                        <div class="pa-popover__content">
+                                            <div class="pa-popover__header">
+                                                <h4>Top</h4>
+                                                <button class="pa-popover__close">×</button>
+                                            </div>
+                                            <div class="pa-popover__body">
+                                                <p>Appears above trigger.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="text-sm">Right </span>
+                                    <div class="pa-popover pa-popover--right">
+                                        <button class="pa-popover__trigger">?</button>
+                                        <div class="pa-popover__content">
+                                            <div class="pa-popover__header">
+                                                <h4>Right</h4>
+                                                <button class="pa-popover__close">×</button>
+                                            </div>
+                                            <div class="pa-popover__body">
+                                                <p>Appears to the right.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="text-sm">Bottom </span>
+                                    <div class="pa-popover pa-popover--bottom">
+                                        <button class="pa-popover__trigger">?</button>
+                                        <div class="pa-popover__content">
+                                            <div class="pa-popover__header">
+                                                <h4>Bottom</h4>
+                                                <button class="pa-popover__close">×</button>
+                                            </div>
+                                            <div class="pa-popover__body">
+                                                <p>Appears below trigger.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pure-u-1-2 pure-u-md-1-4 text-center mb-3" style="padding: 1rem;">
+                                    <span class="text-sm">Left </span>
+                                    <div class="pa-popover pa-popover--left">
+                                        <button class="pa-popover__trigger">?</button>
+                                        <div class="pa-popover__content">
+                                            <div class="pa-popover__header">
+                                                <h4>Left</h4>
+                                                <button class="pa-popover__close">×</button>
+                                            </div>
+                                            <div class="pa-popover__body">
+                                                <p>Appears to the left.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Examples -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Code Examples</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <h4 class="mb-2 text-sm">Tooltips</h4>
+                            <pre class="mb-3 text-sm"><code>&lt;!-- Basic --&gt;
+&lt;span class="pa-tooltip" data-tooltip="Text"&gt;Hover&lt;/span&gt;
+
+&lt;!-- Positions: --right, --bottom, --left --&gt;
+&lt;span class="pa-tooltip pa-tooltip--bottom"&gt;...&lt;/span&gt;
+
+&lt;!-- Colors: --primary, --success, --warning, --danger --&gt;
+&lt;span class="pa-tooltip pa-tooltip--success"&gt;...&lt;/span&gt;
+
+&lt;!-- Multiline --&gt;
+&lt;span class="pa-tooltip pa-tooltip--multiline"&gt;...&lt;/span&gt;</code></pre>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <h4 class="mb-2 text-sm">Popovers</h4>
+                            <pre class="mb-3 text-sm"><code>&lt;div class="pa-popover pa-popover--bottom"&gt;
+  &lt;button class="pa-popover__trigger"&gt;?&lt;/button&gt;
+  &lt;div class="pa-popover__content"&gt;
+    &lt;div class="pa-popover__header"&gt;
+      &lt;h4&gt;Title&lt;/h4&gt;
+      &lt;button class="pa-popover__close"&gt;&times;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="pa-popover__body"&gt;
+      &lt;p&gt;Rich &lt;strong&gt;HTML&lt;/strong&gt; content.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Sizes: --sm, default, --lg --&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

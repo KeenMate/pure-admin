@@ -127,6 +127,22 @@ app.get('/modals', (req, res) => {
     });
 });
 
+app.get('/loaders', (req, res) => {
+    res.render('loaders', {
+        pageTitle: 'Loaders & Spinners',
+        currentPage: 'loaders',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
+app.get('/tooltips', (req, res) => {
+    res.render('tooltips', {
+        pageTitle: 'Tooltips',
+        currentPage: 'tooltips',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
 app.get('/layouts', (req, res) => {
     res.render('layouts', {
         pageTitle: 'Layouts',

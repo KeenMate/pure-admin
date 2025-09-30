@@ -20,9 +20,65 @@
     -->
 </head>
 <body>
+    <!-- Prevent FOUC: Apply saved settings immediately before rendering -->
+    <script>
+        (function() {
+            // Apply sidebar hidden state immediately
+            const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+            const isMobile = window.innerWidth <= 768;
+
+            if (!isMobile && sidebarHidden) {
+                document.body.classList.add('sidebar-hidden');
+            }
+
+            // Apply compact mode immediately
+            const isCompactMode = localStorage.getItem('compact-mode') === 'true';
+            if (isCompactMode) {
+                document.body.classList.add('compact-mode');
+            }
+        })();
+    </script>
     <div class="pa-layout-container<%= containerWidth !== 'fluid' ? ' pa-layout-container--' + containerWidth : '' %>" id="layoutContainer">
         <%- include('partials/navbar') %>
+
+    <!-- Set burger menu state immediately to prevent FOUC -->
+    <script>
+        (function() {
+            const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+            const isMobile = window.innerWidth <= 768;
+
+            if (!isMobile && sidebarHidden) {
+                const burgerMenu = document.querySelector('.burger-menu');
+                if (burgerMenu) {
+                    burgerMenu.classList.add('active');
+                }
+            }
+        })();
+    </script>
+
         <%- include('partials/sidebar') %>
+
+    <!-- Restore submenu states immediately to prevent FOUC -->
+    <script>
+        (function() {
+            document.querySelectorAll('.pa-sidebar__toggle').forEach(button => {
+                const label = button.querySelector('.pa-sidebar__label');
+                if (!label) return;
+
+                const submenuId = label.textContent.toLowerCase().replace(/\s+/g, '-');
+                const savedState = localStorage.getItem(`submenu-${submenuId}`);
+
+                if (savedState === 'open') {
+                    const parentItem = button.closest('.pa-sidebar__item');
+                    const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+                    if (submenu) {
+                        parentItem.classList.add('pa-sidebar__item--open');
+                        submenu.classList.add('pa-sidebar__submenu--open');
+                    }
+                }
+            });
+        })();
+    </script>
 
     <!-- Main Content Area -->
     <main class="admin-content">
@@ -62,6 +118,50 @@
                 </select>
             </div>
 
+            <!-- Layout Width -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Layout Width</label>
+                <select class="pa-settings-panel__select" id="containerWidthSelector">
+                    <option value="fluid">Fluid (Full Width)</option>
+                    <option value="sm">Small (768px)</option>
+                    <option value="md">Medium (1024px)</option>
+                    <option value="lg">Large (1280px)</option>
+                    <option value="xl">Extra Large (1600px)</option>
+                    <option value="2xl">2X Large (1920px)</option>
+                </select>
+            </div>
+
+            <!-- Sidebar Behavior -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Sidebar Behavior</label>
+                <select class="pa-settings-panel__select" id="sidebarBehaviorSelector">
+                    <option value="hide">Hide Completely</option>
+                    <option value="icon-collapse">Show Icons Only</option>
+                </select>
+            </div>
+
+            <!-- Sidebar Position -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Sidebar</label>
+                <div class="pa-settings-panel__checkbox-group">
+                    <label class="pa-settings-panel__checkbox">
+                        <input type="checkbox" id="sidebarCollapsed">
+                        <span>Collapsed</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Compact Mode -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Display</label>
+                <div class="pa-settings-panel__checkbox-group">
+                    <label class="pa-settings-panel__checkbox">
+                        <input type="checkbox" id="compactMode">
+                        <span>Compact Mode</span>
+                    </label>
+                </div>
+            </div>
+
             <!-- Font Size -->
             <div class="pa-settings-panel__section">
                 <label class="pa-settings-panel__label">Font Size</label>
@@ -91,41 +191,6 @@
                     <option value="play">Play</option>
                     <option value="signika">Signika</option>
                     <option value="yanone-kaffeesatz">Yanone Kaffeesatz</option>
-                </select>
-            </div>
-
-            <!-- Sidebar Position -->
-            <div class="pa-settings-panel__section">
-                <label class="pa-settings-panel__label">Sidebar</label>
-                <div class="pa-settings-panel__checkbox-group">
-                    <label class="pa-settings-panel__checkbox">
-                        <input type="checkbox" id="sidebarCollapsed">
-                        <span>Collapsed</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Compact Mode -->
-            <div class="pa-settings-panel__section">
-                <label class="pa-settings-panel__label">Display</label>
-                <div class="pa-settings-panel__checkbox-group">
-                    <label class="pa-settings-panel__checkbox">
-                        <input type="checkbox" id="compactMode">
-                        <span>Compact Mode</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Layout Width -->
-            <div class="pa-settings-panel__section">
-                <label class="pa-settings-panel__label">Layout Width</label>
-                <select class="pa-settings-panel__select" id="containerWidthSelector">
-                    <option value="fluid">Fluid (Full Width)</option>
-                    <option value="sm">Small (768px)</option>
-                    <option value="md">Medium (1024px)</option>
-                    <option value="lg">Large (1280px)</option>
-                    <option value="xl">Extra Large (1600px)</option>
-                    <option value="2xl">2X Large (1920px)</option>
                 </select>
             </div>
 
@@ -277,6 +342,7 @@
             const fontSizeSelector = document.getElementById('fontSizeSelector');
             const fontFamilySelector = document.getElementById('fontFamilySelector');
             const sidebarCollapsed = document.getElementById('sidebarCollapsed');
+            const sidebarBehaviorSelector = document.getElementById('sidebarBehaviorSelector');
             const compactMode = document.getElementById('compactMode');
             const containerWidthSelector = document.getElementById('containerWidthSelector');
             const resetSettings = document.getElementById('resetSettings');
@@ -306,6 +372,17 @@
                 // Sidebar collapsed
                 const isSidebarCollapsed = localStorage.getItem('sidebar-hidden') === 'true';
                 sidebarCollapsed.checked = isSidebarCollapsed;
+
+                // Sidebar behavior
+                const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
+                sidebarBehaviorSelector.value = sidebarBehavior;
+                const sidebar = document.querySelector('.pa-sidebar');
+                if (sidebar) {
+                    sidebar.classList.remove('pa-sidebar--icon-collapse');
+                    if (sidebarBehavior === 'icon-collapse') {
+                        sidebar.classList.add('pa-sidebar--icon-collapse');
+                    }
+                }
 
                 // Compact mode
                 const isCompactMode = localStorage.getItem('compact-mode') === 'true';
@@ -379,12 +456,26 @@
                 window.location.href = url.toString();
             });
 
+            // Sidebar behavior change
+            sidebarBehaviorSelector.addEventListener('change', (e) => {
+                const behavior = e.target.value;
+                const sidebar = document.querySelector('.pa-sidebar');
+                if (sidebar) {
+                    sidebar.classList.remove('pa-sidebar--icon-collapse');
+                    if (behavior === 'icon-collapse') {
+                        sidebar.classList.add('pa-sidebar--icon-collapse');
+                    }
+                    localStorage.setItem('sidebar-behavior', behavior);
+                }
+            });
+
             // Reset settings
             resetSettings.addEventListener('click', () => {
                 // Clear localStorage settings
                 localStorage.removeItem('font-size');
                 localStorage.removeItem('font-family');
                 localStorage.removeItem('sidebar-hidden');
+                localStorage.removeItem('sidebar-behavior');
                 localStorage.removeItem('compact-mode');
 
                 // Reset theme and container width to defaults
@@ -463,29 +554,236 @@
             console.log('All submenu states cleared');
         }
 
-        // Restore submenu states on page load
+        // Note: Submenu state restoration is now handled by inline script right after sidebar HTML
+        // to prevent FOUC. No need to restore states again on DOMContentLoaded.
+
+        // Popover Functions
         document.addEventListener('DOMContentLoaded', function() {
-            // Clear all states first to ensure clean start
-            document.querySelectorAll('.pa-sidebar__item').forEach(item => {
-                item.classList.remove('pa-sidebar__item--open');
-            });
-            document.querySelectorAll('.pa-sidebar__submenu').forEach(submenu => {
-                submenu.classList.remove('pa-sidebar__submenu--open');
+            // Toggle popover
+            document.querySelectorAll('.pa-popover__trigger').forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const popover = this.closest('.pa-popover');
+                    const isOpen = popover.classList.contains('pa-popover--open');
+
+                    // Close all other popovers
+                    document.querySelectorAll('.pa-popover--open').forEach(p => {
+                        if (p !== popover) {
+                            p.classList.remove('pa-popover--open');
+                        }
+                    });
+
+                    // Toggle current popover
+                    popover.classList.toggle('pa-popover--open');
+                });
             });
 
-            // Then restore saved states
-            document.querySelectorAll('.pa-sidebar__toggle').forEach(button => {
-                const submenuId = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
-                const savedState = localStorage.getItem(`submenu-${submenuId}`);
+            // Close popover with close button
+            document.querySelectorAll('.pa-popover__close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const popover = this.closest('.pa-popover');
+                    popover.classList.remove('pa-popover--open');
+                });
+            });
 
-                if (savedState === 'open') {
-                    const parentItem = button.closest('.pa-sidebar__item');
-                    const submenu = parentItem.querySelector('.pa-sidebar__submenu');
-                    if (submenu) {
-                        parentItem.classList.add('pa-sidebar__item--open');
-                        submenu.classList.add('pa-sidebar__submenu--open');
+            // Close popovers when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.pa-popover')) {
+                    document.querySelectorAll('.pa-popover--open').forEach(popover => {
+                        popover.classList.remove('pa-popover--open');
+                    });
+                }
+            });
+
+            // Prevent closing when clicking inside popover content
+            document.querySelectorAll('.pa-popover__content').forEach(content => {
+                content.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+
+            // Smart positioning for popovers - collision detection
+            function adjustPopoverPosition(popover) {
+                const content = popover.querySelector('.pa-popover__content');
+                if (!content) return;
+
+                // Remove previous adjustments
+                popover.classList.remove('pa-popover--shift-left', 'pa-popover--shift-right',
+                    'pa-popover--auto-flip-top', 'pa-popover--auto-flip-bottom',
+                    'pa-popover--auto-flip-left', 'pa-popover--auto-flip-right');
+
+                // Get original position classes
+                const isBottom = popover.classList.contains('pa-popover--bottom');
+                const isLeft = popover.classList.contains('pa-popover--left');
+                const isRight = popover.classList.contains('pa-popover--right');
+                const isTop = !isBottom && !isLeft && !isRight; // Default is top
+
+                // Wait for next frame to ensure content is visible for measurement
+                requestAnimationFrame(() => {
+                    const rect = content.getBoundingClientRect();
+                    const triggerRect = popover.getBoundingClientRect();
+                    const viewport = {
+                        width: window.innerWidth,
+                        height: window.innerHeight
+                    };
+                    const margin = 10; // Safety margin from viewport edges
+
+                    // Check vertical overflow for top/bottom positions
+                    if (isTop || isBottom) {
+                        // Check horizontal overflow
+                        if (rect.left < margin) {
+                            popover.classList.add('pa-popover--shift-right');
+                        } else if (rect.right > viewport.width - margin) {
+                            popover.classList.add('pa-popover--shift-left');
+                        }
+
+                        // Check vertical flip
+                        if (isTop && rect.top < margin) {
+                            popover.classList.add('pa-popover--auto-flip-bottom');
+                        } else if (isBottom && rect.bottom > viewport.height - margin) {
+                            popover.classList.add('pa-popover--auto-flip-top');
+                        }
+                    }
+
+                    // Check horizontal overflow for left/right positions
+                    if (isLeft || isRight) {
+                        // Check if needs flip
+                        if (isLeft && rect.left < margin) {
+                            popover.classList.add('pa-popover--auto-flip-right');
+                        } else if (isRight && rect.right > viewport.width - margin) {
+                            popover.classList.add('pa-popover--auto-flip-left');
+                        }
+                    }
+                });
+            }
+
+            // Apply smart positioning when popover opens
+            const originalPopoverToggle = document.querySelectorAll('.pa-popover__trigger');
+            originalPopoverToggle.forEach(trigger => {
+                trigger.addEventListener('click', function() {
+                    const popover = this.closest('.pa-popover');
+                    if (popover.classList.contains('pa-popover--open')) {
+                        adjustPopoverPosition(popover);
+                    }
+                });
+            });
+
+            // Smart positioning for tooltips - collision detection
+            function adjustTooltipPosition(element) {
+                // Store original position classes (only once per element)
+                if (!element.dataset.originalPosition) {
+                    if (element.classList.contains('pa-tooltip--bottom')) {
+                        element.dataset.originalPosition = 'bottom';
+                    } else if (element.classList.contains('pa-tooltip--left')) {
+                        element.dataset.originalPosition = 'left';
+                    } else if (element.classList.contains('pa-tooltip--right')) {
+                        element.dataset.originalPosition = 'right';
+                    } else {
+                        element.dataset.originalPosition = 'top'; // Default
                     }
                 }
+
+                // Reset to original position
+                const originalPos = element.dataset.originalPosition;
+                element.classList.remove('pa-tooltip--top', 'pa-tooltip--bottom', 'pa-tooltip--left', 'pa-tooltip--right');
+                element.classList.add(`pa-tooltip--${originalPos}`);
+
+                // Get current position state
+                const isBottom = originalPos === 'bottom';
+                const isLeft = originalPos === 'left';
+                const isRight = originalPos === 'right';
+                const isTop = originalPos === 'top';
+                const isMultiline = element.classList.contains('pa-tooltip--multiline');
+
+                const rect = element.getBoundingClientRect();
+                const viewport = {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                };
+                const margin = 10; // Safety margin from viewport edges
+
+                // Estimate tooltip dimensions (since pseudo-elements can't be measured directly)
+                // Regular tooltips: max-width 15rem (240px), multiline: 20rem (320px)
+                const tooltipWidth = isMultiline ? 320 : 240;
+                const tooltipHeight = isMultiline ? 80 : 40; // Multiline can be taller
+
+                // For multiline tooltips on top/bottom, flip to left/right if near edge
+                if (isMultiline && (isTop || isBottom)) {
+                    const centerX = rect.left + (rect.width / 2);
+                    const tooltipLeft = centerX - (tooltipWidth / 2);
+                    const tooltipRight = centerX + (tooltipWidth / 2);
+
+                    if (tooltipLeft < margin) {
+                        // Too close to left edge, flip to right position
+                        element.classList.remove(`pa-tooltip--${originalPos}`);
+                        element.classList.add('pa-tooltip--right');
+                        console.log(`✓ Multiline tooltip flip: ${originalPos} → right (too close to left edge)`);
+                        return; // Don't check vertical
+                    } else if (tooltipRight > viewport.width - margin) {
+                        // Too close to right edge, flip to left position
+                        element.classList.remove(`pa-tooltip--${originalPos}`);
+                        element.classList.add('pa-tooltip--left');
+                        console.log(`✓ Multiline tooltip flip: ${originalPos} → left (too close to right edge)`);
+                        return; // Don't check vertical
+                    }
+                }
+
+                // Check vertical positions (top/bottom) - only if didn't flip to horizontal
+                if (isTop || isBottom) {
+                    if (isTop && rect.top - tooltipHeight < margin) {
+                        element.classList.remove('pa-tooltip--top');
+                        element.classList.add('pa-tooltip--bottom');
+                        console.log('✓ Tooltip flip: top → bottom');
+                    } else if (isBottom && rect.bottom + tooltipHeight > viewport.height - margin) {
+                        element.classList.remove('pa-tooltip--bottom');
+                        element.classList.add('pa-tooltip--top');
+                        console.log('✓ Tooltip flip: bottom → top');
+                    }
+                }
+
+                // Check horizontal positions (left/right)
+                if (isLeft || isRight) {
+                    if (isLeft && rect.left - tooltipWidth < margin) {
+                        element.classList.remove('pa-tooltip--left');
+                        element.classList.add('pa-tooltip--right');
+                        console.log('✓ Tooltip flip: left → right');
+                    } else if (isRight && rect.right + tooltipWidth > viewport.width - margin) {
+                        element.classList.remove('pa-tooltip--right');
+                        element.classList.add('pa-tooltip--left');
+                        console.log('✓ Tooltip flip: right → left');
+                    }
+                }
+            }
+
+            // Apply smart positioning to all tooltips on hover
+            function initTooltipPositioning() {
+                const tooltips = document.querySelectorAll('[class*="pa-tooltip"]');
+                console.log('Initializing smart positioning for', tooltips.length, 'tooltips');
+
+                tooltips.forEach(tooltip => {
+                    // Remove existing listener if any (in case of re-initialization)
+                    tooltip.removeEventListener('mouseenter', handleTooltipHover);
+                    tooltip.addEventListener('mouseenter', handleTooltipHover);
+                });
+            }
+
+            function handleTooltipHover() {
+                console.log('Tooltip hover detected', this);
+                adjustTooltipPosition(this);
+            }
+
+            // Initialize on page load
+            initTooltipPositioning();
+
+            // Recalculate positions on window resize
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    // Recalculate for any visible tooltips (on hover) or open popovers
+                    document.querySelectorAll('.pa-popover--open').forEach(adjustPopoverPosition);
+                }, 250);
             });
         });
     </script>

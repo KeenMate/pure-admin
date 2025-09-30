@@ -7,6 +7,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2025-01-31
+
+#### Tooltips Component & Page
+- **New tooltip component**: `.pa-tooltip` with pure CSS hover effects
+- **Position variants**: Top (default), right, bottom, left
+  - Uses `data-tooltip` attribute for tooltip text
+  - Smooth fade-in and translate animations
+  - Arrow pointer automatically positioned
+- **Color variants**: Default (dark), primary, success, warning, danger
+  - All colors use framework button color variables
+  - Warning variant uses dark text for better contrast
+  - Dedicated tooltip colors (`$tooltip-bg`, `$tooltip-text`) for consistent appearance across all themes
+- **Multiline tooltips**: `.pa-tooltip--multiline` modifier for longer explanations
+  - Fixed width of 20rem with text wrapping
+  - Left-aligned text for better readability
+- **Features**:
+  - Pure CSS implementation (no JavaScript)
+  - Works on any element (buttons, text, icons)
+  - Responsive with automatic positioning
+  - Proper z-index layering (tooltips: 1100, content: 950, sidebar: 900)
+  - `cursor: help` on hover
+- **Comprehensive examples**:
+  - Tooltip positions demonstration
+  - Colored tooltip variants
+  - Tooltips on buttons (with icons)
+  - Icon-only buttons with tooltips
+  - Tooltips on inline text
+  - Combined positions and colors
+  - Multiline tooltips with long text
+  - Usage code examples
+
+#### Loaders & Spinners Page
+- **New dedicated page**: `/loaders` showcasing all spinner and loader variants
+- **Standalone spinner component**: `.pa-spinner` with size and color modifiers
+  - Size variants: `--xs`, `--sm` (default), `--md`, `--lg`, `--xl`, `--2xl`
+  - Color variants: `--primary`, `--secondary`, `--success`, `--danger`, `--warning`, `--info`
+- **Advanced loader types** (inspired by cssloaders.github.io):
+  - `.pa-loader-dots`: Bouncing dots animation (3 dots with wave effect)
+  - `.pa-loader-bars`: Vertical bars stretching animation (5 bars)
+  - `.pa-loader-pulse`: Pulsing circle with scale and opacity animation
+  - `.pa-loader-ring`: Double ring spinning animation
+  - `.pa-loader-wave`: Wave-like vertical bars animation (5 bars)
+  - All loaders support `--lg` size modifier
+  - Color controlled via CSS `color` property
+- **Loader utility classes**:
+  - `.pa-loader-overlay`: Centered spinner with semi-transparent background overlay
+  - `.pa-loader-center`: Flexbox container for centered spinners with optional text
+- **Comprehensive examples**:
+  - Spinner sizes (0.75rem to 4rem)
+  - Colored spinners matching button colors
+  - All 6 loader types showcased
+  - Inline spinners for loading text
+  - Centered loaders with overlay
+  - Loaders with descriptive text
+  - Card loading states
+  - Usage code examples for all loader types
+
+---
+
 ### Fixed - 2025-01-31
 
 #### Button Loading State
@@ -31,6 +90,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Basic icon-only buttons with text icons (✎, ⚙, ✓, etc.)
   - Font Awesome icon-only buttons (floppy-disk, search, check, etc.)
   - Interactive loading demo with icon-only buttons (ripple + loading states)
+
+#### Tooltip Z-Index Layering
+- **Fixed tooltip clipping and layering issues**:
+  - Removed `overflow: hidden` from `.pa-layout-container` (was clipping tooltips)
+  - Moved `overflow-x: hidden` to `body` element (hides sidebar on mobile without clipping tooltips)
+  - Added `position: relative` and `z-index: 950` to `.admin-content`
+  - Increased tooltip z-index from 1000 to 1100
+  - **Z-index hierarchy**: tooltips (1100) > content (950) > sidebar (900)
+  - Tooltips now properly appear above all content including sidebar and cards
 
 ---
 

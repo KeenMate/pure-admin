@@ -5,6 +5,7 @@ $header-height: 3rem !default;
 $footer-height: 2rem !default;
 $sidebar-width: 18rem !default;
 $sidebar-max-width: 25rem !default;
+$sidebar-collapsed-width: 4rem !default; // Width when collapsed to icon-only
 $sidebar-padding: 0.5rem 1rem !default;
 
 // Layout container widths
@@ -24,6 +25,7 @@ $burger-width: 1.5rem !default;
 $burger-height: 1.5rem !default;
 $burger-bar-height: 2px !default;
 $burger-bar-spacing: 4px !default;
+$burger-transform-offset: 3px !default; // X offset for animation
 
 // Badge system
 $badge-padding-v: 0.125rem !default;
@@ -55,12 +57,16 @@ $modal-border-radius: 4px !default;
 // Profile panel dimensions
 $profile-panel-width: 20vw !default;
 $profile-panel-max-width: 30rem !default;
+$profile-panel-width-fixed: 320px !default; // Fixed width when open
+$profile-panel-toggle-size: 40px !default;
+$profile-panel-toggle-size-open: 45px !default;
 
 // Scrollbar
 $scrollbar-width: 10px !default;
 $scrollbar-border-radius: 5px !default;
 
 // Border radius
+$border-radius-sm: 2px !default;
 $border-radius: 4px !default;
 $border-radius-lg: 8px !default;
 
@@ -80,6 +86,12 @@ $easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55) !default;
 // Spinner/Loading
 $spinner-size: 1rem !default;
 $spinner-border-width: 2px !default;
+$spinner-border-width-lg: 3px !default;
+$spinner-border-width-xl: 4px !default;
+
+// Loader dimensions
+$loader-border-width: 3px !default;
+$loader-border-width-lg: 4px !default;
 
 // Ripple effect
 $ripple-size: 300px !default;
@@ -104,12 +116,19 @@ $card-header-padding-v: 0.5rem !default;
 $card-header-padding-h: 1rem !default;
 $card-footer-padding-v: 0.75rem !default;
 $card-footer-padding-h: 1rem !default;
+$card-grid-min-width: 280px !default; // Minimum width for auto-fit grid
 
 // Stats system
 $stat-icon-size: 3rem !default;
 $stat-square-min-size: 8rem !default;
 $stat-label-letter-spacing: 0.05em !default;
 $stat-change-margin-bottom: 0.25rem !default;
+
+// Dashboard & Charts
+$chart-height: 400px !default;
+$dashboard-grid-col-sm: 80px !default;
+$dashboard-grid-col-md: 100px !default;
+$dashboard-grid-col-lg: 120px !default;
 
 // Font system
 $body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
@@ -152,6 +171,21 @@ $border-width-base: 1px !default;
 $border-width-medium: 2px !default;
 $border-width-thick: 3px !default;
 
+// Focus outline
+$focus-outline-width: 2px !default;
+$focus-outline-offset: 2px !default;
+$focus-ring-width: 3px !default; // For box-shadow focus rings
+
+// Shadow system
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1) !default;
+$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1) !default;
+$shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15) !default;
+$shadow-xl: 0 0 60px rgba(0, 0, 0, 0.12) !default;
+$shadow-2xl: 0 0 80px rgba(0, 0, 0, 0.15) !default;
+$shadow-sidebar: -2px 2px 10px rgba(0, 0, 0, 0.1) !default;
+$shadow-sidebar-open: -5px 0 20px rgba(0, 0, 0, 0.1) !default;
+$shadow-profile-panel: -4px 0 20px rgba(0, 0, 0, 0.15) !default;
+
 // Button specific
 $btn-padding-v: 0.5rem !default;
 $btn-padding-h: 0.75rem !default;
@@ -169,6 +203,19 @@ $btn-icon-margin: 0.5rem !default;
 
 // Modal close button (defined after font sizes)
 $modal-close-font-size: $font-size-xl !default; // Close button (X) font size
+
+// Tooltip system
+$tooltip-bg: #2c3e50 !default;
+$tooltip-text: #ffffff !default;
+$tooltip-arrow-size: 5px !default;
+$tooltip-distance: 8px !default; // Distance from trigger element
+$tooltip-offset: 4px !default; // Transform offset for animation
+
+// Popover system
+$popover-min-width: 16rem !default;
+$popover-max-width: 20rem !default;
+$popover-arrow-size: 6px !default;
+$popover-distance: 8px !default;
 
 // Default theme colors (will be overridden by themes)
 $primary-bg: #f8f9fa !default;
