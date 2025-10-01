@@ -1,0 +1,278 @@
+// ======================
+// Alerts
+// ======================
+// Alert components with variants, sizes, and states (consolidated from duplicate sections)
+
+// Alerts
+.pa-alert {
+  position: relative;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: flex-start;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+  gap: 0.5rem;
+
+  // Basic alert variants
+  &--primary {
+    color: #084298;
+    background-color: #cff4fc;
+    border-color: #b6effb;
+  }
+
+  &--secondary {
+    color: #41464b;
+    background-color: #e2e3e5;
+    border-color: #d3d6d8;
+  }
+
+  &--success {
+    color: #0f5132;
+    background-color: #d1edcc;
+    border-color: #badbcc;
+  }
+
+  &--danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+  }
+
+  &--warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+  }
+
+  &--info {
+    color: #055160;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+
+  &--light {
+    color: #636464;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+  }
+
+  &--dark {
+    color: #141619;
+    background-color: #d3d3d4;
+    border-color: #bcbebf;
+  }
+
+  // Outline variants
+  &--outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    background-color: transparent;
+  }
+
+  &--outline-success {
+    color: #28a745;
+    border-color: #28a745;
+    background-color: transparent;
+  }
+
+  &--outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    background-color: transparent;
+  }
+
+  &--outline-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+    background-color: transparent;
+  }
+
+  &--outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+    background-color: transparent;
+  }
+
+  // Alert sizes
+  &--sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  &--lg {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  // Dismissible alerts
+  &--dismissible {
+    padding-right: 3rem;
+  }
+
+  // Alert components
+  &__icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__heading {
+    margin: 0 0 0.5rem 0;
+    color: inherit;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  &__list {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  &__actions {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity $transition-fast $easing-snappy;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+      opacity: 1;
+    }
+  }
+
+  // Remove margin from last child
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Links styling
+  a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  // Headings inside alerts
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: inherit;
+  }
+
+  // Horizontal rule
+  hr {
+    margin: 0.5rem 0;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Alerts
+.pa-alert {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  position: relative;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  &--success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+  }
+
+  &--info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+  }
+
+  &--warning {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+  }
+
+  &--danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+  }
+
+  &--primary {
+    background-color: #cfe2ff;
+    border-color: #b6d4fe;
+    color: #084298;
+  }
+
+  &--secondary {
+    background-color: #e2e3e5;
+    border-color: #d3d6d8;
+    color: #41464b;
+  }
+
+  &--light {
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+    color: #636464;
+  }
+
+  &--dark {
+    background-color: #d3d3d4;
+    border-color: #bcbcbd;
+    color: #141619;
+  }
+}
+

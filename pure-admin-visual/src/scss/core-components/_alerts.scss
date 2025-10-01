@@ -1,0 +1,209 @@
+/* ========================================
+   Alert Components
+   Alerts with variants, sizes, dismissible functionality
+   ======================================== */
+
+// Alerts
+.pa-alert {
+  position: relative;
+  padding: $card-footer-padding-v $card-footer-padding-h;
+  margin-bottom: $spacing-base;
+  border: $border-width-base solid transparent;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  display: flex;
+  align-items: flex-start;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+  gap: $spacing-sm;
+
+  // Basic alert variants - using theme colors with subtle backgrounds
+  &--primary {
+    color: $accent-color;
+    background-color: rgba($accent-color, 0.08);
+    border-color: rgba($accent-color, 0.2);
+  }
+
+  &--secondary {
+    color: $text-secondary;
+    background-color: rgba($text-secondary, 0.05);
+    border-color: $border-color;
+  }
+
+  &--success {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.08);
+    border-color: rgba(40, 167, 69, 0.2);
+  }
+
+  &--danger {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.08);
+    border-color: rgba(220, 53, 69, 0.2);
+  }
+
+  &--warning {
+    color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.08);
+    border-color: rgba(255, 193, 7, 0.2);
+  }
+
+  &--info {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.08);
+    border-color: rgba(23, 162, 184, 0.2);
+  }
+
+  &--light {
+    color: $text-primary;
+    background-color: rgba($text-primary, 0.03);
+    border-color: $border-color;
+  }
+
+  &--dark {
+    color: $text-primary;
+    background-color: rgba($text-primary, 0.08);
+    border-color: rgba($text-primary, 0.2);
+  }
+
+  // Outline variants
+  &--outline-primary {
+    color: $accent-color;
+    border-color: $accent-color;
+    background-color: transparent;
+  }
+
+  &--outline-success {
+    color: #28a745;
+    border-color: #28a745;
+    background-color: transparent;
+  }
+
+  &--outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    background-color: transparent;
+  }
+
+  &--outline-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+    background-color: transparent;
+  }
+
+  &--outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+    background-color: transparent;
+  }
+
+  // Alert sizes
+  &--sm {
+    padding: 0.5rem 0.75rem;
+    font-size: $font-size-sm;
+  }
+
+  &--lg {
+    padding: 1rem 1.25rem;
+    font-size: $font-size-base;
+  }
+
+  // Dismissible alerts
+  &--dismissible {
+    padding-right: 3rem;
+  }
+
+  // Alert components
+  &__icon {
+    flex-shrink: 0;
+    font-size: $font-size-base;
+    line-height: 1;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__heading {
+    margin: 0 0 0.5rem 0;
+    color: inherit;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__list {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  &__actions {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: $card-footer-padding-v $card-footer-padding-h;
+    background: none;
+    border: none;
+    font-size: $font-size-xl;
+    line-height: 1;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity $transition-fast $easing-snappy;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+      opacity: 1;
+    }
+  }
+
+  // Remove margin from last child
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Links styling
+  a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: $font-weight-semibold;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  // Headings inside alerts
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: inherit;
+  }
+
+  // Horizontal rule
+  hr {
+    margin: 0.5rem 0;
+    border: 0;
+    border-top: $border-width-base solid rgba(0, 0, 0, 0.1);
+  }
+}
+

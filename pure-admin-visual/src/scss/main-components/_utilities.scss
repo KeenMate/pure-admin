@@ -1,0 +1,280 @@
+// ======================
+// Utilities
+// ======================
+// Font utilities, compact mode, floating settings panel, scrollbar styling, and component showcase
+
+// Floating Settings Panel
+.pa-settings-panel {
+  position: fixed;
+  right: -320px; // Panel hidden by default
+  top: 33.33vh; // Position at 1/3 of screen height
+  z-index: 10000;
+  width: 320px;
+  transition: right 0.3s ease;
+
+  &__toggle {
+    position: absolute;
+    right: 320px; // Position button at the right edge
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    cursor: pointer;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background: var(--accent-hover);
+      width: 45px;
+      right: 325px;
+    }
+  }
+
+  &__content {
+    background: var(--content-background-color);
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 100%;
+    height: 33.33vh; // Panel height is 1/3 of screen
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  &__title {
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  &__section {
+    margin-bottom: 1.25rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  &__select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--input-bg, #ffffff);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+  }
+
+  &__checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
+      cursor: pointer;
+    }
+
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+
+  // Panel states
+  &--open {
+    right: 0; // Slide panel into view
+
+    .pa-settings-panel__toggle {
+      background: var(--accent-hover);
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// Font size classes
+.font-size-small {
+  font-size: 14px;
+}
+
+.font-size-default {
+  font-size: 16px;
+}
+
+.font-size-large {
+  font-size: 18px;
+}
+
+.font-size-xlarge {
+  font-size: 20px;
+}
+
+// Font family classes
+.font-family-system {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+.font-family-sans {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+.font-family-serif {
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+.font-family-mono {
+  font-family: "Courier New", Courier, monospace;
+
+  *, h1, h2, h3, h4, h5, h6, p, div, span, button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+// Compact mode
+.compact-mode {
+  .pa-card__body {
+    padding: 0.75rem;
+  }
+
+  .pa-table td,
+  .pa-table th {
+    padding: 0.25rem 0.5rem;
+  }
+
+  .pa-sidebar__nav ul li a {
+    padding: var(--sidebar-padding);
+  }
+
+  .pa-form-group {
+    margin-bottom: 0.75rem;
+  }
+}
+
+// Global scrollbar styling - applies to all content
+/* Webkit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--primary-bg);
+  border-radius: var(--border-radius);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--primary-bg);
+
+  &:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-hover);
+  }
+
+  &:active {
+    background: var(--accent-hover);
+  }
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--primary-bg);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--border-color) var(--primary-bg);
+}
+
+// Component showcase styling
+.component-showcase {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+// Usage example styling
+.usage-example {
+  .user-item,
+  .project-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+
+    .user-name {
+      font-weight: 500;
+    }
+
+    h5 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+  }
+
+  .project-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

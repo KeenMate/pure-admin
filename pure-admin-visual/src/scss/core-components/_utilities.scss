@@ -1,0 +1,284 @@
+/* ========================================
+   Utility Components
+   Font utilities, compact mode, floating settings panel, component showcase
+   ======================================== */
+
+// Floating Settings Panel
+.pa-settings-panel {
+  position: fixed;
+  right: -$profile-panel-width-fixed; // Panel hidden by default
+  top: 15vh; // Position higher up for larger panel
+  z-index: 10000;
+  width: $profile-panel-width-fixed;
+  transition: right 0.3s ease;
+
+  &__toggle {
+    position: absolute;
+    right: $profile-panel-width-fixed; // Position button at the right edge
+    top: 0;
+    width: $profile-panel-toggle-size;
+    height: $profile-panel-toggle-size;
+    background: $accent-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius 0 0 $border-radius;
+    cursor: pointer;
+    font-size: $font-size-xl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: $shadow-sidebar;
+
+    &:hover {
+      background: $accent-hover;
+      width: $profile-panel-toggle-size-open;
+      right: calc($profile-panel-width-fixed + 5px);
+    }
+  }
+
+  &__content {
+    background: $content-background-color;
+    border: $border-width-base solid $border-color;
+    border-right: none;
+    border-radius: $border-radius 0 0 $border-radius;
+    box-shadow: $shadow-sidebar-open;
+    padding: $spacing-lg;
+    width: 100%;
+    height: 70vh; // Larger panel height for more settings
+    min-height: 400px;
+    max-height: calc(100vh - 100px); // Leave space from top/bottom
+    overflow-y: auto;
+  }
+
+  &__title {
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: $border-width-medium solid $border-color;
+    color: $text-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__section {
+    margin-bottom: 1.25rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__select {
+    width: 100%;
+    padding: $spacing-sm;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    background: $input-bg;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+      box-shadow: 0 0 0 3px $accent-light;
+    }
+  }
+
+  &__checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    input[type="checkbox"] {
+      margin-right: $btn-icon-margin;
+      cursor: pointer;
+    }
+
+    &:hover {
+      color: $accent-color;
+    }
+  }
+
+  // Panel states
+  &--open {
+    right: 0; // Slide panel into view
+
+    .pa-settings-panel__toggle {
+      background: $accent-hover;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// Font size classes (matching our variable system)
+.font-size-2xs {
+  font-size: $font-size-2xs;
+}
+
+.font-size-xs {
+  font-size: $font-size-xs;
+}
+
+.font-size-small {
+  font-size: $font-size-sm;
+}
+
+.font-size-medium {
+  font-size: $font-size-md;
+}
+
+.font-size-default {
+  font-size: $font-size-base;
+}
+
+.font-size-large {
+  font-size: $font-size-lg;
+}
+
+.font-size-xlarge {
+  font-size: $font-size-xl;
+}
+
+.font-size-2xl {
+  font-size: $font-size-2xl;
+}
+
+.font-size-3xl {
+  font-size: $font-size-3xl;
+}
+
+.font-size-4xl {
+  font-size: $font-size-4xl;
+}
+
+// Font family classes - use theme variables to respect theme fonts
+.font-family-system {
+  font-family: $body-font-family;
+
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+.font-family-sans {
+  font-family: $body-font-family;
+
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+.font-family-serif {
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+.font-family-mono {
+  font-family: "Courier New", Courier, monospace;
+
+  // Exclude Font Awesome and other icon fonts from inheriting
+  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  h1, h2, h3, h4, h5, h6, p, div,
+  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
+  button, input, textarea, select {
+    font-family: inherit;
+  }
+}
+
+// Compact mode
+.compact-mode {
+  .pa-card__body {
+    padding: $spacing-md;
+  }
+
+  .pa-table td,
+  .pa-table th {
+    padding: $btn-padding-sm-v $btn-padding-sm-h;
+  }
+
+  .pa-sidebar__nav ul li a {
+    padding: $sidebar-padding;
+  }
+
+  .pa-form-group {
+    margin-bottom: 0.75rem;
+  }
+}
+
+
+// Component showcase styling
+.component-showcase {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: 1.5rem;
+}
+
+// Usage example styling
+.usage-example {
+  .user-item,
+  .project-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-md;
+    margin-bottom: 0.5rem;
+    background-color: $card-bg;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+
+    .user-name {
+      font-weight: $font-weight-medium;
+    }
+
+    h5 {
+      margin: 0 0 0.5rem 0;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+  }
+
+  .project-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

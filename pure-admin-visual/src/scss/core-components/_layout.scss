@@ -1,0 +1,648 @@
+/* ========================================
+   Layout Components
+   Header, Sidebar, Main Content, Container, Footer, and Responsive Design
+   ======================================== */
+
+// Header - Sticky at top, within container
+.admin-header {
+  position: sticky;
+  top: 0;
+  height: $header-height;
+  background-color: $header-bg;
+  border-bottom: $border-width-base solid $border-color;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+  padding: 0 $spacing-base;
+
+  &__burger {
+    flex-shrink: 0;
+  }
+
+  &__brand {
+    flex-shrink: 0;
+
+    h1 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      white-space: nowrap;
+    }
+  }
+
+  &__nav {
+    flex-shrink: 0;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: $spacing-md;
+
+      li {
+        a {
+          text-decoration: none;
+          color: $text-secondary;
+          font-weight: $font-weight-medium;
+          padding: $spacing-xs $spacing-sm;
+          border-radius: $border-radius;
+          transition: all $transition-fast $easing-snappy;
+          font-size: $font-size-sm;
+
+          &:hover {
+            color: $accent-color;
+            background-color: $accent-hover;
+          }
+        }
+      }
+    }
+
+    &--left {
+      margin-right: auto;
+    }
+
+    &--right {
+      margin-left: auto;
+    }
+  }
+
+  &__title {
+    flex: 1;
+    min-width: 0;  // Enable ellipsis
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      font-size: $font-size-base;
+      font-weight: $font-weight-medium;
+      color: $text-secondary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__profile-btn {
+    flex-shrink: 0;
+  }
+}
+
+// Burger menu button
+.burger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: $burger-width;
+  height: $burger-height;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  span {
+    width: 100%;
+    height: $burger-bar-height;
+    background-color: $text-primary;
+    border-radius: $border-radius;
+    transition: all $transition-normal $easing-snappy;
+    transform-origin: center;
+  }
+
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate($burger-transform-offset, $burger-transform-offset);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate($burger-transform-offset, -$burger-transform-offset);
+    }
+  }
+
+  &:hover span {
+    background-color: $accent-color;
+  }
+}
+
+// Theme switcher styling
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  label {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  select {
+    padding: $spacing-xs $spacing-sm;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    background-color: $header-bg;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+    }
+  }
+}
+
+// Sidebar - Absolute positioned, flows with container
+.pa-sidebar {
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  width: $sidebar-width;
+  max-width: $sidebar-max-width;
+  bottom: $footer-height;
+  background-color: $sidebar-bg;
+  border-right: $border-width-base solid $border-color;
+  z-index: 900;
+  overflow-y: auto;
+  transition: left $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+
+  &__nav {
+    padding: $spacing-base 0;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__item {
+    // Base styles for all sidebar items (regular links and submenu toggles)
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
+    color: $text-secondary;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast $easing-snappy;
+
+    &:hover {
+      color: $text-primary;
+      background-color: $accent-light;
+    }
+
+    &--active {
+      color: $accent-color;
+      background-color: $accent-hover;
+      border-right: $border-width-thick solid $accent-color;
+    }
+  }
+
+  &__toggle {
+    // For submenu toggle buttons (non-link items)
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
+    color: $text-secondary;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all $transition-fast $easing-snappy;
+
+    &:hover {
+      color: $text-primary;
+      background-color: $accent-light;
+    }
+
+    &--active {
+      color: $accent-color;
+      background-color: $accent-hover;
+    }
+  }
+
+  // Icon and label styles
+  &__icon {
+    width: $sidebar-icon-size;
+    min-width: $sidebar-icon-size;
+    height: $sidebar-icon-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: $font-size-base;
+    text-align: center;
+  }
+
+  &__label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: opacity $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+  }
+
+  // Submenu styles - Level 2
+  &__submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    background-color: $sidebar-submenu-bg;
+    transition: max-height $transition-normal $easing-snappy;
+
+    &--open {
+      max-height: $submenu-max-height; // Generous height for animation
+    }
+  }
+
+  // Level 2 submenu links
+  &__submenu > &__item > &__link {
+    padding-left: $sidebar-submenu-indent;
+    font-size: $font-size-md;
+    border-right: none;
+
+    &:hover {
+      background-color: $sidebar-submenu-hover-bg;
+    }
+
+    &--active {
+      background-color: $sidebar-submenu-active-bg;
+      border-right: $border-width-medium solid $accent-color;
+    }
+  }
+
+  // Level 2 submenu toggles (for third level)
+  &__submenu > &__item > &__toggle {
+    padding-left: $sidebar-submenu-indent;
+    font-size: $font-size-md;
+  }
+
+  // Level 3 submenu links
+  &__submenu &__submenu > &__item > &__link {
+    padding-left: calc($sidebar-submenu-indent * 1.3);
+    font-size: $font-size-sm;
+
+    &--active {
+      border-right: $border-width-base solid $accent-color;
+    }
+  }
+
+  // Chevron icon for toggle buttons
+  &__chevron {
+    margin-left: auto;
+    font-size: $font-size-xs;
+    transition: transform $transition-fast $easing-snappy;
+
+    .pa-sidebar__item--open & {
+      transform: rotate(90deg);
+    }
+  }
+
+  // Custom scrollbar styling for sidebar
+  &::-webkit-scrollbar {
+    width: $scrollbar-width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $sidebar-bg;
+    border-radius: $border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-color;
+    border-radius: $border-radius;
+    border: $border-width-base solid $sidebar-bg;
+
+    &:hover {
+      background: $accent-color;
+      border-color: $accent-hover;
+    }
+
+    &:active {
+      background: $accent-hover;
+    }
+  }
+
+  // Firefox scrollbar
+  scrollbar-width: auto;
+  scrollbar-color: $border-color $sidebar-bg;
+}
+
+// Sidebar hidden state
+.sidebar-hidden {
+  .pa-sidebar {
+    left: -$sidebar-width; // Move left by sidebar width instead of transform
+  }
+
+  .admin-content {
+    margin-left: 0;
+    // Transition only when page is loaded to prevent FOUC
+    body.loaded & {
+      transition: margin-left $transition-normal $easing-snappy;
+    }
+  }
+
+  // Icon-collapse mode: show narrow icon-only bar when hidden
+  .pa-sidebar--icon-collapse {
+    left: 0;
+    width: $sidebar-collapsed-width;
+    overflow-x: hidden;
+
+    // Hide text labels
+    .pa-sidebar__label {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    // Hide chevron indicators
+    .pa-sidebar__chevron {
+      display: none;
+    }
+
+    // Hide submenus when collapsed
+    .pa-sidebar__submenu {
+      display: none !important;
+    }
+
+    // Center icons in collapsed bar
+    .pa-sidebar__icon {
+      width: 100%;
+      justify-content: center;
+    }
+
+    // Adjust link/toggle padding for icon-only
+    .pa-sidebar__link,
+    .pa-sidebar__toggle {
+      padding: $spacing-sm 0;
+      justify-content: center;
+    }
+  }
+
+  // Adjust content margin for icon-collapse mode
+  .pa-sidebar--icon-collapse ~ .admin-content {
+    margin-left: $sidebar-collapsed-width;
+  }
+}
+
+// Sidebar expanded state (when not hidden) - ensure icon-collapse mode shows full width
+body:not(.sidebar-hidden) {
+  .pa-sidebar--icon-collapse {
+    width: $sidebar-width;
+
+    // Show labels when expanded
+    .pa-sidebar__label {
+      opacity: 1;
+      width: auto;
+    }
+
+    // Show chevron when expanded
+    .pa-sidebar__chevron {
+      display: inline;
+    }
+
+    // Restore normal padding
+    .pa-sidebar__link,
+    .pa-sidebar__toggle {
+      padding: $sidebar-padding;
+      justify-content: flex-start;
+    }
+
+    // Allow submenus to show when expanded
+    .pa-sidebar__submenu {
+      display: block !important;
+    }
+
+    // Reset icon width
+    .pa-sidebar__icon {
+      width: $sidebar-icon-size;
+      justify-content: center;
+    }
+  }
+}
+
+// Main Content - Relative positioning, flows with container
+.admin-content {
+  margin-left: $sidebar-width;
+  flex: 1; // Take remaining space
+  position: relative;
+  z-index: 950; // Higher than sidebar (900) so tooltips appear above it
+  // Transition only when page is loaded to prevent FOUC
+  body.loaded & {
+    transition: margin-left $transition-normal $easing-snappy;
+  }
+
+  &__inner {
+    padding: $spacing-base;
+  }
+
+  h2 {
+    margin: 0 0 $spacing-base 0;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+}
+
+// Container wrapper - centers entire layout (header, sidebar, content, footer)
+.pa-layout-container {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $primary-bg;
+  // No overflow - tooltips need to extend beyond container bounds
+
+  // PureCSS breakpoints: sm=568px, md=768px, lg=1024px, xl=1280px
+  &--sm {
+    max-width: $layout-container-sm; // ~768px
+    box-shadow: $shadow-2xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    overflow-x: hidden; // Clip sidebar in constrained layout
+  }
+
+  &--md {
+    max-width: $layout-container-md; // ~1024px
+    box-shadow: $shadow-2xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    overflow-x: hidden; // Clip sidebar in constrained layout
+  }
+
+  &--lg {
+    max-width: $layout-container-lg; // ~1280px
+    box-shadow: $shadow-2xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    overflow-x: hidden; // Clip sidebar in constrained layout
+  }
+
+  &--xl {
+    max-width: $layout-container-xl; // ~1600px
+    box-shadow: $shadow-xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    overflow-x: hidden; // Clip sidebar in constrained layout
+  }
+
+  &--2xl {
+    max-width: $layout-container-2xl; // ~1920px
+    box-shadow: $shadow-xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    overflow-x: hidden; // Clip sidebar in constrained layout
+  }
+
+  &--fluid {
+    max-width: none;
+  }
+}
+
+// Footer - Relative positioning at bottom
+.admin-footer {
+  height: $footer-height;
+  background-color: $footer-bg;
+  border-top: $border-width-base solid $border-color;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+
+  &__content {
+    p {
+      margin: 0;
+      color: $text-secondary;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+// Demo content styles
+.content-section {
+  background: $card-bg;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius-lg;
+  padding: $spacing-base;
+  margin-bottom: $spacing-base;
+}
+
+.sample-data {
+  display: grid;
+  gap: $spacing-sm;
+  margin: 0.5rem 0;
+
+  .data-item {
+    padding: $spacing-sm;
+    background-color: $primary-bg;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.long-content {
+  .content-block {
+    padding: $spacing-base;
+    margin: 0.5rem 0;
+    background: $card-bg;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    text-align: center;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+  }
+}
+
+// Responsive Design - Mobile and Tablet
+@media (max-width: 768px) {
+  // Mobile: Auto-hide sidebar, content takes full width
+  body:not(.sidebar-visible) {
+    .pa-sidebar {
+      left: -$sidebar-width;
+    }
+
+    .admin-content {
+      margin-left: 0;
+    }
+  }
+
+  // Mobile: Fullscreen sidebar overlay when visible
+  .sidebar-visible {
+    .pa-sidebar {
+      position: fixed;
+      top: $header-height;
+      left: 0;
+      right: 0;
+      bottom: $footer-height;
+      width: 100vw;
+      z-index: 1050;
+      background-color: $sidebar-bg;
+    }
+
+    .admin-content {
+      margin-left: 0;
+    }
+
+    // Add backdrop overlay
+    &::before {
+      content: "";
+      position: fixed;
+      top: $header-height;
+      left: 0;
+      right: 0;
+      bottom: $footer-height;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1040;
+    }
+  }
+
+  // Adjust header for mobile
+  .admin-header {
+    gap: $spacing-sm;
+
+    &__nav {
+      display: none; // Hide navigation links on mobile
+    }
+
+    &__title h2 {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // Hide theme switcher label on mobile
+  .theme-switcher {
+    label {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  // Tablet: Reduce sidebar width
+  :root {
+    --sidebar-width: 10rem;
+  }
+
+  .pa-sidebar {
+    &__nav ul li a {
+      padding: 0.5rem 0.75rem;
+      font-size: $font-size-sm;
+    }
+  }
+}

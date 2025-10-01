@@ -1,0 +1,254 @@
+// ======================
+// Profile Panel
+// ======================
+// Profile panel and header button with responsive adjustments
+
+// ====================
+// Profile Panel & Header Button
+// ====================
+
+// Header profile button
+.admin-header__profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background-color $transition-fast $easing-snappy;
+
+  &:hover {
+    background-color: var(--accent-light);
+  }
+
+  &:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+}
+
+.admin-header__profile-avatar {
+  font-size: 1.25rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-light);
+  border-radius: 50%;
+}
+
+.admin-header__profile-name {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+// Profile panel
+.pa-profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 1001;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-medium $easing-snappy,
+              visibility $transition-medium $easing-snappy;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+
+    .pa-profile-panel__content {
+      transform: translateX(0);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--profile-panel-width);
+    max-width: var(--profile-panel-max-width);
+    height: 100vh;
+    background-color: var(--card-bg, #ffffff);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform $transition-medium $easing-snappy;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__header {
+    padding: 1.5rem;
+    background-color: var(--header-bg, #ffffff);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+  }
+
+  &__avatar {
+    width: 4rem;
+    height: 4rem;
+    background-color: var(--accent-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__avatar-icon {
+    font-size: 2rem;
+    color: var(--accent-color);
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  &__email {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__role {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--accent-light);
+    color: var(--accent-color);
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    border-radius: var(--border-radius);
+    transition: background-color $transition-fast $easing-snappy,
+                color $transition-fast $easing-snappy;
+
+    &:hover {
+      background-color: var(--accent-light);
+      color: var(--accent-color);
+    }
+
+    &:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-y: auto;
+  }
+
+  &__nav {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: background-color $transition-fast $easing-snappy,
+                color $transition-fast $easing-snappy;
+    font-weight: 500;
+
+    &:hover {
+      background-color: var(--accent-light);
+      color: var(--accent-color);
+    }
+
+    &:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__nav-icon {
+    font-size: 1.125rem;
+    width: 1.5rem;
+    text-align: center;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .pa-profile-panel__content {
+    width: 85vw;
+    max-width: 25rem;
+  }
+
+  .admin-header__profile-name {
+    display: none;
+  }
+}
+

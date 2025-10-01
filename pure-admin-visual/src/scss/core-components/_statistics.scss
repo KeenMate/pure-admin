@@ -1,0 +1,199 @@
+/* ========================================
+   Statistics Components
+   Stat displays with icons, hero variant, and square variant
+   ======================================== */
+
+// Statistics components
+.pa-stat {
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+
+  &__icon {
+    width: $stat-icon-size;
+    height: $stat-icon-size;
+    border-radius: $border-radius-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-xl;
+
+    &--primary {
+      background-color: rgba($accent-color, 0.1);
+      color: $accent-color;
+    }
+
+    &--success {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+    }
+
+    &--warning {
+      background-color: rgba(255, 193, 7, 0.1);
+      color: #ffc107;
+    }
+
+    &--info {
+      background-color: rgba(23, 162, 184, 0.1);
+      color: #17a2b8;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__number {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: 0.25rem;
+  }
+
+  &__label {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  // Hero variant - big focus on the number
+  &--hero {
+    display: block;
+    text-align: center;
+    padding: $spacing-lg;
+
+    .pa-stat__label {
+      font-size: $font-size-sm;
+      text-transform: uppercase;
+      letter-spacing: $stat-label-letter-spacing;
+      font-weight: $font-weight-medium;
+      color: $text-secondary;
+      margin-bottom: $spacing-sm;
+    }
+
+    .pa-stat__value {
+      font-size: $font-size-4xl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      line-height: 1;
+      margin-bottom: $spacing-sm;
+    }
+
+    .pa-stat__change {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+
+      &--positive {
+        color: #28a745;
+      }
+
+      &--negative {
+        color: #dc3545;
+      }
+
+      &--neutral {
+        color: $text-secondary;
+      }
+    }
+  }
+
+  // Square variant - compact square with big number and shadowed symbol
+  &--square {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-lg;
+    min-height: $stat-square-min-size;
+    min-width: $stat-square-min-size;
+    position: relative;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    margin: $spacing-sm;
+    transition: transform $transition-fast $easing-snappy, box-shadow $transition-fast $easing-snappy;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+    }
+
+    .pa-stat__number {
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      color: inherit;
+      z-index: 2;
+      position: relative;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.25),
+                   0 2px 4px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+
+    .pa-stat__symbol {
+      font-size: clamp(4rem, 10vw, 6rem);
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      opacity: 0.12;
+      color: inherit;
+      position: absolute;
+      right: $spacing-lg;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .pa-stat__label {
+      position: absolute;
+      bottom: $spacing-base;
+      left: $spacing-lg;
+      font-size: $font-size-xs;
+      text-transform: uppercase;
+      letter-spacing: $stat-label-letter-spacing;
+      font-weight: $font-weight-medium;
+      color: inherit;
+      opacity: 0.8;
+      z-index: 2;
+      max-width: calc(100% - #{$spacing-lg * 2});
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    // Color variants
+    &.pa-stat--primary {
+      background-color: $accent-color;
+      color: #ffffff;
+    }
+
+    &.pa-stat--success {
+      background-color: #28a745;
+      color: #ffffff;
+    }
+
+    &.pa-stat--info {
+      background-color: #17a2b8;
+      color: #ffffff;
+    }
+
+    &.pa-stat--warning {
+      background-color: #ffc107;
+      color: #212529;
+    }
+
+    &.pa-stat--danger {
+      background-color: #dc3545;
+      color: #ffffff;
+    }
+
+    &.pa-stat--secondary {
+      background-color: $text-secondary;
+      color: #ffffff;
+    }
+  }
+}
+
+// KPI Grid - spacing for square stats
+.pa-kpi-grid {
+  margin: -#{$spacing-sm};
+}

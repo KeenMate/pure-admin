@@ -1,0 +1,55 @@
+/* ========================================
+   List Components
+   List items with avatars, titles, subtitles, and meta information
+   ======================================== */
+
+// Lists
+.pa-list {
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: $card-footer-padding-v $card-footer-padding-h;
+    border-bottom: $border-width-base solid $border-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: $primary-bg;
+    }
+  }
+
+  &__avatar {
+    width: $btn-icon-only-size;
+    height: $btn-icon-only-size;
+    border-radius: 50%;
+    background-color: $primary-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-base;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    margin-bottom: 0.25rem;
+  }
+
+  &__subtitle {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: 0.25rem;
+  }
+
+  &__meta {
+    color: $text-secondary;
+    font-size: $font-size-xs;
+  }
+}

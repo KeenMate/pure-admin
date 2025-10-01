@@ -1,0 +1,325 @@
+// ======================
+// Tables
+// ======================
+// Table components with variants, virtual tables, and text utilities (consolidated)
+
+// Tables
+.pa-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  th {
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: var(--primary-bg);
+  }
+
+  td {
+    color: var(--text-secondary);
+  }
+
+  tr:hover {
+    background-color: var(--primary-bg);
+  }
+}
+
+// Tables
+.pa-table-container {
+  overflow-x: auto;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--table-bg, #ffffff);
+}
+
+.pa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background-color: var(--table-bg, #ffffff);
+
+  th,
+  td {
+    padding: $table-padding-base-v $table-padding-base-h;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    line-height: 1.2;
+  }
+
+  th {
+    background-color: var(--table-header-bg);
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  td {
+    color: var(--text-primary);
+    background-color: var(--table-bg, #ffffff);
+  }
+
+  // Remove bottom border from last row
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  // Striped variant
+  &--striped {
+    tbody tr:nth-child(even) {
+      background-color: var(--table-stripe);
+    }
+  }
+
+  // 2x spacing variant
+  &--2x {
+    th,
+    td {
+      padding: ($table-padding-base-v * $table-spacing-multiplier)
+        ($table-padding-base-h * $table-spacing-multiplier);
+    }
+  }
+
+  // 3x spacing variant
+  &--3x {
+    th,
+    td {
+      padding: ($table-padding-base-v * $table-spacing-multiplier * 1.5)
+        ($table-padding-base-h * $table-spacing-multiplier * 1.5);
+    }
+  }
+
+  // Hover effects
+  tbody tr:hover {
+    background-color: var(--table-hover-bg);
+  }
+
+  tbody tr:hover td {
+    background-color: var(--table-hover-bg);
+  }
+
+  // Remove margin from button groups inside table cells
+  td .pa-btn-group {
+    margin-bottom: 0;
+  }
+}
+
+// Pager
+.pa-pager {
+  display: flex;
+  margin: 1rem 0;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Default center alignment
+  justify-content: center;
+
+  // Positioning modifiers
+  &--left {
+    justify-content: flex-start;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__input {
+    width: 4rem !important;
+    text-align: center;
+  }
+
+  &__text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+}
+
+// Load More
+.pa-load-more {
+  display: flex;
+  margin: 1rem 0;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Default center alignment
+  justify-content: center;
+
+  // Positioning modifiers
+  &--left {
+    justify-content: flex-start;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all $transition-fast $easing-snappy;
+
+    &:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      background-color: var(--accent-light);
+    }
+
+    &--loading {
+      pointer-events: none;
+      opacity: 0.7;
+
+      .pa-load-more__spinner {
+        animation: pa-spin 1s linear infinite;
+      }
+    }
+  }
+
+  &__spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--border-color);
+    border-top: 2px solid var(--accent-color);
+    border-radius: 50%;
+  }
+
+  &__text {
+    color: inherit;
+  }
+
+  &__count {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+  }
+}
+
+// Virtual Table Styles
+.pa-virtual-table {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  height: 400px;
+  overflow: auto;
+  position: relative;
+  background-color: var(--table-bg, #ffffff);
+}
+
+.pa-virtual-table__header {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 120px 100px 100px;
+  background: var(--table-header-bg);
+  border-bottom: 2px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.pa-virtual-table__header-cell {
+  padding: 0.3rem 0.5rem;
+  font-weight: 600;
+  border-right: 1px solid var(--border-color);
+  background: var(--table-header-bg);
+  color: var(--text-primary);
+}
+
+.pa-virtual-table__header-cell:last-child {
+  border-right: none;
+}
+
+.pa-virtual-table__body {
+  position: relative;
+}
+
+.pa-virtual-table__row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 120px 100px 100px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--table-bg, #ffffff);
+}
+
+.pa-virtual-table__row:nth-child(even) {
+  background: var(--table-stripe);
+}
+
+.pa-virtual-table__row:hover {
+  background: var(--table-hover-bg);
+}
+
+.pa-virtual-table__cell {
+  padding: 0.3rem 0.5rem;
+  border-right: 1px solid var(--border-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+  background-color: inherit;
+}
+
+.pa-virtual-table__cell:last-child {
+  border-right: none;
+}
+
+// Text utilities for tables
+.text-success {
+  color: #28a745;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.text-warning {
+  color: #ffc107;
+}
+

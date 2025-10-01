@@ -1,0 +1,215 @@
+// ======================
+// Cards & Card Sections
+// ======================
+// Card components with headers, bodies, footers, variants, and tabs
+
+// Cards
+.pa-card {
+  background: var(--card-bg, white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow $transition-fast $easing-snappy;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &__header {
+    padding: 0.5rem 1rem;
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--primary-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 0; // Enable text truncation
+
+    h3,
+    h4,
+    h5 {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0; // Enable text truncation
+    flex: 1;
+
+    &-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    &-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
+
+  &__body {
+    padding: $card-body-padding $card-body-padding $card-body-padding
+      $card-body-padding;
+    flex: 1;
+
+    &--no-padding {
+      padding: 0;
+    }
+  }
+
+  &__footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-color);
+    border-bottom-left-radius: var(--border-radius-lg);
+    border-bottom-right-radius: var(--border-radius-lg);
+    background: var(--primary-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__tools {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__meta {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  // Card variants
+  &--primary {
+    border-color: var(--accent-color);
+
+    .pa-card__header {
+      background-color: var(--accent-color);
+      color: white;
+
+      h3,
+      h4,
+      h5 {
+        color: white;
+      }
+    }
+  }
+
+  &--success {
+    border-color: #28a745;
+
+    .pa-card__header {
+      background-color: #28a745;
+      color: white;
+
+      h3,
+      h4,
+      h5 {
+        color: white;
+      }
+    }
+  }
+
+  &--warning {
+    border-color: #ffc107;
+
+    .pa-card__header {
+      background-color: #ffc107;
+      color: #212529;
+
+      h3,
+      h4,
+      h5 {
+        color: #212529;
+      }
+    }
+  }
+
+  &--danger {
+    border-color: #dc3545;
+
+    .pa-card__header {
+      background-color: #dc3545;
+      color: white;
+
+      h3,
+      h4,
+      h5 {
+        color: white;
+      }
+    }
+  }
+
+  &--stat {
+    .pa-card__body {
+      padding: 1.5rem 1rem;
+    }
+  }
+
+  // Card tabs
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--primary-bg);
+  }
+
+  &__tab {
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-fast $easing-snappy;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      color: var(--text-primary);
+      background-color: rgba(var(--accent-color), 0.05);
+    }
+
+    &--active {
+      color: var(--accent-color);
+      border-bottom-color: var(--accent-color);
+    }
+  }
+
+  &__tab-content {
+    display: none;
+
+    &--active {
+      display: block;
+    }
+  }
+}
+
+// Card sections
+.pa-section {
+  margin-bottom: 2rem;
+
+  h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+  }
+}

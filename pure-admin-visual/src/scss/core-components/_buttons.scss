@@ -1,0 +1,398 @@
+/* ========================================
+   Button Components
+   Buttons, button groups, sizes, colors, states, and icon buttons
+   ======================================== */
+
+// Buttons
+.pa-btn {
+  display: inline-block;
+  padding: $btn-padding-v $btn-padding-h;
+  border: $btn-border-width solid transparent;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $transition-fast $easing-snappy;
+  background: none;
+  color: $text-primary;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &--primary {
+    background-color: $accent-color;
+    border-color: $accent-color;
+    color: white;
+
+    &:hover {
+      background-color: $accent-color;
+      filter: brightness(0.9);
+    }
+  }
+
+  &--secondary {
+    background-color: transparent;
+    border-color: $border-color;
+    color: $text-primary;
+
+    &:hover {
+      background-color: $primary-bg;
+      border-color: $accent-color;
+    }
+  }
+
+  &--xs {
+    padding: $badge-padding-v $badge-padding-h;
+    font-size: $font-size-xs;
+  }
+
+  &--sm {
+    padding: $btn-padding-sm-v $btn-padding-sm-h;
+    font-size: $font-size-sm;
+  }
+
+  &--lg {
+    padding: $btn-padding-lg-v $btn-padding-lg-h;
+    font-size: $font-size-base;
+  }
+
+  &--xl {
+    padding: $btn-padding-xl-v $btn-padding-xl-h;
+    font-size: $font-size-lg;
+  }
+
+  // Button variants (colors)
+  &--success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+
+    &:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+  }
+
+  &--warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+
+    &:hover {
+      background-color: #e0a800;
+      border-color: #d39e00;
+    }
+  }
+
+  &--danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+
+    &:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
+  }
+
+  &--info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: white;
+
+    &:hover {
+      background-color: #138496;
+      border-color: #117a8b;
+    }
+  }
+
+  &--light {
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+    color: #212529;
+
+    &:hover {
+      background-color: #e2e6ea;
+      border-color: #dae0e5;
+    }
+  }
+
+  &--dark {
+    background-color: #343a40;
+    border-color: #343a40;
+    color: white;
+
+    &:hover {
+      background-color: #23272b;
+      border-color: #1d2124;
+    }
+  }
+
+  // Outline variants
+  &--outline-primary {
+    background-color: transparent;
+    border-color: $accent-color;
+    color: $accent-color;
+
+    &:hover {
+      background-color: $accent-color;
+      color: white;
+    }
+  }
+
+  &--outline-secondary {
+    background-color: transparent;
+    border-color: #6c757d;
+    color: #6c757d;
+
+    &:hover {
+      background-color: #6c757d;
+      color: white;
+    }
+  }
+
+  &--outline-success {
+    background-color: transparent;
+    border-color: #28a745;
+    color: #28a745;
+
+    &:hover {
+      background-color: #28a745;
+      color: white;
+    }
+  }
+
+  &--outline-warning {
+    background-color: transparent;
+    border-color: #ffc107;
+    color: #ffc107;
+
+    &:hover {
+      background-color: #ffc107;
+      color: #212529;
+    }
+  }
+
+  &--outline-danger {
+    background-color: transparent;
+    border-color: #dc3545;
+    color: #dc3545;
+
+    &:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+  }
+
+  &--outline-info {
+    background-color: transparent;
+    border-color: #17a2b8;
+    color: #17a2b8;
+
+    &:hover {
+      background-color: #17a2b8;
+      color: white;
+    }
+  }
+
+  // Button states
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  &--loading {
+    position: relative;
+    pointer-events: none;
+
+    .pa-btn__spinner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: $spinner-size;
+      height: $spinner-size;
+      border: $spinner-border-width solid transparent;
+      border-top: $spinner-border-width solid currentColor;
+      border-radius: 50%;
+      animation: pa-spin 1s linear infinite;
+    }
+  }
+
+  // Ripple effect
+  &--ripple {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+      pointer-events: none;
+    }
+
+    &.pa-btn--ripple-active::before {
+      width: $ripple-size;
+      height: $ripple-size;
+    }
+  }
+
+  // Block button
+  &--block {
+    width: 100%;
+    display: block;
+  }
+
+  // Icon buttons
+  &--icon-only {
+    width: $btn-icon-only-size;
+    height: $btn-icon-only-size;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__icon {
+    margin-right: $btn-icon-margin;
+
+    &:last-child {
+      margin-right: 0;
+      margin-left: $btn-icon-margin;
+    }
+  }
+
+  // Buttons with icons align left like sidebar menu items
+  &:has(.pa-btn__icon) {
+    text-align: left;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    .pa-btn__icon {
+      width: $sidebar-icon-size;
+      min-width: $sidebar-icon-size;
+      height: $sidebar-icon-size;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin: 0;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  // Fixed width buttons - multipliers of 1rem
+  &--w-1x {
+    min-width: $spinner-size;
+  }
+
+  &--w-2x {
+    min-width: 2rem;
+  }
+
+  &--w-3x {
+    min-width: $stat-icon-size;
+  }
+
+  &--w-4x {
+    min-width: 4rem;
+  }
+
+  &--w-5x {
+    min-width: 5rem;
+  }
+
+  &--w-6x {
+    min-width: 6rem;
+  }
+
+  &--w-7x {
+    min-width: 7rem;
+  }
+
+  &--w-8x {
+    min-width: $stat-square-min-size;
+  }
+
+  &--w-9x {
+    min-width: 9rem;
+  }
+
+  &--w-10x {
+    min-width: 10rem;
+  }
+
+  // Content alignment modifiers (position content within button)
+  // Button always keeps its horizontal padding (0.75rem on both sides)
+  // These classes control content position and remove icon padding on aligned sides
+
+  &--align-left {
+    justify-content: flex-start;
+
+    .pa-btn__icon {
+      padding-left: 0;
+    }
+  }
+
+  &--align-right {
+    justify-content: flex-end;
+
+    .pa-btn__icon {
+      padding-right: 0;
+    }
+  }
+
+  &--align-center {
+    justify-content: center;
+  }
+
+  &--align-justify {
+    justify-content: space-between;
+
+    .pa-btn__icon:first-child {
+      padding-left: 0;
+    }
+
+    // Remove padding from last element (text or icon)
+    > *:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+// Button Groups
+.pa-btn-group {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  align-items: center;
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  // Ensure tooltips on buttons appear above siblings
+  .pa-btn.pa-tooltip:hover {
+    position: relative;
+    z-index: 1050;
+  }
+}
+

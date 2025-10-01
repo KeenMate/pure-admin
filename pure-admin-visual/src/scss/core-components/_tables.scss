@@ -1,0 +1,326 @@
+/* ========================================
+   Table Components
+   Tables, virtual tables, with striped, hover, and spacing variants
+   ======================================== */
+
+// Duplicate alert definition removed - consolidated above with theme-aware colors
+
+
+// Tables
+.pa-table-container {
+  overflow-x: auto;
+  border-radius: $border-radius;
+  border: $border-width-base solid $border-color;
+  background-color: $table-bg;
+}
+
+.pa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-sm;
+  background-color: $table-bg;
+
+  th,
+  td {
+    padding: $table-padding-base-v $table-padding-base-h;
+    text-align: left;
+    border-bottom: $border-width-base solid $border-color;
+    vertical-align: middle;
+    line-height: $line-height-tight;
+  }
+
+  th {
+    background-color: $table-header-bg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    border-bottom: $border-width-medium solid $border-color;
+  }
+
+  td {
+    color: $text-primary;
+    background-color: $table-bg;
+  }
+
+  // Remove bottom border from last row
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  // Striped variant
+  &--striped {
+    tbody tr:nth-child(even) {
+      background-color: $table-stripe;
+    }
+  }
+
+  // 2x spacing variant
+  &--2x {
+    th,
+    td {
+      padding: ($table-padding-base-v * $table-spacing-multiplier)
+        ($table-padding-base-h * $table-spacing-multiplier);
+    }
+  }
+
+  // 3x spacing variant
+  &--3x {
+    th,
+    td {
+      padding: ($table-padding-base-v * $table-spacing-multiplier * 1.5)
+        ($table-padding-base-h * $table-spacing-multiplier * 1.5);
+    }
+  }
+
+  // Hover effects
+  tbody tr {
+    // Setup for hover accent border
+    @if $table-hover-accent-width > 0 {
+      border-#{$table-hover-accent-position}: #{$table-hover-accent-width} solid transparent;
+      transition: border-color $transition-normal $easing-smooth;
+    }
+  }
+
+  tbody tr:hover {
+    background-color: $table-hover-bg;
+
+    // Apply hover accent if enabled
+    @if $table-hover-accent-width > 0 {
+      border-#{$table-hover-accent-position}-color: $table-hover-accent-color;
+    }
+  }
+
+  tbody tr:hover td {
+    background-color: $table-hover-bg;
+  }
+
+  // Remove margin from button groups inside table cells
+  td .pa-btn-group {
+    margin-bottom: 0;
+  }
+}
+
+// Pager
+.pa-pager {
+  display: flex;
+  margin: 1rem 0;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Default center alignment
+  justify-content: center;
+
+  // Positioning modifiers
+  &--left {
+    justify-content: flex-start;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    white-space: nowrap;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__input {
+    width: 4rem !important;
+    text-align: center;
+  }
+
+  &__text {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+
+// Load More
+.pa-load-more {
+  display: flex;
+  margin: 1rem 0;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Default center alignment
+  justify-content: center;
+
+  // Positioning modifiers
+  &--left {
+    justify-content: flex-start;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $btn-padding-lg-v $btn-padding-lg-h;
+    background-color: transparent;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-fast $easing-snappy;
+
+    &:hover {
+      border-color: $accent-color;
+      color: $accent-color;
+      background-color: $accent-light;
+    }
+
+    &--loading {
+      pointer-events: none;
+      opacity: 0.7;
+
+      .pa-load-more__spinner {
+        animation: pa-spin 1s linear infinite;
+      }
+    }
+  }
+
+  &__spinner {
+    width: $spinner-size;
+    height: $spinner-size;
+    border: $spinner-border-width solid $border-color;
+    border-top: $spinner-border-width solid $accent-color;
+    border-radius: 50%;
+  }
+
+  &__text {
+    color: inherit;
+  }
+
+  &__count {
+    color: $text-secondary;
+    font-size: $font-size-xs;
+    margin-left: 0.25rem;
+  }
+}
+
+// Virtual Table Styles
+.pa-virtual-table {
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  height: $chart-height;
+  overflow: auto;
+  position: relative;
+  background-color: $table-bg;
+  font-size: $font-size-sm; // Match pa-table font size
+}
+
+.pa-virtual-table__header {
+  display: grid;
+  grid-template-columns: $dashboard-grid-col-sm 1fr 1fr $dashboard-grid-col-lg $dashboard-grid-col-md $dashboard-grid-col-md;
+  background: $table-header-bg;
+  border-bottom: $border-width-medium solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.pa-virtual-table__header-cell {
+  padding: 0.3rem 0.5rem;
+  font-weight: $font-weight-semibold;
+  border-right: $border-width-base solid $border-color;
+  background: $table-header-bg;
+  color: $text-primary;
+}
+
+.pa-virtual-table__header-cell:last-child {
+  border-right: none;
+}
+
+.pa-virtual-table__body {
+  position: relative;
+}
+
+.pa-virtual-table__row {
+  display: grid;
+  grid-template-columns: $dashboard-grid-col-sm 1fr 1fr $dashboard-grid-col-lg $dashboard-grid-col-md $dashboard-grid-col-md;
+  border-bottom: $border-width-base solid $border-color;
+  background: $table-bg;
+
+  // Setup for hover accent border (same as pa-table)
+  @if $table-hover-accent-width > 0 {
+    border-#{$table-hover-accent-position}: #{$table-hover-accent-width} solid transparent;
+    transition: border-color $transition-normal $easing-smooth;
+  }
+}
+
+.pa-virtual-table__row:nth-child(even) {
+  background: $table-stripe;
+}
+
+.pa-virtual-table__row:hover {
+  background: $table-hover-bg;
+
+  // Apply hover accent if enabled (same as pa-table)
+  @if $table-hover-accent-width > 0 {
+    border-#{$table-hover-accent-position}-color: $table-hover-accent-color;
+  }
+}
+
+.pa-virtual-table__cell {
+  padding: 0.3rem 0.5rem;
+  border-right: $border-width-base solid $border-color;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: $text-primary;
+  background-color: inherit;
+}
+
+.pa-virtual-table__cell:last-child {
+  border-right: none;
+}
+
+// Text utilities for tables
+.text-success {
+  color: #28a745;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.text-warning {
+  color: #ffc107;
+}
+
