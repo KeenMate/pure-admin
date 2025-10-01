@@ -5,7 +5,7 @@
 
 // Form Elements
 .pa-form-group {
-  margin-bottom: 0.5rem;
+  margin-bottom: $form-group-margin-bottom;
 
   // Remove margins when first/last child in card body (direct, in forms+grids, or in grid columns)
   .pa-card__body > &:first-child,
@@ -26,7 +26,7 @@
       display: flex;
       align-items: center;
       gap: $form-scale;
-      margin-bottom: 0.2rem;
+      margin-bottom: $form-label-margin-bottom;
       color: $text-primary;
       font-weight: $font-weight-medium;
       font-size: $font-size-sm;
@@ -34,7 +34,7 @@
   }
 
   .pa-form-actions {
-    margin-top: 1rem;
+    margin-top: $spacing-base;
     display: flex;
     gap: $form-scale;
     flex-wrap: wrap;
@@ -43,7 +43,7 @@
 
 .pa-input {
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: $input-padding-v $input-padding-h;
   border: $border-width-base solid $border-color;
   border-radius: $border-radius;
   font-size: $font-size-sm;
@@ -54,13 +54,13 @@
   &:focus {
     outline: none;
     border-color: $accent-color;
-    box-shadow: 0 0 0 3px $accent-light;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
   }
 }
 
 .pa-select {
   width: 100%;
-  padding: 0.45rem 0.75rem;
+  padding: $select-padding-v $select-padding-h;
   border: $border-width-base solid $border-color;
   border-radius: $border-radius;
   font-size: $font-size-sm;
@@ -71,13 +71,13 @@
   &:focus {
     outline: none;
     border-color: $accent-color;
-    box-shadow: 0 0 0 3px $accent-light;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
   }
 }
 
 .pa-textarea {
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: $input-padding-v $input-padding-h;
   border: $border-width-base solid $border-color;
   border-radius: $border-radius;
   font-size: $font-size-sm;
@@ -88,7 +88,7 @@
   &:focus {
     outline: none;
     border-color: $accent-color;
-    box-shadow: 0 0 0 3px $accent-light;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
   }
 
   &::placeholder {
@@ -98,7 +98,7 @@
 
 .pa-textarea {
   resize: vertical;
-  min-height: 6rem;
+  min-height: $textarea-min-height;
 }
 
 // Input Sizes
@@ -129,21 +129,21 @@
 // Input States
 .pa-input--error,
 .pa-select--error {
-  border-color: #dc3545;
+  border-color: $danger-bg;
 
   &:focus {
-    border-color: #dc3545;
-    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+    border-color: $danger-bg;
+    box-shadow: 0 0 0 $focus-ring-width $danger-bg-light;
   }
 }
 
 .pa-input--success,
 .pa-select--success {
-  border-color: #28a745;
+  border-color: $success-bg;
 
   &:focus {
-    border-color: #28a745;
-    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+    border-color: $success-bg;
+    box-shadow: 0 0 0 $focus-ring-width $success-bg-light;
   }
 }
 
@@ -151,30 +151,30 @@
 .pa-form-group--error {
   .pa-input,
   .pa-select {
-    border-color: #dc3545;
+    border-color: $danger-bg;
   }
 }
 
 .pa-form-group--success {
   .pa-input,
   .pa-select {
-    border-color: #28a745;
+    border-color: $success-bg;
   }
 }
 
 // Form Help Text
 .pa-form-help {
   display: block;
-  margin-top: 0.25rem;
+  margin-top: $form-help-margin-top;
   font-size: $font-size-xs;
   color: $text-secondary;
 
   &--error {
-    color: #dc3545;
+    color: $danger-bg;
   }
 
   &--success {
-    color: #28a745;
+    color: $success-bg;
   }
 }
 
@@ -210,7 +210,7 @@
   &__append {
     display: flex;
     align-items: center;
-    padding: 0.5rem 0.75rem;
+    padding: $input-padding-v $input-padding-h;
     background-color: $primary-bg;
     border: $border-width-base solid $border-color;
     color: $text-secondary;

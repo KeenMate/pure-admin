@@ -7,7 +7,7 @@
 .pa-settings-panel {
   position: fixed;
   right: -$profile-panel-width-fixed; // Panel hidden by default
-  top: 15vh; // Position higher up for larger panel
+  top: $settings-panel-top; // Position higher up for larger panel
   z-index: 10000;
   width: $profile-panel-width-fixed;
   transition: right 0.3s ease;
@@ -33,7 +33,7 @@
     &:hover {
       background: $accent-hover;
       width: $profile-panel-toggle-size-open;
-      right: calc($profile-panel-width-fixed + 5px);
+      right: calc($profile-panel-width-fixed + $settings-panel-hover-offset);
     }
   }
 
@@ -45,15 +45,15 @@
     box-shadow: $shadow-sidebar-open;
     padding: $spacing-lg;
     width: 100%;
-    height: 70vh; // Larger panel height for more settings
-    min-height: 400px;
-    max-height: calc(100vh - 100px); // Leave space from top/bottom
+    height: $settings-panel-height; // Larger panel height for more settings
+    min-height: $settings-panel-min-height;
+    max-height: calc(100vh - $settings-panel-vertical-clearance); // Leave space from top/bottom
     overflow-y: auto;
   }
 
   &__title {
-    margin: 0 0 1.5rem 0;
-    padding-bottom: 0.75rem;
+    margin: 0 0 $spacing-lg 0;
+    padding-bottom: $card-footer-padding-v;
     border-bottom: $border-width-medium solid $border-color;
     color: $text-primary;
     font-size: $font-size-lg;
@@ -61,7 +61,7 @@
   }
 
   &__section {
-    margin-bottom: 1.25rem;
+    margin-bottom: $spacing-base;
 
     &:last-child {
       margin-bottom: 0;
@@ -70,7 +70,7 @@
 
   &__label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: $spacing-sm;
     color: $text-primary;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
@@ -89,7 +89,7 @@
     &:focus {
       outline: none;
       border-color: $accent-color;
-      box-shadow: 0 0 0 3px $accent-light;
+      box-shadow: 0 0 0 $focus-ring-width $accent-light;
     }
   }
 
@@ -243,7 +243,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-sm;
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-lg;
 }
 
 // Usage example styling
@@ -254,7 +254,7 @@
     align-items: center;
     justify-content: space-between;
     padding: $spacing-md;
-    margin-bottom: 0.5rem;
+    margin-bottom: $spacing-sm;
     background-color: $card-bg;
     border: $border-width-base solid $border-color;
     border-radius: $border-radius;
@@ -264,7 +264,7 @@
     }
 
     h5 {
-      margin: 0 0 0.5rem 0;
+      margin: 0 0 $spacing-sm 0;
       font-size: $font-size-base;
       font-weight: $font-weight-semibold;
     }
@@ -272,7 +272,7 @@
     .project-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.25rem;
+      gap: $spacing-xs;
     }
   }
 

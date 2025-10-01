@@ -15,7 +15,7 @@
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 1050;
+  z-index: $z-index-modal;
 
   &.pa-modal--show {
     display: flex;
@@ -30,20 +30,20 @@
   width: 100%;
   height: 100%;
   background-color: $modal-overlay-bg;
-  z-index: 1;
+  z-index: $z-index-base;
 }
 
 // Modal container (the actual dialog)
 .pa-modal__container {
   background-color: $modal-content-bg;
   border-radius: $modal-border-radius;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  box-shadow: $modal-box-shadow;
   width: 100%;
   max-width: $modal-md-width;
   max-height: 90vh;
-  margin: 1rem;
+  margin: $spacing-base;
   position: relative;
-  z-index: 2;
+  z-index: $focus-outline-width;
   display: flex;
   flex-direction: column;
 
@@ -97,13 +97,13 @@
   color: $text-secondary;
   cursor: pointer;
   padding: 0;
-  width: 2rem;
-  height: 2rem;
+  width: $modal-close-size;
+  height: $modal-close-size;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: $border-radius;
-  transition: background-color 0.15s ease;
+  transition: background-color $transition-normal ease;
   margin-right: calc(-1 * #{$modal-header-padding-h} + #{$spacing-sm}); // Align with right edge, keep small gap
 
   &:hover {
@@ -112,7 +112,7 @@
   }
 
   &:focus {
-    outline: 2px solid $accent-color;
+    outline: $focus-outline-width solid $accent-color;
     outline-offset: $focus-outline-offset;
   }
 }
@@ -131,45 +131,45 @@
   border-top: $border-width-base solid $border-color;
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
+  gap: $spacing-md;
   flex-shrink: 0;
 }
 
 // Modal color variations
 .pa-modal--primary .pa-modal__header {
   background-color: $btn-primary-bg;
-  color: white;
+  color: $modal-content-bg;
   border-bottom-color: $btn-primary-bg;
 
   .pa-modal__title {
-    color: white;
+    color: $modal-content-bg;
   }
 
   .pa-modal__close {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, $opacity-hover);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: white;
+      background-color: $modal-header-hover-overlay;
+      color: $modal-content-bg;
     }
   }
 }
 
 .pa-modal--success .pa-modal__header {
   background-color: $btn-success-bg;
-  color: white;
+  color: $btn-success-text;
   border-bottom-color: $btn-success-bg;
 
   .pa-modal__title {
-    color: white;
+    color: $btn-success-text;
   }
 
   .pa-modal__close {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, $opacity-hover);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: white;
+      background-color: $modal-header-hover-overlay;
+      color: $modal-content-bg;
     }
   }
 }
@@ -185,10 +185,10 @@
 
   .pa-modal__close {
     color: $btn-warning-color;
-    opacity: 0.8;
+    opacity: $opacity-hover;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(0, 0, 0, $opacity-light);
       opacity: 1;
     }
   }
@@ -196,26 +196,26 @@
 
 .pa-modal--danger .pa-modal__header {
   background-color: $btn-danger-bg;
-  color: white;
+  color: $btn-danger-text;
   border-bottom-color: $btn-danger-bg;
 
   .pa-modal__title {
-    color: white;
+    color: $btn-danger-text;
   }
 
   .pa-modal__close {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, $opacity-hover);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: white;
+      background-color: $modal-header-hover-overlay;
+      color: $modal-content-bg;
     }
   }
 }
 
 // Modal scrollable content
 .pa-modal__body--scrollable {
-  max-height: 60vh;
+  max-height: $modal-body-scrollable-max-height;
   overflow-y: auto;
 }
 
@@ -230,17 +230,17 @@
 // Responsive modal behavior
 @media (max-width: 768px) {
   .pa-modal__container {
-    margin: 0.5rem;
-    max-height: 95vh;
+    margin: $modal-mobile-margin;
+    max-height: $modal-mobile-max-height;
 
     &--lg,
     &--xl,
     &--xxl {
-      max-width: calc(100vw - 1rem);
+      max-width: calc(100vw - #{$spacing-base});
     }
 
     &--fw {
-      --modal-fw-margin: 0.5rem;
+      --modal-fw-margin: $modal-mobile-margin;
       max-width: calc(100vw - ($modal-fw-margin * 2));
       width: calc(100vw - ($modal-fw-margin * 2));
       max-height: calc(100vh - ($modal-fw-margin * 2));

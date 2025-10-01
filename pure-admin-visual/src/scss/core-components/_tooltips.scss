@@ -11,7 +11,7 @@
 
   // Elevate z-index on hover to appear above siblings
   &:hover {
-    z-index: 1050;
+    z-index: $z-index-modal;
   }
 
   &::before,
@@ -20,7 +20,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity $transition-normal $easing-smooth, transform $transition-normal $easing-smooth;
-    z-index: 1100;
+    z-index: $tooltip-z-index;
   }
 
   // Tooltip content
@@ -32,7 +32,7 @@
     border-radius: $border-radius;
     font-size: $font-size-xs;
     white-space: nowrap;
-    max-width: 15rem;
+    max-width: $tooltip-max-width;
     text-align: center;
   }
 
@@ -40,8 +40,8 @@
   &--multiline::before {
     white-space: normal;
     text-align: left;
-    width: 20rem;
-    max-width: 20rem;
+    width: $tooltip-multiline-width;
+    max-width: $tooltip-multiline-width;
     line-height: $line-height-base;
   }
 
@@ -315,12 +315,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: $popover-trigger-size;
+    height: $popover-trigger-size;
     padding: 0;
     border: $border-width-base solid $border-color;
     border-radius: 50%;
-    background-color: $content-background-color;
+    background-color: $popover-content-bg;
     color: $text-secondary;
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
@@ -329,7 +329,7 @@
 
     &:hover {
       background-color: $accent-color;
-      color: #ffffff;
+      color: $modal-content-bg;
       border-color: $accent-color;
     }
   }
@@ -343,7 +343,7 @@
     border: $border-width-base solid $border-color;
     border-radius: $border-radius;
     box-shadow: $shadow-lg;
-    z-index: 1100;
+    z-index: $popover-z-index;
 
     // Arrow
     &::after {
@@ -417,8 +417,8 @@
     color: $text-secondary;
     cursor: pointer;
     padding: 0;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: $popover-close-size;
+    height: $popover-close-size;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -426,7 +426,7 @@
     transition: all $transition-fast $easing-smooth;
 
     &:hover {
-      background-color: rgba($text-secondary, 0.1);
+      background-color: rgba($text-secondary, $opacity-light);
       color: $text-primary;
     }
   }
@@ -501,13 +501,13 @@
 
   // Size variants
   &--sm &__content {
-    min-width: 12rem;
-    max-width: 16rem;
+    min-width: $popover-sm-min-width;
+    max-width: $popover-sm-max-width;
   }
 
   &--lg &__content {
-    min-width: 20rem;
-    max-width: 28rem;
+    min-width: $popover-lg-min-width;
+    max-width: $popover-lg-max-width;
   }
 
   // Smart positioning - collision detection adjustments
@@ -515,11 +515,11 @@
 
   // Horizontal shifts (when content would overflow left/right)
   &--shift-left &__content {
-    transform: translateX(calc(-50% - 2rem)) !important;
+    transform: translateX(calc(-50% - #{$popover-shift-offset})) !important;
   }
 
   &--shift-right &__content {
-    transform: translateX(calc(-50% + 2rem)) !important;
+    transform: translateX(calc(-50% + #{$popover-shift-offset})) !important;
   }
 
   // Auto-flip to opposite side when original position overflows

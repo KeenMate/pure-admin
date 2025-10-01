@@ -21,12 +21,12 @@
   border: $spinner-border-width solid transparent;
   border-top: $spinner-border-width solid currentColor;
   border-radius: 50%;
-  animation: pa-spin 1s linear infinite;
+  animation: pa-spin $animation-spin-duration linear infinite;
 
   // Size variants
   &--xs {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: $loader-dot-size;
+    height: $loader-dot-size;
   }
 
   &--sm {
@@ -35,8 +35,8 @@
   }
 
   &--md {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: $sidebar-icon-size;
+    height: $sidebar-icon-size;
   }
 
   &--lg {
@@ -46,8 +46,8 @@
   }
 
   &--xl {
-    width: 3rem;
-    height: 3rem;
+    width: $stat-icon-size;
+    height: $stat-icon-size;
     border-width: $spinner-border-width-lg;
   }
 
@@ -86,12 +86,12 @@
 // Dots Loader
 .pa-loader-dots {
   display: inline-flex;
-  gap: 0.5rem;
+  gap: $spacing-sm;
   align-items: center;
 
   span {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: $loader-dot-size;
+    height: $loader-dot-size;
     border-radius: 50%;
     background-color: currentColor;
     animation: pa-bounce 1.4s infinite ease-in-out both;
@@ -106,15 +106,15 @@
   }
 
   &--lg span {
-    width: 1rem;
-    height: 1rem;
+    width: $loader-dot-size-lg;
+    height: $loader-dot-size-lg;
   }
 }
 
 @keyframes pa-bounce {
   0%, 80%, 100% {
     transform: scale(0);
-    opacity: 0.5;
+    opacity: $opacity-muted;
   }
   40% {
     transform: scale(1);
@@ -125,12 +125,12 @@
 // Bars Loader
 .pa-loader-bars {
   display: inline-flex;
-  gap: 0.25rem;
+  gap: $spacing-xs;
   align-items: center;
-  height: 1.5rem;
+  height: $loader-bar-height;
 
   span {
-    width: 0.25rem;
+    width: $loader-bar-width;
     height: 100%;
     background-color: currentColor;
     animation: pa-stretch 1.2s infinite ease-in-out;
@@ -160,7 +160,7 @@
     height: 2rem;
 
     span {
-      width: 0.375rem;
+      width: $loader-bar-width-lg;
     }
   }
 }
@@ -184,8 +184,8 @@
   animation: pa-pulse 1.2s infinite cubic-bezier(0.5, 0, 0.5, 1);
 
   &--lg {
-    width: 3rem;
-    height: 3rem;
+    width: $stat-icon-size;
+    height: $stat-icon-size;
   }
 }
 
@@ -195,7 +195,7 @@
     transform: scale(0);
   }
   50% {
-    opacity: 0.5;
+    opacity: $opacity-muted;
     transform: scale(1);
   }
 }
@@ -219,8 +219,8 @@
   }
 
   &--lg {
-    width: 3rem;
-    height: 3rem;
+    width: $stat-icon-size;
+    height: $stat-icon-size;
 
     &::after {
       border-width: $loader-border-width-lg;
@@ -231,12 +231,12 @@
 // Wave Loader
 .pa-loader-wave {
   display: inline-flex;
-  gap: 0.125rem;
+  gap: $badge-padding-v;
   align-items: center;
-  height: 1.5rem;
+  height: $loader-bar-height;
 
   span {
-    width: 0.25rem;
+    width: $loader-bar-width;
     height: 100%;
     background-color: currentColor;
     animation: pa-wave 1.2s infinite ease-in-out;
@@ -266,7 +266,7 @@
     height: 2rem;
 
     span {
-      width: 0.375rem;
+      width: $loader-bar-width-lg;
     }
   }
 }
@@ -290,8 +290,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  z-index: 10;
+  background-color: $loader-overlay-bg;
+  z-index: $z-index-loader;
 }
 
 .pa-loader-center {

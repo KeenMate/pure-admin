@@ -151,11 +151,38 @@ app.get('/layouts', (req, res) => {
     });
 });
 
-// Serve static files (after routes so EJS takes precedence)
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
-app.use('/src', express.static(path.join(__dirname, 'src')));
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-app.use('/fonts', express.static(path.join(__dirname, 'fonts')));
+// Serve static files with cache headers (after routes so EJS takes precedence)
+
+// Fonts - long cache (1 year) as they rarely change
+app.use('/fonts', express.static(path.join(__dirname, 'fonts'), {
+    maxAge: '1y',
+    immutable: true
+}));
+
+// CSS - medium cache (1 week) for development, could be longer in production
+app.use('/dist/css', express.static(path.join(__dirname, 'dist/css'), {
+    maxAge: '1w',
+    setHeaders: (res, path) => {
+        // Add ETag support for CSS files
+        res.setHeader('Cache-Control', 'public, max-age=604800'); // 1 week
+    }
+}));
+
+// Other dist files (JS, etc)
+app.use('/dist', express.static(path.join(__dirname, 'dist'), {
+    maxAge: '1w'
+}));
+
+// Assets (images, icons) - long cache
+app.use('/assets', express.static(path.join(__dirname, 'assets'), {
+    maxAge: '1y',
+    immutable: true
+}));
+
+// Source files (for development)
+app.use('/src', express.static(path.join(__dirname, 'src'), {
+    maxAge: '1h' // Short cache for dev files
+}));
 
 app.listen(port, () => {
     console.log(`Pure Admin server running at http://localhost:${port}`);

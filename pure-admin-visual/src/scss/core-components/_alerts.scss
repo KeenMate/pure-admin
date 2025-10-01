@@ -26,8 +26,8 @@
   // Basic alert variants - using theme colors with subtle backgrounds
   &--primary {
     color: $accent-color;
-    background-color: rgba($accent-color, 0.08);
-    border-color: rgba($accent-color, 0.2);
+    background-color: rgba($accent-color, $opacity-subtle);
+    border-color: rgba($accent-color, $opacity-border);
   }
 
   &--secondary {
@@ -37,27 +37,27 @@
   }
 
   &--success {
-    color: #28a745;
-    background-color: rgba(40, 167, 69, 0.08);
-    border-color: rgba(40, 167, 69, 0.2);
+    color: $success-bg;
+    background-color: $success-bg-subtle;
+    border-color: $success-border;
   }
 
   &--danger {
-    color: #dc3545;
-    background-color: rgba(220, 53, 69, 0.08);
-    border-color: rgba(220, 53, 69, 0.2);
+    color: $danger-bg;
+    background-color: $danger-bg-subtle;
+    border-color: $danger-border;
   }
 
   &--warning {
-    color: #ffc107;
-    background-color: rgba(255, 193, 7, 0.08);
-    border-color: rgba(255, 193, 7, 0.2);
+    color: $warning-bg;
+    background-color: $warning-bg-subtle;
+    border-color: $warning-border;
   }
 
   &--info {
-    color: #17a2b8;
-    background-color: rgba(23, 162, 184, 0.08);
-    border-color: rgba(23, 162, 184, 0.2);
+    color: $info-bg;
+    background-color: $info-bg-subtle;
+    border-color: $info-border;
   }
 
   &--light {
@@ -68,8 +68,8 @@
 
   &--dark {
     color: $text-primary;
-    background-color: rgba($text-primary, 0.08);
-    border-color: rgba($text-primary, 0.2);
+    background-color: rgba($text-primary, $opacity-subtle);
+    border-color: rgba($text-primary, $opacity-border);
   }
 
   // Outline variants
@@ -80,43 +80,43 @@
   }
 
   &--outline-success {
-    color: #28a745;
-    border-color: #28a745;
+    color: $success-bg;
+    border-color: $success-bg;
     background-color: transparent;
   }
 
   &--outline-danger {
-    color: #dc3545;
-    border-color: #dc3545;
+    color: $danger-bg;
+    border-color: $danger-bg;
     background-color: transparent;
   }
 
   &--outline-warning {
-    color: #ffc107;
-    border-color: #ffc107;
+    color: $warning-bg;
+    border-color: $warning-bg;
     background-color: transparent;
   }
 
   &--outline-info {
-    color: #17a2b8;
-    border-color: #17a2b8;
+    color: $info-bg;
+    border-color: $info-bg;
     background-color: transparent;
   }
 
   // Alert sizes
   &--sm {
-    padding: 0.5rem 0.75rem;
+    padding: $alert-padding-sm-v $alert-padding-sm-h;
     font-size: $font-size-sm;
   }
 
   &--lg {
-    padding: 1rem 1.25rem;
+    padding: $alert-padding-lg-v $alert-padding-lg-h;
     font-size: $font-size-base;
   }
 
   // Dismissible alerts
   &--dismissible {
-    padding-right: 3rem;
+    padding-right: $alert-dismissible-padding-right;
   }
 
   // Alert components
@@ -131,19 +131,19 @@
   }
 
   &__heading {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 $spacing-sm 0;
     color: inherit;
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
   }
 
   &__list {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
+    margin: $spacing-sm 0;
+    padding-left: $alert-list-padding-left;
   }
 
   &__actions {
-    margin-top: 0.75rem;
+    margin-top: $alert-list-item-margin-top;
     display: flex;
     gap: $spacing-sm;
   }
@@ -152,7 +152,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 2;
+    z-index: $focus-outline-width;
     padding: $card-footer-padding-v $card-footer-padding-h;
     background: none;
     border: none;
@@ -160,7 +160,7 @@
     line-height: 1;
     color: inherit;
     cursor: pointer;
-    opacity: 0.5;
+    opacity: $alert-close-opacity;
     transition: opacity $transition-fast $easing-snappy;
 
     &:hover {
@@ -201,9 +201,9 @@
 
   // Horizontal rule
   hr {
-    margin: 0.5rem 0;
+    margin: $spacing-sm 0;
     border: 0;
-    border-top: $border-width-base solid rgba(0, 0, 0, 0.1);
+    border-top: $border-width-base solid rgba(0, 0, 0, $opacity-light);
   }
 }
 

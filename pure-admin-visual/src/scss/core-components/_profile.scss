@@ -14,7 +14,7 @@
   gap: $spacing-sm;
   background: none;
   border: none;
-  padding: 0.5rem 0.75rem;
+  padding: $profile-button-padding-v $profile-button-padding-h;
   border-radius: $border-radius;
   color: $text-primary;
   cursor: pointer;
@@ -25,15 +25,15 @@
   }
 
   &:focus {
-    outline: 2px solid $accent-color;
+    outline: $focus-outline-width solid $accent-color;
     outline-offset: $focus-outline-offset;
   }
 }
 
 .admin-header__profile-avatar {
   font-size: $font-size-xl;
-  width: 2rem;
-  height: 2rem;
+  width: $profile-avatar-size-sm;
+  height: $profile-avatar-size-sm;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,7 +75,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: $profile-overlay-bg;
     cursor: pointer;
   }
 
@@ -106,8 +106,8 @@
   }
 
   &__avatar {
-    width: 4rem;
-    height: 4rem;
+    width: $profile-avatar-size;
+    height: $profile-avatar-size;
     background-color: $accent-light;
     border-radius: 50%;
     display: flex;
@@ -127,14 +127,14 @@
   }
 
   &__name {
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 $spacing-xs 0;
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
     color: $text-primary;
   }
 
   &__email {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 $spacing-sm 0;
     font-size: $font-size-sm;
     color: $text-secondary;
     overflow: hidden;
@@ -156,10 +156,10 @@
 
   &__close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 2rem;
-    height: 2rem;
+    top: $spacing-base;
+    right: $spacing-base;
+    width: $profile-close-size;
+    height: $profile-close-size;
     background: none;
     border: none;
     cursor: pointer;
@@ -177,7 +177,7 @@
     }
 
     &:focus {
-      outline: 2px solid $accent-color;
+      outline: $focus-outline-width solid $accent-color;
       outline-offset: $focus-outline-offset;
     }
   }
@@ -187,7 +187,7 @@
     padding: $spacing-lg;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: $profile-section-gap;
     overflow-y: auto;
   }
 
@@ -199,14 +199,14 @@
     }
 
     li {
-      margin-bottom: 0.5rem;
+      margin-bottom: $spacing-sm;
     }
   }
 
   &__nav-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: $spacing-md;
     padding: $card-footer-padding-v $card-footer-padding-h;
     color: $text-primary;
     text-decoration: none;
@@ -221,21 +221,21 @@
     }
 
     &:focus {
-      outline: 2px solid $accent-color;
+      outline: $focus-outline-width solid $accent-color;
       outline-offset: $focus-outline-offset;
     }
   }
 
   &__nav-icon {
     font-size: $font-size-lg;
-    width: 1.5rem;
+    width: $profile-nav-icon-width;
     text-align: center;
   }
 
   &__actions {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: $spacing-md;
     margin-top: auto;
   }
 }

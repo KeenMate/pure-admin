@@ -273,11 +273,11 @@
             const isMobile = window.innerWidth <= 768;
 
             if (isMobile) {
+                // Mobile: Toggle sidebar visibility but don't persist state
                 body.classList.toggle('sidebar-visible');
                 burgerMenu.classList.toggle('active');
-                const isVisible = body.classList.contains('sidebar-visible');
-                localStorage.setItem('mobile-sidebar-visible', isVisible);
             } else {
+                // Desktop: Toggle and persist state
                 body.classList.toggle('sidebar-hidden');
                 burgerMenu.classList.toggle('active');
                 const isHidden = body.classList.contains('sidebar-hidden');
@@ -290,16 +290,12 @@
             const isMobile = window.innerWidth <= 768;
 
             if (isMobile) {
+                // Mobile: Always start with sidebar hidden (not visible)
                 body.classList.remove('sidebar-hidden');
                 body.classList.remove('sidebar-visible');
-                const mobileSidebarVisible = localStorage.getItem('mobile-sidebar-visible') === 'true';
-                if (mobileSidebarVisible) {
-                    body.classList.add('sidebar-visible');
-                    document.querySelector('.burger-menu').classList.add('active');
-                } else {
-                    document.querySelector('.burger-menu').classList.remove('active');
-                }
+                document.querySelector('.burger-menu').classList.remove('active');
             } else {
+                // Desktop: Use saved state
                 body.classList.remove('sidebar-visible');
                 const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
                 if (sidebarHidden) {
@@ -317,7 +313,7 @@
             if (body.classList.contains('sidebar-visible') && event.target === body) {
                 body.classList.remove('sidebar-visible');
                 document.querySelector('.burger-menu').classList.remove('active');
-                localStorage.setItem('mobile-sidebar-visible', false);
+                // No need to save mobile sidebar state - always starts hidden on page load
             }
         }
 

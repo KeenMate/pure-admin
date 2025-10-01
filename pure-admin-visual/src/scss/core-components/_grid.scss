@@ -7,15 +7,15 @@
 // Apply padding to grid units for spacing
 .pure-g {
   // Add negative margin to compensate for padding on children
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
+  margin-left: -$grid-gutter-base;
+  margin-right: -$grid-gutter-base;
 
   // All direct children (grid units) get padding
   > [class*="pure-u"] {
     box-sizing: border-box;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-left: $grid-gutter-base;
+    padding-right: $grid-gutter-base;
+    padding-bottom: $grid-gutter-base;
   }
 }
 
@@ -26,38 +26,38 @@
 
 // Alternative: Specific gutter classes for different spacing needs
 .pure-g-gutters {
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
+  margin-left: -$grid-gutter-md;
+  margin-right: -$grid-gutter-md;
 
   > [class*="pure-u"] {
     box-sizing: border-box;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding-left: $grid-gutter-md;
+    padding-right: $grid-gutter-md;
+    padding-bottom: $grid-gutter-md;
   }
 }
 
 .pure-g-gutters-sm {
-  margin-left: -0.25rem;
-  margin-right: -0.25rem;
+  margin-left: -$grid-gutter-sm;
+  margin-right: -$grid-gutter-sm;
 
   > [class*="pure-u"] {
     box-sizing: border-box;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding-left: $grid-gutter-sm;
+    padding-right: $grid-gutter-sm;
+    padding-bottom: $grid-gutter-sm;
   }
 }
 
 .pure-g-gutters-lg {
-  margin-left: -1rem;
-  margin-right: -1rem;
+  margin-left: -$grid-gutter-lg;
+  margin-right: -$grid-gutter-lg;
 
   > [class*="pure-u"] {
     box-sizing: border-box;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
+    padding-left: $grid-gutter-lg;
+    padding-right: $grid-gutter-lg;
+    padding-bottom: $grid-gutter-lg;
   }
 }
 
@@ -68,7 +68,7 @@
     margin: 0 0 $spacing-base 0;
     color: $text-primary;
     border-bottom: $border-width-medium solid $accent-color;
-    padding-bottom: 0.5rem;
+    padding-bottom: $spacing-sm;
   }
 }
 
@@ -90,12 +90,12 @@
 
   &:hover {
     border-color: $accent-color;
-    transform: translateY(-2px);
+    transform: translateY($hover-lift-offset);
     box-shadow: $shadow-lg;
   }
 
   h4 {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 $spacing-sm 0;
     color: $text-primary;
     font-size: $font-size-lg;
   }
