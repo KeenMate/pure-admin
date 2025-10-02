@@ -7,6 +7,75 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed - 2025-02-10
+
+#### SCSS Variable Consolidation - Complete Framework Audit
+- **Eliminated all hardcoded values**: Audited and replaced 59 hardcoded values across 12 component files
+- **Added 50+ new SCSS variables** for complete theme control:
+  - **Breakpoints**: `$mobile-breakpoint` (768px), `$tablet-breakpoint` (1024px), `$tablet-breakpoint-min` (769px), `$sidebar-width-tablet` (10rem)
+  - **Opacity values**: `$alert-secondary-bg-opacity`, `$alert-light-bg-opacity`, `$card-tab-hover-opacity`, `$bg-pattern-opacity`, `$popover-code-bg-opacity`, `$modal-warning-hover-bg-opacity`
+  - **Background pattern**: `$bg-pattern-circle-1-x/y`, `$bg-pattern-circle-2-x/y`, `$bg-pattern-gradient-start/stop`
+  - **Form system**: `$checkbox-margin-top`, `$form-group-margin-compact`
+  - **Button widths**: `$btn-width-1x` through `$btn-width-10x` (1rem to 10rem)
+  - **Loader animations**: `$loader-dots-delay-1/2`, `$loader-bars-delay-1` through `$loader-bars-delay-5`, `$loader-pulse-duration`, `$loader-pulse-easing`
+  - **Loader sizes**: Consolidated to base `$spinner-size` variable
+  - **Statistics**: `$stat-square-number-min/scale/max`, `$stat-square-symbol-min/scale/max`, `$stat-text-shadow-*`, `$stat-drop-shadow-*`
+  - **Profile panel**: `$profile-role-letter-spacing`, `$profile-panel-mobile-max-width`
+  - **Settings panel**: `$settings-panel-transition-duration`, `$settings-panel-transition-easing`
+  - **Tables**: `$virtual-table-cell-padding-v/h`
+  - **Tooltips**: `$popover-code-padding-v/h`, `$popover-code-font-scale`
+  - **Badges**: Removed `$badge-padding-h-sm` (theme-controlled via base variable)
+
+#### Component vs Theme Variable Separation
+- **Removed all size-specific padding variables**: Components now use only base variables
+  - Removed: `$input-padding-xs-v/h`, `$input-padding-sm-v/h`, `$input-padding-xl-v/h`
+  - Removed: `$btn-padding-xs-v/h`, `$btn-padding-sm-v/h`, `$btn-padding-lg-v/h`, `$btn-padding-xl-v/h`
+  - Removed: `$alert-padding-sm-v/h`, `$alert-padding-lg-v/h`
+  - Removed: `$spinner-border-width-lg/xl`
+  - Removed: `$loader-size-md/2xl`, `$loader-border-width-lg`, `$loader-dot-size-lg`, `$loader-bar-width-lg`
+  - Removed: `$profile-avatar-size-sm`
+- **Updated component size modifiers**: Size variants (`--xs`, `--sm`, `--lg`, `--xl`) now only change font-size
+  - **Inputs**: All sizes use `$input-padding-v/h`, only font-size changes
+  - **Buttons**: All sizes use `$btn-padding-v/h`, only font-size changes
+  - **Alerts**: All sizes use `$alert-padding-v/h`, only font-size changes
+  - **Badges**: `--sm` uses `$badge-padding-v/h`, only font-size changes
+- **Removed spinner size modifiers**: Deleted `.pa-spinner--sm/md/lg/xl/2xl` classes
+  - Themes control spinner size via `$spinner-size` variable
+- **Pattern established**: Components use semantic base variables (e.g., `$badge-padding-h`), themes control actual values
+
+#### Class Naming Consistency
+- **Renamed layout classes** to use `pa-` prefix throughout:
+  - `.admin-content` → `.pa-content`
+  - `.admin-header` → `.pa-header`
+  - All `.admin-header__*` subclasses → `.pa-header__*`
+- **Updated files**:
+  - SCSS: `core-components/_layout.scss`, `core-components/_profile.scss`
+  - Views: `layout.ejs`, `partials/navbar.ejs`
+- Framework now uses consistent `pa-` prefix for all classes
+
+### Fixed - 2025-02-10
+
+#### CSS Variable Violation
+- **Removed CSS variable from _layout.scss**: Line 638 used `--sidebar-width: 10rem;`
+  - Replaced with SCSS variable `$sidebar-width-tablet: 10rem`
+  - Applied directly in media query instead of runtime CSS variable
+  - Maintains framework's "SCSS variables only" architecture
+
+#### Font Inheritance for Form Elements
+- **Fixed button and form element font inheritance**:
+  - Added `font-family: inherit` to `.pa-btn`, `.pa-input`, `.pa-select`, `.pa-textarea`
+  - **Problem**: Buttons used browser default fonts (Arial) instead of theme fonts
+  - **Solution**: Elements now inherit theme font (e.g., Fira Sans Condensed in Audi theme)
+  - Affects all `<button>` elements which don't inherit fonts by default
+  - `<a>` elements with `.pa-btn` were unaffected (already inherited correctly)
+
+#### Page Loader Timing
+- **Reduced loader fade duration**: Changed from 300ms to 150ms
+  - Faster page reveal for better perceived performance
+  - Still smooth enough to avoid jarring transitions
+
+---
+
 ### Added - 2025-01-31
 
 #### Tooltips Component & Page
