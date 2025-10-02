@@ -130,8 +130,14 @@ $dashboard-grid-col-sm: 80px !default;
 $dashboard-grid-col-md: 100px !default;
 $dashboard-grid-col-lg: 120px !default;
 
-// Font system
-$body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
+// Font system (comprehensive system font stacks)
+// Based on https://gist.github.com/devinschumacher/6cbd52c082040f0e4c414836aebdb36f
+$font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !default;
+$font-stack-serif: Georgia, "Times New Roman", Times, serif !default;
+$font-stack-mono: "Courier New", Courier, monospace !default;
+
+// Body font (defaults to system, themes can override)
+$body-font-family: $font-stack-system !default;
 
 // Font sizes (all in rem for consistency)
 $font-size-2xs: 0.625rem !default;  // 10px - Used for tiny text

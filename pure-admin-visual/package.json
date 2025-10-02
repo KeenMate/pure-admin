@@ -4,11 +4,11 @@
   "description": "Lightweight data-focused admin framework based on PureCSS",
   "main": "index.html",
   "scripts": {
-    "build-css": "sass src/scss/main.scss dist/css/main.css",
-    "build-themes": "sass src/scss/themes:dist/css/themes",
+    "build-css": "sass --silence-deprecation=import src/scss/main.scss dist/css/main.css",
+    "build-themes": "sass --silence-deprecation=import src/scss/themes:dist/css/themes",
     "build-all": "npm run build-css && npm run build-themes",
-    "watch-css": "sass --watch src/scss/main.scss:dist/css/main.css",
-    "watch-themes": "sass --watch src/scss/themes:dist/css/themes",
+    "watch-css": "sass --silence-deprecation=import --watch src/scss/main.scss:dist/css/main.css",
+    "watch-themes": "sass --silence-deprecation=import --watch src/scss/themes:dist/css/themes",
     "watch-all": "concurrently \"npm run watch-css\" \"npm run watch-themes\"",
     "dev": "npm run watch-all",
     "dev-server": "concurrently \"npm run watch-all\" \"live-server --port=8000 --wait=500\"",
@@ -32,6 +32,7 @@
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "express-ejs-layouts": "^2.5.1"
+    "express-ejs-layouts": "^2.5.1",
+    "purecss": "^3.0.0"
   }
 }

@@ -3,6 +3,8 @@
    Tooltips with multiple positions and popovers with rich content
    ======================================== */
 
+@use "sass:color";
+
 // Tooltips
 .pa-tooltip {
   position: relative;
@@ -391,7 +393,7 @@
       text-decoration: underline;
 
       &:hover {
-        color: darken($accent-color, 10%);
+        color: color.adjust($accent-color, $lightness: -10%);
       }
     }
 

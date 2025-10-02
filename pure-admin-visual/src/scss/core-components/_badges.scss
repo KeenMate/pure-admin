@@ -3,6 +3,8 @@
    Standard badges, composite badges, and label components
    ======================================== */
 
+@use "sass:color";
+
 // Badges
 .pa-badge {
   display: inline-block;
@@ -153,7 +155,7 @@
       background-color: $badge-success-bg;
       color: $badge-success-text;
       &:hover {
-        background-color: darken($badge-success-bg, 5%);
+        background-color: color.adjust($badge-success-bg, $lightness: -5%);
       }
     }
     .pa-composite-badge__button {
@@ -177,7 +179,7 @@
       background-color: $badge-danger-bg;
       color: $badge-danger-text;
       &:hover {
-        background-color: darken($badge-danger-bg, 5%);
+        background-color: color.adjust($badge-danger-bg, $lightness: -5%);
       }
     }
     .pa-composite-badge__button {
@@ -201,7 +203,7 @@
       background-color: $badge-warning-bg;
       color: $badge-warning-text;
       &:hover {
-        background-color: darken($badge-warning-bg, 5%);
+        background-color: color.adjust($badge-warning-bg, $lightness: -5%);
       }
     }
     .pa-composite-badge__button {
@@ -225,7 +227,7 @@
       background-color: $badge-info-bg;
       color: $badge-info-text;
       &:hover {
-        background-color: darken($badge-info-bg, 5%);
+        background-color: color.adjust($badge-info-bg, $lightness: -5%);
       }
     }
     .pa-composite-badge__button {
@@ -325,20 +327,20 @@
 
   // Color variants for label section
   &--label-primary &__label {
-    background-color: lighten($btn-primary-bg, 40%);
-    color: darken($btn-primary-bg, 30%);
+    background-color: color.adjust($btn-primary-bg, $lightness: 40%);
+    color: color.adjust($btn-primary-bg, $lightness: -30%);
 
     &:hover {
-      background-color: lighten($btn-primary-bg, 35%);
+      background-color: color.adjust($btn-primary-bg, $lightness: 35%);
     }
   }
 
   &--label-secondary &__label {
-    background-color: lighten($btn-secondary-bg, 35%);
+    background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
     color: $secondary-text;
 
     &:hover {
-      background-color: lighten($btn-secondary-bg, 30%);
+      background-color: color.adjust($btn-secondary-bg, $lightness: 30%);
     }
   }
 
@@ -347,7 +349,7 @@
     color: $badge-success-text;
 
     &:hover {
-      background-color: darken($badge-success-bg, 5%);
+      background-color: color.adjust($badge-success-bg, $lightness: -5%);
     }
   }
 
@@ -356,7 +358,7 @@
     color: $badge-danger-text;
 
     &:hover {
-      background-color: darken($badge-danger-bg, 5%);
+      background-color: color.adjust($badge-danger-bg, $lightness: -5%);
     }
   }
 
@@ -365,7 +367,7 @@
     color: $badge-warning-text;
 
     &:hover {
-      background-color: darken($badge-warning-bg, 5%);
+      background-color: color.adjust($badge-warning-bg, $lightness: -5%);
     }
   }
 
@@ -374,25 +376,25 @@
     color: $badge-info-text;
 
     &:hover {
-      background-color: darken($badge-info-bg, 5%);
+      background-color: color.adjust($badge-info-bg, $lightness: -5%);
     }
   }
 
   &--label-light &__label {
-    background-color: lighten($btn-light-bg, 2%);
+    background-color: color.adjust($btn-light-bg, $lightness: 2%);
     color: $btn-light-text;
 
     &:hover {
-      background-color: lighten($btn-secondary-bg, 35%);
+      background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
     }
   }
 
   &--label-dark &__label {
-    background-color: lighten($btn-dark-bg, 50%);
-    color: lighten($btn-dark-bg, 5%);
+    background-color: color.adjust($btn-dark-bg, $lightness: 50%);
+    color: color.adjust($btn-dark-bg, $lightness: 5%);
 
     &:hover {
-      background-color: lighten($btn-dark-bg, 45%);
+      background-color: color.adjust($btn-dark-bg, $lightness: 45%);
     }
   }
 

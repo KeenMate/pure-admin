@@ -46,7 +46,7 @@ serve-node:
 
 # Docker commands
 docker-build:
-	docker build --progress plain -t $(DOCKER_IMAGE) .
+	docker build --no-cache --progress plain -t $(DOCKER_IMAGE) .
 
 docker-run:
 	docker run -d --name $(DOCKER_CONTAINER) -p $(HOST_PORT):$(CONTAINER_PORT) $(DOCKER_IMAGE)

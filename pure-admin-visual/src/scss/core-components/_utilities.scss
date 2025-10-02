@@ -168,53 +168,14 @@
   font-size: $font-size-4xl;
 }
 
-// Font family classes - use theme variables to respect theme fonts
-.font-family-system {
-  font-family: $body-font-family;
-
-  // Exclude Font Awesome and other icon fonts from inheriting
-  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  h1, h2, h3, h4, h5, h6, p, div,
-  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  button, input, textarea, select {
-    font-family: inherit;
-  }
-}
-
-.font-family-sans {
-  font-family: $body-font-family;
-
-  // Exclude Font Awesome and other icon fonts from inheriting
-  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  h1, h2, h3, h4, h5, h6, p, div,
-  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  button, input, textarea, select {
-    font-family: inherit;
-  }
-}
-
+// Font family utilities
+// Only for overriding the theme's default font
 .font-family-serif {
-  font-family: Georgia, "Times New Roman", Times, serif;
-
-  // Exclude Font Awesome and other icon fonts from inheriting
-  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  h1, h2, h3, h4, h5, h6, p, div,
-  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  button, input, textarea, select {
-    font-family: inherit;
-  }
+  font-family: $font-stack-serif;
 }
 
 .font-family-mono {
-  font-family: "Courier New", Courier, monospace;
-
-  // Exclude Font Awesome and other icon fonts from inheriting
-  *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  h1, h2, h3, h4, h5, h6, p, div,
-  span:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad),
-  button, input, textarea, select {
-    font-family: inherit;
-  }
+  font-family: $font-stack-mono;
 }
 
 // Compact mode
