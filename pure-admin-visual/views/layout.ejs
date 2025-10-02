@@ -419,9 +419,9 @@
                 // Font size
                 const savedFontSize = localStorage.getItem('font-size') || 'default';
                 fontSizeSelector.value = savedFontSize;
-                body.classList.remove('font-size-small', 'font-size-default', 'font-size-large', 'font-size-xlarge');
+                document.documentElement.classList.remove('font-size-small', 'font-size-default', 'font-size-large', 'font-size-xlarge');
                 if (savedFontSize !== 'default') {
-                    body.classList.add(`font-size-${savedFontSize}`);
+                    document.documentElement.classList.add(`font-size-${savedFontSize}`);
                 }
 
                 // Font family
@@ -480,9 +480,9 @@
             // Font size change
             fontSizeSelector.addEventListener('change', (e) => {
                 const size = e.target.value;
-                body.classList.remove('font-size-small', 'font-size-default', 'font-size-large', 'font-size-xlarge');
+                document.documentElement.classList.remove('font-size-small', 'font-size-default', 'font-size-large', 'font-size-xlarge');
                 if (size !== 'default') {
-                    body.classList.add(`font-size-${size}`);
+                    document.documentElement.classList.add(`font-size-${size}`);
                 }
                 localStorage.setItem('font-size', size);
             });

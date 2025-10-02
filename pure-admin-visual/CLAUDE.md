@@ -59,6 +59,103 @@ This is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE
 5. **Grid columns inside cards have no bottom padding** - Prevents spacing conflicts
 6. **All spacing uses consistent rem units** - Framework-wide consistency
 7. **Use UTF-8 icons where appropriate** - Better visual design than HTML entities
+8. **Font inheritance is global** - All form elements inherit fonts via `_base.scss`, never add `font-family: inherit` to individual components
+
+## Font System Architecture (2025-02-10)
+
+### **Global Font Inheritance**
+All form elements and labels inherit theme fonts globally via `_base.scss`:
+```scss
+button, input, select, textarea, label {
+  font-family: inherit;
+}
+```
+
+**Critical principle:** NEVER add `font-family: inherit` to individual components. The global rule in `_base.scss` handles all font inheritance automatically.
+
+**Why this matters:**
+- Browsers don't inherit fonts for form elements by default (`<button>`, `<input>`, `<select>`, `<textarea>`)
+- Without this global rule, form elements use browser defaults (typically Arial)
+- This single declaration ensures ALL form elements use the theme font (e.g., Fira Sans Condensed in Audi theme)
+
+### **Component vs Theme Variable Separation**
+
+**Core Principle:** Components use **semantic base variables only**. Themes control the actual values.
+
+#### **DO: Use base variables in components**
+```scss
+.pa-badge {
+  padding: $badge-padding-v $badge-padding-h;  // ✅ Base variables
+  font-size: $font-size-xs;
+}
+
+.pa-badge--sm {
+  padding: $badge-padding-v $badge-padding-h;  // ✅ Same padding
+  font-size: $font-size-2xs;                   // ✅ Only font-size changes
+}
+```
+
+#### **DON'T: Create size-specific component variables**
+```scss
+// ❌ WRONG - Don't create these
+$badge-padding-h-sm: 0.375rem;
+$badge-padding-h-lg: 0.625rem;
+
+// ❌ WRONG - Don't reference size variants in components
+.pa-badge--sm {
+  padding: $badge-padding-v $badge-padding-h-sm;
+}
+```
+
+#### **How Themes Control Sizing**
+Themes set the base variable to whatever value they need:
+```scss
+// In audi.scss theme
+$badge-padding-h: 0.375rem;  // ✅ Theme decides the value
+$badge-padding-h: $spacing-sm; // ✅ Or reference other variables
+
+// Components automatically use this value
+.pa-badge { padding: $badge-padding-v $badge-padding-h; }
+.pa-badge--sm { padding: $badge-padding-v $badge-padding-h; }
+```
+
+#### **Size Modifiers: Font-Size Only**
+Size modifier classes (`--xs`, `--sm`, `--lg`, `--xl`) should ONLY change `font-size`, never padding or dimensions:
+
+```scss
+// ✅ CORRECT Pattern
+.pa-input {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-sm;
+}
+
+.pa-input--xs {
+  padding: $input-padding-v $input-padding-h;  // Same padding
+  font-size: $font-size-xs;                    // Only font-size changes
+}
+
+.pa-input--lg {
+  padding: $input-padding-v $input-padding-h;  // Same padding
+  font-size: $font-size-lg;                    // Only font-size changes
+}
+```
+
+#### **Examples of Base Variables**
+- `$btn-padding-v` / `$btn-padding-h` (NOT `$btn-padding-sm-v`)
+- `$input-padding-v` / `$input-padding-h` (NOT `$input-padding-xl-h`)
+- `$badge-padding-v` / `$badge-padding-h` (NOT `$badge-padding-h-sm`)
+- `$alert-padding-v` / `$alert-padding-h` (NOT `$alert-padding-lg-v`)
+- `$spinner-size` (NOT `$spinner-size-lg` or `$spinner-size-xl`)
+- `$profile-avatar-size` (NOT `$profile-avatar-size-sm`)
+
+#### **Design System Scales (Exception)**
+Typography, spacing, and layout scales ARE size-specific and are part of the design system:
+- `$font-size-xs` through `$font-size-4xl` ✅
+- `$spacing-xs` through `$spacing-2xl` ✅
+- `$shadow-sm` through `$shadow-2xl` ✅
+- `$layout-container-sm` through `$layout-container-2xl` ✅
+
+These are NOT component-specific, they're system-wide scales that themes use to build component values.
 
 ## Recent Work
 - Converted from static HTML to EJS with Express.js server
@@ -157,5 +254,45 @@ Added comprehensive variables to eliminate remaining hardcoded values:
   - Footer: Left actions + right save group with proper spacing
   - Body: Inline `pa-btn-group` for form actions
 - **Icon integration:** All examples use proper `.pa-btn__icon` wrapper pattern
+
+## Proportional Font Scaling System (2025-02-10)
+**Major enhancement:** Global font scaling that proportionally resizes the entire UI.
+
+### **Implementation:**
+- **Font-size utilities target `<html>` element:** Classes like `.font-size-large` apply to root element, not body
+- **All components use rem units:** Since `rem` = "root em", changing `<html>` font-size scales everything proportionally
+- **Button/form elements inherit font-size:** Added `font-size: inherit` to global reset for `button, input, select, textarea, label`
+
+### **User Experience Pattern:**
+```javascript
+// Store user preference
+localStorage.setItem('font-size', 'large');
+
+// On page load
+const fontSize = localStorage.getItem('font-size') || 'default';
+document.documentElement.classList.add(`font-size-${fontSize}`);
+```
+
+### **Why This Works:**
+```scss
+// Font utilities target <html>
+html.font-size-large {
+  font-size: 1.125rem; // Root font-size = 18px instead of 16px
+}
+
+// All components scale proportionally
+.pa-btn { font-size: 0.875rem; } // 14px → 15.75px (0.875 × 18)
+h2 { font-size: 2rem; }           // 32px → 36px (2 × 18)
+.pa-sidebar__link { /* inherits */ } // Scales with root
+```
+
+### **Key Fixes:**
+- **Sidebar toggle buttons scale correctly:** Added `font-size: inherit` to global button reset (browsers have default button font-size that blocks inheritance)
+- **JavaScript updated:** Settings panel applies font-size classes to `document.documentElement` instead of `body`
+- **No inheritance conflicts:** Buttons with explicit `font-size` still work (using rem), sidebar items without explicit size inherit and scale
+
+### **Available Classes:**
+- `html.font-size-2xs` through `html.font-size-4xl` for progressive scaling
+- Settings panel stores preference in localStorage and restores on page load
 
 Remember: User appreciates thorough, systematic work and clear communication! 🚀
