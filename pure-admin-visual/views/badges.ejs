@@ -146,6 +146,253 @@
     </div>
 </div>
 
+<!-- Badge Groups with Limits -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Badge Groups with Limits</h3>
+        <p>Display many badges with automatic overflow handling - shows 5 badges and "... N more" indicator</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pure-g">
+            <div class="pure-u-1">
+                <h4>Project Tags (15 total, showing 5)</h4>
+                <div class="pa-badge-group" style="margin-bottom: 1rem;">
+                    <span class="pa-badge pa-badge--primary">React</span>
+                    <span class="pa-badge pa-badge--info">TypeScript</span>
+                    <span class="pa-badge pa-badge--success">Node.js</span>
+                    <span class="pa-badge pa-badge--warning">Express</span>
+                    <span class="pa-badge pa-badge--secondary">PostgreSQL</span>
+                    <span class="pa-badge pa-badge--primary">Redux</span>
+                    <span class="pa-badge pa-badge--info">Sass</span>
+                    <span class="pa-badge pa-badge--success">Docker</span>
+                    <span class="pa-badge pa-badge--warning">AWS</span>
+                    <span class="pa-badge pa-badge--danger">Redis</span>
+                    <span class="pa-badge pa-badge--secondary">GraphQL</span>
+                    <span class="pa-badge pa-badge--primary">Jest</span>
+                    <span class="pa-badge pa-badge--info">Webpack</span>
+                    <span class="pa-badge pa-badge--success">ESLint</span>
+                    <span class="pa-badge pa-badge--dark">GitHub Actions</span>
+                    <span class="pa-badge pa-badge--secondary">
+                        <span class="pa-badge__icon">»</span>
+                        10 more
+                    </span>
+                </div>
+
+                <h4>User Skills (34 total, showing 5)</h4>
+                <div class="pa-badge-group" style="margin-bottom: 1rem;">
+                    <span class="pa-badge pa-badge--pill pa-badge--primary">JavaScript</span>
+                    <span class="pa-badge pa-badge--pill pa-badge--info">Python</span>
+                    <span class="pa-badge pa-badge--pill pa-badge--success">Java</span>
+                    <span class="pa-badge pa-badge--pill pa-badge--warning">C++</span>
+                    <span class="pa-badge pa-badge--pill pa-badge--secondary">Ruby</span>
+                    <span class="pa-badge pa-badge--pill pa-badge--primary">Go</span>
+                    <span class="pa-badge pa-badge--pill pa-badge--info">Rust</span>
+                    <span class="pa-badge pa-badge--pill pa-badge--secondary">
+                        <span class="pa-badge__icon">»</span>
+                        29 more
+                    </span>
+                </div>
+
+                <h4>Small Badges (8 total, showing 5)</h4>
+                <div class="pa-badge-group">
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Approved</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Pending</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">Rejected</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">Review</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Draft</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">Published</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--light">Archived</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--dark">Deleted</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">
+                        <span class="pa-badge__icon">»</span>
+                        3 more
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-alert pa-alert--info" style="margin-top: 1rem;">
+            <small><strong>Note:</strong> The visible limit is controlled by <code>$badge-group-visible-limit</code> SCSS variable (default: 5). Future Svelte component will make this configurable per instance.</small>
+        </div>
+
+        <div class="pure-g" style="margin-top: 1.5rem;">
+            <div class="pure-u-1 pure-u-md-1-6">
+                <h4>Wrapping Demo</h4>
+                <p style="font-size: 0.75rem; margin-bottom: 0.5rem;">29 badges in narrow container</p>
+                <div class="pa-badge-group pa-badge-group--show-all">
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">React</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">Vue</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Angular</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Svelte</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Solid</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">TypeScript</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">JavaScript</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Python</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Go</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">Rust</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Java</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">C++</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">C#</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Ruby</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">PHP</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">Swift</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Kotlin</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">Dart</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">Scala</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Elixir</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Haskell</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">Clojure</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Elm</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">F#</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">OCaml</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Erlang</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Julia</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">R</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--dark">MATLAB</span>
+                </div>
+            </div>
+            <div class="pure-u-1 pure-u-md-5-6">
+                <h4>Full Width Comparison</h4>
+                <p style="font-size: 0.75rem; margin-bottom: 0.5rem;">Same 29 badges with full width</p>
+                <div class="pa-badge-group pa-badge-group--show-all">
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">React</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">Vue</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Angular</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Svelte</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Solid</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">TypeScript</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">JavaScript</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Python</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Go</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">Rust</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Java</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">C++</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">C#</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Ruby</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">PHP</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">Swift</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Kotlin</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">Dart</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">Scala</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Elixir</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Haskell</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">Clojure</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--secondary">Elm</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--primary">F#</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--info">OCaml</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--success">Erlang</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--warning">Julia</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--danger">R</span>
+                    <span class="pa-badge pa-badge--sm pa-badge--dark">MATLAB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fixed-Width Badges with Ellipsis -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Fixed-Width Badges with Ellipsis</h3>
+        <p>Badges with constrained width show ellipsis for overflow text. Hover for tooltip with full text.</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pure-g">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <h4>Various Fixed Widths</h4>
+                <div class="component-showcase">
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Short">
+                        <span class="pa-badge pa-badge--primary pa-badge--w-3x">Short</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is medium text">
+                        <span class="pa-badge pa-badge--info pa-badge--w-4x">This is medium text</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is longer text that will be truncated">
+                        <span class="pa-badge pa-badge--success pa-badge--w-5x">This is longer text that will be truncated</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Very long badge text that definitely needs ellipsis">
+                        <span class="pa-badge pa-badge--warning pa-badge--w-6x">Very long badge text that definitely needs ellipsis</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Super extremely long badge text example">
+                        <span class="pa-badge pa-badge--danger pa-badge--w-7x">Super extremely long badge text example</span>
+                    </span>
+                </div>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-2">
+                <h4>Small Fixed-Width Badges</h4>
+                <div class="component-showcase">
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="OK">
+                        <span class="pa-badge pa-badge--sm pa-badge--primary pa-badge--w-2x">OK</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Status">
+                        <span class="pa-badge pa-badge--sm pa-badge--info pa-badge--w-3x">Status</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Completed Task">
+                        <span class="pa-badge pa-badge--sm pa-badge--success pa-badge--w-4x">Completed Task</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Pending Review Process">
+                        <span class="pa-badge pa-badge--sm pa-badge--warning pa-badge--w-5x">Pending Review Process</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Critical Error in Production">
+                        <span class="pa-badge pa-badge--sm pa-badge--danger pa-badge--w-6x">Critical Error in Production</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pure-g" style="margin-top: 1rem;">
+            <div class="pure-u-1">
+                <h4>Practical Example: Tags with Consistent Width</h4>
+                <div class="component-showcase">
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="JavaScript">
+                        <span class="pa-badge pa-badge--pill pa-badge--secondary pa-badge--w-5x">JavaScript</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="TypeScript">
+                        <span class="pa-badge pa-badge--pill pa-badge--secondary pa-badge--w-5x">TypeScript</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="React">
+                        <span class="pa-badge pa-badge--pill pa-badge--secondary pa-badge--w-5x">React</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Node.js">
+                        <span class="pa-badge pa-badge--pill pa-badge--secondary pa-badge--w-5x">Node.js</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="PostgreSQL Database">
+                        <span class="pa-badge pa-badge--pill pa-badge--secondary pa-badge--w-5x">PostgreSQL Database</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Express.js Framework">
+                        <span class="pa-badge pa-badge--pill pa-badge--secondary pa-badge--w-5x">Express.js Framework</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pure-g" style="margin-top: 1rem;">
+            <div class="pure-u-1">
+                <h4>Left-Side Ellipsis (Path/Hierarchy Display)</h4>
+                <p style="font-size: 0.75rem; margin-bottom: 0.5rem;">When the important part is at the end (breadcrumbs, file paths, etc.)</p>
+                <div class="component-showcase">
+                    <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Settings > User Preferences > Notifications > Email">
+                        <span class="pa-badge pa-badge--secondary pa-badge--w-6x pa-badge--ellipsis-left">Settings > User Preferences > Notifications > Email</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="/var/www/html/application/config/database.php">
+                        <span class="pa-badge pa-badge--info pa-badge--w-7x pa-badge--ellipsis-left">/var/www/html/application/config/database.php</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Components > Forms > Inputs > TextArea.svelte">
+                        <span class="pa-badge pa-badge--primary pa-badge--w-6x pa-badge--ellipsis-left">Components > Forms > Inputs > TextArea.svelte</span>
+                    </span>
+                    <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Europe > Germany > Berlin > Mitte > Alexanderplatz">
+                        <span class="pa-badge pa-badge--warning pa-badge--w-5x pa-badge--ellipsis-left">Europe > Germany > Berlin > Mitte > Alexanderplatz</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-alert pa-alert--info" style="margin-top: 1rem;">
+            <small><strong>Note:</strong> Custom tooltips show full text on hover. Width classes range from <code>pa-badge--w-1x</code> to <code>pa-badge--w-10x</code>. Use <code>pa-badge--ellipsis-left</code> to truncate from the left side instead.</small>
+        </div>
+    </div>
+</div>
+
 <!-- Usage Examples -->
 <div class="pa-card">
     <div class="pa-card__header">

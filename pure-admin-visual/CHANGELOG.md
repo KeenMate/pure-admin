@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2025-10-02
+
+#### Badge Group Component
+- **New component**: `.pa-badge-group` for displaying collections of badges with automatic overflow handling
+- **Features**:
+  - Automatic limit on visible badges (default: 5 badges)
+  - "More" indicator badge shows remaining count (e.g., "» 10 more")
+  - Flexbox layout with wrapping support
+  - Configurable gap between badges via `$badge-group-gap` (default: 0.5rem)
+- **SCSS Variables**:
+  - `$badge-group-gap`: Spacing between badges in group (default: 0.5rem)
+  - `$badge-group-visible-limit`: Number of badges to show before hiding extras (default: 5)
+- **Modifiers**:
+  - `.pa-badge-group--show-all`: Override limit and display all badges (useful for expanded states)
+- **Usage Pattern**:
+  ```html
+  <div class="pa-badge-group">
+    <span class="pa-badge pa-badge--primary">Tag 1</span>
+    <span class="pa-badge pa-badge--info">Tag 2</span>
+    <!-- ... more badges ... -->
+    <span class="pa-badge pa-badge--secondary">
+      <span class="pa-badge__icon">»</span>
+      10 more
+    </span>
+  </div>
+  ```
+- **Wrapping behavior**: Narrow container demo shows proper wrapping in constrained spaces (1/6 width example)
+- **Future ready**: Designed for Svelte component with per-instance limit configuration
+
+#### Fixed-Width Badges with Ellipsis
+- **New badge width classes**: `pa-badge--w-1x` through `pa-badge--w-10x` (1rem to 10rem)
+- **Features**:
+  - Automatic text truncation with ellipsis (`...`) for overflow
+  - Both `min-width` and `max-width` set to ensure consistent sizing
+  - Vertical alignment preserved with `vertical-align: middle`
+  - Works with all badge variants (sm, pill, colors)
+- **Tooltip integration**:
+  - Fixed-width badges wrapped in `.pa-tooltip` containers show full text on hover
+  - Outer wrapper handles tooltip pseudo-elements with visible overflow
+  - Inner badge handles text truncation with hidden overflow
+  - Eliminates conflict between ellipsis and tooltip rendering
+- **Usage Pattern**:
+  ```html
+  <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Full text here">
+    <span class="pa-badge pa-badge--primary pa-badge--w-5x">Full text here</span>
+  </span>
+  ```
+- **Examples**: Practical demonstrations of consistent-width tags, status badges, and technology tags
+- **All spacing variable-controlled**: No hardcoded values, fully themeable
+
 ### Changed - 2025-02-10
 
 #### SCSS Variable Consolidation - Complete Framework Audit

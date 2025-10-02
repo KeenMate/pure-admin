@@ -295,4 +295,86 @@ h2 { font-size: 2rem; }           // 32px → 36px (2 × 18)
 - `html.font-size-2xs` through `html.font-size-4xl` for progressive scaling
 - Settings panel stores preference in localStorage and restores on page load
 
+## Theme & Table System Enhancements (2025-02-10)
+**Major updates:** Theme fixes, table system refinement, and button sizing progression.
+
+### **New Themes:**
+- **Express Theme:** Bold yellow header/footer with red accents (logistics-inspired design)
+  - Primary button: Red with white text
+  - Secondary button: Yellow with black text
+  - Clean white/gray content area
+
+### **Corporate Theme Fixes:**
+- Updated accent color to vibrant sky blue (#0ea5e9)
+- Fixed navbar visibility: white/light text on dark header (#1e293b)
+- Burger menu and theme switcher properly styled for dark background
+
+### **Audi Theme Fixes:**
+- Fixed striped tables: Changed `$table-stripe` from `$audi-dark` to `$audi-gray` for visible zebra stripes
+- Primary button: Red with white text (no uppercase)
+- Danger button: Red with white text (WITH uppercase)
+
+### **Table System Refinement:**
+**Base padding:** `0.3rem 0.5rem` (38px rows with breathing room)
+**Calculated spacing:**
+```scss
+$table-spacing-2x-multiplier: 2; // 0.6rem 1rem (~56px rows)
+$table-spacing-3x-multiplier: 3; // 0.9rem 1.5rem (~74px rows)
+```
+
+**Striped tables fix:** Apply background to `td` instead of `tr` to prevent being covered by cell backgrounds
+```scss
+.pa-table--striped tbody tr:nth-child(even) td {
+  background-color: $table-stripe;
+}
+```
+
+**Button integration in tables:**
+- Negative margin prevents row height growth: `.pa-table td .pa-btn { margin-top: -0.25rem; margin-bottom: -0.25rem; }`
+- Button groups don't wrap: `.pa-table td .pa-btn-group { flex-wrap: nowrap; }`
+- Helper class for compact columns: `.col-auto { width: 1%; white-space: nowrap; }`
+
+### **Button System Enhancements:**
+
+**Linear size progression** - All sizes now have dedicated padding variables:
+```scss
+xs:  0.25rem × 0.5rem   → ~28px height (compact for tables)
+sm:  0.375rem × 0.625rem → ~32px height
+def: 0.5rem × 0.75rem    → ~36px height
+lg:  0.625rem × 0.875rem → ~40px height
+xl:  0.75rem × 1rem      → ~44px height
+```
+Each step increases by 0.125rem (2px) for smooth progression.
+
+**Icon-only button sizes:**
+```scss
+xs:  1.75rem × 1.75rem → ~28px square (table actions)
+sm:  2rem × 2rem       → ~32px square
+def: 2.5rem × 2.5rem   → ~40px square
+lg:  3rem × 3rem       → ~48px square
+xl:  3.5rem × 3.5rem   → ~56px square
+```
+
+**Button group gap:** Reduced from `0.5rem` to `0.2rem` (~3px) for tighter visual grouping
+
+### **Usage Patterns:**
+
+**Table with icon buttons:**
+```html
+<th class="col-auto">Actions</th>
+<td class="col-auto">
+  <div class="pa-btn-group">
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+  </div>
+</td>
+```
+
+**Benefits:**
+- ✅ Consistent row heights (~38px base, ~38-40px with buttons)
+- ✅ Compact action columns that don't waste space
+- ✅ Professional, data-dense table layouts
+- ✅ True size variety across button system
+
 Remember: User appreciates thorough, systematic work and clear communication! 🚀

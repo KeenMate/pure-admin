@@ -18,9 +18,9 @@ $corporate-slate-700: #334155;
 $corporate-slate-800: #1e293b;
 $corporate-slate-900: #0f172a;
 
-$corporate-blue-500: #3b82f6;
-$corporate-blue-600: #2563eb;
-$corporate-blue-700: #1d4ed8;
+$corporate-blue-500: #0ea5e9;  // Brighter, more vibrant blue
+$corporate-blue-600: #0284c7;
+$corporate-blue-700: #0369a1;
 
 $corporate-gray-50: #f9fafb;
 $corporate-gray-100: #f3f4f6;
@@ -99,3 +99,60 @@ $modal-content-bg: #ffffff;
 
 @import '../core';
 @import '../utilities';
+
+// Corporate-specific styling overrides
+// Header text visibility - light text on dark header
+.pa-header {
+  &__brand h1 {
+    color: #ffffff !important;
+  }
+
+  &__nav ul li a {
+    color: $corporate-slate-300 !important;
+
+    &:hover {
+      color: $corporate-blue-500 !important;
+      background-color: rgba($corporate-blue-500, 0.1) !important;
+    }
+  }
+
+  &__title h2 {
+    color: $corporate-slate-300 !important;
+  }
+
+  &__profile-btn {
+    color: #ffffff !important;
+
+    &:hover {
+      background-color: rgba($corporate-blue-500, 0.2) !important;
+    }
+  }
+}
+
+// Burger menu - light bars on dark header
+.burger-menu {
+  span {
+    background-color: #ffffff !important;
+  }
+
+  &:hover span {
+    background-color: $corporate-blue-500 !important;
+  }
+}
+
+// Theme switcher in header
+.theme-switcher {
+  label {
+    color: $corporate-slate-300 !important;
+  }
+
+  select {
+    background-color: $corporate-slate-700 !important;
+    color: #ffffff !important;
+    border-color: $corporate-slate-600 !important;
+
+    &:focus {
+      border-color: $corporate-blue-500 !important;
+    }
+  }
+}

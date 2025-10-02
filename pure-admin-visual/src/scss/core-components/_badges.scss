@@ -486,6 +486,25 @@
   }
 }
 
+// Badge Group - limits visible badges and shows "more" indicator
+.pa-badge-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $badge-group-gap;
+
+  // Hide badges beyond the limit
+  .pa-badge:nth-child(n+#{$badge-group-visible-limit + 1}):not(:last-child) {
+    display: none;
+  }
+
+  // Show all badges without limit
+  &--show-all {
+    .pa-badge:nth-child(n+#{$badge-group-visible-limit + 1}):not(:last-child) {
+      display: inline-flex;
+    }
+  }
+}
 
 // Badge Components
 .pa-badge {
@@ -573,6 +592,33 @@
     background-color: $btn-dark-bg;
     color: $btn-dark-text;
     border-color: $btn-dark-bg;
+  }
+
+  // Fixed-width badges with ellipsis
+  &--w-1x { min-width: 1rem; max-width: 1rem; }
+  &--w-2x { min-width: 2rem; max-width: 2rem; }
+  &--w-3x { min-width: 3rem; max-width: 3rem; }
+  &--w-4x { min-width: 4rem; max-width: 4rem; }
+  &--w-5x { min-width: 5rem; max-width: 5rem; }
+  &--w-6x { min-width: 6rem; max-width: 6rem; }
+  &--w-7x { min-width: 7rem; max-width: 7rem; }
+  &--w-8x { min-width: 8rem; max-width: 8rem; }
+  &--w-9x { min-width: 9rem; max-width: 9rem; }
+  &--w-10x { min-width: 10rem; max-width: 10rem; }
+
+  // Apply ellipsis to fixed-width badges
+  &[class*="--w-"] {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  // Left-side ellipsis for paths/hierarchies where end is important
+  &--ellipsis-left {
+    direction: rtl;
+    text-align: left;
   }
 }
 

@@ -38,6 +38,10 @@ $composite-badge-label-padding: 0.5rem !default;
 $composite-badge-button-width: 1.5rem !default;
 $composite-badge-min-label-width: 3rem !default;
 
+// Badge group
+$badge-group-gap: 0.5rem !default;
+$badge-group-visible-limit: 5 !default; // Number of badges to show before "more" indicator
+
 // Modal dimensions
 $modal-overlay-bg: rgba(0, 0, 0, 0.5) !default;
 $modal-content-bg: #ffffff !default;
@@ -113,11 +117,12 @@ $section-margin-sm: 1.5rem !default;
 $submenu-max-height: 500px !default; // For animation
 
 // Table system
-$table-padding-base-v: 0.3rem !default; // Base vertical padding (~31px rows)
+$table-padding-base-v: 0.3rem !default; // Base vertical padding (~38px rows with breathing room)
 $table-padding-base-h: 0.5rem !default; // Base horizontal padding
-$table-spacing-multiplier: 2 !default; // Multiplier for spacing variants
+$table-spacing-2x-multiplier: 2 !default; // 2x spacing multiplier
+$table-spacing-3x-multiplier: 3 !default; // 3x spacing multiplier
 
-// Virtual table (for large datasets)
+// Virtual table (for large datasets) - matches base table padding
 $virtual-table-cell-padding-v: 0.3rem !default;
 $virtual-table-cell-padding-h: 0.5rem !default;
 
@@ -203,11 +208,23 @@ $shadow-sidebar: -2px 2px 10px rgba(0, 0, 0, 0.1) !default;
 $shadow-sidebar-open: -5px 0 20px rgba(0, 0, 0, 0.1) !default;
 $shadow-profile-panel: -4px 0 20px rgba(0, 0, 0, 0.15) !default;
 
-// Button specific
-$btn-padding-v: 0.5rem !default;
+// Button specific - linear size progression
+$btn-padding-v: 0.5rem !default; // Base/default button padding
 $btn-padding-h: 0.75rem !default;
+$btn-padding-xs-v: 0.25rem !default; // xs: ~28px height (compact for tables)
+$btn-padding-xs-h: 0.5rem !default;
+$btn-padding-sm-v: 0.375rem !default; // sm: ~32px height
+$btn-padding-sm-h: 0.625rem !default;
+$btn-padding-lg-v: 0.625rem !default; // lg: ~40px height
+$btn-padding-lg-h: 0.875rem !default;
+$btn-padding-xl-v: 0.75rem !default; // xl: ~44px height
+$btn-padding-xl-h: 1rem !default;
 $btn-border-width: 1px !default;
-$btn-icon-only-size: 2.5rem !default;
+$btn-icon-only-size-xs: 1.75rem !default; // ~28px square for compact icon buttons
+$btn-icon-only-size-sm: 2rem !default; // ~32px square
+$btn-icon-only-size: 2.5rem !default; // ~40px square (default)
+$btn-icon-only-size-lg: 3rem !default; // ~48px square
+$btn-icon-only-size-xl: 3.5rem !default; // ~56px square
 $btn-icon-margin: 0.5rem !default;
 
 // Button fixed-width utilities

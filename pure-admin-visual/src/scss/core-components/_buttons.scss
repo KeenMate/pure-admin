@@ -45,22 +45,22 @@
   }
 
   &--xs {
-    padding: $btn-padding-v $btn-padding-h;
+    padding: $btn-padding-xs-v $btn-padding-xs-h;
     font-size: $font-size-xs;
   }
 
   &--sm {
-    padding: $btn-padding-v $btn-padding-h;
+    padding: $btn-padding-sm-v $btn-padding-sm-h;
     font-size: $font-size-sm;
   }
 
   &--lg {
-    padding: $btn-padding-v $btn-padding-h;
+    padding: $btn-padding-lg-v $btn-padding-lg-h;
     font-size: $font-size-base;
   }
 
   &--xl {
-    padding: $btn-padding-v $btn-padding-h;
+    padding: $btn-padding-xl-v $btn-padding-xl-h;
     font-size: $font-size-lg;
   }
 
@@ -264,6 +264,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    // Size-specific icon-only dimensions
+    &.pa-btn--xs {
+      width: $btn-icon-only-size-xs;
+      height: $btn-icon-only-size-xs;
+    }
+
+    &.pa-btn--sm {
+      width: $btn-icon-only-size-sm;
+      height: $btn-icon-only-size-sm;
+    }
+
+    &.pa-btn--lg {
+      width: $btn-icon-only-size-lg;
+      height: $btn-icon-only-size-lg;
+    }
+
+    &.pa-btn--xl {
+      width: $btn-icon-only-size-xl;
+      height: $btn-icon-only-size-xl;
+    }
   }
 
   &__icon {
@@ -380,7 +401,7 @@
 // Button Groups
 .pa-btn-group {
   display: flex;
-  gap: $spacing-sm;
+  gap: 0.2rem; // Compact gap for tight button grouping
   flex-wrap: wrap;
   align-items: center;
 

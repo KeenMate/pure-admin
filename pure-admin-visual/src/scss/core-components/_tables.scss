@@ -39,6 +39,12 @@
   td {
     color: $text-primary;
     background-color: $table-bg;
+
+    // Buttons in table cells - negative margin to prevent row height growth
+    .pa-btn {
+      margin-top: -0.25rem;
+      margin-bottom: -0.25rem;
+    }
   }
 
   // Remove bottom border from last row
@@ -48,26 +54,26 @@
 
   // Striped variant
   &--striped {
-    tbody tr:nth-child(even) {
+    tbody tr:nth-child(even) td {
       background-color: $table-stripe;
     }
   }
 
-  // 2x spacing variant
+  // 2x spacing variant - comfortable padding (calculated from base)
   &--2x {
     th,
     td {
-      padding: ($table-padding-base-v * $table-spacing-multiplier)
-        ($table-padding-base-h * $table-spacing-multiplier);
+      padding: ($table-padding-base-v * $table-spacing-2x-multiplier)
+        ($table-padding-base-h * $table-spacing-2x-multiplier);
     }
   }
 
-  // 3x spacing variant
+  // 3x spacing variant - spacious padding (calculated from base)
   &--3x {
     th,
     td {
-      padding: ($table-padding-base-v * $table-spacing-multiplier * 1.5)
-        ($table-padding-base-h * $table-spacing-multiplier * 1.5);
+      padding: ($table-padding-base-v * $table-spacing-3x-multiplier)
+        ($table-padding-base-h * $table-spacing-3x-multiplier);
     }
   }
 
@@ -96,6 +102,13 @@
   // Remove margin from button groups inside table cells
   td .pa-btn-group {
     margin-bottom: 0;
+    flex-wrap: nowrap; // Keep buttons in a row, don't stack vertically
+  }
+
+  // Column width helper - auto-width columns that shrink to content
+  .col-auto {
+    width: 1%;
+    white-space: nowrap;
   }
 }
 
