@@ -10,7 +10,7 @@
   top: $settings-panel-top; // Position higher up for larger panel
   z-index: 10000;
   width: $profile-panel-width-fixed;
-  transition: right 0.3s ease;
+  transition: right $settings-panel-transition-duration $settings-panel-transition-easing;
 
   &__toggle {
     position: absolute;
@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all $settings-panel-transition-duration $settings-panel-transition-easing;
     box-shadow: $shadow-sidebar;
 
     &:hover {
@@ -186,7 +186,7 @@
 
   .pa-table td,
   .pa-table th {
-    padding: $btn-padding-sm-v $btn-padding-sm-h;
+    padding: $btn-padding-v $btn-padding-h;
   }
 
   .pa-sidebar__nav ul li a {
@@ -194,7 +194,7 @@
   }
 
   .pa-form-group {
-    margin-bottom: 0.75rem;
+    margin-bottom: $form-group-margin-compact;
   }
 }
 

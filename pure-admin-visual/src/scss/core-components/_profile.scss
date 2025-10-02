@@ -8,7 +8,7 @@
 // ====================
 
 // Header profile button
-.admin-header__profile-btn {
+.pa-header__profile-btn {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
@@ -30,10 +30,10 @@
   }
 }
 
-.admin-header__profile-avatar {
+.pa-header__profile-avatar {
   font-size: $font-size-xl;
-  width: $profile-avatar-size-sm;
-  height: $profile-avatar-size-sm;
+  width: $profile-avatar-size;
+  height: $profile-avatar-size;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,7 +41,7 @@
   border-radius: 50%;
 }
 
-.admin-header__profile-name {
+.pa-header__profile-name {
   font-weight: $font-weight-medium;
   font-size: $font-size-sm;
 }
@@ -87,7 +87,7 @@
     max-width: $profile-panel-max-width;
     height: 100vh;
     background-color: $card-bg;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    box-shadow: $shadow-profile-panel;
     transform: translateX(100%);
     transition: transform $transition-medium $easing-snappy;
     display: flex;
@@ -144,14 +144,14 @@
 
   &__role {
     display: inline-block;
-    padding: $btn-padding-sm-v $btn-padding-sm-h;
+    padding: $btn-padding-v $btn-padding-h;
     background-color: $accent-light;
     color: $accent-color;
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     border-radius: $border-radius;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: $profile-role-letter-spacing;
   }
 
   &__close {
@@ -241,13 +241,13 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (max-width: $mobile-breakpoint) {
   .pa-profile-panel__content {
     width: 85vw;
-    max-width: 25rem;
+    max-width: $profile-panel-mobile-max-width;
   }
 
-  .admin-header__profile-name {
+  .pa-header__profile-name {
     display: none;
   }
 }

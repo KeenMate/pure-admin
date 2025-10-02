@@ -146,11 +146,13 @@
   }
 
   .pa-modal__close {
-    color: rgba(255, 255, 255, $opacity-hover);
+    color: $modal-content-bg;
+    opacity: $opacity-hover;
 
     &:hover {
       background-color: $modal-header-hover-overlay;
       color: $modal-content-bg;
+      opacity: 1;
     }
   }
 }
@@ -165,11 +167,13 @@
   }
 
   .pa-modal__close {
-    color: rgba(255, 255, 255, $opacity-hover);
+    color: $modal-content-bg;
+    opacity: $opacity-hover;
 
     &:hover {
       background-color: $modal-header-hover-overlay;
       color: $modal-content-bg;
+      opacity: 1;
     }
   }
 }
@@ -188,7 +192,7 @@
     opacity: $opacity-hover;
 
     &:hover {
-      background-color: rgba(0, 0, 0, $opacity-light);
+      background-color: rgba(0, 0, 0, $modal-warning-hover-bg-opacity);
       opacity: 1;
     }
   }
@@ -204,11 +208,13 @@
   }
 
   .pa-modal__close {
-    color: rgba(255, 255, 255, $opacity-hover);
+    color: $modal-content-bg;
+    opacity: $opacity-hover;
 
     &:hover {
       background-color: $modal-header-hover-overlay;
       color: $modal-content-bg;
+      opacity: 1;
     }
   }
 }
@@ -228,7 +234,7 @@
 }
 
 // Responsive modal behavior
-@media (max-width: 768px) {
+@media (max-width: $mobile-breakpoint) {
   .pa-modal__container {
     margin: $modal-mobile-margin;
     max-height: $modal-mobile-max-height;

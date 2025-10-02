@@ -117,21 +117,21 @@
     }
 
     .pa-stat__number {
-      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-size: clamp($stat-square-number-min, $stat-square-number-scale, $stat-square-number-max);
       font-weight: $font-weight-bold;
       line-height: 1;
       color: inherit;
       z-index: $focus-outline-width;
       position: relative;
-      text-shadow: 0 4px 8px rgba(0, 0, 0, $btn-focus-ring-opacity),
-                   0 2px 4px rgba(0, 0, 0, $opacity-shadow-md);
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, $opacity-light));
+      text-shadow: 0 $stat-text-shadow-1-y $stat-text-shadow-1-blur rgba(0, 0, 0, $btn-focus-ring-opacity),
+                   0 $stat-text-shadow-2-y $stat-text-shadow-2-blur rgba(0, 0, 0, $opacity-shadow-md);
+      filter: drop-shadow(0 $stat-drop-shadow-y $stat-drop-shadow-blur rgba(0, 0, 0, $opacity-light));
       word-break: keep-all;
       white-space: nowrap;
     }
 
     .pa-stat__symbol {
-      font-size: clamp(4rem, 10vw, 6rem);
+      font-size: clamp($stat-square-symbol-min, $stat-square-symbol-scale, $stat-square-symbol-max);
       font-weight: $font-weight-bold;
       line-height: 1;
       opacity: $stat-symbol-opacity;

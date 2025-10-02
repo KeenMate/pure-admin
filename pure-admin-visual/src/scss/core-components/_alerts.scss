@@ -32,7 +32,7 @@
 
   &--secondary {
     color: $text-secondary;
-    background-color: rgba($text-secondary, 0.05);
+    background-color: rgba($text-secondary, $alert-secondary-bg-opacity);
     border-color: $border-color;
   }
 
@@ -62,7 +62,7 @@
 
   &--light {
     color: $text-primary;
-    background-color: rgba($text-primary, 0.03);
+    background-color: rgba($text-primary, $alert-light-bg-opacity);
     border-color: $border-color;
   }
 
@@ -103,14 +103,14 @@
     background-color: transparent;
   }
 
-  // Alert sizes
+  // Alert sizes (size modifiers only change font-size, padding controlled by theme)
   &--sm {
-    padding: $alert-padding-sm-v $alert-padding-sm-h;
+    padding: $alert-padding-v $alert-padding-h;
     font-size: $font-size-sm;
   }
 
   &--lg {
-    padding: $alert-padding-lg-v $alert-padding-lg-h;
+    padding: $alert-padding-v $alert-padding-h;
     font-size: $font-size-base;
   }
 

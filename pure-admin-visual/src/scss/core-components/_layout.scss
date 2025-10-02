@@ -4,7 +4,7 @@
    ======================================== */
 
 // Header - Sticky at top, within container
-.admin-header {
+.pa-header {
   position: sticky;
   top: 0;
   height: $header-height;
@@ -347,7 +347,7 @@
     left: -$sidebar-width; // Move left by sidebar width instead of transform
   }
 
-  .admin-content {
+  .pa-content {
     margin-left: 0;
     // Transition only when page is loaded to prevent FOUC
     body.loaded & {
@@ -393,7 +393,7 @@
   }
 
   // Adjust content margin for icon-collapse mode
-  .pa-sidebar--icon-collapse ~ .admin-content {
+  .pa-sidebar--icon-collapse ~ .pa-content {
     margin-left: $sidebar-collapsed-width;
   }
 }
@@ -435,7 +435,7 @@ body:not(.sidebar-hidden) {
 }
 
 // Main Content - Relative positioning, flows with container
-.admin-content {
+.pa-content {
   margin-left: $sidebar-width;
   flex: 1; // Take remaining space
   position: relative;
@@ -570,14 +570,14 @@ body:not(.sidebar-hidden) {
 }
 
 // Responsive Design - Mobile and Tablet
-@media (max-width: 768px) {
+@media (max-width: $mobile-breakpoint) {
   // Mobile: Auto-hide sidebar, content takes full width
   body:not(.sidebar-visible) {
     .pa-sidebar {
       left: -$sidebar-width;
     }
 
-    .admin-content {
+    .pa-content {
       margin-left: 0;
     }
   }
@@ -594,7 +594,7 @@ body:not(.sidebar-hidden) {
       background-color: $sidebar-bg;
     }
 
-    .admin-content {
+    .pa-content {
       margin-left: 0;
     }
 
@@ -612,7 +612,7 @@ body:not(.sidebar-hidden) {
   }
 
   // Adjust header for mobile
-  .admin-header {
+  .pa-header {
     gap: $spacing-sm;
 
     &__nav {
@@ -632,16 +632,18 @@ body:not(.sidebar-hidden) {
   }
 }
 
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: $tablet-breakpoint) and (min-width: $tablet-breakpoint-min) {
   // Tablet: Reduce sidebar width
-  :root {
-    --sidebar-width: 10rem;
-  }
-
   .pa-sidebar {
+    width: $sidebar-width-tablet;
+
     &__nav ul li a {
       padding: $spacing-sm $spacing-md;
       font-size: $font-size-sm;
     }
+  }
+
+  .pa-content {
+    margin-left: $sidebar-width-tablet;
   }
 }

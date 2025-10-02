@@ -46,6 +46,7 @@
   padding: $input-padding-v $input-padding-h;
   border: $border-width-base solid $border-color;
   border-radius: $border-radius;
+  font-family: inherit; // Ensure inputs inherit theme font
   font-size: $font-size-sm;
   background-color: $input-bg;
   color: $text-primary;
@@ -63,6 +64,7 @@
   padding: $select-padding-v $select-padding-h;
   border: $border-width-base solid $border-color;
   border-radius: $border-radius;
+  font-family: inherit; // Ensure selects inherit theme font
   font-size: $font-size-sm;
   background-color: $input-bg;
   color: $text-primary;
@@ -80,6 +82,7 @@
   padding: $input-padding-v $input-padding-h;
   border: $border-width-base solid $border-color;
   border-radius: $border-radius;
+  font-family: inherit; // Ensure textareas inherit theme font
   font-size: $font-size-sm;
   background-color: $input-bg;
   color: $text-primary;
@@ -101,28 +104,28 @@
   min-height: $textarea-min-height;
 }
 
-// Input Sizes
+// Input Sizes (size modifiers only change font-size, padding controlled by theme via base variables)
 .pa-input--xs,
 .pa-select--xs {
-  padding: 0.25rem 0.5rem;
+  padding: $input-padding-v $input-padding-h;
   font-size: $font-size-xs;
 }
 
 .pa-input--sm,
 .pa-select--sm {
-  padding: 0.375rem 0.625rem;
+  padding: $input-padding-v $input-padding-h;
   font-size: $font-size-sm;
 }
 
 .pa-input--lg,
 .pa-select--lg {
-  padding: $card-footer-padding-v $card-footer-padding-h;
+  padding: $input-padding-v $input-padding-h;
   font-size: $font-size-base;
 }
 
 .pa-input--xl,
 .pa-select--xl {
-  padding: 1rem 1.25rem;
+  padding: $input-padding-v $input-padding-h;
   font-size: $font-size-lg;
 }
 
@@ -259,7 +262,7 @@
   color: $text-primary;
 
   input {
-    margin-top: 0.125rem;
+    margin-top: $checkbox-margin-top;
     width: $spinner-size;
     height: $spinner-size;
     cursor: pointer;
