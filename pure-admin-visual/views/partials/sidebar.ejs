@@ -1,5 +1,5 @@
 <!-- Fixed Sidebar -->
-<aside class="pa-sidebar">
+<aside class="pa-sidebar<%= typeof sidebarMode !== 'undefined' && sidebarMode ? ' pa-sidebar--' + sidebarMode : '' %>">
     <nav class="pa-sidebar__nav">
         <ul>
             <li class="pa-sidebar__item"><a href="/" class="pa-sidebar__link <%= typeof currentPage !== 'undefined' && currentPage === 'dashboard' ? 'pa-sidebar__link--active' : '' %>">

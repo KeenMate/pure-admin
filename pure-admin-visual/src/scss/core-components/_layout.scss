@@ -9,7 +9,7 @@
   top: 0;
   height: $header-height;
   background-color: $header-bg;
-  border-bottom: $border-width-base solid $border-color;
+  border-bottom: $border-width-base solid $header-border-color;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -339,6 +339,27 @@
   // Firefox scrollbar
   scrollbar-width: auto;
   scrollbar-color: $border-color $sidebar-bg;
+
+  // Sticky sidebar modifier - stays fixed while content scrolls
+  &--sticky {
+    position: fixed;
+    top: $header-height;
+    bottom: 0;
+    height: auto;
+  }
+
+  // Disappearing sidebar modifier - hides on scroll down, shows on scroll up
+  &--disappearing {
+    position: fixed;
+    top: $header-height;
+    bottom: 0;
+    height: auto;
+    transition: transform $transition-normal $easing-snappy, left $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+
+    &.is-hidden {
+      transform: translateX(-100%);
+    }
+  }
 }
 
 // Sidebar hidden state
@@ -353,6 +374,10 @@
     body.loaded & {
       transition: margin-left $transition-normal $easing-snappy;
     }
+  }
+
+  .admin-footer {
+    margin-left: 0;
   }
 
   // Icon-collapse mode: show narrow icon-only bar when hidden
@@ -394,6 +419,11 @@
 
   // Adjust content margin for icon-collapse mode
   .pa-sidebar--icon-collapse ~ .pa-content {
+    margin-left: $sidebar-collapsed-width;
+  }
+
+  // Adjust footer margin for icon-collapse mode
+  .pa-sidebar--icon-collapse ~ .admin-footer {
     margin-left: $sidebar-collapsed-width;
   }
 }
@@ -515,7 +545,7 @@ body:not(.sidebar-hidden) {
   }
 }
 
-// Footer - Relative positioning at bottom
+// Footer - Relative positioning at bottom, aligned with content area
 .admin-footer {
   height: $footer-height;
   background-color: $footer-bg;
@@ -523,6 +553,11 @@ body:not(.sidebar-hidden) {
   display: flex;
   align-items: center;
   padding: 0 $spacing-base;
+  margin-left: $sidebar-width; // Match content area margin
+  // Transition only when page is loaded to prevent FOUC
+  body.loaded & {
+    transition: margin-left $transition-normal $easing-snappy;
+  }
 
   &__content {
     p {
@@ -571,6 +606,20 @@ body:not(.sidebar-hidden) {
 
 // Responsive Design - Mobile and Tablet
 @media (max-width: $mobile-breakpoint) {
+  // Mobile: Sticky/disappearing sidebars should use overlay pattern on mobile
+  .pa-sidebar--sticky,
+  .pa-sidebar--disappearing {
+    position: fixed;
+    top: $header-height;
+    bottom: $footer-height;
+
+    // Reset transform for disappearing variant on mobile
+    &.is-hidden {
+      transform: none;
+      left: -$sidebar-width;
+    }
+  }
+
   // Mobile: Auto-hide sidebar, content takes full width
   body:not(.sidebar-visible) {
     .pa-sidebar {
@@ -578,6 +627,10 @@ body:not(.sidebar-hidden) {
     }
 
     .pa-content {
+      margin-left: 0;
+    }
+
+    .admin-footer {
       margin-left: 0;
     }
   }
@@ -644,6 +697,10 @@ body:not(.sidebar-hidden) {
   }
 
   .pa-content {
+    margin-left: $sidebar-width-tablet;
+  }
+
+  .admin-footer {
     margin-left: $sidebar-width-tablet;
   }
 }

@@ -198,6 +198,16 @@
                 </select>
             </div>
 
+            <!-- Sidebar Mode -->
+            <div class="pa-settings-panel__section">
+                <label class="pa-settings-panel__label">Sidebar Mode</label>
+                <select class="pa-settings-panel__select" id="sidebarModeSelector">
+                    <option value="">Scrolls with Content</option>
+                    <option value="sticky">Fixed Position</option>
+                    <option value="disappearing">Fixed + Auto-hide</option>
+                </select>
+            </div>
+
             <!-- Sidebar Behavior -->
             <div class="pa-settings-panel__section">
                 <label class="pa-settings-panel__label">Sidebar Behavior</label>
@@ -458,6 +468,10 @@
                 // Container width - use server-provided containerWidth
                 const currentContainerWidth = '<%= containerWidth %>';
                 containerWidthSelector.value = currentContainerWidth;
+
+                // Sidebar mode - use server-provided sidebarMode
+                const currentSidebarMode = '<%= sidebarMode %>';
+                sidebarModeSelector.value = currentSidebarMode;
             };
 
             // Toggle panel
@@ -519,6 +533,14 @@
                 const width = e.target.value;
                 const url = new URL(window.location);
                 url.searchParams.set('containerWidth', width);
+                window.location.href = url.toString();
+            });
+
+            // Sidebar mode change - reload page with query param to set cookie
+            sidebarModeSelector.addEventListener('change', (e) => {
+                const mode = e.target.value;
+                const url = new URL(window.location);
+                url.searchParams.set('sidebarMode', mode);
                 window.location.href = url.toString();
             });
 
@@ -851,6 +873,52 @@
                     document.querySelectorAll('.pa-popover--open').forEach(adjustPopoverPosition);
                 }, 250);
             });
+
+            // Disappearing sidebar scroll behavior
+            const disappearingSidebar = document.querySelector('.pa-sidebar--disappearing');
+            if (disappearingSidebar) {
+                let lastScrollY = window.scrollY;
+                let ticking = false;
+
+                function updateSidebarVisibility() {
+                    const currentScrollY = window.scrollY;
+                    const isMobile = window.innerWidth <= 768;
+
+                    // Don't apply disappearing behavior on mobile
+                    if (isMobile) {
+                        disappearingSidebar.classList.remove('is-hidden');
+                        ticking = false;
+                        return;
+                    }
+
+                    // Scrolling down - hide sidebar
+                    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                        disappearingSidebar.classList.add('is-hidden');
+                    }
+                    // Scrolling up - show sidebar
+                    else if (currentScrollY < lastScrollY) {
+                        disappearingSidebar.classList.remove('is-hidden');
+                    }
+
+                    lastScrollY = currentScrollY;
+                    ticking = false;
+                }
+
+                function requestUpdate() {
+                    if (!ticking) {
+                        window.requestAnimationFrame(updateSidebarVisibility);
+                        ticking = true;
+                    }
+                }
+
+                window.addEventListener('scroll', requestUpdate, { passive: true });
+
+                // Reset on resize
+                window.addEventListener('resize', function() {
+                    lastScrollY = window.scrollY;
+                    updateSidebarVisibility();
+                });
+            }
         });
     </script>
 </body>

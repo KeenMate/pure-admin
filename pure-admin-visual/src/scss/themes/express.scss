@@ -28,11 +28,18 @@ $header-height: 2.5rem;
 $footer-height: 2rem;
 $sidebar-width: 12rem;
 
+// Font overrides
+$body-font-family: "Delivery", system-ui, -apple-system, sans-serif;
+
 // Express theme color overrides - Bold yellow header/footer with red accents
 $primary-bg: #ffffff;
 $content-background-color: $express-bg;
 $header-bg: $express-yellow;        // Bold yellow header
-$sidebar-bg: #ffffff;
+$header-border-color: $express-yellow; // Remove gray line between header and sidebar
+$sidebar-bg: $express-black;        // Black sidebar
+$sidebar-submenu-bg: #1a1a1a;       // Slightly lighter black for submenus
+$sidebar-submenu-hover-bg: #2a2a2a; // Lighter on hover
+$sidebar-submenu-active-bg: $express-red-dark; // Dark red for active
 $footer-bg: $express-yellow;        // Bold yellow footer
 $border-color: $express-gray-lighter;
 $text-primary: $express-dark;
@@ -82,6 +89,14 @@ $btn-dark-bg-hover: $express-black;
 // Modal colors
 $modal-overlay-bg: rgba(0, 0, 0, 0.6);
 $modal-content-bg: #ffffff;
+
+// Delivery Font
+@font-face {
+    font-family: "Delivery";
+    src: url(/fonts/Delivery/Delivery_W_Rg.woff2) format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
 
 @import '../core';
 @import '../utilities';
@@ -151,11 +166,29 @@ $modal-content-bg: #ffffff;
   }
 }
 
-// Sidebar - subtle red accent on active items
-.pa-sidebar__link--active {
-  background-color: rgba(212, 5, 17, 0.08) !important;
-  border-right: 3px solid $express-red !important;
-  color: $express-dark !important;
+// Sidebar - black background with white/light text
+.pa-sidebar {
+  border-right-color: $express-black !important; // Remove gray border
+
+  &__link,
+  &__toggle {
+    color: #ffffff !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      color: $express-yellow !important;
+    }
+  }
+
+  &__link--active {
+    background-color: $express-red !important;
+    border-right: 3px solid $express-yellow !important;
+    color: #ffffff !important;
+  }
+
+  &__chevron {
+    color: #ffffff !important;
+  }
 }
 
 // Primary button - bold red with white text

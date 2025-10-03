@@ -16,7 +16,7 @@ app.set('layout', 'layout');
 // Add cookie parser middleware
 app.use(cookieParser());
 
-// Middleware to determine current theme and container width
+// Middleware to determine current theme, container width, and sidebar mode
 app.use((req, res, next) => {
     const theme = req.query.theme || req.cookies.selectedTheme || 'audi';
     res.locals.currentTheme = theme;
@@ -33,6 +33,15 @@ app.use((req, res, next) => {
     // Set cookie if container width was changed via query param
     if (req.query.containerWidth) {
         res.cookie('containerWidth', containerWidth, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    }
+
+    // Sidebar mode
+    const sidebarMode = req.query.sidebarMode || req.cookies.sidebarMode || '';
+    res.locals.sidebarMode = sidebarMode;
+
+    // Set cookie if sidebar mode was changed via query param
+    if (req.query.sidebarMode !== undefined) {
+        res.cookie('sidebarMode', sidebarMode, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
     }
 
     next();
@@ -153,35 +162,32 @@ app.get('/layouts', (req, res) => {
 
 // Serve static files with cache headers (after routes so EJS takes precedence)
 
-// Fonts - long cache (1 year) as they rarely change
+// Fonts - short cache for development
 app.use('/fonts', express.static(path.join(__dirname, 'fonts'), {
-    maxAge: '1y',
-    immutable: true
+    maxAge: 120000 // 2 minutes
 }));
 
-// CSS - medium cache (1 week) for development, could be longer in production
+// CSS - short cache for development
 app.use('/dist/css', express.static(path.join(__dirname, 'dist/css'), {
-    maxAge: '1w',
+    maxAge: 120000, // 2 minutes
     setHeaders: (res, path) => {
-        // Add ETag support for CSS files
-        res.setHeader('Cache-Control', 'public, max-age=604800'); // 1 week
+        res.setHeader('Cache-Control', 'public, max-age=120'); // 2 minutes
     }
 }));
 
 // Other dist files (JS, etc)
 app.use('/dist', express.static(path.join(__dirname, 'dist'), {
-    maxAge: '1w'
+    maxAge: 120000 // 2 minutes
 }));
 
-// Assets (images, icons) - long cache
+// Assets (images, icons) - short cache for development
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {
-    maxAge: '1y',
-    immutable: true
+    maxAge: 120000 // 2 minutes
 }));
 
 // Source files (for development)
 app.use('/src', express.static(path.join(__dirname, 'src'), {
-    maxAge: '1h' // Short cache for dev files
+    maxAge: 120000 // 2 minutes
 }));
 
 app.listen(port, () => {
