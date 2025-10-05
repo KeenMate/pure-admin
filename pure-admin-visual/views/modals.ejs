@@ -603,8 +603,12 @@
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
+        // Calculate scrollbar width to prevent layout shift
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
         modal.classList.add('pa-modal--show');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
     }
 }
 
@@ -613,6 +617,7 @@ function closeModal(modalId) {
     if (modal) {
         modal.classList.remove('pa-modal--show');
         document.body.style.overflow = ''; // Restore scrolling
+        document.body.style.paddingRight = ''; // Remove compensation
     }
 }
 

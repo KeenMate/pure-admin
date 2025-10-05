@@ -1,0 +1,140 @@
+/* Code Component */
+
+// Inline code
+code {
+  padding: 0.125rem 0.375rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875em;
+  background-color: $accent-light;
+  color: $accent-color;
+  border-radius: $border-radius-sm;
+}
+
+// Code block
+.pa-code {
+  display: block;
+  padding: $spacing-base;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+  background-color: $primary-bg;
+  color: $text-primary;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+
+  // With line numbers
+  &--numbered {
+    counter-reset: line;
+    padding-left: 3.5rem;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2.75rem;
+      background-color: rgba(0, 0, 0, 0.05);
+      border-right: $border-width-base solid $border-color;
+    }
+  }
+
+  // Compact variant
+  &--compact {
+    padding: $spacing-sm;
+    font-size: $font-size-xs;
+  }
+
+  // Language variants with colored accents
+  &--json {
+    border-left: $border-width-medium solid #f59e0b;
+  }
+
+  &--javascript {
+    border-left: $border-width-medium solid #f0db4f;
+  }
+
+  &--html {
+    border-left: $border-width-medium solid #e34c26;
+  }
+
+  &--css {
+    border-left: $border-width-medium solid #264de4;
+  }
+
+  &--bash {
+    border-left: $border-width-medium solid #4eaa25;
+  }
+
+  &--sql {
+    border-left: $border-width-medium solid #00758f;
+  }
+
+  &--python {
+    border-left: $border-width-medium solid #3776ab;
+  }
+}
+
+// Code block with header (title and copy button)
+.pa-code-block {
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-sm $spacing-base;
+    background-color: $card-header-bg;
+    border-bottom: $border-width-base solid $border-color;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    margin: 0;
+  }
+
+  &__body {
+    padding: 0;
+
+    .pa-code {
+      border: none;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+}
+
+// Syntax highlighting helper classes (basic)
+.pa-code-keyword {
+  color: #0077aa;
+  font-weight: $font-weight-medium;
+}
+
+.pa-code-string {
+  color: #669900;
+}
+
+.pa-code-number {
+  color: #ff6600;
+}
+
+.pa-code-comment {
+  color: $text-secondary;
+  font-style: italic;
+}
+
+.pa-code-function {
+  color: #9933cc;
+}
+
+.pa-code-property {
+  color: #dd4a68;
+}

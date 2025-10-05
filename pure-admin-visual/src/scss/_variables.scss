@@ -85,10 +85,13 @@ $tablet-breakpoint-min: 769px !default; // Min-width for tablet-only queries
 $sidebar-width-tablet: 10rem !default; // Sidebar width on tablet devices
 
 // Transitions & Animation
-$transition-fast: 0.1s !default;
-$transition-normal: 0.15s !default;
-$transition-medium: 0.25s !default;
-$transition-slow: 0.3s !default;
+// Set $transition-speed to 0 to disable all transitions (useful for accessibility or testing)
+$transition-speed: 1 !default; // Multiplier: 1 = normal, 0 = disabled, 0.5 = half speed, 2 = double speed
+
+$transition-fast: calc(0.1s * $transition-speed) !default;
+$transition-normal: calc(0.15s * $transition-speed) !default;
+$transition-medium: calc(0.25s * $transition-speed) !default;
+$transition-slow: calc(0.3s * $transition-speed) !default;
 $easing-snappy: ease-out !default;
 $easing-smooth: ease !default;
 $easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55) !default;

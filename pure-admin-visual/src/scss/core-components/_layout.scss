@@ -162,9 +162,9 @@
 
     h2 {
       margin: 0;
-      font-size: $font-size-base;
-      font-weight: $font-weight-medium;
-      color: $text-secondary;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -255,7 +255,11 @@
   z-index: 900;
   overflow-y: auto;
   opacity: 1;
-  transition: left $transition-normal $easing-snappy, width $transition-normal $easing-snappy, opacity $transition-normal $easing-snappy;
+
+  // Only transition after page load to prevent slide animation on initial render
+  body.loaded & {
+    transition: left $transition-normal $easing-snappy, width $transition-normal $easing-snappy, opacity $transition-normal $easing-snappy;
+  }
 
   &__nav {
     padding: $spacing-base 0;
@@ -279,7 +283,11 @@
     color: $text-secondary;
     text-decoration: none;
     font-weight: $font-weight-medium;
-    transition: all $transition-fast $easing-snappy;
+    border-right: $border-width-thick solid transparent; // Reserve space to prevent shift on active
+
+    body.loaded & {
+      transition: all $transition-fast $easing-snappy;
+    }
 
     &:hover {
       color: $text-primary;
@@ -289,7 +297,7 @@
     &--active {
       color: $accent-color;
       background-color: $accent-hover;
-      border-right: $border-width-thick solid $accent-color;
+      border-right-color: $accent-color; // Only change color, not width
     }
   }
 
@@ -306,7 +314,10 @@
     text-align: left;
     font-weight: $font-weight-medium;
     cursor: pointer;
-    transition: all $transition-fast $easing-snappy;
+
+    body.loaded & {
+      transition: all $transition-fast $easing-snappy;
+    }
 
     &:hover {
       color: $text-primary;
@@ -337,7 +348,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: opacity $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+
+    body.loaded & {
+      transition: opacity $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+    }
   }
 
   // Submenu styles - Level 2
@@ -348,7 +362,10 @@
     max-height: 0;
     overflow: hidden;
     background-color: $sidebar-submenu-bg;
-    transition: max-height $transition-normal $easing-snappy;
+
+    body.loaded & {
+      transition: max-height $transition-normal $easing-snappy;
+    }
 
     &--open {
       max-height: $submenu-max-height; // Generous height for animation
@@ -359,7 +376,7 @@
   &__submenu > &__item > &__link {
     padding-left: $sidebar-submenu-indent;
     font-size: $font-size-md;
-    border-right: none;
+    border-right: $border-width-medium solid transparent; // Reserve space to prevent shift on active
 
     &:hover {
       background-color: $sidebar-submenu-hover-bg;
@@ -367,7 +384,7 @@
 
     &--active {
       background-color: $sidebar-submenu-active-bg;
-      border-right: $border-width-medium solid $accent-color;
+      border-right-color: $accent-color; // Only change color, not width
     }
   }
 
@@ -381,9 +398,10 @@
   &__submenu &__submenu > &__item > &__link {
     padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
     font-size: $font-size-sm;
+    border-right: $border-width-base solid transparent; // Reserve space to prevent shift on active
 
     &--active {
-      border-right: $border-width-base solid $accent-color;
+      border-right-color: $accent-color; // Only change color, not width
     }
   }
 
@@ -391,7 +409,10 @@
   &__chevron {
     margin-left: auto;
     font-size: $font-size-xs;
-    transition: transform $transition-fast $easing-snappy;
+
+    body.loaded & {
+      transition: transform $transition-fast $easing-snappy;
+    }
 
     .pa-sidebar__item--open & {
       transform: rotate(90deg);
@@ -468,8 +489,14 @@
   .pa-sidebar--icon-collapse {
     left: 0;
     width: $sidebar-collapsed-width;
+    opacity: 1; // Override parent opacity: 0 to make icons visible
     overflow: visible !important; // Allow flyout to show outside sidebar
     z-index: 1050; // Higher than content area (950) for flyouts
+
+    // Enable positioning for flyouts
+    .pa-sidebar__item {
+      position: relative;
+    }
 
     // Hide text labels
     .pa-sidebar__label {
@@ -483,9 +510,9 @@
       display: none;
     }
 
-    // Hide submenus when collapsed
+    // Hide submenus when collapsed (but allow hover override)
     .pa-sidebar__submenu {
-      display: none !important;
+      display: none;
     }
 
     // Center icons in collapsed bar
@@ -527,6 +554,105 @@
         z-index: 10; // Relative to parent
         display: flex;
         align-items: center;
+      }
+    }
+
+    // Show submenu flyout on hover (for items with submenus)
+    .pa-sidebar__item:hover > .pa-sidebar__submenu,
+    .pa-sidebar__submenu:hover {
+      display: block !important;
+      max-height: none !important;
+      overflow: visible !important;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      min-width: 12rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background-color: $sidebar-submenu-bg;
+      border: $border-width-base solid $border-color;
+      border-left: none;
+      border-radius: 0 $border-radius $border-radius 0;
+      box-shadow: $shadow-md;
+      z-index: 1001; // Higher than parent
+
+      // Reset submenu styling for flyout
+      .pa-sidebar__item {
+        position: relative; // For nested flyouts
+      }
+
+      .pa-sidebar__link,
+      .pa-sidebar__toggle {
+        padding: $spacing-sm $spacing-base;
+        justify-content: flex-start;
+        gap: $sidebar-item-gap;
+        font-size: $font-size-sm;
+        width: 100%;
+
+        &:hover {
+          background-color: $sidebar-submenu-hover-bg;
+        }
+
+        &--active {
+          background-color: $sidebar-submenu-active-bg;
+        }
+      }
+
+      .pa-sidebar__icon {
+        width: $sidebar-icon-size;
+        min-width: $sidebar-icon-size;
+        justify-content: center;
+      }
+
+      .pa-sidebar__label {
+        position: static;
+        opacity: 1;
+        width: auto;
+        padding: 0;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+
+      .pa-sidebar__chevron {
+        display: inline;
+        margin-left: auto;
+        transform: none !important; // Always point right in flyout menus (never rotate down)
+      }
+
+      // Nested submenu flyout (level 3)
+      .pa-sidebar__submenu {
+        display: none;
+      }
+
+      .pa-sidebar__item:hover > .pa-sidebar__submenu,
+      .pa-sidebar__submenu .pa-sidebar__submenu:hover {
+        display: block !important;
+        max-height: none !important;
+        overflow: visible !important;
+        position: absolute;
+        left: 100%;
+        top: 0;
+        min-width: 12rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: $sidebar-submenu-bg;
+        border: $border-width-base solid $border-color;
+        border-left: none;
+        border-radius: 0 $border-radius $border-radius 0;
+        box-shadow: $shadow-md;
+        z-index: 1002; // Higher than parent submenu
+
+        .pa-sidebar__link,
+        .pa-sidebar__toggle {
+          font-size: $font-size-xs;
+        }
+
+        .pa-sidebar__chevron {
+          transform: none !important; // Always point right in nested flyout menus
+        }
       }
     }
   }

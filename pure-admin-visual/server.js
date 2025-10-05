@@ -120,6 +120,22 @@ app.get('/tables-lazy', (req, res) => {
     });
 });
 
+app.get('/comparison', (req, res) => {
+    res.render('comparison', {
+        pageTitle: 'Comparison Tables',
+        currentPage: 'comparison',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
+app.get('/code', (req, res) => {
+    res.render('code', {
+        pageTitle: 'Code Display',
+        currentPage: 'code',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
 app.get('/badges', (req, res) => {
     res.render('badges', {
         pageTitle: 'Badges & Labels',
@@ -172,6 +188,14 @@ app.get('/layouts', (req, res) => {
     res.render('layouts', {
         pageTitle: 'Layouts',
         currentPage: 'layouts',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
+app.get('/lists', (req, res) => {
+    res.render('lists', {
+        pageTitle: 'Lists',
+        currentPage: 'lists',
         currentTheme: res.locals.currentTheme
     });
 });

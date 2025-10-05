@@ -69,6 +69,152 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Prevents ~15px horizontal shift when navigating between short/long pages
   - Consistent layout across all pages
 
+### Added - 2025-10-05 (Afternoon Session)
+
+#### Comparison Table Component
+- **New component**: `.pa-comparison-table` for version control, data changes, and A/B comparisons
+  - **Two-column layout**: Base vs New (version detail pattern)
+  - **Three-column layout**: Base vs Change A vs Change B (A/B testing pattern)
+  - **Change highlighting**: `.pa-comparison-table__changed` with pink background and left border accent
+    - Background: `rgba(244, 114, 182, 0.15)`
+    - Left border: 3px solid `#ec4899` (pink-500)
+    - Solid variant: `--solid` modifier removes border, intensifies background
+  - **Conflict highlighting**: `.pa-comparison-table__conflict` for conflicting changes
+    - Background: `rgba(251, 146, 60, 0.15)`
+    - Left border: 3px solid `#f97316` (orange-500)
+    - Solid variant available
+  - **Section headers**: Grouping rows by category (Address Data, Address Metadata, etc.)
+  - **Copy-to-clipboard buttons**: Card header integration for copying table content
+  - **Rich content support**: Icons, badges, status indicators in cells
+  - **Works in cards**: `.pa-card__body--no-padding` for seamless integration
+- **New page**: `/comparison` with comprehensive examples
+- **SCSS Variables**:
+  - Uses existing `$border-width-medium`, `$primary-bg`, `$text-secondary`
+  - Change colors hardcoded (pink-500, orange-500) for consistency across themes
+- **Snippet**: `snippets/comparison.html` with 2-column and 3-column patterns
+
+#### Lists Component System
+- **New component**: Styled HTML lists (ul, ol, dl) with multiple variants
+  - **Basic lists**: `.pa-list-basic` with proper spacing and styling
+  - **Ordered lists**: `.pa-list-ordered` with number/letter/roman variants
+  - **Definition lists**: `.pa-list-definition` for term/description pairs
+- **List modifiers**:
+  - `.pa-list-basic--icon`: Replace bullets with checkmarks or custom icons
+  - `.pa-list-basic--bordered`: Add borders between items
+  - `.pa-list-basic--compact`: Reduced spacing for dense content
+  - `.pa-list-basic--inline`: Horizontal layout with separators
+  - `.pa-list-ordered--compact`: Reduced spacing for numbered lists
+  - `.pa-list-definition--horizontal`: Side-by-side term/description layout
+  - `.pa-list-definition--striped`: Alternating row backgrounds
+- **Features**:
+  - All spacing controlled by SCSS variables (`$spacing-sm`, `$spacing-base`, `$spacing-lg`)
+  - Border colors use `$border-color` for theme consistency
+  - Icon lists use `$success-bg` for checkmark color
+  - Works in cards with no-padding modifier
+- **New page**: `/lists` with comprehensive examples
+- **Snippet**: `snippets/lists.html` with all list variants
+
+#### Multilevel Flyout Menus
+- **Enhanced sidebar**: Multilevel menus now display as flyouts when sidebar is in icon-collapse mode
+  - **Hover activation**: Flyout menus appear on hover over parent items
+  - **Cascading submenus**: Third-level menus fly out to the right from second-level
+  - **Smart positioning**: Absolute positioning relative to parent items
+  - **Visual styling**: Border, box shadow, and proper background colors
+  - **Chevron direction**: Arrows point right (›) in flyouts instead of down
+- **Implementation**:
+  - Added `position: relative` to `.pa-sidebar__item` for flyout positioning
+  - Flyout menus use `position: absolute`, `left: 100%`, `top: 0`
+  - Min-width: 12rem for readable menu items
+  - Z-index layering: level 2 (1001), level 3 (1002)
+  - Removed transform rotation from chevrons in flyout mode
+- **Demo content**: Added extensive demo menu items at levels 2 and 3 for testing
+  - System Settings with 4 sub-items
+  - User Settings with 3 sub-items
+  - Advanced with 3 sub-items
+  - Appearance and Integrations items
+- **SCSS updates**: `src/scss/core-components/_layout.scss` with flyout-specific styles
+- **Hover persistence**: Menus stay visible when hovering over submenu itself
+
+### Changed - 2025-10-05 (Afternoon Session)
+
+#### Page Title Styling
+- **Enhanced navbar page title** to stand out more:
+  - Font size: `$font-size-lg` (1.125rem / 18px)
+  - Font weight: `$font-weight-semibold` (600)
+  - Color: `$text-primary` (more prominent than previous secondary color)
+- **Location**: `.pa-navbar__title` in `src/scss/core-components/_layout.scss`
+
+#### Duplicate Page Titles Cleanup
+- **Removed duplicate h1/h2 page titles** from multiple pages (title now shows in navbar):
+  - `views/dashboard.ejs` - Removed "Dashboard" h2
+  - `views/loaders.ejs` - Removed "Loaders & Spinners" h2
+  - `views/tables-lazy.ejs` - Removed "Lazy Loading Tables" h2
+  - `views/tables-sizing.ejs` - Removed "Table Sizing & Spacing" h2
+  - `views/tooltips.ejs` - Removed "Tooltips & Popovers" h2
+- **Result**: Cleaner page layout with title visible in fixed navbar
+
+#### Sidebar Navigation
+- **Updated Modal Windows icon**: Changed from 🪟 (missing icon) to 🔳 (visible square)
+- **Added Lists menu item**: New sidebar link to `/lists` page (📃 icon)
+
+### Fixed - 2025-10-05 (Afternoon Session)
+
+#### Modal Layout Shift
+- **Fixed horizontal shift** when modals open/close:
+  - **Problem**: Opening modal hides scrollbar, causing ~15px horizontal layout shift
+  - **Solution**: Calculate scrollbar width and compensate with padding
+  - **Implementation**:
+    ```javascript
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = scrollbarWidth + 'px';
+    ```
+  - **Location**: `views/modals.ejs` in `openModal()` and `closeModal()` functions
+  - **Result**: Smooth modal transitions with no layout jump
+
+#### Profile Name Visibility (Dark Themes)
+- **Fixed gray text on dark background** in Dark Blue, Dark Green, Dark Red themes:
+  - **Problem**: Profile name "John Doe" appeared gray on dark blue header (poor contrast)
+  - **Solution**: Added `$header-profile-name-color: #ffffff` to all three dark themes
+  - **Files**: `src/scss/themes/dark-blue.scss`, `dark-green.scss`, `dark-red.scss`
+  - **Result**: White profile name text visible on all dark headers
+
+#### Sidebar Icon-Collapse Mode
+- **Fixed multiple issues** with "Show Icons Only" sidebar behavior:
+
+  **Issue 1: Icons invisible in collapsed mode**
+  - **Problem**: `.sidebar-hidden .pa-sidebar` set `opacity: 0`, hiding icons completely
+  - **Solution**: Added `opacity: 1` to `.sidebar-hidden .pa-sidebar--icon-collapse` to override
+  - **Location**: `src/scss/core-components/_layout.scss`
+
+  **Issue 2: Burger menu icons inverted**
+  - **Problem**: Hamburger (☰) showed when sidebar expanded, X showed when collapsed
+  - **Expected**: Hamburger when collapsed, X when expanded
+  - **Solution**: Rewrote `toggleSidebar()` function with correct logic
+  - **Location**: `views/layout.ejs`
+
+  **Issue 3: Body class "sidebar-hidden" added in icon-collapse mode**
+  - **Problem**: Both `pa-sidebar--icon-collapse` and `sidebar-hidden` classes added, causing conflicts
+  - **Solution**: Modified logic to only add `sidebar-hidden` when behavior is 'hide', not 'icon-collapse'
+  - **Location**: `views/layout.ejs` in sidebar behavior initialization
+
+  **Issue 4: Toggle behavior incorrect in icon-collapse mode**
+  - **Problem**: Clicking burger in icon-collapse mode didn't properly toggle between icon bar and full width
+  - **Solution**: Added dedicated icon-collapse logic in `toggleSidebar()` function
+  - **Result**:
+    - Icon-collapse mode: Toggle between narrow icon bar and full-width sidebar
+    - Hide mode: Toggle between hidden and visible sidebar
+
+- **Files modified**:
+  - `src/scss/core-components/_layout.scss` - CSS fixes for opacity and icon visibility
+  - `views/layout.ejs` - JavaScript fixes for burger menu and sidebar toggling
+
+#### Comparison Table Solid Modifier
+- **Fixed background color override**:
+  - **Problem**: `.pa-table td` background was overriding `--solid` modifier
+  - **Solution**: Added `!important` to `.pa-comparison-table__changed--solid` background-color
+  - **Location**: `src/scss/core-components/_comparison.scss`
+  - **Result**: Solid variant now displays intensified background instead of left border
+
 ### Fixed - 2025-10-05
 
 #### Profile Name Visibility

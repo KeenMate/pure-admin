@@ -167,10 +167,53 @@
 <!-- JAVASCRIPT -->
 <script>
 function openModal(modalId) {
-  document.getElementById(modalId).classList.add('pa-modal--show');
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    // Calculate scrollbar width to prevent layout shift
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    modal.classList.add('pa-modal--show');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
+  }
 }
 
 function closeModal(modalId) {
-  document.getElementById(modalId).classList.remove('pa-modal--show');
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.remove('pa-modal--show');
+    document.body.style.overflow = ''; // Restore scrolling
+    document.body.style.paddingRight = ''; // Remove compensation
+  }
 }
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const openModal = document.querySelector('.pa-modal--show');
+    if (openModal) {
+      closeModal(openModal.id);
+    }
+  }
+});
+
+// Close modal when clicking backdrop
+document.querySelectorAll('.pa-modal__backdrop').forEach(backdrop => {
+  backdrop.addEventListener('click', function() {
+    const modal = this.closest('.pa-modal');
+    if (modal) {
+      closeModal(modal.id);
+    }
+  });
+});
+
+// Close modal when clicking close button
+document.querySelectorAll('.pa-modal__close').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const modal = this.closest('.pa-modal');
+    if (modal) {
+      closeModal(modal.id);
+    }
+  });
+});
 </script>

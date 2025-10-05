@@ -86,10 +86,12 @@
     <!-- Prevent FOUC: Apply saved settings immediately before rendering -->
     <script>
         (function() {
-            // Apply sidebar hidden state immediately
+            // Apply sidebar behavior immediately
+            const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
             const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
             const isMobile = window.innerWidth <= 768;
 
+            // Apply sidebar-hidden state (works for both 'hide' and 'icon-collapse' behaviors)
             if (!isMobile && sidebarHidden) {
                 document.body.classList.add('sidebar-hidden');
             }
@@ -367,6 +369,7 @@
             const burgerMenu = document.querySelector('.burger-menu');
             const sidebar = document.querySelector('.pa-sidebar');
             const isMobile = window.innerWidth <= 768;
+            const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
 
             if (isMobile) {
                 // Mobile: Toggle sidebar visibility but don't persist state
@@ -377,12 +380,34 @@
                 if (sidebar && sidebar.classList.contains('pa-sidebar--disappearing') && sidebar.classList.contains('is-hidden')) {
                     // Show the sidebar by removing is-hidden
                     sidebar.classList.remove('is-hidden');
+                } else if (sidebarBehavior === 'icon-collapse') {
+                    // Icon-collapse mode: toggle between icon bar and full width
+                    const isExpanded = !body.classList.contains('sidebar-hidden');
+
+                    if (isExpanded) {
+                        // Currently expanded, collapse to icons
+                        body.classList.add('sidebar-hidden');
+                        burgerMenu.classList.remove('active');
+                    } else {
+                        // Currently showing icons, expand to full width
+                        body.classList.remove('sidebar-hidden');
+                        burgerMenu.classList.add('active');
+                    }
+                    localStorage.setItem('sidebar-hidden', body.classList.contains('sidebar-hidden'));
                 } else {
-                    // Normal toggle behavior
-                    body.classList.toggle('sidebar-hidden');
-                    burgerMenu.classList.toggle('active');
+                    // Normal hide mode: toggle visibility completely
                     const isHidden = body.classList.contains('sidebar-hidden');
-                    localStorage.setItem('sidebar-hidden', isHidden);
+
+                    if (isHidden) {
+                        // Currently hidden, show it
+                        body.classList.remove('sidebar-hidden');
+                        burgerMenu.classList.add('active');
+                    } else {
+                        // Currently visible, hide it
+                        body.classList.add('sidebar-hidden');
+                        burgerMenu.classList.remove('active');
+                    }
+                    localStorage.setItem('sidebar-hidden', body.classList.contains('sidebar-hidden'));
                 }
             }
         }
@@ -397,15 +422,19 @@
                 body.classList.remove('sidebar-visible');
                 document.querySelector('.burger-menu').classList.remove('active');
             } else {
-                // Desktop: Use saved state
+                // Desktop: Use saved state (works for both 'hide' and 'icon-collapse' behaviors)
                 body.classList.remove('sidebar-visible');
                 const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+                const burgerMenu = document.querySelector('.burger-menu');
+
                 if (sidebarHidden) {
+                    // Collapsed/Hidden state
                     body.classList.add('sidebar-hidden');
-                    document.querySelector('.burger-menu').classList.add('active');
+                    if (burgerMenu) burgerMenu.classList.remove('active'); // Show hamburger
                 } else {
+                    // Expanded/Visible state
                     body.classList.remove('sidebar-hidden');
-                    document.querySelector('.burger-menu').classList.remove('active');
+                    if (burgerMenu) burgerMenu.classList.add('active'); // Show X
                 }
             }
         }
@@ -478,10 +507,29 @@
                 const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
                 sidebarBehaviorSelector.value = sidebarBehavior;
                 const sidebar = document.querySelector('.pa-sidebar');
+                const burgerMenu = document.querySelector('.burger-menu');
                 if (sidebar) {
                     sidebar.classList.remove('pa-sidebar--icon-collapse');
                     if (sidebarBehavior === 'icon-collapse') {
                         sidebar.classList.add('pa-sidebar--icon-collapse');
+                        // In icon-collapse mode, check if expanded or collapsed
+                        const isExpanded = !body.classList.contains('sidebar-hidden');
+                        if (burgerMenu) {
+                            if (isExpanded) {
+                                burgerMenu.classList.add('active'); // Expanded, show X
+                            } else {
+                                burgerMenu.classList.remove('active'); // Collapsed to icons, show hamburger
+                            }
+                        }
+                    } else {
+                        // In hide mode, burger active = sidebar visible
+                        if (burgerMenu) {
+                            if (body.classList.contains('sidebar-hidden')) {
+                                burgerMenu.classList.remove('active'); // Hidden, show hamburger
+                            } else {
+                                burgerMenu.classList.add('active'); // Visible, show X
+                            }
+                        }
                     }
                 }
 
@@ -577,20 +625,26 @@
 
                 if (sidebar) {
                     sidebar.classList.remove('pa-sidebar--icon-collapse');
+                    document.body.classList.remove('sidebar-hidden');
 
                     if (behavior === 'icon-collapse') {
-                        // Show icon-only sidebar immediately
+                        // Show icon-only sidebar in collapsed state
                         sidebar.classList.add('pa-sidebar--icon-collapse');
-                        document.body.classList.add('sidebar-hidden');
-                        if (burgerMenu) burgerMenu.classList.add('active');
+                        // Start in collapsed state (icon bar showing)
+                        if (burgerMenu) burgerMenu.classList.remove('active'); // Not expanded, show hamburger
+                        localStorage.setItem('sidebar-hidden', 'false'); // Not fully hidden, just in icon mode
                     } else if (behavior === 'hide') {
                         // Hide sidebar completely
                         document.body.classList.add('sidebar-hidden');
-                        if (burgerMenu) burgerMenu.classList.add('active');
+                        if (burgerMenu) burgerMenu.classList.remove('active'); // Hidden, show hamburger to open
+                        localStorage.setItem('sidebar-hidden', 'true');
+                    } else {
+                        // Default behavior - show full sidebar
+                        if (burgerMenu) burgerMenu.classList.add('active'); // Visible, show X to close
+                        localStorage.setItem('sidebar-hidden', 'false');
                     }
 
                     localStorage.setItem('sidebar-behavior', behavior);
-                    localStorage.setItem('sidebar-hidden', 'true');
                 }
             });
 

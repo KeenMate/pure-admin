@@ -3,7 +3,162 @@
    List items with avatars, titles, subtitles, and meta information
    ======================================== */
 
-// Lists
+// Basic HTML Lists (ul, ol, dl)
+.pa-list-basic {
+  margin: 0;
+  padding-left: $spacing-lg;
+
+  li {
+    margin-bottom: $spacing-sm;
+    line-height: 1.6;
+  }
+
+  &--spacious li {
+    margin-bottom: $spacing-base;
+  }
+
+  &--compact li {
+    margin-bottom: $spacing-xs;
+  }
+
+  &--unstyled {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  &--inline {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-base;
+  }
+
+  &--bordered {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      padding: $spacing-sm $spacing-base;
+      border-bottom: $border-width-base solid $border-color;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &--striped {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      padding: $spacing-sm $spacing-base;
+
+      &:nth-child(even) {
+        background-color: $table-stripe;
+      }
+    }
+  }
+
+  &--icon {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: $spacing-sm;
+
+      &::before {
+        content: '✓';
+        color: $success-bg;
+        font-weight: $font-weight-semibold;
+        flex-shrink: 0;
+      }
+    }
+
+    &.pa-list-basic--danger li::before {
+      content: '✗';
+      color: $danger-bg;
+    }
+
+    &.pa-list-basic--info li::before {
+      content: '→';
+      color: $info-bg;
+    }
+
+    &.pa-list-basic--warning li::before {
+      content: '!';
+      color: $warning-bg;
+    }
+  }
+}
+
+.pa-list-ordered {
+  margin: 0;
+  padding-left: $spacing-lg;
+
+  li {
+    margin-bottom: $spacing-sm;
+    line-height: 1.6;
+    padding-left: $spacing-xs;
+  }
+
+  &--roman {
+    list-style-type: upper-roman;
+  }
+
+  &--alpha {
+    list-style-type: lower-alpha;
+  }
+}
+
+.pa-list-definition {
+  margin: 0;
+
+  dt {
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-xs;
+    margin-top: $spacing-base;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  dd {
+    margin-left: $spacing-lg;
+    margin-bottom: $spacing-sm;
+    color: $text-secondary;
+    line-height: 1.6;
+  }
+
+  &--inline {
+    dt {
+      display: inline;
+      margin-right: $spacing-xs;
+
+      &::after {
+        content: ':';
+      }
+    }
+
+    dd {
+      display: inline;
+      margin-left: 0;
+      margin-right: $spacing-base;
+
+      &::after {
+        content: '';
+        display: block;
+      }
+    }
+  }
+}
+
+// Complex Lists (with avatars, titles, etc.)
 .pa-list {
   &__item {
     display: flex;
