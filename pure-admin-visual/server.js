@@ -31,12 +31,12 @@ app.use((req, res, next) => {
     res.locals.containerWidth = containerWidth;
 
     // Set cookie if container width was changed via query param
-    if (req.query.containerWidth) {
+    if (req.query.containerWidth !== undefined) {
         res.cookie('containerWidth', containerWidth, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
     }
 
     // Sidebar mode
-    const sidebarMode = req.query.sidebarMode || req.cookies.sidebarMode || '';
+    const sidebarMode = req.query.sidebarMode !== undefined ? req.query.sidebarMode : (req.cookies.sidebarMode || '');
     res.locals.sidebarMode = sidebarMode;
 
     // Set cookie if sidebar mode was changed via query param
@@ -148,6 +148,22 @@ app.get('/tooltips', (req, res) => {
     res.render('tooltips', {
         pageTitle: 'Tooltips',
         currentPage: 'tooltips',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
+app.get('/tabs', (req, res) => {
+    res.render('tabs', {
+        pageTitle: 'Tabs',
+        currentPage: 'tabs',
+        currentTheme: res.locals.currentTheme
+    });
+});
+
+app.get('/toasts', (req, res) => {
+    res.render('toasts', {
+        pageTitle: 'Toast Notifications',
+        currentPage: 'toasts',
         currentTheme: res.locals.currentTheme
     });
 });

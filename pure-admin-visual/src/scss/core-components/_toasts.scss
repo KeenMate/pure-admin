@@ -1,0 +1,280 @@
+/* ========================================
+   Toast Notifications
+   Temporary notification messages that auto-dismiss
+   ======================================== */
+
+// ===== TOAST CONTAINER =====
+
+// Fixed container for toast notifications
+.pa-toast-container {
+  position: fixed;
+  z-index: $z-index-toast;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  // Position variations
+  &--top-right {
+    top: $spacing-lg;
+    right: $spacing-lg;
+  }
+
+  &--top-left {
+    top: $spacing-lg;
+    left: $spacing-lg;
+  }
+
+  &--bottom-right {
+    bottom: $spacing-lg;
+    right: $spacing-lg;
+  }
+
+  &--bottom-left {
+    bottom: $spacing-lg;
+    left: $spacing-lg;
+  }
+
+  &--top-center {
+    top: $spacing-lg;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &--bottom-center {
+    bottom: $spacing-lg;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+// ===== TOAST ITEM =====
+
+.pa-toast {
+  background-color: $card-bg;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  min-width: $toast-min-width;
+  max-width: $toast-max-width;
+  padding: $toast-padding-v $toast-padding-h;
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  position: relative;
+  overflow: hidden;
+
+  // Animation states
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity $transition-normal ease, transform $transition-normal ease;
+
+  &.pa-toast--show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &.pa-toast--hide {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  // Left position animations
+  .pa-toast-container--top-left &,
+  .pa-toast-container--bottom-left & {
+    transform: translateX(-100%);
+
+    &.pa-toast--show {
+      transform: translateX(0);
+    }
+
+    &.pa-toast--hide {
+      transform: translateX(-100%);
+    }
+  }
+
+  // Center position animations
+  .pa-toast-container--top-center &,
+  .pa-toast-container--bottom-center & {
+    transform: translateY(-100%);
+
+    &.pa-toast--show {
+      transform: translateY(0);
+    }
+
+    &.pa-toast--hide {
+      transform: translateY(-100%);
+    }
+  }
+}
+
+// Toast icon
+.pa-toast__icon {
+  flex-shrink: 0;
+  width: $toast-icon-size;
+  height: $toast-icon-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-lg;
+  border-radius: $border-radius;
+}
+
+// Toast content
+.pa-toast__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pa-toast__title {
+  font-weight: $font-weight-semibold;
+  margin: 0 0 $spacing-xs 0;
+  color: $text-primary;
+  font-size: $font-size-sm;
+}
+
+.pa-toast__message {
+  margin: 0;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  line-height: $line-height-base;
+}
+
+// Toast close button
+.pa-toast__close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: $text-secondary;
+  cursor: pointer;
+  padding: 0;
+  width: $toast-close-size;
+  height: $toast-close-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius;
+  font-size: $font-size-lg;
+  line-height: 1;
+  transition: background-color $transition-fast ease, color $transition-fast ease;
+
+  &:hover {
+    background-color: $accent-hover;
+    color: $text-primary;
+  }
+
+  &:focus {
+    outline: $focus-outline-width solid $accent-color;
+    outline-offset: $focus-outline-offset;
+  }
+}
+
+// Toast progress bar
+.pa-toast__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: $toast-progress-height;
+  background-color: currentColor;
+  opacity: 0.3;
+  transition: width linear;
+}
+
+// ===== TOAST VARIANTS =====
+
+// Primary toast
+.pa-toast--primary {
+  border-color: $btn-primary-bg;
+
+  .pa-toast__icon {
+    background-color: rgba($btn-primary-bg, 0.1);
+    color: $btn-primary-bg;
+  }
+
+  .pa-toast__progress {
+    color: $btn-primary-bg;
+  }
+}
+
+// Success toast
+.pa-toast--success {
+  border-color: $btn-success-bg;
+
+  .pa-toast__icon {
+    background-color: rgba($btn-success-bg, 0.1);
+    color: $btn-success-bg;
+  }
+
+  .pa-toast__progress {
+    color: $btn-success-bg;
+  }
+}
+
+// Danger toast
+.pa-toast--danger {
+  border-color: $btn-danger-bg;
+
+  .pa-toast__icon {
+    background-color: rgba($btn-danger-bg, 0.1);
+    color: $btn-danger-bg;
+  }
+
+  .pa-toast__progress {
+    color: $btn-danger-bg;
+  }
+}
+
+// Warning toast
+.pa-toast--warning {
+  border-color: $btn-warning-bg;
+
+  .pa-toast__icon {
+    background-color: rgba($btn-warning-bg, 0.1);
+    color: $btn-warning-bg;
+  }
+
+  .pa-toast__progress {
+    color: $btn-warning-bg;
+  }
+}
+
+// Info toast
+.pa-toast--info {
+  border-color: $btn-info-bg;
+
+  .pa-toast__icon {
+    background-color: rgba($btn-info-bg, 0.1);
+    color: $btn-info-bg;
+  }
+
+  .pa-toast__progress {
+    color: $btn-info-bg;
+  }
+}
+
+// ===== RESPONSIVE =====
+
+@media (max-width: $mobile-breakpoint) {
+  .pa-toast-container {
+    left: $spacing-md !important;
+    right: $spacing-md !important;
+    transform: none !important;
+
+    &--top-right,
+    &--top-left,
+    &--top-center {
+      top: $spacing-md;
+    }
+
+    &--bottom-right,
+    &--bottom-left,
+    &--bottom-center {
+      bottom: $spacing-md;
+    }
+  }
+
+  .pa-toast {
+    max-width: 100%;
+  }
+}

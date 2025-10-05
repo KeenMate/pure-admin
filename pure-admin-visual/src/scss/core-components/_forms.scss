@@ -20,6 +20,29 @@
   }
 }
 
+// Horizontal form group (label on left, input on right)
+.pa-form-group--horizontal {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-base;
+
+  label {
+    flex-shrink: 0;
+    padding-top: $input-padding-v;
+    margin-bottom: 0;
+    color: $text-primary;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+  }
+
+  // Input container takes remaining space
+  > .pa-input,
+  > .pa-select,
+  > .pa-textarea {
+    flex: 1;
+  }
+}
+
 .pa-form {
   .pa-form-group {
     label {

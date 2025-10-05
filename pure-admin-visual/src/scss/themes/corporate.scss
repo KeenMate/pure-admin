@@ -49,6 +49,7 @@ $primary-bg: #f4f6f9;
 $content-background-color: #f4f6f9;
 $header-bg: $corporate-slate-800;
 $header-border-color: $corporate-slate-200; // Match sidebar border color
+$header-profile-name-color: #ffffff;       // Light text on dark header
 $sidebar-bg: $corporate-slate-50;
 $footer-bg: $corporate-slate-800;
 $border-color: $corporate-slate-200;
@@ -108,8 +109,18 @@ $modal-content-bg: #ffffff;
     color: #ffffff !important;
   }
 
-  &__nav ul li a {
+  &__nav > ul > li > a {
     color: $corporate-slate-300 !important;
+
+    &:hover {
+      color: $corporate-blue-500 !important;
+      background-color: rgba($corporate-blue-500, 0.1) !important;
+    }
+  }
+
+  // Dropdown menu items - dark text on light background
+  &__dropdown li a {
+    color: $corporate-slate-700 !important;
 
     &:hover {
       color: $corporate-blue-500 !important;
@@ -156,4 +167,11 @@ $modal-content-bg: #ffffff;
       border-color: $corporate-blue-500 !important;
     }
   }
+}
+
+// CSS Variables for page loader (FOUC prevention)
+:root {
+  --page-loader-bg: rgba(26, 26, 26, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #0066cc;
 }

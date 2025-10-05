@@ -7,6 +7,202 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2025-10-05
+
+#### Comprehensive Component Snippets for LLM Consumption
+- **Created comprehensive snippet documentation** for all framework components
+  - **Purpose**: Prevent LLMs from making incorrect assumptions about available options
+  - **Context**: Another Claude instance assumed only 1-2 badge sizes existed due to incomplete snippets
+- **New snippet files**:
+  - `snippets/grid.html` - Complete PureCSS grid reference
+    - All fractions: halves, thirds, quarters, fifths, sixths, eighths, twelfths, twenty-fourths
+    - All responsive variants: `pure-u-sm-*`, `pure-u-md-*`, `pure-u-lg-*`, `pure-u-xl-*`
+    - Nested grid examples and dashboard layouts
+  - `snippets/tooltips.html` - Complete tooltip and popover reference
+    - All 4 positions: top, right, bottom, left
+    - All 5 color variants: default, primary, success, warning, danger
+    - Multiline tooltips
+    - Auto-flip smart positioning classes
+    - Popover component with all sizes (sm, md, lg) and positions
+    - Rich content examples (lists, code blocks, links)
+    - Complete JavaScript API reference
+- **Enhanced existing snippets**:
+  - `alerts.html` - Added missing `--lg` size (sm, default, lg now all documented)
+  - `badges.html` - Added large badge example (was missing from snippet)
+  - `cards.html` - Added missing variants and sub-components:
+    - `--warning` variant (was undocumented)
+    - `--stat` variant for statistics cards
+    - `.pa-card__title` components (icon + text)
+    - `.pa-card__meta` for metadata
+    - Footer actions pattern
+    - No-padding body variant for tables
+    - Tab content areas with JavaScript
+    - Section component
+  - `tables.html` - Major cleanup and additions:
+    - Fixed incorrect class names (`--hover`, `--bordered`, `--compact` removed as they don't exist)
+    - Corrected spacing classes: `--spacing-2x/3x` → `--2x/3x`
+    - Added table container (`.pa-table-container`)
+    - Added pager component examples (all 3 positions)
+    - Added load more component (all states and positions)
+    - Comprehensive modifier reference at end
+- **Status**: All 14 snippet files now comprehensive
+  - ✅ alerts.html, badges.html, buttons.html, cards.html
+  - ✅ forms.html, grid.html, layout.html, loaders.html
+  - ✅ modals.html, profile.html, tables.html, toasts.html
+  - ✅ tooltips.html, utilities.html
+
+#### Performance Optimizations
+- **Page loader timing improvements**:
+  - Removed 100ms "font settle" delay (unnecessary wait after fonts load)
+  - Reduced timeout fallback: 3s → 1s
+  - Reduced DOM removal delays: 150ms → 80ms
+  - **Total improvement**: ~100-200ms faster perceived load time
+  - Kept necessary delays: 150ms transition, 50ms body.loaded (prevents layout jumps)
+- **Fixed font-size FOUC** (Flash of Unstyled Content):
+  - Font-size now applied immediately in inline script (before rendering)
+  - Previously applied on DOMContentLoaded, causing 1.15-1.25x size jump
+  - Moved from `loadSettings()` function to immediate FOUC prevention script
+  - Matches pattern used for sidebar-hidden and compact-mode
+- **Fixed scrollbar layout shift**:
+  - Added `overflow-y: scroll` to body
+  - Forces scrollbar gutter to always be present
+  - Prevents ~15px horizontal shift when navigating between short/long pages
+  - Consistent layout across all pages
+
+### Fixed - 2025-10-05
+
+#### Profile Name Visibility
+- **Added `$header-profile-name-color` variable** (`_variables.scss:275`)
+  - Default: `$text-primary` (works for light headers)
+  - Audi Light override: `#ffffff` (light text on dark header)
+  - Corporate override: `#ffffff` (light text on dark header)
+- **Applied to `.pa-header__profile-name`** (`_profile.scss:36`)
+- **Result**: "John Doe" profile name now visible on all themes
+
+### Added - 2025-10-04
+
+#### Audi Light Theme
+- **New light theme variant**: `audi-light.scss` - Light version of Audi theme
+  - Maintains Audi's signature elements:
+    - Fira Sans Condensed font
+    - Bright red accent color (#ff0000)
+    - Sharp 1px border radius
+    - Red primary/danger buttons
+  - Light color scheme:
+    - White cards and content areas
+    - Light gray backgrounds (#f1f3f5)
+    - Dark sidebar and header (#1a1a1a) for contrast
+    - Dark text on light backgrounds
+  - Red table hover accent (left border)
+  - Available in theme selector dropdown
+
+#### Horizontal Form Layouts
+- **New form modifier**: `.pa-form-group--horizontal` for label-left, input-right layout
+  - Labels automatically align with input top edge
+  - Input/select/textarea uses `flex: 1` (fills remaining space)
+  - No nested grids needed inside form groups
+  - CSS-only solution (no complex HTML structure)
+- **Comprehensive snippets**: Added horizontal form examples to `snippets/forms.html`
+  - Single field examples (input, select, textarea)
+  - Multi-column layouts with equal widths
+  - Multi-column layouts with varying widths (1/4 + 5/12 + 1/3)
+  - Complete form example with multiple rows
+- **Clean pattern**:
+  ```html
+  <div class="pure-u-1 pure-u-md-1-3">
+    <div class="pa-form-group pa-form-group--horizontal">
+      <label>Label</label>
+      <input class="pa-input">
+    </div>
+  </div>
+  ```
+
+### Changed - 2025-10-03
+
+#### PureCSS Grid Architecture Refactor
+- **Moved grid imports from themes to core**: PureCSS grid now imported in `_core.scss` instead of each theme file
+  - **Before**: Each theme imported `purecss-grid` and `purecss-grid-responsive`, causing ~15KB duplication per theme
+  - **After**: Grid imported once in `_core.scss`, all themes inherit from core
+  - **Benefit**: Eliminates code duplication across 8 theme files (corporate, audi, express, minimal, dark, dark-blue, dark-green, dark-red)
+- **Made main.css fully functional standalone**: `main.css` now includes grid foundation
+  - Previously `main.css` referenced grid classes that didn't exist
+  - Now core contains everything needed for complete functionality
+- **Improved theme architecture**: Themes only override variables and import core
+  - Aligns with design principle: "core contains everything, themes customize"
+  - Cleaner separation of concerns: foundation → variables → components
+- **Updated all 8 theme files**: Removed redundant grid imports
+- **Verified builds**: Both `pure-admin-visual` and `pure-admin-core` compile successfully
+
+### Added - 2025-10-03
+
+#### Toast Notification System
+- **New toast component**: `.pa-toast` with fixed-position containers and smooth animations
+- **Toast containers**: `.pa-toast-container` with 6 position variants
+  - Top: `--top-right`, `--top-center`, `--top-left`
+  - Bottom: `--bottom-right`, `--bottom-center`, `--bottom-left`
+  - Global containers placed at body level in `layout.ejs`
+- **Toast variants**: 5 color styles matching button colors
+  - Primary, Success, Danger, Warning, Info
+  - Border-based styling with colored icon backgrounds
+  - Colored progress bars for auto-dismiss feedback
+- **Features**:
+  - Smooth slide-in/out animations (directional based on position)
+  - Auto-dismiss with configurable duration (default: 5 seconds)
+  - **Persistent toasts**: Manual dismiss only variant (no auto-dismiss, no progress bar)
+  - Progress bar showing time remaining before auto-dismiss
+  - Icon + title + message structure
+  - Close button with hover states
+  - Automatic stacking with gap spacing
+  - Responsive mobile behavior (full width with margin)
+- **SCSS Variables**:
+  - `$z-index-toast: 1200` (highest z-index, above header dropdowns)
+  - `$toast-min-width: 20rem`, `$toast-max-width: 25rem`
+  - `$toast-padding-v/h: $spacing-md`
+  - `$toast-icon-size: 2rem`, `$toast-close-size: 1.5rem`
+  - `$toast-progress-height: 3px`
+- **JavaScript API**:
+  - `createToast(position, variant, title, message, duration, showProgress, persistent)`
+  - `dismissToast(toastId)` for manual dismissal
+  - Helper functions for common toast patterns
+- **Demo page**: `/toasts` with comprehensive examples
+  - Position demonstrations
+  - Variant buttons
+  - Progress bar toast
+  - Persistent toasts (warning, danger, info)
+  - Action toasts (upload success, save error)
+  - Multiple toast stacking demo
+- **Navigation**: Added "Toasts" link to Components → More dropdown
+
+### Fixed - 2025-10-03
+
+#### Dark Theme Header Border Colors
+- **Added `$header-border-color` to dark themes**: Dark Red, Dark Green, Dark Blue
+  - Each theme now uses its respective border color variable
+  - Consistent visual separation between header and sidebar
+  - Matches existing border color scheme for each theme
+
+#### Sidebar Mode Settings
+- **Fixed cookie handling**: Sidebar mode now properly saves empty string for default mode
+  - Changed from truthy check to explicit `!== undefined` check
+  - Allows "Scrolls with Content" mode (empty string) to update cookie correctly
+  - Prevents getting stuck in "Fixed + Auto-hide" mode
+- **Fixed missing variable declaration**: Added `sidebarModeSelector` constant
+- **Added reset functionality**: "Reset Settings" button now resets sidebar mode to default
+- **Consistent pattern**: Uses dedicated `switchSidebarMode()` function like `switchTheme()`
+
+#### Modal Z-Index Stacking
+- **Fixed modal backdrop covering content**: Corrected z-index values
+  - Backdrop: Changed from `$z-index-base` (1) to `$z-index-modal-backdrop` (1040)
+  - Container: Changed from `$focus-outline-width` (2px) to `$z-index-modal` (1050)
+  - Modal container now properly appears in front of backdrop
+
+#### Toast Z-Index and Positioning
+- **Fixed toast containers behind header**: Moved toast containers to body level in `layout.ejs`
+  - **Problem**: Containers were nested in content area, creating separate stacking context
+  - **Solution**: Moved to body level as siblings with header
+  - Increased z-index from 1080 to 1200 to ensure visibility above header dropdown (1100)
+  - Toast containers now global and work on all pages
+
 ### Added - 2025-10-02
 
 #### Badge Group Component

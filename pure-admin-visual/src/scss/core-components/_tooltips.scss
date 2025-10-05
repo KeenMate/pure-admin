@@ -9,11 +9,15 @@
 .pa-tooltip {
   position: relative;
   display: inline-block;
-  cursor: help;
 
   // Elevate z-index on hover to appear above siblings
   &:hover {
     z-index: $z-index-modal;
+  }
+
+  // Help cursor modifier - use for informational tooltips
+  &--help {
+    cursor: help;
   }
 
   &::before,

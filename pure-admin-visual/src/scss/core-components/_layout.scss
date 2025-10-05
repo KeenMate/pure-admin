@@ -18,10 +18,12 @@
 
   &__burger {
     flex-shrink: 0;
+    margin-left: $burger-menu-margin-left;
   }
 
   &__brand {
     flex-shrink: 0;
+    padding-left: $header-brand-padding-left;
 
     h1 {
       margin: 0;
@@ -35,15 +37,18 @@
   &__nav {
     flex-shrink: 0;
 
-    ul {
+    // Only style the direct child ul (main navigation)
+    > ul {
       list-style: none;
       margin: 0;
       padding: 0;
       display: flex;
       gap: $spacing-md;
 
-      li {
-        a {
+      > li {
+        position: relative; // For dropdown positioning
+
+        > a {
           text-decoration: none;
           color: $text-secondary;
           font-weight: $font-weight-medium;
@@ -51,6 +56,7 @@
           border-radius: $border-radius;
           transition: all $transition-fast $easing-snappy;
           font-size: $font-size-sm;
+          display: block;
 
           &:hover {
             color: $accent-color;
@@ -66,6 +72,86 @@
 
     &--right {
       margin-left: auto;
+    }
+  }
+
+  // Dropdown navigation items
+  &__nav-item {
+    &--has-dropdown {
+      position: static; // Position dropdown relative to header, not this item
+
+      &:hover > .pa-header__dropdown {
+        display: block !important; // Override the !important hide
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  // Dropdown menus
+  &__dropdown {
+    display: none !important; // Force hide by default
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 12rem;
+    background-color: $card-bg;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+    z-index: 1100;
+    padding: $spacing-xs 0;
+    margin-top: 0;
+    list-style: none;
+    flex-direction: column; // Override any flex from parent
+
+    li {
+      display: block;
+      position: relative;
+
+      // Create invisible bridge for nested dropdowns (horizontal)
+      &.pa-header__nav-item--has-dropdown::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 4px; // Small invisible bridge
+        height: 100%;
+        z-index: 1099;
+      }
+
+      // Show nested dropdown on hover
+      &:hover > .pa-header__dropdown {
+        display: block !important;
+      }
+
+      a {
+        display: block;
+        padding: $spacing-sm $spacing-base;
+        color: $text-primary;
+        border-radius: 0;
+        white-space: nowrap;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-sm;
+
+        &:hover {
+          background-color: $accent-light;
+          color: $accent-color;
+        }
+      }
+    }
+
+    // Level 2 dropdown (nested)
+    &--level2 {
+      top: 0;
+      left: 100%;
+      margin-top: 0;
+      margin-left: 0; // Remove gap to prevent dropdown from disappearing
     }
   }
 
@@ -163,12 +249,13 @@
   left: 0;
   width: $sidebar-width;
   max-width: $sidebar-max-width;
-  bottom: $footer-height;
+  bottom: 0; // Full height to bottom edge
   background-color: $sidebar-bg;
   border-right: $border-width-base solid $border-color;
   z-index: 900;
   overflow-y: auto;
-  transition: left $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+  opacity: 1;
+  transition: left $transition-normal $easing-snappy, width $transition-normal $easing-snappy, opacity $transition-normal $easing-snappy;
 
   &__nav {
     padding: $spacing-base 0;
@@ -366,6 +453,7 @@
 .sidebar-hidden {
   .pa-sidebar {
     left: -$sidebar-width; // Move left by sidebar width instead of transform
+    opacity: 0; // Fade out during hide transition
   }
 
   .pa-content {
@@ -376,15 +464,12 @@
     }
   }
 
-  .admin-footer {
-    margin-left: 0;
-  }
-
   // Icon-collapse mode: show narrow icon-only bar when hidden
   .pa-sidebar--icon-collapse {
     left: 0;
     width: $sidebar-collapsed-width;
-    overflow-x: hidden;
+    overflow: visible !important; // Allow flyout to show outside sidebar
+    z-index: 1050; // Higher than content area (950) for flyouts
 
     // Hide text labels
     .pa-sidebar__label {
@@ -414,16 +499,40 @@
     .pa-sidebar__toggle {
       padding: $spacing-sm 0;
       justify-content: center;
+      gap: 0; // Remove gap to center icons properly
+      position: relative; // For flyout positioning
+    }
+
+    // Flyout label on hover
+    .pa-sidebar__link:hover,
+    .pa-sidebar__toggle:hover {
+      overflow: visible;
+      z-index: 1000; // Elevate parent above content area
+
+      .pa-sidebar__label {
+        opacity: 1;
+        width: auto;
+        overflow: visible; // Remove overflow hidden
+        position: absolute;
+        left: 100%;
+        top: 0;
+        bottom: 0;
+        padding: $spacing-sm $spacing-base;
+        background-color: $sidebar-bg;
+        border: $border-width-base solid $border-color;
+        border-left: none;
+        border-radius: 0 $border-radius $border-radius 0;
+        box-shadow: $shadow-md;
+        white-space: nowrap;
+        z-index: 10; // Relative to parent
+        display: flex;
+        align-items: center;
+      }
     }
   }
 
   // Adjust content margin for icon-collapse mode
   .pa-sidebar--icon-collapse ~ .pa-content {
-    margin-left: $sidebar-collapsed-width;
-  }
-
-  // Adjust footer margin for icon-collapse mode
-  .pa-sidebar--icon-collapse ~ .admin-footer {
     margin-left: $sidebar-collapsed-width;
   }
 }
@@ -444,16 +553,29 @@ body:not(.sidebar-hidden) {
       display: inline;
     }
 
-    // Restore normal padding
+    // Restore normal padding for level 1 items only
     .pa-sidebar__link,
     .pa-sidebar__toggle {
       padding: $sidebar-padding;
       justify-content: flex-start;
+      gap: $sidebar-item-gap; // Restore gap when expanded
     }
 
     // Allow submenus to show when expanded
     .pa-sidebar__submenu {
       display: block !important;
+    }
+
+    // Restore submenu indentation for level 2
+    .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
+    .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
+      padding-left: $sidebar-submenu-indent;
+    }
+
+    // Restore submenu indentation for level 3
+    .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
+    .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
+      padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
     }
 
     // Reset icon width
@@ -545,19 +667,15 @@ body:not(.sidebar-hidden) {
   }
 }
 
-// Footer - Relative positioning at bottom, aligned with content area
+// Footer - Full width at bottom, spans entire container width
 .admin-footer {
   height: $footer-height;
   background-color: $footer-bg;
-  border-top: $border-width-base solid $border-color;
+  border-top: $border-width-base solid $footer-border-color;
   display: flex;
   align-items: center;
   padding: 0 $spacing-base;
-  margin-left: $sidebar-width; // Match content area margin
-  // Transition only when page is loaded to prevent FOUC
-  body.loaded & {
-    transition: margin-left $transition-normal $easing-snappy;
-  }
+  z-index: 1000; // Above sidebar to prevent overlap
 
   &__content {
     p {
@@ -611,12 +729,13 @@ body:not(.sidebar-hidden) {
   .pa-sidebar--disappearing {
     position: fixed;
     top: $header-height;
-    bottom: $footer-height;
+    bottom: 0;
 
     // Reset transform for disappearing variant on mobile
     &.is-hidden {
       transform: none;
       left: -$sidebar-width;
+      opacity: 0; // Fade out when hidden
     }
   }
 
@@ -624,13 +743,16 @@ body:not(.sidebar-hidden) {
   body:not(.sidebar-visible) {
     .pa-sidebar {
       left: -$sidebar-width;
+      opacity: 0; // Fade out on mobile too
+    }
+
+    // Override icon-collapse mode on mobile - sidebar should be fully hidden
+    .pa-sidebar--icon-collapse {
+      left: -$sidebar-width !important;
+      width: $sidebar-width; // Reset to full width for mobile overlay
     }
 
     .pa-content {
-      margin-left: 0;
-    }
-
-    .admin-footer {
       margin-left: 0;
     }
   }
@@ -641,10 +763,24 @@ body:not(.sidebar-hidden) {
       position: fixed;
       top: $header-height;
       left: 0;
-      bottom: $footer-height;
+      bottom: 0;
       width: $mobile-sidebar-width;
       z-index: 1050;
       background-color: $sidebar-bg;
+      opacity: 1; // Ensure full visibility when open
+    }
+
+    // Override icon-collapse mode on mobile - show full width overlay
+    .pa-sidebar--icon-collapse {
+      width: $mobile-sidebar-width !important;
+      overflow-y: auto !important; // Reset overflow for scrolling
+
+      .pa-sidebar__label {
+        opacity: 1 !important;
+        width: auto !important;
+        overflow: visible !important;
+        position: static !important;
+      }
     }
 
     .pa-content {
@@ -658,7 +794,7 @@ body:not(.sidebar-hidden) {
       top: $header-height;
       left: 0;
       right: 0;
-      bottom: $footer-height;
+      bottom: 0;
       background-color: $mobile-backdrop-bg;
       z-index: 1040;
     }
@@ -697,10 +833,6 @@ body:not(.sidebar-hidden) {
   }
 
   .pa-content {
-    margin-left: $sidebar-width-tablet;
-  }
-
-  .admin-footer {
     margin-left: $sidebar-width-tablet;
   }
 }

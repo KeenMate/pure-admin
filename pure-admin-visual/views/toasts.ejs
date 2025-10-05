@@ -1,0 +1,314 @@
+            <p>Temporary notification messages that auto-dismiss with smooth animations.</p>
+
+            <!-- Toast Container Position Demo -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Toast Positions</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--primary pa-btn--block" onclick="showToast('top-right', 'success')">
+                                Top Right
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--primary pa-btn--block" onclick="showToast('top-center', 'info')">
+                                Top Center
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--primary pa-btn--block" onclick="showToast('top-left', 'warning')">
+                                Top Left
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pure-g" style="margin-top: 1rem;">
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--secondary pa-btn--block" onclick="showToast('bottom-right', 'danger')">
+                                Bottom Right
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--secondary pa-btn--block" onclick="showToast('bottom-center', 'primary')">
+                                Bottom Center
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--secondary pa-btn--block" onclick="showToast('bottom-left', 'success')">
+                                Bottom Left
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toast Variants -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Toast Variants</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-5">
+                            <button class="pa-btn pa-btn--primary pa-btn--block" onclick="showToastVariant('primary')">
+                                Primary
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-5">
+                            <button class="pa-btn pa-btn--success pa-btn--block" onclick="showToastVariant('success')">
+                                Success
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-5">
+                            <button class="pa-btn pa-btn--danger pa-btn--block" onclick="showToastVariant('danger')">
+                                Danger
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-5">
+                            <button class="pa-btn pa-btn--warning pa-btn--block" onclick="showToastVariant('warning')">
+                                Warning
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-5">
+                            <button class="pa-btn pa-btn--info pa-btn--block" onclick="showToastVariant('info')">
+                                Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toast with Progress Bar -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Toast with Progress Bar</h3>
+                </div>
+                <div class="pa-card__body">
+                    <button class="pa-btn pa-btn--primary" onclick="showProgressToast()">
+                        Show Toast with Progress
+                    </button>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        Progress bar shows time remaining before auto-dismiss (5 seconds)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Persistent Toasts (Manual Dismiss) -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Persistent Toasts (Manual Dismiss Only)</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--warning pa-btn--block" onclick="showPersistentToast('warning')">
+                                Important Warning
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--danger pa-btn--block" onclick="showPersistentToast('danger')">
+                                Critical Error
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button class="pa-btn pa-btn--info pa-btn--block" onclick="showPersistentToast('info')">
+                                Important Info
+                            </button>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        These toasts stay visible until manually dismissed by clicking the close button
+                    </p>
+                </div>
+            </div>
+
+            <!-- Action Toasts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Action Toasts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <button class="pa-btn pa-btn--success" onclick="showActionToast('File uploaded successfully!', 'success')">
+                                Upload Success
+                            </button>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <button class="pa-btn pa-btn--danger" onclick="showActionToast('Failed to save changes', 'danger')">
+                                Save Error
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stacking Toasts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Multiple Toasts (Stacking)</h3>
+                </div>
+                <div class="pa-card__body">
+                    <button class="pa-btn pa-btn--primary" onclick="showMultipleToasts()">
+                        Show 3 Toasts
+                    </button>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        Toasts automatically stack vertically in the container
+                    </p>
+                </div>
+            </div>
+
+<script>
+// Toast configuration
+const toastIcons = {
+    primary: 'ℹ️',
+    success: '✓',
+    danger: '✕',
+    warning: '⚠',
+    info: 'ℹ'
+};
+
+const toastTitles = {
+    primary: 'Primary',
+    success: 'Success',
+    danger: 'Error',
+    warning: 'Warning',
+    info: 'Information'
+};
+
+const toastMessages = {
+    primary: 'This is a primary toast notification.',
+    success: 'Your action was completed successfully.',
+    danger: 'An error occurred. Please try again.',
+    warning: 'Please review this warning message.',
+    info: 'Here is some useful information for you.'
+};
+
+// Create and show a toast
+function createToast(position, variant, title, message, duration = 5000, showProgress = false, persistent = false) {
+    const container = document.getElementById(`toast-container-${position}`);
+    const toastId = `toast-${Date.now()}-${Math.random()}`;
+
+    const toast = document.createElement('div');
+    toast.className = `pa-toast pa-toast--${variant}`;
+    toast.id = toastId;
+
+    toast.innerHTML = `
+        <div class="pa-toast__icon">${toastIcons[variant] || 'ℹ'}</div>
+        <div class="pa-toast__content">
+            <div class="pa-toast__title">${title}</div>
+            <div class="pa-toast__message">${message}</div>
+        </div>
+        <button class="pa-toast__close" onclick="dismissToast('${toastId}')" aria-label="Close">
+            ✕
+        </button>
+        ${showProgress && !persistent ? '<div class="pa-toast__progress" style="width: 100%;"></div>' : ''}
+    `;
+
+    container.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => {
+        toast.classList.add('pa-toast--show');
+    }, 10);
+
+    // Progress bar animation
+    if (showProgress && !persistent) {
+        const progress = toast.querySelector('.pa-toast__progress');
+        if (progress) {
+            progress.style.transition = `width ${duration}ms linear`;
+            setTimeout(() => {
+                progress.style.width = '0%';
+            }, 50);
+        }
+    }
+
+    // Auto-dismiss (only if not persistent)
+    if (!persistent) {
+        setTimeout(() => {
+            dismissToast(toastId);
+        }, duration);
+    }
+}
+
+// Dismiss a toast
+function dismissToast(toastId) {
+    const toast = document.getElementById(toastId);
+    if (!toast) return;
+
+    toast.classList.remove('pa-toast--show');
+    toast.classList.add('pa-toast--hide');
+
+    setTimeout(() => {
+        toast.remove();
+    }, 300);
+}
+
+// Demo functions
+function showToast(position, variant) {
+    createToast(
+        position,
+        variant,
+        toastTitles[variant],
+        toastMessages[variant]
+    );
+}
+
+function showToastVariant(variant) {
+    createToast(
+        'top-right',
+        variant,
+        toastTitles[variant],
+        toastMessages[variant]
+    );
+}
+
+function showProgressToast() {
+    createToast(
+        'top-right',
+        'primary',
+        'Processing',
+        'Your request is being processed...',
+        5000,
+        true
+    );
+}
+
+function showActionToast(message, variant) {
+    createToast(
+        'top-right',
+        variant,
+        toastTitles[variant],
+        message
+    );
+}
+
+function showMultipleToasts() {
+    createToast('top-right', 'success', 'First Toast', 'This is the first notification');
+    setTimeout(() => {
+        createToast('top-right', 'warning', 'Second Toast', 'This is the second notification');
+    }, 300);
+    setTimeout(() => {
+        createToast('top-right', 'info', 'Third Toast', 'This is the third notification');
+    }, 600);
+}
+
+function showPersistentToast(variant) {
+    const persistentMessages = {
+        warning: 'This is an important warning that requires your attention. Click the close button to dismiss.',
+        danger: 'Critical error detected! This message will remain until you acknowledge it.',
+        info: 'Important information that you should read carefully before dismissing.'
+    };
+
+    createToast(
+        'top-right',
+        variant,
+        toastTitles[variant],
+        persistentMessages[variant] || toastMessages[variant],
+        0,
+        false,
+        true  // persistent = true
+    );
+}
+</script>

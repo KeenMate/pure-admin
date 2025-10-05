@@ -36,6 +36,7 @@ $sidebar-submenu-hover-bg: $dark-blue-slate-600;
 $sidebar-submenu-active-bg: $dark-blue-slate-700;
 $footer-bg: $dark-blue-slate-800;
 $border-color: $dark-blue-slate-700;
+$header-border-color: $dark-blue-slate-700; // Match sidebar border color
 $text-primary: $dark-blue-slate-100;
 $text-secondary: $dark-blue-slate-400;
 $accent-color: $dark-blue-blue-500;
@@ -84,3 +85,10 @@ $modal-content-bg: $dark-blue-slate-800;
 
 @import '../core';
 @import '../utilities';
+
+// CSS Variables for page loader (FOUC prevention)
+:root {
+  --page-loader-bg: rgba(26, 26, 26, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #3b82f6; // Blue
+}

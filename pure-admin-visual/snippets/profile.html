@@ -1,0 +1,264 @@
+<!-- ================================
+     PROFILE PANEL SNIPPETS
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!-- ================================
+     PROFILE BUTTON (NAVBAR)
+     ================================ -->
+
+<!-- Profile Button (goes in header/navbar) -->
+<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+    <span class="pa-btn__icon">👤</span>
+    <span class="pa-header__profile-name">John Doe</span>
+</button>
+
+<!-- Profile Button with Font Awesome -->
+<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+    <span class="pa-btn__icon"><i class="fa-solid fa-user"></i></span>
+    <span class="pa-header__profile-name">John Doe</span>
+</button>
+
+
+<!-- ================================
+     PROFILE PANEL - BASIC
+     ================================ -->
+
+<!-- Complete Profile Panel (place before closing </body> tag) -->
+<div class="pa-profile-panel" id="profilePanel">
+    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+    <div class="pa-profile-panel__content">
+        <div class="pa-profile-panel__header">
+            <div class="pa-profile-panel__avatar">
+                <span class="pa-profile-panel__avatar-icon">👤</span>
+            </div>
+            <div class="pa-profile-panel__info">
+                <h3 class="pa-profile-panel__name">John Doe</h3>
+                <p class="pa-profile-panel__email">john.doe@company.com</p>
+                <span class="pa-profile-panel__role">Administrator</span>
+            </div>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                ✕
+            </button>
+        </div>
+
+        <div class="pa-profile-panel__body">
+            <nav class="pa-profile-panel__nav">
+                <ul>
+                    <li><a href="#profile" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">👤</span>
+                        Profile Settings
+                    </a></li>
+                    <li><a href="#security" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">🔒</span>
+                        Security
+                    </a></li>
+                    <li><a href="#notifications" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">🔔</span>
+                        Notifications
+                    </a></li>
+                    <li><a href="#preferences" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">⚙️</span>
+                        Preferences
+                    </a></li>
+                    <li><a href="#help" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">❓</span>
+                        Help & Support
+                    </a></li>
+                </ul>
+            </nav>
+
+            <div class="pa-profile-panel__actions">
+                <button class="pa-btn pa-btn--secondary pa-btn--block">
+                    Switch Account
+                </button>
+                <button class="pa-btn pa-btn--danger pa-btn--block">
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     PROFILE PANEL - WITH FONT AWESOME
+     ================================ -->
+
+<div class="pa-profile-panel" id="profilePanel">
+    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+    <div class="pa-profile-panel__content">
+        <div class="pa-profile-panel__header">
+            <div class="pa-profile-panel__avatar">
+                <span class="pa-profile-panel__avatar-icon"><i class="fa-solid fa-user"></i></span>
+            </div>
+            <div class="pa-profile-panel__info">
+                <h3 class="pa-profile-panel__name">John Doe</h3>
+                <p class="pa-profile-panel__email">john.doe@company.com</p>
+                <span class="pa-profile-panel__role">Administrator</span>
+            </div>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="pa-profile-panel__body">
+            <nav class="pa-profile-panel__nav">
+                <ul>
+                    <li><a href="#profile" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-user"></i></span>
+                        Profile Settings
+                    </a></li>
+                    <li><a href="#security" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-lock"></i></span>
+                        Security
+                    </a></li>
+                    <li><a href="#notifications" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-bell"></i></span>
+                        Notifications
+                    </a></li>
+                    <li><a href="#preferences" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-gear"></i></span>
+                        Preferences
+                    </a></li>
+                    <li><a href="#help" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-circle-question"></i></span>
+                        Help & Support
+                    </a></li>
+                </ul>
+            </nav>
+
+            <div class="pa-profile-panel__actions">
+                <button class="pa-btn pa-btn--secondary pa-btn--block">
+                    <i class="fa-solid fa-right-left"></i> Switch Account
+                </button>
+                <button class="pa-btn pa-btn--danger pa-btn--block">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     PROFILE PANEL - MINIMAL (NO ACTIONS)
+     ================================ -->
+
+<div class="pa-profile-panel" id="profilePanel">
+    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+    <div class="pa-profile-panel__content">
+        <div class="pa-profile-panel__header">
+            <div class="pa-profile-panel__avatar">
+                <span class="pa-profile-panel__avatar-icon">👤</span>
+            </div>
+            <div class="pa-profile-panel__info">
+                <h3 class="pa-profile-panel__name">John Doe</h3>
+                <p class="pa-profile-panel__email">john.doe@company.com</p>
+                <span class="pa-profile-panel__role">Administrator</span>
+            </div>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                ✕
+            </button>
+        </div>
+
+        <div class="pa-profile-panel__body">
+            <nav class="pa-profile-panel__nav">
+                <ul>
+                    <li><a href="#profile" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">👤</span>
+                        Profile Settings
+                    </a></li>
+                    <li><a href="#logout" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">🚪</span>
+                        Sign Out
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     JAVASCRIPT - PROFILE PANEL TOGGLE
+     ================================ -->
+
+<script>
+/**
+ * Toggle profile panel open/closed
+ */
+function toggleProfilePanel() {
+    const profilePanel = document.getElementById('profilePanel');
+    profilePanel.classList.toggle('pa-profile-panel--open');
+}
+
+/**
+ * Close profile panel
+ */
+function closeProfilePanel() {
+    const profilePanel = document.getElementById('profilePanel');
+    profilePanel.classList.remove('pa-profile-panel--open');
+}
+
+/**
+ * Close profile panel when clicking outside
+ */
+document.addEventListener('click', (e) => {
+    const profilePanel = document.getElementById('profilePanel');
+    const profileBtn = document.querySelector('.pa-header__profile-btn');
+
+    if (!profilePanel || !profileBtn) return;
+
+    if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target) &&
+        profilePanel.classList.contains('pa-profile-panel--open')) {
+        closeProfilePanel();
+    }
+});
+</script>
+
+
+<!-- ================================
+     USAGE NOTES
+     ================================ -->
+
+<!--
+PROFILE BUTTON (HEADER):
+- .pa-header__profile-btn - Profile button in header
+- .pa-btn__icon - Icon container
+- .pa-header__profile-name - User name text
+
+PROFILE PANEL STRUCTURE:
+- .pa-profile-panel - Main panel container
+- #profilePanel - Required ID for JavaScript
+- .pa-profile-panel--open - Open state (toggled by JS)
+- .pa-profile-panel__overlay - Click-to-close overlay
+- .pa-profile-panel__content - Panel content container
+
+PANEL HEADER:
+- .pa-profile-panel__header - Header container
+- .pa-profile-panel__avatar - Avatar container
+- .pa-profile-panel__avatar-icon - Avatar icon/image
+- .pa-profile-panel__info - User info container
+- .pa-profile-panel__name - User name
+- .pa-profile-panel__email - User email
+- .pa-profile-panel__role - User role badge
+- .pa-profile-panel__close - Close button
+
+PANEL BODY:
+- .pa-profile-panel__body - Body container
+- .pa-profile-panel__nav - Navigation menu
+- .pa-profile-panel__nav-item - Navigation link
+- .pa-profile-panel__nav-icon - Navigation icon
+- .pa-profile-panel__actions - Action buttons container
+
+JAVASCRIPT FUNCTIONS:
+- toggleProfilePanel() - Toggle panel open/closed
+- closeProfilePanel() - Close panel
+- Auto-closes when clicking outside
+
+PLACEMENT:
+- Profile button goes in header/navbar
+- Profile panel goes before closing </body> tag
+- Panel slides in from right side of screen
+-->

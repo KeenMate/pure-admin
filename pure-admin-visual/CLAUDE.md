@@ -378,3 +378,115 @@ xl:  3.5rem × 3.5rem   → ~56px square
 - ✅ True size variety across button system
 
 Remember: User appreciates thorough, systematic work and clear communication! 🚀
+
+## Comprehensive Component Snippets (2025-10-05)
+**Major documentation improvement:** Complete snippet documentation for all framework components to prevent LLM assumptions.
+
+### **Context:**
+Another Claude instance assumed only 1-2 badge sizes existed because the snippets were incomplete. Created comprehensive documentation showing ALL available options for every component to prevent future misunderstandings.
+
+### **New Snippet Files:**
+- **`snippets/grid.html`** - Complete PureCSS grid reference
+  - All fractions: halves, thirds, quarters, fifths, sixths, eighths, twelfths, twenty-fourths
+  - All responsive variants: `pure-u-sm-*`, `pure-u-md-*`, `pure-u-lg-*`, `pure-u-xl-*`
+  - Nested grid examples and dashboard layout patterns
+- **`snippets/tooltips.html`** - Complete tooltip and popover documentation
+  - All 4 positions: top, right, bottom, left
+  - All 5 color variants: default, primary, success, warning, danger
+  - Multiline tooltips (`pa-tooltip--multiline`)
+  - Auto-flip smart positioning classes for collision detection
+  - Popover component with all sizes (sm, md, lg) and positions
+  - Rich content examples (lists, code, links)
+  - Complete JavaScript API for toggling and positioning
+
+### **Enhanced Existing Snippets:**
+- **`alerts.html`** - Added missing `--lg` size (now shows sm, default, lg)
+- **`badges.html`** - Added large badge example
+- **`cards.html`** - Major additions:
+  - `--warning` and `--stat` variants
+  - `.pa-card__title` components (icon + text pattern)
+  - `.pa-card__meta` for metadata display
+  - Footer actions pattern
+  - No-padding body variant (`.pa-card__body--no-padding`) for tables
+  - Tab content areas with JavaScript example
+  - Section component (`.pa-section`)
+- **`tables.html`** - Major cleanup:
+  - Fixed incorrect class names (removed non-existent `--hover`, `--bordered`, `--compact`)
+  - Corrected spacing classes: `--spacing-2x/3x` → `--2x/3x`
+  - Added `.pa-table-container` example
+  - Added pager component (all 3 positions: left, center, right)
+  - Added load more component (all states and positions)
+  - Comprehensive modifier reference comment at end
+
+### **Complete Snippet Library (14 files):**
+All snippets now show complete component API surface:
+- ✅ alerts.html - All sizes (sm, default, lg), all variants, dismissible
+- ✅ badges.html - All sizes (sm, default, lg), all variants, pills, icons, fixed-width, composite badges, groups
+- ✅ buttons.html - All 5 sizes (xs, sm, default, lg, xl), 8 variants, outlines, states, groups, icons, fixed-width, alignment
+- ✅ cards.html - All variants, title components, metadata, footer actions, no-padding, tabs, sections
+- ✅ forms.html - All input types, 5 sizes, states, validation, horizontal/vertical layouts
+- ✅ grid.html - All PureCSS fractions, all responsive breakpoints, nested grids
+- ✅ layout.html - Layout structure, width variants, sidebar menus, submenu patterns
+- ✅ loaders.html - All spinner sizes/colors, advanced loaders (dots, bars, pulse, ring, wave), utilities, overlay
+- ✅ modals.html - All sizes (sm, md, lg, xl, xxl, fw), themed variants (primary, success, warning, danger), form modals
+- ✅ profile.html - Profile button, panel, navigation, actions
+- ✅ tables.html - All modifiers, spacing variants, container, pager, load more
+- ✅ toasts.html - All positions (6), all variants, progress bar, persistent
+- ✅ tooltips.html - All positions, variants, multiline, popovers, smart positioning
+- ✅ utilities.html - Font sizing, spacing, compact mode, display utilities
+
+### **Purpose:**
+Ensure LLMs see complete component API to prevent assumptions about limited options. Each snippet now serves as authoritative documentation of what's available.
+
+## Performance Optimizations (2025-10-05)
+**Focus:** Eliminate unnecessary delays and fix visual jumps during page load.
+
+### **Page Loader Timing:**
+- **Removed 100ms "font settle" delay** - Unnecessary wait after fonts loaded
+- **Reduced timeout fallback:** 3s → 1s
+- **Reduced DOM removal delays:** 150ms → 80ms
+- **Total improvement:** ~100-200ms faster perceived load time
+- **Kept necessary delays:**
+  - 150ms transition (visual polish)
+  - 50ms body.loaded delay (prevents layout jumps)
+
+### **Fixed Font-Size FOUC:**
+**Problem:** Page rendered at default size (16px), then jumped to saved size (18px), causing 1.15-1.25x visual jump
+
+**Solution:** Apply font-size immediately in inline script (before rendering)
+```javascript
+// In FOUC prevention script (before DOM renders)
+const savedFontSize = localStorage.getItem('font-size') || 'default';
+if (savedFontSize !== 'default') {
+    document.documentElement.classList.add(`font-size-${savedFontSize}`);
+}
+```
+
+**Location:** `layout.ejs:104-107` - Matches pattern for sidebar-hidden and compact-mode
+
+**Result:** No more size jump on page load
+
+### **Fixed Scrollbar Layout Shift:**
+**Problem:** Navigating from short pages (no scrollbar) to long pages (scrollbar) caused ~15px horizontal shift
+
+**Solution:** Force scrollbar gutter to always be present
+```scss
+body {
+  overflow-y: scroll; // Always show vertical scrollbar gutter
+}
+```
+
+**Location:** `_base.scss:18`
+
+**Result:** Consistent layout across all pages, no horizontal jumping
+
+### **Profile Name Visibility Fix:**
+**Problem:** "John Doe" profile name appearing gray/invisible on dark headers (Audi Light, Corporate themes)
+
+**Solution:**
+- Added `$header-profile-name-color` variable (`_variables.scss:275`)
+- Default: `$text-primary` (for light headers)
+- Dark header themes override to `#ffffff`
+- Applied to `.pa-header__profile-name` (`_profile.scss:36`)
+
+**Result:** Profile name visible on all themes

@@ -44,6 +44,7 @@ $sidebar-submenu-hover-bg: $dark-red-bg-600;
 $sidebar-submenu-active-bg: $dark-red-bg-700;
 $footer-bg: $dark-red-bg-800;
 $border-color: $dark-red-bg-700;
+$header-border-color: $dark-red-bg-700; // Match sidebar border color
 $text-primary: $dark-red-text-50;
 $text-secondary: $dark-red-text-300;
 $accent-color: $dark-red-accent;
@@ -92,3 +93,10 @@ $modal-content-bg: $dark-red-bg-800;
 
 @import '../core';
 @import '../utilities';
+
+// CSS Variables for page loader (FOUC prevention)
+:root {
+  --page-loader-bg: rgba(26, 26, 26, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #ef4444; // Red
+}

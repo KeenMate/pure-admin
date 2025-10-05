@@ -41,6 +41,7 @@ $sidebar-submenu-bg: #1a1a1a;       // Slightly lighter black for submenus
 $sidebar-submenu-hover-bg: #2a2a2a; // Lighter on hover
 $sidebar-submenu-active-bg: $express-red-dark; // Dark red for active
 $footer-bg: $express-yellow;        // Bold yellow footer
+$footer-border-color: $express-yellow; // Remove gray line between footer and sidebar
 $border-color: $express-gray-lighter;
 $text-primary: $express-dark;
 $text-secondary: $express-gray;
@@ -223,4 +224,11 @@ $modal-content-bg: #ffffff;
   &:hover {
     box-shadow: 0 2px 8px rgba(212, 5, 17, 0.3) !important;
   }
+}
+
+// CSS Variables for page loader (FOUC prevention)
+:root {
+  --page-loader-bg: rgba(0, 0, 0, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #FFCC00; // Express yellow
 }

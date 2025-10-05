@@ -1,0 +1,534 @@
+<!-- ================================
+     LAYOUT & SIDEBAR SNIPPETS
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!-- ================================
+     BASIC LAYOUT STRUCTURE
+     ================================ -->
+
+<!-- Full Layout with Sidebar -->
+<div class="pa-layout-container">
+    <!-- Header (navbar goes here) -->
+    <header class="pa-header">
+        <!-- See navbar snippet -->
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="pa-sidebar">
+        <nav class="pa-sidebar__nav">
+            <ul>
+                <!-- Sidebar items here -->
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="pa-content">
+        <div class="pa-content__inner">
+            <!-- Your page content here -->
+        </div>
+    </main>
+
+    <!-- Note: Use .pa-content__inner (BEM), not .pa-content-wrapper -->
+
+    <!-- Footer (optional) -->
+    <footer class="admin-footer">
+        <div class="admin-footer__content">
+            <p>&copy; 2024 Pure Admin Framework</p>
+        </div>
+    </footer>
+</div>
+
+
+<!-- ================================
+     LAYOUT WIDTH VARIANTS
+     ================================ -->
+
+<!-- Fluid Layout (Full Width) - Default -->
+<div class="pa-layout-container">
+    <!-- Content -->
+</div>
+
+<!-- Small Container (768px) -->
+<div class="pa-layout-container pa-layout-container--sm">
+    <!-- Content -->
+</div>
+
+<!-- Medium Container (1024px) -->
+<div class="pa-layout-container pa-layout-container--md">
+    <!-- Content -->
+</div>
+
+<!-- Large Container (1280px) -->
+<div class="pa-layout-container pa-layout-container--lg">
+    <!-- Content -->
+</div>
+
+<!-- Extra Large Container (1600px) -->
+<div class="pa-layout-container pa-layout-container--xl">
+    <!-- Content -->
+</div>
+
+<!-- 2X Large Container (1920px) -->
+<div class="pa-layout-container pa-layout-container--2xl">
+    <!-- Content -->
+</div>
+
+
+<!-- ================================
+     SIDEBAR - BASIC MENU
+     ================================ -->
+
+<!-- Sidebar with Simple Links -->
+<aside class="pa-sidebar">
+    <nav class="pa-sidebar__nav">
+        <ul>
+            <li class="pa-sidebar__item">
+                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
+                    <span class="pa-sidebar__icon">📊</span>
+                    <span class="pa-sidebar__label">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/components" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">🧩</span>
+                    <span class="pa-sidebar__label">Components</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/forms" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">📝</span>
+                    <span class="pa-sidebar__label">Forms</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/tables" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">📋</span>
+                    <span class="pa-sidebar__label">Tables</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+
+<!-- ================================
+     SIDEBAR - WITH FONT AWESOME ICONS
+     ================================ -->
+
+<!-- Sidebar with Font Awesome Icons -->
+<aside class="pa-sidebar">
+    <nav class="pa-sidebar__nav">
+        <ul>
+            <li class="pa-sidebar__item">
+                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
+                    <span class="pa-sidebar__icon"><i class="fa-solid fa-chart-line"></i></span>
+                    <span class="pa-sidebar__label">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/users" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon"><i class="fa-solid fa-users"></i></span>
+                    <span class="pa-sidebar__label">Users</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/settings" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon"><i class="fa-solid fa-gear"></i></span>
+                    <span class="pa-sidebar__label">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+
+<!-- ================================
+     SIDEBAR - WITH COLLAPSIBLE SUBMENU
+     ================================ -->
+
+<!-- Sidebar with Submenu (Two Levels) -->
+<aside class="pa-sidebar">
+    <nav class="pa-sidebar__nav">
+        <ul>
+            <!-- Regular link -->
+            <li class="pa-sidebar__item">
+                <a href="/" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">📊</span>
+                    <span class="pa-sidebar__label">Dashboard</span>
+                </a>
+            </li>
+
+            <!-- Collapsible submenu -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">📋</span>
+                    <span class="pa-sidebar__label">Tables</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item">
+                        <a href="/tables" class="pa-sidebar__link">
+                            <span class="pa-sidebar__icon">📊</span>
+                            <span class="pa-sidebar__label">Standard Tables</span>
+                        </a>
+                    </li>
+                    <li class="pa-sidebar__item">
+                        <a href="/tables-lazy" class="pa-sidebar__link">
+                            <span class="pa-sidebar__icon">⚡</span>
+                            <span class="pa-sidebar__label">Lazy Loading</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+
+<!-- ================================
+     SIDEBAR - THREE-LEVEL NESTED MENU
+     ================================ -->
+
+<!-- Sidebar with Three-Level Nesting -->
+<aside class="pa-sidebar">
+    <nav class="pa-sidebar__nav">
+        <ul>
+            <!-- Level 1 -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">⚙️</span>
+                    <span class="pa-sidebar__label">Settings</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <!-- Level 2 -->
+                    <li class="pa-sidebar__item">
+                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pa-sidebar__icon">🔧</span>
+                            <span class="pa-sidebar__label">Advanced</span>
+                            <span class="pa-sidebar__chevron">›</span>
+                        </button>
+                        <ul class="pa-sidebar__submenu">
+                            <!-- Level 3 -->
+                            <li class="pa-sidebar__item">
+                                <a href="/settings/advanced/security" class="pa-sidebar__link">
+                                    <span class="pa-sidebar__icon">•</span>
+                                    <span class="pa-sidebar__label">Security</span>
+                                </a>
+                            </li>
+                            <li class="pa-sidebar__item">
+                                <a href="/settings/advanced/performance" class="pa-sidebar__link">
+                                    <span class="pa-sidebar__icon">•</span>
+                                    <span class="pa-sidebar__label">Performance</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+
+<!-- ================================
+     SIDEBAR - COMPLETE EXAMPLE
+     ================================ -->
+
+<!-- Full Sidebar with Mixed Links and Submenus -->
+<aside class="pa-sidebar">
+    <nav class="pa-sidebar__nav">
+        <ul>
+            <li class="pa-sidebar__item">
+                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
+                    <span class="pa-sidebar__icon">📊</span>
+                    <span class="pa-sidebar__label">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/components" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">🧩</span>
+                    <span class="pa-sidebar__label">Components</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/forms" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">📝</span>
+                    <span class="pa-sidebar__label">Forms</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/buttons" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">🔘</span>
+                    <span class="pa-sidebar__label">Buttons</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/cards" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">🃏</span>
+                    <span class="pa-sidebar__label">Cards</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/badges" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">🏷️</span>
+                    <span class="pa-sidebar__label">Badges</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/modals" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">🪟</span>
+                    <span class="pa-sidebar__label">Modals</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <a href="/alerts" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">⚠️</span>
+                    <span class="pa-sidebar__label">Alerts</span>
+                </a>
+            </li>
+
+            <!-- Tables submenu -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">📋</span>
+                    <span class="pa-sidebar__label">Tables</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item">
+                        <a href="/tables" class="pa-sidebar__link">
+                            <span class="pa-sidebar__icon">📊</span>
+                            <span class="pa-sidebar__label">Standard Tables</span>
+                        </a>
+                    </li>
+                    <li class="pa-sidebar__item">
+                        <a href="/tables-lazy" class="pa-sidebar__link">
+                            <span class="pa-sidebar__icon">⚡</span>
+                            <span class="pa-sidebar__label">Lazy Loading</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+
+<!-- ================================
+     SIDEBAR MODES
+     ================================ -->
+
+<!-- Sticky Sidebar (default - stays fixed while content scrolls) -->
+<aside class="pa-sidebar">
+    <!-- Nav content -->
+</aside>
+
+<!-- Scrolling Sidebar (scrolls with content) -->
+<aside class="pa-sidebar pa-sidebar--scrolling">
+    <!-- Nav content -->
+</aside>
+
+
+<!-- ================================
+     BURGER MENU (NAVBAR)
+     ================================ -->
+
+<!-- Burger Menu Button (goes in header/navbar) -->
+<button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<!-- Example: Full Header with Burger Menu -->
+<header class="pa-header">
+    <!-- Hamburger Menu -->
+    <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Brand -->
+    <div class="pa-header__brand">
+        <h1>Pure Admin</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="pa-header__nav pa-header__nav--left">
+        <ul>
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/components">Components</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Title -->
+    <div class="pa-header__title">
+        <h2>Dashboard</h2>
+    </div>
+</header>
+
+
+<!-- ================================
+     JAVASCRIPT - BURGER MENU TOGGLE
+     ================================ -->
+
+<script>
+/**
+ * Toggle sidebar visibility (burger menu)
+ */
+function toggleSidebar() {
+    const body = document.body;
+    const burgerMenu = document.querySelector('.burger-menu');
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+        // Mobile: Toggle sidebar visibility
+        body.classList.toggle('sidebar-visible');
+        burgerMenu.classList.toggle('active');
+    } else {
+        // Desktop: Toggle sidebar hidden state
+        body.classList.toggle('sidebar-hidden');
+        burgerMenu.classList.toggle('active');
+        const isHidden = body.classList.contains('sidebar-hidden');
+        localStorage.setItem('sidebar-hidden', isHidden);
+    }
+}
+</script>
+
+
+<!-- ================================
+     JAVASCRIPT - SUBMENU TOGGLE
+     ================================ -->
+
+<script>
+/**
+ * Toggle sidebar submenu open/closed
+ * Saves state to localStorage for persistence
+ *
+ * @param {HTMLElement} button - The .pa-sidebar__toggle button element
+ */
+function toggleSubmenu(button) {
+    const parentItem = button.closest('.pa-sidebar__item');
+    const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+
+    if (!submenu) return;
+
+    const isOpen = parentItem.classList.contains('pa-sidebar__item--open');
+
+    // Toggle current submenu
+    if (isOpen) {
+        parentItem.classList.remove('pa-sidebar__item--open');
+        submenu.classList.remove('pa-sidebar__submenu--open');
+    } else {
+        parentItem.classList.add('pa-sidebar__item--open');
+        submenu.classList.add('pa-sidebar__submenu--open');
+    }
+
+    // Save state to localStorage (optional)
+    const submenuId = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
+    localStorage.setItem(`submenu-${submenuId}`, !isOpen ? 'open' : 'closed');
+}
+
+/**
+ * Restore submenu states from localStorage on page load (optional)
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.pa-sidebar__toggle').forEach(button => {
+        const label = button.querySelector('.pa-sidebar__label');
+        if (!label) return;
+
+        const submenuId = label.textContent.toLowerCase().replace(/\s+/g, '-');
+        const savedState = localStorage.getItem(`submenu-${submenuId}`);
+
+        if (savedState === 'open') {
+            const parentItem = button.closest('.pa-sidebar__item');
+            const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+            if (submenu) {
+                parentItem.classList.add('pa-sidebar__item--open');
+                submenu.classList.add('pa-sidebar__submenu--open');
+            }
+        }
+    });
+});
+</script>
+
+
+<!-- ================================
+     USAGE NOTES
+     ================================ -->
+
+<!--
+SIDEBAR STRUCTURE:
+- .pa-sidebar - Main sidebar container
+- .pa-sidebar__nav - Navigation wrapper
+- .pa-sidebar__item - Menu item container
+- .pa-sidebar__link - Regular menu link
+- .pa-sidebar__toggle - Collapsible menu toggle button
+- .pa-sidebar__icon - Icon container (fixed width)
+- .pa-sidebar__label - Text label
+- .pa-sidebar__chevron - Expand/collapse indicator
+- .pa-sidebar__submenu - Submenu container
+- .pa-sidebar__link--active - Active link state
+- .pa-sidebar__item--open - Open submenu state
+- .pa-sidebar__submenu--open - Open submenu state
+
+LAYOUT CLASSES:
+- .pa-layout-container - Main layout wrapper
+- .pa-layout-container--sm/md/lg/xl/2xl - Width variants
+- .pa-header - Header container
+- .pa-content - Main content area
+- .pa-content__inner - Content inner wrapper
+- .admin-footer - Footer container
+
+SIDEBAR MODES:
+- Default (sticky) - Sidebar stays fixed while content scrolls
+- .pa-sidebar--scrolling - Sidebar scrolls with content
+
+BURGER MENU (HEADER):
+- .pa-header__burger - Burger menu button
+- .burger-menu - Burger menu class (same element)
+- Three <span> elements inside for the three lines
+- .active - Active state when sidebar is hidden
+
+BURGER MENU ANIMATION:
+- NO .active class → ☰ (3 bars) → Sidebar is visible
+- WITH .active class → ✕ (X shape) → Sidebar is hidden
+- JavaScript toggles .active class on click
+- CSS animates the transition in 150ms (ease-out)
+- Animation details:
+  - Top bar: Rotates 45° and translates down/right
+  - Middle bar: Fades out (opacity: 0)
+  - Bottom bar: Rotates -45° and translates up/right
+- Customizable via SCSS variables:
+  - $burger-width: 1.5rem
+  - $burger-height: 1.5rem
+  - $burger-bar-height: 2px
+  - $burger-transform-offset: 3px
+  - $transition-normal: 0.15s
+  - $easing-snappy: ease-out
+
+BODY CLASSES (for sidebar state):
+- .sidebar-hidden - Desktop: Sidebar is hidden
+- .sidebar-visible - Mobile: Sidebar is visible (overlay)
+
+JAVASCRIPT:
+- toggleSidebar() - Toggle sidebar visibility (burger menu)
+- toggleSubmenu(button) - Toggle submenu open/closed
+- Stores state in localStorage for persistence across page loads
+-->
