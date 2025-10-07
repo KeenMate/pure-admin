@@ -1,0 +1,395 @@
+<h2>Timeline Feed</h2>
+<p class="pa-card__meta" style="margin-bottom: 1.5rem;">Feed-style timeline with avatars and actions - perfect for activity logs</p>
+
+<!-- Activity Feed Timeline -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Activity Feed Timeline</h3>
+        <p class="pa-card__meta">Feed-style timeline with avatars and actions - perfect for activity logs</p>
+    </div>
+    <div class="pa-card__body">
+        <ul class="pa-timeline pa-timeline--feed">
+            <li class="pa-timeline__item">
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="https://ui-avatars.com/api/?name=Luna+Bonifacio&background=0D8ABC&color=fff" alt="Luna Bonifacio">
+                    </div>
+                    <span><a href="#">Luna Bonifacio</a> has changed <a href="#">2 attributes</a> on <time datetime="2021-01-21">Jan 21, 2021</time></span>
+                </div>
+            </li>
+            <li class="pa-timeline__item">
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="https://ui-avatars.com/api/?name=Yoan+Almedia&background=0D8ABC&color=fff" alt="Yoan Almedia">
+                    </div>
+                    <span><a href="#">Yoan Almedia</a> moved <a href="#">Eric Lubin</a> to <a href="#">📚 Technical Test</a> on <time datetime="2021-01-20">Jan 20, 2021</time></span>
+                </div>
+            </li>
+            <li class="pa-timeline__item">
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="https://ui-avatars.com/api/?name=Yoan+Almedia&background=0D8ABC&color=fff" alt="Yoan Almedia">
+                    </div>
+                    <span><a href="#">Yoan Almedia</a> commented on <time datetime="2021-01-20">Jan 20, 2021</time></span>
+                    <div class="pa-timeline__comment">
+                        <p>I've sent him the assignment we discussed recently, he is coming back to us this week. Regarding our last call, I really enjoyed talking to him and so far he has the profile we are looking for. Can't wait to see his technical test, I'll keep you posted and we'll debrief it all together! 😊</p>
+                    </div>
+                </div>
+            </li>
+            <li class="pa-timeline__item">
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Chen&background=0D8ABC&color=fff" alt="Sarah Chen">
+                    </div>
+                    <span><a href="#">Sarah Chen</a> attached <a href="#">3 files</a> to the project on <time datetime="2021-01-19">Jan 19, 2021</time></span>
+                </div>
+            </li>
+            <li class="pa-timeline__item">
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="https://ui-avatars.com/api/?name=Mike+Johnson&background=0D8ABC&color=fff" alt="Mike Johnson">
+                    </div>
+                    <span><a href="#">Mike Johnson</a> completed <a href="#">Design Review</a> task on <time datetime="2021-01-18">Jan 18, 2021</time></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Timeline Feed with Date Headers -->
+<div class="pure-g">
+    <div class="pure-u-1 pure-u-md-1-2">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Timeline Feed - Load More</h3>
+                <p class="pa-card__meta">Click button to load more entries</p>
+            </div>
+            <div class="pa-card__body">
+                <ul class="pa-timeline pa-timeline--feed" id="timeline-feed-load-more">
+                    <!-- Date Header: January 21, 2021 -->
+                    <li class="pa-timeline__item pa-timeline__item--date-header">
+                        <div class="pa-timeline__date-icon">📅</div>
+                        <div class="pa-timeline__date-label">January 21, 2021</div>
+                    </li>
+
+                    <li class="pa-timeline__item">
+                        <div class="pa-timeline__time">14:32</div>
+                        <div class="pa-timeline__content">
+                            <div class="pa-timeline__avatar">
+                                <img src="https://ui-avatars.com/api/?name=Luna+Bonifacio&background=0D8ABC&color=fff" alt="Luna Bonifacio">
+                            </div>
+                            <span><a href="#">Luna Bonifacio</a> has changed <a href="#">2 attributes</a></span>
+                        </div>
+                    </li>
+
+                    <!-- Date Header: January 20, 2021 -->
+                    <li class="pa-timeline__item pa-timeline__item--date-header">
+                        <div class="pa-timeline__date-icon">📅</div>
+                        <div class="pa-timeline__date-label">January 20, 2021</div>
+                    </li>
+
+                    <li class="pa-timeline__item">
+                        <div class="pa-timeline__time">16:45</div>
+                        <div class="pa-timeline__content">
+                            <div class="pa-timeline__avatar">
+                                <img src="https://ui-avatars.com/api/?name=Yoan+Almedia&background=0D8ABC&color=fff" alt="Yoan Almedia">
+                            </div>
+                            <span><a href="#">Yoan Almedia</a> moved <a href="#">Eric Lubin</a> to <a href="#">📚 Technical Test</a></span>
+                        </div>
+                    </li>
+
+                    <li class="pa-timeline__item">
+                        <div class="pa-timeline__time">11:20</div>
+                        <div class="pa-timeline__content">
+                            <div class="pa-timeline__avatar">
+                                <img src="https://ui-avatars.com/api/?name=Yoan+Almedia&background=0D8ABC&color=fff" alt="Yoan Almedia">
+                            </div>
+                            <span><a href="#">Yoan Almedia</a> commented</span>
+                            <div class="pa-timeline__comment">
+                                <p>I've sent him the assignment we discussed recently. Can't wait to see his technical test! 😊</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="pa-timeline__load-more-wrapper">
+                    <button class="pa-btn pa-btn--primary" onclick="loadMoreFeedItems()">
+                        <span class="pa-btn__icon">↓</span>
+                        Load More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pure-u-1 pure-u-md-1-2">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Timeline Feed - Virtual Scroll</h3>
+                <p class="pa-card__meta">Automatically loads as you scroll down</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-timeline__scroll-container" id="timeline-feed-scroll-container">
+                    <ul class="pa-timeline pa-timeline--feed" id="timeline-feed-virtual-scroll">
+                        <!-- Date Header: January 22, 2021 -->
+                        <li class="pa-timeline__item pa-timeline__item--date-header">
+                            <div class="pa-timeline__date-icon">📅</div>
+                            <div class="pa-timeline__date-label">January 22, 2021</div>
+                        </li>
+
+                        <li class="pa-timeline__item">
+                            <div class="pa-timeline__time">18:15</div>
+                            <div class="pa-timeline__content">
+                                <div class="pa-timeline__avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Emma+Davis&background=0D8ABC&color=fff" alt="Emma Davis">
+                                </div>
+                                <span><a href="#">Emma Davis</a> created new sprint</span>
+                            </div>
+                        </li>
+
+                        <li class="pa-timeline__item">
+                            <div class="pa-timeline__time">15:20</div>
+                            <div class="pa-timeline__content">
+                                <div class="pa-timeline__avatar">
+                                    <img src="https://ui-avatars.com/api/?name=John+Smith&background=0D8ABC&color=fff" alt="John Smith">
+                                </div>
+                                <span><a href="#">John Smith</a> reviewed documentation</span>
+                            </div>
+                        </li>
+
+                        <!-- Date Header: January 21, 2021 -->
+                        <li class="pa-timeline__item pa-timeline__item--date-header">
+                            <div class="pa-timeline__date-icon">📅</div>
+                            <div class="pa-timeline__date-label">January 21, 2021</div>
+                        </li>
+
+                        <li class="pa-timeline__item">
+                            <div class="pa-timeline__time">14:32</div>
+                            <div class="pa-timeline__content">
+                                <div class="pa-timeline__avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Luna+Bonifacio&background=0D8ABC&color=fff" alt="Luna Bonifacio">
+                                </div>
+                                <span><a href="#">Luna Bonifacio</a> has changed <a href="#">2 attributes</a></span>
+                            </div>
+                        </li>
+
+                        <li class="pa-timeline__item">
+                            <div class="pa-timeline__time">10:15</div>
+                            <div class="pa-timeline__content">
+                                <div class="pa-timeline__avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Sarah+Chen&background=0D8ABC&color=fff" alt="Sarah Chen">
+                                </div>
+                                <span><a href="#">Sarah Chen</a> updated test suite</span>
+                            </div>
+                        </li>
+
+                        <!-- Date Header: January 20, 2021 -->
+                        <li class="pa-timeline__item pa-timeline__item--date-header">
+                            <div class="pa-timeline__date-icon">📅</div>
+                            <div class="pa-timeline__date-label">January 20, 2021</div>
+                        </li>
+
+                        <li class="pa-timeline__item">
+                            <div class="pa-timeline__time">16:45</div>
+                            <div class="pa-timeline__content">
+                                <div class="pa-timeline__avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Yoan+Almedia&background=0D8ABC&color=fff" alt="Yoan Almedia">
+                                </div>
+                                <span><a href="#">Yoan Almedia</a> moved <a href="#">Eric Lubin</a> to <a href="#">📚 Technical Test</a></span>
+                            </div>
+                        </li>
+
+                        <li class="pa-timeline__item">
+                            <div class="pa-timeline__time">11:20</div>
+                            <div class="pa-timeline__content">
+                                <div class="pa-timeline__avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Yoan+Almedia&background=0D8ABC&color=fff" alt="Yoan Almedia">
+                                </div>
+                                <span><a href="#">Yoan Almedia</a> commented</span>
+                                <div class="pa-timeline__comment">
+                                    <p>Looking forward to the next steps!</p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="pa-timeline__item">
+                            <div class="pa-timeline__time">09:30</div>
+                            <div class="pa-timeline__content">
+                                <div class="pa-timeline__avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Mike+Johnson&background=0D8ABC&color=fff" alt="Mike Johnson">
+                                </div>
+                                <span><a href="#">Mike Johnson</a> started code review</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pa-timeline__loader" id="timeline-feed-scroll-loader">
+                    <div class="pa-loader pa-loader--sm" id="timeline-feed-scroll-spinner" style="display: none;">
+                        <div class="pa-spinner"></div>
+                    </div>
+                    <div class="pa-timeline__loader-text" id="timeline-feed-scroll-text" style="display: none;">Loading more entries...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Load More Timeline Feed
+let loadMoreFeedPage = 1;
+const loadMoreFeedData = [
+    [
+        { type: 'date', date: 'January 19, 2021' },
+        { type: 'item', time: '09:15', avatar: 'Sarah Chen', text: '<a href="#">Sarah Chen</a> attached <a href="#">3 files</a> to the project' }
+    ],
+    [
+        { type: 'date', date: 'January 18, 2021' },
+        { type: 'item', time: '17:30', avatar: 'Mike Johnson', text: '<a href="#">Mike Johnson</a> completed <a href="#">Design Review</a> task' },
+        { type: 'item', time: '10:15', avatar: 'Emma Davis', text: '<a href="#">Emma Davis</a> created new <a href="#">milestone</a>' }
+    ],
+    [
+        { type: 'date', date: 'January 17, 2021' },
+        { type: 'item', time: '15:45', avatar: 'John Smith', text: '<a href="#">John Smith</a> updated project status' }
+    ]
+];
+
+function loadMoreFeedItems() {
+    if (loadMoreFeedPage >= loadMoreFeedData.length) {
+        alert('No more entries to load!');
+        return;
+    }
+
+    const timeline = document.getElementById('timeline-feed-load-more');
+    const items = loadMoreFeedData[loadMoreFeedPage];
+
+    items.forEach(item => {
+        const li = document.createElement('li');
+        if (item.type === 'date') {
+            li.className = 'pa-timeline__item pa-timeline__item--date-header';
+            li.innerHTML = `
+                <div class="pa-timeline__date-icon">📅</div>
+                <div class="pa-timeline__date-label">${item.date}</div>
+            `;
+        } else {
+            li.className = 'pa-timeline__item';
+            li.innerHTML = `
+                <div class="pa-timeline__time">${item.time}</div>
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="https://ui-avatars.com/api/?name=${item.avatar.replace(' ', '+')}&background=0D8ABC&color=fff" alt="${item.avatar}">
+                    </div>
+                    <span>${item.text}</span>
+                </div>
+            `;
+        }
+        timeline.appendChild(li);
+    });
+
+    loadMoreFeedPage++;
+}
+
+// Virtual Scroll Timeline Feed
+let virtualScrollFeedPage = 1;
+let isLoadingVirtualScrollFeed = false;
+
+const virtualScrollFeedData = [
+    [
+        { type: 'date', date: 'January 19, 2021' },
+        { type: 'item', time: '15:30', avatar: 'Sarah Chen', text: '<a href="#">Sarah Chen</a> updated documentation' },
+        { type: 'item', time: '09:15', avatar: 'Sarah Chen', text: '<a href="#">Sarah Chen</a> attached <a href="#">3 files</a> to the project' }
+    ],
+    [
+        { type: 'date', date: 'January 18, 2021' },
+        { type: 'item', time: '17:30', avatar: 'Mike Johnson', text: '<a href="#">Mike Johnson</a> completed <a href="#">Design Review</a> task' },
+        { type: 'item', time: '14:20', avatar: 'Emma Davis', text: '<a href="#">Emma Davis</a> created new <a href="#">milestone</a>' },
+        { type: 'item', time: '10:15', avatar: 'John Smith', text: '<a href="#">John Smith</a> assigned task to team' }
+    ],
+    [
+        { type: 'date', date: 'January 17, 2021' },
+        { type: 'item', time: '16:45', avatar: 'Luna Bonifacio', text: '<a href="#">Luna Bonifacio</a> reviewed pull request' },
+        { type: 'item', time: '15:45', avatar: 'John Smith', text: '<a href="#">John Smith</a> updated project status' },
+        { type: 'item', time: '11:30', avatar: 'Yoan Almedia', text: '<a href="#">Yoan Almedia</a> merged feature branch' }
+    ],
+    [
+        { type: 'date', date: 'January 16, 2021' },
+        { type: 'item', time: '18:00', avatar: 'Emma Davis', text: '<a href="#">Emma Davis</a> closed <a href="#">5 issues</a>' },
+        { type: 'item', time: '13:20', avatar: 'Sarah Chen', text: '<a href="#">Sarah Chen</a> started code review' },
+        { type: 'item', time: '09:00', avatar: 'Mike Johnson', text: '<a href="#">Mike Johnson</a> opened new sprint' }
+    ],
+    [
+        { type: 'date', date: 'January 15, 2021' },
+        { type: 'item', time: '17:15', avatar: 'Luna Bonifacio', text: '<a href="#">Luna Bonifacio</a> deployed to staging' },
+        { type: 'item', time: '14:30', avatar: 'John Smith', text: '<a href="#">John Smith</a> created release notes' },
+        { type: 'item', time: '10:45', avatar: 'Yoan Almedia', text: '<a href="#">Yoan Almedia</a> fixed critical bug', comment: 'Fixed the authentication issue that was blocking deployment.' }
+    ]
+];
+
+const scrollFeedContainer = document.getElementById('timeline-feed-scroll-container');
+const virtualScrollFeedTimeline = document.getElementById('timeline-feed-virtual-scroll');
+const scrollFeedLoader = document.getElementById('timeline-feed-scroll-loader');
+const scrollFeedLoaderSpinner = document.getElementById('timeline-feed-scroll-spinner');
+const scrollFeedLoaderText = document.getElementById('timeline-feed-scroll-text');
+
+// Use scroll event instead since loader is outside container
+scrollFeedContainer.addEventListener('scroll', () => {
+    const scrollTop = scrollFeedContainer.scrollTop;
+    const scrollHeight = scrollFeedContainer.scrollHeight;
+    const clientHeight = scrollFeedContainer.clientHeight;
+
+    // Check if scrolled to bottom (with 50px threshold)
+    if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoadingVirtualScrollFeed && virtualScrollFeedPage < virtualScrollFeedData.length) {
+        loadVirtualScrollFeedItems();
+    }
+});
+
+function loadVirtualScrollFeedItems() {
+    if (virtualScrollFeedPage >= virtualScrollFeedData.length || isLoadingVirtualScrollFeed) {
+        return;
+    }
+
+    isLoadingVirtualScrollFeed = true;
+    scrollFeedLoaderSpinner.style.display = 'block';
+    scrollFeedLoaderText.style.display = 'block';
+
+    setTimeout(() => {
+        const items = virtualScrollFeedData[virtualScrollFeedPage];
+
+        items.forEach(item => {
+            const li = document.createElement('li');
+            if (item.type === 'date') {
+                li.className = 'pa-timeline__item pa-timeline__item--date-header';
+                li.innerHTML = `
+                    <div class="pa-timeline__date-icon">📅</div>
+                    <div class="pa-timeline__date-label">${item.date}</div>
+                `;
+            } else {
+                li.className = 'pa-timeline__item';
+                let commentHtml = '';
+                if (item.comment) {
+                    commentHtml = `<div class="pa-timeline__comment"><p>${item.comment}</p></div>`;
+                }
+                li.innerHTML = `
+                    <div class="pa-timeline__time">${item.time}</div>
+                    <div class="pa-timeline__content">
+                        <div class="pa-timeline__avatar">
+                            <img src="https://ui-avatars.com/api/?name=${item.avatar.replace(' ', '+')}&background=0D8ABC&color=fff" alt="${item.avatar}">
+                        </div>
+                        <span>${item.text}</span>
+                        ${commentHtml}
+                    </div>
+                `;
+            }
+            virtualScrollFeedTimeline.appendChild(li);
+        });
+
+        virtualScrollFeedPage++;
+        scrollFeedLoaderSpinner.style.display = 'none';
+        scrollFeedLoaderText.style.display = 'none';
+        isLoadingVirtualScrollFeed = false;
+
+        if (virtualScrollFeedPage >= virtualScrollFeedData.length) {
+            loadMoreFeedObserver.disconnect();
+            scrollFeedLoader.style.display = 'none';
+        }
+    }, 800);
+}
+</script>

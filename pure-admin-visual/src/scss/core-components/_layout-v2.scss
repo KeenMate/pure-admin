@@ -1,0 +1,183 @@
+/* ========================================
+   Layout V2 - Based on Testbench Structure
+   ======================================== */
+
+// Navbar - Fixed at top, full width by default
+.pa-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  background-color: $header-bg;
+  border-bottom: $border-width-base solid $header-border-color;
+  z-index: $z-index-header; // 2000
+  display: flex;
+  align-items: center;
+  justify-content: center; // Center for constrained mode
+}
+
+// Constrained navbar - limit navbar width to match container
+// Body class is just a marker, no width styles on body itself
+body.pa-container-sm .pa-navbar {
+  max-width: $layout-container-sm;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-md .pa-navbar {
+  max-width: $layout-container-md;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-lg .pa-navbar {
+  max-width: $layout-container-lg;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-xl .pa-navbar {
+  max-width: $layout-container-xl;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-2xl .pa-navbar {
+  max-width: $layout-container-2xl;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Navbar inner content
+.pa-navbar__inner {
+  width: 100%;
+  padding: 0 $spacing-base;
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+}
+
+// Layout wrapper - applied to body for mode-specific classes
+body.pa-layout--sticky {
+  height: 100vh;
+  overflow: hidden;
+}
+
+// Layout Container - centered, starts below navbar
+.pa-layout {
+  max-width: 100%;
+  margin: $header-height auto 0;
+  background-color: $primary-bg;
+  overflow: visible; // Allow tooltips to escape
+}
+
+// Constrained widths - controlled by body class
+body.pa-container-sm .pa-layout {
+  max-width: $layout-container-sm;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-md .pa-layout {
+  max-width: $layout-container-md;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-lg .pa-layout {
+  max-width: $layout-container-lg;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-xl .pa-layout {
+  max-width: $layout-container-xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-2xl .pa-layout {
+  max-width: $layout-container-2xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+// Sticky mode - fixed height
+body.pa-layout--sticky .pa-layout {
+  height: calc(100vh - #{$header-height}); // Full viewport minus top margin
+}
+
+// Scroll mode - minimum height
+body:not(.pa-layout--sticky) .pa-layout {
+  min-height: calc(100vh - #{$header-height}); // Ensure footer reaches bottom
+}
+
+// Layout inner container - flex wrapper for sidebar + content
+.pa-layout__inner {
+  display: flex;
+  width: 100%;
+}
+
+// Sticky mode - inner container takes full height of layout container
+body.pa-layout--sticky .pa-layout__inner {
+  height: 100%;
+}
+
+// Sidebar
+.pa-layout__sidebar {
+  width: $sidebar-width;
+  background-color: $sidebar-bg;
+  border-right: $border-width-base solid $border-color;
+  flex-shrink: 0;
+}
+
+// Sticky mode - sidebar scrolls
+body.pa-layout--sticky .pa-layout__sidebar {
+  overflow-y: auto;
+  overflow-x: visible; // Allow tooltips to escape right
+}
+
+// Content wrapper - wraps content + footer
+.pa-layout__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// Sticky mode - content wrapper scrolls
+body.pa-layout--sticky .pa-layout__content {
+  overflow-y: auto;
+}
+
+// Main content area
+.pa-layout__main {
+  flex: 1;
+  padding: $spacing-base;
+}
+
+// Footer
+.pa-layout__footer {
+  height: $footer-height;
+  background-color: $footer-bg;
+  border-top: $border-width-base solid $footer-border-color;
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-base;
+  margin-top: auto; // Push to bottom
+}

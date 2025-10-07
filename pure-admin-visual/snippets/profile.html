@@ -8,15 +8,15 @@
      ================================ -->
 
 <!-- Profile Button (goes in header/navbar) -->
-<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+<button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon">👤</span>
-    <span class="pa-header__profile-name">John Doe</span>
+    <span class="pa-navbar__profile-name">John Doe</span>
 </button>
 
 <!-- Profile Button with Font Awesome -->
-<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+<button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon"><i class="fa-solid fa-user"></i></span>
-    <span class="pa-header__profile-name">John Doe</span>
+    <span class="pa-navbar__profile-name">John Doe</span>
 </button>
 
 
@@ -206,7 +206,7 @@ function closeProfilePanel() {
  */
 document.addEventListener('click', (e) => {
     const profilePanel = document.getElementById('profilePanel');
-    const profileBtn = document.querySelector('.pa-header__profile-btn');
+    const profileBtn = document.querySelector('.pa-navbar__profile-btn');
 
     if (!profilePanel || !profileBtn) return;
 
@@ -224,9 +224,9 @@ document.addEventListener('click', (e) => {
 
 <!--
 PROFILE BUTTON (HEADER):
-- .pa-header__profile-btn - Profile button in header
+- .pa-navbar__profile-btn - Profile button in header
 - .pa-btn__icon - Icon container
-- .pa-header__profile-name - User name text
+- .pa-navbar__profile-name - User name text
 
 PROFILE PANEL STRUCTURE:
 - .pa-profile-panel - Main panel container

@@ -1,0 +1,464 @@
+/* ========================================
+   Timeline Component
+   ======================================== */
+
+.pa-timeline {
+  position: relative;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+
+  &__item {
+    position: relative;
+  }
+
+  // Variant 1: Simple left-aligned timeline (like Timeline #1)
+  &--simple {
+    border-left: $timeline-simple-line-width solid $border-color;
+    margin-left: $timeline-simple-margin-left;
+    padding-left: $timeline-simple-padding-left;
+
+    .pa-timeline__item {
+      padding-bottom: $spacing-lg;
+      position: relative;
+
+      &:last-child {
+        border: 0;
+        padding-bottom: 0;
+      }
+
+      // Dot marker
+      &::before {
+        content: '';
+        position: absolute;
+        left: $timeline-simple-dot-offset;
+        top: 0;
+        width: $timeline-simple-dot-size;
+        height: $timeline-simple-dot-size;
+        background: $primary-bg;
+        border: $timeline-simple-dot-border solid $accent-color;
+        border-radius: 50%;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($accent-color, $timeline-simple-dot-shadow-opacity);
+      }
+
+      // Marker color modifiers
+      &--primary::before {
+        border-color: $btn-primary-bg;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($btn-primary-bg, $timeline-simple-dot-shadow-opacity);
+      }
+
+      &--success::before {
+        border-color: $success-bg;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($success-bg, $timeline-simple-dot-shadow-opacity);
+      }
+
+      &--warning::before {
+        border-color: $warning-bg;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($warning-bg, $timeline-simple-dot-shadow-opacity);
+      }
+
+      &--danger::before {
+        border-color: $danger-bg;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($danger-bg, $timeline-simple-dot-shadow-opacity);
+      }
+
+      &--info::before {
+        border-color: $info-bg;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($info-bg, $timeline-simple-dot-shadow-opacity);
+      }
+
+      &--secondary::before {
+        border-color: $text-secondary;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($text-secondary, $timeline-simple-dot-shadow-opacity);
+      }
+
+      // Filled/solid bullet modifier
+      &--filled::before {
+        background: $accent-color;
+      }
+
+      &--filled.pa-timeline__item--primary::before {
+        background: $btn-primary-bg;
+      }
+
+      &--filled.pa-timeline__item--success::before {
+        background: $success-bg;
+      }
+
+      &--filled.pa-timeline__item--warning::before {
+        background: $warning-bg;
+      }
+
+      &--filled.pa-timeline__item--danger::before {
+        background: $danger-bg;
+      }
+
+      &--filled.pa-timeline__item--info::before {
+        background: $info-bg;
+      }
+
+      &--filled.pa-timeline__item--secondary::before {
+        background: $text-secondary;
+      }
+    }
+
+    .pa-timeline__time {
+      display: block;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-xs;
+    }
+
+    .pa-timeline__content {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+      line-height: $line-height-relaxed;
+      margin-top: $timeline-simple-content-margin-top;
+    }
+  }
+
+  // Variant 2: Timeline Block (Centered alternating)
+  &--alternating {
+    position: relative;
+    max-width: $timeline-block-max-width;
+    margin: 0 auto;
+    padding: $timeline-block-padding;
+
+    // Center line
+    &::after {
+      content: '';
+      position: absolute;
+      width: $timeline-block-line-width;
+      background: $accent-color;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -1px;
+    }
+
+    .pa-timeline__item {
+      padding: $timeline-block-item-padding;
+      position: relative;
+      background: inherit;
+      width: $timeline-block-item-width;
+
+      // Left side items
+      &:nth-child(odd) {
+        left: 0;
+        padding-left: $timeline-block-item-padding-left-odd;
+
+        .pa-timeline__date {
+          right: $timeline-block-date-offset;
+        }
+
+        .pa-timeline__icon {
+          right: $timeline-block-icon-offset-odd;
+        }
+
+        .pa-timeline__content {
+          padding: $timeline-block-content-padding-v $timeline-block-content-padding-extended $timeline-block-content-padding-v $timeline-block-content-padding-h;
+          border-radius: 0 $timeline-block-content-border-radius $timeline-block-content-border-radius 0;
+        }
+
+        // Dot
+        &::after {
+          content: '';
+          position: absolute;
+          width: $timeline-block-dot-size;
+          height: $timeline-block-dot-size;
+          top: $timeline-block-dot-top-offset;
+          right: $timeline-block-dot-horizontal-offset;
+          background: $primary-bg;
+          border: $timeline-block-dot-border solid $accent-color;
+          border-radius: 50%;
+          z-index: 1;
+        }
+
+        // Connector line
+        &::before {
+          content: '';
+          position: absolute;
+          width: $timeline-block-connector-width;
+          height: $timeline-block-connector-height;
+          top: $timeline-block-connector-top-offset;
+          right: $timeline-block-connector-horizontal-offset;
+          background: $accent-color;
+          z-index: 1;
+        }
+      }
+
+      // Right side items
+      &:nth-child(even) {
+        left: 50%;
+        padding-right: $timeline-block-item-padding-right-even;
+
+        .pa-timeline__date {
+          left: $timeline-block-date-offset;
+        }
+
+        .pa-timeline__icon {
+          left: $timeline-block-icon-offset-even;
+        }
+
+        .pa-timeline__content {
+          padding: $timeline-block-content-padding-v $timeline-block-content-padding-h $timeline-block-content-padding-v $timeline-block-content-padding-extended;
+          border-radius: $timeline-block-content-border-radius 0 0 $timeline-block-content-border-radius;
+        }
+
+        // Dot
+        &::after {
+          content: '';
+          position: absolute;
+          width: $timeline-block-dot-size;
+          height: $timeline-block-dot-size;
+          top: $timeline-block-dot-top-offset;
+          left: $timeline-block-dot-horizontal-offset;
+          background: $primary-bg;
+          border: $timeline-block-dot-border solid $accent-color;
+          border-radius: 50%;
+          z-index: 1;
+        }
+
+        // Connector line
+        &::before {
+          content: '';
+          position: absolute;
+          width: $timeline-block-connector-width;
+          height: $timeline-block-connector-height;
+          top: $timeline-block-connector-top-offset;
+          left: $timeline-block-connector-horizontal-offset;
+          background: $accent-color;
+          z-index: 1;
+        }
+      }
+    }
+
+    .pa-timeline__date {
+      position: absolute;
+      display: inline-block;
+      top: $timeline-block-date-top-offset;
+      text-align: center;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      color: $accent-color;
+      text-transform: uppercase;
+      letter-spacing: $timeline-block-date-letter-spacing;
+      z-index: 1;
+    }
+
+    .pa-timeline__icon {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: $timeline-block-icon-size;
+      height: $timeline-block-icon-size;
+      top: $timeline-block-icon-top-offset;
+      background: $warning-bg;
+      border: $timeline-block-icon-border solid $accent-color;
+      border-radius: 50%;
+      font-size: $font-size-lg;
+      color: $accent-color;
+      z-index: 1;
+    }
+
+    .pa-timeline__content {
+      background: $warning-bg;
+      position: relative;
+
+      h3 {
+        margin: 0 0 $spacing-sm 0;
+        font-size: $font-size-lg;
+        font-weight: $font-weight-normal;
+        color: $text-primary;
+      }
+
+      p {
+        margin: 0;
+        font-size: $font-size-base;
+        line-height: $line-height-relaxed;
+        color: $text-secondary;
+      }
+    }
+
+    // Responsive: stack on mobile
+    @media (max-width: $timeline-block-responsive-breakpoint) {
+      &::after {
+        left: $timeline-block-responsive-line-left;
+      }
+
+      .pa-timeline__item {
+        width: 100%;
+        padding-left: $timeline-block-responsive-padding-left;
+        padding-right: $timeline-block-responsive-padding-right;
+
+        &:nth-child(even) {
+          left: 0;
+        }
+
+        &:nth-child(odd)::after,
+        &:nth-child(even)::after {
+          left: $timeline-block-responsive-dot-left;
+        }
+
+        &:nth-child(odd)::before,
+        &:nth-child(even)::before {
+          left: $timeline-block-responsive-connector-left;
+        }
+
+        &:nth-child(odd) .pa-timeline__date,
+        &:nth-child(even) .pa-timeline__date {
+          right: auto;
+          left: $timeline-block-responsive-date-left;
+        }
+
+        &:nth-child(odd) .pa-timeline__icon,
+        &:nth-child(even) .pa-timeline__icon {
+          right: auto;
+          left: $timeline-block-responsive-icon-left;
+        }
+
+        &:nth-child(odd) .pa-timeline__content,
+        &:nth-child(even) .pa-timeline__content {
+          padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
+          border-radius: $timeline-block-content-border-radius 0 0 $timeline-block-content-border-radius;
+        }
+      }
+    }
+  }
+
+  // Variant 3: Activity feed / comment thread style (like CodePen Challenge)
+  &--feed {
+    padding: 0;
+
+    .pa-timeline__item {
+      display: flex;
+      align-items: flex-start;
+      gap: $timeline-feed-gap;
+      padding-bottom: $timeline-feed-item-padding-bottom;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    .pa-timeline__content {
+      flex: 1;
+      font-size: $font-size-sm;
+      color: $text-secondary;
+      line-height: $line-height-relaxed;
+
+      a {
+        color: $accent-color;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      time {
+        color: $text-secondary;
+        font-size: $font-size-xs;
+      }
+    }
+
+    .pa-timeline__avatar {
+      width: $timeline-feed-avatar-size;
+      height: $timeline-feed-avatar-size;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: $timeline-feed-avatar-margin-right;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+
+    .pa-timeline__comment {
+      margin-top: $timeline-feed-comment-margin-top;
+      padding: $timeline-feed-comment-padding;
+      background: $card-bg;
+      border: $border-width-base solid $border-color;
+      border-radius: $border-radius;
+
+      p {
+        margin: 0 0 $spacing-sm 0;
+        color: $text-primary;
+        line-height: $line-height-relaxed;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    // Date header styling
+    .pa-timeline__item--date-header {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding-bottom: $timeline-feed-date-margin-bottom;
+      margin-top: $spacing-base;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .pa-timeline__date-icon {
+      font-size: $timeline-feed-date-icon-size;
+      line-height: 1;
+    }
+
+    .pa-timeline__date-label {
+      font-size: $timeline-feed-date-label-font-size;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      text-transform: uppercase;
+      letter-spacing: $timeline-feed-date-label-letter-spacing;
+    }
+
+    // Time prefix styling
+    .pa-timeline__time {
+      flex-shrink: 0;
+      width: $timeline-feed-time-width;
+      font-size: $timeline-feed-time-font-size;
+      color: $text-secondary;
+      font-weight: $font-weight-medium;
+      text-align: right;
+      padding-right: $spacing-sm;
+      padding-top: $timeline-feed-time-padding-top;
+    }
+  }
+
+  // Utility classes for interactive timelines (Simple variant)
+  &__scroll-container {
+    max-height: $timeline-simple-scroll-container-max-height;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  &__loader {
+    text-align: center;
+    padding: $spacing-base;
+    min-height: $timeline-simple-scroll-loader-min-height;
+  }
+
+  &__loader-text {
+    margin-top: $spacing-sm;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__load-more-wrapper {
+    text-align: center;
+    margin-top: $timeline-simple-load-more-margin-top;
+  }
+}

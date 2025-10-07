@@ -1,0 +1,308 @@
+<h2>Virtual Scroll & Infinite Scroll</h2>
+<p class="pa-card__meta" style="margin-bottom: 1.5rem;">Two different approaches to handling large datasets efficiently</p>
+
+<!-- Explanation Card -->
+<div class="pa-card" style="margin-bottom: 1.5rem;">
+    <div class="pa-card__header">
+        <h3>How It Works</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pure-g">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <h4>Virtual Scroll (True Virtualization)</h4>
+                <ul style="line-height: 1.8;">
+                    <li><strong>Constant DOM size</strong> - Only ~20 items in DOM regardless of total dataset</li>
+                    <li><strong>Performance</strong> - Can handle millions of items smoothly</li>
+                    <li><strong>Fixed heights</strong> - Requires items to have consistent, known heights</li>
+                    <li><strong>Use case</strong> - Tables, lists with uniform row heights</li>
+                    <li><strong>DOM strategy</strong> - Items added/removed dynamically as you scroll</li>
+                </ul>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-2">
+                <h4>Infinite Scroll (Lazy Loading)</h4>
+                <ul style="line-height: 1.8;">
+                    <li><strong>Growing DOM</strong> - All loaded items stay in DOM</li>
+                    <li><strong>Performance</strong> - Good for hundreds/low thousands of items</li>
+                    <li><strong>Variable heights</strong> - Works with dynamic content heights</li>
+                    <li><strong>Use case</strong> - Feeds, timelines with rich content</li>
+                    <li><strong>DOM strategy</strong> - Items appended, never removed</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Virtual Scroll Examples</h3>
+<p class="pa-card__meta" style="margin-bottom: 1rem;">True virtualization - constant DOM size</p>
+
+<div class="pure-g">
+    <!-- Timeline Virtual Scroll -->
+    <div class="pure-u-1 pure-u-md-1-2">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Timeline - 5000 Items</h3>
+                <p class="pa-card__meta">Only ~20 items in DOM at any time</p>
+            </div>
+            <div class="pa-card__body">
+                <div id="timeline-virtual-container" style="height: 400px; overflow-y: auto;">
+                    <ul class="pa-timeline pa-timeline--feed" id="timeline-virtual-list"></ul>
+                </div>
+                <p class="pa-card__meta" style="margin-top: 1rem;">
+                    Visible range: <strong id="timeline-range">0-0</strong> |
+                    DOM elements: <strong id="timeline-dom-count">0</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Virtual Scroll -->
+    <div class="pure-u-1 pure-u-md-1-2">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Table - 10000 Rows</h3>
+                <p class="pa-card__meta">Smooth scrolling through large datasets</p>
+            </div>
+            <div class="pa-card__body">
+                <div id="table-virtual-container" style="height: 400px; overflow-y: auto;">
+                    <table class="pa-table pa-table--striped" style="table-layout: fixed; width: 100%;">
+                        <thead style="position: sticky; top: 0; background: white; z-index: 10;">
+                            <tr>
+                                <th style="width: 60px;">#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th style="width: 100px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-virtual-body"></tbody>
+                    </table>
+                </div>
+                <p class="pa-card__meta" style="margin-top: 1rem;">
+                    Visible range: <strong id="table-range">0-0</strong> |
+                    DOM rows: <strong id="table-dom-count">0</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/dist/js/virtual-scroll.js"></script>
+<script>
+// Sample data generators
+const names = ['John Smith', 'Emma Davis', 'Luna Bonifacio', 'Yoan Almedia', 'Sarah Chen', 'Mike Johnson'];
+const statuses = ['Active', 'Pending', 'Completed', 'Cancelled'];
+
+// Timeline Virtual Scroll Example - Custom approach for proper timeline styling
+const timelineContainer = document.getElementById('timeline-virtual-container');
+const timelineList = document.getElementById('timeline-virtual-list');
+
+let timelineScrollTop = 0;
+const timelineItemHeight = 50;
+const timelineTotalItems = 5000;
+const timelineBufferSize = 10;
+const timelineViewportHeight = 400;
+
+function renderTimelineItems() {
+    const startIndex = Math.floor(timelineScrollTop / timelineItemHeight);
+    const endIndex = Math.ceil((timelineScrollTop + timelineViewportHeight) / timelineItemHeight);
+    const visibleStart = Math.max(0, startIndex - timelineBufferSize);
+    const visibleEnd = Math.min(timelineTotalItems, endIndex + timelineBufferSize);
+
+    // Set list height to maintain scroll
+    timelineList.style.height = `${timelineTotalItems * timelineItemHeight}px`;
+    timelineList.style.position = 'relative';
+
+    // Clear and render visible items
+    timelineList.innerHTML = '';
+
+    for (let i = visibleStart; i < visibleEnd; i++) {
+        const li = document.createElement('li');
+        li.className = 'pa-timeline__item';
+        li.style.position = 'absolute';
+        li.style.top = `${i * timelineItemHeight}px`;
+        li.style.left = '0';
+        li.style.right = '0';
+
+        const name = names[i % names.length];
+        const time = `${String(9 + (i % 10)).padStart(2, '0')}:${String((i * 5) % 60).padStart(2, '0')}`;
+
+        li.innerHTML = `
+            <div class="pa-timeline__time">${time}</div>
+            <div class="pa-timeline__content">
+                <div class="pa-timeline__avatar">
+                    <img src="https://ui-avatars.com/api/?name=${name.replace(' ', '+')}&background=0D8ABC&color=fff" alt="${name}">
+                </div>
+                <span><a href="#">${name}</a> performed action #${i}</span>
+            </div>
+        `;
+
+        timelineList.appendChild(li);
+    }
+
+    // Update stats
+    document.getElementById('timeline-range').textContent = `${visibleStart}-${visibleEnd}`;
+    document.getElementById('timeline-dom-count').textContent = timelineList.children.length;
+}
+
+timelineContainer.addEventListener('scroll', () => {
+    timelineScrollTop = timelineContainer.scrollTop;
+    renderTimelineItems();
+});
+
+// Initial render
+renderTimelineItems();
+
+// Table Virtual Scroll Example - Custom approach to preserve table structure
+const tableContainer = document.getElementById('table-virtual-container');
+const tableBody = document.getElementById('table-virtual-body');
+
+let tableScrollTop = 0;
+const tableItemHeight = 38;
+const tableTotalItems = 10000;
+const tableBufferSize = 10;
+const tableViewportHeight = 400;
+
+function renderTableRows() {
+    const startIndex = Math.floor(tableScrollTop / tableItemHeight);
+    const endIndex = Math.ceil((tableScrollTop + tableViewportHeight) / tableItemHeight);
+    const visibleStart = Math.max(0, startIndex - tableBufferSize);
+    const visibleEnd = Math.min(tableTotalItems, endIndex + tableBufferSize);
+
+    // Create spacer rows for scroll positioning
+    tableBody.innerHTML = '';
+
+    // Top spacer
+    if (visibleStart > 0) {
+        const topSpacer = document.createElement('tr');
+        topSpacer.style.height = `${visibleStart * tableItemHeight}px`;
+        topSpacer.innerHTML = '<td colspan="4"></td>';
+        tableBody.appendChild(topSpacer);
+    }
+
+    // Visible rows
+    for (let i = visibleStart; i < visibleEnd; i++) {
+        const tr = document.createElement('tr');
+        const name = names[i % names.length];
+        const status = statuses[i % statuses.length];
+
+        tr.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${name}</td>
+            <td>${name.toLowerCase().replace(' ', '.')}@example.com</td>
+            <td><span class="pa-badge pa-badge--${status === 'Active' ? 'success' : status === 'Pending' ? 'warning' : status === 'Completed' ? 'primary' : 'secondary'}">${status}</span></td>
+        `;
+        tableBody.appendChild(tr);
+    }
+
+    // Bottom spacer
+    if (visibleEnd < tableTotalItems) {
+        const bottomSpacer = document.createElement('tr');
+        bottomSpacer.style.height = `${(tableTotalItems - visibleEnd) * tableItemHeight}px`;
+        bottomSpacer.innerHTML = '<td colspan="4"></td>';
+        tableBody.appendChild(bottomSpacer);
+    }
+
+    // Update stats
+    document.getElementById('table-range').textContent = `${visibleStart}-${visibleEnd}`;
+    document.getElementById('table-dom-count').textContent = tableBody.children.length - 2; // Exclude spacers
+}
+
+tableContainer.addEventListener('scroll', () => {
+    tableScrollTop = tableContainer.scrollTop;
+    renderTableRows();
+});
+
+// Initial render
+renderTableRows();
+</script>
+
+<h3 style="margin-top: 2rem;">Infinite Scroll Example</h3>
+<p class="pa-card__meta" style="margin-bottom: 1rem;">Lazy loading - items accumulate in DOM</p>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Timeline Feed - Infinite Scroll</h3>
+        <p class="pa-card__meta">Load more on scroll (like social media feeds)</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-timeline__scroll-container" id="infinite-scroll-container" style="max-height: 400px; overflow-y: auto; position: relative;">
+            <ul class="pa-timeline pa-timeline--feed" id="infinite-scroll-timeline"></ul>
+        </div>
+        <div class="pa-timeline__loader" id="infinite-scroll-loader">
+            <div class="pa-loader pa-loader--sm" id="infinite-scroll-spinner" style="display: none;">
+                <div class="pa-spinner"></div>
+            </div>
+            <div class="pa-timeline__loader-text" id="infinite-scroll-text" style="display: none;">Loading more entries...</div>
+        </div>
+        <p class="pa-card__meta" style="margin-top: 1rem;">
+            Loaded items: <strong id="infinite-loaded">0</strong> |
+            Total DOM elements: <strong id="infinite-dom-count">0</strong>
+        </p>
+    </div>
+</div>
+
+<script>
+// Infinite Scroll Example (like timeline feed)
+let infinitePage = 0;
+let isLoadingInfinite = false;
+const infiniteContainer = document.getElementById('infinite-scroll-container');
+const infiniteTimeline = document.getElementById('infinite-scroll-timeline');
+const infiniteLoader = document.getElementById('infinite-scroll-loader');
+const infiniteSpinner = document.getElementById('infinite-scroll-spinner');
+const infiniteText = document.getElementById('infinite-scroll-text');
+
+function loadInfiniteItems() {
+    if (isLoadingInfinite || infinitePage >= 100) { // Limit to 100 pages (2000 items)
+        return;
+    }
+
+    isLoadingInfinite = true;
+    infiniteSpinner.style.display = 'block';
+    infiniteText.style.display = 'block';
+
+    setTimeout(() => {
+        // Load 20 items per page
+        for (let i = 0; i < 20; i++) {
+            const index = infinitePage * 20 + i;
+            const name = names[index % names.length];
+            const time = `${String(9 + (index % 10)).padStart(2, '0')}:${String((index * 5) % 60).padStart(2, '0')}`;
+
+            const li = document.createElement('li');
+            li.className = 'pa-timeline__item';
+            li.innerHTML = `
+                <div class="pa-timeline__time">${time}</div>
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="https://ui-avatars.com/api/?name=${name.replace(' ', '+')}&background=0D8ABC&color=fff" alt="${name}">
+                    </div>
+                    <span><a href="#">${name}</a> performed action #${index}</span>
+                </div>
+            `;
+            infiniteTimeline.appendChild(li);
+        }
+
+        infinitePage++;
+        infiniteSpinner.style.display = 'none';
+        infiniteText.style.display = 'none';
+        isLoadingInfinite = false;
+
+        // Update stats
+        document.getElementById('infinite-loaded').textContent = infinitePage * 20;
+        document.getElementById('infinite-dom-count').textContent = infiniteTimeline.children.length;
+    }, 500);
+}
+
+// Load initial items
+loadInfiniteItems();
+
+// Listen to scroll event
+infiniteContainer.addEventListener('scroll', () => {
+    const scrollTop = infiniteContainer.scrollTop;
+    const scrollHeight = infiniteContainer.scrollHeight;
+    const clientHeight = infiniteContainer.clientHeight;
+
+    // Check if scrolled near bottom (50px threshold)
+    if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoadingInfinite && infinitePage < 100) {
+        loadInfiniteItems();
+    }
+});
+</script>

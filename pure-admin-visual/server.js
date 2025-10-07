@@ -1,17 +1,21 @@
 const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
+const mustacheExpress = require('mustache-express');
+const Mustache = require('mustache');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const fs = require('fs');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Set EJS as template engine
-app.set('view engine', 'ejs');
+// Set Mustache as template engine
+app.engine('mustache', mustacheExpress());
+app.set('view engine', 'mustache');
 app.set('views', path.join(__dirname, 'views'));
 
-// Use express-ejs-layouts for layout support
-app.use(expressLayouts);
-app.set('layout', 'layout');
+// Helper to load partials
+const loadPartial = (name) => {
+    return fs.readFileSync(path.join(__dirname, 'views', 'partials', `${name}.mustache`), 'utf-8');
+};
 
 // Add cookie parser middleware
 app.use(cookieParser());
@@ -44,160 +48,171 @@ app.use((req, res, next) => {
         res.cookie('sidebarMode', sidebarMode, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
     }
 
+    // Add helper variables for Mustache
+    res.locals.isAudiTheme = theme === 'audi';
+
     next();
 });
 
+// Custom render helper for layout support
+const renderWithLayout = (res, viewName, data) => {
+    // Merge data with res.locals
+    const viewData = { ...res.locals, ...data };
+
+    // Read and render the page template
+    const pageTemplate = fs.readFileSync(path.join(__dirname, 'views', `${viewName}.mustache`), 'utf-8');
+    const pageHtml = Mustache.render(pageTemplate, viewData);
+
+    // Read and render partials WITH data
+    const navbarTemplate = loadPartial('navbar');
+    const sidebarTemplate = loadPartial('sidebar');
+    const navbarHtml = Mustache.render(navbarTemplate, viewData);
+    const sidebarHtml = Mustache.render(sidebarTemplate, viewData);
+
+    // Read layout template fresh on each request (for development)
+    const layoutTemplate = fs.readFileSync(path.join(__dirname, 'views', 'layout.mustache'), 'utf-8');
+
+    // Render the layout with the page content and rendered partials
+    const finalData = {
+        ...viewData,
+        body: pageHtml,
+        partials: {
+            navbar: navbarHtml,
+            sidebar: sidebarHtml
+        }
+    };
+    const finalHtml = Mustache.render(layoutTemplate, finalData);
+
+    res.send(finalHtml);
+};
+
 // Routes
+// V2 Layout Test Route
+app.get('/v2', (req, res) => {
+    const theme = res.locals.currentTheme;
+    const themePath = !theme || theme === 'audi' ? 'main' : `themes/${theme}`;
+
+    const bodyClasses = [];
+    if (res.locals.sidebarMode === 'sticky') {
+        bodyClasses.push('pa-layout--sticky');
+    }
+    if (res.locals.containerWidth !== 'fluid') {
+        bodyClasses.push(`pa-container-${res.locals.containerWidth}`);
+    }
+
+    res.render('layout-v2', {
+        title: 'Dashboard V2',
+        theme: themePath,
+        sidebarMode: res.locals.sidebarMode,
+        bodyClasses: bodyClasses.join(' '),
+        body: '<h1>Dashboard V2</h1><p>Testing new layout structure based on testbench</p>' +
+              '<div class="pa-card"><div class="pa-card__body">'.repeat(20) + 'Card content</div></div>'.repeat(20),
+        partials: {
+            navbarV2: loadPartial('navbar-v2'),
+            sidebarV2: loadPartial('sidebar-v2')
+        },
+        isDashboard: true
+    });
+});
+
 app.get('/', (req, res) => {
-    res.render('dashboard', {
+    renderWithLayout(res, 'dashboard', {
         pageTitle: 'Dashboard',
-        currentPage: 'dashboard',
-        currentTheme: res.locals.currentTheme
+        currentPage: 'dashboard'
     });
 });
 
 app.get('/forms', (req, res) => {
-    res.render('forms', {
-        pageTitle: 'Forms',
-        currentPage: 'forms',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms' });
 });
 
 app.get('/cards', (req, res) => {
-    res.render('cards', {
-        pageTitle: 'Cards',
-        currentPage: 'cards',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards' });
 });
 
 app.get('/buttons', (req, res) => {
-    res.render('buttons', {
-        pageTitle: 'Buttons',
-        currentPage: 'buttons',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'buttons', { pageTitle: 'Buttons', currentPage: 'buttons' });
 });
 
 app.get('/alerts', (req, res) => {
-    res.render('alerts', {
-        pageTitle: 'Alerts',
-        currentPage: 'alerts',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts' });
 });
 
 app.get('/components', (req, res) => {
-    res.render('components', {
-        pageTitle: 'Components',
-        currentPage: 'components',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components' });
 });
 
 app.get('/tables', (req, res) => {
-    res.render('tables', {
-        pageTitle: 'Tables',
-        currentPage: 'tables',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'tables', { pageTitle: 'Tables', currentPage: 'tables' });
 });
 
 app.get('/tables-sizing', (req, res) => {
-    res.render('tables-sizing', {
-        pageTitle: 'Tables - Sizing',
-        currentPage: 'tables-sizing',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'tables-sizing', { pageTitle: 'Tables - Sizing', currentPage: 'tables-sizing' });
 });
 
-app.get('/tables-lazy', (req, res) => {
-    res.render('tables-lazy', {
-        pageTitle: 'Tables - Lazy Load',
-        currentPage: 'tables-lazy',
-        currentTheme: res.locals.currentTheme
-    });
-});
 
 app.get('/comparison', (req, res) => {
-    res.render('comparison', {
-        pageTitle: 'Comparison Tables',
-        currentPage: 'comparison',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'comparison', { pageTitle: 'Comparison Tables', currentPage: 'comparison' });
 });
 
 app.get('/code', (req, res) => {
-    res.render('code', {
-        pageTitle: 'Code Display',
-        currentPage: 'code',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code' });
 });
 
 app.get('/badges', (req, res) => {
-    res.render('badges', {
-        pageTitle: 'Badges & Labels',
-        currentPage: 'badges',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'badges', { pageTitle: 'Badges & Labels', currentPage: 'badges' });
 });
 
 app.get('/modals', (req, res) => {
-    res.render('modals', {
-        pageTitle: 'Modal Windows',
-        currentPage: 'modals',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals' });
 });
 
 app.get('/loaders', (req, res) => {
-    res.render('loaders', {
-        pageTitle: 'Loaders & Spinners',
-        currentPage: 'loaders',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'loaders', { pageTitle: 'Loaders & Spinners', currentPage: 'loaders' });
 });
 
 app.get('/tooltips', (req, res) => {
-    res.render('tooltips', {
-        pageTitle: 'Tooltips',
-        currentPage: 'tooltips',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'tooltips', { pageTitle: 'Tooltips', currentPage: 'tooltips' });
+});
+
+app.get('/command-palette', (req, res) => {
+    renderWithLayout(res, 'command-palette', { pageTitle: 'Command Palette', currentPage: 'command-palette', isCommandPalette: true });
 });
 
 app.get('/tabs', (req, res) => {
-    res.render('tabs', {
-        pageTitle: 'Tabs',
-        currentPage: 'tabs',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'tabs', { pageTitle: 'Tabs', currentPage: 'tabs' });
 });
 
 app.get('/toasts', (req, res) => {
-    res.render('toasts', {
-        pageTitle: 'Toast Notifications',
-        currentPage: 'toasts',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts' });
 });
 
 app.get('/layouts', (req, res) => {
-    res.render('layouts', {
-        pageTitle: 'Layouts',
-        currentPage: 'layouts',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'layouts', { pageTitle: 'Layouts', currentPage: 'layouts' });
 });
 
 app.get('/lists', (req, res) => {
-    res.render('lists', {
-        pageTitle: 'Lists',
-        currentPage: 'lists',
-        currentTheme: res.locals.currentTheme
-    });
+    renderWithLayout(res, 'lists', { pageTitle: 'Lists', currentPage: 'lists' });
+});
+
+app.get('/timeline', (req, res) => {
+    renderWithLayout(res, 'timeline', { pageTitle: 'Timeline', currentPage: 'timeline', isTimeline: true });
+});
+
+app.get('/timeline-simple', (req, res) => {
+    renderWithLayout(res, 'timeline-simple', { pageTitle: 'Simple Timeline', currentPage: 'timeline-simple', isTimelineSimple: true });
+});
+
+app.get('/timeline-block', (req, res) => {
+    renderWithLayout(res, 'timeline-block', { pageTitle: 'Timeline Block', currentPage: 'timeline-block', isTimelineBlock: true });
+});
+
+app.get('/virtual-scroll', (req, res) => {
+    renderWithLayout(res, 'virtual-scroll', { pageTitle: 'Virtual Scroll', currentPage: 'virtual-scroll', isVirtualScroll: true });
+});
+
+app.get('/virtual-scroll-code', (req, res) => {
+    renderWithLayout(res, 'virtual-scroll-code', { pageTitle: 'Virtual Scroll Code', currentPage: 'virtual-scroll-code', isVirtualScrollCode: true });
 });
 
 // Serve static files with cache headers (after routes so EJS takes precedence)

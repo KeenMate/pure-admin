@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Pure Admin V2</title>
+    <link rel="stylesheet" href="/dist/css/{{{theme}}}.css">
+    <!-- Floating UI for tooltips -->
+    <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.7.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.4"></script>
+</head>
+<body class="{{bodyClasses}}">
+    <!-- Navbar (fixed at top, outside layout container) -->
+    {{{partials.navbarV2}}}
+
+    <!-- Layout Container (below navbar) -->
+    <div class="pa-layout">
+        <!-- Layout Inner: Sidebar + Content -->
+        <div class="pa-layout__inner">
+            <!-- Sidebar -->
+            {{{partials.sidebarV2}}}
+
+            <!-- Layout Content: Main + Footer -->
+            <div class="pa-layout__content">
+                <!-- Main Content -->
+                <main class="pa-layout__main">
+                    {{{body}}}
+                </main>
+
+                <!-- Footer -->
+                <footer class="pa-layout__footer">
+                    <p>&copy; 2025 Pure Admin V2 Framework</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Burger menu toggle
+        document.getElementById('burgerMenu')?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.body.classList.toggle('sidebar-hidden');
+        });
+
+        // Theme switcher
+        document.getElementById('themeSelector')?.addEventListener('change', function(e) {
+            const theme = e.target.value || 'main';
+            window.location.href = `${window.location.pathname}?theme=${theme}`;
+        });
+
+        // Set current theme
+        const currentTheme = '{{theme}}' === 'main' ? '' : '{{theme}}';
+        const themeSelector = document.getElementById('themeSelector');
+        if (themeSelector) themeSelector.value = currentTheme;
+    </script>
+</body>
+</html>

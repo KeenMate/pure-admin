@@ -299,18 +299,12 @@ body.pa-container-2xl .pa-navbar {
 }
 
 // Main Container - Flexbox wrapper for sidebar + content
-.pa-layout__inner {
+.pa-main-container {
   display: flex;
-  width: 100%;
-}
-
-// Sticky mode - inner container takes full height of layout container
-body.pa-layout--sticky .pa-layout__inner {
-  height: 100%;
 }
 
 // Sidebar - Flex child, no absolute positioning
-.pa-layout__sidebar {
+.pa-sidebar {
   width: $sidebar-width;
   max-width: $sidebar-max-width;
   flex-shrink: 0;
@@ -324,43 +318,6 @@ body.pa-layout--sticky .pa-layout__inner {
     transition: width $transition-normal $easing-snappy, opacity $transition-normal $easing-snappy;
   }
 
-  // Custom scrollbar styling for sidebar
-  &::-webkit-scrollbar {
-    width: $scrollbar-width;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $sidebar-bg;
-    border-radius: $border-radius;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $border-color;
-    border-radius: $border-radius;
-    border: $border-width-base solid $sidebar-bg;
-
-    &:hover {
-      background: $accent-color;
-      border-color: $accent-hover;
-    }
-
-    &:active {
-      background: $accent-hover;
-    }
-  }
-
-  // Firefox scrollbar
-  scrollbar-width: auto;
-  scrollbar-color: $border-color $sidebar-bg;
-
-  // Sticky mode: Scrollable sidebar
-  body.pa-layout--sticky & {
-    overflow-y: auto;
-  }
-}
-
-// Sidebar component (separate BEM block)
-.pa-sidebar {
   &__nav {
     padding: $spacing-base 0;
 
@@ -518,23 +475,57 @@ body.pa-layout--sticky .pa-layout__inner {
       transform: rotate(90deg);
     }
   }
+
+  // Custom scrollbar styling for sidebar
+  &::-webkit-scrollbar {
+    width: $scrollbar-width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $sidebar-bg;
+    border-radius: $border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-color;
+    border-radius: $border-radius;
+    border: $border-width-base solid $sidebar-bg;
+
+    &:hover {
+      background: $accent-color;
+      border-color: $accent-hover;
+    }
+
+    &:active {
+      background: $accent-hover;
+    }
+  }
+
+  // Firefox scrollbar
+  scrollbar-width: auto;
+  scrollbar-color: $border-color $sidebar-bg;
+
+  // Sticky mode: Scrollable sidebar
+  body.sidebar-sticky & {
+    overflow-y: auto;
+  }
 }
 
 // Content Wrapper - Flex child that wraps content + footer
-.pa-layout__content {
+.pa-content-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 // Sticky mode: Scrollable content wrapper
-body.pa-layout--sticky .pa-layout__content {
+body.sidebar-sticky .pa-content-wrapper {
   overflow-y: auto;
 }
 
 // Sidebar hidden state
 .sidebar-hidden {
-  .pa-layout__sidebar {
+  .pa-sidebar {
     width: 0;
     opacity: 0;
     overflow: hidden;
@@ -542,7 +533,7 @@ body.pa-layout--sticky .pa-layout__content {
   }
 
   // Icon-collapse mode: show narrow icon-only bar when hidden
-  .pa-layout__sidebar--icon-collapse {
+  .pa-sidebar--icon-collapse {
     width: $sidebar-collapsed-width;
     opacity: 1; // Override parent opacity: 0 to make icons visible
     overflow: visible !important; // Allow flyout to show outside sidebar
@@ -716,7 +707,7 @@ body.pa-layout--sticky .pa-layout__content {
 
 // Sidebar expanded state (when not hidden) - ensure icon-collapse mode shows full width
 body:not(.sidebar-hidden) {
-  .pa-layout__sidebar--icon-collapse {
+  .pa-sidebar--icon-collapse {
     width: $sidebar-width;
 
     // Show labels when expanded
@@ -764,82 +755,90 @@ body:not(.sidebar-hidden) {
 }
 
 // Main Content - Flex child
-.pa-layout__main {
+.pa-content {
   flex: 1; // Take remaining space
   position: relative;
   // No z-index - allows tooltips to escape to higher z-index layers
 
   &__inner {
     padding: $spacing-base;
+  }
 
-    h2 {
-      margin: 0 0 $spacing-base 0;
-      font-size: $font-size-2xl;
-      font-weight: $font-weight-semibold;
-      color: $text-primary;
-    }
+  h2 {
+    margin: 0 0 $spacing-base 0;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
   }
 }
 
 // Container wrapper - centers entire layout (main container below fixed header)
-.pa-layout {
+.pa-layout-container {
   max-width: 100%;
   margin: $header-height auto 0; // Top margin for fixed header
   position: relative;
   background-color: $primary-bg;
   // No overflow - tooltips need to extend beyond container bounds
 
-}
+  // PureCSS breakpoints: sm=568px, md=768px, lg=1024px, xl=1280px
+  &--sm {
+    max-width: $layout-container-sm; // ~768px
+    box-shadow: $shadow-2xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    // Don't use overflow-x: hidden - breaks position: sticky
+  }
 
-// Constrained widths - controlled by body class
-body.pa-container-sm .pa-layout {
-  max-width: $layout-container-sm;
-  box-shadow: $shadow-2xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
+  &--md {
+    max-width: $layout-container-md; // ~1024px
+    box-shadow: $shadow-2xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    // Don't use overflow-x: hidden - breaks position: sticky
+  }
 
-body.pa-container-md .pa-layout {
-  max-width: $layout-container-md;
-  box-shadow: $shadow-2xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
+  &--lg {
+    max-width: $layout-container-lg; // ~1280px
+    box-shadow: $shadow-2xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    // Don't use overflow-x: hidden - breaks position: sticky
+  }
 
-body.pa-container-lg .pa-layout {
-  max-width: $layout-container-lg;
-  box-shadow: $shadow-2xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
+  &--xl {
+    max-width: $layout-container-xl; // ~1600px
+    box-shadow: $shadow-xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    // Don't use overflow-x: hidden - breaks position: sticky
+  }
 
-body.pa-container-xl .pa-layout {
-  max-width: $layout-container-xl;
-  box-shadow: $shadow-xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
+  &--2xl {
+    max-width: $layout-container-2xl; // ~1920px
+    box-shadow: $shadow-xl;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+    // Don't use overflow-x: hidden - breaks position: sticky
+  }
 
-body.pa-container-2xl .pa-layout {
-  max-width: $layout-container-2xl;
-  box-shadow: $shadow-xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
+  &--fluid {
+    max-width: none;
+  }
 }
 
 // Sticky mode: Fixed height minus header
-body.pa-layout--sticky .pa-layout {
+body.sidebar-sticky .pa-layout-container {
   height: calc(100vh - #{$header-height});
   margin-top: $header-height; // Ensure margin even in sticky mode
 }
 
 // Scroll mode: Minimum height
-body:not(.pa-layout--sticky) .pa-layout {
+body:not(.sidebar-sticky) .pa-layout-container {
   min-height: calc(100vh - #{$header-height});
 }
 
 // Footer - Inside content wrapper, spans full width naturally
-.pa-layout__footer {
+.pa-footer {
   height: $footer-height;
   background-color: $footer-bg;
   border-top: $border-width-base solid $footer-border-color;
@@ -897,7 +896,7 @@ body:not(.pa-layout--sticky) .pa-layout {
 @media (max-width: $mobile-breakpoint) {
   // Mobile: Auto-hide sidebar, content takes full width
   body:not(.sidebar-visible) {
-    .pa-layout__sidebar {
+    .pa-sidebar {
       width: 0;
       opacity: 0;
       overflow: hidden;
@@ -905,7 +904,7 @@ body:not(.pa-layout--sticky) .pa-layout {
     }
 
     // Override icon-collapse mode on mobile - sidebar should be fully hidden
-    .pa-layout__sidebar--icon-collapse {
+    .pa-sidebar--icon-collapse {
       width: 0 !important;
     }
   }
@@ -913,11 +912,11 @@ body:not(.pa-layout--sticky) .pa-layout {
   // Mobile: Fullscreen sidebar overlay when visible
   .sidebar-visible {
     // Use fixed positioning for mobile overlay
-    .pa-layout__inner {
+    .pa-main-container {
       position: relative;
     }
 
-    .pa-layout__sidebar {
+    .pa-sidebar {
       position: fixed;
       top: $header-height;
       left: 0;
@@ -930,7 +929,7 @@ body:not(.pa-layout--sticky) .pa-layout {
     }
 
     // Override icon-collapse mode on mobile - show full width overlay
-    .pa-layout__sidebar--icon-collapse {
+    .pa-sidebar--icon-collapse {
       width: $mobile-sidebar-width !important;
       overflow-y: auto !important;
 
@@ -978,7 +977,7 @@ body:not(.pa-layout--sticky) .pa-layout {
 
 @media (max-width: $tablet-breakpoint) and (min-width: $tablet-breakpoint-min) {
   // Tablet: Reduce sidebar width
-  .pa-layout__sidebar {
+  .pa-sidebar {
     width: $sidebar-width-tablet;
 
     &__nav ul li a {

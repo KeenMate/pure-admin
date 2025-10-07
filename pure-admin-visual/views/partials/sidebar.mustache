@@ -1,0 +1,223 @@
+<!-- Sidebar -->
+<aside class="pa-layout__sidebar{{#sidebarMode}} pa-layout__sidebar--{{sidebarMode}}{{/sidebarMode}}">
+    <nav class="pa-sidebar__nav">
+        <ul>
+            <li class="pa-sidebar__item"><a href="/" class="pa-sidebar__link {{#isDashboard}}pa-sidebar__link--active{{/isDashboard}}">
+                <span class="pa-sidebar__icon">📊</span>
+                <span class="pa-sidebar__label">Dashboard</span>
+            </a></li>
+
+            <li class="pa-sidebar__item"><a href="/forms" class="pa-sidebar__link {{#isForms}}pa-sidebar__link--active{{/isForms}}">
+                <span class="pa-sidebar__icon">📝</span>
+                <span class="pa-sidebar__label">Forms</span>
+            </a></li>
+
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">🧩</span>
+                    <span class="pa-sidebar__label">Components</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item"><a href="/components" class="pa-sidebar__link {{#isComponents}}pa-sidebar__link--active{{/isComponents}}">
+                        <span class="pa-sidebar__icon">🧩</span>
+                        <span class="pa-sidebar__label">Overview</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/buttons" class="pa-sidebar__link {{#isButtons}}pa-sidebar__link--active{{/isButtons}}">
+                        <span class="pa-sidebar__icon">🔘</span>
+                        <span class="pa-sidebar__label">Buttons</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/cards" class="pa-sidebar__link {{#isCards}}pa-sidebar__link--active{{/isCards}}">
+                        <span class="pa-sidebar__icon">🃏</span>
+                        <span class="pa-sidebar__label">Cards</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/tabs" class="pa-sidebar__link {{#isTabs}}pa-sidebar__link--active{{/isTabs}}">
+                        <span class="pa-sidebar__icon">📑</span>
+                        <span class="pa-sidebar__label">Tabs</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/badges" class="pa-sidebar__link {{#isBadges}}pa-sidebar__link--active{{/isBadges}}">
+                        <span class="pa-sidebar__icon">🏷️</span>
+                        <span class="pa-sidebar__label">Badges</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/lists" class="pa-sidebar__link {{#isLists}}pa-sidebar__link--active{{/isLists}}">
+                        <span class="pa-sidebar__icon">📃</span>
+                        <span class="pa-sidebar__label">Lists</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/code" class="pa-sidebar__link {{#isCode}}pa-sidebar__link--active{{/isCode}}">
+                        <span class="pa-sidebar__icon">💻</span>
+                        <span class="pa-sidebar__label">Code</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/alerts" class="pa-sidebar__link {{#isAlerts}}pa-sidebar__link--active{{/isAlerts}}">
+                        <span class="pa-sidebar__icon">⚠️</span>
+                        <span class="pa-sidebar__label">Alerts</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/loaders" class="pa-sidebar__link {{#isLoaders}}pa-sidebar__link--active{{/isLoaders}}">
+                        <span class="pa-sidebar__icon">⏳</span>
+                        <span class="pa-sidebar__label">Loaders</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/tooltips" class="pa-sidebar__link {{#isTooltips}}pa-sidebar__link--active{{/isTooltips}}">
+                        <span class="pa-sidebar__icon">💬</span>
+                        <span class="pa-sidebar__label">Tooltips</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/modals" class="pa-sidebar__link {{#isModals}}pa-sidebar__link--active{{/isModals}}">
+                        <span class="pa-sidebar__icon">🔳</span>
+                        <span class="pa-sidebar__label">Modals</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/command-palette" class="pa-sidebar__link {{#isCommandPalette}}pa-sidebar__link--active{{/isCommandPalette}}">
+                        <span class="pa-sidebar__icon">🔍</span>
+                        <span class="pa-sidebar__label">Command Palette</span>
+                    </a></li>
+                </ul>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">📋</span>
+                    <span class="pa-sidebar__label">Tables</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item"><a href="/tables" class="pa-sidebar__link {{#isTables}}pa-sidebar__link--active{{/isTables}}">
+                        <span class="pa-sidebar__icon">📊</span>
+                        <span class="pa-sidebar__label">Standard Tables</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/tables-sizing" class="pa-sidebar__link {{#isTablesSizing}}pa-sidebar__link--active{{/isTablesSizing}}">
+                        <span class="pa-sidebar__icon">📏</span>
+                        <span class="pa-sidebar__label">Table Sizing</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/comparison" class="pa-sidebar__link {{#isComparison}}pa-sidebar__link--active{{/isComparison}}">
+                        <span class="pa-sidebar__icon">⚖️</span>
+                        <span class="pa-sidebar__label">Comparison</span>
+                    </a></li>
+                </ul>
+            </li>
+
+            <!-- Timeline -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">⏱️</span>
+                    <span class="pa-sidebar__label">Timeline</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item"><a href="/timeline-simple" class="pa-sidebar__link {{#isTimelineSimple}}pa-sidebar__link--active{{/isTimelineSimple}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Simple</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/timeline-block" class="pa-sidebar__link {{#isTimelineBlock}}pa-sidebar__link--active{{/isTimelineBlock}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Block</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/timeline" class="pa-sidebar__link {{#isTimeline}}pa-sidebar__link--active{{/isTimeline}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Feed</span>
+                    </a></li>
+                </ul>
+            </li>
+
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">⚡</span>
+                    <span class="pa-sidebar__label">Virtual Scroll</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item"><a href="/virtual-scroll" class="pa-sidebar__link {{#isVirtualScroll}}pa-sidebar__link--active{{/isVirtualScroll}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Demo</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/virtual-scroll-code" class="pa-sidebar__link {{#isVirtualScrollCode}}pa-sidebar__link--active{{/isVirtualScrollCode}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Code Examples</span>
+                    </a></li>
+                </ul>
+            </li>
+
+            <!-- Demo three-level menu -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">⚙️</span>
+                    <span class="pa-sidebar__label">Settings</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item">
+                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pa-sidebar__icon">🔧</span>
+                            <span class="pa-sidebar__label">System Settings</span>
+                            <span class="pa-sidebar__chevron">›</span>
+                        </button>
+                        <ul class="pa-sidebar__submenu">
+                            <li class="pa-sidebar__item"><a href="#general" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">General</span>
+                            </a></li>
+                            <li class="pa-sidebar__item"><a href="#security" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Security</span>
+                            </a></li>
+                            <li class="pa-sidebar__item"><a href="#notifications" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Notifications</span>
+                            </a></li>
+                            <li class="pa-sidebar__item"><a href="#backup" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Backup & Restore</span>
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="pa-sidebar__item">
+                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pa-sidebar__icon">👥</span>
+                            <span class="pa-sidebar__label">User Settings</span>
+                            <span class="pa-sidebar__chevron">›</span>
+                        </button>
+                        <ul class="pa-sidebar__submenu">
+                            <li class="pa-sidebar__item"><a href="#profile" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Profile</span>
+                            </a></li>
+                            <li class="pa-sidebar__item"><a href="#preferences" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Preferences</span>
+                            </a></li>
+                            <li class="pa-sidebar__item"><a href="#privacy" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Privacy</span>
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="pa-sidebar__item"><a href="#appearance" class="pa-sidebar__link">
+                        <span class="pa-sidebar__icon">🎨</span>
+                        <span class="pa-sidebar__label">Appearance</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="#integrations" class="pa-sidebar__link">
+                        <span class="pa-sidebar__icon">🔌</span>
+                        <span class="pa-sidebar__label">Integrations</span>
+                    </a></li>
+                    <li class="pa-sidebar__item">
+                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pa-sidebar__icon">🌐</span>
+                            <span class="pa-sidebar__label">Advanced</span>
+                            <span class="pa-sidebar__chevron">›</span>
+                        </button>
+                        <ul class="pa-sidebar__submenu">
+                            <li class="pa-sidebar__item"><a href="#api" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">API Keys</span>
+                            </a></li>
+                            <li class="pa-sidebar__item"><a href="#webhooks" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Webhooks</span>
+                            </a></li>
+                            <li class="pa-sidebar__item"><a href="#logs" class="pa-sidebar__link">
+                                <span class="pa-sidebar__icon">•</span>
+                                <span class="pa-sidebar__label">Activity Logs</span>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>

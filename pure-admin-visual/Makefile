@@ -1,9 +1,9 @@
 # Variables
 PROJECT_NAME := registry.km8.es/pure-admin-showcase:production
 DOCKER_IMAGE := $(PROJECT_NAME)
-DOCKER_CONTAINER := $(PROJECT_NAME)
-HOST_PORT := 8080
-CONTAINER_PORT := 3000
+DOCKER_CONTAINER := pure-admin-showcase
+HOST_PORT := 9000
+CONTAINER_PORT := 9000
 
 .PHONY: install build watch dev clean serve start docker-build docker-run docker-stop help
 
@@ -19,7 +19,7 @@ build:
 watch:
 	npm run watch-css
 
-# Start Express server with EJS templates
+# Start Express server with Mustache templates
 start:
 	node server.js
 

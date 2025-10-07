@@ -1,0 +1,61 @@
+<!-- Fixed Navbar -->
+<nav class="pa-navbar">
+    <div class="pa-navbar__inner">
+    <!-- Hamburger Menu -->
+    <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Brand -->
+    <div class="pa-header__brand">
+        <h1>Pure Admin</h1>
+    </div>
+
+    <!-- Left Navigation Links -->
+    <nav class="pa-header__nav pa-header__nav--left">
+        <ul>
+            <li><a href="/">📊 Dashboard</a></li>
+            <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+                <a href="/components" class="pa-header__nav-link">🧩 Components</a>
+                <ul class="pa-header__dropdown">
+                    <li><a href="/buttons">Buttons</a></li>
+                    <li><a href="/cards">Cards</a></li>
+                    <li><a href="/tabs">Tabs</a></li>
+                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+                        <a href="#" class="pa-header__nav-link">More ›</a>
+                        <ul class="pa-header__dropdown pa-header__dropdown--level2">
+                            <li><a href="/badges">Badges</a></li>
+                            <li><a href="/modals">Modals</a></li>
+                            <li><a href="/loaders">Loaders</a></li>
+                            <li><a href="/toasts">Toasts</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="/forms">📝 Forms</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Title (flexible, with ellipsis) -->
+    <div class="pa-header__title">
+        <h2>{{#pageTitle}}{{pageTitle}}{{/pageTitle}}{{^pageTitle}}Dashboard{{/pageTitle}}</h2>
+    </div>
+
+    <!-- Right Navigation Links -->
+    <nav class="pa-header__nav pa-header__nav--right">
+        <ul>
+            <li><a href="/alerts">⚠️ Alerts</a></li>
+            <li><a href="/tables">📋 Tables</a></li>
+            <li><a href="#settings">⚙️ Settings</a></li>
+        </ul>
+    </nav>
+
+    <!-- Profile Button -->
+    <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+        <span class="pa-btn__icon">👤</span>
+        <span class="pa-header__profile-name">John Doe</span>
+    </button>
+    </div>
+</nav>

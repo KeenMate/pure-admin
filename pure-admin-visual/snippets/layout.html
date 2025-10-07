@@ -8,14 +8,14 @@
      ================================ -->
 
 <!-- Full Layout with Sidebar -->
-<div class="pa-layout-container">
+<div class="pa-layout">
     <!-- Header (navbar goes here) -->
-    <header class="pa-header">
+    <header class="pa-navbar">
         <!-- See navbar snippet -->
     </header>
 
     <!-- Sidebar -->
-    <aside class="pa-sidebar">
+    <aside class="pa-layout__sidebar">
         <nav class="pa-sidebar__nav">
             <ul>
                 <!-- Sidebar items here -->
@@ -24,17 +24,17 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="pa-content">
-        <div class="pa-content__inner">
+    <main class="pa-layout__main">
+        <div class="pa-layout__main__inner">
             <!-- Your page content here -->
         </div>
     </main>
 
-    <!-- Note: Use .pa-content__inner (BEM), not .pa-content-wrapper -->
+    <!-- Note: Use .pa-layout__main__inner (BEM), not .pa-layout__content -->
 
     <!-- Footer (optional) -->
-    <footer class="admin-footer">
-        <div class="admin-footer__content">
+    <footer class="pa-layout__footer">
+        <div class="pa-layout__footer__content">
             <p>&copy; 2024 Pure Admin Framework</p>
         </div>
     </footer>
@@ -46,34 +46,7 @@
      ================================ -->
 
 <!-- Fluid Layout (Full Width) - Default -->
-<div class="pa-layout-container">
-    <!-- Content -->
-</div>
-
-<!-- Small Container (768px) -->
-<div class="pa-layout-container pa-layout-container--sm">
-    <!-- Content -->
-</div>
-
-<!-- Medium Container (1024px) -->
-<div class="pa-layout-container pa-layout-container--md">
-    <!-- Content -->
-</div>
-
-<!-- Large Container (1280px) -->
-<div class="pa-layout-container pa-layout-container--lg">
-    <!-- Content -->
-</div>
-
-<!-- Extra Large Container (1600px) -->
-<div class="pa-layout-container pa-layout-container--xl">
-    <!-- Content -->
-</div>
-
-<!-- 2X Large Container (1920px) -->
-<div class="pa-layout-container pa-layout-container--2xl">
-    <!-- Content -->
-</div>
+<!-- ================================     LAYOUT WIDTH VARIANTS     Width is controlled by body classes, not div classes     ================================ --><!-- Fluid Layout (Full Width) - Default --><body>    <div class="pa-layout">        <!-- Content -->    </div></body><!-- Small Container (768px) --><body class="pa-container-sm">    <div class="pa-layout">        <!-- Content -->    </div></body><!-- Medium Container (1024px) --><body class="pa-container-md">    <div class="pa-layout">        <!-- Content -->    </div></body><!-- Large Container (1280px) --><body class="pa-container-lg">    <div class="pa-layout">        <!-- Content -->    </div></body><!-- Extra Large Container (1600px) --><body class="pa-container-xl">    <div class="pa-layout">        <!-- Content -->    </div></body><!-- 2X Large Container (1920px) --><body class="pa-container-2xl">    <div class="pa-layout">        <!-- Content -->    </div></body>
 
 
 <!-- ================================
@@ -81,7 +54,7 @@
      ================================ -->
 
 <!-- Sidebar with Simple Links -->
-<aside class="pa-sidebar">
+<aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
             <li class="pa-sidebar__item">
@@ -121,7 +94,7 @@
      ================================ -->
 
 <!-- Sidebar with Font Awesome Icons -->
-<aside class="pa-sidebar">
+<aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
             <li class="pa-sidebar__item">
@@ -154,7 +127,7 @@
      ================================ -->
 
 <!-- Sidebar with Submenu (Two Levels) -->
-<aside class="pa-sidebar">
+<aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
             <!-- Regular link -->
@@ -197,7 +170,7 @@
      ================================ -->
 
 <!-- Sidebar with Three-Level Nesting -->
-<aside class="pa-sidebar">
+<aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
             <!-- Level 1 -->
@@ -243,7 +216,7 @@
      ================================ -->
 
 <!-- Full Sidebar with Mixed Links and Submenus -->
-<aside class="pa-sidebar">
+<aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
             <li class="pa-sidebar__item">
@@ -334,12 +307,12 @@
      ================================ -->
 
 <!-- Sticky Sidebar (default - stays fixed while content scrolls) -->
-<aside class="pa-sidebar">
+<aside class="pa-layout__sidebar">
     <!-- Nav content -->
 </aside>
 
 <!-- Scrolling Sidebar (scrolls with content) -->
-<aside class="pa-sidebar pa-sidebar--scrolling">
+<aside class="pa-layout__sidebar">
     <!-- Nav content -->
 </aside>
 
@@ -349,28 +322,28 @@
      ================================ -->
 
 <!-- Burger Menu Button (goes in header/navbar) -->
-<button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+<button class="pa-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
     <span></span>
     <span></span>
     <span></span>
 </button>
 
 <!-- Example: Full Header with Burger Menu -->
-<header class="pa-header">
+<header class="pa-navbar">
     <!-- Hamburger Menu -->
-    <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+    <button class="pa-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
         <span></span>
         <span></span>
         <span></span>
     </button>
 
     <!-- Brand -->
-    <div class="pa-header__brand">
+    <div class="pa-navbar__brand">
         <h1>Pure Admin</h1>
     </div>
 
     <!-- Navigation -->
-    <nav class="pa-header__nav pa-header__nav--left">
+    <nav class="pa-navbar__nav pa-navbar__nav--left">
         <ul>
             <li><a href="/">Dashboard</a></li>
             <li><a href="/components">Components</a></li>
@@ -378,7 +351,7 @@
     </nav>
 
     <!-- Page Title -->
-    <div class="pa-header__title">
+    <div class="pa-navbar__title">
         <h2>Dashboard</h2>
     </div>
 </header>
@@ -489,19 +462,19 @@ SIDEBAR STRUCTURE:
 - .pa-sidebar__submenu--open - Open submenu state
 
 LAYOUT CLASSES:
-- .pa-layout-container - Main layout wrapper
-- .pa-layout-container--sm/md/lg/xl/2xl - Width variants
-- .pa-header - Header container
-- .pa-content - Main content area
-- .pa-content__inner - Content inner wrapper
-- .admin-footer - Footer container
+- .pa-layout - Main layout wrapper
+- .pa-layout--sm/md/lg/xl/2xl - Width variants
+- .pa-navbar - Header container
+- .pa-layout__main - Main content area
+- .pa-layout__main__inner - Content inner wrapper
+- .pa-layout__footer - Footer container
 
 SIDEBAR MODES:
 - Default (sticky) - Sidebar stays fixed while content scrolls
-- .pa-sidebar--scrolling - Sidebar scrolls with content
+- .scrolls with content (default behavior) - Sidebar scrolls with content
 
 BURGER MENU (HEADER):
-- .pa-header__burger - Burger menu button
+- .pa-navbar__burger - Burger menu button
 - .burger-menu - Burger menu class (same element)
 - Three <span> elements inside for the three lines
 - .active - Active state when sidebar is hidden

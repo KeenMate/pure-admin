@@ -1,0 +1,300 @@
+<h2>Simple Timeline</h2>
+<p class="pa-card__meta" style="margin-bottom: 1.5rem;">Left-aligned timeline with dot markers - perfect for logs and simple event lists</p>
+
+<!-- Variant 1: Simple Timeline with Color Coding -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Color-Coded Events</h3>
+        <p class="pa-card__meta">Use color modifiers to categorize different event types</p>
+    </div>
+    <div class="pa-card__body">
+        <ul class="pa-timeline pa-timeline--simple">
+            <li class="pa-timeline__item pa-timeline__item--primary">
+                <div class="pa-timeline__time">09:00 AM</div>
+                <div class="pa-timeline__content">System startup initialized</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success">
+                <div class="pa-timeline__time">09:05 AM</div>
+                <div class="pa-timeline__content">Database connection established successfully</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--info">
+                <div class="pa-timeline__time">09:30 AM</div>
+                <div class="pa-timeline__content">Loading user preferences and settings</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--warning">
+                <div class="pa-timeline__time">01:00 PM</div>
+                <div class="pa-timeline__content">High memory usage detected - 85% utilized</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success">
+                <div class="pa-timeline__time">01:30 PM</div>
+                <div class="pa-timeline__content">Cache cleared successfully - memory optimized</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--primary">
+                <div class="pa-timeline__time">03:30 PM</div>
+                <div class="pa-timeline__content">Backup process started automatically</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success">
+                <div class="pa-timeline__time">04:30 PM</div>
+                <div class="pa-timeline__content">Backup completed - 2.4GB archived</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--danger">
+                <div class="pa-timeline__time">07:00 PM</div>
+                <div class="pa-timeline__content">Critical error: Failed to connect to external API</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--warning">
+                <div class="pa-timeline__time">07:30 PM</div>
+                <div class="pa-timeline__content">Retrying connection with exponential backoff</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success">
+                <div class="pa-timeline__time">08:00 PM</div>
+                <div class="pa-timeline__content">Connection restored - all systems operational</div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Variant 2: Simple Timeline with Filled Bullets -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Filled Bullets</h3>
+        <p class="pa-card__meta">Solid bullet markers for stronger visual emphasis</p>
+    </div>
+    <div class="pa-card__body">
+        <ul class="pa-timeline pa-timeline--simple">
+            <li class="pa-timeline__item pa-timeline__item--primary pa-timeline__item--filled">
+                <div class="pa-timeline__time">Jan 2024</div>
+                <div class="pa-timeline__content">Project kickoff and team formation</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--info pa-timeline__item--filled">
+                <div class="pa-timeline__time">Feb 2024</div>
+                <div class="pa-timeline__content">Requirements gathering and analysis phase</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success pa-timeline__item--filled">
+                <div class="pa-timeline__time">Mar 2024</div>
+                <div class="pa-timeline__content">Design mockups approved by stakeholders</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--primary pa-timeline__item--filled">
+                <div class="pa-timeline__time">Apr 2024</div>
+                <div class="pa-timeline__content">Development sprint 1 completed</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--warning pa-timeline__item--filled">
+                <div class="pa-timeline__time">May 2024</div>
+                <div class="pa-timeline__content">Performance issues identified in testing</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success pa-timeline__item--filled">
+                <div class="pa-timeline__time">Jun 2024</div>
+                <div class="pa-timeline__content">Optimization complete - ready for deployment</div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Variant 3: Simple Timeline with Load More -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Load More Button</h3>
+        <p class="pa-card__meta">Click button to load additional timeline entries</p>
+    </div>
+    <div class="pa-card__body">
+        <ul class="pa-timeline pa-timeline--simple" id="timeline-load-more">
+            <li class="pa-timeline__item pa-timeline__item--primary">
+                <div class="pa-timeline__time">08:00:00</div>
+                <div class="pa-timeline__content">System startup initiated</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success">
+                <div class="pa-timeline__time">08:00:15</div>
+                <div class="pa-timeline__content">Core services loaded successfully</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--info">
+                <div class="pa-timeline__time">08:00:30</div>
+                <div class="pa-timeline__content">Connecting to database cluster</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--success">
+                <div class="pa-timeline__time">08:00:45</div>
+                <div class="pa-timeline__content">Database connection established</div>
+            </li>
+            <li class="pa-timeline__item pa-timeline__item--primary">
+                <div class="pa-timeline__time">08:01:00</div>
+                <div class="pa-timeline__content">Loading application modules</div>
+            </li>
+        </ul>
+        <div class="pa-timeline__load-more-wrapper">
+            <button class="pa-btn pa-btn--primary" onclick="loadMoreTimelineItems()">
+                <span class="pa-btn__icon">↓</span>
+                Load More
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Variant 4: Simple Timeline with Virtual Scroll -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Virtual Scroll (Infinite Scroll)</h3>
+        <p class="pa-card__meta">Automatically loads more entries as you scroll down</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-timeline__scroll-container" id="timeline-scroll-container">
+            <ul class="pa-timeline pa-timeline--simple" id="timeline-virtual-scroll">
+                <li class="pa-timeline__item pa-timeline__item--primary">
+                    <div class="pa-timeline__time">10:00:00</div>
+                    <div class="pa-timeline__content">Monitoring session started</div>
+                </li>
+                <li class="pa-timeline__item pa-timeline__item--info">
+                    <div class="pa-timeline__time">10:05:12</div>
+                    <div class="pa-timeline__content">User activity detected - Session ID: A4F91</div>
+                </li>
+                <li class="pa-timeline__item pa-timeline__item--success">
+                    <div class="pa-timeline__time">10:08:45</div>
+                    <div class="pa-timeline__content">API request processed - 245ms response time</div>
+                </li>
+                <li class="pa-timeline__item pa-timeline__item--warning">
+                    <div class="pa-timeline__time">10:12:33</div>
+                    <div class="pa-timeline__content">High CPU usage detected - 78% utilization</div>
+                </li>
+                <li class="pa-timeline__item pa-timeline__item--success">
+                    <div class="pa-timeline__time">10:15:20</div>
+                    <div class="pa-timeline__content">CPU usage normalized - 45% utilization</div>
+                </li>
+            </ul>
+            <div class="pa-timeline__loader" id="timeline-scroll-loader">
+                <div class="pa-loader pa-loader--sm" id="timeline-scroll-spinner" style="display: none;">
+                    <div class="pa-spinner"></div>
+                </div>
+                <div class="pa-timeline__loader-text" id="timeline-scroll-text" style="display: none;">Loading more entries...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Load More Timeline
+let loadMorePage = 1;
+const loadMoreData = [
+    [
+        { time: '08:01:15', content: 'User authentication module ready', type: 'success' },
+        { time: '08:01:30', content: 'Starting background job scheduler', type: 'primary' },
+        { time: '08:01:45', content: 'Cache warming in progress', type: 'info' },
+        { time: '08:02:00', content: 'Cache warmed - 1,245 entries loaded', type: 'success' },
+        { time: '08:02:15', content: 'System fully operational', type: 'success' }
+    ],
+    [
+        { time: '08:02:30', content: 'First API request received', type: 'primary' },
+        { time: '08:02:45', content: 'Processing request queue', type: 'info' },
+        { time: '08:03:00', content: 'Request processed successfully', type: 'success' },
+        { time: '08:03:15', content: 'Memory usage: 2.4GB / 8GB', type: 'info' },
+        { time: '08:03:30', content: 'All systems nominal', type: 'success' }
+    ],
+    [
+        { time: '08:03:45', content: 'Backup job scheduled', type: 'primary' },
+        { time: '08:04:00', content: 'No more entries to load', type: 'secondary' }
+    ]
+];
+
+function loadMoreTimelineItems() {
+    if (loadMorePage >= loadMoreData.length) {
+        alert('No more entries to load!');
+        return;
+    }
+
+    const timeline = document.getElementById('timeline-load-more');
+    const items = loadMoreData[loadMorePage];
+
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.className = `pa-timeline__item pa-timeline__item--${item.type}`;
+        li.innerHTML = `
+            <div class="pa-timeline__time">${item.time}</div>
+            <div class="pa-timeline__content">${item.content}</div>
+        `;
+        timeline.appendChild(li);
+    });
+
+    loadMorePage++;
+}
+
+// Virtual Scroll Timeline using Intersection Observer API
+let virtualScrollPage = 1;
+let isLoadingVirtualScroll = false;
+
+const virtualScrollData = [
+    [
+        { time: '10:18:15', content: 'Database query executed - 12ms', type: 'success' },
+        { time: '10:20:45', content: 'File upload initiated - 4.2MB', type: 'primary' },
+        { time: '10:22:10', content: 'Upload complete - file stored', type: 'success' },
+        { time: '10:25:30', content: 'Scheduled task triggered', type: 'info' },
+        { time: '10:28:00', content: 'Email notification sent', type: 'success' }
+    ],
+    [
+        { time: '10:30:15', content: 'User logout detected', type: 'secondary' },
+        { time: '10:32:45', content: 'Session cleanup completed', type: 'success' },
+        { time: '10:35:20', content: 'New user login - Session: B7K23', type: 'primary' },
+        { time: '10:38:00', content: 'Permission check passed', type: 'success' },
+        { time: '10:40:30', content: 'Dashboard rendered - 342ms', type: 'info' }
+    ],
+    [
+        { time: '10:42:15', content: 'API rate limit warning - 85% used', type: 'warning' },
+        { time: '10:45:00', content: 'Background sync started', type: 'primary' },
+        { time: '10:48:30', content: 'Sync completed - 2,145 records', type: 'success' },
+        { time: '10:50:00', content: 'System health check: OK', type: 'success' },
+        { time: '10:52:30', content: 'End of log entries', type: 'secondary' }
+    ]
+];
+
+const scrollContainer = document.getElementById('timeline-scroll-container');
+const virtualScrollTimeline = document.getElementById('timeline-virtual-scroll');
+const scrollLoader = document.getElementById('timeline-scroll-loader');
+const scrollLoaderSpinner = document.getElementById('timeline-scroll-spinner');
+const scrollLoaderText = document.getElementById('timeline-scroll-text');
+
+// Use Intersection Observer API for better performance
+const observerOptions = {
+    root: scrollContainer,
+    rootMargin: '50px',
+    threshold: 0.1
+};
+
+const loadMoreObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !isLoadingVirtualScroll && virtualScrollPage < virtualScrollData.length) {
+            loadVirtualScrollItems();
+        }
+    });
+}, observerOptions);
+
+loadMoreObserver.observe(scrollLoader);
+
+function loadVirtualScrollItems() {
+    if (virtualScrollPage >= virtualScrollData.length || isLoadingVirtualScroll) {
+        return;
+    }
+
+    isLoadingVirtualScroll = true;
+    scrollLoaderSpinner.style.display = 'block';
+    scrollLoaderText.style.display = 'block';
+
+    setTimeout(() => {
+        const items = virtualScrollData[virtualScrollPage];
+
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.className = `pa-timeline__item pa-timeline__item--${item.type}`;
+            li.innerHTML = `
+                <div class="pa-timeline__time">${item.time}</div>
+                <div class="pa-timeline__content">${item.content}</div>
+            `;
+            virtualScrollTimeline.appendChild(li);
+        });
+
+        virtualScrollPage++;
+        scrollLoaderSpinner.style.display = 'none';
+        scrollLoaderText.style.display = 'none';
+        isLoadingVirtualScroll = false;
+
+        if (virtualScrollPage >= virtualScrollData.length) {
+            loadMoreObserver.disconnect();
+            scrollLoader.style.display = 'none';
+        }
+    }, 800);
+}
+</script>

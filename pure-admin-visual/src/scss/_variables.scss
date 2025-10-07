@@ -84,6 +84,18 @@ $tablet-breakpoint: 1024px !default;
 $tablet-breakpoint-min: 769px !default; // Min-width for tablet-only queries
 $sidebar-width-tablet: 10rem !default; // Sidebar width on tablet devices
 
+// Z-index scale (increments of 1000 for easy adjustment)
+$z-index-base: 0 !default;              // Base level
+$z-index-content: 1000 !default;        // Content area (base scrolling content)
+$z-index-sidebar: 2000 !default;        // Sidebar (scroll with content mode)
+$z-index-sidebar-fixed: 3000 !default;  // Fixed sidebar (sticky mode)
+$z-index-header: 4000 !default;         // Fixed header/navbar (above everything that scrolls)
+$z-index-profile-panel: 5000 !default;  // Profile panel
+$z-index-modal-backdrop: 6000 !default; // Modal backdrop
+$z-index-modal: 7000 !default;          // Modal dialogs
+$z-index-toast: 8000 !default;          // Toast notifications
+$z-index-tooltip: 9000 !default;        // Tooltips (highest)
+
 // Transitions & Animation
 // Set $transition-speed to 0 to disable all transitions (useful for accessibility or testing)
 $transition-speed: 1 !default; // Multiplier: 1 = normal, 0 = disabled, 0.5 = half speed, 2 = double speed
@@ -390,16 +402,10 @@ $secondary-light-text: #495057 !default;
 $secondary-lighter-bg: #dee2e6 !default;
 
 // Z-index system
-$z-index-base: 1 !default;
 $z-index-dropdown: 1000 !default;
-$z-index-sticky: 1020 !default;
-$z-index-fixed: 1030 !default;
-$z-index-modal-backdrop: 1040 !default;
-$z-index-modal: 1050 !default;
 $z-index-popover: 1060 !default;
-$z-index-tooltip: 1070 !default;
-$z-index-toast: 1200 !default;
 $z-index-loader: 10 !default;
+$z-index-command-palette: 10500 !default;
 $z-index-settings-panel: 10000 !default;
 
 // Opacity system
@@ -472,6 +478,98 @@ $btn-hover-brightness: 0.9 !default;
 $btn-disabled-opacity: $opacity-disabled !default;
 $btn-focus-ring-opacity: 0.25 !default;
 
+// Code component
+$code-language-json: #f59e0b !default;
+$code-language-javascript: #f0db4f !default;
+$code-language-html: #e34c26 !default;
+$code-language-css: #264de4 !default;
+$code-language-bash: #4eaa25 !default;
+$code-language-sql: #00758f !default;
+$code-language-python: #3776ab !default;
+$code-syntax-keyword: #0077aa !default;
+$code-syntax-string: #669900 !default;
+$code-syntax-number: #ff6600 !default;
+$code-syntax-function: #9933cc !default;
+$code-syntax-property: #dd4a68 !default;
+
+// Comparison table
+$comparison-accent-pink: #ec4899 !default;
+$comparison-accent-orange: #f97316 !default;
+
+// Timeline - Simple variant
+$timeline-simple-line-width: 1px !default;
+$timeline-simple-margin-left: 10px !default;
+$timeline-simple-padding-left: 20px !default;
+$timeline-simple-dot-size: 15px !default;
+$timeline-simple-dot-border: 1px !default;
+$timeline-simple-dot-offset: -30px !default; // Calculated to center dot on line
+$timeline-simple-dot-shadow-offset-x: 3px !default;
+$timeline-simple-dot-shadow-offset-y: 3px !default;
+$timeline-simple-dot-shadow-blur: 0 !default;
+$timeline-simple-dot-shadow-opacity: 0.3 !default;
+$timeline-simple-content-margin-top: 0.4rem !default;
+$timeline-simple-scroll-container-max-height: 400px !default;
+$timeline-simple-scroll-loader-min-height: 60px !default;
+$timeline-simple-load-more-margin-top: 1.5rem !default;
+
+// Timeline Block - Alternating variant (Centered zigzag)
+$timeline-block-max-width: 1140px !default;
+$timeline-block-padding: $spacing-base 0 !default;
+$timeline-block-line-width: $border-width-medium !default;
+$timeline-block-item-width: 50% !default;
+$timeline-block-item-padding: $spacing-base $spacing-xl !default;
+$timeline-block-item-padding-left-odd: 0rem !default; // Padding for left-side items (odd)
+$timeline-block-item-padding-right-even: 0rem !default; // Padding for right-side items (even)
+$timeline-block-content-padding-v: $spacing-xl !default;
+$timeline-block-content-padding-h: $spacing-xl !default;
+$timeline-block-content-padding-extended: calc($spacing-xl * 2 + 40px) !default;
+$timeline-block-content-border-radius: 500px !default;
+$timeline-block-dot-size: 16px !default;
+$timeline-block-dot-border: 2px !default;
+$timeline-block-dot-top-offset: calc(50% - 8px) !default;
+$timeline-block-dot-horizontal-offset: -8px !default;
+$timeline-block-connector-width: 50px !default;
+$timeline-block-connector-height: 2px !default;
+$timeline-block-connector-top-offset: calc(50% - 1px) !default;
+$timeline-block-connector-horizontal-offset: 8px !default;
+$timeline-block-icon-size: 40px !default;
+$timeline-block-icon-border: 2px !default;
+$timeline-block-icon-top-offset: calc(50% - 20px) !default;
+$timeline-block-date-top-offset: calc(50% - 8px) !default;
+$timeline-block-date-offset: -75px !default;
+$timeline-block-date-letter-spacing: 1px !default;
+$timeline-block-icon-offset-odd: 56px !default;
+$timeline-block-icon-offset-even: 56px !default;
+$timeline-block-responsive-breakpoint: 767px !default;
+$timeline-block-responsive-line-left: 90px !default;
+$timeline-block-responsive-padding-left: 120px !default;
+$timeline-block-responsive-padding-right: $spacing-xl !default;
+$timeline-block-responsive-dot-left: 82px !default;
+$timeline-block-responsive-connector-left: 100px !default;
+$timeline-block-responsive-date-left: 15px !default;
+$timeline-block-responsive-icon-left: 146px !default;
+
+// Timeline - Feed variant (Activity feed)
+$timeline-feed-gap: $spacing-base !default;
+$timeline-feed-item-padding-bottom: $spacing-sm !default;
+$timeline-feed-border-left: 3px !default;
+$timeline-feed-padding-left: 40px !default;
+$timeline-feed-icon-size: 40px !default;
+$timeline-feed-icon-margin-left: -52px !default;
+$timeline-feed-icon-box-shadow-width: 6px !default;
+$timeline-feed-avatar-size: 28px !default;
+$timeline-feed-avatar-margin-right: $spacing-xs !default;
+$timeline-feed-comment-margin-top: $spacing-sm !default;
+$timeline-feed-comment-padding: $spacing-base !default;
+$timeline-feed-date-icon-size: $spacing-base !default;
+$timeline-feed-date-label-font-size: $font-size-sm !default;
+$timeline-feed-date-label-letter-spacing: 0.5px !default;
+$timeline-feed-date-margin-bottom: $spacing-sm !default;
+$timeline-feed-time-width: 50px !default;
+$timeline-feed-time-font-size: $font-size-xs !default;
+$timeline-feed-time-padding-top: 6px !default;
+$timeline-feed-scroll-container-max-height: 400px !default;
+
 // Animation
 $animation-spin-duration: 1s !default;
 $ripple-color: rgba(255, 255, 255, 0.3) !default;
@@ -537,6 +635,7 @@ $toast-progress-height: 3px !default;
 
 // Tooltip system (extended)
 $tooltip-max-width: 15rem !default;
+$tooltip-multiline-max-width: 20rem !default;
 $tooltip-multiline-width: 20rem !default;
 $tooltip-arrow-offset: 2px !default;
 $tooltip-z-index: $z-index-tooltip !default;
@@ -546,10 +645,31 @@ $popover-trigger-size: 1.25rem !default;
 $popover-close-size: $spacing-lg !default;
 $popover-sm-min-width: 12rem !default;
 $popover-sm-max-width: 16rem !default;
+$popover-text-light: #ffffff !default;
+$popover-text-dark: #000000 !default;
 $popover-lg-min-width: 20rem !default;
 $popover-lg-max-width: 28rem !default;
 $popover-shift-offset: 2rem !default;
 $popover-content-bg: #ffffff !default;
+
+// Command Palette system
+$command-palette-width: 38rem !default;
+$command-palette-offset-top: 8rem !default;
+$command-palette-border-radius: $border-radius !default;
+$command-palette-backdrop-bg: rgba(0, 0, 0, 0.5) !default;
+$command-palette-backdrop-blur: 4px !default;
+$command-palette-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3) !default;
+$command-palette-input-padding-v: $spacing-base !default;
+$command-palette-input-padding-h: $spacing-lg !default;
+$command-palette-input-font-size: $font-size-lg !default;
+$command-palette-results-max-height: 24rem !default;
+$command-palette-empty-padding-v: $spacing-2xl !default;
+$command-palette-item-padding-v: $spacing-sm !default;
+$command-palette-item-hover-bg: rgba($accent-color, 0.05) !default;
+$command-palette-item-active-bg: rgba($accent-color, 0.1) !default;
+$command-palette-item-icon-size: 2rem !default;
+$command-palette-highlight-bg: rgba($accent-color, 0.2) !default;
+$command-palette-highlight-text: $accent-color !default;
 $popover-z-index: $z-index-popover !default;
 
 // Popover code element styling

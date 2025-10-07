@@ -582,3 +582,48 @@
   }
 }
 
+// ========================================
+// Floating UI Tooltip (Portal Rendering)
+// ========================================
+
+.pa-tooltip-floating {
+  background-color: $tooltip-bg;
+  color: $tooltip-text;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius;
+  font-size: $font-size-xs;
+  white-space: nowrap;
+  max-width: $tooltip-max-width;
+  text-align: center;
+  box-shadow: $shadow-md;
+  pointer-events: none;
+  z-index: $z-index-tooltip;
+
+  // Multiline variant
+  &.pa-tooltip--multiline {
+    white-space: normal;
+    text-align: left;
+    max-width: $tooltip-multiline-max-width;
+  }
+
+  // Color variants
+  &.pa-tooltip--primary {
+    background-color: $btn-primary-bg;
+    color: $popover-text-light;
+  }
+
+  &.pa-tooltip--success {
+    background-color: $btn-success-bg;
+    color: $popover-text-light;
+  }
+
+  &.pa-tooltip--warning {
+    background-color: $btn-warning-bg;
+    color: $popover-text-dark;
+  }
+
+  &.pa-tooltip--danger {
+    background-color: $btn-danger-bg;
+    color: $popover-text-light;
+  }
+}

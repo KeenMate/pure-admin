@@ -490,3 +490,74 @@ body {
 - Applied to `.pa-header__profile-name` (`_profile.scss:36`)
 
 **Result:** Profile name visible on all themes
+
+## Command Palette System (2025-10-07)
+**Major feature:** macOS Spotlight-style command palette for global search and navigation.
+
+### **Features:**
+- **Keyboard Shortcut:** Ctrl+K / Cmd+K opens palette globally (with preventDefault to override browser defaults)
+- **Context Switching:** Search prefixes for scoped search:
+  - `/p` → "Searching in Products"
+  - `/o` → "Searching in Orders"
+  - `/u` → "Searching in Users"
+  - `/i` → "Searching in Invoices"
+- **Smart Search:** Fuzzy text matching with highlighted results, simulated 300ms search delay with loader
+- **Keyboard Navigation:**
+  - `↑` `↓` → Navigate between results (with page wrapping)
+  - `←` `→` → Navigate between pages
+  - `Enter` → Select highlighted result
+  - `Esc` → Close palette
+- **Pagination:** 8 results per page with automatic pagination indicator
+- **Loading States:** Keeps previous results visible with subtle overlay during new searches (no jarring collapse/expand)
+
+### **Implementation:**
+- **SCSS Component:** `src/scss/core-components/_command-palette.scss` (276 lines)
+  - Modal overlay with backdrop blur
+  - Smooth fade-in and slide-down animations
+  - Hover and active states for results
+  - Responsive design for mobile
+  - Loading state with semi-transparent overlay
+- **Variables:** Added 17 command palette variables to `_variables.scss`
+  - `$command-palette-width`, `$command-palette-offset-top`, `$command-palette-border-radius`
+  - `$command-palette-backdrop-bg`, `$command-palette-backdrop-blur`, `$command-palette-shadow`
+  - Input, results, item, and highlighting customization variables
+- **JavaScript:** `dist/js/command-palette.js` (474 lines)
+  - Global keyboard listener with DOMContentLoaded wrapper
+  - Context detection and label display
+  - Dummy data for products, orders, users, invoices
+  - Search with fuzzy matching and result highlighting
+  - Complete keyboard navigation implementation
+  - Smooth loading states without content collapse
+- **HTML Structure:** Added to `views/layout.mustache` (globally available)
+  - Search input with context label
+  - Results container with loader and empty states
+  - Footer with keyboard hints
+- **Demo Page:** `/command-palette` with comprehensive documentation
+  - Quick start button and keyboard shortcuts reference
+  - Context switching examples
+  - Interactive search examples with pre-filled queries
+  - Features list and implementation notes
+
+### **Usage Pattern:**
+```html
+<!-- Command palette is globally available in layout -->
+<!-- Press Ctrl+K or Cmd+K anywhere to open -->
+
+<!-- In demo page, helper function for pre-filled queries -->
+<button onclick="openPaletteWithQuery('/p macbook')">
+  Search Products: macbook
+</button>
+```
+
+### **Technical Notes:**
+- Uses existing transition and easing variables (`$transition-normal`, `$easing-smooth`)
+- Integrates with theme system via SCSS variables
+- Z-index: 10500 (above modals, below settings)
+- Loading overlay prevents jarring content collapse during search
+- DOMContentLoaded wrapper prevents initialization errors
+
+### **Navigation Integration:**
+- Added to sidebar under Components section with 🔍 icon
+- Route: `/command-palette` added to `server.js`
+- Page title: "Command Palette"
+- Active state: `isCommandPalette` context variable
