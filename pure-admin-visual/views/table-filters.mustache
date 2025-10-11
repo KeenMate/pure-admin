@@ -1,9 +1,10 @@
 <!-- Query Language Search with Field Autocomplete -->
 <div class="pa-card">
     <div class="pa-card__header">
-        <h3>Query Language Search with Smart Autocomplete</h3>
+        <h3>Query Language Search with Smart Autocomplete (Virtual Textbox)</h3>
         <p>Type <strong>:</strong> to see available field names. After selecting a field, you'll see operators based on the field type.</p>
-        <p style="margin-top: 0.5rem;"><strong>Example:</strong> <code>:name starts with "abc" and :price is between 10 and 40</code></p>
+        <p style="margin-top: 0.5rem;"><strong>Example:</strong> Type <code>:name</code> then select "starts_with" then type <code>abc</code></p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #666;"><strong>New:</strong> Tokens appear inline as you type, like rich text formatting!</p>
     </div>
 </div>
 
@@ -11,10 +12,9 @@
     <div class="pa-card__body">
         <div class="pure-g">
             <div class="pure-u-1">
-                <div class="pa-input-wrapper" style="position: relative;">
-                    <div class="pa-search-tokens" id="query-search-tokens"></div>
-                    <input type="text" id="query-search" class="pa-input" placeholder='Try typing: :name starts with "abc"'>
-                    <button class="pa-input-wrapper__clear" type="button">×</button>
+                <div class="pa-input-wrapper">
+                    <div id="query-search-vt" class="pa-virtual-textbox" contenteditable="true" data-placeholder='Try typing: :name'></div>
+                    <button class="pa-input-wrapper__clear" type="button" onclick="document.getElementById('query-search-vt').innerHTML = ''">×</button>
                 </div>
             </div>
         </div>
@@ -526,6 +526,7 @@
 </div>
 
 <script src="/dist/js/search-autocomplete.js"></script>
+<script src="/dist/js/virtual-textbox.js"></script>
 <script>
 function toggleFilters() {
     const filters = document.getElementById('advanced-filters');
@@ -539,22 +540,30 @@ function toggleFilters() {
 
 // Initialize search autocomplete
 document.addEventListener('DOMContentLoaded', function() {
-    const querySearch = document.getElementById('query-search');
+    // Field definitions
+    const fields = [
+        { name: 'name', type: 'text' },
+        { name: 'email', type: 'text' },
+        { name: 'price', type: 'number' },
+        { name: 'status', type: 'text' },
+        { name: 'category', type: 'text' },
+        { name: 'created_at', type: 'date' },
+        { name: 'updated_at', type: 'date' },
+        { name: 'quantity', type: 'number' }
+    ];
 
-    if (querySearch) {
-        const fields = [
-            { name: 'name', type: 'text' },
-            { name: 'email', type: 'text' },
-            { name: 'price', type: 'number' },
-            { name: 'status', type: 'text' },
-            { name: 'category', type: 'text' },
-            { name: 'created_at', type: 'date' },
-            { name: 'updated_at', type: 'date' },
-            { name: 'quantity', type: 'number' }
-        ];
+    // Initialize Virtual Textbox (new contenteditable version)
+    const querySearchVT = document.getElementById('query-search-vt');
+    if (querySearchVT) {
+        const vtb = new VirtualTextbox(querySearchVT, fields, {
+            enableHighlighting: true,
+            enableGrouping: true
+        });
 
-        new SearchAutocomplete(querySearch, fields, {
-            enableHighlighting: true
+        // Optional: Log query on change
+        querySearchVT.addEventListener('input', function() {
+            const query = vtb.getQuery();
+            console.log('Current query:', query);
         });
     }
 });
