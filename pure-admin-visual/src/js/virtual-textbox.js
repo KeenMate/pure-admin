@@ -19,8 +19,14 @@ class VirtualTextbox {
         this.activeIndex = -1;
         this.isOpen = false;
         this.autocompleteResults = [];
-        this.currentQueryState = 'idle'; // 'idle' | 'expecting-operator' | 'expecting-value'
+        this.currentQueryState = 'idle'; // 'idle' | 'expecting-operator' | 'expecting-value' | 'expecting-logical'
         this.pendingToken = null; // Stores token being built (field, operator)
+
+        // Logical operators
+        this.logicalOperators = [
+            { value: 'AND', label: 'AND', shortcuts: ['and', '&&', '&'], description: 'All conditions must match' },
+            { value: 'OR', label: 'OR', shortcuts: ['or', '||', '|'], description: 'Any condition can match' }
+        ];
 
         // Operator definitions by field type with shortcuts
         this.operators = {
@@ -86,6 +92,8 @@ class VirtualTextbox {
             this.currentQueryState = 'expecting-operator';
         } else if (this.pendingToken.type === 'operator') {
             this.currentQueryState = 'expecting-value';
+        } else if (this.pendingToken.type === 'value-completed') {
+            this.currentQueryState = 'expecting-logical';
         }
     }
 
@@ -146,6 +154,15 @@ class VirtualTextbox {
             const searchTerm = query.toLowerCase();
 
             return operators.filter(op =>
+                searchTerm === '' ||
+                op.value.toLowerCase().includes(searchTerm) ||
+                op.label.toLowerCase().includes(searchTerm) ||
+                (op.shortcuts && op.shortcuts.some(s => s.toLowerCase().includes(searchTerm)))
+            );
+        } else if (this.currentQueryState === 'expecting-logical') {
+            // Show logical operators
+            const searchTerm = query.toLowerCase();
+            return this.logicalOperators.filter(op =>
                 searchTerm === '' ||
                 op.value.toLowerCase().includes(searchTerm) ||
                 op.label.toLowerCase().includes(searchTerm) ||
@@ -217,6 +234,11 @@ class VirtualTextbox {
             tokenType = 'operator';
             variant = 'operator';
             this.pendingToken = { type: 'operator', value: item.value, field: this.pendingToken };
+        } else if (this.currentQueryState === 'expecting-logical') {
+            tokenType = 'logical';
+            variant = 'logical';
+            // Reset to idle after logical operator
+            this.pendingToken = null;
         }
 
         // Insert token at cursor
@@ -269,21 +291,33 @@ class VirtualTextbox {
 
         const range = selection.getRangeAt(0);
 
-        // Map variants to badge classes
-        const variantMap = {
-            'field': 'primary',
-            'operator': 'secondary',
-            'value': 'success'
+        // Map variants to color classes (no badges, just colored text)
+        const colorMap = {
+            'field': '#1565c0',      // Blue
+            'operator': '#616161',   // Gray
+            'value': '#2e7d32',      // Green
+            'logical': '#e65100',    // Orange
+            'paren': '#7b1fa2'       // Purple
         };
-        const badgeVariant = variantMap[variant] || 'default';
+        const color = colorMap[variant] || '#000000';
 
-        // Create token element using standard pa-badge
+        // Create colored text span (non-editable to prevent cursor getting stuck)
         const token = document.createElement('span');
-        token.className = `pa-badge pa-badge--${badgeVariant} pa-badge--sm`;
+        token.style.color = color;
+        token.style.fontWeight = (variant === 'logical' || variant === 'field') ? 'bold' : 'normal';
+        token.style.cursor = 'pointer';
         token.setAttribute('contenteditable', 'false');
         token.setAttribute('data-token-type', variant);
         token.setAttribute('data-token-value', value);
         token.textContent = value;
+        token.className = 'pa-query-token';
+
+        // Allow editing on double-click
+        token.addEventListener('dblclick', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.editToken(token);
+        });
 
         // Add space after token
         const space = document.createTextNode(' ');
@@ -301,20 +335,122 @@ class VirtualTextbox {
     }
 
     /**
+     * Check if we're inside a quoted string
+     */
+    isInQuotedString() {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return false;
+
+        const range = selection.getRangeAt(0);
+        const textNode = range.startContainer;
+        if (textNode.nodeType !== Node.TEXT_NODE) return false;
+
+        const text = textNode.textContent;
+        const cursorPos = range.startOffset;
+
+        // Count quotes before cursor
+        let quoteCount = 0;
+        for (let i = 0; i < cursorPos; i++) {
+            if (text[i] === '"') quoteCount++;
+        }
+
+        // If odd number of quotes, we're inside a quoted string
+        return quoteCount % 2 === 1;
+    }
+
+    /**
+     * Get current word or quoted string at cursor
+     */
+    getCurrentValue() {
+        const selection = window.getSelection();
+        if (!selection.rangeCount)             return {
+	        text: "",
+	        range: document.createRange()
+        };
+
+
+	    const range = selection.getRangeAt(0);
+        const textNode = range.startContainer;
+
+        if (textNode.nodeType !== Node.TEXT_NODE) {
+            return {
+	            text: "",
+	            range: document.createRange()
+            };
+        }
+
+        const text = textNode.textContent;
+        const cursorPos = range.startOffset;
+
+        // Check if we're in a quoted string
+        let quoteStart = -1;
+        for (let i = cursorPos - 2; i >= 0; i--) {
+            if (text[i] === '"') {
+                quoteStart = i;
+                break;
+            }
+        }
+
+        if (quoteStart >= 0) {
+            // Find closing quote
+            let quoteEnd = text.indexOf('"', quoteStart + 1);
+            if (quoteEnd > quoteStart) {
+                // Return the quoted string with quotes
+
+	            const newRange = document.createRange()
+	            newRange.setStart(textNode, quoteStart);
+	            newRange.setEnd(textNode, quoteEnd - quoteStart + 2);
+	            return {
+		            text: text.substring(quoteStart, quoteEnd + 1),
+		            range: newRange
+	            };
+            }
+        }
+
+        // Not in quotes, get regular word
+        let start = cursorPos;
+        while (start > 0 && !/\s/.test(text[start - 1])) {
+            start--;
+        }
+
+        let end = cursorPos;
+        while (end < text.length && !/\s/.test(text[end])) {
+            end++;
+        }
+
+	    const newRange = document.createRange()
+	    newRange.setStart(textNode, start);
+	    newRange.setEnd(textNode, end - start + 1);
+        return {
+					text: text.substring(start, end),
+	        range: newRange
+        };
+    }
+
+    /**
      * Complete value token (when user types text and presses Space/Enter)
      */
     completeValueToken() {
-        const currentWord = this.getCurrentWord();
+        const {text: currentValue, range: currentValueRange} = this.getCurrentValue();
 
-        if (currentWord && this.currentQueryState === 'expecting-value') {
-            // Remove the typed word
-            this.removeCurrentWord();
+        if (currentValue && this.currentQueryState === 'expecting-value') {
+            // Check if it's a quoted string
+            let value = currentValue;
+            if (value.startsWith('"') && value.endsWith('"')) {
+                // Remove quotes for the token value
+                value = value.substring(1, value.length - 1);
+            }
+
+            // Remove the typed text
+            // this.removeCurrentWord();
+	        // console.log("currentValueRange ", currentValueRange)
+	        currentValueRange.deleteContents();
 
             // Insert value token
-            this.insertToken(currentWord, 'value');
+            this.insertToken(value, 'value');
 
-            // Reset state - query is complete
-            this.pendingToken = null;
+            // After value, expect logical operator
+            this.pendingToken = { type: 'value-completed' };
             this.updateQueryState();
 
             return true;
@@ -333,7 +469,7 @@ class VirtualTextbox {
         const currentWord = this.getCurrentWord();
 
         // Check for autocomplete trigger
-        if (this.currentQueryState === 'idle' || this.currentQueryState === 'expecting-operator') {
+        if (this.currentQueryState === 'idle' || this.currentQueryState === 'expecting-operator' || this.currentQueryState === 'expecting-logical') {
             this.autocompleteResults = this.searchAutocomplete(currentWord);
             this.activeIndex = this.autocompleteResults.length > 0 ? 0 : -1;
 
@@ -350,7 +486,7 @@ class VirtualTextbox {
      * Called on input to detect token deletions
      */
     syncStateWithTokens() {
-        const tokens = Array.from(this.element.querySelectorAll('.pa-badge[data-token-type]'));
+        const tokens = Array.from(this.element.querySelectorAll('span[data-token-type]'));
 
         if (tokens.length === 0) {
             // No tokens at all - reset to idle
@@ -362,7 +498,7 @@ class VirtualTextbox {
         // Get the last token to determine state
         const lastToken = tokens[tokens.length - 1];
         const lastTokenType = lastToken.getAttribute('data-token-type');
-        const lastTokenValue = lastToken.getAttribute('data-token-value');
+        const lastTokenValue = lastToken.textContent || lastToken.getAttribute('data-token-value');
 
         if (lastTokenType === 'field') {
             // Last token is a field - expecting operator
@@ -378,7 +514,7 @@ class VirtualTextbox {
             // Need to find the preceding field token
             const fieldToken = tokens[tokens.length - 2];
             if (fieldToken && fieldToken.getAttribute('data-token-type') === 'field') {
-                const fieldValue = fieldToken.getAttribute('data-token-value');
+                const fieldValue = fieldToken.textContent || fieldToken.getAttribute('data-token-value');
                 const fieldDef = this.fields.find(f => f.name === fieldValue);
                 this.pendingToken = {
                     type: 'operator',
@@ -392,7 +528,11 @@ class VirtualTextbox {
                 this.updateQueryState();
             }
         } else if (lastTokenType === 'value') {
-            // Last token is a value - query complete, back to idle
+            // Last token is a value - expect logical operator
+            this.pendingToken = { type: 'value-completed' };
+            this.updateQueryState();
+        } else if (lastTokenType === 'logical' || lastTokenType === 'paren') {
+            // After logical operator or opening paren - back to idle (expecting field)
             this.pendingToken = null;
             this.updateQueryState();
         }
@@ -402,6 +542,31 @@ class VirtualTextbox {
      * Handle keyboard navigation and shortcuts
      */
     handleKeydown(e) {
+        // Handle parentheses insertion
+        if (e.key === '(' || e.key === ')') {
+            e.preventDefault();
+            const parenType = e.key === '(' ? 'paren-open' : 'paren-close';
+            this.insertToken(e.key, 'paren');
+
+            // Update state based on paren type
+            if (e.key === '(') {
+                this.pendingToken = null; // Expecting field after (
+            } else {
+                this.pendingToken = { type: 'value-completed' }; // Expecting logical after )
+            }
+            this.updateQueryState();
+            return;
+        }
+
+        // Handle space key - auto-complete if exactly one match
+        if (e.key === ' ' && (this.currentQueryState === 'expecting-operator' || this.currentQueryState === 'expecting-logical')) {
+            if (this.autocompleteResults.length === 1) {
+                e.preventDefault();
+                this.selectAutocomplete(this.autocompleteResults[0]);
+                return;
+            }
+        }
+
         // Handle autocomplete navigation
         if (this.autocompleteResults.length > 0 && this.isOpen) {
             if (e.key === 'ArrowUp') {
@@ -419,13 +584,34 @@ class VirtualTextbox {
                 this.selectAutocomplete(this.autocompleteResults[this.activeIndex]);
                 return;
             }
+            // Space also accepts the selected item when autocomplete is open
+            if (e.key === ' ' && this.activeIndex >= 0) {
+                e.preventDefault();
+                this.selectAutocomplete(this.autocompleteResults[this.activeIndex]);
+                return;
+            }
         }
 
         // Handle value completion
         if (this.currentQueryState === 'expecting-value') {
-            if (e.key === 'Enter' || e.key === 'Tab' || e.key === ' ') {
-                e.preventDefault();
-                this.completeValueToken();
+            // Only complete on space if we're NOT in a quoted string AND there's actual text
+            if (e.key === ' ' && !this.isInQuotedString()) {
+                const {text: currentValue} = this.getCurrentValue();
+                // Only complete if there's actual text to tokenize
+                if (currentValue && currentValue.trim() !== '') {
+                    e.preventDefault();
+                    this.completeValueToken();
+                    return;
+                }
+                // Otherwise, let the space be inserted naturally (user is starting to type)
+            }
+            // Always complete on Enter or Tab (but only if there's text)
+            if (e.key === 'Enter' || e.key === 'Tab') {
+                const {text: currentValue} = this.getCurrentValue();
+                if (currentValue && currentValue.trim() !== '') {
+                    e.preventDefault();
+                    this.completeValueToken();
+                }
                 return;
             }
         }
@@ -527,17 +713,73 @@ class VirtualTextbox {
      * Get parsed query from tokens
      */
     getQuery() {
-        const tokens = this.element.querySelectorAll('.pa-badge[data-token-type]');
+        const tokens = this.element.querySelectorAll('span[data-token-type]');
         const query = [];
 
         tokens.forEach(token => {
             query.push({
                 type: token.getAttribute('data-token-type'),
-                value: token.getAttribute('data-token-value')
+                value: token.textContent || token.getAttribute('data-token-value')
             });
         });
 
         return query;
+    }
+
+    /**
+     * Edit a token (make it temporarily editable)
+     */
+    editToken(token) {
+        const originalValue = token.textContent;
+        const originalColor = token.style.color;
+
+        // Make it editable
+        token.setAttribute('contenteditable', 'true');
+        token.style.backgroundColor = '#fff9e6';
+        token.style.padding = '2px 4px';
+        token.style.borderRadius = '3px';
+
+        // Select all text
+        const range = document.createRange();
+        range.selectNodeContents(token);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        // Focus it
+        token.focus();
+
+        // Handle blur (when user clicks away or presses enter)
+        const finishEdit = () => {
+            token.setAttribute('contenteditable', 'false');
+            token.style.backgroundColor = '';
+            token.style.padding = '';
+            token.style.borderRadius = '';
+
+            const newValue = token.textContent.trim();
+            if (newValue === '') {
+                // Remove token if empty
+                token.remove();
+            } else {
+                // Update the data attribute
+                token.setAttribute('data-token-value', newValue);
+            }
+
+            // Trigger input event to update tree
+            this.element.dispatchEvent(new Event('input', { bubbles: true }));
+        };
+
+        token.addEventListener('blur', finishEdit, { once: true });
+        token.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                token.blur();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                token.textContent = originalValue;
+                token.blur();
+            }
+        });
     }
 
     /**
