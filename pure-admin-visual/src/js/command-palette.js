@@ -1,8 +1,7 @@
 /**
- * Command Palette - macOS Spotlight-style search with Query Builder
+ * Command Palette - macOS Spotlight-style search
  * Keyboard shortcut: Ctrl+K / Cmd+K
  * Context switching: /p (products), /o (orders), /u (users), /i (invoices)
- * Query builder: :field operator value syntax with autocomplete
  * Navigation: ↑↓ (items), ←→ (pages), Enter (select), Esc (close)
  */
 
@@ -21,12 +20,11 @@
         const palette = document.getElementById('commandPalette');
         const backdrop = document.getElementById('commandPaletteBackdrop');
         const input = document.getElementById('commandPaletteInput');
-        const tokensContainer = document.getElementById('commandPaletteTokens');
         const contextLabel = document.getElementById('commandPaletteContext');
         const results = document.getElementById('commandPaletteResults');
 
         // Check if elements exist
-        if (!palette || !backdrop || !input || !tokensContainer || !contextLabel || !results) {
+        if (!palette || !backdrop || !input || !contextLabel || !results) {
             console.warn('Command palette elements not found');
             return;
         }
@@ -39,10 +37,6 @@
     let currentPage = 1;
     let totalPages = 1;
     const resultsPerPage = 8;
-    let resolvedTokens = []; // Array of { type: 'field'|'operator'|'value', value: string, variant: string }
-    let currentQueryState = 'idle'; // 'idle' | 'expecting-field' | 'expecting-operator' | 'expecting-value'
-    let autocompleteResults = [];
-    let autocompleteActive = -1;
 
     // Context definitions
     const contexts = {
@@ -51,28 +45,6 @@
         u: { name: 'Users', label: 'Searching in Users' },
         i: { name: 'Invoices', label: 'Searching in Invoices' }
     };
-
-    // Available fields for query builder
-    const availableFields = [
-        { value: 'name', label: 'Name', description: 'Filter by name' },
-        { value: 'price', label: 'Price', description: 'Filter by price' },
-        { value: 'status', label: 'Status', description: 'Filter by status' },
-        { value: 'category', label: 'Category', description: 'Filter by category' },
-        { value: 'date', label: 'Date', description: 'Filter by date' },
-        { value: 'quantity', label: 'Quantity', description: 'Filter by quantity' }
-    ];
-
-    const availableOperators = [
-        { value: '=', label: 'Equals', shorthand: 'eq', description: 'Exact match' },
-        { value: '!=', label: 'Not Equals', shorthand: 'ne', description: 'Does not match' },
-        { value: '>', label: 'Greater Than', shorthand: 'gt', description: 'Greater than value' },
-        { value: '<', label: 'Less Than', shorthand: 'lt', description: 'Less than value' },
-        { value: '>=', label: 'Greater or Equal', shorthand: 'gte', description: 'Greater than or equal to value' },
-        { value: '<=', label: 'Less or Equal', shorthand: 'lte', description: 'Less than or equal to value' },
-        { value: 'contains', label: 'Contains', shorthand: 'ct', description: 'Contains substring' },
-        { value: 'starts_with', label: 'Starts With', shorthand: 'sw', description: 'Starts with substring' },
-        { value: 'ends_with', label: 'Ends With', shorthand: 'ew', description: 'Ends with substring' }
-    ];
 
     // Dummy data
     const dummyData = {
@@ -129,217 +101,6 @@
     };
 
     /**
-     * Determine current query state based on tokens
-     */
-    function updateQueryState() {
-        const tokenCount = resolvedTokens.length % 3;
-
-        if (tokenCount === 0) {
-            currentQueryState = 'idle'; // Ready for new query or field
-        } else if (tokenCount === 1) {
-            currentQueryState = 'expecting-operator';
-        } else if (tokenCount === 2) {
-            currentQueryState = 'expecting-value';
-        }
-    }
-
-    /**
-     * Search autocomplete suggestions
-     */
-    function searchAutocomplete(query) {
-        if (currentQueryState === 'idle' || currentQueryState === 'expecting-field') {
-            // Search for fields (must start with :)
-            if (query.startsWith(':')) {
-                const searchTerm = query.substring(1).toLowerCase();
-                return availableFields.filter(field =>
-                    field.value.toLowerCase().includes(searchTerm) ||
-                    field.label.toLowerCase().includes(searchTerm)
-                );
-            }
-        } else if (currentQueryState === 'expecting-operator') {
-            // Search for operators (by shorthand or full name)
-            const searchTerm = query.toLowerCase();
-            return availableOperators.filter(op =>
-                op.value.toLowerCase().includes(searchTerm) ||
-                op.label.toLowerCase().includes(searchTerm) ||
-                op.shorthand.toLowerCase().includes(searchTerm)
-            );
-        }
-
-        return [];
-    }
-
-    /**
-     * Render autocomplete dropdown
-     */
-    function renderAutocomplete() {
-        if (autocompleteResults.length === 0) {
-            results.innerHTML = '';
-            renderEmptyState();
-            return;
-        }
-
-        let html = '';
-        const isFieldSearch = currentQueryState === 'idle' || currentQueryState === 'expecting-field';
-
-        autocompleteResults.forEach((item, index) => {
-            const isActive = index === autocompleteActive;
-            const icon = isFieldSearch ? '🔍' : '⚡';
-
-            html += `
-                <div class="pa-command-palette__item ${isActive ? 'pa-command-palette__item--active' : ''}" data-index="${index}">
-                    <div class="pa-command-palette__item-icon">${icon}</div>
-                    <div class="pa-command-palette__item-content">
-                        <div class="pa-command-palette__item-title">${item.label}</div>
-                        <div class="pa-command-palette__item-meta">${item.description}</div>
-                    </div>
-                    <div class="pa-command-palette__item-badge">${item.value}</div>
-                </div>
-            `;
-        });
-
-        results.innerHTML = html;
-
-        // Add click handlers
-        document.querySelectorAll('.pa-command-palette__item').forEach(item => {
-            item.addEventListener('click', () => {
-                const index = parseInt(item.dataset.index);
-                selectAutocomplete(autocompleteResults[index]);
-            });
-        });
-    }
-
-    /**
-     * Select autocomplete item
-     */
-    function selectAutocomplete(item) {
-        if (!item) return;
-
-        // Determine token type based on state
-        let tokenType, variant;
-
-        if (currentQueryState === 'idle' || currentQueryState === 'expecting-field') {
-            tokenType = 'field';
-            variant = 'primary';
-        } else if (currentQueryState === 'expecting-operator') {
-            tokenType = 'operator';
-            variant = 'secondary';
-        }
-
-        // Add token
-        resolvedTokens.push({
-            type: tokenType,
-            value: item.value,
-            variant: variant
-        });
-
-        // Update state
-        updateQueryState();
-
-        // Clear input and autocomplete
-        input.value = '';
-        autocompleteResults = [];
-        autocompleteActive = -1;
-
-        // Re-render
-        renderTokens();
-        renderEmptyState();
-        input.focus();
-    }
-
-    /**
-     * Resolve value token (when user presses Enter or Tab in expecting-value state)
-     */
-    function resolveValueToken() {
-        const value = input.value.trim();
-
-        if (value && currentQueryState === 'expecting-value') {
-            resolvedTokens.push({
-                type: 'value',
-                value: value,
-                variant: 'success'
-            });
-
-            updateQueryState();
-            input.value = '';
-            renderTokens();
-            renderEmptyState();
-        }
-    }
-
-    /**
-     * Render resolved tokens as badges
-     */
-    function renderTokens() {
-        tokensContainer.innerHTML = '';
-
-        // Group tokens into sets of 3 (field, operator, value)
-        for (let i = 0; i < resolvedTokens.length; i += 3) {
-            const queryTokens = resolvedTokens.slice(i, i + 3);
-
-            // Create a group container for this query
-            const group = document.createElement('div');
-            group.className = 'pa-command-palette__token-group';
-            group.style.display = 'inline-flex';
-            group.style.gap = '2px';
-            group.style.marginRight = '0.5rem';
-            group.style.marginBottom = '0.25rem';
-
-            queryTokens.forEach((token, index) => {
-                const badge = document.createElement('span');
-                badge.className = `pa-badge pa-badge--${token.variant}`;
-                badge.textContent = token.value;
-                badge.style.margin = '0';
-                badge.style.borderRadius = '0';
-
-                // Round first and last badges
-                if (index === 0) {
-                    badge.style.borderTopLeftRadius = '4px';
-                    badge.style.borderBottomLeftRadius = '4px';
-                }
-                if (index === queryTokens.length - 1 || i + index === resolvedTokens.length - 1) {
-                    badge.style.borderTopRightRadius = '4px';
-                    badge.style.borderBottomRightRadius = '4px';
-                }
-
-                group.appendChild(badge);
-            });
-
-            // Add remove button to the group
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'pa-badge__remove';
-            removeBtn.innerHTML = '×';
-            removeBtn.style.marginLeft = '0.25rem';
-            removeBtn.style.border = 'none';
-            removeBtn.style.background = 'transparent';
-            removeBtn.style.color = 'currentColor';
-            removeBtn.style.cursor = 'pointer';
-            removeBtn.style.fontSize = '1.2em';
-            removeBtn.style.lineHeight = '1';
-            removeBtn.style.padding = '0 0.25rem';
-            removeBtn.style.opacity = '0.7';
-            removeBtn.onclick = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                removeTokenGroup(i);
-            };
-
-            group.appendChild(removeBtn);
-            tokensContainer.appendChild(group);
-        }
-    }
-
-    /**
-     * Remove a token group (set of 3 tokens)
-     */
-    function removeTokenGroup(startIndex) {
-        resolvedTokens.splice(startIndex, 3);
-        updateQueryState();
-        renderTokens();
-        input.focus();
-    }
-
-    /**
      * Open command palette
      */
     function openPalette() {
@@ -356,11 +117,6 @@
         isOpen = false;
         palette.classList.remove('pa-command-palette--active');
         input.value = '';
-        resolvedTokens = [];
-        currentQueryState = 'idle';
-        autocompleteResults = [];
-        autocompleteActive = -1;
-        renderTokens();
         contextLabel.textContent = '';
         contextLabel.classList.remove('pa-command-palette__context--visible');
         currentContext = null;
@@ -417,23 +173,17 @@
      * Render empty state
      */
     function renderEmptyState() {
-        let message = 'Type to search or use /p for products, /o for orders, /u for users, /i for invoices<br><small>Build queries: :field operator value (e.g., :name contains macbook)</small>';
-
-        if (currentQueryState === 'expecting-operator') {
-            message = '<strong>Enter operator:</strong><br><small>sw (starts with), ct (contains), eq (equals), gt (greater than), etc.</small>';
-        } else if (currentQueryState === 'expecting-value') {
-            message = '<strong>Enter value and press Tab or Enter</strong>';
-        }
-
-        results.innerHTML = `<div class="pa-command-palette__empty">${message}</div>`;
+        results.innerHTML = '<div class="pa-command-palette__empty">Type to search or use /p for products, /o for orders, /u for users, /i for invoices</div>';
     }
 
     /**
      * Show loader (inline in results area)
      */
     function showLoader() {
+        // Add loading class to results container
         results.classList.add('pa-command-palette__results--loading');
 
+        // If there are no existing results, show loader message
         if (currentResults.length === 0) {
             results.innerHTML = `
                 <div class="pa-command-palette__loader">
@@ -485,6 +235,7 @@
             `;
         });
 
+        // Add pagination indicator if multiple pages
         if (totalPages > 1) {
             html += `
                 <div class="pa-command-palette__pagination">
@@ -495,6 +246,7 @@
 
         results.innerHTML = html;
 
+        // Add click handlers to items
         document.querySelectorAll('.pa-command-palette__item').forEach(item => {
             item.addEventListener('click', () => {
                 const index = parseInt(item.dataset.index);
@@ -510,6 +262,7 @@
         const context = detectContext(query);
         const searchQuery = getSearchQuery(query);
 
+        // Update context label
         if (context) {
             currentContext = context;
             contextLabel.textContent = context.label;
@@ -519,6 +272,7 @@
             contextLabel.classList.remove('pa-command-palette__context--visible');
         }
 
+        // If no query, show empty state
         if (!searchQuery && !context) {
             renderEmptyState();
             currentResults = [];
@@ -527,9 +281,12 @@
             return;
         }
 
+        // Show loader
         showLoader();
 
+        // Simulate search delay
         setTimeout(() => {
+            // Get data based on context
             let data = [];
             if (context) {
                 switch (context.name) {
@@ -547,6 +304,7 @@
                         break;
                 }
             } else {
+                // Search all categories
                 data = [
                     ...dummyData.products,
                     ...dummyData.orders,
@@ -555,36 +313,15 @@
                 ];
             }
 
+            // Filter results
             currentResults = filterResults(data, searchQuery);
             activeIndex = currentResults.length > 0 ? 0 : -1;
             currentPage = 1;
 
+            // Hide loader and render results
             hideLoader();
             renderResults(currentResults, searchQuery, currentPage);
         }, 300);
-    }
-
-    /**
-     * Navigate autocomplete
-     */
-    function navigateAutocompletePrevious() {
-        if (autocompleteResults.length === 0) return;
-
-        autocompleteActive = autocompleteActive <= 0
-            ? autocompleteResults.length - 1
-            : autocompleteActive - 1;
-
-        renderAutocomplete();
-    }
-
-    function navigateAutocompleteNext() {
-        if (autocompleteResults.length === 0) return;
-
-        autocompleteActive = autocompleteActive >= autocompleteResults.length - 1
-            ? 0
-            : autocompleteActive + 1;
-
-        renderAutocomplete();
     }
 
     /**
@@ -598,9 +335,11 @@
         if (activeIndex > startIndex) {
             activeIndex--;
         } else if (currentPage > 1) {
+            // Go to previous page, last item
             currentPage--;
             activeIndex = Math.min((currentPage * resultsPerPage) - 1, currentResults.length - 1);
         } else {
+            // Wrap to last page, last item
             currentPage = totalPages;
             activeIndex = currentResults.length - 1;
         }
@@ -619,9 +358,11 @@
         if (activeIndex < endIndex - 1) {
             activeIndex++;
         } else if (currentPage < totalPages) {
+            // Go to next page, first item
             currentPage++;
             activeIndex = (currentPage - 1) * resultsPerPage;
         } else {
+            // Wrap to first page, first item
             currentPage = 1;
             activeIndex = 0;
         }
@@ -658,6 +399,7 @@
      */
     function selectItem(item) {
         console.log('Selected:', item);
+        // In real app, navigate to item or trigger action
         alert(`Selected: ${item.title}\n${item.meta}`);
         closePalette();
     }
@@ -666,6 +408,7 @@
      * Global keyboard shortcut (Ctrl+K / Cmd+K)
      */
     document.addEventListener('keydown', (e) => {
+        // Ctrl+K or Cmd+K
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             if (isOpen) {
@@ -685,71 +428,10 @@
      * Input events
      */
     input.addEventListener('input', (e) => {
-        const inputValue = e.target.value;
-
-        // Check for autocomplete
-        if (currentQueryState === 'idle' || currentQueryState === 'expecting-operator') {
-            autocompleteResults = searchAutocomplete(inputValue);
-            autocompleteActive = autocompleteResults.length > 0 ? 0 : -1;
-
-            if (autocompleteResults.length > 0) {
-                renderAutocomplete();
-                return;
-            }
-        }
-
-        // Check for context switching
-        const context = detectContext(inputValue);
-        if (context || inputValue.startsWith('/')) {
-            performSearch(inputValue);
-            return;
-        }
-
-        // Normal search
-        if (!inputValue.startsWith(':') && currentQueryState === 'idle') {
-            performSearch(inputValue);
-        } else {
-            renderEmptyState();
-        }
+        performSearch(e.target.value);
     });
 
     input.addEventListener('keydown', (e) => {
-        // Handle autocomplete navigation
-        if (autocompleteResults.length > 0) {
-            if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                navigateAutocompletePrevious();
-                return;
-            }
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                navigateAutocompleteNext();
-                return;
-            }
-            if (e.key === 'Enter' || e.key === 'Tab') {
-                e.preventDefault();
-                selectAutocomplete(autocompleteResults[autocompleteActive]);
-                return;
-            }
-        }
-
-        // Handle value resolution
-        if (currentQueryState === 'expecting-value' && (e.key === 'Enter' || e.key === 'Tab')) {
-            e.preventDefault();
-            resolveValueToken();
-            return;
-        }
-
-        // Backspace at start - remove last token
-        if (e.key === 'Backspace' && input.value === '' && resolvedTokens.length > 0) {
-            e.preventDefault();
-            resolvedTokens.pop();
-            updateQueryState();
-            renderTokens();
-            renderEmptyState();
-            return;
-        }
-
         switch (e.key) {
             case 'Escape':
                 e.preventDefault();
@@ -757,17 +439,13 @@
                 break;
 
             case 'ArrowUp':
-                if (currentResults.length > 0) {
-                    e.preventDefault();
-                    navigatePrevious();
-                }
+                e.preventDefault();
+                navigatePrevious();
                 break;
 
             case 'ArrowDown':
-                if (currentResults.length > 0) {
-                    e.preventDefault();
-                    navigateNext();
-                }
+                e.preventDefault();
+                navigateNext();
                 break;
 
             case 'ArrowLeft':
@@ -781,16 +459,13 @@
                 break;
 
             case 'Enter':
+                e.preventDefault();
                 if (activeIndex >= 0 && currentResults[activeIndex]) {
-                    e.preventDefault();
                     selectItem(currentResults[activeIndex]);
                 }
                 break;
         }
     });
-
-    // Initialize
-    updateQueryState();
 
     } // end init()
 

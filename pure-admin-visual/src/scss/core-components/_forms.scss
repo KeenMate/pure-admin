@@ -267,10 +267,16 @@
 // Input with clear button wrapper
 .pa-input-wrapper {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-xs;
   width: 100%;
 
   .pa-input,
   .pa-select {
+    flex: 1;
+    min-width: 200px;
     padding-right: 2.5rem; // Make room for clear button
   }
 
@@ -303,6 +309,41 @@
     &--hidden {
       display: none;
     }
+  }
+}
+
+// Search Tokens Container (for query builder badges)
+.pa-search-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  align-items: center;
+}
+
+.pa-search-token-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+
+  .pa-badge {
+    margin: 0;
+  }
+}
+
+.pa-search-token-remove {
+  margin-left: $spacing-xs;
+  padding: 0 $spacing-xs;
+  border: none;
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  font-size: 1.2em;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity $transition-fast $easing-smooth;
+
+  &:hover {
+    opacity: 1;
   }
 }
 
