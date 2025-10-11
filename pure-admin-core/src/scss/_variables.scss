@@ -1,0 +1,712 @@
+/* Pure Admin Visual Framework - SCSS Variables Only */
+
+// Layout dimensions
+$header-height: 3rem !default;
+$footer-height: $header-height !default; // Same as header
+$sidebar-width: 18rem !default;
+$sidebar-max-width: 25rem !default;
+$sidebar-collapsed-width: 4rem !default; // Width when collapsed to icon-only
+$sidebar-padding: 0.5rem 1rem !default;
+
+// Layout container widths
+$layout-container-sm: 48rem !default; // ~768px
+$layout-container-md: 64rem !default; // ~1024px
+$layout-container-lg: 80rem !default; // ~1280px
+$layout-container-xl: 100rem !default; // ~1600px
+$layout-container-2xl: 120rem !default; // ~1920px
+
+// Icon system variables (for any icon pack)
+$sidebar-icon-size: 1.5rem !default;
+$sidebar-item-gap: 0.75rem !default;
+$sidebar-submenu-indent: 2.5rem !default;
+
+// Burger menu
+$burger-width: 1.5rem !default;
+$burger-height: 1.5rem !default;
+$burger-bar-height: 2px !default;
+$burger-bar-spacing: 4px !default;
+$burger-transform-offset: 3px !default; // X offset for animation
+$burger-menu-margin-left: 0.2rem !default; // Left margin to center in sidebar area
+
+// Header brand
+$header-brand-padding-left: 1.3rem !default; // Left padding to align with sidebar
+
+// Badge system
+$badge-padding-v: 0.125rem !default;
+$badge-padding-h: 0.5rem !default;
+
+// Composite badge dimensions
+$composite-badge-icon-width: 2rem !default;
+$composite-badge-height: 1.75rem !default;
+$composite-badge-label-padding: 0.5rem !default;
+$composite-badge-button-width: 1.5rem !default;
+$composite-badge-min-label-width: 3rem !default;
+
+// Badge group
+$badge-group-gap: 0.5rem !default;
+$badge-group-visible-limit: 5 !default; // Number of badges to show before "more" indicator
+
+// Modal dimensions
+$modal-overlay-bg: rgba(0, 0, 0, 0.5) !default;
+$modal-content-bg: #ffffff !default;
+$modal-padding: 1.5rem !default;
+$modal-header-padding-v: 1rem !default; // Vertical padding
+$modal-header-padding-h: 1.5rem !default; // Horizontal padding
+$modal-header-padding: $modal-header-padding-v $modal-header-padding-h !default;
+$modal-footer-padding: 1rem 1.5rem !default;
+$modal-sm-width: 20rem !default;
+$modal-md-width: 30rem !default;
+$modal-lg-width: 50rem !default;
+$modal-xl-width: 70rem !default;
+$modal-xxl-width: 90rem !default;
+$modal-fw-margin: 1rem !default;
+$modal-border-radius: 4px !default;
+
+// Profile panel dimensions
+$profile-panel-width: 20vw !default;
+$profile-panel-max-width: 30rem !default;
+$profile-panel-width-fixed: 320px !default; // Fixed width when open
+$profile-panel-toggle-size: 40px !default;
+$profile-panel-toggle-size-open: 45px !default;
+
+// Scrollbar
+$scrollbar-width: 10px !default;
+$scrollbar-border-radius: 5px !default;
+
+// Border radius
+$border-radius-sm: 2px !default;
+$border-radius: 4px !default;
+$border-radius-lg: 8px !default;
+
+// Responsive breakpoints
+$mobile-breakpoint: 768px !default;
+$tablet-breakpoint: 1024px !default;
+$tablet-breakpoint-min: 769px !default; // Min-width for tablet-only queries
+$sidebar-width-tablet: 10rem !default; // Sidebar width on tablet devices
+
+// Z-index scale (increments of 1000 for easy adjustment)
+$z-index-base: 0 !default;              // Base level
+$z-index-content: 1000 !default;        // Content area (base scrolling content)
+$z-index-sidebar: 2000 !default;        // Sidebar (scroll with content mode)
+$z-index-sidebar-fixed: 3000 !default;  // Fixed sidebar (sticky mode)
+$z-index-header: 4000 !default;         // Fixed header/navbar (above everything that scrolls)
+$z-index-profile-panel: 5000 !default;  // Profile panel
+$z-index-modal-backdrop: 6000 !default; // Modal backdrop
+$z-index-modal: 7000 !default;          // Modal dialogs
+$z-index-toast: 8000 !default;          // Toast notifications
+$z-index-tooltip: 9000 !default;        // Tooltips (highest)
+
+// Transitions & Animation
+// Set $transition-speed to 0 to disable all transitions (useful for accessibility or testing)
+$transition-speed: 1 !default; // Multiplier: 1 = normal, 0 = disabled, 0.5 = half speed, 2 = double speed
+
+$transition-fast: calc(0.1s * $transition-speed) !default;
+$transition-normal: calc(0.15s * $transition-speed) !default;
+$transition-medium: calc(0.25s * $transition-speed) !default;
+$transition-slow: calc(0.3s * $transition-speed) !default;
+$easing-snappy: ease-out !default;
+$easing-smooth: ease !default;
+$easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55) !default;
+
+// Background pattern (for body background)
+$bg-pattern-circle-1-x: 20% !default;
+$bg-pattern-circle-1-y: 80% !default;
+$bg-pattern-circle-2-x: 80% !default;
+$bg-pattern-circle-2-y: 20% !default;
+$bg-pattern-gradient-start: 0% !default;
+$bg-pattern-gradient-stop: 50% !default;
+
+// Spinner/Loading
+$spinner-size: 1rem !default;
+$spinner-border-width: 2px !default;
+
+// Loader dimensions
+$loader-border-width: 3px !default;
+
+// Ripple effect
+$ripple-size: 300px !default;
+
+// Form & Layout
+$form-scale: 0.5rem !default;
+$btn-min-width: 6rem !default;
+
+// Utility spacing (for specific use cases not covered by main spacing system)
+$section-margin-v: 2rem !default;
+$section-margin-sm: 1.5rem !default;
+$submenu-max-height: 500px !default; // For animation
+
+// Table system
+$table-padding-base-v: 0.3rem !default; // Base vertical padding (~38px rows with breathing room)
+$table-padding-base-h: 0.5rem !default; // Base horizontal padding
+$table-spacing-2x-multiplier: 2 !default; // 2x spacing multiplier
+$table-spacing-3x-multiplier: 3 !default; // 3x spacing multiplier
+
+// Virtual table (for large datasets) - matches base table padding
+$virtual-table-cell-padding-v: 0.3rem !default;
+$virtual-table-cell-padding-h: 0.5rem !default;
+
+// Card system
+$card-body-padding: 1rem !default;
+$card-header-padding-v: 0.5rem !default;
+$card-header-padding-h: 1rem !default;
+$card-footer-padding-v: 0.75rem !default;
+$card-footer-padding-h: 1rem !default;
+$card-grid-min-width: 280px !default; // Minimum width for auto-fit grid
+
+// Stats system
+$stat-icon-size: 3rem !default;
+$stat-square-min-size: 8rem !default;
+$stat-label-letter-spacing: 0.05em !default;
+$stat-change-margin-bottom: 0.25rem !default;
+
+// Dashboard & Charts
+$chart-height: 400px !default;
+$dashboard-grid-col-sm: 80px !default;
+$dashboard-grid-col-md: 100px !default;
+$dashboard-grid-col-lg: 120px !default;
+
+// Font system (comprehensive system font stacks)
+// Based on https://gist.github.com/devinschumacher/6cbd52c082040f0e4c414836aebdb36f
+$font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !default;
+$font-stack-serif: Georgia, "Times New Roman", Times, serif !default;
+$font-stack-mono: "Courier New", Courier, monospace !default;
+
+// Body font (defaults to system, themes can override)
+$body-font-family: $font-stack-system !default;
+
+// Font sizes (all in rem for consistency)
+$font-size-2xs: 0.625rem !default;  // 10px - Used for tiny text
+$font-size-xs: 0.75rem !default;    // 12px - Used for badges, labels
+$font-size-sm: 0.875rem !default;   // 14px - Used for tables, forms, small text
+$font-size-md: 0.9375rem !default;  // 15px - Between small and base
+$font-size-base: 1rem !default;     // 16px - Base size
+$font-size-lg: 1.125rem !default;   // 18px - Slightly larger
+$font-size-xl: 1.25rem !default;    // 20px - Used for headings
+$font-size-2xl: 1.5rem !default;    // 24px - Used for large headings
+$font-size-3xl: 1.75rem !default;   // 28px - Used for page titles
+$font-size-4xl: 2rem !default;      // 32px - Used for hero text
+
+// Line height
+$line-height-base: 1.5 !default;
+$line-height-tight: 1.2 !default;
+$line-height-relaxed: 1.8 !default;
+
+// Font weights
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+
+// Spacing system (used for padding, margin, gap)
+$spacing-xs: 0.25rem !default;  // 4px
+$spacing-sm: 0.5rem !default;   // 8px
+$spacing-md: 0.75rem !default;  // 12px
+$spacing-base: 1rem !default;   // 16px
+$spacing-lg: 1.5rem !default;   // 24px
+$spacing-xl: 2rem !default;     // 32px
+$spacing-2xl: 3rem !default;    // 48px
+
+// Border widths
+$border-width-thin: 1px !default;
+$border-width-base: 1px !default;
+$border-width-medium: 2px !default;
+$border-width-thick: 3px !default;
+
+// Tabs system
+$tabs-margin-bottom: $spacing-sm !default;    // 0.5rem (8px) - space below tab navigation
+$tabs-panel-padding-top: $spacing-sm !default; // 0.5rem (8px) - space above tab content
+$tabs-vertical-icon-size: $sidebar-icon-size !default; // 1.5rem - fixed width for icons in vertical tabs
+$tabs-vertical-item-gap: $sidebar-item-gap !default;   // 0.75rem - gap between icon and text in vertical tabs
+$tabs-pill-hover-opacity: 0.1 !default;        // Pills hover background opacity
+$tabs-pill-border-opacity: 0.3 !default;       // Pills hover border opacity
+$tabs-boxed-hover-opacity: 0.1 !default;       // Boxed hover background opacity
+$tabs-vertical-hover-opacity: 0.05 !default;   // Vertical hover background opacity
+$tabs-vertical-active-opacity: 0.1 !default;   // Vertical active background opacity
+$tabs-scroll-btn-width: 2rem !default;         // Scrollable tabs arrow button width
+$tabs-scroll-gradient-opacity: 0.95 !default;  // Scroll button gradient opacity
+$tabs-scroll-hover-gradient-opacity: 0.8 !default; // Scroll button hover gradient opacity
+
+// Focus outline
+$focus-outline-width: 2px !default;
+$focus-outline-offset: 2px !default;
+$focus-ring-width: 3px !default; // For box-shadow focus rings
+
+// Shadow system
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1) !default;
+$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1) !default;
+$shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15) !default;
+$shadow-xl: 0 0 60px rgba(0, 0, 0, 0.12) !default;
+$shadow-2xl: 0 0 80px rgba(0, 0, 0, 0.15) !default;
+$shadow-sidebar: -2px 2px 10px rgba(0, 0, 0, 0.1) !default;
+$shadow-sidebar-open: -5px 0 20px rgba(0, 0, 0, 0.1) !default;
+$shadow-profile-panel: -4px 0 20px rgba(0, 0, 0, 0.15) !default;
+
+// Button specific - linear size progression
+$btn-padding-v: 0.5rem !default; // Base/default button padding
+$btn-padding-h: 0.75rem !default;
+$btn-padding-xs-v: 0.25rem !default; // xs: ~28px height (compact for tables)
+$btn-padding-xs-h: 0.5rem !default;
+$btn-padding-sm-v: 0.375rem !default; // sm: ~32px height
+$btn-padding-sm-h: 0.625rem !default;
+$btn-padding-lg-v: 0.625rem !default; // lg: ~40px height
+$btn-padding-lg-h: 0.875rem !default;
+$btn-padding-xl-v: 0.75rem !default; // xl: ~44px height
+$btn-padding-xl-h: 1rem !default;
+$btn-border-width: 1px !default;
+$btn-icon-only-size-xs: 1.75rem !default; // ~28px square for compact icon buttons
+$btn-icon-only-size-sm: 2rem !default; // ~32px square
+$btn-icon-only-size: 2.5rem !default; // ~40px square (default)
+$btn-icon-only-size-lg: 3rem !default; // ~48px square
+$btn-icon-only-size-xl: 3.5rem !default; // ~56px square
+$btn-icon-margin: 0.5rem !default;
+
+// Button fixed-width utilities
+$btn-width-1x: 1rem !default;
+$btn-width-2x: 2rem !default;
+$btn-width-3x: 3rem !default;
+$btn-width-4x: 4rem !default;
+$btn-width-5x: 5rem !default;
+$btn-width-6x: 6rem !default;
+$btn-width-7x: 7rem !default;
+$btn-width-8x: 8rem !default;
+$btn-width-9x: 9rem !default;
+$btn-width-10x: 10rem !default;
+
+// Modal close button (defined after font sizes)
+$modal-close-font-size: $font-size-xl !default; // Close button (X) font size
+
+// Tooltip system
+$tooltip-bg: #2c3e50 !default;
+$tooltip-text: #ffffff !default;
+$tooltip-arrow-size: 5px !default;
+$tooltip-distance: 8px !default; // Distance from trigger element
+$tooltip-offset: 4px !default; // Transform offset for animation
+
+// Popover system
+$popover-min-width: 16rem !default;
+$popover-max-width: 20rem !default;
+$popover-arrow-size: 6px !default;
+$popover-distance: 8px !default;
+
+// Default theme colors (will be overridden by themes)
+$primary-bg: #f8f9fa !default;
+$bg-secondary: #f8f9fa !default;
+$header-bg: #ffffff !default;
+$header-border-color: #e1e5e9 !default; // Header bottom border color
+$sidebar-bg: #f1f3f4 !default;
+$sidebar-submenu-bg: #e8e8e8 !default;
+$sidebar-submenu-hover-bg: #d0d0d0 !default;
+$sidebar-submenu-active-bg: #c0c0c0 !default;
+$footer-bg: #ffffff !default;
+$footer-border-color: #e1e5e9 !default; // Footer top border color (where it meets sidebar/content)
+$border-color: #e1e5e9 !default;
+$text-primary: #2c3e50 !default;
+$text-secondary: #6c757d !default;
+$header-profile-name-color: $text-primary !default; // Profile name in header
+$accent-color: #007bff !default;
+$accent-hover: rgba(0, 123, 255, 0.1) !default;
+$accent-light: rgba(0, 123, 255, 0.05) !default;
+$content-background-color: #ffffff !default;
+
+// Card colors
+$card-bg: #ffffff !default;
+$card-header-bg: #f8f9fa !default;
+$card-footer-bg: #ffffff !default;
+$card-tabs-bg: #f8f9fa !default;
+
+// Input colors
+$input-bg: #ffffff !default;
+$input-border: #ced4da !default;
+$input-text: #495057 !default;
+
+// Table colors
+$table-stripe: #f2f2f2 !default;
+$table-bg: #ffffff !default;
+$table-header-bg: #f8f9fa !default;
+$table-hover-bg: #f8f9fa !default;
+
+// Table row hover accent (border)
+$table-hover-accent-width: 0 !default; // Set to 0 to disable, or 3px to enable
+$table-hover-accent-color: $accent-color !default;
+$table-hover-accent-position: left !default; // left or right
+
+// Button colors
+$btn-primary-bg: #007bff !default;
+$btn-primary-bg-hover: #0056b3 !default;
+$btn-primary-text: #ffffff !default;
+$btn-secondary-bg: #6c757d !default;
+$btn-secondary-bg-hover: #545b62 !default;
+$btn-secondary-text: #ffffff !default;
+$btn-success-bg: #28a745 !default;
+$btn-success-bg-hover: #1e7e34 !default;
+$btn-success-text: #ffffff !default;
+$btn-danger-bg: #dc3545 !default;
+$btn-danger-bg-hover: #c82333 !default;
+$btn-danger-text: #ffffff !default;
+$btn-warning-bg: #ffc107 !default;
+$btn-warning-bg-hover: #e0a800 !default;
+$btn-warning-text: #212529 !default;
+$btn-warning-color: #212529 !default;
+$btn-info-bg: #17a2b8 !default;
+$btn-info-bg-hover: #117a8b !default;
+$btn-info-text: #ffffff !default;
+$btn-light-bg: #f8f9fa !default;
+$btn-light-bg-hover: #e2e6ea !default;
+$btn-light-text: #495057 !default;
+$btn-dark-bg: #343a40 !default;
+$btn-dark-bg-hover: #1d2124 !default;
+$btn-dark-text: #ffffff !default;
+
+// Contextual color system - Success (green)
+$success-bg: $btn-success-bg !default;
+$success-bg-hover: $btn-success-bg-hover !default;
+$success-bg-light: rgba(40, 167, 69, 0.1) !default;
+$success-bg-subtle: rgba(40, 167, 69, 0.08) !default;
+$success-border: rgba(40, 167, 69, 0.2) !default;
+$success-text: #155724 !default;
+$success-text-light: #d4edda !default;
+
+// Contextual color system - Danger (red)
+$danger-bg: $btn-danger-bg !default;
+$danger-bg-hover: $btn-danger-bg-hover !default;
+$danger-bg-light: rgba(220, 53, 69, 0.1) !default;
+$danger-bg-subtle: rgba(220, 53, 69, 0.08) !default;
+$danger-border: rgba(220, 53, 69, 0.2) !default;
+$danger-text: #721c24 !default;
+$danger-text-light: #f8d7da !default;
+
+// Contextual color system - Warning (yellow)
+$warning-bg: $btn-warning-bg !default;
+$warning-bg-hover: $btn-warning-bg-hover !default;
+$warning-bg-light: rgba(255, 193, 7, 0.1) !default;
+$warning-bg-subtle: rgba(255, 193, 7, 0.08) !default;
+$warning-border: rgba(255, 193, 7, 0.2) !default;
+$warning-text: #856404 !default;
+$warning-text-light: #fff3cd !default;
+
+// Contextual color system - Info (cyan)
+$info-bg: $btn-info-bg !default;
+$info-bg-hover: $btn-info-bg-hover !default;
+$info-bg-light: rgba(23, 162, 184, 0.1) !default;
+$info-bg-subtle: rgba(23, 162, 184, 0.08) !default;
+$info-border: rgba(23, 162, 184, 0.2) !default;
+$info-text: #0c5460 !default;
+$info-text-light: #d1ecf1 !default;
+
+// Contextual color system - Secondary (gray)
+$secondary-bg: $btn-secondary-bg !default;
+$secondary-bg-hover: $btn-secondary-bg-hover !default;
+$secondary-text: #383d41 !default;
+$secondary-light-bg: #e9ecef !default;
+$secondary-light-text: #495057 !default;
+$secondary-lighter-bg: #dee2e6 !default;
+
+// Z-index system
+$z-index-dropdown: 1000 !default;
+$z-index-popover: 1060 !default;
+$z-index-loader: 10 !default;
+$z-index-command-palette: 10500 !default;
+$z-index-settings-panel: 10000 !default;
+
+// Opacity system
+$opacity-disabled: 0.65 !default;
+$opacity-muted: 0.5 !default;
+$opacity-hover: 0.8 !default;
+$opacity-light: 0.1 !default;
+$opacity-subtle: 0.08 !default;
+$opacity-border: 0.2 !default;
+$opacity-shadow: 0.12 !default;
+$opacity-shadow-md: 0.15 !default; // Medium shadow opacity for text-shadow, drop-shadow
+
+// Component-specific opacities
+$alert-secondary-bg-opacity: 0.05 !default;
+$alert-light-bg-opacity: 0.03 !default;
+$card-tab-hover-opacity: 0.05 !default;
+$bg-pattern-opacity: 0.03 !default; // Body background pattern opacity
+$popover-code-bg-opacity: 0.1 !default;
+$modal-warning-hover-bg-opacity: $opacity-light !default;
+
+// Grid system
+$grid-gutter-base: $spacing-sm !default;    // 0.5rem
+$grid-gutter-sm: $spacing-xs !default;      // 0.25rem
+$grid-gutter-md: $spacing-md !default;      // 0.75rem
+$grid-gutter-lg: $spacing-base !default;    // 1rem
+$hover-lift-offset: -2px !default;
+
+// Form system
+$form-group-margin-bottom: $spacing-sm !default;
+$form-label-margin-bottom: 0.2rem !default;
+$form-help-margin-top: $spacing-xs !default;
+$input-padding-v: $spacing-sm !default;
+$input-padding-h: $spacing-md !default;
+$select-padding-v: 0.45rem !default;
+$select-padding-h: $spacing-md !default;
+$textarea-min-height: 6rem !default;
+$input-focus-ring-opacity: 0.1 !default;
+$checkbox-margin-top: 0.125rem !default;
+$form-group-margin-compact: 0.75rem !default; // Margin for compact mode
+
+// Alert system
+$alert-padding-v: $card-footer-padding-v !default;
+$alert-padding-h: $card-footer-padding-h !default;
+$alert-dismissible-padding-right: 3rem !default;
+$alert-close-opacity: $opacity-muted !default;
+$alert-icon-margin: $spacing-sm !default;
+$alert-list-padding-left: $spacing-lg !default;
+$alert-list-item-margin-top: $card-footer-padding-v !default;
+
+// Badge system (for light background badges used in alerts, cards, etc.)
+$badge-success-bg: $success-text-light !default;
+$badge-success-text: $success-text !default;
+$badge-warning-bg: $warning-text-light !default;
+$badge-warning-text: $warning-text !default;
+$badge-info-bg: $info-text-light !default;
+$badge-info-text: $info-text !default;
+$badge-danger-bg: $danger-text-light !default;
+$badge-danger-text: $danger-text !default;
+$badge-pill-radius: 50rem !default;
+
+// Composite badge system
+$composite-badge-icon-bg: $btn-secondary-bg !default;
+$composite-badge-label-bg: $secondary-light-bg !default;
+$composite-badge-label-text: $secondary-light-text !default;
+$composite-badge-label-hover-bg: $secondary-lighter-bg !default;
+
+// Button interaction
+$btn-hover-lift: -1px !default;
+$btn-hover-brightness: 0.9 !default;
+$btn-disabled-opacity: $opacity-disabled !default;
+$btn-focus-ring-opacity: 0.25 !default;
+
+// Code component
+$code-language-json: #f59e0b !default;
+$code-language-javascript: #f0db4f !default;
+$code-language-html: #e34c26 !default;
+$code-language-css: #264de4 !default;
+$code-language-bash: #4eaa25 !default;
+$code-language-sql: #00758f !default;
+$code-language-python: #3776ab !default;
+$code-syntax-keyword: #0077aa !default;
+$code-syntax-string: #669900 !default;
+$code-syntax-number: #ff6600 !default;
+$code-syntax-function: #9933cc !default;
+$code-syntax-property: #dd4a68 !default;
+
+// Comparison table
+$comparison-accent-pink: #ec4899 !default;
+$comparison-accent-orange: #f97316 !default;
+
+// Timeline - Simple variant
+$timeline-simple-line-width: 1px !default;
+$timeline-simple-margin-left: 10px !default;
+$timeline-simple-padding-left: 20px !default;
+$timeline-simple-dot-size: 15px !default;
+$timeline-simple-dot-border: 1px !default;
+$timeline-simple-dot-offset: -30px !default; // Calculated to center dot on line
+$timeline-simple-dot-shadow-offset-x: 3px !default;
+$timeline-simple-dot-shadow-offset-y: 3px !default;
+$timeline-simple-dot-shadow-blur: 0 !default;
+$timeline-simple-dot-shadow-opacity: 0.3 !default;
+$timeline-simple-content-margin-top: 0.4rem !default;
+$timeline-simple-scroll-container-max-height: 400px !default;
+$timeline-simple-scroll-loader-min-height: 60px !default;
+$timeline-simple-load-more-margin-top: 1.5rem !default;
+
+// Timeline Block - Alternating variant (Centered zigzag)
+$timeline-block-max-width: 1140px !default;
+$timeline-block-padding: $spacing-base 0 !default;
+$timeline-block-line-width: $border-width-medium !default;
+$timeline-block-item-width: 50% !default;
+$timeline-block-item-padding: $spacing-base $spacing-xl !default;
+$timeline-block-item-padding-left-odd: 0rem !default; // Padding for left-side items (odd)
+$timeline-block-item-padding-right-even: 0rem !default; // Padding for right-side items (even)
+$timeline-block-content-padding-v: $spacing-xl !default;
+$timeline-block-content-padding-h: $spacing-xl !default;
+$timeline-block-content-padding-extended: calc($spacing-xl * 2 + 40px) !default;
+$timeline-block-content-border-radius: 500px !default;
+$timeline-block-dot-size: 16px !default;
+$timeline-block-dot-border: 2px !default;
+$timeline-block-dot-top-offset: calc(50% - 8px) !default;
+$timeline-block-dot-horizontal-offset: -8px !default;
+$timeline-block-connector-width: 50px !default;
+$timeline-block-connector-height: 2px !default;
+$timeline-block-connector-top-offset: calc(50% - 1px) !default;
+$timeline-block-connector-horizontal-offset: 8px !default;
+$timeline-block-icon-size: 40px !default;
+$timeline-block-icon-border: 2px !default;
+$timeline-block-icon-top-offset: calc(50% - 20px) !default;
+$timeline-block-date-top-offset: calc(50% - 8px) !default;
+$timeline-block-date-offset: -75px !default;
+$timeline-block-date-letter-spacing: 1px !default;
+$timeline-block-icon-offset-odd: 56px !default;
+$timeline-block-icon-offset-even: 56px !default;
+$timeline-block-responsive-breakpoint: 767px !default;
+$timeline-block-responsive-line-left: 90px !default;
+$timeline-block-responsive-padding-left: 120px !default;
+$timeline-block-responsive-padding-right: $spacing-xl !default;
+$timeline-block-responsive-dot-left: 82px !default;
+$timeline-block-responsive-connector-left: 100px !default;
+$timeline-block-responsive-date-left: 15px !default;
+$timeline-block-responsive-icon-left: 146px !default;
+
+// Timeline - Feed variant (Activity feed)
+$timeline-feed-gap: $spacing-base !default;
+$timeline-feed-item-padding-bottom: $spacing-sm !default;
+$timeline-feed-border-left: 3px !default;
+$timeline-feed-padding-left: 40px !default;
+$timeline-feed-icon-size: 40px !default;
+$timeline-feed-icon-margin-left: -52px !default;
+$timeline-feed-icon-box-shadow-width: 6px !default;
+$timeline-feed-avatar-size: 28px !default;
+$timeline-feed-avatar-margin-right: $spacing-xs !default;
+$timeline-feed-comment-margin-top: $spacing-sm !default;
+$timeline-feed-comment-padding: $spacing-base !default;
+$timeline-feed-date-icon-size: $spacing-base !default;
+$timeline-feed-date-label-font-size: $font-size-sm !default;
+$timeline-feed-date-label-letter-spacing: 0.5px !default;
+$timeline-feed-date-margin-bottom: $spacing-sm !default;
+$timeline-feed-time-width: 50px !default;
+$timeline-feed-time-font-size: $font-size-xs !default;
+$timeline-feed-time-padding-top: 6px !default;
+$timeline-feed-scroll-container-max-height: 400px !default;
+
+// Animation
+$animation-spin-duration: 1s !default;
+$ripple-color: rgba(255, 255, 255, 0.3) !default;
+$ripple-transition-duration: 0.6s !default;
+
+// Loader system
+$loader-dot-size: 0.75rem !default;
+$loader-bar-width: $spacing-xs !default;
+$loader-bar-height: $spacing-lg !default;
+$loader-animation-opacity-min: $opacity-muted !default;
+$loader-overlay-bg: rgba(255, 255, 255, 0.8) !default;
+
+// Loader animation delays
+$loader-dots-delay-1: -0.32s !default;
+$loader-dots-delay-2: -0.16s !default;
+$loader-bars-delay-1: -1.2s !default;
+$loader-bars-delay-2: -1.1s !default;
+$loader-bars-delay-3: -1.0s !default;
+$loader-bars-delay-4: -0.9s !default;
+$loader-bars-delay-5: -0.8s !default;
+
+// Loader animation properties
+$loader-pulse-duration: 1.2s !default;
+$loader-pulse-easing: cubic-bezier(0.5, 0, 0.5, 1) !default;
+
+// Stat system
+$stat-number-margin-bottom: $spacing-xs !default;
+$stat-symbol-opacity: $opacity-shadow !default;
+
+// Stat square clamp values (for responsive sizing)
+$stat-square-number-min: 3rem !default;
+$stat-square-number-scale: 8vw !default;
+$stat-square-number-max: 4.5rem !default;
+$stat-square-symbol-min: 4rem !default;
+$stat-square-symbol-scale: 10vw !default;
+$stat-square-symbol-max: 6rem !default;
+
+// Stat shadow values
+$stat-text-shadow-1-y: 4px !default;
+$stat-text-shadow-1-blur: 8px !default;
+$stat-text-shadow-2-y: 2px !default;
+$stat-text-shadow-2-blur: 4px !default;
+$stat-drop-shadow-y: 2px !default;
+$stat-drop-shadow-blur: 4px !default;
+
+// Modal system
+$modal-box-shadow: 0 0.25rem $spacing-sm rgba(0, 0, 0, 0.1) !default;
+$modal-close-size: 2rem !default;
+$modal-body-scrollable-max-height: 60vh !default;
+$modal-mobile-margin: $spacing-sm !default;
+$modal-mobile-max-height: 95vh !default;
+$modal-header-hover-overlay: rgba(255, 255, 255, 0.1) !default;
+$modal-close-hover-opacity: $opacity-hover !default;
+
+// Toast system
+$toast-min-width: 20rem !default;
+$toast-max-width: 25rem !default;
+$toast-padding-v: $spacing-md !default;
+$toast-padding-h: $spacing-md !default;
+$toast-icon-size: 2rem !default;
+$toast-close-size: 1.5rem !default;
+$toast-progress-height: 3px !default;
+
+// Tooltip system (extended)
+$tooltip-max-width: 15rem !default;
+$tooltip-multiline-max-width: 20rem !default;
+$tooltip-multiline-width: 20rem !default;
+$tooltip-arrow-offset: 2px !default;
+$tooltip-z-index: $z-index-tooltip !default;
+
+// Popover system (extended)
+$popover-trigger-size: 1.25rem !default;
+$popover-close-size: $spacing-lg !default;
+$popover-sm-min-width: 12rem !default;
+$popover-sm-max-width: 16rem !default;
+$popover-text-light: #ffffff !default;
+$popover-text-dark: #000000 !default;
+$popover-lg-min-width: 20rem !default;
+$popover-lg-max-width: 28rem !default;
+$popover-shift-offset: 2rem !default;
+$popover-content-bg: #ffffff !default;
+
+// Command Palette system
+$command-palette-width: 38rem !default;
+$command-palette-offset-top: 8rem !default;
+$command-palette-border-radius: $border-radius !default;
+$command-palette-backdrop-bg: rgba(0, 0, 0, 0.5) !default;
+$command-palette-backdrop-blur: 4px !default;
+$command-palette-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3) !default;
+$command-palette-input-padding-v: $spacing-base !default;
+$command-palette-input-padding-h: $spacing-lg !default;
+$command-palette-input-font-size: $font-size-lg !default;
+$command-palette-results-max-height: 24rem !default;
+$command-palette-empty-padding-v: $spacing-2xl !default;
+$command-palette-item-padding-v: $spacing-sm !default;
+$command-palette-item-hover-bg: rgba($accent-color, 0.05) !default;
+$command-palette-item-active-bg: rgba($accent-color, 0.1) !default;
+$command-palette-item-icon-size: 2rem !default;
+$command-palette-highlight-bg: rgba($accent-color, 0.2) !default;
+$command-palette-highlight-text: $accent-color !default;
+$popover-z-index: $z-index-popover !default;
+
+// Popover code element styling
+$popover-code-padding-v: 0.125rem !default;
+$popover-code-padding-h: 0.25rem !default;
+$popover-code-font-scale: 0.9em !default;
+
+// Profile panel system
+$profile-avatar-size: 4rem !default;
+$profile-close-size: 2rem !default;
+$profile-nav-icon-width: $sidebar-icon-size !default;
+$profile-section-gap: $spacing-xl !default;
+$profile-overlay-bg: rgba(0, 0, 0, 0.3) !default;
+$profile-button-padding-v: $spacing-sm !default;
+$profile-button-padding-h: $spacing-md !default;
+$profile-role-letter-spacing: 0.5px !default;
+$profile-panel-mobile-max-width: 25rem !default;
+
+// Settings panel system
+$settings-panel-top: 15vh !default;
+$settings-panel-height: 70vh !default;
+$settings-panel-min-height: 400px !default;
+$settings-panel-vertical-clearance: 100px !default;
+$settings-panel-hover-offset: 5px !default;
+$settings-panel-transition-duration: 0.3s !default;
+$settings-panel-transition-easing: ease !default;
+
+// Layout system
+$sidebar-submenu-indent-multiplier: 1.3 !default;
+$mobile-backdrop-bg: rgba(0, 0, 0, 0.5) !default;
+$mobile-sidebar-width: 90vw !default;
+
+// Pager system
+$pager-input-width: 4rem !default;
+$pager-controls-gap: $spacing-xs !default;
+$pager-button-margin: $spacing-base !default;
+
+// Card stat specific
+$card-stat-padding-v: $spacing-lg !default;
+$card-stat-padding-h: $spacing-base !default;

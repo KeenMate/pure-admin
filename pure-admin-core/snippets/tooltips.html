@@ -1,0 +1,423 @@
+<!-- ================================
+     TOOLTIP & POPOVER SNIPPETS
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!-- BASIC TOOLTIPS -->
+
+<!-- Tooltip Top (default) -->
+<span class="pa-tooltip" data-tooltip="This is a tooltip">Hover me</span>
+
+<!-- Tooltip Right -->
+<span class="pa-tooltip pa-tooltip--right" data-tooltip="Tooltip on the right">Hover me</span>
+
+<!-- Tooltip Bottom -->
+<span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Tooltip on the bottom">Hover me</span>
+
+<!-- Tooltip Left -->
+<span class="pa-tooltip pa-tooltip--left" data-tooltip="Tooltip on the left">Hover me</span>
+
+
+<!-- TOOLTIP POSITIONS (All 4 directions) -->
+
+<!-- Top Tooltip -->
+<button class="pa-btn pa-btn--primary pa-tooltip" data-tooltip="Top tooltip">
+  Top
+</button>
+
+<!-- Right Tooltip -->
+<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--right" data-tooltip="Right tooltip">
+  Right
+</button>
+
+<!-- Bottom Tooltip -->
+<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--bottom" data-tooltip="Bottom tooltip">
+  Bottom
+</button>
+
+<!-- Left Tooltip -->
+<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--left" data-tooltip="Left tooltip">
+  Left
+</button>
+
+
+<!-- COLORED TOOLTIPS -->
+
+<!-- Primary Tooltip -->
+<span class="pa-tooltip pa-tooltip--primary" data-tooltip="Primary tooltip">
+  Primary
+</span>
+
+<!-- Success Tooltip -->
+<span class="pa-tooltip pa-tooltip--success" data-tooltip="Success tooltip">
+  Success
+</span>
+
+<!-- Warning Tooltip -->
+<span class="pa-tooltip pa-tooltip--warning" data-tooltip="Warning tooltip">
+  Warning
+</span>
+
+<!-- Danger Tooltip -->
+<span class="pa-tooltip pa-tooltip--danger" data-tooltip="Danger tooltip">
+  Danger
+</span>
+
+
+<!-- CURSOR MODIFIERS -->
+
+<!-- Default tooltip (inherits parent cursor - good for clickable elements like buttons, tabs) -->
+<button class="pa-btn pa-btn--primary pa-tooltip" data-tooltip="Click to view">
+  Clickable Item
+</button>
+
+<!-- Help cursor tooltip (question mark cursor - good for informational hints) -->
+<span class="pa-tooltip pa-tooltip--help" data-tooltip="This provides helpful information">
+  What's this?
+</span>
+
+
+<!-- COLORED TOOLTIPS WITH POSITIONS -->
+
+<!-- Primary Bottom Tooltip -->
+<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--primary pa-tooltip--bottom" data-tooltip="Primary info">
+  Primary Bottom
+</button>
+
+<!-- Success Right Tooltip -->
+<button class="pa-btn pa-btn--success pa-tooltip pa-tooltip--success pa-tooltip--right" data-tooltip="Operation successful!">
+  Success Right
+</button>
+
+<!-- Danger Left Tooltip -->
+<button class="pa-btn pa-btn--danger pa-tooltip pa-tooltip--danger pa-tooltip--left" data-tooltip="Critical warning!">
+  Danger Left
+</button>
+
+
+<!-- MULTILINE TOOLTIPS -->
+
+<!-- Multiline Tooltip -->
+<span class="pa-tooltip pa-tooltip--multiline" data-tooltip="This is a longer tooltip that will wrap to multiple lines when the text is too long to fit on a single line.">
+  Hover for multiline
+</span>
+
+<!-- Multiline Bottom -->
+<span class="pa-tooltip pa-tooltip--multiline pa-tooltip--bottom" data-tooltip="Multiline tooltips work with any position. This text will wrap nicely across multiple lines.">
+  Multiline bottom
+</span>
+
+
+<!-- TOOLTIPS IN TABLES -->
+
+<!-- Table with Action Tooltips -->
+<table class="pa-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="col-auto">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>John Doe</td>
+      <td class="col-auto">
+        <div class="pa-btn-group">
+          <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary pa-tooltip pa-tooltip--bottom" data-tooltip="View details">
+            👁️
+          </button>
+          <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary pa-tooltip pa-tooltip--bottom" data-tooltip="Edit user">
+            ✏️
+          </button>
+          <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger pa-tooltip pa-tooltip--bottom" data-tooltip="Delete user">
+            🗑️
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- TOOLTIPS WITH BADGES -->
+
+<!-- Badge with Truncated Text and Tooltip -->
+<span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Very Long Badge Text That Needs Truncation">
+  <span class="pa-badge pa-badge--info pa-badge--w-8x">Very Long Badge Text That Needs Truncation</span>
+</span>
+
+
+<!-- AUTO-FLIP TOOLTIPS (Smart Positioning) -->
+
+<!-- These classes are added by JavaScript when tooltip would overflow viewport -->
+<!-- Auto-flip from top to bottom -->
+<span class="pa-tooltip pa-tooltip--auto-flip-bottom" data-tooltip="Flipped to bottom">
+  Near top edge
+</span>
+
+<!-- Auto-flip from bottom to top -->
+<span class="pa-tooltip pa-tooltip--bottom pa-tooltip--auto-flip-top" data-tooltip="Flipped to top">
+  Near bottom edge
+</span>
+
+<!-- Auto-flip from left to right -->
+<span class="pa-tooltip pa-tooltip--left pa-tooltip--auto-flip-right" data-tooltip="Flipped to right">
+  Near left edge
+</span>
+
+<!-- Auto-flip from right to left -->
+<span class="pa-tooltip pa-tooltip--right pa-tooltip--auto-flip-left" data-tooltip="Flipped to left">
+  Near right edge
+</span>
+
+
+<!-- POPOVERS - Basic -->
+
+<!-- Basic Popover (Top) -->
+<div class="pa-popover">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Help</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>This is a popover with rich content. You can include text, links, and formatting.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Popover Right -->
+<div class="pa-popover pa-popover--right">
+  <button class="pa-popover__trigger">i</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Information</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Popover positioned to the right.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Popover Bottom -->
+<div class="pa-popover pa-popover--bottom">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Details</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Popover positioned below the trigger.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Popover Left -->
+<div class="pa-popover pa-popover--left">
+  <button class="pa-popover__trigger">!</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Warning</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Popover positioned to the left.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- POPOVER SIZES -->
+
+<!-- Small Popover -->
+<div class="pa-popover pa-popover--sm">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Tip</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Small popover for brief hints.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Default Popover -->
+<div class="pa-popover">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Help</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Default size popover for standard content.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Large Popover -->
+<div class="pa-popover pa-popover--lg">
+  <button class="pa-popover__trigger">i</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Detailed Information</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Large popover for detailed explanations and longer content.</p>
+      <p>Can include multiple paragraphs, lists, and other elements.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- POPOVER WITH RICH CONTENT -->
+
+<!-- Popover with List -->
+<div class="pa-popover pa-popover--lg pa-popover--bottom">
+  <button class="pa-popover__trigger">i</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Features</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>This version includes:</p>
+      <ul>
+        <li>Performance improvements</li>
+        <li>Bug fixes</li>
+        <li>New dashboard features</li>
+        <li>Enhanced security</li>
+      </ul>
+      <p>Learn more in the <a href="/docs">documentation</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Popover with Code -->
+<div class="pa-popover pa-popover--lg pa-popover--right">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Usage Example</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Use the following code:</p>
+      <code>const value = getData();</code>
+      <p>This will retrieve the current value.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- POPOVER AUTO-FLIP (Smart Positioning) -->
+
+<!-- Applied by JavaScript when popover would overflow viewport -->
+<!-- Auto-flip from top to bottom -->
+<div class="pa-popover pa-popover--auto-flip-bottom">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Help</h4>
+      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Near top edge, flipped to bottom.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- JAVASCRIPT FOR POPOVERS -->
+
+<script>
+// Toggle popover
+function togglePopover(trigger) {
+  const popover = trigger.closest('.pa-popover');
+  popover.classList.toggle('pa-popover--open');
+}
+
+// Close popover
+function closePopover(closeBtn) {
+  const popover = closeBtn.closest('.pa-popover');
+  popover.classList.remove('pa-popover--open');
+}
+
+// Close popover when clicking outside
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.pa-popover')) {
+    document.querySelectorAll('.pa-popover--open').forEach(popover => {
+      popover.classList.remove('pa-popover--open');
+    });
+  }
+});
+
+// Attach click handlers to popover triggers
+document.querySelectorAll('.pa-popover__trigger').forEach(trigger => {
+  trigger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    togglePopover(this);
+  });
+});
+</script>
+
+
+<!-- AVAILABLE CLASSES REFERENCE -->
+<!--
+TOOLTIPS:
+- pa-tooltip (base class, top position by default)
+
+POSITIONS:
+- pa-tooltip--right
+- pa-tooltip--bottom
+- pa-tooltip--left
+
+VARIANTS:
+- pa-tooltip--primary (primary colored background)
+- pa-tooltip--success (success colored background)
+- pa-tooltip--warning (warning colored background)
+- pa-tooltip--danger (danger colored background)
+
+MULTILINE:
+- pa-tooltip--multiline (allows text wrapping)
+
+AUTO-FLIP (applied by JS for collision detection):
+- pa-tooltip--auto-flip-bottom
+- pa-tooltip--auto-flip-top
+- pa-tooltip--auto-flip-right
+- pa-tooltip--auto-flip-left
+
+POPOVERS:
+- pa-popover (base container)
+- pa-popover--open (visible state)
+
+POSITIONS:
+- pa-popover--right
+- pa-popover--bottom
+- pa-popover--left
+
+SIZES:
+- pa-popover--sm (small)
+- pa-popover--lg (large)
+
+AUTO-FLIP (applied by JS):
+- pa-popover--auto-flip-bottom
+- pa-popover--auto-flip-top
+- pa-popover--auto-flip-right
+- pa-popover--auto-flip-left
+- pa-popover--shift-left
+- pa-popover--shift-right
+
+COMPONENTS:
+- pa-popover__trigger (button/trigger element)
+- pa-popover__content (popover container)
+- pa-popover__header (header section)
+- pa-popover__body (content section)
+- pa-popover__close (close button)
+-->

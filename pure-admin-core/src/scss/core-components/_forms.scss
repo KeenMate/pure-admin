@@ -1,0 +1,292 @@
+/* ========================================
+   Form Components
+   Form groups, inputs, selects, textareas, checkboxes, radio buttons, states
+   ======================================== */
+
+// Form Elements
+.pa-form-group {
+  margin-bottom: $form-group-margin-bottom;
+
+  // Remove margins when first/last child in card body (direct, in forms+grids, or in grid columns)
+  .pa-card__body > &:first-child,
+  .pa-card__body > .pa-form > .pure-g > [class*="pure-u"]:first-child > &:first-child,
+  .pa-card__body > [class*="pure-u"]:first-child > &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body > &:last-child,
+  .pa-card__body > .pa-form > .pure-g > [class*="pure-u"]:last-child > &:last-child,
+  .pa-card__body > [class*="pure-u"]:last-child > &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Horizontal form group (label on left, input on right)
+.pa-form-group--horizontal {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-base;
+
+  label {
+    flex-shrink: 0;
+    padding-top: $input-padding-v;
+    margin-bottom: 0;
+    color: $text-primary;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+  }
+
+  // Input container takes remaining space
+  > .pa-input,
+  > .pa-select,
+  > .pa-textarea {
+    flex: 1;
+  }
+}
+
+.pa-form {
+  .pa-form-group {
+    label {
+      display: flex;
+      align-items: center;
+      gap: $form-scale;
+      margin-bottom: $form-label-margin-bottom;
+      color: $text-primary;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .pa-form-actions {
+    margin-top: $spacing-base;
+    display: flex;
+    gap: $form-scale;
+    flex-wrap: wrap;
+  }
+}
+
+.pa-input {
+  width: 100%;
+  padding: $input-padding-v $input-padding-h;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: $input-bg;
+  color: $text-primary;
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-color;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
+  }
+}
+
+.pa-select {
+  width: 100%;
+  padding: $select-padding-v $select-padding-h;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: $input-bg;
+  color: $text-primary;
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-color;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
+  }
+}
+
+.pa-textarea {
+  width: 100%;
+  padding: $input-padding-v $input-padding-h;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: $input-bg;
+  color: $text-primary;
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-color;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+}
+
+.pa-textarea {
+  resize: vertical;
+  min-height: $textarea-min-height;
+}
+
+// Input Sizes (size modifiers only change font-size, padding controlled by theme via base variables)
+.pa-input--xs,
+.pa-select--xs {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-xs;
+}
+
+.pa-input--sm,
+.pa-select--sm {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-sm;
+}
+
+.pa-input--lg,
+.pa-select--lg {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-base;
+}
+
+.pa-input--xl,
+.pa-select--xl {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-lg;
+}
+
+// Input States
+.pa-input--error,
+.pa-select--error {
+  border-color: $danger-bg;
+
+  &:focus {
+    border-color: $danger-bg;
+    box-shadow: 0 0 0 $focus-ring-width $danger-bg-light;
+  }
+}
+
+.pa-input--success,
+.pa-select--success {
+  border-color: $success-bg;
+
+  &:focus {
+    border-color: $success-bg;
+    box-shadow: 0 0 0 $focus-ring-width $success-bg-light;
+  }
+}
+
+// Form Groups
+.pa-form-group--error {
+  .pa-input,
+  .pa-select {
+    border-color: $danger-bg;
+  }
+}
+
+.pa-form-group--success {
+  .pa-input,
+  .pa-select {
+    border-color: $success-bg;
+  }
+}
+
+// Form Help Text
+.pa-form-help {
+  display: block;
+  margin-top: $form-help-margin-top;
+  font-size: $font-size-xs;
+  color: $text-secondary;
+
+  &--error {
+    color: $danger-bg;
+  }
+
+  &--success {
+    color: $success-bg;
+  }
+}
+
+// Input Groups
+.pa-input-group {
+  display: flex;
+  align-items: stretch;
+
+  .pa-input {
+    border-radius: 0;
+    flex: 1;
+
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+
+    &:not(:first-child) {
+      border-left: none;
+    }
+
+    &:not(:last-child) {
+      border-right: none;
+    }
+  }
+
+  &__prepend,
+  &__append {
+    display: flex;
+    align-items: center;
+    padding: $input-padding-v $input-padding-h;
+    background-color: $primary-bg;
+    border: $border-width-base solid $border-color;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+  }
+
+  &__prepend {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+    border-right: none;
+  }
+
+  &__append {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    border-left: none;
+  }
+
+  &__button {
+    border-radius: 0;
+    border-left: none;
+
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+}
+
+// Checkboxes and Radio Buttons
+.pa-checkbox-group,
+.pa-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: $form-scale;
+}
+
+.pa-checkbox,
+.pa-radio {
+  display: flex;
+  align-items: flex-start;
+  gap: $form-scale;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  color: $text-primary;
+
+  input {
+    margin-top: $checkbox-margin-top;
+    width: $spinner-size;
+    height: $spinner-size;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+

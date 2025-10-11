@@ -1,0 +1,153 @@
+/* ========================================
+   Grid Components
+   PureCSS Grid Gutters, Component Grid Layout, and Quick Examples
+   ======================================== */
+
+// PureCSS Grid Gutters
+// Apply padding to grid units for spacing
+.pure-g {
+  // Add negative margin to compensate for padding on children
+  margin-left: -$grid-gutter-base;
+  margin-right: -$grid-gutter-base;
+
+  // All direct children (grid units) get padding
+  > [class*="pure-u"] {
+    box-sizing: border-box;
+    padding-left: $grid-gutter-base;
+    padding-right: $grid-gutter-base;
+    padding-bottom: $grid-gutter-base;
+  }
+}
+
+// Remove bottom padding from grid columns inside cards to avoid conflicts
+.pa-card__body .pure-g > [class*="pure-u"] {
+  padding-bottom: 0;
+}
+
+// Alternative: Specific gutter classes for different spacing needs
+.pure-g-gutters {
+  margin-left: -$grid-gutter-md;
+  margin-right: -$grid-gutter-md;
+
+  > [class*="pure-u"] {
+    box-sizing: border-box;
+    padding-left: $grid-gutter-md;
+    padding-right: $grid-gutter-md;
+    padding-bottom: $grid-gutter-md;
+  }
+}
+
+.pure-g-gutters-sm {
+  margin-left: -$grid-gutter-sm;
+  margin-right: -$grid-gutter-sm;
+
+  > [class*="pure-u"] {
+    box-sizing: border-box;
+    padding-left: $grid-gutter-sm;
+    padding-right: $grid-gutter-sm;
+    padding-bottom: $grid-gutter-sm;
+  }
+}
+
+.pure-g-gutters-lg {
+  margin-left: -$grid-gutter-lg;
+  margin-right: -$grid-gutter-lg;
+
+  > [class*="pure-u"] {
+    box-sizing: border-box;
+    padding-left: $grid-gutter-lg;
+    padding-right: $grid-gutter-lg;
+    padding-bottom: $grid-gutter-lg;
+  }
+}
+
+// Components Grid Layout
+
+.component-category {
+  h3 {
+    margin: 0 0 $spacing-base 0;
+    color: $text-primary;
+    border-bottom: $border-width-medium solid $accent-color;
+    padding-bottom: $spacing-sm;
+  }
+}
+
+.component-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($card-grid-min-width, 1fr));
+  gap: $spacing-base;
+}
+
+.component-card {
+  background: $card-bg;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius-lg;
+  padding: $spacing-base;
+  text-decoration: none;
+  color: inherit;
+  transition: all $transition-fast $easing-snappy;
+  display: block;
+
+  &:hover {
+    border-color: $accent-color;
+    transform: translateY($hover-lift-offset);
+    box-shadow: $shadow-lg;
+  }
+
+  h4 {
+    margin: 0 0 $spacing-sm 0;
+    color: $text-primary;
+    font-size: $font-size-lg;
+  }
+
+  p {
+    margin: 0 0 $spacing-base 0;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  .component-count {
+    display: inline-block;
+    background: $accent-color;
+    color: white;
+    padding: $btn-padding-v $btn-padding-h;
+    border-radius: $border-radius;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: $border-color;
+    }
+
+    .component-count {
+      background: $text-secondary;
+    }
+  }
+}
+
+// Quick Examples
+.quick-examples {
+  margin: $section-margin-v 0;
+
+  h3 {
+    color: $text-primary;
+    margin: 0 0 $spacing-base 0;
+  }
+}
+
+.example-section {
+  margin: $section-margin-sm 0;
+
+  h4 {
+    color: $text-primary;
+    margin: 0 0 $spacing-base 0;
+    font-size: $font-size-base;
+  }
+}

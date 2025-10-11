@@ -1,0 +1,415 @@
+/* ========================================
+   Layout V2 - Based on Testbench Structure
+   ======================================== */
+
+// Navbar - Fixed at top, full width by default
+.pa-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  background-color: $header-bg;
+  border-bottom: $border-width-base solid $header-border-color;
+  z-index: $z-index-header; // 2000
+  display: flex;
+  align-items: center;
+  justify-content: center; // Center for constrained mode
+}
+
+// Constrained navbar - limit navbar width to match container
+// Body class is just a marker, no width styles on body itself
+body.pa-container-sm .pa-navbar {
+  max-width: $layout-container-sm;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-md .pa-navbar {
+  max-width: $layout-container-md;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-lg .pa-navbar {
+  max-width: $layout-container-lg;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-xl .pa-navbar {
+  max-width: $layout-container-xl;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-2xl .pa-navbar {
+  max-width: $layout-container-2xl;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Navbar inner content
+.pa-navbar__inner {
+  width: 100%;
+  padding: 0 $spacing-base;
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+}
+
+// Layout wrapper - applied to body for mode-specific classes
+body.pa-layout--sticky {
+  height: 100vh;
+  overflow: hidden;
+}
+
+// Layout Container - centered, starts below navbar
+.pa-layout {
+  max-width: 100%;
+  margin: $header-height auto 0;
+  background-color: $primary-bg;
+  overflow: visible; // Allow tooltips to escape
+}
+
+// Constrained widths - controlled by body class
+body.pa-container-sm .pa-layout {
+  max-width: $layout-container-sm;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-md .pa-layout {
+  max-width: $layout-container-md;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-lg .pa-layout {
+  max-width: $layout-container-lg;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-xl .pa-layout {
+  max-width: $layout-container-xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-2xl .pa-layout {
+  max-width: $layout-container-2xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+// Sticky mode - fixed height
+body.pa-layout--sticky .pa-layout {
+  height: calc(100vh - #{$header-height}); // Full viewport minus top margin
+}
+
+// Scroll mode - minimum height
+body:not(.pa-layout--sticky) .pa-layout {
+  min-height: calc(100vh - #{$header-height}); // Ensure footer reaches bottom
+}
+
+// Layout inner container - flex wrapper for sidebar + content
+.pa-layout__inner {
+  display: flex;
+  width: 100%;
+}
+
+// Sticky mode - inner container takes full height of layout container
+body.pa-layout--sticky .pa-layout__inner {
+  height: 100%;
+}
+
+// Sidebar
+.pa-layout__sidebar {
+  width: $sidebar-width;
+  background-color: $sidebar-bg;
+  border-right: $border-width-base solid $border-color;
+  flex-shrink: 0;
+}
+
+// Sticky mode - sidebar scrolls
+body.pa-layout--sticky .pa-layout__sidebar {
+  overflow-y: auto;
+  overflow-x: visible; // Allow tooltips to escape right
+}
+
+// Content wrapper - wraps content + footer
+.pa-layout__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// Sticky mode - content wrapper scrolls
+body.pa-layout--sticky .pa-layout__content {
+  overflow-y: auto;
+}
+
+// Main content area
+.pa-layout__main {
+  flex: 1;
+  padding: $spacing-base;
+}
+
+// Footer
+.pa-layout__footer {
+  height: $footer-height;
+  background-color: $footer-bg;
+  border-top: $border-width-base solid $footer-border-color;
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-base;
+  margin-top: auto; // Push to bottom
+}
+
+/* ========================================
+   Header/Navbar Elements
+   ======================================== */
+
+// Navbar elements (using pa-header__ prefix for backward compatibility with existing partials)
+.pa-header {
+  &__burger {
+    flex-shrink: 0;
+    margin-left: $burger-menu-margin-left;
+  }
+
+  &__brand {
+    flex-shrink: 0;
+    padding-left: $header-brand-padding-left;
+
+    h1 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      white-space: nowrap;
+    }
+  }
+
+  &__nav {
+    flex-shrink: 0;
+
+    // Only style the direct child ul (main navigation)
+    > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: $spacing-md;
+
+      > li {
+        position: relative; // For dropdown positioning
+
+        > a {
+          text-decoration: none;
+          color: $text-secondary;
+          font-weight: $font-weight-medium;
+          padding: $spacing-xs $spacing-sm;
+          border-radius: $border-radius;
+          transition: all $transition-fast $easing-snappy;
+          font-size: $font-size-sm;
+          display: block;
+
+          &:hover {
+            color: $accent-color;
+            background-color: $accent-hover;
+          }
+        }
+      }
+    }
+
+    &--left {
+      margin-right: auto;
+    }
+
+    &--right {
+      margin-left: auto;
+    }
+  }
+
+  // Dropdown navigation items
+  &__nav-item {
+    &--has-dropdown {
+      position: static; // Position dropdown relative to header, not this item
+
+      &:hover > .pa-header__dropdown {
+        display: block !important; // Override the !important hide
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  // Dropdown menus
+  &__dropdown {
+    display: none !important; // Force hide by default
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 12rem;
+    background-color: $card-bg;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+    z-index: 1100;
+    padding: $spacing-xs 0;
+    margin-top: 0;
+    list-style: none;
+    flex-direction: column; // Override any flex from parent
+
+    li {
+      display: block;
+      position: relative;
+
+      // Create invisible bridge for nested dropdowns (horizontal)
+      &.pa-header__nav-item--has-dropdown::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 4px; // Small invisible bridge
+        height: 100%;
+        z-index: 1099;
+      }
+
+      // Show nested dropdown on hover
+      &:hover > .pa-header__dropdown {
+        display: block !important;
+      }
+
+      a {
+        display: block;
+        padding: $spacing-sm $spacing-base;
+        color: $text-primary;
+        border-radius: 0;
+        white-space: nowrap;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-sm;
+
+        &:hover {
+          background-color: $accent-light;
+          color: $accent-color;
+        }
+      }
+    }
+
+    // Level 2 dropdown (nested)
+    &--level2 {
+      top: 0;
+      left: 100%;
+      margin-top: 0;
+      margin-left: 0; // Remove gap to prevent dropdown from disappearing
+    }
+  }
+
+  &__title {
+    flex: 1;
+    min-width: 0;  // Enable ellipsis
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__profile-btn {
+    flex-shrink: 0;
+  }
+}
+
+// Burger menu button
+.burger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: $burger-width;
+  height: $burger-height;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  span {
+    width: 100%;
+    height: $burger-bar-height;
+    background-color: $text-primary;
+    border-radius: $border-radius;
+    transition: all $transition-normal $easing-snappy;
+    transform-origin: center;
+  }
+
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate($burger-transform-offset, $burger-transform-offset);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate($burger-transform-offset, -$burger-transform-offset);
+    }
+  }
+
+  &:hover span {
+    background-color: $accent-color;
+  }
+}
+
+// Theme switcher styling
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  label {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  select {
+    padding: $spacing-xs $spacing-sm;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    background-color: $header-bg;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+    }
+  }
+}

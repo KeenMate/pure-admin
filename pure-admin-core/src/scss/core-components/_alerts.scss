@@ -1,0 +1,209 @@
+/* ========================================
+   Alert Components
+   Alerts with variants, sizes, dismissible functionality
+   ======================================== */
+
+// Alerts
+.pa-alert {
+  position: relative;
+  padding: $card-footer-padding-v $card-footer-padding-h;
+  margin-bottom: $spacing-base;
+  border: $border-width-base solid transparent;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  display: flex;
+  align-items: flex-start;
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+  gap: $spacing-sm;
+
+  // Basic alert variants - using theme colors with subtle backgrounds
+  &--primary {
+    color: $accent-color;
+    background-color: rgba($accent-color, $opacity-subtle);
+    border-color: rgba($accent-color, $opacity-border);
+  }
+
+  &--secondary {
+    color: $text-secondary;
+    background-color: rgba($text-secondary, $alert-secondary-bg-opacity);
+    border-color: $border-color;
+  }
+
+  &--success {
+    color: $success-bg;
+    background-color: $success-bg-subtle;
+    border-color: $success-border;
+  }
+
+  &--danger {
+    color: $danger-bg;
+    background-color: $danger-bg-subtle;
+    border-color: $danger-border;
+  }
+
+  &--warning {
+    color: $warning-bg;
+    background-color: $warning-bg-subtle;
+    border-color: $warning-border;
+  }
+
+  &--info {
+    color: $info-bg;
+    background-color: $info-bg-subtle;
+    border-color: $info-border;
+  }
+
+  &--light {
+    color: $text-primary;
+    background-color: rgba($text-primary, $alert-light-bg-opacity);
+    border-color: $border-color;
+  }
+
+  &--dark {
+    color: $text-primary;
+    background-color: rgba($text-primary, $opacity-subtle);
+    border-color: rgba($text-primary, $opacity-border);
+  }
+
+  // Outline variants
+  &--outline-primary {
+    color: $accent-color;
+    border-color: $accent-color;
+    background-color: transparent;
+  }
+
+  &--outline-success {
+    color: $success-bg;
+    border-color: $success-bg;
+    background-color: transparent;
+  }
+
+  &--outline-danger {
+    color: $danger-bg;
+    border-color: $danger-bg;
+    background-color: transparent;
+  }
+
+  &--outline-warning {
+    color: $warning-bg;
+    border-color: $warning-bg;
+    background-color: transparent;
+  }
+
+  &--outline-info {
+    color: $info-bg;
+    border-color: $info-bg;
+    background-color: transparent;
+  }
+
+  // Alert sizes (size modifiers only change font-size, padding controlled by theme)
+  &--sm {
+    padding: $alert-padding-v $alert-padding-h;
+    font-size: $font-size-sm;
+  }
+
+  &--lg {
+    padding: $alert-padding-v $alert-padding-h;
+    font-size: $font-size-base;
+  }
+
+  // Dismissible alerts
+  &--dismissible {
+    padding-right: $alert-dismissible-padding-right;
+  }
+
+  // Alert components
+  &__icon {
+    flex-shrink: 0;
+    font-size: $font-size-base;
+    line-height: 1;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__heading {
+    margin: 0 0 $spacing-sm 0;
+    color: inherit;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__list {
+    margin: $spacing-sm 0;
+    padding-left: $alert-list-padding-left;
+  }
+
+  &__actions {
+    margin-top: $alert-list-item-margin-top;
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: $focus-outline-width;
+    padding: $card-footer-padding-v $card-footer-padding-h;
+    background: none;
+    border: none;
+    font-size: $font-size-xl;
+    line-height: 1;
+    color: inherit;
+    cursor: pointer;
+    opacity: $alert-close-opacity;
+    transition: opacity $transition-fast $easing-snappy;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+      opacity: 1;
+    }
+  }
+
+  // Remove margin from last child
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Links styling
+  a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: $font-weight-semibold;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  // Headings inside alerts
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: inherit;
+  }
+
+  // Horizontal rule
+  hr {
+    margin: $spacing-sm 0;
+    border: 0;
+    border-top: $border-width-base solid rgba(0, 0, 0, $opacity-light);
+  }
+}
+

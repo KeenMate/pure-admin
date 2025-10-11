@@ -1,0 +1,764 @@
+/* ========================================
+   Badge Components
+   Standard badges, composite badges, and label components
+   ======================================== */
+
+@use "sass:color";
+
+// Badges
+.pa-badge {
+  display: inline-block;
+  padding: $badge-padding-v $badge-padding-h;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius;
+
+  &--success {
+    background-color: $badge-success-bg;
+    color: $badge-success-text;
+  }
+
+  &--warning {
+    background-color: $badge-warning-bg;
+    color: $badge-warning-text;
+  }
+
+  &--info {
+    background-color: $badge-info-bg;
+    color: $badge-info-text;
+  }
+
+  &--danger {
+    background-color: $badge-danger-bg;
+    color: $badge-danger-text;
+  }
+}
+
+// Composite Badge - [icon][label][button]
+.pa-composite-badge {
+  display: inline-flex;
+  align-items: center;
+  height: $composite-badge-height;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $composite-badge-icon-width;
+    height: 100%;
+    flex-shrink: 0;
+    background-color: $composite-badge-icon-bg;
+    color: $modal-content-bg;
+    font-size: $font-size-sm;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 $composite-badge-label-padding;
+    background-color: $composite-badge-label-bg;
+    color: $composite-badge-label-text;
+    cursor: pointer;
+    transition: background-color $transition-normal ease;
+    user-select: none;
+    min-width: $stat-icon-size;
+
+    &:hover {
+      background-color: $composite-badge-label-hover-bg;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $composite-badge-button-width;
+    height: 100%;
+    flex-shrink: 0;
+    background-color: $danger-bg;
+    color: $modal-content-bg;
+    border: none;
+    cursor: pointer;
+    transition: background-color $transition-normal ease;
+    font-size: $font-size-xs;
+
+    &:hover {
+      background-color: $danger-bg-hover;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 $focus-outline-width rgba($danger-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  // Standard color variations - all sections match
+  &--primary {
+    .pa-composite-badge__icon {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $accent-light;
+      color: $btn-primary-bg;
+      &:hover {
+        background-color: $accent-hover;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-text;
+      &:hover {
+        background-color: $btn-primary-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--secondary {
+    .pa-composite-badge__icon {
+      background-color: $btn-secondary-bg;
+      color: $btn-secondary-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $bg-secondary;
+      color: $text-secondary;
+      &:hover {
+        background-color: $table-hover-bg;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-secondary-bg;
+      color: $btn-secondary-text;
+      &:hover {
+        background-color: $btn-secondary-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--success {
+    .pa-composite-badge__icon {
+      background-color: $btn-success-bg;
+      color: $btn-success-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-success-bg;
+      color: $badge-success-text;
+      &:hover {
+        background-color: color.adjust($badge-success-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-success-bg;
+      color: $btn-success-text;
+      &:hover {
+        background-color: $btn-success-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--danger {
+    .pa-composite-badge__icon {
+      background-color: $btn-danger-bg;
+      color: $btn-danger-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-danger-bg;
+      color: $badge-danger-text;
+      &:hover {
+        background-color: color.adjust($badge-danger-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-danger-bg;
+      color: $btn-danger-text;
+      &:hover {
+        background-color: $btn-danger-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--warning {
+    .pa-composite-badge__icon {
+      background-color: $btn-warning-bg;
+      color: $btn-warning-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-warning-bg;
+      color: $badge-warning-text;
+      &:hover {
+        background-color: color.adjust($badge-warning-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-warning-bg;
+      color: $btn-warning-text;
+      &:hover {
+        background-color: $btn-warning-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--info {
+    .pa-composite-badge__icon {
+      background-color: $btn-info-bg;
+      color: $btn-info-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-info-bg;
+      color: $badge-info-text;
+      &:hover {
+        background-color: color.adjust($badge-info-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-info-bg;
+      color: $btn-info-text;
+      &:hover {
+        background-color: $btn-info-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--light {
+    .pa-composite-badge__icon {
+      background-color: $btn-light-bg;
+      color: $btn-light-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $header-bg;
+      color: $btn-light-text;
+      &:hover {
+        background-color: $btn-light-bg-hover;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-light-bg;
+      color: $btn-light-text;
+      &:hover {
+        background-color: $btn-light-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--dark {
+    .pa-composite-badge__icon {
+      background-color: $btn-dark-bg;
+      color: $btn-dark-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $table-hover-bg;
+      color: $text-primary;
+      &:hover {
+        background-color: $border-color;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-dark-bg;
+      color: $btn-dark-text;
+      &:hover {
+        background-color: $btn-dark-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  // Color variants for icon section
+  &--primary &__icon {
+    background-color: $btn-primary-bg;
+  }
+
+  &--secondary &__icon {
+    background-color: $btn-secondary-bg;
+  }
+
+  &--success &__icon {
+    background-color: $btn-success-bg;
+  }
+
+  &--danger &__icon {
+    background-color: $btn-danger-bg;
+  }
+
+  &--warning &__icon {
+    background-color: $btn-warning-bg;
+    color: $btn-warning-color;
+  }
+
+  &--info &__icon {
+    background-color: $btn-info-bg;
+  }
+
+  &--light &__icon {
+    background-color: $btn-light-bg;
+    color: $btn-light-text;
+  }
+
+  &--dark &__icon {
+    background-color: $btn-dark-bg;
+  }
+
+  // Color variants for label section
+  &--label-primary &__label {
+    background-color: color.adjust($btn-primary-bg, $lightness: 40%);
+    color: color.adjust($btn-primary-bg, $lightness: -30%);
+
+    &:hover {
+      background-color: color.adjust($btn-primary-bg, $lightness: 35%);
+    }
+  }
+
+  &--label-secondary &__label {
+    background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
+    color: $secondary-text;
+
+    &:hover {
+      background-color: color.adjust($btn-secondary-bg, $lightness: 30%);
+    }
+  }
+
+  &--label-success &__label {
+    background-color: $badge-success-bg;
+    color: $badge-success-text;
+
+    &:hover {
+      background-color: color.adjust($badge-success-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-danger &__label {
+    background-color: $badge-danger-bg;
+    color: $badge-danger-text;
+
+    &:hover {
+      background-color: color.adjust($badge-danger-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-warning &__label {
+    background-color: $badge-warning-bg;
+    color: $badge-warning-text;
+
+    &:hover {
+      background-color: color.adjust($badge-warning-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-info &__label {
+    background-color: $badge-info-bg;
+    color: $badge-info-text;
+
+    &:hover {
+      background-color: color.adjust($badge-info-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-light &__label {
+    background-color: color.adjust($btn-light-bg, $lightness: 2%);
+    color: $btn-light-text;
+
+    &:hover {
+      background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
+    }
+  }
+
+  &--label-dark &__label {
+    background-color: color.adjust($btn-dark-bg, $lightness: 50%);
+    color: color.adjust($btn-dark-bg, $lightness: 5%);
+
+    &:hover {
+      background-color: color.adjust($btn-dark-bg, $lightness: 45%);
+    }
+  }
+
+  // Color variants for button section
+  &--btn-primary &__button {
+    background-color: $btn-primary-bg;
+
+    &:hover {
+      background-color: $btn-primary-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-primary-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-secondary &__button {
+    background-color: $btn-secondary-bg;
+
+    &:hover {
+      background-color: $btn-secondary-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-secondary-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-success &__button {
+    background-color: $btn-success-bg;
+
+    &:hover {
+      background-color: $btn-success-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-success-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-warning &__button {
+    background-color: $btn-warning-bg;
+    color: $btn-warning-color;
+
+    &:hover {
+      background-color: $btn-warning-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-warning-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-info &__button {
+    background-color: $btn-info-bg;
+
+    &:hover {
+      background-color: $btn-info-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-info-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-light &__button {
+    background-color: $btn-light-bg;
+    color: $btn-light-text;
+
+    &:hover {
+      background-color: $btn-light-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-light-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-dark &__button {
+    background-color: $btn-dark-bg;
+
+    &:hover {
+      background-color: $btn-dark-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-dark-bg, $btn-focus-ring-opacity);
+    }
+  }
+}
+
+// Badge Group - limits visible badges and shows "more" indicator
+.pa-badge-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $badge-group-gap;
+
+  // Hide badges beyond the limit
+  .pa-badge:nth-child(n+#{$badge-group-visible-limit + 1}):not(:last-child) {
+    display: none;
+  }
+
+  // Show all badges without limit
+  &--show-all {
+    .pa-badge:nth-child(n+#{$badge-group-visible-limit + 1}):not(:last-child) {
+      display: inline-flex;
+    }
+  }
+}
+
+// Badge Components
+.pa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  background-color: $btn-secondary-bg;
+  color: $btn-secondary-text;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: $border-radius;
+  border: $border-width-base solid transparent;
+  transition: all $transition-fast $easing-snappy;
+
+  &__icon {
+    font-size: $font-size-2xs;
+    line-height: 1;
+  }
+
+  // Size variations
+  &--sm {
+    padding: $badge-padding-v $badge-padding-h;
+    font-size: $font-size-2xs;
+  }
+
+  &--lg {
+    padding: $btn-padding-v $btn-padding-h;
+    font-size: $font-size-sm;
+  }
+
+  // Shape variations
+  &--pill {
+    border-radius: $badge-pill-radius;
+  }
+
+  // Color variations
+  &--primary {
+    background-color: $btn-primary-bg;
+    color: $btn-primary-text;
+    border-color: $btn-primary-bg;
+  }
+
+  &--secondary {
+    background-color: $btn-secondary-bg;
+    color: $btn-secondary-text;
+    border-color: $btn-secondary-bg;
+  }
+
+  &--success {
+    background-color: $btn-success-bg;
+    color: $btn-success-text;
+    border-color: $btn-success-bg;
+  }
+
+  &--warning {
+    background-color: $btn-warning-bg;
+    color: $btn-warning-text;
+    border-color: $btn-warning-bg;
+  }
+
+  &--danger {
+    background-color: $btn-danger-bg;
+    color: $btn-danger-text;
+    border-color: $btn-danger-bg;
+  }
+
+  &--info {
+    background-color: $btn-info-bg;
+    color: $btn-info-text;
+    border-color: $btn-info-bg;
+  }
+
+  &--light {
+    background-color: $btn-light-bg;
+    color: $btn-light-text;
+    border-color: $btn-light-bg;
+  }
+
+  &--dark {
+    background-color: $btn-dark-bg;
+    color: $btn-dark-text;
+    border-color: $btn-dark-bg;
+  }
+
+  // Fixed-width badges with ellipsis
+  &--w-1x { min-width: 1rem; max-width: 1rem; }
+  &--w-2x { min-width: 2rem; max-width: 2rem; }
+  &--w-3x { min-width: 3rem; max-width: 3rem; }
+  &--w-4x { min-width: 4rem; max-width: 4rem; }
+  &--w-5x { min-width: 5rem; max-width: 5rem; }
+  &--w-6x { min-width: 6rem; max-width: 6rem; }
+  &--w-7x { min-width: 7rem; max-width: 7rem; }
+  &--w-8x { min-width: 8rem; max-width: 8rem; }
+  &--w-9x { min-width: 9rem; max-width: 9rem; }
+  &--w-10x { min-width: 10rem; max-width: 10rem; }
+
+  // Apply ellipsis to fixed-width badges
+  &[class*="--w-"] {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  // Left-side ellipsis for paths/hierarchies where end is important
+  &--ellipsis-left {
+    direction: rtl;
+    text-align: left;
+  }
+}
+
+// Label Components
+.pa-label {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $btn-padding-v $btn-padding-h;
+  background-color: $accent-light;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  text-decoration: none;
+  border-radius: $border-radius;
+  border: $border-width-base solid $border-color;
+  transition: all $transition-fast $easing-snappy;
+
+  &:hover {
+    background-color: $accent-hover;
+    text-decoration: none;
+  }
+
+  // Size variations
+  &--sm {
+    padding: $btn-padding-v $btn-padding-h;
+    font-size: $font-size-xs;
+  }
+
+  &--lg {
+    padding: $card-header-padding-v $card-header-padding-h;
+    font-size: $font-size-base;
+  }
+
+  // Style variations
+  &--outline {
+    background-color: transparent;
+    border: $border-width-base solid $border-color;
+
+    &:hover {
+      background-color: $accent-light;
+    }
+  }
+
+  // Color variations
+  &--primary {
+    background-color: $accent-light;
+    color: $accent-color;
+    border-color: $accent-color;
+
+    &.pa-label--outline {
+      background-color: transparent;
+      color: $accent-color;
+      border-color: $accent-color;
+
+      &:hover {
+        background-color: $accent-light;
+      }
+    }
+  }
+
+  &--secondary {
+    background-color: rgba($secondary-bg, $opacity-light);
+    color: $secondary-bg;
+    border-color: $secondary-bg;
+
+    &.pa-label--outline {
+      background-color: transparent;
+      color: $secondary-bg;
+      border-color: $secondary-bg;
+
+      &:hover {
+        background-color: rgba($secondary-bg, $opacity-light);
+      }
+    }
+  }
+
+  &--success {
+    background-color: $success-bg-light;
+    color: $success-bg;
+    border-color: $success-bg;
+
+    &.pa-label--outline {
+      background-color: transparent;
+      color: $success-bg;
+      border-color: $success-bg;
+
+      &:hover {
+        background-color: $success-bg-light;
+      }
+    }
+  }
+
+  &--warning {
+    background-color: $warning-bg-light;
+    color: $warning-bg;
+    border-color: $warning-bg;
+
+    &.pa-label--outline {
+      background-color: transparent;
+      color: $warning-bg;
+      border-color: $warning-bg;
+
+      &:hover {
+        background-color: $warning-bg-light;
+      }
+    }
+  }
+
+  &--danger {
+    background-color: $danger-bg-light;
+    color: $danger-bg;
+    border-color: $danger-bg;
+
+    &.pa-label--outline {
+      background-color: transparent;
+      color: $danger-bg;
+      border-color: $danger-bg;
+
+      &:hover {
+        background-color: $danger-bg-light;
+      }
+    }
+  }
+
+  &--info {
+    background-color: $info-bg-light;
+    color: $info-bg;
+    border-color: $info-bg;
+
+    &.pa-label--outline {
+      background-color: transparent;
+      color: $info-bg;
+      border-color: $info-bg;
+
+      &:hover {
+        background-color: $info-bg-light;
+      }
+    }
+  }
+}
+

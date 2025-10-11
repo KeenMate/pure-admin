@@ -1,0 +1,281 @@
+/* ========================================
+   Profile Panel Components
+   Profile panel and header button
+   ======================================== */
+
+// ====================
+// Profile Panel & Header Button
+// ====================
+
+// Header profile button
+.pa-header__profile-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  background: none;
+  border: none;
+  padding: $profile-button-padding-v $profile-button-padding-h;
+  border-radius: $border-radius;
+  color: $text-primary;
+  cursor: pointer;
+  transition: background-color $transition-fast $easing-snappy;
+
+  &:hover {
+    background-color: $accent-light;
+  }
+
+  &:focus {
+    outline: $focus-outline-width solid $accent-color;
+    outline-offset: $focus-outline-offset;
+  }
+}
+
+.pa-header__profile-name {
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  color: $header-profile-name-color;
+}
+
+// Profile panel
+.pa-profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 1001;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-medium $easing-snappy,
+              visibility $transition-medium $easing-snappy;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+
+    .pa-profile-panel__content {
+      transform: translateX(0);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: $profile-overlay-bg;
+    cursor: pointer;
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $profile-panel-width;
+    max-width: $profile-panel-max-width;
+    height: 100vh;
+    background-color: $card-bg;
+    box-shadow: $shadow-profile-panel;
+    transform: translateX(100%);
+    transition: transform $transition-medium $easing-snappy;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__header {
+    padding: $spacing-lg;
+    background-color: $header-bg;
+    border-bottom: $border-width-base solid $border-color;
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-base;
+    position: relative;
+  }
+
+  &__avatar {
+    width: $profile-avatar-size;
+    height: $profile-avatar-size;
+    background-color: $accent-light;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__avatar-icon {
+    font-size: $font-size-4xl;
+    color: $accent-color;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    margin: 0 0 $spacing-xs 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__email {
+    margin: 0 0 $spacing-sm 0;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__role {
+    display: inline-block;
+    padding: $btn-padding-v $btn-padding-h;
+    background-color: $accent-light;
+    color: $accent-color;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    text-transform: uppercase;
+    letter-spacing: $profile-role-letter-spacing;
+  }
+
+  &__close {
+    position: absolute;
+    top: $spacing-base;
+    right: $spacing-base;
+    width: $profile-close-size;
+    height: $profile-close-size;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-secondary;
+    border-radius: $border-radius;
+    transition: background-color $transition-fast $easing-snappy,
+                color $transition-fast $easing-snappy;
+
+    &:hover {
+      background-color: $accent-light;
+      color: $accent-color;
+    }
+
+    &:focus {
+      outline: $focus-outline-width solid $accent-color;
+      outline-offset: $focus-outline-offset;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $profile-section-gap;
+    overflow-y: auto;
+  }
+
+  &__nav {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: $spacing-sm;
+    }
+  }
+
+  &__nav-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $card-footer-padding-v $card-footer-padding-h;
+    color: $text-primary;
+    text-decoration: none;
+    border-radius: $border-radius;
+    transition: background-color $transition-fast $easing-snappy,
+                color $transition-fast $easing-snappy;
+    font-weight: $font-weight-medium;
+
+    &:hover {
+      background-color: $accent-light;
+      color: $accent-color;
+    }
+
+    &:focus {
+      outline: $focus-outline-width solid $accent-color;
+      outline-offset: $focus-outline-offset;
+    }
+  }
+
+  &__nav-icon {
+    font-size: $font-size-lg;
+    width: $profile-nav-icon-width;
+    text-align: center;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    margin-top: auto;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: $mobile-breakpoint) {
+  .pa-profile-panel__content {
+    width: 85vw;
+    max-width: $profile-panel-mobile-max-width;
+  }
+
+  .pa-header__profile-name {
+    display: none;
+  }
+}
+
+// Global scrollbar styling - applies to all content
+/* Webkit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: $scrollbar-width;
+  height: $scrollbar-width;
+}
+
+*::-webkit-scrollbar-track {
+  background: $primary-bg;
+  border-radius: $border-radius;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: $border-color;
+  border-radius: $border-radius;
+  border: $border-width-base solid $primary-bg;
+
+  &:hover {
+    background: $accent-color;
+    border-color: $accent-hover;
+  }
+
+  &:active {
+    background: $accent-hover;
+  }
+}
+
+*::-webkit-scrollbar-corner {
+  background: $primary-bg;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: $border-color $primary-bg;
+}
+

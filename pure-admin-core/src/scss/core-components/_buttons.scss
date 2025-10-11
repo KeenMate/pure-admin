@@ -1,0 +1,419 @@
+/* ========================================
+   Button Components
+   Buttons, button groups, sizes, colors, states, and icon buttons
+   ======================================== */
+
+// Buttons
+.pa-btn {
+  display: inline-block;
+  padding: $btn-padding-v $btn-padding-h;
+  border: $btn-border-width solid transparent;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $transition-fast $easing-snappy;
+  background: none;
+  color: $text-primary;
+
+  &:hover {
+    transform: translateY($btn-hover-lift);
+  }
+
+  &--primary {
+    background-color: $accent-color;
+    border-color: $accent-color;
+    color: $modal-content-bg;
+
+    &:hover {
+      background-color: $accent-color;
+      filter: brightness($btn-hover-brightness);
+    }
+  }
+
+  &--secondary {
+    background-color: transparent;
+    border-color: $border-color;
+    color: $text-primary;
+
+    &:hover {
+      background-color: $primary-bg;
+      border-color: $accent-color;
+    }
+  }
+
+  &--xs {
+    padding: $btn-padding-xs-v $btn-padding-xs-h;
+    font-size: $font-size-xs;
+  }
+
+  &--sm {
+    padding: $btn-padding-sm-v $btn-padding-sm-h;
+    font-size: $font-size-sm;
+  }
+
+  &--lg {
+    padding: $btn-padding-lg-v $btn-padding-lg-h;
+    font-size: $font-size-base;
+  }
+
+  &--xl {
+    padding: $btn-padding-xl-v $btn-padding-xl-h;
+    font-size: $font-size-lg;
+  }
+
+  // Button variants (colors)
+  &--success {
+    background-color: $btn-success-bg;
+    border-color: $btn-success-bg;
+    color: $btn-success-text;
+
+    &:hover {
+      background-color: $btn-success-bg-hover;
+      border-color: $btn-success-bg-hover;
+    }
+  }
+
+  &--warning {
+    background-color: $btn-warning-bg;
+    border-color: $btn-warning-bg;
+    color: $btn-warning-color;
+
+    &:hover {
+      background-color: $btn-warning-bg-hover;
+      border-color: $btn-warning-bg-hover;
+    }
+  }
+
+  &--danger {
+    background-color: $btn-danger-bg;
+    border-color: $btn-danger-bg;
+    color: $btn-danger-text;
+
+    &:hover {
+      background-color: $btn-danger-bg-hover;
+      border-color: $btn-danger-bg-hover;
+    }
+  }
+
+  &--info {
+    background-color: $btn-info-bg;
+    border-color: $btn-info-bg;
+    color: $btn-info-text;
+
+    &:hover {
+      background-color: $btn-info-bg-hover;
+      border-color: $btn-info-bg-hover;
+    }
+  }
+
+  &--light {
+    background-color: $btn-light-bg;
+    border-color: $btn-light-bg;
+    color: $btn-light-text;
+
+    &:hover {
+      background-color: $btn-light-bg-hover;
+      border-color: $btn-light-bg-hover;
+    }
+  }
+
+  &--dark {
+    background-color: $btn-dark-bg;
+    border-color: $btn-dark-bg;
+    color: $btn-dark-text;
+
+    &:hover {
+      background-color: $btn-dark-bg-hover;
+      border-color: $btn-dark-bg-hover;
+    }
+  }
+
+  // Outline variants
+  &--outline-primary {
+    background-color: transparent;
+    border-color: $accent-color;
+    color: $accent-color;
+
+    &:hover {
+      background-color: $accent-color;
+      color: $modal-content-bg;
+    }
+  }
+
+  &--outline-secondary {
+    background-color: transparent;
+    border-color: $btn-secondary-bg;
+    color: $btn-secondary-bg;
+
+    &:hover {
+      background-color: $btn-secondary-bg;
+      color: $btn-secondary-text;
+    }
+  }
+
+  &--outline-success {
+    background-color: transparent;
+    border-color: $btn-success-bg;
+    color: $btn-success-bg;
+
+    &:hover {
+      background-color: $btn-success-bg;
+      color: $btn-success-text;
+    }
+  }
+
+  &--outline-warning {
+    background-color: transparent;
+    border-color: $btn-warning-bg;
+    color: $btn-warning-bg;
+
+    &:hover {
+      background-color: $btn-warning-bg;
+      color: $btn-warning-color;
+    }
+  }
+
+  &--outline-danger {
+    background-color: transparent;
+    border-color: $btn-danger-bg;
+    color: $btn-danger-bg;
+
+    &:hover {
+      background-color: $btn-danger-bg;
+      color: $btn-danger-text;
+    }
+  }
+
+  &--outline-info {
+    background-color: transparent;
+    border-color: $btn-info-bg;
+    color: $btn-info-bg;
+
+    &:hover {
+      background-color: $btn-info-bg;
+      color: $btn-info-text;
+    }
+  }
+
+  // Button states
+  &:disabled {
+    opacity: $btn-disabled-opacity;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  &--loading {
+    position: relative;
+    pointer-events: none;
+
+    .pa-btn__spinner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: $spinner-size;
+      height: $spinner-size;
+      border: $spinner-border-width solid transparent;
+      border-top: $spinner-border-width solid currentColor;
+      border-radius: 50%;
+      animation: pa-spin $animation-spin-duration linear infinite;
+    }
+  }
+
+  // Ripple effect
+  &--ripple {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: $ripple-color;
+      transform: translate(-50%, -50%);
+      transition: width $ripple-transition-duration ease, height $ripple-transition-duration ease;
+      pointer-events: none;
+    }
+
+    &.pa-btn--ripple-active::before {
+      width: $ripple-size;
+      height: $ripple-size;
+    }
+  }
+
+  // Block button
+  &--block {
+    width: 100%;
+    display: block;
+  }
+
+  // Icon buttons
+  &--icon-only {
+    width: $btn-icon-only-size;
+    height: $btn-icon-only-size;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Size-specific icon-only dimensions
+    &.pa-btn--xs {
+      width: $btn-icon-only-size-xs;
+      height: $btn-icon-only-size-xs;
+    }
+
+    &.pa-btn--sm {
+      width: $btn-icon-only-size-sm;
+      height: $btn-icon-only-size-sm;
+    }
+
+    &.pa-btn--lg {
+      width: $btn-icon-only-size-lg;
+      height: $btn-icon-only-size-lg;
+    }
+
+    &.pa-btn--xl {
+      width: $btn-icon-only-size-xl;
+      height: $btn-icon-only-size-xl;
+    }
+  }
+
+  &__icon {
+    margin-right: $btn-icon-margin;
+
+    &:last-child {
+      margin-right: 0;
+      margin-left: $btn-icon-margin;
+    }
+  }
+
+  // Buttons with icons align left like sidebar menu items
+  &:has(.pa-btn__icon) {
+    text-align: left;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    .pa-btn__icon {
+      width: $sidebar-icon-size;
+      min-width: $sidebar-icon-size;
+      height: $sidebar-icon-size;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin: 0;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  // Fixed width buttons - multipliers of 1rem
+  &--w-1x {
+    min-width: $spinner-size;
+  }
+
+  &--w-2x {
+    min-width: $btn-width-2x;
+  }
+
+  &--w-3x {
+    min-width: $btn-width-3x;
+  }
+
+  &--w-4x {
+    min-width: $btn-width-4x;
+  }
+
+  &--w-5x {
+    min-width: $btn-width-5x;
+  }
+
+  &--w-6x {
+    min-width: $btn-width-6x;
+  }
+
+  &--w-7x {
+    min-width: $btn-width-7x;
+  }
+
+  &--w-8x {
+    min-width: $btn-width-8x;
+  }
+
+  &--w-9x {
+    min-width: $btn-width-9x;
+  }
+
+  &--w-10x {
+    min-width: $btn-width-10x;
+  }
+
+  // Content alignment modifiers (position content within button)
+  // Button always keeps its horizontal padding (0.75rem on both sides)
+  // These classes control content position and remove icon padding on aligned sides
+
+  &--align-left {
+    justify-content: flex-start;
+
+    .pa-btn__icon {
+      padding-left: 0;
+    }
+  }
+
+  &--align-right {
+    justify-content: flex-end;
+
+    .pa-btn__icon {
+      padding-right: 0;
+    }
+  }
+
+  &--align-center {
+    justify-content: center;
+  }
+
+  &--align-justify {
+    justify-content: space-between;
+
+    .pa-btn__icon:first-child {
+      padding-left: 0;
+    }
+
+    // Remove padding from last element (text or icon)
+    > *:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+// Button Groups
+.pa-btn-group {
+  display: flex;
+  gap: 0.2rem; // Compact gap for tight button grouping
+  flex-wrap: wrap;
+  align-items: center;
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  // Ensure tooltips on buttons appear above siblings
+  .pa-btn.pa-tooltip:hover {
+    position: relative;
+    z-index: $z-index-modal;
+  }
+}
+

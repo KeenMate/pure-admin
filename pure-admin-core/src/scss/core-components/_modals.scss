@@ -1,0 +1,266 @@
+/* ========================================
+   Modal Components
+   Modal windows with overlay, sizes, and themed headers
+   ======================================== */
+
+// ===== MODAL COMPONENTS =====
+
+// Modal wrapper
+.pa-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: $z-index-modal;
+
+  &.pa-modal--show {
+    display: flex;
+  }
+}
+
+// Modal backdrop (the dark overlay)
+.pa-modal__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $modal-overlay-bg;
+  z-index: $z-index-modal-backdrop;
+}
+
+// Modal container (the actual dialog)
+.pa-modal__container {
+  background-color: $modal-content-bg;
+  border-radius: $modal-border-radius;
+  box-shadow: $modal-box-shadow;
+  width: 100%;
+  max-width: $modal-md-width;
+  max-height: 90vh;
+  margin: $spacing-base;
+  position: relative;
+  z-index: $z-index-modal;
+  display: flex;
+  flex-direction: column;
+
+  // Size variations
+  &--sm {
+    max-width: $modal-sm-width;
+  }
+
+  &--lg {
+    max-width: $modal-lg-width;
+  }
+
+  &--xl {
+    max-width: $modal-xl-width;
+  }
+
+  &--xxl {
+    max-width: $modal-xxl-width;
+  }
+
+  &--fw {
+    max-width: calc(100vw - ($modal-fw-margin * 2));
+    width: calc(100vw - ($modal-fw-margin * 2));
+    max-height: calc(100vh - ($modal-fw-margin * 2));
+    margin: $modal-fw-margin;
+  }
+}
+
+// Modal header
+.pa-modal__header {
+  padding: $modal-header-padding;
+  border-bottom: $border-width-base solid $border-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pa-modal__title {
+  margin: 0;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+}
+
+.pa-modal__close {
+  background: none;
+  border: none;
+  font-size: $modal-close-font-size;
+  line-height: 1;
+  color: $text-secondary;
+  cursor: pointer;
+  padding: 0;
+  width: $modal-close-size;
+  height: $modal-close-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius;
+  transition: background-color $transition-normal ease;
+  margin-right: calc(-1 * #{$modal-header-padding-h} + #{$spacing-sm}); // Align with right edge, keep small gap
+
+  &:hover {
+    background-color: $accent-hover;
+    color: $text-primary;
+  }
+
+  &:focus {
+    outline: $focus-outline-width solid $accent-color;
+    outline-offset: $focus-outline-offset;
+  }
+}
+
+// Modal body
+.pa-modal__body {
+  padding: $modal-padding;
+  flex: 1;
+  overflow-y: auto;
+  color: $text-primary;
+}
+
+// Modal footer
+.pa-modal__footer {
+  padding: $modal-footer-padding;
+  border-top: $border-width-base solid $border-color;
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+  flex-shrink: 0;
+}
+
+// Modal color variations
+.pa-modal--primary .pa-modal__header {
+  background-color: $btn-primary-bg;
+  color: $modal-content-bg;
+  border-bottom-color: $btn-primary-bg;
+
+  .pa-modal__title {
+    color: $modal-content-bg;
+  }
+
+  .pa-modal__close {
+    color: $modal-content-bg;
+    opacity: $opacity-hover;
+
+    &:hover {
+      background-color: $modal-header-hover-overlay;
+      color: $modal-content-bg;
+      opacity: 1;
+    }
+  }
+}
+
+.pa-modal--success .pa-modal__header {
+  background-color: $btn-success-bg;
+  color: $btn-success-text;
+  border-bottom-color: $btn-success-bg;
+
+  .pa-modal__title {
+    color: $btn-success-text;
+  }
+
+  .pa-modal__close {
+    color: $modal-content-bg;
+    opacity: $opacity-hover;
+
+    &:hover {
+      background-color: $modal-header-hover-overlay;
+      color: $modal-content-bg;
+      opacity: 1;
+    }
+  }
+}
+
+.pa-modal--warning .pa-modal__header {
+  background-color: $btn-warning-bg;
+  color: $btn-warning-color;
+  border-bottom-color: $btn-warning-bg;
+
+  .pa-modal__title {
+    color: $btn-warning-color;
+  }
+
+  .pa-modal__close {
+    color: $btn-warning-color;
+    opacity: $opacity-hover;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, $modal-warning-hover-bg-opacity);
+      opacity: 1;
+    }
+  }
+}
+
+.pa-modal--danger .pa-modal__header {
+  background-color: $btn-danger-bg;
+  color: $btn-danger-text;
+  border-bottom-color: $btn-danger-bg;
+
+  .pa-modal__title {
+    color: $btn-danger-text;
+  }
+
+  .pa-modal__close {
+    color: $modal-content-bg;
+    opacity: $opacity-hover;
+
+    &:hover {
+      background-color: $modal-header-hover-overlay;
+      color: $modal-content-bg;
+      opacity: 1;
+    }
+  }
+}
+
+// Modal scrollable content
+.pa-modal__body--scrollable {
+  max-height: $modal-body-scrollable-max-height;
+  overflow-y: auto;
+}
+
+// Modal form styles use the same .pa-form-group as regular forms
+// No additional styling needed - proper grid spacing handles alignment
+
+// Modal backdrop click handling
+.pa-modal[data-backdrop="static"] {
+  // For static modals that don't close on backdrop click
+}
+
+// Responsive modal behavior
+@media (max-width: $mobile-breakpoint) {
+  .pa-modal__container {
+    margin: $modal-mobile-margin;
+    max-height: $modal-mobile-max-height;
+
+    &--lg,
+    &--xl,
+    &--xxl {
+      max-width: calc(100vw - #{$spacing-base});
+    }
+
+    &--fw {
+      --modal-fw-margin: $modal-mobile-margin;
+      max-width: calc(100vw - ($modal-fw-margin * 2));
+      width: calc(100vw - ($modal-fw-margin * 2));
+      max-height: calc(100vh - ($modal-fw-margin * 2));
+      margin: $modal-fw-margin;
+    }
+  }
+
+  .pa-modal__header,
+  .pa-modal__footer {
+    padding: $card-footer-padding-v $card-footer-padding-h;
+  }
+
+  .pa-modal__body {
+    padding: $spacing-base;
+  }
+}
+

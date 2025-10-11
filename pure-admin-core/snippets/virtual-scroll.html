@@ -1,0 +1,322 @@
+<!-- Virtual Scroll & Infinite Scroll Snippets -->
+<!-- Clean HTML and JavaScript examples for efficient large dataset rendering -->
+
+<!-- ========================================
+     Virtual Scroll (True Virtualization)
+     Constant DOM size, handles millions of items
+     ======================================== -->
+
+<!-- Timeline Virtual Scroll -->
+<div id="timeline-virtual-container" style="height: 400px; overflow-y: auto;">
+    <ul class="pa-timeline pa-timeline--feed" id="timeline-virtual-list"></ul>
+</div>
+
+<script>
+const timelineContainer = document.getElementById('timeline-virtual-container');
+const timelineList = document.getElementById('timeline-virtual-list');
+
+let scrollTop = 0;
+const itemHeight = 50;           // Fixed height per item
+const totalItems = 5000;         // Total dataset size
+const bufferSize = 10;           // Extra items above/below viewport
+const viewportHeight = 400;      // Container height
+
+function renderTimelineItems() {
+    // Calculate visible range
+    const startIndex = Math.floor(scrollTop / itemHeight);
+    const endIndex = Math.ceil((scrollTop + viewportHeight) / itemHeight);
+    const visibleStart = Math.max(0, startIndex - bufferSize);
+    const visibleEnd = Math.min(totalItems, endIndex + bufferSize);
+
+    // Set list height to maintain scroll
+    timelineList.style.height = `${totalItems * itemHeight}px`;
+    timelineList.style.position = 'relative';
+
+    // Clear and render visible items only
+    timelineList.innerHTML = '';
+
+    for (let i = visibleStart; i < visibleEnd; i++) {
+        const li = document.createElement('li');
+        li.className = 'pa-timeline__item';
+
+        // Absolute positioning at calculated offset
+        li.style.position = 'absolute';
+        li.style.top = `${i * itemHeight}px`;
+        li.style.left = '0';
+        li.style.right = '0';
+
+        // Render item content
+        li.innerHTML = `
+            <div class="pa-timeline__time">09:30</div>
+            <div class="pa-timeline__content">
+                <div class="pa-timeline__avatar">
+                    <img src="avatar.jpg" alt="User">
+                </div>
+                <span>Action #${i}</span>
+            </div>
+        `;
+
+        timelineList.appendChild(li);
+    }
+}
+
+// Listen to scroll events
+timelineContainer.addEventListener('scroll', () => {
+    scrollTop = timelineContainer.scrollTop;
+    renderTimelineItems();
+});
+
+// Initial render
+renderTimelineItems();
+</script>
+
+<!-- ========================================
+     Table Virtual Scroll (with spacer rows)
+     Preserves table structure
+     ======================================== -->
+
+<div id="table-virtual-container" style="height: 400px; overflow-y: auto;">
+    <table class="pa-table pa-table--striped">
+        <thead style="position: sticky; top: 0; background: white; z-index: 10;">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="table-virtual-body"></tbody>
+    </table>
+</div>
+
+<script>
+const tableContainer = document.getElementById('table-virtual-container');
+const tableBody = document.getElementById('table-virtual-body');
+
+let tableScrollTop = 0;
+const tableItemHeight = 38;      // Table row height
+const tableTotalItems = 10000;   // Total rows
+const tableBufferSize = 10;
+const tableViewportHeight = 400;
+
+function renderTableRows() {
+    // Calculate visible range
+    const startIndex = Math.floor(tableScrollTop / tableItemHeight);
+    const endIndex = Math.ceil((tableScrollTop + tableViewportHeight) / tableItemHeight);
+    const visibleStart = Math.max(0, startIndex - tableBufferSize);
+    const visibleEnd = Math.min(tableTotalItems, endIndex + tableBufferSize);
+
+    // Clear tbody
+    tableBody.innerHTML = '';
+
+    // Top spacer row (pushes content down)
+    if (visibleStart > 0) {
+        const topSpacer = document.createElement('tr');
+        topSpacer.style.height = `${visibleStart * tableItemHeight}px`;
+        topSpacer.innerHTML = '<td colspan="4"></td>';
+        tableBody.appendChild(topSpacer);
+    }
+
+    // Visible rows
+    for (let i = visibleStart; i < visibleEnd; i++) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${i + 1}</td>
+            <td>John Doe</td>
+            <td>john.doe@example.com</td>
+            <td><span class="pa-badge pa-badge--success">Active</span></td>
+        `;
+        tableBody.appendChild(tr);
+    }
+
+    // Bottom spacer row (maintains scroll height)
+    if (visibleEnd < tableTotalItems) {
+        const bottomSpacer = document.createElement('tr');
+        bottomSpacer.style.height = `${(tableTotalItems - visibleEnd) * tableItemHeight}px`;
+        bottomSpacer.innerHTML = '<td colspan="4"></td>';
+        tableBody.appendChild(bottomSpacer);
+    }
+}
+
+// Listen to scroll events
+tableContainer.addEventListener('scroll', () => {
+    tableScrollTop = tableContainer.scrollTop;
+    renderTableRows();
+});
+
+// Initial render
+renderTableRows();
+</script>
+
+<!-- ========================================
+     Infinite Scroll (Lazy Loading)
+     Growing DOM, good for thousands of items
+     ======================================== -->
+
+<!-- Infinite Scroll Timeline -->
+<div class="pa-timeline__scroll-container" id="infinite-scroll-container" style="max-height: 400px; overflow-y: auto;">
+    <ul class="pa-timeline pa-timeline--feed" id="infinite-scroll-timeline"></ul>
+</div>
+<div class="pa-timeline__loader" id="infinite-scroll-loader">
+    <div class="pa-loader pa-loader--sm" id="infinite-scroll-spinner" style="display: none;">
+        <div class="pa-spinner"></div>
+    </div>
+    <div class="pa-timeline__loader-text" id="infinite-scroll-text" style="display: none;">
+        Loading more entries...
+    </div>
+</div>
+
+<script>
+let infinitePage = 0;
+let isLoadingInfinite = false;
+const infiniteContainer = document.getElementById('infinite-scroll-container');
+const infiniteTimeline = document.getElementById('infinite-scroll-timeline');
+const infiniteSpinner = document.getElementById('infinite-scroll-spinner');
+const infiniteText = document.getElementById('infinite-scroll-text');
+
+function loadInfiniteItems() {
+    if (isLoadingInfinite || infinitePage >= 100) {
+        return;  // Stop at 100 pages (2000 items)
+    }
+
+    isLoadingInfinite = true;
+    infiniteSpinner.style.display = 'block';
+    infiniteText.style.display = 'block';
+
+    // Simulate async data loading
+    setTimeout(() => {
+        // Load 20 items per page
+        for (let i = 0; i < 20; i++) {
+            const index = infinitePage * 20 + i;
+            const li = document.createElement('li');
+            li.className = 'pa-timeline__item';
+            li.innerHTML = `
+                <div class="pa-timeline__time">09:30</div>
+                <div class="pa-timeline__content">
+                    <div class="pa-timeline__avatar">
+                        <img src="avatar.jpg" alt="User">
+                    </div>
+                    <span>Action #${index}</span>
+                </div>
+            `;
+            infiniteTimeline.appendChild(li);  // Append, never remove
+        }
+
+        infinitePage++;
+        infiniteSpinner.style.display = 'none';
+        infiniteText.style.display = 'none';
+        isLoadingInfinite = false;
+    }, 500);
+}
+
+// Load initial items
+loadInfiniteItems();
+
+// Listen to scroll events
+infiniteContainer.addEventListener('scroll', () => {
+    const scrollTop = infiniteContainer.scrollTop;
+    const scrollHeight = infiniteContainer.scrollHeight;
+    const clientHeight = infiniteContainer.clientHeight;
+
+    // Check if scrolled near bottom (50px threshold)
+    if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoadingInfinite) {
+        loadInfiniteItems();
+    }
+});
+</script>
+
+<!-- ========================================
+     Using VirtualScroll Class (General Purpose)
+     ======================================== -->
+
+<script src="/dist/js/virtual-scroll.js"></script>
+
+<div id="my-container" style="height: 400px; overflow-y: auto;"></div>
+
+<script>
+const vs = new VirtualScroll({
+    container: document.getElementById('my-container'),
+    itemHeight: 50,          // Fixed height per item (required)
+    totalItems: 10000,       // Total dataset size
+    bufferSize: 10,          // Extra items above/below (optional)
+    renderItem: (index) => {
+        // Return DOM element for this item
+        const div = document.createElement('div');
+        div.textContent = `Item ${index}`;
+        return div;
+    },
+    onScroll: (scrollTop) => {
+        // Optional: callback on scroll
+        console.log('Scrolled to:', scrollTop);
+    }
+});
+
+// API methods
+vs.setTotalItems(20000);           // Update total items
+vs.scrollToItem(5000);             // Scroll to specific item
+const range = vs.getVisibleRange(); // Get current visible range
+vs.destroy();                       // Cleanup
+</script>
+
+<!-- ========================================
+     Performance Comparison
+     ======================================== -->
+<!--
+VIRTUAL SCROLL (Constant DOM):
+- DOM size: ~20-30 elements regardless of dataset
+- Performance: Handles millions of items smoothly
+- Requirements: Fixed item heights, uniform layout
+- Best for: Tables, logs, file lists, data grids
+- Strategy: Items added/removed dynamically as you scroll
+
+INFINITE SCROLL (Growing DOM):
+- DOM size: Grows with each load (e.g., 2000 elements for 2000 items)
+- Performance: Good for hundreds/low thousands
+- Requirements: Works with variable heights
+- Best for: Social feeds, news lists, image galleries
+- Strategy: Items appended, never removed
+
+WHEN TO USE WHAT:
+- 10,000+ uniform items → Virtual Scroll
+- Rich variable content → Infinite Scroll
+- Complex nested layouts → Infinite Scroll
+- Simple repeating rows → Virtual Scroll
+-->
+
+<!-- ========================================
+     Configuration Guidelines
+     ======================================== -->
+<!--
+VIRTUAL SCROLL SETTINGS:
+
+itemHeight:
+- Must be exact and consistent
+- Measure with: element.offsetHeight
+- Examples:
+  - Timeline item: 50px
+  - Table row: 38px
+  - List item: 44px
+
+bufferSize:
+- Recommended: 5-15 items
+- Larger = smoother scroll, more DOM
+- Smaller = less DOM, potential flicker
+
+totalItems:
+- Can be updated dynamically
+- Example: vs.setTotalItems(newCount)
+
+INFINITE SCROLL SETTINGS:
+
+Threshold:
+- Recommended: 50-100px from bottom
+- Trigger early for smooth experience
+
+Page size:
+- Recommended: 20-50 items per load
+- Balance between requests and UX
+
+Max pages:
+- Set a limit to prevent memory issues
+- Example: 100 pages = 2000 items max
+-->

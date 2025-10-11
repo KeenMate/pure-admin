@@ -1,0 +1,930 @@
+<!--
+     TABS SNIPPETS
+-->
+
+<!-- CARD-BASED TABS -->
+
+<!-- Card with Tabs -->
+<div class="pa-card">
+  <div class="pa-card__tabs">
+    <button class="pa-card__tab pa-card__tab--active">Overview</button>
+    <button class="pa-card__tab">Details</button>
+    <button class="pa-card__tab">Settings</button>
+  </div>
+  <div class="pa-card__body">
+    <div class="pa-card__tab-content pa-card__tab-content--active" id="tab1">
+      Content for tab 1
+    </div>
+    <div class="pa-card__tab-content" id="tab2">
+      Content for tab 2
+    </div>
+    <div class="pa-card__tab-content" id="tab3">
+      Content for tab 3
+    </div>
+  </div>
+</div>
+
+
+<!-- STANDALONE TABS - UNDERLINE STYLE (DEFAULT) -->
+
+<!-- Basic Tabs -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--active">Home</button>
+  <button class="pa-tabs__item">Profile</button>
+  <button class="pa-tabs__item">Messages</button>
+  <button class="pa-tabs__item">Settings</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="panel-1">
+    Home content
+  </div>
+  <div class="pa-tabs__panel" id="panel-2">
+    Profile content
+  </div>
+  <div class="pa-tabs__panel" id="panel-3">
+    Messages content
+  </div>
+  <div class="pa-tabs__panel" id="panel-4">
+    Settings content
+  </div>
+</div>
+
+
+<!-- TABS WITH ICONS -->
+
+<!-- Tabs with Font Awesome Icons -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--active">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </button>
+  <button class="pa-tabs__item">
+    <i class="fa-solid fa-user"></i>
+    <span>Profile</span>
+  </button>
+  <button class="pa-tabs__item">
+    <i class="fa-solid fa-envelope"></i>
+    <span>Messages</span>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="icon-panel-1">
+    Home content
+  </div>
+  <div class="pa-tabs__panel" id="icon-panel-2">
+    Profile content
+  </div>
+  <div class="pa-tabs__panel" id="icon-panel-3">
+    Messages content
+  </div>
+</div>
+
+
+<!-- PILLS STYLE TABS -->
+
+<!-- Pills Tabs -->
+<div class="pa-tabs pa-tabs--pills">
+  <button class="pa-tabs__item pa-tabs__item--active">Dashboard</button>
+  <button class="pa-tabs__item">Analytics</button>
+  <button class="pa-tabs__item">Reports</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="pills-1">
+    Dashboard content
+  </div>
+  <div class="pa-tabs__panel" id="pills-2">
+    Analytics content
+  </div>
+  <div class="pa-tabs__panel" id="pills-3">
+    Reports content
+  </div>
+</div>
+
+<!-- Pills with Icons -->
+<div class="pa-tabs pa-tabs--pills">
+  <button class="pa-tabs__item pa-tabs__item--active">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Dashboard</span>
+  </button>
+  <button class="pa-tabs__item">
+    <i class="fa-solid fa-chart-bar"></i>
+    <span>Analytics</span>
+  </button>
+  <button class="pa-tabs__item">
+    <i class="fa-solid fa-file-lines"></i>
+    <span>Reports</span>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="icon-pills-1">
+    Dashboard content
+  </div>
+  <div class="pa-tabs__panel" id="icon-pills-2">
+    Analytics content
+  </div>
+  <div class="pa-tabs__panel" id="icon-pills-3">
+    Reports content
+  </div>
+</div>
+
+
+<!-- BOXED STYLE TABS -->
+
+<!-- Boxed Tabs -->
+<div class="pa-tabs pa-tabs--boxed">
+  <button class="pa-tabs__item pa-tabs__item--active">Code</button>
+  <button class="pa-tabs__item">Issues</button>
+  <button class="pa-tabs__item">Pull Requests</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="boxed-1">
+    Code repository
+  </div>
+  <div class="pa-tabs__panel" id="boxed-2">
+    Issue tracker
+  </div>
+  <div class="pa-tabs__panel" id="boxed-3">
+    Pull requests
+  </div>
+</div>
+
+
+<!-- VERTICAL TABS -->
+
+<!-- Vertical Tabs with Icons (use vertical layout wrapper) -->
+<div class="pa-tabs__vertical-layout">
+  <div class="pa-tabs pa-tabs--vertical">
+    <button class="pa-tabs__item pa-tabs__item--active">
+      <i class="fa-solid fa-user"></i>
+      <span>Account</span>
+    </button>
+    <button class="pa-tabs__item">
+      <i class="fa-solid fa-lock"></i>
+      <span>Security</span>
+    </button>
+    <button class="pa-tabs__item">
+      <i class="fa-solid fa-bell"></i>
+      <span>Notifications</span>
+    </button>
+  </div>
+  <div class="pa-tabs__content" style="flex: 1;">
+    <div class="pa-tabs__panel pa-tabs__panel--active" id="vert-1">
+      Account settings
+    </div>
+    <div class="pa-tabs__panel" id="vert-2">
+      Security settings
+    </div>
+    <div class="pa-tabs__panel" id="vert-3">
+      Notification preferences
+    </div>
+  </div>
+</div>
+
+<!-- Vertical Tabs - Centered (for icon-only or narrow tabs) -->
+<div class="pa-tabs__vertical-layout">
+  <div class="pa-tabs pa-tabs--vertical pa-tabs--centered">
+    <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" data-tooltip="Dashboard">
+      <i class="fa-solid fa-chart-line"></i>
+    </button>
+    <button class="pa-tabs__item pa-tooltip" data-tooltip="Users">
+      <i class="fa-solid fa-users"></i>
+    </button>
+    <button class="pa-tabs__item pa-tooltip" data-tooltip="Settings">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+  </div>
+  <div class="pa-tabs__content" style="flex: 1;">
+    <div class="pa-tabs__panel pa-tabs__panel--active" id="vert-c-1">
+      Dashboard content
+    </div>
+    <div class="pa-tabs__panel" id="vert-c-2">
+      Users content
+    </div>
+    <div class="pa-tabs__panel" id="vert-c-3">
+      Settings content
+    </div>
+  </div>
+</div>
+
+
+<!-- TABS WITH BADGES -->
+
+<!-- Tabs with Count Badges -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--active">
+    <span>All</span>
+    <span class="pa-badge pa-badge--sm">48</span>
+  </button>
+  <button class="pa-tabs__item">
+    <span>Active</span>
+    <span class="pa-badge pa-badge--sm pa-badge--success">12</span>
+  </button>
+  <button class="pa-tabs__item">
+    <span>Pending</span>
+    <span class="pa-badge pa-badge--sm pa-badge--warning">5</span>
+  </button>
+  <button class="pa-tabs__item">
+    <span>Closed</span>
+    <span class="pa-badge pa-badge--sm pa-badge--secondary">31</span>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="badge-1">
+    All items (48)
+  </div>
+  <div class="pa-tabs__panel" id="badge-2">
+    Active items (12)
+  </div>
+  <div class="pa-tabs__panel" id="badge-3">
+    Pending items (5)
+  </div>
+  <div class="pa-tabs__panel" id="badge-4">
+    Closed items (31)
+  </div>
+</div>
+
+
+<!-- TAB SIZES -->
+
+<!-- Small Tabs -->
+<div class="pa-tabs pa-tabs--sm">
+  <button class="pa-tabs__item pa-tabs__item--active">Tab 1</button>
+  <button class="pa-tabs__item">Tab 2</button>
+  <button class="pa-tabs__item">Tab 3</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="sm-1">
+    Small tab content
+  </div>
+  <div class="pa-tabs__panel" id="sm-2">
+    Small tab 2
+  </div>
+  <div class="pa-tabs__panel" id="sm-3">
+    Small tab 3
+  </div>
+</div>
+
+<!-- Default Tabs (no size class) -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--active">Tab 1</button>
+  <button class="pa-tabs__item">Tab 2</button>
+  <button class="pa-tabs__item">Tab 3</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="def-1">
+    Default tab content
+  </div>
+  <div class="pa-tabs__panel" id="def-2">
+    Default tab 2
+  </div>
+  <div class="pa-tabs__panel" id="def-3">
+    Default tab 3
+  </div>
+</div>
+
+<!-- Large Tabs -->
+<div class="pa-tabs pa-tabs--lg">
+  <button class="pa-tabs__item pa-tabs__item--active">Tab 1</button>
+  <button class="pa-tabs__item">Tab 2</button>
+  <button class="pa-tabs__item">Tab 3</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="lg-1">
+    Large tab content
+  </div>
+  <div class="pa-tabs__panel" id="lg-2">
+    Large tab 2
+  </div>
+  <div class="pa-tabs__panel" id="lg-3">
+    Large tab 3
+  </div>
+</div>
+
+
+<!-- TAB ALIGNMENT -->
+
+<!-- Centered Tabs -->
+<div class="pa-tabs pa-tabs--centered">
+  <button class="pa-tabs__item pa-tabs__item--active">Features</button>
+  <button class="pa-tabs__item">Pricing</button>
+  <button class="pa-tabs__item">Testimonials</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="center-1">
+    Features content
+  </div>
+  <div class="pa-tabs__panel" id="center-2">
+    Pricing content
+  </div>
+  <div class="pa-tabs__panel" id="center-3">
+    Testimonials content
+  </div>
+</div>
+
+<!-- Full Width Tabs -->
+<div class="pa-tabs pa-tabs--full">
+  <button class="pa-tabs__item pa-tabs__item--active">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span>Mobile</span>
+  </button>
+  <button class="pa-tabs__item">
+    <i class="fa-solid fa-tablet-screen-button"></i>
+    <span>Tablet</span>
+  </button>
+  <button class="pa-tabs__item">
+    <i class="fa-solid fa-desktop"></i>
+    <span>Desktop</span>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="full-1">
+    Mobile view
+  </div>
+  <div class="pa-tabs__panel" id="full-2">
+    Tablet view
+  </div>
+  <div class="pa-tabs__panel" id="full-3">
+    Desktop view
+  </div>
+</div>
+
+
+<!-- DEFAULT TABS (WRAP TO MULTIPLE LINES) -->
+
+<!-- Default Tabs - Wrap When Needed -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--active">Organizations Tree</button>
+  <button class="pa-tabs__item">User Management System</button>
+  <button class="pa-tabs__item">Reports & Analytics</button>
+  <button class="pa-tabs__item">Settings & Configuration</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="wrap-1">
+    Default behavior - tabs wrap to multiple lines when constrained
+  </div>
+  <div class="pa-tabs__panel" id="wrap-2">
+    User Management content
+  </div>
+  <div class="pa-tabs__panel" id="wrap-3">
+    Reports content
+  </div>
+  <div class="pa-tabs__panel" id="wrap-4">
+    Settings content
+  </div>
+</div>
+
+<!-- Pills Also Wrap by Default -->
+<div class="pa-tabs pa-tabs--pills">
+  <button class="pa-tabs__item pa-tabs__item--active">Organizations Tree</button>
+  <button class="pa-tabs__item">User Management System</button>
+  <button class="pa-tabs__item">Reports & Analytics</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="wrap-pills-1">
+    Pills wrap by default (no modifier needed)
+  </div>
+  <div class="pa-tabs__panel" id="wrap-pills-2">
+    User Management
+  </div>
+  <div class="pa-tabs__panel" id="wrap-pills-3">
+    Reports
+  </div>
+</div>
+
+
+<!-- NO-WRAP TABS (PREVENT DEFAULT WRAPPING) -->
+
+<!-- No-wrap Tabs - Single Line Overflow -->
+<div class="pa-tabs pa-tabs--nowrap">
+  <button class="pa-tabs__item pa-tabs__item--active">Organizations Tree</button>
+  <button class="pa-tabs__item">User Management System</button>
+  <button class="pa-tabs__item">Reports & Analytics</button>
+  <button class="pa-tabs__item">Settings & Configuration</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="nowrap-1">
+    No-wrap modifier prevents wrapping - tabs overflow in single line (use when you want horizontal scroll)
+  </div>
+  <div class="pa-tabs__panel" id="nowrap-2">
+    User Management content
+  </div>
+  <div class="pa-tabs__panel" id="nowrap-3">
+    Reports content
+  </div>
+  <div class="pa-tabs__panel" id="nowrap-4">
+    Settings content
+  </div>
+</div>
+
+
+<!-- SCROLLABLE TABS (HORIZONTAL SCROLL WITH ARROWS) -->
+
+<!-- Scrollable Tabs - Underline Style -->
+<div class="pa-tabs pa-tabs--scrollable" data-tabs-scroll>
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="pa-tabs__scroll-container">
+    <button class="pa-tabs__item pa-tabs__item--active">Dashboard Overview</button>
+    <button class="pa-tabs__item">Organizations Tree</button>
+    <button class="pa-tabs__item">User Management System</button>
+    <button class="pa-tabs__item">Reports & Analytics</button>
+    <button class="pa-tabs__item">Settings & Configuration</button>
+  </div>
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="scroll-1">
+    Dashboard - arrows appear when tabs overflow
+  </div>
+  <div class="pa-tabs__panel" id="scroll-2">
+    Organizations content
+  </div>
+  <!-- more panels -->
+</div>
+
+<!-- Scrollable Pills -->
+<div class="pa-tabs pa-tabs--pills pa-tabs--scrollable" data-tabs-scroll>
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="pa-tabs__scroll-container">
+    <button class="pa-tabs__item pa-tabs__item--active">Organizations Tree</button>
+    <button class="pa-tabs__item">User Management System</button>
+    <button class="pa-tabs__item">Reports & Analytics</button>
+  </div>
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="scroll-pills-1">
+    Pills with horizontal scroll
+  </div>
+  <!-- more panels -->
+</div>
+
+
+<!-- COLLAPSE TABS (ICON-ONLY, ACTIVE SHOWS TITLE) -->
+
+<!-- Collapse Tabs - Active Tab Shows Title -->
+<div class="pa-tabs pa-tabs--collapse">
+  <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" data-tooltip="Organizations Tree">
+    <i class="fa-solid fa-sitemap"></i>
+    <span>Organizations Tree</span>
+  </button>
+  <button class="pa-tabs__item pa-tooltip" data-tooltip="User Management System">
+    <i class="fa-solid fa-users"></i>
+    <span>User Management System</span>
+  </button>
+  <button class="pa-tabs__item pa-tooltip" data-tooltip="Reports & Analytics">
+    <i class="fa-solid fa-chart-bar"></i>
+    <span>Reports & Analytics</span>
+  </button>
+  <button class="pa-tabs__item pa-tooltip" data-tooltip="Settings">
+    <i class="fa-solid fa-gear"></i>
+    <span>Settings</span>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="collapse-1">
+    Organizations - inactive tabs show only icons
+  </div>
+  <div class="pa-tabs__panel" id="collapse-2">
+    User Management
+  </div>
+  <div class="pa-tabs__panel" id="collapse-3">
+    Reports
+  </div>
+  <div class="pa-tabs__panel" id="collapse-4">
+    Settings
+  </div>
+</div>
+
+
+<!-- ICON-ONLY TABS -->
+
+<!-- Horizontal Icon-Only Tabs -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" data-tooltip="Dashboard">
+    <i class="fa-solid fa-chart-line"></i>
+  </button>
+  <button class="pa-tabs__item pa-tooltip" data-tooltip="Analytics">
+    <i class="fa-solid fa-chart-bar"></i>
+  </button>
+  <button class="pa-tabs__item pa-tooltip" data-tooltip="Users">
+    <i class="fa-solid fa-users"></i>
+  </button>
+  <button class="pa-tabs__item pa-tooltip" data-tooltip="Settings">
+    <i class="fa-solid fa-gear"></i>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="icon1">
+    Dashboard content
+  </div>
+  <div class="pa-tabs__panel" id="icon2">
+    Analytics content
+  </div>
+  <div class="pa-tabs__panel" id="icon3">
+    Users content
+  </div>
+  <div class="pa-tabs__panel" id="icon4">
+    Settings content
+  </div>
+</div>
+
+<!-- Vertical Icon-Only Tabs (use vertical layout wrapper, centered for icon-only, square 3x3) -->
+<div class="pa-tabs__vertical-layout">
+  <div class="pa-tabs pa-tabs--vertical pa-tabs--centered">
+    <button class="pa-tabs__item pa-tabs__item--w-3x pa-tabs__item--h-3x pa-tabs__item--active pa-tooltip" data-tooltip="Home">
+      <i class="fa-solid fa-house"></i>
+    </button>
+    <button class="pa-tabs__item pa-tabs__item--w-3x pa-tabs__item--h-3x pa-tooltip" data-tooltip="Profile">
+      <i class="fa-solid fa-user"></i>
+    </button>
+    <button class="pa-tabs__item pa-tabs__item--w-3x pa-tabs__item--h-3x pa-tooltip" data-tooltip="Messages">
+      <i class="fa-solid fa-envelope"></i>
+    </button>
+  </div>
+  <div class="pa-tabs__content" style="flex: 1;">
+    <div class="pa-tabs__panel pa-tabs__panel--active" id="vicon1">
+      Home content
+    </div>
+    <div class="pa-tabs__panel" id="vicon2">
+      Profile content
+    </div>
+    <div class="pa-tabs__panel" id="vicon3">
+      Messages content
+    </div>
+  </div>
+</div>
+
+
+<!-- FIXED WIDTH TABS -->
+
+<!-- Fixed Width Tab Items (6rem each) -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--w-6x pa-tabs__item--active">View</button>
+  <button class="pa-tabs__item pa-tabs__item--w-6x">Edit</button>
+  <button class="pa-tabs__item pa-tabs__item--w-6x">Delete</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="fixed-1">
+    View content
+  </div>
+  <div class="pa-tabs__panel" id="fixed-2">
+    Edit content
+  </div>
+  <div class="pa-tabs__panel" id="fixed-3">
+    Delete content
+  </div>
+</div>
+
+<!-- Fixed Width with Icons (8rem each) -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--w-8x pa-tabs__item--active">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Dashboard</span>
+  </button>
+  <button class="pa-tabs__item pa-tabs__item--w-8x">
+    <i class="fa-solid fa-chart-bar"></i>
+    <span>Analytics</span>
+  </button>
+  <button class="pa-tabs__item pa-tabs__item--w-8x">
+    <i class="fa-solid fa-file-lines"></i>
+    <span>Reports</span>
+  </button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="fixed-icon-1">
+    Dashboard content
+  </div>
+  <div class="pa-tabs__panel" id="fixed-icon-2">
+    Analytics content
+  </div>
+  <div class="pa-tabs__panel" id="fixed-icon-3">
+    Reports content
+  </div>
+</div>
+
+
+<!-- STANDALONE TABS (OUTSIDE CARDS) -->
+
+<!-- Horizontal Standalone Tabs - Page Level Navigation -->
+<div class="pa-tabs">
+  <button class="pa-tabs__item pa-tabs__item--active">Overview</button>
+  <button class="pa-tabs__item">Details</button>
+  <button class="pa-tabs__item">Reports</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="sa1">
+    <div class="pa-card">
+      <div class="pa-card__body">
+        Overview content - tabs can exist outside cards for page-level navigation
+      </div>
+    </div>
+  </div>
+  <div class="pa-tabs__panel" id="sa2">
+    <div class="pa-card">
+      <div class="pa-card__body">
+        Details content
+      </div>
+    </div>
+  </div>
+  <div class="pa-tabs__panel" id="sa3">
+    <div class="pa-card">
+      <div class="pa-card__body">
+        Reports content
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Vertical Standalone Tabs - Sidebar Style Navigation (use vertical layout wrapper) -->
+<div class="pa-tabs__vertical-layout">
+  <div class="pa-tabs pa-tabs--vertical">
+    <button class="pa-tabs__item pa-tabs__item--h-3x pa-tabs__item--active">
+      <i class="fa-solid fa-house"></i>
+      <span>Dashboard</span>
+    </button>
+    <button class="pa-tabs__item pa-tabs__item--h-3x">
+      <i class="fa-solid fa-chart-bar"></i>
+      <span>Analytics</span>
+    </button>
+    <button class="pa-tabs__item pa-tabs__item--h-3x">
+      <i class="fa-solid fa-users"></i>
+      <span>Users</span>
+    </button>
+  </div>
+  <div class="pa-tabs__content" style="flex: 1;">
+    <div class="pa-tabs__panel pa-tabs__panel--active" id="sav1">
+      <div class="pa-card">
+        <div class="pa-card__header">
+          <h3>Dashboard</h3>
+        </div>
+        <div class="pa-card__body">
+          Vertical standalone tabs work great for sidebar-style navigation
+        </div>
+      </div>
+    </div>
+    <div class="pa-tabs__panel" id="sav2">
+      <div class="pa-card">
+        <div class="pa-card__body">Analytics content</div>
+      </div>
+    </div>
+    <div class="pa-tabs__panel" id="sav3">
+      <div class="pa-card">
+        <div class="pa-card__body">Users content</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- BORDERED TABS -->
+
+<!-- Bordered Horizontal Tabs - Card-Like Wrapper -->
+<div class="pa-tabs__container pa-tabs__container--bordered">
+  <div class="pa-tabs">
+    <button class="pa-tabs__item pa-tabs__item--active">Dashboard</button>
+    <button class="pa-tabs__item">Settings</button>
+    <button class="pa-tabs__item">Profile</button>
+  </div>
+  <div class="pa-tabs__content">
+    <div class="pa-tabs__panel pa-tabs__panel--active" id="bc1">
+      Dashboard content - entire tab system wrapped in card-like border
+    </div>
+    <div class="pa-tabs__panel" id="bc2">
+      Settings content
+    </div>
+    <div class="pa-tabs__panel" id="bc3">
+      Profile content
+    </div>
+  </div>
+</div>
+
+<!-- Bordered Vertical Tabs - Card-Like Wrapper -->
+<div class="pa-tabs__vertical-layout pa-tabs__vertical-layout--bordered">
+  <div class="pa-tabs pa-tabs--vertical">
+    <button class="pa-tabs__item pa-tabs__item--h-3x pa-tabs__item--active">
+      <i class="fa-solid fa-gauge"></i>
+      <span>Overview</span>
+    </button>
+    <button class="pa-tabs__item pa-tabs__item--h-3x">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Reports</span>
+    </button>
+    <button class="pa-tabs__item pa-tabs__item--h-3x">
+      <i class="fa-solid fa-gear"></i>
+      <span>Settings</span>
+    </button>
+  </div>
+  <div class="pa-tabs__content" style="flex: 1;">
+    <div class="pa-tabs__panel pa-tabs__panel--active" id="bv1">
+      Overview - bordered vertical tabs with divider
+    </div>
+    <div class="pa-tabs__panel" id="bv2">
+      Reports content
+    </div>
+    <div class="pa-tabs__panel" id="bv3">
+      Settings content
+    </div>
+  </div>
+</div>
+
+
+<!-- JAVASCRIPT FOR TAB SWITCHING -->
+
+<script>
+// Scrollable tabs functionality
+function scrollTabs(button, direction) {
+  const tabsContainer = button.closest('.pa-tabs--scrollable');
+  const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
+  const scrollAmount = 200;
+
+  if (direction === 'left') {
+    scrollContainer.scrollLeft -= scrollAmount;
+  } else {
+    scrollContainer.scrollLeft += scrollAmount;
+  }
+
+  setTimeout(() => updateScrollArrows(tabsContainer), 100);
+}
+
+function updateScrollArrows(tabsContainer) {
+  const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
+  const leftBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--left');
+  const rightBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--right');
+
+  if (!scrollContainer || !leftBtn || !rightBtn) return;
+
+  const isAtStart = scrollContainer.scrollLeft <= 0;
+  const isAtEnd = scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 1;
+
+  if (isAtStart) {
+    leftBtn.classList.remove('pa-tabs__scroll-btn--visible');
+  } else {
+    leftBtn.classList.add('pa-tabs__scroll-btn--visible');
+  }
+
+  if (isAtEnd) {
+    rightBtn.classList.remove('pa-tabs__scroll-btn--visible');
+  } else {
+    rightBtn.classList.add('pa-tabs__scroll-btn--visible');
+  }
+}
+
+// Initialize scrollable tabs on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollableTabs = document.querySelectorAll('[data-tabs-scroll]');
+  scrollableTabs.forEach(tabsContainer => {
+    const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
+    updateScrollArrows(tabsContainer);
+    scrollContainer.addEventListener('scroll', () => updateScrollArrows(tabsContainer));
+    window.addEventListener('resize', () => updateScrollArrows(tabsContainer));
+  });
+});
+
+// Standalone tabs switching
+function switchTab(button, panelId) {
+  // Handle both regular tabs and scrollable tabs
+  let tabsContainer = button.closest('.pa-tabs__scroll-container');
+  if (tabsContainer) {
+    tabsContainer = tabsContainer.parentElement;
+  } else {
+    tabsContainer = button.closest('.pa-tabs');
+  }
+
+  // Find content container - handle both sibling and wrapped layouts
+  let contentContainer = tabsContainer.nextElementSibling;
+
+  // If nextElementSibling is not the content container (wrapped layouts)
+  if (!contentContainer || !contentContainer.classList.contains('pa-tabs__content')) {
+    // Search in parent scope (card body, vertical layout wrapper, or container)
+    const parent = tabsContainer.closest('.pa-card__body, .pa-tabs__vertical-layout, .pa-tabs__container');
+    if (parent) {
+      contentContainer = parent.querySelector('.pa-tabs__content');
+    }
+  }
+
+  if (!contentContainer) return;
+
+  // Remove active class from all tabs
+  const tabs = tabsContainer.querySelectorAll('.pa-tabs__item');
+  tabs.forEach(tab => tab.classList.remove('pa-tabs__item--active'));
+
+  // Add active class to clicked tab
+  button.classList.add('pa-tabs__item--active');
+
+  // Hide all panels
+  const panels = contentContainer.querySelectorAll('.pa-tabs__panel');
+  panels.forEach(panel => panel.classList.remove('pa-tabs__panel--active'));
+
+  // Show selected panel
+  const selectedPanel = contentContainer.querySelector(`#${panelId}`);
+  if (selectedPanel) {
+    selectedPanel.classList.add('pa-tabs__panel--active');
+  }
+}
+
+// Card tabs switching
+function switchCardTab(button, panelId) {
+  const card = button.closest('.pa-card');
+
+  // Remove active class from all card tabs
+  const tabs = card.querySelectorAll('.pa-card__tab');
+  tabs.forEach(tab => tab.classList.remove('pa-card__tab--active'));
+
+  // Add active class to clicked tab
+  button.classList.add('pa-card__tab--active');
+
+  // Hide all tab content
+  const contents = card.querySelectorAll('.pa-card__tab-content');
+  contents.forEach(content => content.classList.remove('pa-card__tab-content--active'));
+
+  // Show selected tab content
+  const selectedContent = card.querySelector(`#${panelId}`);
+  if (selectedContent) {
+    selectedContent.classList.add('pa-card__tab-content--active');
+  }
+}
+</script>
+
+
+<!-- AVAILABLE TAB MODIFIERS -->
+
+<!--
+CARD TABS:
+- pa-card__tabs (tabs container within card)
+- pa-card__tab (individual tab button)
+- pa-card__tab--active (active tab)
+- pa-card__tab-content (tab panel content)
+- pa-card__tab-content--active (active panel)
+
+STANDALONE TABS:
+- pa-tabs (tabs container, default underline style)
+- pa-tabs__item (individual tab button)
+- pa-tabs__item--active (active tab)
+- pa-tabs__content (container for all panels)
+- pa-tabs__panel (individual tab panel)
+- pa-tabs__panel--active (active panel)
+
+STYLES:
+- pa-tabs--pills (pill-style tabs with rounded backgrounds)
+- pa-tabs--boxed (boxed tabs with container border)
+- pa-tabs--vertical (vertical tab orientation)
+
+ALIGNMENT:
+- pa-tabs--centered (center-align tabs)
+- pa-tabs--full (full-width tabs, equal distribution)
+
+OVERFLOW HANDLING:
+- (default) (tabs wrap to multiple lines when constrained)
+- pa-tabs--nowrap (prevent wrapping, tabs overflow in single line)
+- pa-tabs--scrollable (horizontal scroll with arrow navigation)
+- pa-tabs--collapse (show only icons, active tab shows full title - requires icons on all tabs)
+- Use for long tab titles in narrow containers
+
+SIZES:
+- pa-tabs--sm (small tabs with compact padding)
+- (no class) (default size)
+- pa-tabs--lg (large tabs with generous padding)
+
+FIXED WIDTH (for individual tab items):
+- pa-tabs__item--w-1x through pa-tabs__item--w-10x (1rem to 10rem min-width)
+- Examples: pa-tabs__item--w-6x (6rem), pa-tabs__item--w-8x (8rem)
+- Use for consistent tab sizing across navigation
+
+FIXED HEIGHT (for individual tab items):
+- pa-tabs__item--h-1x through pa-tabs__item--h-10x (1rem to 10rem min-height)
+- Examples: pa-tabs__item--h-3x (3rem), pa-tabs__item--h-4x (4rem)
+- Useful for vertical tabs with consistent heights
+
+LAYOUT WRAPPERS:
+- pa-tabs__container (wrapper for horizontal tabs + content)
+  - pa-tabs__container--bordered (card-like border around entire tabs system)
+- pa-tabs__vertical-layout (flexbox wrapper for vertical tabs + content)
+  - pa-tabs__vertical-layout--bordered (card-like border around entire tabs system)
+- Use wrappers for all vertical tab layouts instead of grid
+- Provides proper spacing and alignment
+
+BORDERED VARIANTS:
+- Add --bordered modifier to wrapper for card-like appearance
+- Wraps entire tab system (navigation + content) in single border
+- Horizontal: pa-tabs__container--bordered
+- Vertical: pa-tabs__vertical-layout--bordered
+- Perfect for standalone tabs that need visual separation
+
+USAGE NOTES:
+- Use pa-card__tabs for tabs integrated into cards
+- Use pa-tabs for standalone tab navigation
+- Combine modifiers (e.g., pa-tabs--pills pa-tabs--sm)
+- Icons work with all tab styles
+- Badges can be added to tabs for counts/status
+- Vertical tabs use pa-tabs__vertical-layout wrapper
+- Icon-only vertical tabs should use pa-tabs--centered modifier
+- First panel in vertical layouts automatically has no top padding
+-->

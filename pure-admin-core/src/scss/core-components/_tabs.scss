@@ -1,0 +1,433 @@
+/* ========================================
+   Tabs Component
+   Standalone tabs for organizing content into separate sections
+   ======================================== */
+
+// Tabs container
+.pa-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: $border-width-base solid $border-color;
+  gap: $spacing-sm;
+  margin-bottom: $tabs-margin-bottom;
+
+  // Tab items
+  &__item {
+    padding: $btn-padding-v $btn-padding-h;
+    border: none;
+    background: none;
+    color: $text-secondary;
+    cursor: pointer;
+    transition: all $transition-fast $easing-snappy;
+    border-bottom: $border-width-medium solid transparent;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+
+    &:hover {
+      color: $text-primary;
+      background-color: rgba($accent-color, $card-tab-hover-opacity);
+    }
+
+    &--active {
+      color: $accent-color;
+      border-bottom-color: $accent-color;
+      font-weight: $font-weight-semibold;
+    }
+
+    // Icons in tabs
+    i {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // Tab content container
+  &__content {
+    // No specific styling needed, just a wrapper
+  }
+
+  // Tab panels
+  &__panel {
+    display: none;
+    padding-top: $tabs-panel-padding-top;
+
+    &--active {
+      display: block;
+    }
+
+    // Remove top margin from first heading
+    h4 {
+      margin-top: 0;
+    }
+  }
+
+  // Pills variant
+  &--pills {
+    border-bottom: none;
+    gap: $spacing-sm;
+
+    .pa-tabs__item {
+      border-radius: $border-radius-lg;
+      border: $border-width-base solid transparent;
+      background-color: $primary-bg;
+
+      &:hover {
+        background-color: rgba($accent-color, $tabs-pill-hover-opacity);
+        border-color: rgba($accent-color, $tabs-pill-border-opacity);
+      }
+
+      &--active {
+        background-color: $accent-color;
+        color: white;
+        border-color: $accent-color;
+      }
+    }
+  }
+
+  // Boxed variant
+  &--boxed {
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius-lg;
+    padding: $spacing-xs;
+    background-color: $primary-bg;
+    gap: $spacing-xs;
+
+    .pa-tabs__item {
+      border-radius: $border-radius;
+      border: none;
+      border-bottom: none;
+      padding: $spacing-sm $spacing-md;
+
+      &:hover {
+        background-color: rgba($accent-color, $tabs-boxed-hover-opacity);
+      }
+
+      &--active {
+        background-color: $card-bg;
+        color: $text-primary;
+        box-shadow: $shadow-sm;
+      }
+    }
+  }
+
+  // Vertical tabs
+  &--vertical {
+    flex-direction: column;
+    border-bottom: none;
+    border-right: $border-width-base solid $border-color;
+    gap: 0;
+    margin-bottom: 0;
+    padding-right: 0;
+    width: fit-content;
+    min-width: max-content;
+
+    .pa-tabs__item {
+      justify-content: flex-start;
+      border-bottom: none;
+      border-right: $border-width-medium solid transparent;
+      padding: $spacing-sm $spacing-md $spacing-sm 0;
+      border-radius: $border-radius 0 0 $border-radius;
+      gap: $tabs-vertical-item-gap;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: rgba($accent-color, $tabs-vertical-hover-opacity);
+      }
+
+      &--active {
+        border-right-color: $accent-color;
+        background-color: rgba($accent-color, $tabs-vertical-active-opacity);
+      }
+
+      // Icon with fixed width (follows sidebar pattern)
+      i {
+        width: $tabs-vertical-icon-size;
+        min-width: $tabs-vertical-icon-size;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      // Text with ellipsis overflow (follows sidebar pattern)
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  // Centered tabs
+  &--centered {
+    justify-content: center;
+
+    // For vertical tabs, center the content within each item
+    &.pa-tabs--vertical {
+      .pa-tabs__item {
+        justify-content: center;
+        padding-right: 0; // Remove padding-right to allow proper centering
+      }
+    }
+  }
+
+  // No-wrap tabs - prevent wrapping (opt-out of default behavior)
+  &--nowrap {
+    flex-wrap: nowrap;
+  }
+
+  // Scrollable tabs - horizontal scroll with arrow navigation
+  &--scrollable {
+    position: relative;
+    overflow: hidden;
+    flex-wrap: nowrap; // Force no-wrap for scrolling to work
+
+    // Inner scrollable container
+    .pa-tabs__scroll-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none; // Firefox
+      gap: $spacing-sm;
+
+      &::-webkit-scrollbar {
+        display: none; // Chrome, Safari
+      }
+    }
+
+    // Scroll arrows
+    .pa-tabs__scroll-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: $tabs-scroll-btn-width;
+      border: none;
+      background: linear-gradient(to right, rgba($primary-bg, $tabs-scroll-gradient-opacity), rgba($primary-bg, 0));
+      color: $text-primary;
+      cursor: pointer;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity $transition-fast;
+      opacity: 0;
+      pointer-events: none;
+
+      &:hover {
+        background: linear-gradient(to right, $primary-bg, rgba($primary-bg, $tabs-scroll-hover-gradient-opacity));
+      }
+
+      &--left {
+        left: 0;
+        background: linear-gradient(to right, rgba($primary-bg, $tabs-scroll-gradient-opacity), rgba($primary-bg, 0));
+      }
+
+      &--right {
+        right: 0;
+        background: linear-gradient(to left, rgba($primary-bg, $tabs-scroll-gradient-opacity), rgba($primary-bg, 0));
+      }
+
+      &--visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      i {
+        font-size: $font-size-lg;
+      }
+    }
+  }
+
+  // Collapse tabs - show only icons when constrained, active tab shows full title
+  &--collapse {
+    flex-wrap: nowrap; // Don't wrap collapsed tabs
+
+    // Hide text spans by default (only show icons)
+    .pa-tabs__item {
+      span {
+        display: none;
+      }
+
+      // Active tab shows both icon and text
+      &--active {
+        span {
+          display: inline;
+        }
+      }
+
+      // Tooltips on collapsed tabs
+      position: relative;
+    }
+  }
+
+  // Full width tabs
+  &--full {
+    .pa-tabs__item {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+
+  // Size variants
+  &--sm {
+    .pa-tabs__item {
+      padding: $btn-padding-sm-v $btn-padding-sm-h;
+      font-size: $font-size-xs;
+
+      i {
+        font-size: $font-size-xs;
+      }
+    }
+  }
+
+  &--lg {
+    .pa-tabs__item {
+      padding: $btn-padding-lg-v $btn-padding-lg-h;
+      font-size: $font-size-lg;
+
+      i {
+        font-size: $font-size-lg;
+      }
+    }
+  }
+
+  // Horizontal tabs container (for wrapping tabs + content)
+  &__container {
+    // Bordered variant - wraps entire tabs system in card-like border
+    &--bordered {
+      border: $border-width-base solid $border-color;
+      border-radius: $border-radius-lg;
+      padding: $card-body-padding;
+      background-color: $card-bg;
+
+      // Remove bottom border from tabs since wrapper has border
+      .pa-tabs {
+        border-bottom: none;
+        padding-bottom: $spacing-md;
+        margin-bottom: 0;
+        border-bottom: $border-width-base solid $border-color; // Divider between tabs and content
+      }
+
+      // Remove top padding from content since wrapper provides spacing
+      .pa-tabs__content {
+        padding-top: $spacing-md;
+      }
+    }
+  }
+
+  // Vertical tabs layout wrapper (for proper spacing with content)
+  &__vertical-layout {
+    display: flex;
+    gap: $spacing-base;
+    align-items: flex-start;
+
+    // All panels in vertical layout should have no top padding (aligned horizontally with tabs)
+    .pa-tabs__content .pa-tabs__panel {
+      padding-top: 0;
+    }
+
+    // Bordered variant - wraps entire tabs system in card-like border
+    &--bordered {
+      border: $border-width-base solid $border-color;
+      border-radius: $border-radius-lg;
+      padding: $card-body-padding;
+      background-color: $card-bg;
+
+      // Add divider between tabs and content (gap already provides spacing)
+      .pa-tabs--vertical {
+        border-right: $border-width-base solid $border-color;
+
+        // Make tab items full width so active border reaches divider
+        .pa-tabs__item {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  // Fixed width tab items - multipliers of 1rem
+  .pa-tabs__item {
+    &--w-1x {
+      min-width: 1rem;
+    }
+
+    &--w-2x {
+      min-width: 2rem;
+    }
+
+    &--w-3x {
+      min-width: 3rem;
+    }
+
+    &--w-4x {
+      min-width: 4rem;
+    }
+
+    &--w-5x {
+      min-width: 5rem;
+    }
+
+    &--w-6x {
+      min-width: 6rem;
+    }
+
+    &--w-7x {
+      min-width: 7rem;
+    }
+
+    &--w-8x {
+      min-width: 8rem;
+    }
+
+    &--w-9x {
+      min-width: 9rem;
+    }
+
+    &--w-10x {
+      min-width: 10rem;
+    }
+
+    // Fixed height tab items - multipliers of 1rem
+    &--h-1x {
+      min-height: 1rem;
+    }
+
+    &--h-2x {
+      min-height: 2rem;
+    }
+
+    &--h-3x {
+      min-height: 3rem;
+    }
+
+    &--h-4x {
+      min-height: 4rem;
+    }
+
+    &--h-5x {
+      min-height: 5rem;
+    }
+
+    &--h-6x {
+      min-height: 6rem;
+    }
+
+    &--h-7x {
+      min-height: 7rem;
+    }
+
+    &--h-8x {
+      min-height: 8rem;
+    }
+
+    &--h-9x {
+      min-height: 9rem;
+    }
+
+    &--h-10x {
+      min-height: 10rem;
+    }
+  }
+}

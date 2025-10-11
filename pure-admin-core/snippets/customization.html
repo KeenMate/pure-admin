@@ -1,0 +1,142 @@
+<!-- ================================
+     CUSTOMIZATION & CSS VARIABLES
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!-- ================================
+     PAGE LOADER CSS VARIABLES
+     Customize the loading screen appearance
+     ================================ -->
+
+<!-- Default Usage (uses theme values) -->
+<!-- The page loader appears during initial page load to prevent FOUC -->
+<!-- Each theme defines its own colors via CSS variables -->
+
+<!-- Custom Override Example -->
+<style>
+  :root {
+    /* Background overlay color (with transparency) */
+    --page-loader-bg: rgba(255, 0, 0, 0.9);
+
+    /* Spinner border color */
+    --page-loader-spinner-border: #333;
+
+    /* Spinner accent color (animated top border) */
+    --page-loader-spinner-accent: #00ff00;
+  }
+</style>
+
+<!-- Theme Default Values -->
+<!--
+CORPORATE THEME:
+--page-loader-bg: rgba(26, 26, 26, 0.95)
+--page-loader-spinner-border: #333
+--page-loader-spinner-accent: #0066cc
+
+EXPRESS THEME:
+--page-loader-bg: rgba(0, 0, 0, 0.95)
+--page-loader-spinner-border: #333
+--page-loader-spinner-accent: #FFCC00
+
+AUDI THEME (DARK):
+--page-loader-bg: rgba(10, 10, 10, 0.95)
+--page-loader-spinner-border: #333
+--page-loader-spinner-accent: #ff0000
+
+AUDI LIGHT THEME:
+--page-loader-bg: rgba(240, 240, 240, 0.95)
+--page-loader-spinner-border: #d0d0d0
+--page-loader-spinner-accent: #bb0a30
+
+MINIMAL THEME:
+--page-loader-bg: rgba(255, 255, 255, 0.95)
+--page-loader-spinner-border: #e0e0e0
+--page-loader-spinner-accent: #000000
+
+DARK THEMES (dark, dark-blue, dark-green, dark-red):
+--page-loader-bg: rgba(26, 26, 26, 0.95)
+--page-loader-spinner-border: #333
+--page-loader-spinner-accent: <theme-color>
+  - dark: #0ea5e9 (blue)
+  - dark-blue: #3b82f6 (blue)
+  - dark-green: #10b981 (green)
+  - dark-red: #ef4444 (red)
+-->
+
+<!-- Why CSS Variables? -->
+<!--
+The page loader uses CSS variables instead of SCSS variables because:
+1. It loads BEFORE the theme CSS (to prevent FOUC)
+2. Projects can easily override without recompiling SCSS
+3. Supports runtime theme switching if needed
+
+Just add your custom CSS AFTER the theme CSS link:
+<link rel="stylesheet" href="/dist/css/themes/corporate.css">
+<style>
+  :root {
+    --page-loader-bg: rgba(0, 100, 200, 0.95);
+  }
+</style>
+-->
+
+<!-- Integration Example -->
+<!--
+In your project's custom CSS file:
+-->
+<style>
+/* custom.css */
+:root {
+  /* Brand-specific loader colors */
+  --page-loader-bg: rgba(30, 30, 30, 0.98);
+  --page-loader-spinner-border: #444;
+  --page-loader-spinner-accent: #ff6b35; /* Orange brand color */
+}
+
+/* You can also override other aspects if needed */
+.page-loader {
+  /* Add custom backdrop blur */
+  backdrop-filter: blur(15px);
+}
+
+.page-loader__spinner {
+  /* Make spinner larger */
+  width: 60px;
+  height: 60px;
+  border-width: 5px;
+}
+</style>
+
+<!-- ================================
+     FUTURE CUSTOMIZATION OPTIONS
+     More CSS variables coming soon
+     ================================ -->
+
+<!-- Planned CSS Variables -->
+<!--
+Future versions may include CSS variables for:
+- Color scheme switching
+- Dynamic accent colors
+- Component-specific overrides
+- Animation timing customization
+
+For now, use SCSS variables for deep customization:
+$primary-bg: #your-color;
+$accent-color: #your-accent;
+@import '@pure-admin/core/scss';
+-->
+
+<!-- ================================
+     QUICK REFERENCE
+     ================================ -->
+
+<!--
+PAGE LOADER VARIABLES:
+- --page-loader-bg (background overlay color with opacity)
+- --page-loader-spinner-border (spinner border color)
+- --page-loader-spinner-accent (spinner animated color)
+
+USAGE:
+Define in :root selector AFTER theme CSS loads
+Values can use rgba(), hex, or any CSS color format
+Include alpha/transparency for overlay effect
+-->
