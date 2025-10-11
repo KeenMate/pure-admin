@@ -1,0 +1,606 @@
+<!-- Basic Checkbox Lists -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Basic Checkbox Lists</h3>
+        <p>Simple vertical checkbox lists with hover effects - full item area is clickable</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pure-g">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <h4>Default List</h4>
+                <ul class="pa-checkbox-list">
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="check1">
+                            <span class="pa-checkbox-list__text">Option 1</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="check2" checked>
+                            <span class="pa-checkbox-list__text">Option 2 (Selected)</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="check3">
+                            <span class="pa-checkbox-list__text">Option 3</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="check4" disabled>
+                            <span class="pa-checkbox-list__text">Option 4 (Disabled)</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-2">
+                <h4>With Descriptions</h4>
+                <ul class="pa-checkbox-list">
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="feature1">
+                            <span class="pa-checkbox-list__text">
+                                Email Notifications
+                                <span class="pa-checkbox-list__description">Receive updates via email</span>
+                            </span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="feature2" checked>
+                            <span class="pa-checkbox-list__text">
+                                SMS Alerts
+                                <span class="pa-checkbox-list__description">Get urgent alerts via SMS</span>
+                            </span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="feature3">
+                            <span class="pa-checkbox-list__text">
+                                Push Notifications
+                                <span class="pa-checkbox-list__description">Browser push notifications</span>
+                            </span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Item States -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Item States</h3>
+        <p>Clickable, disabled, and locked states with different visual feedback</p>
+    </div>
+    <div class="pa-card__body">
+        <h4>State Comparison</h4>
+        <ul class="pa-checkbox-list pa-checkbox-list--bordered">
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="state1">
+                    <span class="pa-checkbox-list__text">Normal clickable option</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item pa-checkbox-list__item--disabled">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="state2" disabled>
+                    <span class="pa-checkbox-list__text">Disabled - feature not available</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item pa-checkbox-list__item--locked">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="state3" disabled>
+                    <span class="pa-checkbox-list__text">Requires admin permission</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item pa-checkbox-list__item--locked">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="state4" disabled>
+                    <span class="pa-checkbox-list__text">Pro feature - upgrade required</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="state5" checked>
+                    <span class="pa-checkbox-list__text">Normal selected option</span>
+                </label>
+            </li>
+        </ul>
+
+        <div class="pa-alert pa-alert--info" style="margin-top: 1rem;">
+            <small>
+                <strong>State differences:</strong><br>
+                • <strong>Normal</strong> - Full opacity, pointer cursor, default text color<br>
+                • <strong>Disabled</strong> - 50% opacity on entire item, not-allowed cursor, muted color (feature unavailable)<br>
+                • <strong>Locked</strong> - 50% opacity on checkbox only, not-allowed cursor, warning color text with 🔒 icon (requires permission)
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- List Variants -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>List Variants</h3>
+        <p>Different styles for checkbox lists</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pure-g">
+            <div class="pure-u-1 pure-u-md-1-3">
+                <h4>Compact</h4>
+                <ul class="pa-checkbox-list pa-checkbox-list--compact">
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="compact1">
+                            <span class="pa-checkbox-list__text">Compact Option 1</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="compact2">
+                            <span class="pa-checkbox-list__text">Compact Option 2</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="compact3">
+                            <span class="pa-checkbox-list__text">Compact Option 3</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-3">
+                <h4>Bordered</h4>
+                <ul class="pa-checkbox-list pa-checkbox-list--bordered">
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="bordered1">
+                            <span class="pa-checkbox-list__text">Bordered Option 1</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="bordered2">
+                            <span class="pa-checkbox-list__text">Bordered Option 2</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="bordered3">
+                            <span class="pa-checkbox-list__text">Bordered Option 3</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-3">
+                <h4>Striped</h4>
+                <ul class="pa-checkbox-list pa-checkbox-list--striped">
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="striped1">
+                            <span class="pa-checkbox-list__text">Striped Option 1</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="striped2">
+                            <span class="pa-checkbox-list__text">Striped Option 2</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="striped3">
+                            <span class="pa-checkbox-list__text">Striped Option 3</span>
+                        </label>
+                    </li>
+                    <li class="pa-checkbox-list__item">
+                        <label class="pa-checkbox-list__label">
+                            <input type="checkbox" class="pa-checkbox-list__checkbox" id="striped4">
+                            <span class="pa-checkbox-list__text">Striped Option 4</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- List with Actions -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Checkbox Lists with Actions</h3>
+        <p>Lists with action buttons for each item</p>
+    </div>
+    <div class="pa-card__body">
+        <h4>Task List</h4>
+        <ul class="pa-checkbox-list pa-checkbox-list--bordered">
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="task1">
+                    <span class="pa-checkbox-list__text">Complete project proposal</span>
+                </label>
+                <div class="pa-checkbox-list__actions">
+                    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                </div>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="task2" checked>
+                    <span class="pa-checkbox-list__text">Review design mockups</span>
+                </label>
+                <div class="pa-checkbox-list__actions">
+                    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                </div>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="task3">
+                    <span class="pa-checkbox-list__text">Update documentation</span>
+                </label>
+                <div class="pa-checkbox-list__actions">
+                    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Alternative Layouts -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Alternative Layouts</h3>
+        <p>Inline, grid, and multi-column layouts</p>
+    </div>
+    <div class="pa-card__body">
+        <h4>Inline Layout</h4>
+        <ul class="pa-checkbox-list pa-checkbox-list--inline">
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="inline1">
+                    <span class="pa-checkbox-list__text">Option A</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="inline2">
+                    <span class="pa-checkbox-list__text">Option B</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="inline3">
+                    <span class="pa-checkbox-list__text">Option C</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="inline4">
+                    <span class="pa-checkbox-list__text">Option D</span>
+                </label>
+            </li>
+        </ul>
+
+        <h4 style="margin-top: 1.5rem;">Grid Layout</h4>
+        <ul class="pa-checkbox-list pa-checkbox-list--grid">
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="grid1">
+                    <span class="pa-checkbox-list__text">Grid Item 1</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="grid2">
+                    <span class="pa-checkbox-list__text">Grid Item 2</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="grid3">
+                    <span class="pa-checkbox-list__text">Grid Item 3</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="grid4">
+                    <span class="pa-checkbox-list__text">Grid Item 4</span>
+                </label>
+            </li>
+        </ul>
+
+        <h4 style="margin-top: 1.5rem;">Two-Column Layout</h4>
+        <ul class="pa-checkbox-list pa-checkbox-list--2col pa-checkbox-list--bordered">
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col2-1">
+                    <span class="pa-checkbox-list__text">Column 1 - Item 1</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col2-2">
+                    <span class="pa-checkbox-list__text">Column 2 - Item 1</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col2-3">
+                    <span class="pa-checkbox-list__text">Column 1 - Item 2</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col2-4">
+                    <span class="pa-checkbox-list__text">Column 2 - Item 2</span>
+                </label>
+            </li>
+        </ul>
+
+        <h4 style="margin-top: 1.5rem;">Three-Column Layout</h4>
+        <ul class="pa-checkbox-list pa-checkbox-list--3col pa-checkbox-list--bordered">
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col3-1">
+                    <span class="pa-checkbox-list__text">Col 1 - Item 1</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col3-2">
+                    <span class="pa-checkbox-list__text">Col 2 - Item 1</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col3-3">
+                    <span class="pa-checkbox-list__text">Col 3 - Item 1</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col3-4">
+                    <span class="pa-checkbox-list__text">Col 1 - Item 2</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col3-5">
+                    <span class="pa-checkbox-list__text">Col 2 - Item 2</span>
+                </label>
+            </li>
+            <li class="pa-checkbox-list__item">
+                <label class="pa-checkbox-list__label">
+                    <input type="checkbox" class="pa-checkbox-list__checkbox" id="col3-6">
+                    <span class="pa-checkbox-list__text">Col 3 - Item 2</span>
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Table with Checkboxes -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Tables with Checkboxes</h3>
+        <p>Checkboxes in table first column for row selection</p>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th class="pa-table__checkbox-col">
+                        <input type="checkbox" id="select-all">
+                    </th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th class="col-auto">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox">
+                    </td>
+                    <td>John Doe</td>
+                    <td>john@example.com</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="pa-table__row--selected">
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox" checked>
+                    </td>
+                    <td>Jane Smith</td>
+                    <td>jane@example.com</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox">
+                    </td>
+                    <td>Bob Johnson</td>
+                    <td>bob@example.com</td>
+                    <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="pa-table__row--selected">
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox" checked>
+                    </td>
+                    <td>Alice Williams</td>
+                    <td>alice@example.com</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox">
+                    </td>
+                    <td>Charlie Brown</td>
+                    <td>charlie@example.com</td>
+                    <td><span class="pa-badge pa-badge--danger">Inactive</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Interactive Demo -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Interactive Demo</h3>
+        <p>Select-all functionality and row selection</p>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped" id="interactive-table">
+            <thead>
+                <tr>
+                    <th class="pa-table__checkbox-col">
+                        <input type="checkbox" id="select-all-demo">
+                    </th>
+                    <th>Product</th>
+                    <th>SKU</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox-demo">
+                    </td>
+                    <td>Laptop Pro 15"</td>
+                    <td>LPT-001</td>
+                    <td>$1,299</td>
+                    <td><span class="pa-badge pa-badge--success">In Stock</span></td>
+                </tr>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox-demo">
+                    </td>
+                    <td>Wireless Mouse</td>
+                    <td>MSE-042</td>
+                    <td>$29</td>
+                    <td><span class="pa-badge pa-badge--success">In Stock</span></td>
+                </tr>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox-demo">
+                    </td>
+                    <td>USB-C Hub</td>
+                    <td>HUB-123</td>
+                    <td>$49</td>
+                    <td><span class="pa-badge pa-badge--warning">Low Stock</span></td>
+                </tr>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox-demo">
+                    </td>
+                    <td>Monitor 27"</td>
+                    <td>MON-789</td>
+                    <td>$399</td>
+                    <td><span class="pa-badge pa-badge--danger">Out of Stock</span></td>
+                </tr>
+                <tr>
+                    <td class="pa-table__checkbox-col">
+                        <input type="checkbox" class="row-checkbox-demo">
+                    </td>
+                    <td>Keyboard Mechanical</td>
+                    <td>KBD-555</td>
+                    <td>$89</td>
+                    <td><span class="pa-badge pa-badge--success">In Stock</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pa-card__footer">
+        <div id="selection-info" style="font-size: 0.875rem; color: #666;">
+            0 items selected
+        </div>
+    </div>
+</div>
+
+<script>
+// Select-all functionality
+document.getElementById('select-all-demo').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.row-checkbox-demo');
+    const isChecked = this.checked;
+
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = isChecked;
+        const row = checkbox.closest('tr');
+        if (isChecked) {
+            row.classList.add('pa-table__row--selected');
+        } else {
+            row.classList.remove('pa-table__row--selected');
+        }
+    });
+
+    updateSelectionInfo();
+});
+
+// Individual checkbox handling
+document.querySelectorAll('.row-checkbox-demo').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const row = this.closest('tr');
+        if (this.checked) {
+            row.classList.add('pa-table__row--selected');
+        } else {
+            row.classList.remove('pa-table__row--selected');
+        }
+
+        // Update select-all checkbox state
+        const allCheckboxes = document.querySelectorAll('.row-checkbox-demo');
+        const checkedCheckboxes = document.querySelectorAll('.row-checkbox-demo:checked');
+        document.getElementById('select-all-demo').checked = allCheckboxes.length === checkedCheckboxes.length;
+
+        updateSelectionInfo();
+    });
+});
+
+function updateSelectionInfo() {
+    const checkedCount = document.querySelectorAll('.row-checkbox-demo:checked').length;
+    document.getElementById('selection-info').textContent = `${checkedCount} item${checkedCount !== 1 ? 's' : ''} selected`;
+}
+</script>

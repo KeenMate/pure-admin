@@ -25,7 +25,7 @@ start:
 
 # Development with CSS watch + Express server (full setup)
 dev:
-	npx concurrently "npm run watch-css" "npx nodemon server.js"
+	npx concurrently "npm run watch-all" "npx nodemon server.js"
 
 # Development with CSS watch in parallel (requires concurrently)
 dev-full:

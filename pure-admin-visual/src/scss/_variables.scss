@@ -2,7 +2,7 @@
 
 // Layout dimensions
 $header-height: 3rem !default;
-$footer-height: 2rem !default;
+$footer-height: $header-height !default; // Same as header
 $sidebar-width: 18rem !default;
 $sidebar-max-width: 25rem !default;
 $sidebar-collapsed-width: 4rem !default; // Width when collapsed to icon-only
@@ -49,11 +49,15 @@ $badge-group-visible-limit: 5 !default; // Number of badges to show before "more
 // Modal dimensions
 $modal-overlay-bg: rgba(0, 0, 0, 0.5) !default;
 $modal-content-bg: #ffffff !default;
-$modal-padding: 1.5rem !default;
-$modal-header-padding-v: 1rem !default; // Vertical padding
-$modal-header-padding-h: 1.5rem !default; // Horizontal padding
+$modal-header-padding-v: 0.75rem !default; // Vertical padding
+$modal-header-padding-h: 1rem !default; // Horizontal padding
 $modal-header-padding: $modal-header-padding-v $modal-header-padding-h !default;
-$modal-footer-padding: 1rem 1.5rem !default;
+$modal-body-padding-v: 0.75rem !default; // Body vertical padding
+$modal-body-padding-h: 1rem !default; // Body horizontal padding
+$modal-body-padding: $modal-body-padding-v $modal-body-padding-h !default;
+$modal-footer-padding-v: 0.75rem !default; // Footer vertical padding
+$modal-footer-padding-h: 1rem !default; // Footer horizontal padding
+$modal-footer-padding: $modal-footer-padding-v $modal-footer-padding-h !default;
 $modal-sm-width: 20rem !default;
 $modal-md-width: 30rem !default;
 $modal-lg-width: 50rem !default;
@@ -273,7 +277,8 @@ $btn-width-9x: 9rem !default;
 $btn-width-10x: 10rem !default;
 
 // Modal close button (defined after font sizes)
-$modal-close-font-size: $font-size-xl !default; // Close button (X) font size
+$modal-close-font-size: $font-size-lg !default; // Close button (X) font size
+$modal-title-font-size: $font-size-lg !default; // Modal title font size
 
 // Tooltip system
 $tooltip-bg: #2c3e50 !default;
@@ -455,6 +460,24 @@ $alert-icon-margin: $spacing-sm !default;
 $alert-list-padding-left: $spacing-lg !default;
 $alert-list-item-margin-top: $card-footer-padding-v !default;
 
+// Alert color variables (reference contextual colors, themes can override)
+$alert-success-bg: $success-bg-subtle !default;
+$alert-success-border: $success-border !default;
+$alert-success-text: $success-bg !default;
+
+$alert-danger-bg: $danger-bg-subtle !default;
+$alert-danger-border: $danger-border !default;
+$alert-danger-text: $danger-bg !default;
+$alert-danger-text-transform: none !default; // none, uppercase, lowercase, capitalize
+
+$alert-warning-bg: $warning-bg-subtle !default;
+$alert-warning-border: $warning-border !default;
+$alert-warning-text: $warning-bg !default;
+
+$alert-info-bg: $info-bg-subtle !default;
+$alert-info-border: $info-border !default;
+$alert-info-text: $info-bg !default;
+
 // Badge system (for light background badges used in alerts, cards, etc.)
 $badge-success-bg: $success-text-light !default;
 $badge-success-text: $success-text !default;
@@ -617,12 +640,13 @@ $stat-drop-shadow-blur: 4px !default;
 
 // Modal system
 $modal-box-shadow: 0 0.25rem $spacing-sm rgba(0, 0, 0, 0.1) !default;
-$modal-close-size: 2rem !default;
+$modal-close-size: 2.5rem !default; // Close button size (bigger hitbox)
 $modal-body-scrollable-max-height: 60vh !default;
 $modal-mobile-margin: $spacing-sm !default;
 $modal-mobile-max-height: 95vh !default;
 $modal-header-hover-overlay: rgba(255, 255, 255, 0.1) !default;
 $modal-close-hover-opacity: $opacity-hover !default;
+$modal-close-border-width: $border-width-base !default; // Border for outline style
 
 // Toast system
 $toast-min-width: 20rem !default;

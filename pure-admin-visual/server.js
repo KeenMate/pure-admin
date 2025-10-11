@@ -126,6 +126,10 @@ app.get('/forms', (req, res) => {
     renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms' });
 });
 
+app.get('/checkbox-lists', (req, res) => {
+    renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
+});
+
 app.get('/cards', (req, res) => {
     renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards' });
 });
@@ -147,12 +151,15 @@ app.get('/tables', (req, res) => {
 });
 
 app.get('/tables-sizing', (req, res) => {
-    renderWithLayout(res, 'tables-sizing', { pageTitle: 'Tables - Sizing', currentPage: 'tables-sizing' });
+    renderWithLayout(res, 'tables-sizing', { pageTitle: 'Tables - Sizing', currentPage: 'tables-sizing', isTablesSizing: true });
 });
 
+app.get('/table-filters', (req, res) => {
+    renderWithLayout(res, 'table-filters', { pageTitle: 'Table Filters', currentPage: 'table-filters', isTableFilters: true });
+});
 
 app.get('/comparison', (req, res) => {
-    renderWithLayout(res, 'comparison', { pageTitle: 'Comparison Tables', currentPage: 'comparison' });
+    renderWithLayout(res, 'comparison', { pageTitle: 'Comparison Tables', currentPage: 'comparison', isComparison: true });
 });
 
 app.get('/code', (req, res) => {
@@ -165,6 +172,10 @@ app.get('/badges', (req, res) => {
 
 app.get('/modals', (req, res) => {
     renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals' });
+});
+
+app.get('/popconfirm', (req, res) => {
+    renderWithLayout(res, 'popconfirm', { pageTitle: 'Popconfirm', currentPage: 'popconfirm' });
 });
 
 app.get('/loaders', (req, res) => {

@@ -48,9 +48,68 @@
         <ul>
             <li><a href="/alerts">⚠️ Alerts</a></li>
             <li><a href="/tables">📋 Tables</a></li>
-            <li><a href="#settings">⚙️ Settings</a></li>
         </ul>
     </nav>
+
+    <!-- Notification Bell -->
+    <div class="pa-notifications">
+        <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
+            <span class="pa-notifications__icon">🔔</span>
+            <span class="pa-notifications__badge">3</span>
+        </button>
+
+        <div class="pa-notifications__panel" id="notificationsPanel">
+            <div class="pa-notifications__header">
+                <h3>Notifications</h3>
+                <button class="pa-notifications__mark-read" onclick="markAllRead()">Mark all as read</button>
+            </div>
+            <ul class="pa-notifications__list">
+                <li class="pa-notifications__item pa-notifications__item--unread">
+                    <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--primary">
+                        📝
+                    </div>
+                    <div class="pa-notifications__content">
+                        <h4>New task assigned</h4>
+                        <p>Review the Q4 report by end of week</p>
+                        <span class="pa-notifications__time">2 minutes ago</span>
+                    </div>
+                </li>
+                <li class="pa-notifications__item pa-notifications__item--unread">
+                    <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--success">
+                        ✓
+                    </div>
+                    <div class="pa-notifications__content">
+                        <h4>Build completed</h4>
+                        <p>Production deployment finished successfully</p>
+                        <span class="pa-notifications__time">15 minutes ago</span>
+                    </div>
+                </li>
+                <li class="pa-notifications__item pa-notifications__item--unread">
+                    <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">
+                        ⚠️
+                    </div>
+                    <div class="pa-notifications__content">
+                        <h4>Server maintenance</h4>
+                        <p>Scheduled downtime tonight at 11 PM</p>
+                        <span class="pa-notifications__time">1 hour ago</span>
+                    </div>
+                </li>
+                <li class="pa-notifications__item">
+                    <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--secondary">
+                        💬
+                    </div>
+                    <div class="pa-notifications__content">
+                        <h4>New comment</h4>
+                        <p>Sarah replied to your comment on Issue #432</p>
+                        <span class="pa-notifications__time">3 hours ago</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="pa-notifications__footer">
+                <a href="#all-notifications">View all notifications</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Profile Button -->
     <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">

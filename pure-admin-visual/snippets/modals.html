@@ -3,7 +3,28 @@
      Pure Admin Visual Framework
      ================================ -->
 
-<!-- BASIC MODAL -->
+<!--
+MODAL WRAPPER CLASSES:
+- pa-modal: Base modal wrapper
+- pa-modal--show: Show the modal (add/remove via JavaScript)
+- pa-modal--top: Position modal near top instead of center (useful for search/command interfaces)
+
+CONTAINER SIZE CLASSES:
+- pa-modal__container--sm: Small (20rem / 320px)
+- pa-modal__container: Medium/default (30rem / 480px)
+- pa-modal__container--lg: Large (50rem / 800px)
+- pa-modal__container--xl: Extra large (70rem / 1120px)
+- pa-modal__container--xxl: Extra extra large (90rem / 1440px)
+- pa-modal__container--fw: Full width (constrained by viewport margins)
+
+HEADER THEME CLASSES:
+- pa-modal__header--primary: Blue themed header
+- pa-modal__header--success: Green themed header
+- pa-modal__header--warning: Orange themed header
+- pa-modal__header--danger: Red themed header
+-->
+
+<!-- BASIC MODAL (Centered) -->
 
 <!-- Modal Structure -->
 <div class="pa-modal pa-modal--show" id="basicModal">
@@ -11,7 +32,7 @@
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Modal Title</h3>
-      <button class="pa-modal__close" onclick="closeModal('basicModal')">✕</button>
+      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('basicModal')">✕</button>
     </div>
     <div class="pa-modal__body">
       <p>Modal body content goes here.</p>
@@ -19,6 +40,27 @@
     <div class="pa-modal__footer">
       <button class="pa-btn pa-btn--secondary" onclick="closeModal('basicModal')">Close</button>
       <button class="pa-btn pa-btn--primary">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOP-ALIGNED MODAL -->
+
+<!-- Modal positioned near top (5vh from top) -->
+<div class="pa-modal pa-modal--top pa-modal--show" id="topModal">
+  <div class="pa-modal__backdrop"></div>
+  <div class="pa-modal__container">
+    <div class="pa-modal__header">
+      <h3 class="pa-modal__title">Top-Aligned Modal</h3>
+      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('topModal')">✕</button>
+    </div>
+    <div class="pa-modal__body">
+      <p>This modal appears near the top of the viewport.</p>
+      <p>Useful for search interfaces, quick actions, or command palettes.</p>
+    </div>
+    <div class="pa-modal__footer">
+      <button class="pa-btn pa-btn--secondary" onclick="closeModal('topModal')">Close</button>
+      <button class="pa-btn pa-btn--primary">Confirm</button>
     </div>
   </div>
 </div>
@@ -83,7 +125,7 @@
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Primary Modal</h3>
-      <button class="pa-modal__close">✕</button>
+      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
     </div>
     <div class="pa-modal__body">
       Content here.
@@ -97,7 +139,7 @@
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Success Modal</h3>
-      <button class="pa-modal__close">✕</button>
+      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
     </div>
     <div class="pa-modal__body">
       Content here.
@@ -111,7 +153,7 @@
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Warning Modal</h3>
-      <button class="pa-modal__close">✕</button>
+      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
     </div>
     <div class="pa-modal__body">
       Content here.
@@ -125,7 +167,7 @@
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Danger Modal</h3>
-      <button class="pa-modal__close">✕</button>
+      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
     </div>
     <div class="pa-modal__body">
       Content here.
@@ -142,7 +184,7 @@
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">User Information</h3>
-      <button class="pa-modal__close">✕</button>
+      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
     </div>
     <div class="pa-modal__body">
       <form>
@@ -208,7 +250,7 @@ document.querySelectorAll('.pa-modal__backdrop').forEach(backdrop => {
 });
 
 // Close modal when clicking close button
-document.querySelectorAll('.pa-modal__close').forEach(btn => {
+document.querySelectorAll('.pa-modal .pa-btn--icon-only').forEach(btn => {
   btn.addEventListener('click', function() {
     const modal = this.closest('.pa-modal');
     if (modal) {

@@ -1,0 +1,253 @@
+<!-- ================================
+     POPCONFIRM SNIPPETS
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!--
+POPCONFIRM COMPONENT:
+Small confirmation dialogs anchored to trigger buttons.
+Perfect for delete confirmations and quick yes/no decisions.
+
+BENEFITS OVER MODALS:
+- Appears directly below/above the trigger button
+- More contextual (stays near the action)
+- Lighter weight (no backdrop)
+- Better for quick decisions
+- Ideal for table row actions
+
+POSITION CLASSES:
+- pa-popconfirm--bottom: Arrow on top, popconfirm below button (default)
+- pa-popconfirm--top: Arrow on bottom, popconfirm above button
+- pa-popconfirm--right: Arrow on left, popconfirm to the right
+- pa-popconfirm--left: Arrow on right, popconfirm to the left
+
+SIZE VARIANTS:
+- pa-popconfirm--compact: Smaller padding and dimensions
+
+ICON VARIANTS (for message):
+- pa-popconfirm__icon--danger: Shows delete icon (🗑️)
+- pa-popconfirm__icon--warning: Shows warning icon (⚠️)
+- pa-popconfirm__icon--info: Shows info icon (ℹ️)
+
+JAVASCRIPT REQUIRED:
+- Floating UI library for positioning (loaded globally)
+- Automatic collision detection via flip() middleware
+- Edge detection via shift() middleware
+- Click outside to close
+- Reposition on scroll/resize
+-->
+
+<!-- BASIC POPCONFIRM -->
+
+<!-- HTML Structure -->
+<button
+    class="pa-btn pa-btn--danger"
+    onclick="togglePopconfirm(event, 'popconfirm-delete')"
+>
+    Delete Item
+</button>
+
+<div id="popconfirm-delete" class="pa-popconfirm pa-popconfirm--bottom">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+            <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-delete')">Cancel</button>
+            <button class="pa-btn pa-btn--danger" onclick="confirmAction('popconfirm-delete')">Delete</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- COMPACT POPCONFIRM -->
+
+<!-- Smaller variant for table actions -->
+<button
+    class="pa-btn pa-btn--xs pa-btn--danger"
+    onclick="togglePopconfirm(event, 'popconfirm-compact')"
+>
+    Delete
+</button>
+
+<div id="popconfirm-compact" class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message">
+            <p>Delete this item?</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-compact')">No</button>
+            <button class="pa-btn pa-btn--danger" onclick="confirmAction('popconfirm-compact')">Yes</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- WITHOUT ICON -->
+
+<!-- Simple message without icon -->
+<div id="popconfirm-simple" class="pa-popconfirm pa-popconfirm--bottom">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message">
+            <p>Are you sure you want to proceed with this action?</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-simple')">Cancel</button>
+            <button class="pa-btn pa-btn--primary" onclick="confirmAction('popconfirm-simple')">Confirm</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- TABLE USAGE EXAMPLE -->
+
+<!-- Common pattern: Delete action in table -->
+<table class="pa-table pa-table--striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th class="col-auto">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John Doe</td>
+            <td><span class="pa-badge pa-badge--success">Active</span></td>
+            <td class="col-auto">
+                <div class="pa-btn-group">
+                    <button class="pa-btn pa-btn--xs pa-btn--primary">Edit</button>
+                    <button
+                        class="pa-btn pa-btn--xs pa-btn--danger"
+                        onclick="togglePopconfirm(event, 'popconfirm-user-1')"
+                    >
+                        Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Popconfirm for table row -->
+<div id="popconfirm-user-1" class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message">
+            <p>Delete John Doe?</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-user-1')">No</button>
+            <button class="pa-btn pa-btn--danger" onclick="confirmAction('popconfirm-user-1')">Yes</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- JAVASCRIPT FUNCTIONS -->
+
+<script>
+// Popconfirm positioning and interaction
+let currentPopconfirm = null;
+let currentTrigger = null;
+
+function togglePopconfirm(event, popconfirmId) {
+    event.stopPropagation();
+
+    const trigger = event.currentTarget;
+    const popconfirm = document.getElementById(popconfirmId);
+
+    // Close current if different
+    if (currentPopconfirm && currentPopconfirm !== popconfirm) {
+        currentPopconfirm.classList.remove('is-open');
+    }
+
+    // Toggle this popconfirm
+    const isOpen = popconfirm.classList.contains('is-open');
+
+    if (isOpen) {
+        popconfirm.classList.remove('is-open');
+        currentPopconfirm = null;
+        currentTrigger = null;
+    } else {
+        // Position and show
+        positionPopconfirm(trigger, popconfirm);
+        popconfirm.classList.add('is-open');
+        currentPopconfirm = popconfirm;
+        currentTrigger = trigger;
+    }
+}
+
+function closePopconfirm(popconfirmId) {
+    const popconfirm = document.getElementById(popconfirmId);
+    popconfirm.classList.remove('is-open');
+
+    if (currentPopconfirm === popconfirm) {
+        currentPopconfirm = null;
+        currentTrigger = null;
+    }
+}
+
+function confirmAction(popconfirmId) {
+    console.log('Confirmed:', popconfirmId);
+    closePopconfirm(popconfirmId);
+
+    // Perform your action here (e.g., delete API call)
+}
+
+async function positionPopconfirm(trigger, popconfirm) {
+    // Get the initial position class (or default to bottom)
+    const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|left|right)/);
+    const placement = classMatch ? classMatch[1] : 'bottom';
+
+    // Use Floating UI for automatic positioning with collision detection
+    const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
+
+    const { x, y, placement: finalPlacement } = await computePosition(trigger, popconfirm, {
+        placement: placement,
+        middleware: [
+            offset(8),        // 8px gap from trigger
+            flip(),           // Flip to opposite side if not enough space
+            shift({ padding: 10 })  // Keep 10px from viewport edges
+        ]
+    });
+
+    // Update position class to match actual placement
+    popconfirm.className = popconfirm.className
+        .replace(/pa-popconfirm--(top|bottom|left|right)/g, '')
+        .trim() + ' pa-popconfirm--' + finalPlacement;
+
+    // Apply positioning
+    Object.assign(popconfirm.style, {
+        left: `${x}px`,
+        top: `${y}px`
+    });
+}
+
+// Close popconfirm when clicking outside
+document.addEventListener('click', (e) => {
+    if (currentPopconfirm &&
+        !currentPopconfirm.contains(e.target) &&
+        currentTrigger !== e.target) {
+        currentPopconfirm.classList.remove('is-open');
+        currentPopconfirm = null;
+        currentTrigger = null;
+    }
+});
+
+// Reposition on scroll/resize
+window.addEventListener('scroll', () => {
+    if (currentPopconfirm && currentTrigger) {
+        positionPopconfirm(currentTrigger, currentPopconfirm);
+    }
+});
+
+window.addEventListener('resize', () => {
+    if (currentPopconfirm && currentTrigger) {
+        positionPopconfirm(currentTrigger, currentPopconfirm);
+    }
+});
+</script>

@@ -219,6 +219,94 @@
 </div>
 
 <!-- ========================================
+     Alternating Timeline Layout Modifiers (NEW)
+     ======================================== -->
+
+<!-- Left-aligned timeline (all items on left side) -->
+<div class="pa-timeline pa-timeline--alternating pa-timeline--left">
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Jan 2024</div>
+        <div class="pa-timeline__icon">📝</div>
+        <div class="pa-timeline__content">
+            <h3>Planning</h3>
+            <p>All items aligned to left side with timeline line on left.</p>
+        </div>
+    </div>
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Feb 2024</div>
+        <div class="pa-timeline__icon">🚀</div>
+        <div class="pa-timeline__content">
+            <h3>Launch</h3>
+            <p>Content blocks stay on left side.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Right-aligned timeline (all items on right side) -->
+<div class="pa-timeline pa-timeline--alternating pa-timeline--right">
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Jan 2024</div>
+        <div class="pa-timeline__icon">📝</div>
+        <div class="pa-timeline__content">
+            <h3>Planning</h3>
+            <p>All items aligned to right side with timeline line on right.</p>
+        </div>
+    </div>
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Feb 2024</div>
+        <div class="pa-timeline__icon">🚀</div>
+        <div class="pa-timeline__content">
+            <h3>Launch</h3>
+            <p>Content blocks stay on right side.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Keep layout on mobile (prevent responsive collapse) -->
+<div class="pa-timeline pa-timeline--alternating pa-timeline--keep-layout">
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Jan 2024</div>
+        <div class="pa-timeline__icon">📝</div>
+        <div class="pa-timeline__content">
+            <h3>Planning</h3>
+            <p>Maintains alternating layout on all screen sizes.</p>
+        </div>
+    </div>
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Feb 2024</div>
+        <div class="pa-timeline__icon">🚀</div>
+        <div class="pa-timeline__content">
+            <h3>Launch</h3>
+            <p>No mobile collapse - stays zigzag.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Combination: Left-aligned + keep layout on mobile -->
+<div class="pa-timeline pa-timeline--alternating pa-timeline--left pa-timeline--keep-layout">
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Q1</div>
+        <div class="pa-timeline__icon">📊</div>
+        <div class="pa-timeline__content">
+            <h3>Analysis</h3>
+            <p>Left-aligned on desktop, stays left on mobile.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Combination: Right-aligned + keep layout on mobile -->
+<div class="pa-timeline pa-timeline--alternating pa-timeline--right pa-timeline--keep-layout">
+    <div class="pa-timeline__item">
+        <div class="pa-timeline__date">Q1</div>
+        <div class="pa-timeline__icon">📊</div>
+        <div class="pa-timeline__content">
+            <h3>Analysis</h3>
+            <p>Right-aligned on desktop, stays right on mobile.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================
      Complete Component Reference
      ======================================== -->
 <!--
@@ -226,6 +314,25 @@ TIMELINE VARIANTS:
 - pa-timeline--simple: Left-aligned with dots
 - pa-timeline--alternating: Centered zigzag layout
 - pa-timeline--feed: Activity feed with avatars
+
+ALTERNATING LAYOUT MODIFIERS (can be combined):
+- pa-timeline--left: All items on left side (independent of responsive behavior)
+- pa-timeline--right: All items on right side (independent of responsive behavior)
+- pa-timeline--keep-layout: Prevent mobile collapse, maintain desktop layout at all widths
+- pa-timeline--single-column: Force single-column layout (alias for --left)
+
+RESPONSIVE BEHAVIOR:
+- Default: Zigzag on desktop (>767px), auto-collapse to single-column on mobile (≤767px)
+- With --keep-layout: Layout maintained at all screen widths
+- With --left or --right: Aligned layout on desktop, collapses on mobile (unless --keep-layout added)
+
+COMBINATION EXAMPLES:
+- pa-timeline--alternating: Zigzag desktop, single-column mobile (auto-responsive)
+- pa-timeline--alternating pa-timeline--left: All left desktop, single-column mobile
+- pa-timeline--alternating pa-timeline--right: All right desktop, single-column mobile
+- pa-timeline--alternating pa-timeline--keep-layout: Zigzag stays zigzag on mobile
+- pa-timeline--alternating pa-timeline--left pa-timeline--keep-layout: Left stays left on mobile
+- pa-timeline--alternating pa-timeline--right pa-timeline--keep-layout: Right stays right on mobile
 
 ITEM MODIFIERS (simple variant):
 - pa-timeline__item--primary: Primary color marker

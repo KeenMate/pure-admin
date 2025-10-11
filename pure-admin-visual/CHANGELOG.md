@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2025-10-08
+
+#### Layout System Improvements
+- **Footer height standardization**: Footer now uses `$footer-height: $header-height` (3rem/48px) for visual balance
+- **Footer restructuring**: Moved footer outside `.pa-layout__inner` to fix positioning issues with short content
+  - Footer always appears at bottom of viewport, even with minimal content
+  - Changed from `min-height` to `height` for consistent sizing
+  - Added `m-0` class to footer paragraph to prevent margin overflow
+
+#### Timeline Block Component Enhancements
+- **Independent layout modifiers**: Control alignment and responsive behavior separately
+  - `--left`: All timeline items on left side
+  - `--right`: All timeline items on right side
+  - `--keep-layout`: Prevent mobile collapse, maintain desktop layout at all screen widths
+- **Responsive behavior**: Automatic single-column layout on screens ≤767px (unless `--keep-layout` used)
+- **Combination support**: Mix alignment + responsive modifiers (e.g., `--left --keep-layout`)
+- **Padding optimization**: Removed redundant card body padding from aligned timelines
+- **New examples**: Added comprehensive demonstration of all timeline modifiers on timeline-block page
+
+#### Command Palette
+- **Background fix**: Changed from `$primary-bg` to `$modal-content-bg` for better visibility in dark themes
+
+### Fixed - 2025-10-08
+
+#### Layout Issues
+- **Sidebar restoration**: Fixed critical bug where sidebar styles were accidentally removed during layout consolidation
+  - Restored all `.pa-sidebar__*` classes (item, link, toggle, icon, label, submenu, chevron)
+  - Added sidebar hidden state styles (`.sidebar-hidden`)
+  - Added icon-collapse mode styles with flyout menus
+  - Added responsive mobile/tablet styles
+- **Footer positioning**: Fixed footer appearing mid-screen with short content
+  - Implemented flexbox-based layout: `.pa-layout` (flex column) → `.pa-layout__inner` (flex: 1) → `.pa-layout__footer` (flex-shrink: 0)
+  - Footer now correctly positioned at bottom in both sticky and scroll modes
+
+### Changed - 2025-10-08
+
+#### File Consolidation
+- **Layout files merged**: Consolidated `_layout.scss` and `_layout-v2.scss` into single file
+  - Kept clean flexbox structure from v2 (removed complex absolute positioning)
+  - Merged header/navbar styles from original file
+  - Deleted backup files and updated imports in `_core.scss`
+
 ### Added - 2025-10-05
 
 #### Comprehensive Component Snippets for LLM Consumption

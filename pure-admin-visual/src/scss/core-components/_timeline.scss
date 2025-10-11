@@ -282,8 +282,55 @@
       }
     }
 
-    // Responsive: stack on mobile
+    // Responsive: stack on mobile (unless --keep-layout is used)
     @media (max-width: $timeline-block-responsive-breakpoint) {
+      &:not(.pa-timeline--keep-layout) {
+        &::after {
+          left: $timeline-block-responsive-line-left;
+        }
+
+        .pa-timeline__item {
+          width: 100%;
+          padding-left: $timeline-block-responsive-padding-left;
+          padding-right: $timeline-block-responsive-padding-right;
+
+          &:nth-child(even) {
+            left: 0;
+          }
+
+          &:nth-child(odd)::after,
+          &:nth-child(even)::after {
+            left: $timeline-block-responsive-dot-left;
+          }
+
+          &:nth-child(odd)::before,
+          &:nth-child(even)::before {
+            left: $timeline-block-responsive-connector-left;
+          }
+
+          &:nth-child(odd) .pa-timeline__date,
+          &:nth-child(even) .pa-timeline__date {
+            right: auto;
+            left: $timeline-block-responsive-date-left;
+          }
+
+          &:nth-child(odd) .pa-timeline__icon,
+          &:nth-child(even) .pa-timeline__icon {
+            right: auto;
+            left: $timeline-block-responsive-icon-left;
+          }
+
+          &:nth-child(odd) .pa-timeline__content,
+          &:nth-child(even) .pa-timeline__content {
+            padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
+            border-radius: $timeline-block-content-border-radius 0 0 $timeline-block-content-border-radius;
+          }
+        }
+      }
+    }
+
+    // Modifier: Force single column at any screen width
+    &.pa-timeline--single-column {
       &::after {
         left: $timeline-block-responsive-line-left;
       }
@@ -323,6 +370,83 @@
         &:nth-child(even) .pa-timeline__content {
           padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
           border-radius: $timeline-block-content-border-radius 0 0 $timeline-block-content-border-radius;
+        }
+      }
+    }
+
+    // Modifier: All items on left side
+    &.pa-timeline--left {
+      &::after {
+        left: $timeline-block-responsive-line-left;
+      }
+
+      .pa-timeline__item {
+        width: 100%;
+        padding-left: $timeline-block-responsive-padding-left;
+        padding-right: 0;
+        left: 0 !important; // Override even/odd positioning
+
+        &::after {
+          left: $timeline-block-responsive-dot-left;
+        }
+
+        &::before {
+          left: $timeline-block-responsive-connector-left;
+        }
+
+        .pa-timeline__date {
+          right: auto;
+          left: $timeline-block-responsive-date-left;
+        }
+
+        .pa-timeline__icon {
+          right: auto;
+          left: $timeline-block-responsive-icon-left;
+        }
+
+        .pa-timeline__content {
+          padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
+          border-radius: $timeline-block-content-border-radius 0 0 $timeline-block-content-border-radius;
+        }
+      }
+    }
+
+    // Modifier: All items on right side
+    &.pa-timeline--right {
+      &::after {
+        right: $timeline-block-responsive-line-left;
+        left: auto;
+      }
+
+      .pa-timeline__item {
+        width: 100%;
+        padding-left: 0;
+        padding-right: $timeline-block-responsive-padding-left;
+        left: 0 !important; // Override even/odd positioning
+
+        &::after {
+          right: $timeline-block-responsive-dot-left;
+          left: auto;
+        }
+
+        &::before {
+          right: $timeline-block-responsive-connector-left;
+          left: auto;
+        }
+
+        .pa-timeline__date {
+          left: auto;
+          right: $timeline-block-responsive-date-left;
+        }
+
+        .pa-timeline__icon {
+          left: auto;
+          right: $timeline-block-responsive-icon-left;
+        }
+
+        .pa-timeline__content {
+          padding: $spacing-xl calc($spacing-xl * 2 + 40px) $spacing-xl $spacing-xl;
+          border-radius: 0 $timeline-block-content-border-radius $timeline-block-content-border-radius 0;
         }
       }
     }

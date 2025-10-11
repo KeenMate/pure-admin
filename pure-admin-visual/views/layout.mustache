@@ -173,7 +173,7 @@
                 })();
             </script>
 
-            <!-- Layout Content: Main + Footer -->
+            <!-- Layout Content: Main only -->
             <div class="pa-layout__content">
                 <!-- Main Content -->
                 <main class="pa-layout__main">
@@ -181,15 +181,15 @@
                         {{{body}}}
                     </div>
                 </main>
-
-                <!-- Footer -->
-                <footer class="pa-layout__footer">
-                    <div class="pa-layout__footer__content">
-                        <p>&copy; 2024 Pure Admin Visual Framework</p>
-                    </div>
-                </footer>
             </div>
         </div>
+
+        <!-- Footer (outside inner, inside layout) -->
+        <footer class="pa-layout__footer">
+            <div class="pa-layout__footer__content">
+                <p class="m-0">&copy; 2024 Pure Admin Visual Framework</p>
+            </div>
+        </footer>
     </div><!-- /.pa-layout -->
 
     <!-- Command Palette -->
@@ -730,10 +730,47 @@
             loadSettings();
         });
 
+        // Notification Panel Functions
+        function toggleNotifications() {
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            notificationsPanel.classList.toggle('is-open');
+
+            // Close profile panel if open
+            const profilePanel = document.getElementById('profilePanel');
+            if (profilePanel.classList.contains('pa-profile-panel--open')) {
+                profilePanel.classList.remove('pa-profile-panel--open');
+            }
+        }
+
+        function closeNotifications() {
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            notificationsPanel.classList.remove('is-open');
+        }
+
+        function markAllRead() {
+            const unreadItems = document.querySelectorAll('.pa-notifications__item--unread');
+            unreadItems.forEach(item => {
+                item.classList.remove('pa-notifications__item--unread');
+            });
+
+            // Update badge count
+            const badge = document.querySelector('.pa-notifications__badge');
+            if (badge) {
+                badge.textContent = '0';
+                badge.style.display = 'none';
+            }
+        }
+
         // Profile Panel Functions
         function toggleProfilePanel() {
             const profilePanel = document.getElementById('profilePanel');
             profilePanel.classList.toggle('pa-profile-panel--open');
+
+            // Close notifications if open
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            if (notificationsPanel.classList.contains('is-open')) {
+                notificationsPanel.classList.remove('is-open');
+            }
         }
 
         function closeProfilePanel() {
@@ -741,14 +778,23 @@
             profilePanel.classList.remove('pa-profile-panel--open');
         }
 
-        // Close profile panel when clicking outside
+        // Close panels when clicking outside
         document.addEventListener('click', (e) => {
             const profilePanel = document.getElementById('profilePanel');
             const profileBtn = document.querySelector('.pa-header__profile-btn');
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            const notificationsBtn = document.querySelector('.pa-notifications__btn');
 
+            // Close profile panel
             if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target) &&
                 profilePanel.classList.contains('pa-profile-panel--open')) {
                 closeProfilePanel();
+            }
+
+            // Close notifications panel
+            if (!notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target) &&
+                notificationsPanel.classList.contains('is-open')) {
+                closeNotifications();
             }
         });
 

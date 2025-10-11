@@ -1,0 +1,560 @@
+<!-- Query Language Search with Field Autocomplete -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Query Language Search with Smart Autocomplete</h3>
+        <p>Type <strong>:</strong> to see available field names. After selecting a field, you'll see operators based on the field type.</p>
+        <p style="margin-top: 0.5rem;"><strong>Example:</strong> <code>:name starts with "abc" and :price is between 10 and 40</code></p>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body">
+        <div class="pure-g">
+            <div class="pure-u-1">
+                <div class="pa-input-wrapper" style="position: relative;">
+                    <input type="text" id="query-search" class="pa-input" placeholder='Try typing: :name starts with "abc" and :price is between 10 and 40'>
+                    <button class="pa-input-wrapper__clear" type="button">×</button>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 0.75rem;">
+            <div class="pure-g">
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <strong style="font-size: 0.875rem; color: #666;">Available Fields:</strong>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                        <span class="pa-badge pa-badge--sm">name (text)</span>
+                        <span class="pa-badge pa-badge--sm">email (text)</span>
+                        <span class="pa-badge pa-badge--sm">price (number)</span>
+                        <span class="pa-badge pa-badge--sm">status (text)</span>
+                        <span class="pa-badge pa-badge--sm">category (text)</span>
+                        <span class="pa-badge pa-badge--sm">created_at (date)</span>
+                        <span class="pa-badge pa-badge--sm">updated_at (date)</span>
+                        <span class="pa-badge pa-badge--sm">quantity (number)</span>
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <strong style="font-size: 0.875rem; color: #666;">Operator Shortcuts:</strong>
+                    <div style="margin-top: 0.5rem; font-size: 0.875rem;">
+                        <div><strong>Text:</strong> sw (starts with), ew (ends with), c (contains)</div>
+                        <div><strong>Number:</strong> gt (>), lt (<), eq (=), bw (between)</div>
+                        <div><strong>Date:</strong> bf (before), af (after), bw (between)</div>
+                        <div style="margin-top: 0.25rem; color: #888;">Type shortcuts to quickly find operators</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th class="col-auto">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>john@example.com</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>jane@example.com</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bob Johnson</td>
+                    <td>bob@example.com</td>
+                    <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Basic Search Filter -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Basic Search Filter</h3>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body">
+        <div class="pure-g">
+            <div class="pure-u-1">
+                <div class="pa-input-wrapper">
+                    <input type="text" class="pa-input" placeholder="Search users...">
+                    <button class="pa-input-wrapper__clear" type="button">×</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th class="col-auto">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>john@example.com</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>jane@example.com</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bob Johnson</td>
+                    <td>bob@example.com</td>
+                    <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Search with More Filters Button -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Expandable Filters</h3>
+        <p>Search with expandable advanced filters</p>
+    </div>
+</div>
+
+<div class="pa-card" id="filter-card">
+    <div class="pa-card__body">
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <!-- Search by rule -->
+            <div class="pa-input-group" style="flex: 1; min-width: 200px;">
+                <span class="pa-input-group__prepend">🔍</span>
+                <input type="text" class="pa-input" placeholder="Search by rule">
+            </div>
+
+            <!-- Filter by data source -->
+            <div class="pa-input-group" style="flex: 1; min-width: 200px;">
+                <span class="pa-input-group__prepend">🌐</span>
+                <input type="text" class="pa-input" placeholder="Filter by data source">
+            </div>
+
+            <!-- Filter by Organization tree -->
+            <div class="pa-input-group" style="flex: 1; min-width: 200px;">
+                <span class="pa-input-group__prepend">🌐</span>
+                <input type="text" class="pa-input" placeholder="Filter by Organization tree">
+            </div>
+
+            <!-- Action buttons -->
+            <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Clear all filters">×</button>
+            <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Refresh">🔄</button>
+            <button id="toggle-filters-btn" class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters" onclick="toggleFilters()">▼</button>
+        </div>
+
+        <!-- Advanced Filters (Hidden by default) -->
+        <div id="advanced-filters" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e0e0e0;">
+            <div class="pure-g">
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <div class="pa-form-group">
+                        <label>Category</label>
+                        <div class="pa-input-wrapper">
+                            <select class="pa-select">
+                                <option>All Categories</option>
+                                <option>Electronics</option>
+                                <option>Clothing</option>
+                                <option>Books</option>
+                            </select>
+                            <button class="pa-input-wrapper__clear" type="button">×</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <div class="pa-form-group">
+                        <label>Price Range</label>
+                        <div class="pa-input-wrapper">
+                            <select class="pa-select">
+                                <option>Any Price</option>
+                                <option>Under $50</option>
+                                <option>$50 - $100</option>
+                                <option>$100 - $500</option>
+                                <option>Over $500</option>
+                            </select>
+                            <button class="pa-input-wrapper__clear" type="button">×</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <div class="pa-form-group">
+                        <label>Status</label>
+                        <div class="pa-input-wrapper">
+                            <select class="pa-select">
+                                <option>All Statuses</option>
+                                <option>In Stock</option>
+                                <option>Out of Stock</option>
+                                <option>Pre-order</option>
+                            </select>
+                            <button class="pa-input-wrapper__clear" type="button">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pure-g">
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="pa-form-group">
+                        <label>Date Range</label>
+                        <div class="pure-g">
+                            <div class="pure-u-1 pure-u-md-1-2">
+                                <div class="pa-input-wrapper">
+                                    <input type="date" class="pa-input">
+                                    <button class="pa-input-wrapper__clear" type="button">×</button>
+                                </div>
+                            </div>
+                            <div class="pure-u-1 pure-u-md-1-2">
+                                <div class="pa-input-wrapper">
+                                    <input type="date" class="pa-input">
+                                    <button class="pa-input-wrapper__clear" type="button">×</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="pa-form-group">
+                        <label>Supplier</label>
+                        <div class="pa-input-wrapper">
+                            <select class="pa-select">
+                                <option>All Suppliers</option>
+                                <option>Supplier A</option>
+                                <option>Supplier B</option>
+                                <option>Supplier C</option>
+                            </select>
+                            <button class="pa-input-wrapper__clear" type="button">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 0.5rem;">
+                <button class="pa-btn pa-btn--secondary">Clear Filters</button>
+                <button class="pa-btn pa-btn--primary">Apply Filters</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th class="col-auto">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Laptop Pro 15"</td>
+                    <td>Electronics</td>
+                    <td>$1,299</td>
+                    <td><span class="pa-badge pa-badge--success">In Stock</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Wireless Mouse</td>
+                    <td>Electronics</td>
+                    <td>$29</td>
+                    <td><span class="pa-badge pa-badge--success">In Stock</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Office Chair</td>
+                    <td>Furniture</td>
+                    <td>$199</td>
+                    <td><span class="pa-badge pa-badge--danger">Out of Stock</span></td>
+                    <td class="col-auto">
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">👁️</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Inline Filters -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Inline Horizontal Filters</h3>
+        <p>All filters visible in a single row</p>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body">
+        <div class="pure-g" style="align-items: flex-end;">
+            <div class="pure-u-1 pure-u-md-1-4">
+                <div class="pa-form-group">
+                    <label>Search</label>
+                    <div class="pa-input-wrapper">
+                        <input type="text" class="pa-input" placeholder="Search...">
+                        <button class="pa-input-wrapper__clear" type="button">×</button>
+                    </div>
+                </div>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-5">
+                <div class="pa-form-group">
+                    <label>Status</label>
+                    <div class="pa-input-wrapper">
+                        <select class="pa-select">
+                            <option>All</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                        <button class="pa-input-wrapper__clear" type="button">×</button>
+                    </div>
+                </div>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-5">
+                <div class="pa-form-group">
+                    <label>Type</label>
+                    <div class="pa-input-wrapper">
+                        <select class="pa-select">
+                            <option>All Types</option>
+                            <option>Type A</option>
+                            <option>Type B</option>
+                        </select>
+                        <button class="pa-input-wrapper__clear" type="button">×</button>
+                    </div>
+                </div>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-5">
+                <div class="pa-form-group">
+                    <label>Date</label>
+                    <div class="pa-input-wrapper">
+                        <input type="date" class="pa-input">
+                        <button class="pa-input-wrapper__clear" type="button">×</button>
+                    </div>
+                </div>
+            </div>
+            <div class="pure-u-1 pure-u-md-1-5">
+                <div class="pa-form-group">
+                    <button class="pa-btn pa-btn--primary" style="width: 100%;">Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#ORD-001</td>
+                    <td>John Doe</td>
+                    <td>2025-10-10</td>
+                    <td>$150.00</td>
+                    <td><span class="pa-badge pa-badge--success">Completed</span></td>
+                </tr>
+                <tr>
+                    <td>#ORD-002</td>
+                    <td>Jane Smith</td>
+                    <td>2025-10-09</td>
+                    <td>$75.50</td>
+                    <td><span class="pa-badge pa-badge--warning">Processing</span></td>
+                </tr>
+                <tr>
+                    <td>#ORD-003</td>
+                    <td>Bob Johnson</td>
+                    <td>2025-10-08</td>
+                    <td>$299.99</td>
+                    <td><span class="pa-badge pa-badge--success">Completed</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Filter Tags/Pills -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Active Filter Tags</h3>
+        <p>Visual representation of applied filters with remove buttons</p>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body">
+        <div class="pa-input-wrapper">
+            <input type="text" class="pa-input" placeholder="Search...">
+            <button class="pa-input-wrapper__clear" type="button">×</button>
+        </div>
+
+        <div style="margin-top: 0.75rem;">
+            <strong style="font-size: 0.875rem; color: #666;">Active Filters:</strong>
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                <div class="pa-composite-badge pa-composite-badge--info">
+                    <span class="pa-composite-badge__icon">📁</span>
+                    <span class="pa-composite-badge__label">Category: Electronics</span>
+                    <button class="pa-composite-badge__button">×</button>
+                </div>
+                <div class="pa-composite-badge pa-composite-badge--success">
+                    <span class="pa-composite-badge__icon">✓</span>
+                    <span class="pa-composite-badge__label">Status: Active</span>
+                    <button class="pa-composite-badge__button">×</button>
+                </div>
+                <div class="pa-composite-badge pa-composite-badge--warning">
+                    <span class="pa-composite-badge__icon">💰</span>
+                    <span class="pa-composite-badge__label">Price: $50-$100</span>
+                    <button class="pa-composite-badge__button">×</button>
+                </div>
+                <button class="pa-btn pa-btn--xs pa-btn--secondary">Clear All</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wireless Headphones</td>
+                    <td>Electronics</td>
+                    <td>$79.99</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr>
+                    <td>Bluetooth Speaker</td>
+                    <td>Electronics</td>
+                    <td>$59.99</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr>
+                    <td>USB-C Cable</td>
+                    <td>Electronics</td>
+                    <td>$12.99</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/dist/js/search-autocomplete.js"></script>
+<script>
+function toggleFilters() {
+    const filters = document.getElementById('advanced-filters');
+    const toggleBtn = document.getElementById('toggle-filters-btn');
+    const isHidden = filters.style.display === 'none';
+
+    filters.style.display = isHidden ? 'block' : 'none';
+    toggleBtn.textContent = isHidden ? '▲' : '▼';
+    toggleBtn.title = isHidden ? 'Hide filters' : 'More filters';
+}
+
+// Initialize search autocomplete
+document.addEventListener('DOMContentLoaded', function() {
+    const querySearch = document.getElementById('query-search');
+
+    if (querySearch) {
+        const fields = [
+            { name: 'name', type: 'text' },
+            { name: 'email', type: 'text' },
+            { name: 'price', type: 'number' },
+            { name: 'status', type: 'text' },
+            { name: 'category', type: 'text' },
+            { name: 'created_at', type: 'date' },
+            { name: 'updated_at', type: 'date' },
+            { name: 'quantity', type: 'number' }
+        ];
+
+        new SearchAutocomplete(querySearch, fields, {
+            enableHighlighting: true
+        });
+    }
+});
+</script>

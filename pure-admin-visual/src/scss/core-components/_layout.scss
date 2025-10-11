@@ -1,6 +1,5 @@
 /* ========================================
-   Layout Components
-   Navbar, Sidebar, Main Content, Container, Footer, and Responsive Design
+   Layout V2 - Based on Testbench Structure
    ======================================== */
 
 // Navbar - Fixed at top, full width by default
@@ -67,297 +66,125 @@ body.pa-container-2xl .pa-navbar {
   display: flex;
   align-items: center;
   gap: $spacing-base;
-
 }
 
-// Navbar elements (using pa-header__ prefix for backward compatibility with existing partials)
-.pa-header {
-  &__burger {
-    flex-shrink: 0;
-    margin-left: $burger-menu-margin-left;
-  }
-
-  &__brand {
-    flex-shrink: 0;
-    padding-left: $header-brand-padding-left;
-
-    h1 {
-      margin: 0;
-      font-size: $font-size-lg;
-      font-weight: $font-weight-semibold;
-      color: $text-primary;
-      white-space: nowrap;
-    }
-  }
-
-  &__nav {
-    flex-shrink: 0;
-
-    // Only style the direct child ul (main navigation)
-    > ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: $spacing-md;
-
-      > li {
-        position: relative; // For dropdown positioning
-
-        > a {
-          text-decoration: none;
-          color: $text-secondary;
-          font-weight: $font-weight-medium;
-          padding: $spacing-xs $spacing-sm;
-          border-radius: $border-radius;
-          transition: all $transition-fast $easing-snappy;
-          font-size: $font-size-sm;
-          display: block;
-
-          &:hover {
-            color: $accent-color;
-            background-color: $accent-hover;
-          }
-        }
-      }
-    }
-
-    &--left {
-      margin-right: auto;
-    }
-
-    &--right {
-      margin-left: auto;
-    }
-  }
-
-  // Dropdown navigation items
-  &__nav-item {
-    &--has-dropdown {
-      position: static; // Position dropdown relative to header, not this item
-
-      &:hover > .pa-header__dropdown {
-        display: block !important; // Override the !important hide
-      }
-    }
-  }
-
-  &__nav-link {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-  }
-
-  // Dropdown menus
-  &__dropdown {
-    display: none !important; // Force hide by default
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 12rem;
-    background-color: $card-bg;
-    border: $border-width-base solid $border-color;
-    border-radius: $border-radius;
-    box-shadow: $shadow-lg;
-    z-index: 1100;
-    padding: $spacing-xs 0;
-    margin-top: 0;
-    list-style: none;
-    flex-direction: column; // Override any flex from parent
-
-    li {
-      display: block;
-      position: relative;
-
-      // Create invisible bridge for nested dropdowns (horizontal)
-      &.pa-header__nav-item--has-dropdown::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 100%;
-        width: 4px; // Small invisible bridge
-        height: 100%;
-        z-index: 1099;
-      }
-
-      // Show nested dropdown on hover
-      &:hover > .pa-header__dropdown {
-        display: block !important;
-      }
-
-      a {
-        display: block;
-        padding: $spacing-sm $spacing-base;
-        color: $text-primary;
-        border-radius: 0;
-        white-space: nowrap;
-        text-decoration: none;
-        font-weight: $font-weight-medium;
-        font-size: $font-size-sm;
-
-        &:hover {
-          background-color: $accent-light;
-          color: $accent-color;
-        }
-      }
-    }
-
-    // Level 2 dropdown (nested)
-    &--level2 {
-      top: 0;
-      left: 100%;
-      margin-top: 0;
-      margin-left: 0; // Remove gap to prevent dropdown from disappearing
-    }
-  }
-
-  &__title {
-    flex: 1;
-    min-width: 0;  // Enable ellipsis
-    text-align: center;
-
-    h2 {
-      margin: 0;
-      font-size: $font-size-lg;
-      font-weight: $font-weight-semibold;
-      color: $text-primary;
-      whitespace: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  &__profile-btn {
-    flex-shrink: 0;
-  }
+// Layout wrapper - applied to body for mode-specific classes
+body.pa-layout--sticky {
+  height: 100vh;
+  overflow: hidden;
 }
 
-// Burger menu button
-.burger-menu {
+// Layout Container - centered, starts below navbar
+.pa-layout {
+  max-width: 100%;
+  margin: $header-height auto 0;
+  background-color: $primary-bg;
+  overflow: visible; // Allow tooltips to escape
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  width: $burger-width;
-  height: $burger-height;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-
-  span {
-    width: 100%;
-    height: $burger-bar-height;
-    background-color: $text-primary;
-    border-radius: $border-radius;
-    transition: all $transition-normal $easing-snappy;
-    transform-origin: center;
-  }
-
-  &.active {
-    span:nth-child(1) {
-      transform: rotate(45deg) translate($burger-transform-offset, $burger-transform-offset);
-    }
-
-    span:nth-child(2) {
-      opacity: 0;
-    }
-
-    span:nth-child(3) {
-      transform: rotate(-45deg) translate($burger-transform-offset, -$burger-transform-offset);
-    }
-  }
-
-  &:hover span {
-    background-color: $accent-color;
-  }
 }
 
-// Theme switcher styling
-.theme-switcher {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-
-  label {
-    color: $text-secondary;
-    font-size: $font-size-sm;
-  }
-
-  select {
-    padding: $spacing-xs $spacing-sm;
-    border: $border-width-base solid $border-color;
-    border-radius: $border-radius;
-    background-color: $header-bg;
-    color: $text-primary;
-    font-size: $font-size-sm;
-
-    &:focus {
-      outline: none;
-      border-color: $accent-color;
-    }
-  }
+// Constrained widths - controlled by body class
+body.pa-container-sm .pa-layout {
+  max-width: $layout-container-sm;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
 }
 
-// Main Container - Flexbox wrapper for sidebar + content
+body.pa-container-md .pa-layout {
+  max-width: $layout-container-md;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-lg .pa-layout {
+  max-width: $layout-container-lg;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-xl .pa-layout {
+  max-width: $layout-container-xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+body.pa-container-2xl .pa-layout {
+  max-width: $layout-container-2xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid $border-color;
+  border-right: $border-width-base solid $border-color;
+}
+
+// Sticky mode - fixed height
+body.pa-layout--sticky .pa-layout {
+  height: calc(100vh - #{$header-height}); // Full viewport minus top margin
+}
+
+// Scroll mode - minimum height
+body:not(.pa-layout--sticky) .pa-layout {
+  min-height: calc(100vh - #{$header-height}); // Ensure footer reaches bottom
+}
+
+// Layout inner container - flex wrapper for sidebar + content
 .pa-layout__inner {
   display: flex;
   width: 100%;
+  flex: 1; // Take available space, pushing footer to bottom
 }
 
-// Sticky mode - inner container takes full height of layout container
+// Sticky mode - inner container takes full height minus footer
 body.pa-layout--sticky .pa-layout__inner {
-  height: 100%;
+  flex: 1;
+  overflow: hidden; // Prevent overflow, let content wrapper scroll
 }
 
-// Sidebar - Flex child, no absolute positioning
+// Sidebar
 .pa-layout__sidebar {
   width: $sidebar-width;
-  max-width: $sidebar-max-width;
-  flex-shrink: 0;
   background-color: $sidebar-bg;
   border-right: $border-width-base solid $border-color;
-  z-index: $z-index-sidebar; // 1000 - below header
-  opacity: 1;
-
-  // Only transition after page load to prevent slide animation on initial render
-  body.loaded & {
-    transition: width $transition-normal $easing-snappy, opacity $transition-normal $easing-snappy;
-  }
-
-  // Custom scrollbar styling for sidebar
-  &::-webkit-scrollbar {
-    width: $scrollbar-width;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $sidebar-bg;
-    border-radius: $border-radius;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $border-color;
-    border-radius: $border-radius;
-    border: $border-width-base solid $sidebar-bg;
-
-    &:hover {
-      background: $accent-color;
-      border-color: $accent-hover;
-    }
-
-    &:active {
-      background: $accent-hover;
-    }
-  }
-
-  // Firefox scrollbar
-  scrollbar-width: auto;
-  scrollbar-color: $border-color $sidebar-bg;
-
-  // Sticky mode: Scrollable sidebar
-  body.pa-layout--sticky & {
-    overflow-y: auto;
-  }
+  flex-shrink: 0;
 }
+
+// Sticky mode - sidebar scrolls
+body.pa-layout--sticky .pa-layout__sidebar {
+  overflow-y: auto;
+  overflow-x: visible; // Allow tooltips to escape right
+}
+
+// Content wrapper - wraps main content only
+.pa-layout__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; // Always scrollable
+}
+
+// Main content area
+.pa-layout__main {
+  flex: 1;
+  padding: $spacing-base;
+}
+
+// Footer - outside inner, sibling to inner
+.pa-layout__footer {
+  height: $footer-height;
+  background-color: $footer-bg;
+  border-top: $border-width-base solid $footer-border-color;
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-base;
+  flex-shrink: 0; // Don't shrink footer
+}
+
+/* ========================================
+   Sidebar Component
+   ======================================== */
 
 // Sidebar component (separate BEM block)
 .pa-sidebar {
@@ -441,6 +268,7 @@ body.pa-layout--sticky .pa-layout__inner {
     flex-shrink: 0;
     font-size: $font-size-base;
     text-align: center;
+    line-height: 1; // Prevent emoji baseline shift
   }
 
   &__label {
@@ -459,16 +287,11 @@ body.pa-layout--sticky .pa-layout__inner {
     list-style: none;
     margin: 0;
     padding: 0;
-    max-height: 0;
-    overflow: hidden;
+    display: none;
     background-color: $sidebar-submenu-bg;
 
-    body.loaded & {
-      transition: max-height $transition-normal $easing-snappy;
-    }
-
     &--open {
-      max-height: $submenu-max-height; // Generous height for animation
+      display: block;
     }
   }
 
@@ -518,18 +341,6 @@ body.pa-layout--sticky .pa-layout__inner {
       transform: rotate(90deg);
     }
   }
-}
-
-// Content Wrapper - Flex child that wraps content + footer
-.pa-layout__content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-// Sticky mode: Scrollable content wrapper
-body.pa-layout--sticky .pa-layout__content {
-  overflow-y: auto;
 }
 
 // Sidebar hidden state
@@ -738,10 +549,7 @@ body:not(.sidebar-hidden) {
       gap: $sidebar-item-gap; // Restore gap when expanded
     }
 
-    // Allow submenus to show when expanded
-    .pa-sidebar__submenu {
-      display: block !important;
-    }
+    // Submenus controlled by --open class (no forced display)
 
     // Restore submenu indentation for level 2
     .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
@@ -760,136 +568,6 @@ body:not(.sidebar-hidden) {
       width: $sidebar-icon-size;
       justify-content: flex-start; // Align left with padding, not center
     }
-  }
-}
-
-// Main Content - Flex child
-.pa-layout__main {
-  flex: 1; // Take remaining space
-  position: relative;
-  // No z-index - allows tooltips to escape to higher z-index layers
-
-  &__inner {
-    padding: $spacing-base;
-
-    h2 {
-      margin: 0 0 $spacing-base 0;
-      font-size: $font-size-2xl;
-      font-weight: $font-weight-semibold;
-      color: $text-primary;
-    }
-  }
-}
-
-// Container wrapper - centers entire layout (main container below fixed header)
-.pa-layout {
-  max-width: 100%;
-  margin: $header-height auto 0; // Top margin for fixed header
-  position: relative;
-  background-color: $primary-bg;
-  // No overflow - tooltips need to extend beyond container bounds
-
-}
-
-// Constrained widths - controlled by body class
-body.pa-container-sm .pa-layout {
-  max-width: $layout-container-sm;
-  box-shadow: $shadow-2xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
-
-body.pa-container-md .pa-layout {
-  max-width: $layout-container-md;
-  box-shadow: $shadow-2xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
-
-body.pa-container-lg .pa-layout {
-  max-width: $layout-container-lg;
-  box-shadow: $shadow-2xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
-
-body.pa-container-xl .pa-layout {
-  max-width: $layout-container-xl;
-  box-shadow: $shadow-xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
-
-body.pa-container-2xl .pa-layout {
-  max-width: $layout-container-2xl;
-  box-shadow: $shadow-xl;
-  border-left: $border-width-base solid $border-color;
-  border-right: $border-width-base solid $border-color;
-}
-
-// Sticky mode: Fixed height minus header
-body.pa-layout--sticky .pa-layout {
-  height: calc(100vh - #{$header-height});
-  margin-top: $header-height; // Ensure margin even in sticky mode
-}
-
-// Scroll mode: Minimum height
-body:not(.pa-layout--sticky) .pa-layout {
-  min-height: calc(100vh - #{$header-height});
-}
-
-// Footer - Inside content wrapper, spans full width naturally
-.pa-layout__footer {
-  height: $footer-height;
-  background-color: $footer-bg;
-  border-top: $border-width-base solid $footer-border-color;
-  display: flex;
-  align-items: center;
-  padding: 0 $spacing-base;
-  margin-top: auto; // Push to bottom of flex container
-
-  &__content {
-    p {
-      margin: 0;
-      color: $text-secondary;
-      font-size: $font-size-sm;
-    }
-  }
-}
-
-// Demo content styles
-.content-section {
-  background: $card-bg;
-  border: $border-width-base solid $border-color;
-  border-radius: $border-radius-lg;
-  padding: $spacing-base;
-  margin-bottom: $spacing-base;
-}
-
-.sample-data {
-  display: grid;
-  gap: $spacing-sm;
-  margin: $spacing-sm 0;
-
-  .data-item {
-    padding: $spacing-sm;
-    background-color: $primary-bg;
-    border: $border-width-base solid $border-color;
-    border-radius: $border-radius;
-    font-weight: $font-weight-medium;
-  }
-}
-
-.long-content {
-  .content-block {
-    padding: $spacing-base;
-    margin: $spacing-sm 0;
-    background: $card-bg;
-    border: $border-width-base solid $border-color;
-    border-radius: $border-radius;
-    text-align: center;
-    font-size: $font-size-lg;
-    font-weight: $font-weight-medium;
   }
 }
 
@@ -984,6 +662,238 @@ body:not(.pa-layout--sticky) .pa-layout {
     &__nav ul li a {
       padding: $spacing-sm $spacing-md;
       font-size: $font-size-sm;
+    }
+  }
+}
+
+/* ========================================
+   Header/Navbar Elements
+   ======================================== */
+
+// Navbar elements (using pa-header__ prefix for backward compatibility with existing partials)
+.pa-header {
+  &__burger {
+    flex-shrink: 0;
+    margin-left: $burger-menu-margin-left;
+  }
+
+  &__brand {
+    flex-shrink: 0;
+    padding-left: $header-brand-padding-left;
+
+    h1 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      white-space: nowrap;
+    }
+  }
+
+  &__nav {
+    flex-shrink: 0;
+
+    // Only style the direct child ul (main navigation)
+    > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: $spacing-md;
+
+      > li {
+        position: relative; // For dropdown positioning
+
+        > a {
+          text-decoration: none;
+          color: $text-secondary;
+          font-weight: $font-weight-medium;
+          padding: $spacing-xs $spacing-sm;
+          border-radius: $border-radius;
+          transition: all $transition-fast $easing-snappy;
+          font-size: $font-size-sm;
+          display: block;
+
+          &:hover {
+            color: $accent-color;
+            background-color: $accent-hover;
+          }
+        }
+      }
+    }
+
+    &--left {
+      margin-right: auto;
+    }
+
+    &--right {
+      margin-left: auto;
+    }
+  }
+
+  // Dropdown navigation items
+  &__nav-item {
+    &--has-dropdown {
+      position: static; // Position dropdown relative to header, not this item
+
+      &:hover > .pa-header__dropdown {
+        display: block !important; // Override the !important hide
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  // Dropdown menus
+  &__dropdown {
+    display: none !important; // Force hide by default
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 12rem;
+    background-color: $card-bg;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+    z-index: 1100;
+    padding: $spacing-xs 0;
+    margin-top: 0;
+    list-style: none;
+    flex-direction: column; // Override any flex from parent
+
+    li {
+      display: block;
+      position: relative;
+
+      // Create invisible bridge for nested dropdowns (horizontal)
+      &.pa-header__nav-item--has-dropdown::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 4px; // Small invisible bridge
+        height: 100%;
+        z-index: 1099;
+      }
+
+      // Show nested dropdown on hover
+      &:hover > .pa-header__dropdown {
+        display: block !important;
+      }
+
+      a {
+        display: block;
+        padding: $spacing-sm $spacing-base;
+        color: $text-primary;
+        border-radius: 0;
+        white-space: nowrap;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-sm;
+
+        &:hover {
+          background-color: $accent-light;
+          color: $accent-color;
+        }
+      }
+    }
+
+    // Level 2 dropdown (nested)
+    &--level2 {
+      top: 0;
+      left: 100%;
+      margin-top: 0;
+      margin-left: 0; // Remove gap to prevent dropdown from disappearing
+    }
+  }
+
+  &__title {
+    flex: 1;
+    min-width: 0;  // Enable ellipsis
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__profile-btn {
+    flex-shrink: 0;
+  }
+}
+
+// Burger menu button
+.burger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: $burger-width;
+  height: $burger-height;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  span {
+    width: 100%;
+    height: $burger-bar-height;
+    background-color: $text-primary;
+    border-radius: $border-radius;
+    transition: all $transition-normal $easing-snappy;
+    transform-origin: center;
+  }
+
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate($burger-transform-offset, $burger-transform-offset);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate($burger-transform-offset, -$burger-transform-offset);
+    }
+  }
+
+  &:hover span {
+    background-color: $accent-color;
+  }
+}
+
+// Theme switcher styling
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  label {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  select {
+    padding: $spacing-xs $spacing-sm;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    background-color: $header-bg;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
     }
   }
 }

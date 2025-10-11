@@ -203,19 +203,201 @@ localStorage.setItem('compact-mode', 'true');
      WIDTH & HEIGHT UTILITIES
      ================================ -->
 
-<!-- Width -->
+<!-- Width (Percentage-based) -->
 <div class="w-25">Width 25%</div>
 <div class="w-50">Width 50%</div>
 <div class="w-75">Width 75%</div>
 <div class="w-100">Width 100%</div>
 <div class="w-auto">Width auto</div>
 
-<!-- Height -->
+<!-- Height (Percentage-based) -->
 <div class="h-25">Height 25%</div>
 <div class="h-50">Height 50%</div>
 <div class="h-75">Height 75%</div>
 <div class="h-100">Height 100%</div>
 <div class="h-auto">Height auto</div>
+
+
+<!-- ================================
+     MIN-HEIGHT UTILITIES (rem-based)
+     Content can grow taller than minimum
+     ================================ -->
+
+<div class="min-h-2x">Min-height 2rem (32px)</div>
+<div class="min-h-3x">Min-height 3rem (48px)</div>
+<div class="min-h-5x">Min-height 5rem (80px)</div>
+<div class="min-h-8x">Min-height 8rem (128px)</div>
+<div class="min-h-10x">Min-height 10rem (160px)</div>
+<div class="min-h-12x">Min-height 12rem (192px)</div>
+<div class="min-h-15x">Min-height 15rem (240px)</div>
+<div class="min-h-20x">Min-height 20rem (320px)</div>
+<div class="min-h-25x">Min-height 25rem (400px)</div>
+<div class="min-h-30x">Min-height 30rem (480px)</div>
+
+<!-- Example: Minimum height for popconfirm trigger area -->
+<div class="min-h-12x">
+  <div class="pa-btn-group">
+    <button class="pa-btn pa-btn--primary">Button 1</button>
+    <button class="pa-btn pa-btn--secondary">Button 2</button>
+  </div>
+</div>
+
+
+<!-- ================================
+     FIXED HEIGHT UTILITIES (rem-based)
+     Use with overflow utilities for scrollable containers
+     ================================ -->
+
+<div class="h-2x">Height 2rem (32px)</div>
+<div class="h-3x">Height 3rem (48px)</div>
+<div class="h-5x">Height 5rem (80px)</div>
+<div class="h-8x">Height 8rem (128px)</div>
+<div class="h-10x">Height 10rem (160px)</div>
+<div class="h-12x">Height 12rem (192px)</div>
+<div class="h-15x">Height 15rem (240px)</div>
+<div class="h-20x">Height 20rem (320px)</div>
+<div class="h-25x">Height 25rem (400px)</div>
+<div class="h-30x">Height 30rem (480px)</div>
+<div class="h-40x">Height 40rem (640px)</div>
+<div class="h-50x">Height 50rem (800px)</div>
+
+<!-- Example: Fixed-height scrollable card body -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Activity Feed</h3>
+  </div>
+  <div class="pa-card__body h-20x overflow-y-auto">
+    <p>Item 1</p>
+    <p>Item 2</p>
+    <p>Item 3</p>
+    <!-- ... many items that will scroll ... -->
+  </div>
+</div>
+
+
+<!-- ================================
+     MAX-HEIGHT UTILITIES (rem-based)
+     Content limited to max height, then scrolls
+     ================================ -->
+
+<div class="max-h-5x">Max-height 5rem (80px)</div>
+<div class="max-h-8x">Max-height 8rem (128px)</div>
+<div class="max-h-10x">Max-height 10rem (160px)</div>
+<div class="max-h-12x">Max-height 12rem (192px)</div>
+<div class="max-h-15x">Max-height 15rem (240px)</div>
+<div class="max-h-20x">Max-height 20rem (320px)</div>
+<div class="max-h-25x">Max-height 25rem (400px)</div>
+<div class="max-h-30x">Max-height 30rem (480px)</div>
+<div class="max-h-40x">Max-height 40rem (640px)</div>
+<div class="max-h-50x">Max-height 50rem (800px)</div>
+
+<!-- Example: Card that grows up to max-height, then scrolls -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Recent Items</h3>
+  </div>
+  <div class="pa-card__body max-h-15x overflow-y-auto">
+    <p>Item 1</p>
+    <p>Item 2</p>
+    <!-- Content grows until 15rem, then scrolls -->
+  </div>
+</div>
+
+
+<!-- ================================
+     OVERFLOW UTILITIES
+     Control scrolling behavior
+     ================================ -->
+
+<div class="overflow-auto">Show scrollbar when content overflows (both directions)</div>
+<div class="overflow-y-auto">Show vertical scrollbar when content overflows</div>
+<div class="overflow-x-auto">Show horizontal scrollbar when content overflows</div>
+<div class="overflow-hidden">Hide overflowing content (no scrollbar)</div>
+<div class="overflow-visible">Show overflowing content outside container</div>
+
+<!-- Example: Horizontal scrolling table -->
+<div class="overflow-x-auto">
+  <table class="pa-table">
+    <thead>
+      <tr>
+        <th>Column 1</th>
+        <th>Column 2</th>
+        <!-- ... many columns ... -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- table content -->
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ================================
+     HEIGHT + OVERFLOW EXAMPLES
+     Common use cases
+     ================================ -->
+
+<!-- Example 1: Fixed-height scrollable sidebar -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Navigation</h3>
+  </div>
+  <div class="pa-card__body h-30x overflow-y-auto p-0">
+    <ul class="pa-list">
+      <li class="pa-list__item">Item 1</li>
+      <li class="pa-list__item">Item 2</li>
+      <!-- ... many items ... -->
+    </ul>
+  </div>
+</div>
+
+<!-- Example 2: Chat message container (grows to max, then scrolls) -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Messages</h3>
+  </div>
+  <div class="pa-card__body max-h-25x overflow-y-auto">
+    <div class="mb-2">Message 1</div>
+    <div class="mb-2">Message 2</div>
+    <!-- Messages grow until 25rem, then scroll -->
+  </div>
+  <div class="pa-card__footer">
+    <input type="text" class="pa-input" placeholder="Type a message...">
+  </div>
+</div>
+
+<!-- Example 3: Code block with horizontal scroll -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Code Example</h3>
+  </div>
+  <div class="pa-card__body p-0">
+    <pre class="max-h-20x overflow-auto p-4 m-0"><code>const example = "very long line of code that extends beyond the container width and needs horizontal scrolling";</code></pre>
+  </div>
+</div>
+
+<!-- Example 4: Data table with fixed height and vertical scroll -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>User List</h3>
+  </div>
+  <div class="pa-card__body pa-card__body--no-padding h-25x overflow-y-auto">
+    <table class="pa-table pa-table--striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>John Doe</td><td>john@example.com</td><td>Active</td></tr>
+        <tr><td>Jane Smith</td><td>jane@example.com</td><td>Active</td></tr>
+        <!-- ... many rows that will scroll ... -->
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
 <!-- ================================
@@ -376,9 +558,25 @@ TEXT:
 - text-left, text-center, text-right
 - text-nowrap, text-truncate
 
-WIDTH/HEIGHT:
+WIDTH/HEIGHT (percentage-based):
 - w-25, w-50, w-75, w-100, w-auto
 - h-25, h-50, h-75, h-100, h-auto
+
+MIN-HEIGHT (rem-based):
+- min-h-2x, min-h-3x, min-h-5x, min-h-8x, min-h-10x
+- min-h-12x, min-h-15x, min-h-20x, min-h-25x, min-h-30x
+
+FIXED HEIGHT (rem-based):
+- h-2x, h-3x, h-5x, h-8x, h-10x, h-12x, h-15x
+- h-20x, h-25x, h-30x, h-40x, h-50x
+
+MAX-HEIGHT (rem-based):
+- max-h-5x, max-h-8x, max-h-10x, max-h-12x, max-h-15x
+- max-h-20x, max-h-25x, max-h-30x, max-h-40x, max-h-50x
+
+OVERFLOW:
+- overflow-auto, overflow-y-auto, overflow-x-auto
+- overflow-hidden, overflow-visible
 
 POSITION:
 - position-static, position-relative

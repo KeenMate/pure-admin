@@ -1,0 +1,210 @@
+<!-- ========================================
+     Command Palette Component
+     macOS Spotlight-style global search
+     ======================================== -->
+
+<!--
+  USAGE:
+  - Include this HTML in your layout (globally available)
+  - Include /dist/js/command-palette.js for functionality
+  - Press Ctrl+K or Cmd+K to open
+  - Use /p, /o, /u, /i prefixes for context switching
+-->
+
+<!-- Command Palette Modal -->
+<div class="pa-command-palette" id="commandPalette">
+    <!-- Backdrop overlay -->
+    <div class="pa-command-palette__backdrop" id="commandPaletteBackdrop"></div>
+
+    <!-- Main container -->
+    <div class="pa-command-palette__container">
+        <!-- Search input -->
+        <div class="pa-command-palette__search">
+            <input
+                type="text"
+                class="pa-command-palette__input"
+                id="commandPaletteInput"
+                placeholder="Search products, orders, users... (try /p, /o, /u)"
+                autocomplete="off"
+                spellcheck="false"
+            >
+            <!-- Context label (hidden by default, shown when prefix detected) -->
+            <div class="pa-command-palette__context" id="commandPaletteContext"></div>
+        </div>
+
+        <!-- Results container -->
+        <div class="pa-command-palette__results" id="commandPaletteResults">
+            <!-- Empty state (default) -->
+            <div class="pa-command-palette__empty">
+                Type to search or use /p for products, /o for orders, /u for users, /i for invoices
+            </div>
+        </div>
+
+        <!-- Footer with keyboard hints -->
+        <div class="pa-command-palette__footer">
+            <div class="pa-command-palette__hint">
+                <span class="pa-command-palette__key">↑↓</span>
+                <span>Navigate</span>
+            </div>
+            <div class="pa-command-palette__hint">
+                <span class="pa-command-palette__key">←→</span>
+                <span>Pages</span>
+            </div>
+            <div class="pa-command-palette__hint">
+                <span class="pa-command-palette__key">↵</span>
+                <span>Select</span>
+            </div>
+            <div class="pa-command-palette__hint">
+                <span class="pa-command-palette__key">Esc</span>
+                <span>Close</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================
+     JavaScript States
+     ======================================== -->
+
+<!-- Loader state (shown during search) -->
+<div class="pa-command-palette__loader">
+    <div class="pa-spinner pa-spinner--sm pa-spinner--primary"></div>
+    <span>Searching...</span>
+</div>
+
+<!-- Result item (generated dynamically) -->
+<div class="pa-command-palette__item">
+    <div class="pa-command-palette__item-icon">💻</div>
+    <div class="pa-command-palette__item-content">
+        <div class="pa-command-palette__item-title">MacBook Pro 16"</div>
+        <div class="pa-command-palette__item-meta">SKU: MBP-16-001 • $2,499.00</div>
+    </div>
+    <div class="pa-command-palette__item-badge">In Stock</div>
+</div>
+
+<!-- Active result item -->
+<div class="pa-command-palette__item pa-command-palette__item--active">
+    <div class="pa-command-palette__item-icon">📱</div>
+    <div class="pa-command-palette__item-content">
+        <div class="pa-command-palette__item-title">iPhone 15 Pro</div>
+        <div class="pa-command-palette__item-meta">SKU: IP15P-256 • $999.00</div>
+    </div>
+    <div class="pa-command-palette__item-badge">New</div>
+</div>
+
+<!-- Result with highlighted search match -->
+<div class="pa-command-palette__item">
+    <div class="pa-command-palette__item-icon">🎧</div>
+    <div class="pa-command-palette__item-content">
+        <div class="pa-command-palette__item-title">Air<mark>Pods</mark> Pro</div>
+        <div class="pa-command-palette__item-meta">SKU: APP-GEN2 • $249.00</div>
+    </div>
+    <div class="pa-command-palette__item-badge">Popular</div>
+</div>
+
+<!-- Pagination indicator (shown when multiple pages) -->
+<div class="pa-command-palette__pagination">
+    Page 1 of 3 • 24 results
+</div>
+
+<!-- Section header (for grouping results) -->
+<div class="pa-command-palette__section">
+    Recent Searches
+</div>
+
+<!-- ========================================
+     CSS Modifiers
+     ======================================== -->
+
+<!-- Active state (shows the palette) -->
+<div class="pa-command-palette pa-command-palette--active">
+    <!-- ... -->
+</div>
+
+<!-- Context label visible -->
+<div class="pa-command-palette__context pa-command-palette__context--visible">
+    Searching in Products
+</div>
+
+<!-- Results in loading state (shows overlay) -->
+<div class="pa-command-palette__results pa-command-palette__results--loading">
+    <!-- ... -->
+</div>
+
+<!-- ========================================
+     JavaScript API
+     ======================================== -->
+
+<!--
+// Open palette
+document.getElementById('commandPalette').classList.add('pa-command-palette--active');
+document.getElementById('commandPaletteInput').focus();
+
+// Close palette
+document.getElementById('commandPalette').classList.remove('pa-command-palette--active');
+document.getElementById('commandPaletteInput').value = '';
+
+// Open with pre-filled query
+const input = document.getElementById('commandPaletteInput');
+input.value = '/p laptop';
+input.dispatchEvent(new Event('input'));
+-->
+
+<!-- ========================================
+     Context Prefixes
+     ======================================== -->
+
+<!--
+/p  → Products    → "Searching in Products"
+/o  → Orders      → "Searching in Orders"
+/u  → Users       → "Searching in Users"
+/i  → Invoices    → "Searching in Invoices"
+-->
+
+<!-- ========================================
+     Keyboard Shortcuts
+     ======================================== -->
+
+<!--
+Ctrl+K / Cmd+K  → Open/close palette
+↑ ↓             → Navigate between results
+← →             → Navigate between pages
+Enter           → Select highlighted result
+Esc             → Close palette
+-->
+
+<!-- ========================================
+     SCSS Variables (for customization)
+     ======================================== -->
+
+<!--
+$command-palette-width: 38rem
+$command-palette-offset-top: 8rem
+$command-palette-border-radius: $border-radius
+$command-palette-backdrop-bg: rgba(0, 0, 0, 0.5)
+$command-palette-backdrop-blur: 4px
+$command-palette-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3)
+$command-palette-input-padding-v: $spacing-base
+$command-palette-input-padding-h: $spacing-lg
+$command-palette-input-font-size: $font-size-lg
+$command-palette-results-max-height: 24rem
+$command-palette-empty-padding-v: $spacing-2xl
+$command-palette-item-padding-v: $spacing-sm
+$command-palette-item-hover-bg: rgba($accent-color, 0.05)
+$command-palette-item-active-bg: rgba($accent-color, 0.1)
+$command-palette-item-icon-size: 2rem
+$command-palette-highlight-bg: rgba($accent-color, 0.2)
+$command-palette-highlight-text: $accent-color
+-->
+
+<!-- ========================================
+     Implementation Files
+     ======================================== -->
+
+<!--
+SCSS:       src/scss/core-components/_command-palette.scss
+Variables:  src/scss/_variables.scss (17 variables)
+JavaScript: dist/js/command-palette.js
+HTML:       views/layout.mustache (included globally)
+Demo:       /command-palette
+-->
