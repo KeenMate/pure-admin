@@ -5,7 +5,7 @@
  * framework wrappers (Svelte/Vue/React) need to be updated.
  *
  * Usage: node scripts/generate-hashes.js
- * Output: .hashes/manifest.json
+ * Output: snippets/manifest.json
  */
 
 const fs = require('fs');
@@ -15,8 +15,7 @@ const crypto = require('crypto');
 // Directories to hash
 const SNIPPET_DIR = path.join(__dirname, '../snippets');
 const SCSS_DIR = path.join(__dirname, '../src/scss');
-const OUTPUT_DIR = path.join(__dirname, '../.hashes');
-const OUTPUT_FILE = path.join(OUTPUT_DIR, 'manifest.json');
+const OUTPUT_FILE = path.join(SNIPPET_DIR, 'manifest.json');
 
 /**
  * Calculate SHA-256 hash of file contents
@@ -92,12 +91,7 @@ function generateManifest() {
         console.log(`  ${file.path}: ${hash.substring(0, 12)}...`);
     }
 
-    // Create output directory if it doesn't exist
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    }
-
-    // Write manifest
+    // Write manifest to snippets directory
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(manifest, null, 2));
 
     console.log(`\n✅ Hash manifest generated: ${OUTPUT_FILE}`);

@@ -87,34 +87,6 @@ const renderWithLayout = (res, viewName, data) => {
 };
 
 // Routes
-// V2 Layout Test Route
-app.get('/v2', (req, res) => {
-    const theme = res.locals.currentTheme;
-    const themePath = !theme || theme === 'audi' ? 'main' : `themes/${theme}`;
-
-    const bodyClasses = [];
-    if (res.locals.sidebarMode === 'sticky') {
-        bodyClasses.push('pa-layout--sticky');
-    }
-    if (res.locals.containerWidth !== 'fluid') {
-        bodyClasses.push(`pa-container-${res.locals.containerWidth}`);
-    }
-
-    res.render('layout-v2', {
-        title: 'Dashboard V2',
-        theme: themePath,
-        sidebarMode: res.locals.sidebarMode,
-        bodyClasses: bodyClasses.join(' '),
-        body: '<h1>Dashboard V2</h1><p>Testing new layout structure based on testbench</p>' +
-              '<div class="pa-card"><div class="pa-card__body">'.repeat(20) + 'Card content</div></div>'.repeat(20),
-        partials: {
-            navbarV2: loadPartial('navbar-v2'),
-            sidebarV2: loadPartial('sidebar-v2')
-        },
-        isDashboard: true
-    });
-});
-
 app.get('/', (req, res) => {
     renderWithLayout(res, 'dashboard', {
         pageTitle: 'Dashboard',
