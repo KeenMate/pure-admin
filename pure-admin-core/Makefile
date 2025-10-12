@@ -1,6 +1,19 @@
 # Pure Admin Core - Makefile
 # Common development and build tasks
 
+# Detect OS
+ifeq ($(OS),Windows_NT)
+    DETECTED_OS := Windows
+    RM := rmdir /s /q
+    MKDIR := mkdir
+    CLEAN_CMD := if exist dist $(RM) dist && $(MKDIR) dist\css dist\fonts
+else
+    DETECTED_OS := $(shell uname -s)
+    RM := rm -rf
+    MKDIR := mkdir -p
+    CLEAN_CMD := $(RM) dist && $(MKDIR) dist/css dist/fonts
+endif
+
 .PHONY: help install build watch clean test package publish dev verify prepublish
 
 # Default target - show help
@@ -37,8 +50,7 @@ dev: watch
 # Clean dist directory
 clean:
 	@echo "Cleaning dist directory..."
-	@if [ -d "dist" ]; then rm -rf dist; fi
-	@mkdir -p dist/css dist/fonts
+	@$(CLEAN_CMD)
 	@echo "Clean complete"
 
 # Create package tarball (clean build)

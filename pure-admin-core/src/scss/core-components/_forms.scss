@@ -264,6 +264,155 @@
   }
 }
 
+// Input with clear button wrapper
+.pa-input-wrapper {
+  position: relative;
+  width: 100%;
+
+  .pa-input,
+  .pa-select {
+    padding-right: 2.5rem; // Make room for clear button
+  }
+
+  &__clear {
+    position: absolute;
+    right: $spacing-xs;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    cursor: pointer;
+    padding: $spacing-xs;
+    font-size: $font-size-base;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity $transition-fast $easing-snappy;
+
+    &:hover {
+      opacity: 1;
+      color: $danger-bg;
+    }
+
+    &:focus {
+      outline: none;
+      opacity: 1;
+    }
+
+    // Hide when input is empty
+    &--hidden {
+      display: none;
+    }
+  }
+}
+
+// Search Query Syntax Highlighting
+.pa-search-highlight {
+  position: relative;
+  display: flex;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: $input-padding-v $input-padding-h;
+    border: $border-width-base solid transparent;
+    border-radius: $border-radius;
+    font-size: $font-size-sm;
+    font-family: inherit;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    pointer-events: none;
+    color: transparent;
+    overflow: hidden;
+  }
+
+  &__input {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    color: $text-primary;
+  }
+
+  &__field {
+    display: inline;
+    background-color: rgba($accent-color, 0.15);
+    color: $accent-color;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-weight: $font-weight-medium;
+  }
+
+  &__operator {
+    display: inline;
+    background-color: rgba($success-bg, 0.15);
+    color: $success-bg;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-weight: $font-weight-medium;
+  }
+}
+
+// Search Autocomplete Popover
+.pa-search-autocomplete {
+  position: absolute;
+  z-index: 1000;
+  background: $input-bg;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  max-height: 15rem;
+  overflow-y: auto;
+  min-width: 12rem;
+
+  &__item {
+    padding: $spacing-sm $spacing-md;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    transition: background-color $transition-fast $easing-snappy;
+    font-size: $font-size-sm;
+
+    &:hover,
+    &--active {
+      background-color: $table-hover-bg;
+    }
+
+    &-name {
+      font-weight: $font-weight-medium;
+      color: $accent-color;
+    }
+
+    &-type {
+      margin-left: auto;
+      font-size: $font-size-xs;
+      color: $text-secondary;
+      opacity: 0.7;
+    }
+  }
+
+  &__section {
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: $card-header-bg;
+    border-bottom: $border-width-base solid $border-color;
+  }
+
+  &__empty {
+    padding: $spacing-md;
+    text-align: center;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+
 // Checkboxes and Radio Buttons
 .pa-checkbox-group,
 .pa-radio-group {

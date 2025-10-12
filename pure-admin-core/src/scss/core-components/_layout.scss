@@ -80,6 +80,8 @@ body.pa-layout--sticky {
   margin: $header-height auto 0;
   background-color: $primary-bg;
   overflow: visible; // Allow tooltips to escape
+  display: flex;
+  flex-direction: column;
 }
 
 // Constrained widths - controlled by body class
@@ -132,11 +134,13 @@ body:not(.pa-layout--sticky) .pa-layout {
 .pa-layout__inner {
   display: flex;
   width: 100%;
+  flex: 1; // Take available space, pushing footer to bottom
 }
 
-// Sticky mode - inner container takes full height of layout container
+// Sticky mode - inner container takes full height minus footer
 body.pa-layout--sticky .pa-layout__inner {
-  height: 100%;
+  flex: 1;
+  overflow: hidden; // Prevent overflow, let content wrapper scroll
 }
 
 // Sidebar
@@ -153,16 +157,12 @@ body.pa-layout--sticky .pa-layout__sidebar {
   overflow-x: visible; // Allow tooltips to escape right
 }
 
-// Content wrapper - wraps content + footer
+// Content wrapper - wraps main content only
 .pa-layout__content {
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-// Sticky mode - content wrapper scrolls
-body.pa-layout--sticky .pa-layout__content {
-  overflow-y: auto;
+  overflow-y: auto; // Always scrollable
 }
 
 // Main content area
@@ -171,7 +171,7 @@ body.pa-layout--sticky .pa-layout__content {
   padding: $spacing-base;
 }
 
-// Footer
+// Footer - outside inner, sibling to inner
 .pa-layout__footer {
   height: $footer-height;
   background-color: $footer-bg;
@@ -179,7 +179,491 @@ body.pa-layout--sticky .pa-layout__content {
   display: flex;
   align-items: center;
   padding: 0 $spacing-base;
-  margin-top: auto; // Push to bottom
+  flex-shrink: 0; // Don't shrink footer
+}
+
+/* ========================================
+   Sidebar Component
+   ======================================== */
+
+// Sidebar component (separate BEM block)
+.pa-sidebar {
+  &__nav {
+    padding: $spacing-base 0;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__item {
+    // Base styles for all sidebar items (regular links and submenu toggles)
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
+    color: $text-secondary;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    border-right: $border-width-thick solid transparent; // Reserve space to prevent shift on active
+
+    body.loaded & {
+      transition: all $transition-fast $easing-snappy;
+    }
+
+    &:hover {
+      color: $text-primary;
+      background-color: $accent-light;
+    }
+
+    &--active {
+      color: $accent-color;
+      background-color: $accent-hover;
+      border-right-color: $accent-color; // Only change color, not width
+    }
+  }
+
+  &__toggle {
+    // For submenu toggle buttons (non-link items)
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
+    color: $text-secondary;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+
+    body.loaded & {
+      transition: all $transition-fast $easing-snappy;
+    }
+
+    &:hover {
+      color: $text-primary;
+      background-color: $accent-light;
+    }
+
+    &--active {
+      color: $accent-color;
+      background-color: $accent-hover;
+    }
+  }
+
+  // Icon and label styles
+  &__icon {
+    width: $sidebar-icon-size;
+    min-width: $sidebar-icon-size;
+    height: $sidebar-icon-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: $font-size-base;
+    text-align: center;
+    line-height: 1; // Prevent emoji baseline shift
+  }
+
+  &__label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    body.loaded & {
+      transition: opacity $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+    }
+  }
+
+  // Submenu styles - Level 2
+  &__submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    background-color: $sidebar-submenu-bg;
+
+    &--open {
+      display: block;
+    }
+  }
+
+  // Level 2 submenu links
+  &__submenu > &__item > &__link {
+    padding-left: $sidebar-submenu-indent;
+    font-size: $font-size-md;
+    border-right: $border-width-medium solid transparent; // Reserve space to prevent shift on active
+
+    &:hover {
+      background-color: $sidebar-submenu-hover-bg;
+    }
+
+    &--active {
+      background-color: $sidebar-submenu-active-bg;
+      border-right-color: $accent-color; // Only change color, not width
+    }
+  }
+
+  // Level 2 submenu toggles (for third level)
+  &__submenu > &__item > &__toggle {
+    padding-left: $sidebar-submenu-indent;
+    font-size: $font-size-md;
+  }
+
+  // Level 3 submenu links
+  &__submenu &__submenu > &__item > &__link {
+    padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
+    font-size: $font-size-sm;
+    border-right: $border-width-base solid transparent; // Reserve space to prevent shift on active
+
+    &--active {
+      border-right-color: $accent-color; // Only change color, not width
+    }
+  }
+
+  // Chevron icon for toggle buttons
+  &__chevron {
+    margin-left: auto;
+    font-size: $font-size-xs;
+
+    body.loaded & {
+      transition: transform $transition-fast $easing-snappy;
+    }
+
+    .pa-sidebar__item--open & {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+// Sidebar hidden state
+.sidebar-hidden {
+  .pa-layout__sidebar {
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    border-right: none;
+  }
+
+  // Icon-collapse mode: show narrow icon-only bar when hidden
+  .pa-layout__sidebar--icon-collapse {
+    width: $sidebar-collapsed-width;
+    opacity: 1; // Override parent opacity: 0 to make icons visible
+    overflow: visible !important; // Allow flyout to show outside sidebar
+    z-index: 1050; // Higher than content area (950) for flyouts
+    border-right: $border-width-base solid $border-color; // Restore border
+
+    // Enable positioning for flyouts
+    .pa-sidebar__item {
+      position: relative;
+    }
+
+    // Hide text labels
+    .pa-sidebar__label {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    // Hide chevron indicators
+    .pa-sidebar__chevron {
+      display: none;
+    }
+
+    // Hide submenus when collapsed (but allow hover override)
+    .pa-sidebar__submenu {
+      display: none;
+    }
+
+    // Center icons in collapsed bar
+    .pa-sidebar__icon {
+      width: 100%;
+      justify-content: center;
+    }
+
+    // Adjust link/toggle padding for icon-only
+    .pa-sidebar__link,
+    .pa-sidebar__toggle {
+      padding: $spacing-sm 0;
+      justify-content: center;
+      gap: 0; // Remove gap to center icons properly
+      position: relative; // For flyout positioning
+    }
+
+    // Flyout label on hover
+    .pa-sidebar__link:hover,
+    .pa-sidebar__toggle:hover {
+      overflow: visible;
+      z-index: 1000; // Elevate parent above content area
+
+      .pa-sidebar__label {
+        opacity: 1;
+        width: auto;
+        overflow: visible; // Remove overflow hidden
+        position: absolute;
+        left: 100%;
+        top: 0;
+        bottom: 0;
+        padding: $spacing-sm $spacing-base;
+        background-color: $sidebar-bg;
+        border: $border-width-base solid $border-color;
+        border-left: none;
+        border-radius: 0 $border-radius $border-radius 0;
+        box-shadow: $shadow-md;
+        white-space: nowrap;
+        z-index: 10; // Relative to parent
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    // Show submenu flyout on hover (for items with submenus)
+    .pa-sidebar__item:hover > .pa-sidebar__submenu,
+    .pa-sidebar__submenu:hover {
+      display: block !important;
+      max-height: none !important;
+      overflow: visible !important;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      min-width: 12rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background-color: $sidebar-submenu-bg;
+      border: $border-width-base solid $border-color;
+      border-left: none;
+      border-radius: 0 $border-radius $border-radius 0;
+      box-shadow: $shadow-md;
+      z-index: 1001; // Higher than parent
+
+      // Reset submenu styling for flyout
+      .pa-sidebar__item {
+        position: relative; // For nested flyouts
+      }
+
+      .pa-sidebar__link,
+      .pa-sidebar__toggle {
+        padding: $spacing-sm $spacing-base;
+        justify-content: flex-start;
+        gap: $sidebar-item-gap;
+        font-size: $font-size-sm;
+        width: 100%;
+
+        &:hover {
+          background-color: $sidebar-submenu-hover-bg;
+        }
+
+        &--active {
+          background-color: $sidebar-submenu-active-bg;
+        }
+      }
+
+      .pa-sidebar__icon {
+        width: $sidebar-icon-size;
+        min-width: $sidebar-icon-size;
+        justify-content: center;
+      }
+
+      .pa-sidebar__label {
+        position: static;
+        opacity: 1;
+        width: auto;
+        padding: 0;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+
+      .pa-sidebar__chevron {
+        display: inline;
+        margin-left: auto;
+        transform: none !important; // Always point right in flyout menus (never rotate down)
+      }
+
+      // Nested submenu flyout (level 3)
+      .pa-sidebar__submenu {
+        display: none;
+      }
+
+      .pa-sidebar__item:hover > .pa-sidebar__submenu,
+      .pa-sidebar__submenu .pa-sidebar__submenu:hover {
+        display: block !important;
+        max-height: none !important;
+        overflow: visible !important;
+        position: absolute;
+        left: 100%;
+        top: 0;
+        min-width: 12rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: $sidebar-submenu-bg;
+        border: $border-width-base solid $border-color;
+        border-left: none;
+        border-radius: 0 $border-radius $border-radius 0;
+        box-shadow: $shadow-md;
+        z-index: 1002; // Higher than parent submenu
+
+        .pa-sidebar__link,
+        .pa-sidebar__toggle {
+          font-size: $font-size-xs;
+        }
+
+        .pa-sidebar__chevron {
+          transform: none !important; // Always point right in nested flyout menus
+        }
+      }
+    }
+  }
+}
+
+// Sidebar expanded state (when not hidden) - ensure icon-collapse mode shows full width
+body:not(.sidebar-hidden) {
+  .pa-layout__sidebar--icon-collapse {
+    width: $sidebar-width;
+
+    // Show labels when expanded
+    .pa-sidebar__label {
+      opacity: 1;
+      width: auto;
+    }
+
+    // Show chevron when expanded
+    .pa-sidebar__chevron {
+      display: inline;
+    }
+
+    // Restore normal padding for level 1 items only
+    .pa-sidebar__link,
+    .pa-sidebar__toggle {
+      padding: $sidebar-padding;
+      justify-content: flex-start;
+      gap: $sidebar-item-gap; // Restore gap when expanded
+    }
+
+    // Submenus controlled by --open class (no forced display)
+
+    // Restore submenu indentation for level 2
+    .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
+    .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
+      padding-left: $sidebar-submenu-indent;
+    }
+
+    // Restore submenu indentation for level 3
+    .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
+    .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
+      padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
+    }
+
+    // Reset icon width and alignment
+    .pa-sidebar__icon {
+      width: $sidebar-icon-size;
+      justify-content: flex-start; // Align left with padding, not center
+    }
+  }
+}
+
+// Responsive Design - Mobile and Tablet
+@media (max-width: $mobile-breakpoint) {
+  // Mobile: Auto-hide sidebar, content takes full width
+  body:not(.sidebar-visible) {
+    .pa-layout__sidebar {
+      width: 0;
+      opacity: 0;
+      overflow: hidden;
+      border-right: none;
+    }
+
+    // Override icon-collapse mode on mobile - sidebar should be fully hidden
+    .pa-layout__sidebar--icon-collapse {
+      width: 0 !important;
+    }
+  }
+
+  // Mobile: Fullscreen sidebar overlay when visible
+  .sidebar-visible {
+    // Use fixed positioning for mobile overlay
+    .pa-layout__inner {
+      position: relative;
+    }
+
+    .pa-layout__sidebar {
+      position: fixed;
+      top: $header-height;
+      left: 0;
+      bottom: 0;
+      width: $mobile-sidebar-width;
+      z-index: 1050;
+      background-color: $sidebar-bg;
+      opacity: 1;
+      overflow-y: auto;
+    }
+
+    // Override icon-collapse mode on mobile - show full width overlay
+    .pa-layout__sidebar--icon-collapse {
+      width: $mobile-sidebar-width !important;
+      overflow-y: auto !important;
+
+      .pa-sidebar__label {
+        opacity: 1 !important;
+        width: auto !important;
+        overflow: visible !important;
+        position: static !important;
+      }
+    }
+
+    // Add backdrop overlay
+    &::before {
+      content: "";
+      position: fixed;
+      top: $header-height;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: $mobile-backdrop-bg;
+      z-index: 1040;
+    }
+  }
+
+  // Adjust header for mobile
+  .pa-header {
+    gap: $spacing-sm;
+
+    &__nav {
+      display: none; // Hide navigation links on mobile
+    }
+
+    &__title h2 {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // Hide theme switcher label on mobile
+  .theme-switcher {
+    label {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: $tablet-breakpoint) and (min-width: $tablet-breakpoint-min) {
+  // Tablet: Reduce sidebar width
+  .pa-layout__sidebar {
+    width: $sidebar-width-tablet;
+
+    &__nav ul li a {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+    }
+  }
 }
 
 /* ========================================

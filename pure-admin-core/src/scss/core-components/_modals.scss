@@ -20,6 +20,12 @@
   &.pa-modal--show {
     display: flex;
   }
+
+  // Top-aligned modifier - positions modal near top instead of center
+  &.pa-modal--top {
+    align-items: flex-start;
+    padding-top: 5vh; // Small offset from top
+  }
 }
 
 // Modal backdrop (the dark overlay)
@@ -84,42 +90,17 @@
 
 .pa-modal__title {
   margin: 0;
-  font-size: $font-size-xl;
-  font-weight: $font-weight-medium;
+  font-size: $modal-title-font-size;
+  font-weight: $font-weight-semibold;
   color: $text-primary;
 }
 
-.pa-modal__close {
-  background: none;
-  border: none;
-  font-size: $modal-close-font-size;
-  line-height: 1;
-  color: $text-secondary;
-  cursor: pointer;
-  padding: 0;
-  width: $modal-close-size;
-  height: $modal-close-size;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: $border-radius;
-  transition: background-color $transition-normal ease;
-  margin-right: calc(-1 * #{$modal-header-padding-h} + #{$spacing-sm}); // Align with right edge, keep small gap
-
-  &:hover {
-    background-color: $accent-hover;
-    color: $text-primary;
-  }
-
-  &:focus {
-    outline: $focus-outline-width solid $accent-color;
-    outline-offset: $focus-outline-offset;
-  }
-}
+// Close button uses standard .pa-btn classes
+// No custom styling needed - handled by button component
 
 // Modal body
 .pa-modal__body {
-  padding: $modal-padding;
+  padding: $modal-body-padding;
   flex: 1;
   overflow-y: auto;
   color: $text-primary;
@@ -144,17 +125,6 @@
   .pa-modal__title {
     color: $modal-content-bg;
   }
-
-  .pa-modal__close {
-    color: $modal-content-bg;
-    opacity: $opacity-hover;
-
-    &:hover {
-      background-color: $modal-header-hover-overlay;
-      color: $modal-content-bg;
-      opacity: 1;
-    }
-  }
 }
 
 .pa-modal--success .pa-modal__header {
@@ -164,17 +134,6 @@
 
   .pa-modal__title {
     color: $btn-success-text;
-  }
-
-  .pa-modal__close {
-    color: $modal-content-bg;
-    opacity: $opacity-hover;
-
-    &:hover {
-      background-color: $modal-header-hover-overlay;
-      color: $modal-content-bg;
-      opacity: 1;
-    }
   }
 }
 
@@ -186,16 +145,6 @@
   .pa-modal__title {
     color: $btn-warning-color;
   }
-
-  .pa-modal__close {
-    color: $btn-warning-color;
-    opacity: $opacity-hover;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, $modal-warning-hover-bg-opacity);
-      opacity: 1;
-    }
-  }
 }
 
 .pa-modal--danger .pa-modal__header {
@@ -205,17 +154,6 @@
 
   .pa-modal__title {
     color: $btn-danger-text;
-  }
-
-  .pa-modal__close {
-    color: $modal-content-bg;
-    opacity: $opacity-hover;
-
-    &:hover {
-      background-color: $modal-header-hover-overlay;
-      color: $modal-content-bg;
-      opacity: 1;
-    }
   }
 }
 
@@ -254,13 +192,16 @@
     }
   }
 
-  .pa-modal__header,
-  .pa-modal__footer {
-    padding: $card-footer-padding-v $card-footer-padding-h;
+  .pa-modal__header {
+    padding: $modal-header-padding;
   }
 
   .pa-modal__body {
-    padding: $spacing-base;
+    padding: $modal-body-padding;
+  }
+
+  .pa-modal__footer {
+    padding: $modal-footer-padding;
   }
 }
 
