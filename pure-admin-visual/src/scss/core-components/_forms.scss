@@ -277,7 +277,7 @@
   .pa-select,
   .pa-virtual-textbox {
     flex: 1;
-    min-width: 200px;
+    min-width: 0; // Allow inputs to shrink below their content size
     padding-right: 2.5rem; // Make room for clear button
   }
 
@@ -517,10 +517,31 @@
 
   input {
     margin-top: $checkbox-margin-top;
-    width: $spinner-size;
-    height: $spinner-size;
+    width: $checkbox-size;
+    height: $checkbox-size;
     cursor: pointer;
     flex-shrink: 0;
+  }
+
+  // Size modifiers
+  &--xs input {
+    width: $checkbox-size-xs;
+    height: $checkbox-size-xs;
+  }
+
+  &--sm input {
+    width: $checkbox-size-sm;
+    height: $checkbox-size-sm;
+  }
+
+  &--lg input {
+    width: $checkbox-size-lg;
+    height: $checkbox-size-lg;
+  }
+
+  &--xl input {
+    width: $checkbox-size-xl;
+    height: $checkbox-size-xl;
   }
 }
 

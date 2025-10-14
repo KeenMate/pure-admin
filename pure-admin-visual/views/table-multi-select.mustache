@@ -1,0 +1,513 @@
+<!-- Multi-Select Across Filters Pattern -->
+
+<!-- Introduction Card -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Multi-Select Across Different Filters</h3>
+        <p>Demonstration of maintaining selection state when switching between filters</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-alert pa-alert--info">
+            <div class="pa-alert__icon">💡</div>
+            <div class="pa-alert__content">
+                <strong>Use Case:</strong> You need to delete/export multiple items from different filter states.
+                <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                    <li>Select items from "Active Users" filter</li>
+                    <li>Switch to "Archived Users" filter</li>
+                    <li>Select more items from archived list</li>
+                    <li>Your previous selections are preserved</li>
+                    <li>View all selected items in the selection panel</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+            <strong>Key Features:</strong>
+            <ul style="margin-top: 0.5rem;">
+                <li><strong>Compact Summary Bar:</strong> Shows selection count and actions without pushing content down</li>
+                <li><strong>Expandable Details:</strong> Click "Show Details" to see full list of selected items</li>
+                <li><strong>Visual Indicators:</strong> Selected rows highlighted in current table view</li>
+                <li><strong>Filter Badges:</strong> Shows count of selections per filter tab</li>
+                <li><strong>Cross-Filter Selection:</strong> Selections preserved when switching between filters</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h4>Filter by Status</h4>
+    </div>
+    <div class="pa-card__body">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="pa-btn pa-btn--primary filter-tab" data-filter="active" onclick="switchFilter('active')">
+                Active Users <span class="pa-badge pa-badge--light" id="badge-active">0</span>
+            </button>
+            <button class="pa-btn pa-btn--secondary filter-tab" data-filter="pending" onclick="switchFilter('pending')">
+                Pending Users <span class="pa-badge pa-badge--light" id="badge-pending">0</span>
+            </button>
+            <button class="pa-btn pa-btn--secondary filter-tab" data-filter="archived" onclick="switchFilter('archived')">
+                Archived Users <span class="pa-badge pa-badge--light" id="badge-archived">0</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Selection Summary Bar (appears when items are selected) -->
+<div id="selection-summary" class="pa-alert pa-alert--primary" style="display: none; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+        <strong><span id="selection-count">0</span> items selected</strong>
+        <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="toggleSelectionDetails()">
+            <span class="pa-btn__icon"><i class="fas fa-chevron-down" id="toggle-icon"></i></span>
+            <span id="toggle-text">Show Details</span>
+        </button>
+    </div>
+    <div style="position: relative; display: inline-block;">
+        <div class="pa-btn-group">
+            <button class="pa-btn pa-btn--sm pa-btn--primary" onclick="exportSelected()">
+                <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
+                Export
+            </button>
+            <button class="pa-btn pa-btn--sm pa-btn--primary" onclick="toggleActionsMenu(event)" style="padding: 0.375rem 0.625rem; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-chevron-down" style="font-size: 1rem;"></i>
+            </button>
+        </div>
+        <div id="actions-menu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 0.25rem; background: white; border: 1px solid #e0e0e0; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 10rem; z-index: 1000;">
+            <button onclick="deleteSelected(); closeActionsMenu();" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer; color: #dc2626; font-size: 0.875rem;" onmouseover="this.style.backgroundColor='#f5f5f5'" onmouseout="this.style.backgroundColor='transparent'">
+                <i class="fas fa-trash" style="margin-right: 0.5rem;"></i>Delete Selected
+            </button>
+            <button onclick="clearSelection(); closeActionsMenu();" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer; font-size: 0.875rem;" onmouseover="this.style.backgroundColor='#f5f5f5'" onmouseout="this.style.backgroundColor='transparent'">
+                <i class="fas fa-times" style="margin-right: 0.5rem;"></i>Clear All
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Selection Details Card (hidden by default, expandable) -->
+<div id="selection-details" class="pa-card" style="display: none;">
+    <div class="pa-card__body pa-card__body--no-padding">
+        <div class="pa-table-container">
+            <table class="pa-table pa-table--striped">
+                <thead>
+                    <tr>
+                        <th class="col-auto">Actions</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Source Filter</th>
+                    </tr>
+                </thead>
+                <tbody id="selection-table-body">
+                    <!-- Dynamic rows -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Data Table -->
+<div class="pa-card">
+    <div class="pa-card__header" style="display: flex; align-items: center; justify-content: space-between;">
+        <h4 style="margin: 0;">
+            <span id="current-filter-label">Active Users</span>
+            <span class="pa-badge pa-badge--secondary" id="visible-count">3 items</span>
+        </h4>
+        <div style="display: flex; gap: 0.5rem;">
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="selectAllVisible()">
+                <span class="pa-btn__icon"><i class="fas fa-check-square"></i></span>
+                Select All Visible
+            </button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="deselectAllVisible()">
+                <span class="pa-btn__icon"><i class="fas fa-square"></i></span>
+                Deselect All Visible
+            </button>
+        </div>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <div class="pa-table-container">
+            <table class="pa-table pa-table--striped">
+                <thead>
+                    <tr>
+                        <th class="col-auto">
+                            <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this.checked)">
+                        </th>
+                        <th class="col-auto">Actions</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Last Login</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table-body">
+                    <!-- Dynamic rows injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Pattern Explanation -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h4>Implementation Notes</h4>
+    </div>
+    <div class="pa-card__body">
+        <h5>Visual Pattern Components</h5>
+        <ol>
+            <li>
+                <strong>Selection Summary Bar</strong>
+                <ul>
+                    <li>Appears between filters and data table when items are selected</li>
+                    <li>Shows selection count and bulk action buttons (Delete, Export, Clear)</li>
+                    <li>"Show Details" button to expand full list (collapsed by default)</li>
+                    <li>Prevents unwanted content shifting when checking items</li>
+                    <li>Uses <code>pa-alert pa-alert--primary</code> for visual consistency</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Selection Details Table (Expandable)</strong>
+                <ul>
+                    <li>Hidden by default, user can expand via "Show Details" button</li>
+                    <li>Shows full table of all selected items from all filters</li>
+                    <li>Includes "Source Filter" column showing where each item was selected</li>
+                    <li>Individual remove buttons per row for granular control</li>
+                    <li>Toggle button changes to "Hide Details" when expanded</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Filter Tab Badges</strong>
+                <ul>
+                    <li>Each filter tab shows count of selected items from that filter</li>
+                    <li>Example: "Active Users (2)" means 2 items selected from Active filter</li>
+                    <li>Helps users track selections across different views</li>
+                    <li>Updates in real-time as selections change</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Row Highlighting</strong>
+                <ul>
+                    <li>Selected rows in current table view have distinct background color</li>
+                    <li>Uses subtle blue accent to indicate selection state</li>
+                    <li>Checkboxes remain checked when switching filters</li>
+                    <li>Provides immediate visual feedback</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Bulk Selection Controls</strong>
+                <ul>
+                    <li>"Select All Visible" - checks all rows in current filter view</li>
+                    <li>"Deselect All Visible" - unchecks visible rows (preserves hidden selections)</li>
+                    <li>Header checkbox with indeterminate state support</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h5 style="margin-top: 1.5rem;">Data Management</h5>
+        <p>For framework implementations (React/Vue/Svelte):</p>
+        <ul>
+            <li>Maintain a global selection Set/Map keyed by item ID</li>
+            <li>Store full item data in selection (for display in panel)</li>
+            <li>Store source filter label with each selection</li>
+            <li>When rendering table, check if row ID exists in selection Set</li>
+            <li>Update counts in real-time as selections change</li>
+        </ul>
+
+        <div class="pa-alert pa-alert--warning" style="margin-top: 1rem;">
+            <div class="pa-alert__icon">⚠️</div>
+            <div class="pa-alert__content">
+                <strong>Important:</strong> This demo uses simple JavaScript for visualization only.
+                In production, use proper state management (Svelte stores, Vue composables, React context/hooks)
+                to maintain selection state across component re-renders.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Mock data for different filters
+const mockData = {
+    active: [
+        { id: 'u1', name: 'John Doe', email: 'john@example.com', status: 'Active', lastLogin: '2025-10-13' },
+        { id: 'u2', name: 'Jane Smith', email: 'jane@example.com', status: 'Active', lastLogin: '2025-10-12' },
+        { id: 'u3', name: 'Mike Johnson', email: 'mike@example.com', status: 'Active', lastLogin: '2025-10-11' }
+    ],
+    pending: [
+        { id: 'u4', name: 'Alice Brown', email: 'alice@example.com', status: 'Pending', lastLogin: '2025-09-20' },
+        { id: 'u5', name: 'Bob Wilson', email: 'bob@example.com', status: 'Pending', lastLogin: '2025-09-15' }
+    ],
+    archived: [
+        { id: 'u6', name: 'Charlie Davis', email: 'charlie@example.com', status: 'Archived', lastLogin: '2025-08-05' },
+        { id: 'u7', name: 'Diana Evans', email: 'diana@example.com', status: 'Archived', lastLogin: '2025-07-12' },
+        { id: 'u8', name: 'Frank Miller', email: 'frank@example.com', status: 'Archived', lastLogin: '2025-06-30' }
+    ]
+};
+
+// Global selection state
+const selection = new Map(); // Map<id, {item, sourceFilter}>
+let currentFilter = 'active';
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    switchFilter('active');
+});
+
+// Switch filter view
+function switchFilter(filter) {
+    currentFilter = filter;
+
+    // Update filter tab buttons
+    document.querySelectorAll('.filter-tab').forEach(btn => {
+        if (btn.dataset.filter === filter) {
+            btn.className = 'pa-btn pa-btn--primary filter-tab';
+        } else {
+            btn.className = 'pa-btn pa-btn--secondary filter-tab';
+        }
+    });
+
+    // Update filter label
+    const labels = {
+        active: 'Active Users',
+        pending: 'Pending Users',
+        archived: 'Archived Users'
+    };
+    document.getElementById('current-filter-label').textContent = labels[filter];
+
+    // Render table
+    renderTable(filter);
+    updateSelectionUI();
+}
+
+// Render table with current filter data
+function renderTable(filter) {
+    const data = mockData[filter];
+    const tbody = document.getElementById('data-table-body');
+
+    tbody.innerHTML = data.map(item => {
+        const isSelected = selection.has(item.id);
+        const rowStyle = isSelected ? 'background-color: rgba(59, 130, 246, 0.1);' : '';
+
+        return `
+            <tr style="${rowStyle}">
+                <td class="col-auto">
+                    <input type="checkbox"
+                           ${isSelected ? 'checked' : ''}
+                           onchange="toggleSelection('${item.id}', this.checked)">
+                </td>
+                <td class="col-auto">
+                    <div class="pa-btn-group">
+                        <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary">
+                            <span class="pa-btn__icon"><i class="fas fa-eye"></i></span>
+                        </button>
+                        <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">
+                            <span class="pa-btn__icon"><i class="fas fa-edit"></i></span>
+                        </button>
+                    </div>
+                </td>
+                <td>${item.name}</td>
+                <td>${item.email}</td>
+                <td><span class="pa-badge pa-badge--${item.status === 'Active' ? 'success' : item.status === 'Pending' ? 'warning' : 'secondary'}">${item.status}</span></td>
+                <td>${item.lastLogin}</td>
+            </tr>
+        `;
+    }).join('');
+
+    // Update visible count
+    document.getElementById('visible-count').textContent = `${data.length} items`;
+
+    // Update select-all checkbox state
+    updateSelectAllCheckbox();
+}
+
+// Toggle individual row selection
+function toggleSelection(itemId, checked) {
+    const filterLabels = {
+        active: 'Active Users',
+        pending: 'Pending Users',
+        archived: 'Archived Users'
+    };
+
+    if (checked) {
+        // Find item in current filter data
+        const item = mockData[currentFilter].find(i => i.id === itemId);
+        if (item) {
+            selection.set(itemId, {
+                item: item,
+                sourceFilter: filterLabels[currentFilter]
+            });
+        }
+    } else {
+        selection.delete(itemId);
+    }
+
+    renderTable(currentFilter); // Re-render to update highlighting
+    updateSelectionUI();
+}
+
+// Toggle select all visible items
+function toggleSelectAll(checked) {
+    const data = mockData[currentFilter];
+    data.forEach(item => {
+        toggleSelection(item.id, checked);
+    });
+}
+
+// Select all visible items
+function selectAllVisible() {
+    document.getElementById('select-all-checkbox').checked = true;
+    toggleSelectAll(true);
+}
+
+// Deselect all visible items
+function deselectAllVisible() {
+    document.getElementById('select-all-checkbox').checked = false;
+    toggleSelectAll(false);
+}
+
+// Update select-all checkbox state based on visible selections
+function updateSelectAllCheckbox() {
+    const data = mockData[currentFilter];
+    const visibleIds = data.map(item => item.id);
+    const allVisibleSelected = visibleIds.every(id => selection.has(id));
+    const someVisibleSelected = visibleIds.some(id => selection.has(id));
+
+    const checkbox = document.getElementById('select-all-checkbox');
+    checkbox.checked = allVisibleSelected && data.length > 0;
+    checkbox.indeterminate = someVisibleSelected && !allVisibleSelected;
+}
+
+// Update all selection UI elements
+function updateSelectionUI() {
+    const count = selection.size;
+
+    // Update selection summary bar
+    const selectionSummary = document.getElementById('selection-summary');
+    selectionSummary.style.display = count > 0 ? 'flex' : 'none';
+    document.getElementById('selection-count').textContent = count;
+
+    // Hide details when count reaches 0
+    if (count === 0) {
+        document.getElementById('selection-details').style.display = 'none';
+    }
+
+    // Update filter badge counts
+    const filterCounts = { active: 0, pending: 0, archived: 0 };
+    const filterLabels = {
+        'Active Users': 'active',
+        'Pending Users': 'pending',
+        'Archived Users': 'archived'
+    };
+
+    selection.forEach(({ sourceFilter }) => {
+        const filterKey = filterLabels[sourceFilter];
+        if (filterKey) {
+            filterCounts[filterKey]++;
+        }
+    });
+
+    document.getElementById('badge-active').textContent = filterCounts.active;
+    document.getElementById('badge-pending').textContent = filterCounts.pending;
+    document.getElementById('badge-archived').textContent = filterCounts.archived;
+
+    // Update selection summary table
+    renderSelectionSummary();
+}
+
+// Render selection summary table
+function renderSelectionSummary() {
+    const tbody = document.getElementById('selection-table-body');
+
+    if (selection.size === 0) {
+        tbody.innerHTML = '';
+        return;
+    }
+
+    tbody.innerHTML = Array.from(selection.entries()).map(([id, { item, sourceFilter }]) => {
+        return `
+            <tr>
+                <td class="col-auto">
+                    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger"
+                            onclick="removeFromSelection('${id}')"
+                            title="Remove from selection">
+                        <span class="pa-btn__icon"><i class="fas fa-times"></i></span>
+                    </button>
+                </td>
+                <td>${item.name}</td>
+                <td>${item.email}</td>
+                <td><span class="pa-badge pa-badge--${item.status === 'Active' ? 'success' : item.status === 'Pending' ? 'warning' : 'secondary'}">${item.status}</span></td>
+                <td><span class="pa-badge pa-badge--info">${sourceFilter}</span></td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// Remove individual item from selection
+function removeFromSelection(itemId) {
+    selection.delete(itemId);
+    renderTable(currentFilter); // Re-render to update checkboxes
+    updateSelectionUI();
+}
+
+// Toggle selection details visibility
+function toggleSelectionDetails() {
+    const details = document.getElementById('selection-details');
+    const icon = document.getElementById('toggle-icon');
+    const text = document.getElementById('toggle-text');
+
+    if (details.style.display === 'none') {
+        details.style.display = 'block';
+        icon.className = 'fas fa-chevron-up';
+        text.textContent = 'Hide Details';
+    } else {
+        details.style.display = 'none';
+        icon.className = 'fas fa-chevron-down';
+        text.textContent = 'Show Details';
+    }
+}
+
+// Toggle actions dropdown menu
+function toggleActionsMenu(event) {
+    event.stopPropagation();
+    const menu = document.getElementById('actions-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+// Close actions menu
+function closeActionsMenu() {
+    document.getElementById('actions-menu').style.display = 'none';
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('actions-menu');
+    if (menu && menu.style.display === 'block') {
+        closeActionsMenu();
+    }
+});
+
+// Clear all selections
+function clearSelection() {
+    selection.clear();
+    renderTable(currentFilter);
+    updateSelectionUI();
+}
+
+// Mock bulk actions
+function deleteSelected() {
+    if (selection.size === 0) return;
+
+    const confirmed = confirm(`Delete ${selection.size} selected items?`);
+    if (confirmed) {
+        console.log('Deleting items:', Array.from(selection.keys()));
+        alert(`Would delete ${selection.size} items:\n` + Array.from(selection.values()).map(s => s.item.name).join('\n'));
+        clearSelection();
+    }
+}
+
+function exportSelected() {
+    if (selection.size === 0) return;
+
+    console.log('Exporting items:', Array.from(selection.keys()));
+    alert(`Would export ${selection.size} items:\n` + Array.from(selection.values()).map(s => s.item.name).join('\n'));
+}
+</script>

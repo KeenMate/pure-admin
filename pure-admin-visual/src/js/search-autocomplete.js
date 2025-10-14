@@ -206,6 +206,18 @@ class SearchAutocomplete {
         this.renderTokens();
         this.close();
         this.input.focus();
+
+        // If we just selected a field, automatically show operators
+        if (tokenType === 'field') {
+            // Trigger operator autocomplete immediately
+            setTimeout(() => {
+                this.autocompleteResults = this.searchAutocomplete('');
+                this.activeIndex = this.autocompleteResults.length > 0 ? 0 : -1;
+                if (this.autocompleteResults.length > 0) {
+                    this.renderAutocomplete();
+                }
+            }, 0);
+        }
     }
 
     /**

@@ -377,6 +377,32 @@ xl:  3.5rem × 3.5rem   → ~56px square
 - ✅ Professional, data-dense table layouts
 - ✅ True size variety across button system
 
+### **Filter Form Alignment Pattern:**
+When placing action buttons (like "Filter") alongside form inputs in a horizontal layout, use an empty label to maintain alignment:
+
+```html
+<div class="pure-g">
+  <div class="pure-u-1 pure-u-md-1-5">
+    <div class="pa-form-group">
+      <label>Search</label>
+      <div class="pa-input-wrapper">
+        <input type="text" class="pa-input" placeholder="Search...">
+      </div>
+    </div>
+  </div>
+  <div class="pure-u-1 pure-u-md-1-5">
+    <div class="pa-form-group">
+      <label>&nbsp;</label>
+      <button class="pa-btn pa-btn--primary" style="width: 100%;">Filter</button>
+    </div>
+  </div>
+</div>
+```
+
+**Why:** The `<label>&nbsp;</label>` creates an invisible label that takes up the same height as other labels, ensuring the button aligns perfectly with adjacent inputs/selects. This is cleaner than inline styles with hardcoded margin values.
+
+**Important:** Action columns (like "Actions" in tables) should always be positioned first (leftmost) for consistency across the framework.
+
 Remember: User appreciates thorough, systematic work and clear communication! 🚀
 
 ## Comprehensive Component Snippets (2025-10-05)

@@ -66,8 +66,10 @@ const renderWithLayout = (res, viewName, data) => {
     // Read and render partials WITH data
     const navbarTemplate = loadPartial('navbar');
     const sidebarTemplate = loadPartial('sidebar');
+    const settingsPanelTemplate = loadPartial('settings-panel');
     const navbarHtml = Mustache.render(navbarTemplate, viewData);
     const sidebarHtml = Mustache.render(sidebarTemplate, viewData);
+    const settingsPanelHtml = Mustache.render(settingsPanelTemplate, viewData);
 
     // Read layout template fresh on each request (for development)
     const layoutTemplate = fs.readFileSync(path.join(__dirname, 'views', 'layout.mustache'), 'utf-8');
@@ -78,7 +80,8 @@ const renderWithLayout = (res, viewName, data) => {
         body: pageHtml,
         partials: {
             navbar: navbarHtml,
-            sidebar: sidebarHtml
+            sidebar: sidebarHtml,
+            settingsPanel: settingsPanelHtml
         }
     };
     const finalHtml = Mustache.render(layoutTemplate, finalData);
@@ -90,12 +93,13 @@ const renderWithLayout = (res, viewName, data) => {
 app.get('/', (req, res) => {
     renderWithLayout(res, 'dashboard', {
         pageTitle: 'Dashboard',
-        currentPage: 'dashboard'
+        currentPage: 'dashboard',
+        isDashboard: true
     });
 });
 
 app.get('/forms', (req, res) => {
-    renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms' });
+    renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms', isForms: true });
 });
 
 app.get('/checkbox-lists', (req, res) => {
@@ -103,23 +107,23 @@ app.get('/checkbox-lists', (req, res) => {
 });
 
 app.get('/cards', (req, res) => {
-    renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards' });
+    renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
 });
 
 app.get('/buttons', (req, res) => {
-    renderWithLayout(res, 'buttons', { pageTitle: 'Buttons', currentPage: 'buttons' });
+    renderWithLayout(res, 'buttons', { pageTitle: 'Buttons', currentPage: 'buttons', isButtons: true });
 });
 
 app.get('/alerts', (req, res) => {
-    renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts' });
+    renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts', isAlerts: true });
 });
 
 app.get('/components', (req, res) => {
-    renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components' });
+    renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components', isComponents: true });
 });
 
 app.get('/tables', (req, res) => {
-    renderWithLayout(res, 'tables', { pageTitle: 'Tables', currentPage: 'tables' });
+    renderWithLayout(res, 'tables', { pageTitle: 'Tables', currentPage: 'tables', isTables: true });
 });
 
 app.get('/tables-sizing', (req, res) => {
@@ -130,32 +134,36 @@ app.get('/table-filters', (req, res) => {
     renderWithLayout(res, 'table-filters', { pageTitle: 'Table Filters', currentPage: 'table-filters', isTableFilters: true });
 });
 
+app.get('/table-multi-select', (req, res) => {
+    renderWithLayout(res, 'table-multi-select', { pageTitle: 'Multi-Select Across Filters', currentPage: 'table-multi-select', isTableMultiSelect: true });
+});
+
 app.get('/comparison', (req, res) => {
     renderWithLayout(res, 'comparison', { pageTitle: 'Comparison Tables', currentPage: 'comparison', isComparison: true });
 });
 
 app.get('/code', (req, res) => {
-    renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code' });
+    renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code', isCode: true });
 });
 
 app.get('/badges', (req, res) => {
-    renderWithLayout(res, 'badges', { pageTitle: 'Badges & Labels', currentPage: 'badges' });
+    renderWithLayout(res, 'badges', { pageTitle: 'Badges & Labels', currentPage: 'badges', isBadges: true });
 });
 
 app.get('/modals', (req, res) => {
-    renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals' });
+    renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals', isModals: true });
 });
 
 app.get('/popconfirm', (req, res) => {
-    renderWithLayout(res, 'popconfirm', { pageTitle: 'Popconfirm', currentPage: 'popconfirm' });
+    renderWithLayout(res, 'popconfirm', { pageTitle: 'Popconfirm', currentPage: 'popconfirm', isPopconfirm: true });
 });
 
 app.get('/loaders', (req, res) => {
-    renderWithLayout(res, 'loaders', { pageTitle: 'Loaders & Spinners', currentPage: 'loaders' });
+    renderWithLayout(res, 'loaders', { pageTitle: 'Loaders & Spinners', currentPage: 'loaders', isLoaders: true });
 });
 
 app.get('/tooltips', (req, res) => {
-    renderWithLayout(res, 'tooltips', { pageTitle: 'Tooltips', currentPage: 'tooltips' });
+    renderWithLayout(res, 'tooltips', { pageTitle: 'Tooltips', currentPage: 'tooltips', isTooltips: true });
 });
 
 app.get('/command-palette', (req, res) => {
@@ -163,19 +171,19 @@ app.get('/command-palette', (req, res) => {
 });
 
 app.get('/tabs', (req, res) => {
-    renderWithLayout(res, 'tabs', { pageTitle: 'Tabs', currentPage: 'tabs' });
+    renderWithLayout(res, 'tabs', { pageTitle: 'Tabs', currentPage: 'tabs', isTabs: true });
 });
 
 app.get('/toasts', (req, res) => {
-    renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts' });
+    renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts', isToasts: true });
 });
 
 app.get('/layouts', (req, res) => {
-    renderWithLayout(res, 'layouts', { pageTitle: 'Layouts', currentPage: 'layouts' });
+    renderWithLayout(res, 'layouts', { pageTitle: 'Layouts', currentPage: 'layouts', isLayouts: true });
 });
 
 app.get('/lists', (req, res) => {
-    renderWithLayout(res, 'lists', { pageTitle: 'Lists', currentPage: 'lists' });
+    renderWithLayout(res, 'lists', { pageTitle: 'Lists', currentPage: 'lists', isLists: true });
 });
 
 app.get('/timeline', (req, res) => {

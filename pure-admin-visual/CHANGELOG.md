@@ -7,6 +7,159 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2025-10-14
+
+#### Checkbox and Radio Button Size Modifiers
+- **New size variants**: Added `--xs`, `--sm`, `--lg`, `--xl` modifiers for checkboxes and radio buttons
+  - **Variables added**:
+    - `$checkbox-size-xs`: 0.75rem (12px)
+    - `$checkbox-size-sm`: 0.875rem (14px)
+    - `$checkbox-size`: 1rem (16px) - default/base
+    - `$checkbox-size-lg`: 1.25rem (20px)
+    - `$checkbox-size-xl`: 1.5rem (24px)
+  - **BEM modifiers**: `.pa-checkbox--xs`, `.pa-checkbox--sm`, `.pa-checkbox--lg`, `.pa-checkbox--xl`
+  - Same modifiers work for `.pa-radio` buttons
+  - Follows same pattern as buttons and tabs for consistency
+- **Demo added**: New "Checkbox & Radio Sizes" section on `/forms` page showing all 5 sizes
+- **Snippets updated**: `snippets/forms.html` now includes:
+  - Corrected checkbox/radio BEM structure
+  - Checkbox and radio group examples
+  - All size variants (xs, sm, default, lg, xl) with pixel dimensions
+- **Files updated**:
+  - `src/scss/_variables.scss` - Added 5 checkbox size variables
+  - `src/scss/core-components/_forms.scss` - Added size modifier styles
+  - `views/forms.mustache` - Added comprehensive size demonstration
+
+#### Multi-Select Across Filters Page
+- **New page**: `/table-multi-select` demonstrating selection preservation across filter changes
+- **Features**:
+  - Selection state preserved when switching between filters (Active/Archived/All Users)
+  - Compact selection summary bar with expandable details
+  - Split button with dropdown menu for bulk actions (Export, Delete, Clear)
+  - Filter tab badges showing selection count per filter
+  - Visual row highlighting for selected items
+  - JavaScript-based selection state management using Map
+- **Split button pattern**: Primary action + dropdown trigger
+  - Export as main action
+  - Dropdown menu with Delete and Clear options
+  - Click-outside-to-close functionality
+- **Navigation**: Added "Multi-Select" link to Tables submenu
+
+### Fixed - 2025-10-14
+
+#### Button Height Consistency
+- **Fixed inconsistent button heights**: Buttons with icons were taller than text-only buttons even with same size class
+  - **Root cause**: `.pa-btn__icon` had fixed `height: 1.5rem` (24px), stretching parent button beyond intended size
+  - **Solution 1**: Removed fixed height from `.pa-btn__icon`, only fixed width remains
+  - **Solution 2**: Added `min-height` to all button size classes for rigid height enforcement
+    - `pa-btn--xs`: min-height: 1.75rem (~28px)
+    - `pa-btn--sm`: min-height: 2rem (~32px)
+    - `pa-btn--lg`: min-height: 2.5rem (~40px)
+    - `pa-btn--xl`: min-height: 2.75rem (~44px)
+  - **Result**: All buttons with same size class now have identical height regardless of content
+  - **Location**: `src/scss/core-components/_buttons.scss`
+
+#### Sidebar Active State Visibility
+- **Fixed missing active state**: Sidebar menu items weren't showing active state
+  - **Problem 1**: Server routes missing context variables (isButtons, isForms, etc.)
+  - **Problem 2**: Active state styling was too subtle (10% opacity background)
+  - **Solution**:
+    - Added missing context variables to all routes in `server.js`
+    - Enhanced active state styling with bold font weight
+  - **Active state now includes**:
+    - Blue text color (`$accent-color`)
+    - Light blue background (`$accent-hover` - 10% opacity)
+    - Blue right border (3px thick)
+    - **Bold font weight** (`$font-weight-semibold`)
+  - **Files updated**:
+    - `server.js` - Added isDashboard, isForms, isButtons, etc. to all 20+ routes
+    - `src/scss/core-components/_layout.scss` - Added `font-weight: $font-weight-semibold` to active state
+
+### Changed - 2025-10-13
+
+#### Settings Panel Modularization
+- **Extracted settings panel into separate component files**:
+  - **HTML**: `views/partials/settings-panel.mustache` - Settings panel structure
+  - **JavaScript**: `src/js/settings-panel.js` - Settings logic and event handlers
+  - **SCSS**: `src/scss/core-components/_settings-panel.scss` - Component styles
+- **Global configuration object**: Added `window.PURE_ADMIN_CONFIG` to pass server-provided values to external JavaScript
+  - `currentTheme`: Current active theme from server
+  - `containerWidth`: Current container width setting
+  - `sidebarMode`: Current sidebar mode (sticky or default)
+- **Server integration**: Updated `server.js` to render settings panel partial with Mustache data
+- **Layout updates**: `layout.mustache` now includes settings panel partial and script
+- **Benefits**:
+  - Better code organization and maintainability
+  - Reusable settings panel component
+  - Easier testing and debugging
+  - Follows project's modular architecture
+
+### Removed - 2025-10-13
+
+#### Legacy Theme System Cleanup
+- **Removed obsolete files**:
+  - `src/scss/themes/_dark-base.scss` - Legacy CSS variable mixin (5,272 bytes)
+    - Used old `[data-theme="..."]` selector pattern
+    - Not imported by any active theme since SCSS variable migration
+  - `dist/css/themes/audi-complete.css` - Legacy compiled file (106 KB)
+    - Only compiled CSS with data-theme selectors
+    - Not referenced anywhere in application
+  - Updated `snippets/manifest.json` to remove deleted file entry
+- **Removed data-theme attribute**: No longer setting `data-theme` on body element
+  - Legacy attribute was part of old CSS-variable-based theming system
+  - All themes now use modern SCSS variable compilation
+  - No runtime CSS variables or data attributes needed
+- **Verification**: All 9 active themes compile and work correctly without legacy code
+- **Result**: Cleaner codebase fully migrated to SCSS-only architecture
+
+### Fixed - 2025-10-13
+
+#### Settings Panel Theme Selector
+- **Fixed theme dropdown not preselecting current theme**:
+  - **Problem**: External JavaScript couldn't access Mustache template variable `{{currentTheme}}`
+  - **Solution**: Created global `window.PURE_ADMIN_CONFIG` object to pass server values to client
+  - Settings panel now correctly reads `PURE_ADMIN_CONFIG.currentTheme` instead of DOM attribute
+- **Location**: `src/js/settings-panel.js` line 35
+
+### Fixed - 2025-10-13
+
+#### Sidebar Icon Positioning in Icon-Collapse Mode
+- **Fixed icon bouncing during sidebar toggle**:
+  - **Problem**: Icons jumped from center to left position when transitioning between collapsed and expanded states
+  - **Solution**: Keep identical padding (`$sidebar-padding`) in both states, only hide/show label with `width: 0` and `opacity: 0`
+  - **Result**: Icons stay in exact same position (16px from left edge) in both states, only label fades out
+  - **Files**: `src/scss/core-components/_layout.scss`
+
+#### Tooltip & Popover System
+- **Fixed popover styling consistency**:
+  - Created comprehensive SCSS variables for popover headers following modal pattern:
+    - `$popover-header-padding-v/h/right`: Individual padding values (0.5rem, 0.5rem, 0.2rem)
+    - `$popover-header-padding`: Combined padding variable
+    - `$popover-header-border`: Border style variable
+    - `$popover-header-border-radius`: Border radius variable
+    - `$popover-title-font-size`: Title font size (1.125rem)
+    - `$popover-close-size`: Close button size (1.5rem)
+  - All popover styling now configurable through variables (no hardcoded values)
+
+#### Sidebar Hover Highlighting Consistency
+- **Unified sidebar hover colors across all levels and themes**:
+  - **Problem**: Level 1 items used accent colors on hover, Level 2/3 used gray backgrounds
+  - **Solution**: All levels now use theme accent colors for consistent highlighting
+
+  **Audi & Audi Light themes**:
+  - Hover: `rgba(255, 0, 0, 0.25)` - Increased from 0.15 for better visibility on dark backgrounds
+  - Active: `rgba(255, 0, 0, 0.3)` - Red accent
+
+  **Express theme**:
+  - Hover: `rgba(255, 255, 255, 0.1)` - White overlay
+  - Active: `$express-red` - Red accent
+
+  **Dark themes (Dark, Dark Blue, Dark Green, Dark Red)**:
+  - Hover: `$accent-light` - Theme-specific accent color (blue/green/red)
+  - Active: `$accent-hover` - Theme-specific accent color
+
+  - **Files**: All theme files in `src/scss/themes/`
+
 ### Added - 2025-10-08
 
 #### Layout System Improvements
