@@ -99,6 +99,12 @@ This core package includes the **Corporate theme** as default. Additional themes
 - `.pa-card__body` - Card body
 - `.pa-card__footer` - Card footer
 
+### Layout & Sidebar
+- `.pa-layout` - Main layout container
+- `.pa-layout__sidebar` - Sidebar navigation
+- `.pa-layout__sidebar--icon-collapse` - Icon-only collapse mode (icons maintain fixed position when collapsed)
+- `.sidebar-hidden` - Body class to toggle sidebar visibility
+
 ### Forms
 - `.pa-input` - Text inputs
 - `.pa-select` - Select dropdowns
@@ -126,6 +132,15 @@ This core package includes the **Corporate theme** as default. Additional themes
 - `.pa-toast` - Base toast
 - `.pa-toast--primary/success/danger/warning/info` - Variants
 - Positions: `top-right`, `top-center`, `top-left`, `bottom-right`, `bottom-center`, `bottom-left`
+
+### Tooltips & Popovers
+- `.pa-tooltip` - Base tooltip (pure CSS, no JS required)
+- `.pa-tooltip--top/right/bottom/left` - Positioning
+- `.pa-tooltip--primary/success/warning/danger` - Variants
+- `.pa-tooltip--multiline` - Multiline tooltips
+- `.pa-popover` - Base popover (requires JavaScript)
+- `.pa-popover--sm/md/lg` - Sizes
+- **JavaScript Required**: Popovers require `tooltips-popovers.js` and Floating UI library for positioning
 
 ## SCSS Variables
 

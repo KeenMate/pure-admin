@@ -1,7 +1,18 @@
 <!-- ================================
      TOOLTIP & POPOVER SNIPPETS
      Pure Admin Visual Framework
+
+     Uses Floating UI (@floating-ui/dom) for smart positioning
      ================================ -->
+
+<!-- TOOLTIPS -->
+
+<!-- Tooltips are automatically positioned using Floating UI
+     - Add class="pa-tooltip" and data-tooltip="text"
+     - No JavaScript initialization needed (handled globally)
+     - Smart collision detection and auto-flipping
+     - Works on any element (buttons, spans, links, etc.)
+-->
 
 <!-- BASIC TOOLTIPS -->
 
@@ -147,39 +158,22 @@
 </span>
 
 
-<!-- AUTO-FLIP TOOLTIPS (Smart Positioning) -->
-
-<!-- These classes are added by JavaScript when tooltip would overflow viewport -->
-<!-- Auto-flip from top to bottom -->
-<span class="pa-tooltip pa-tooltip--auto-flip-bottom" data-tooltip="Flipped to bottom">
-  Near top edge
-</span>
-
-<!-- Auto-flip from bottom to top -->
-<span class="pa-tooltip pa-tooltip--bottom pa-tooltip--auto-flip-top" data-tooltip="Flipped to top">
-  Near bottom edge
-</span>
-
-<!-- Auto-flip from left to right -->
-<span class="pa-tooltip pa-tooltip--left pa-tooltip--auto-flip-right" data-tooltip="Flipped to right">
-  Near left edge
-</span>
-
-<!-- Auto-flip from right to left -->
-<span class="pa-tooltip pa-tooltip--right pa-tooltip--auto-flip-left" data-tooltip="Flipped to left">
-  Near right edge
-</span>
-
-
 <!-- POPOVERS - Basic -->
 
+<!-- Popovers are click-triggered rich content overlays
+     - Use Floating UI for positioning (like tooltips)
+     - Support all 4 positions (top, right, bottom, left) via data-placement attribute
+     - Auto collision detection and flipping
+     - Close with X button or clicking outside
+-->
+
 <!-- Basic Popover (Top) -->
-<div class="pa-popover">
+<div class="pa-popover" data-placement="top">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Help</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>This is a popover with rich content. You can include text, links, and formatting.</p>
@@ -188,12 +182,12 @@
 </div>
 
 <!-- Popover Right -->
-<div class="pa-popover pa-popover--right">
+<div class="pa-popover" data-placement="right">
   <button class="pa-popover__trigger">i</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Information</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>Popover positioned to the right.</p>
@@ -202,12 +196,12 @@
 </div>
 
 <!-- Popover Bottom -->
-<div class="pa-popover pa-popover--bottom">
+<div class="pa-popover" data-placement="bottom">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Details</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>Popover positioned below the trigger.</p>
@@ -216,12 +210,12 @@
 </div>
 
 <!-- Popover Left -->
-<div class="pa-popover pa-popover--left">
+<div class="pa-popover" data-placement="left">
   <button class="pa-popover__trigger">!</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Warning</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>Popover positioned to the left.</p>
@@ -233,12 +227,12 @@
 <!-- POPOVER SIZES -->
 
 <!-- Small Popover -->
-<div class="pa-popover pa-popover--sm">
+<div class="pa-popover pa-popover--sm" data-placement="top">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Tip</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>Small popover for brief hints.</p>
@@ -247,12 +241,12 @@
 </div>
 
 <!-- Default Popover -->
-<div class="pa-popover">
+<div class="pa-popover" data-placement="top">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Help</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>Default size popover for standard content.</p>
@@ -261,12 +255,12 @@
 </div>
 
 <!-- Large Popover -->
-<div class="pa-popover pa-popover--lg">
+<div class="pa-popover pa-popover--lg" data-placement="top">
   <button class="pa-popover__trigger">i</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Detailed Information</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>Large popover for detailed explanations and longer content.</p>
@@ -279,12 +273,12 @@
 <!-- POPOVER WITH RICH CONTENT -->
 
 <!-- Popover with List -->
-<div class="pa-popover pa-popover--lg pa-popover--bottom">
+<div class="pa-popover pa-popover--lg" data-placement="bottom">
   <button class="pa-popover__trigger">i</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Features</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>This version includes:</p>
@@ -300,12 +294,12 @@
 </div>
 
 <!-- Popover with Code -->
-<div class="pa-popover pa-popover--lg pa-popover--right">
+<div class="pa-popover pa-popover--lg" data-placement="right">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
       <h4>Usage Example</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
+      <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
       <p>Use the following code:</p>
@@ -316,54 +310,23 @@
 </div>
 
 
-<!-- POPOVER AUTO-FLIP (Smart Positioning) -->
+<!-- JAVASCRIPT API -->
 
-<!-- Applied by JavaScript when popover would overflow viewport -->
-<!-- Auto-flip from top to bottom -->
-<div class="pa-popover pa-popover--auto-flip-bottom">
-  <button class="pa-popover__trigger">?</button>
-  <div class="pa-popover__content">
-    <div class="pa-popover__header">
-      <h4>Help</h4>
-      <button class="pa-popover__close" onclick="closePopover(this)">✕</button>
-    </div>
-    <div class="pa-popover__body">
-      <p>Near top edge, flipped to bottom.</p>
-    </div>
-  </div>
-</div>
-
-
-<!-- JAVASCRIPT FOR POPOVERS -->
+<!-- Tooltips and popovers are initialized automatically by tooltips-popovers.js
+     No manual initialization needed! -->
 
 <script>
-// Toggle popover
-function togglePopover(trigger) {
-  const popover = trigger.closest('.pa-popover');
-  popover.classList.toggle('pa-popover--open');
-}
+// Optional: Access the public API if needed
+// window.PureAdminTooltips provides:
+// - init(): Initialize all tooltips and popovers
+// - initTooltips(): Initialize tooltips only
+// - initPopovers(): Initialize popovers only
+// - showTooltip(element): Show tooltip for element
+// - hideTooltip(): Hide current tooltip
 
-// Close popover
-function closePopover(closeBtn) {
-  const popover = closeBtn.closest('.pa-popover');
-  popover.classList.remove('pa-popover--open');
-}
-
-// Close popover when clicking outside
-document.addEventListener('click', function(event) {
-  if (!event.target.closest('.pa-popover')) {
-    document.querySelectorAll('.pa-popover--open').forEach(popover => {
-      popover.classList.remove('pa-popover--open');
-    });
-  }
-});
-
-// Attach click handlers to popover triggers
-document.querySelectorAll('.pa-popover__trigger').forEach(trigger => {
-  trigger.addEventListener('click', function(e) {
-    e.stopPropagation();
-    togglePopover(this);
-  });
+// Example: Manually initialize after dynamic content load
+document.addEventListener('content-loaded', function() {
+  window.PureAdminTooltips.init();
 });
 </script>
 
@@ -387,32 +350,18 @@ VARIANTS:
 MULTILINE:
 - pa-tooltip--multiline (allows text wrapping)
 
-AUTO-FLIP (applied by JS for collision detection):
-- pa-tooltip--auto-flip-bottom
-- pa-tooltip--auto-flip-top
-- pa-tooltip--auto-flip-right
-- pa-tooltip--auto-flip-left
-
 POPOVERS:
 - pa-popover (base container)
-- pa-popover--open (visible state)
 
-POSITIONS:
-- pa-popover--right
-- pa-popover--bottom
-- pa-popover--left
+POSITIONING (use data-placement attribute):
+- data-placement="top" (default)
+- data-placement="right"
+- data-placement="bottom"
+- data-placement="left"
 
 SIZES:
 - pa-popover--sm (small)
 - pa-popover--lg (large)
-
-AUTO-FLIP (applied by JS):
-- pa-popover--auto-flip-bottom
-- pa-popover--auto-flip-top
-- pa-popover--auto-flip-right
-- pa-popover--auto-flip-left
-- pa-popover--shift-left
-- pa-popover--shift-right
 
 COMPONENTS:
 - pa-popover__trigger (button/trigger element)
@@ -420,4 +369,43 @@ COMPONENTS:
 - pa-popover__header (header section)
 - pa-popover__body (content section)
 - pa-popover__close (close button)
+
+FLOATING UI FEATURES:
+- Automatic collision detection
+- Auto-flipping when near viewport edges
+- Smart shift to stay visible
+- No manual positioning needed
+- autoUpdate for automatic repositioning on scroll/resize
+-->
+
+<!-- IMPLEMENTATION NOTES -->
+<!--
+REQUIREMENTS:
+- @floating-ui/core and @floating-ui/dom must be loaded
+- tooltips-popovers.js handles all initialization
+- SCSS styles in core-components/_tooltips.scss
+
+FLOATING UI BENEFITS:
+- Tooltips never go off-screen
+- Auto-flip to opposite side if no space
+- Shift horizontally/vertically to stay visible
+- Works with scrolling and resizing
+- Position is calculated dynamically
+
+TOOLTIP BEHAVIOR:
+- Show on mouseenter and focus
+- Hide on mouseleave and blur
+- Single shared tooltip element (performance)
+- Positioned using computePosition() with flip, shift, offset middleware
+
+POPOVER BEHAVIOR:
+- Show on trigger click
+- Hide on close button click or outside click
+- Use data-placement attribute for positioning (not CSS classes)
+- Positioned using computePosition() with flip, shift, offset middleware
+- autoUpdate ensures automatic repositioning on scroll/resize
+- Uses data-show attribute for visibility control
+- Absolute positioning relative to trigger
+- Only one popover open at a time
+- Proper cleanup of autoUpdate on hide
 -->

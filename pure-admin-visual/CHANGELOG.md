@@ -7,6 +7,234 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2025-10-18
+
+#### Modal Dialogs - Promise-Based Programmatic API
+- **New JavaScript library**: `dist/js/modal-dialogs.js` - Promise-based modal system for confirm, alert, and prompt dialogs
+- **Three dialog types**:
+  - **`PureAdmin.confirm()`**: Returns `Promise<boolean>` - Two-button dialog (OK/Cancel)
+  - **`PureAdmin.alert()`**: Returns `Promise<void>` - Single-button dialog for notifications
+  - **`PureAdmin.prompt()`**: Returns `Promise<string | null>` - Text input dialog with optional validation
+- **Features**:
+  - Clean async/await syntax for sequential dialog flows
+  - Keyboard navigation (Enter confirms, Esc cancels)
+  - Auto-focus on input or first button
+  - XSS protection with automatic HTML escaping
+  - Backdrop dismiss (configurable)
+  - Custom validation for prompt dialogs
+  - All Pure Admin variants supported (primary, success, warning, danger)
+  - Responsive design for mobile
+- **Confirm dialog options**:
+  - `title`, `message`, `confirmText`, `cancelText`
+  - `variant` (header theme), `confirmVariant` (button style)
+  - `size` (sm, md, lg, xl), `closeOnBackdrop`
+- **Alert dialog options**:
+  - `title`, `message`, `okText`
+  - `variant`, `size`, `closeOnBackdrop`
+- **Prompt dialog options**:
+  - `title`, `message`, `defaultValue`, `placeholder`
+  - `confirmText`, `cancelText`, `validator` function
+  - `variant`, `size`, `closeOnBackdrop`
+  - Validation with real-time error display
+- **Validator function pattern**:
+  ```javascript
+  validator: (value) => {
+    if (!value) return 'Field is required';
+    if (!/pattern/.test(value)) return 'Invalid format';
+    return true; // Valid
+  }
+  ```
+- **Usage examples**:
+  ```javascript
+  // Confirm with danger styling
+  const confirmed = await PureAdmin.confirm({
+    title: 'Delete Item?',
+    message: 'This action cannot be undone.',
+    variant: 'danger'
+  });
+
+  // Prompt with email validation
+  const email = await PureAdmin.prompt({
+    title: 'Enter Email',
+    message: 'Please enter your email address:',
+    validator: (value) => {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        return 'Please enter a valid email';
+      }
+      return true;
+    }
+  });
+
+  // Sequential dialog flow
+  const name = await PureAdmin.prompt({ title: 'Step 1', message: 'Name:' });
+  if (name !== null) {
+    const confirmed = await PureAdmin.confirm({ title: 'Step 2', message: `Confirm: ${name}` });
+    if (confirmed) {
+      await PureAdmin.alert({ title: 'Complete!', variant: 'success' });
+    }
+  }
+  ```
+- **Demo page**: `/modal-dialogs` with comprehensive examples
+  - All dialog types demonstrated
+  - All color variants (primary, success, warning, danger)
+  - Sequential dialog flow example
+  - Complete API reference tables
+  - Live code examples
+- **Navigation**: Added "Modal Dialogs" link to Components menu
+- **Use cases**:
+  - Form dirty state confirmation ("Unsaved changes" dialogs)
+  - Destructive action confirmation (delete, remove)
+  - Success/error notifications
+  - User input collection
+  - Multi-step wizards and flows
+
+### Changed - 2025-10-14
+
+#### Smart Filters - JSON:API Query Format
+- **Converted query output to JSON:API nested filter format**:
+  - **Old format**: Flat array with `type`, `field`, `operator`, `value` objects
+  - **New format**: Nested object structure with logical operators as keys
+  - **Example output**:
+    ```json
+    {
+      "filter": {
+        "or": [
+          { "name": { "eq": "hroch" } },
+          {
+            "and": [
+              { "code": { "ne": "zirafa" } },
+              { "price": { "eq": "123" } }
+            ]
+          }
+        ]
+      },
+      "raw": "( :name equals hroch ) or ( :code not_equals 'zirafa' and :price = 123 )"
+    }
+    ```
+- **Recursive tree builder**: `buildFilterTree()` method properly handles nested parentheses and operator precedence
+- **Operator normalization**: All operators converted to standard lowercase names:
+  - `equals`, `is`, `=` → `eq`
+  - `not_equals`, `!=`, `ne` → `ne`
+  - `starts_with`, `sw` → `startswith`
+  - `contains`, `c` → `contains`
+  - `>`, `gt` → `gt`, `<`, `lt` → `lt`
+  - `between`, `bw` → `between`
+  - Full mapping includes 30+ operator aliases
+- **Quote removal**: Automatically strips surrounding quotes from values (`'zirafa'` → `zirafa`)
+- **Nested grouping**: Parentheses create proper nested `and`/`or` structures
+- **Benefits**:
+  - Industry-standard format compatible with many backend frameworks
+  - Properly represents operator precedence and grouping
+  - Easier server-side processing (no need to parse flat token array)
+  - Clear visual structure in JSON output
+
+#### Smart Filters - Parentheses Support
+- **Added full parentheses support** for query grouping:
+  - **No spacing required**: `(:name` works without space between `(` and `:`
+  - **Parentheses as separate tokens**: Parser recognizes `(` and `)` independently from values
+  - **Value pattern updated**: Values exclude parentheses (`/^[^\s()]+/` instead of `/^[^\s]+/`)
+  - **Operator lookahead**: Operators can be followed by `)` (e.g., `eq 12)`)
+  - **Field detection**: Fields recognized after opening parenthesis
+  - **Autocomplete support**: `:` after `(` triggers field suggestions
+- **Parser improvements**:
+  - Split keyword matching into parentheses (no whitespace needed) and logical keywords (whitespace required)
+  - Server query builder stops value collection at closing parenthesis
+  - Proper operator termination at `)` character
+- **Examples**:
+  - `(:name eq test)` - Valid query
+  - `( :name eq hroch ) or (:code ne nyc)` - Mixed spacing works correctly
+  - `(:price between 10 to 100)` - Parentheses with multi-value operators
+
+### Fixed - 2025-10-14
+
+#### Docker Deployment - Missing Source Files
+- **Fixed MIME type errors** in deployed Docker container:
+  - **Problem**: Server returned HTML (404 pages) instead of JavaScript files
+  - **Root cause**: Dockerfile was not copying `/src` directory to production image
+  - **Error message**: `Refused to execute script from '...' because its MIME type ('text/html') is not executable`
+  - **Solution**: Added `COPY --from=builder /app/src ./src` to Dockerfile
+  - **Files affected**: `settings-panel.js`, `search-autocomplete-v2.js`, and all other JS files in `/src/js/`
+- **Location**: `Dockerfile` line 43
+
+#### Smart Filters - Template Error
+- **Fixed JavaScript error on page load**:
+  - **Problem**: `Cannot read properties of undefined (reading 'length')`
+  - **Root cause**: Template checking `serverQuery.conditions.length` but new format uses `serverQuery.filter`
+  - **Solution**: Changed empty check to `serverQuery.filter && Object.keys(serverQuery.filter).length > 0`
+  - **Location**: `views/smart-filters.mustache` line 147
+
+### Added - 2025-10-14
+
+#### Standard HTML Element Spacing System
+- **Added comprehensive SCSS variables for standard HTML elements**:
+  - **Headings**: `$heading-margin-top` (1.5rem), `$heading-margin-bottom` (0.5rem)
+  - **Paragraphs**: `$paragraph-margin-top` (0), `$paragraph-margin-bottom` (1rem)
+  - **Lists**: `$list-margin-top/bottom` (0/1rem), `$list-padding-left` (2rem), `$list-item-margin-bottom` (0.25rem)
+  - **Blockquote**: `$blockquote-margin-top/bottom` (1rem), `$blockquote-padding-left` (1.5rem)
+  - **Pre/Code**: `$pre-margin-top/bottom` (1rem), `$pre-padding` (1rem)
+  - **Horizontal rule**: `$hr-margin-top/bottom` (1.5rem)
+  - **Figure**: `$figure-margin-top/bottom` (1rem)
+- **Updated `_base.scss`** to use variables instead of complete reset:
+  - Lists now have default bullets/numbers with proper indentation
+  - Paragraphs have spacing between them (1rem)
+  - Headings have breathing room above and below
+  - Added `.unstyled` class for lists needing no styling (navigation, etc.)
+- **Benefits**:
+  - ✅ Content has proper default spacing
+  - ✅ All spacing theme-customizable via SCSS variables
+  - ✅ Navigation lists still work (have their own reset rules)
+  - ✅ Framework components unaffected
+
+#### Smart Filters Page - Inline Query Editor
+- **New page**: `/smart-filters` - Advanced inline query editor with syntax highlighting
+- **Inline Query Editor Component** (`.pa-inline-query-editor`):
+  - **Dual-layer architecture**: Transparent textarea over colored highlight div
+  - **Real-time syntax highlighting**: Different background colors for fields (blue), operators (gray), values (green), keywords (yellow)
+  - **Context-aware autocomplete**: Shows fields or operators based on cursor position
+  - **Full inline editing**: Cursor movement anywhere in query string, no separate token badges
+  - **Token background styling**: 15% opacity backgrounds with black text for better readability
+  - **Natural language query syntax**: Type queries like `:name startswith John :price between 10 to 100`
+- **Advanced Query Features**:
+  - **Operator shortcuts**: `sw` (starts with), `c` (contains), `gt` (>), `lt` (<), `bw` (between), etc.
+  - **Natural language aliases**: `under`, `over`, `above`, `below`, `from`, `atleast`, `atmost`
+  - **Time unit suffixes**: Support for relative date queries like `30days`, `5weeks`, `2months`, `1year`
+  - **Logical operators**: `AND` and `OR` with proper parsing
+  - **Field validation**: Invalid fields shown with red background and wavy underline
+  - **Colon handling**: Colons only treated as field markers at start or after whitespace (`:code is US:NYC:123` works correctly)
+- **Server Query Conversion**:
+  - **Structured JSON output**: `toServerQuery()` method converts query to server-ready format
+  - **Conditions array**: Each condition includes `type`, `field`, `operator`, `value`
+  - **Logic operators**: Separate entries for AND/OR operators in conditions array
+  - **Real-time visualization**: JSON display updates as you type
+  - **Example output**:
+    ```json
+    {
+      "conditions": [
+        { "type": "condition", "field": "name", "operator": "sw", "value": "hroch" },
+        { "type": "logic", "operator": "OR" },
+        { "type": "condition", "field": "code", "operator": "is", "value": "nyc" }
+      ],
+      "raw": ":name sw hroch or :code is nyc"
+    }
+    ```
+- **Demo Page Features**:
+  - Comprehensive syntax reference with all shortcuts and aliases
+  - Available fields list with data types
+  - Example table showing filtered results
+  - Real-time server query JSON visualization
+  - Color legend for token types
+- **Technical Implementation**:
+  - **JavaScript**: `src/js/search-autocomplete-v2.js` (740+ lines)
+  - **SCSS**: Inline query editor styles in `src/scss/core-components/_forms.scss`
+  - **View**: `views/smart-filters.mustache`
+  - **Route**: `/smart-filters` added to `server.js`
+  - **Navigation**: Added "Smart Filters" link to Tables submenu with ✨ icon
+- **Parser Features**:
+  - Length-based operator matching (longest first) for accurate parsing
+  - Context-aware field detection respecting token boundaries
+  - Value token support with time unit regex patterns
+  - Whitespace and keyword handling for complex queries
+
 ### Added - 2025-10-14
 
 #### Checkbox and Radio Button Size Modifiers

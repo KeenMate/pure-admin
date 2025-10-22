@@ -314,9 +314,11 @@
   }
 }
 
-// Popovers - Interactive rich-content tooltips
+// ========================================
+// Popovers - Interactive rich-content tooltips with Floating UI
+// ========================================
+
 .pa-popover {
-  position: relative;
   display: inline-block;
 
   &__trigger {
@@ -353,13 +355,9 @@
     box-shadow: $shadow-lg;
     z-index: $popover-z-index;
 
-    // Arrow
-    &::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 0;
-      border: $popover-arrow-size solid transparent;
+    // Show when data-show attribute is present (controlled by JavaScript)
+    &[data-show] {
+      display: block;
     }
   }
 
@@ -367,14 +365,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: $spacing-sm $spacing-base;
-    border-bottom: $border-width-base solid $border-color;
+    padding: $popover-header-padding;
+    border-bottom: $popover-header-border;
     background-color: $card-header-bg;
-    border-radius: $border-radius $border-radius 0 0;
+    border-radius: $popover-header-border-radius;
 
     h4 {
       margin: 0;
-      font-size: $font-size-sm;
+      font-size: $popover-title-font-size;
       font-weight: $font-weight-semibold;
       color: $text-primary;
     }
@@ -439,74 +437,6 @@
     }
   }
 
-  // Open state
-  &--open &__content {
-    display: block;
-  }
-
-  // Position: Top (default)
-  &__content {
-    bottom: calc(100% + $popover-distance);
-    left: 50%;
-    transform: translateX(-50%);
-
-    &::after {
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border-top-color: $card-bg;
-    }
-  }
-
-  // Position: Right
-  &--right &__content {
-    bottom: auto;
-    left: calc(100% + $popover-distance);
-    top: 50%;
-    transform: translateY(-50%);
-
-    &::after {
-      right: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      border-right-color: $card-bg;
-      border-top-color: transparent;
-    }
-  }
-
-  // Position: Bottom
-  &--bottom &__content {
-    bottom: auto;
-    top: calc(100% + $popover-distance);
-    left: 50%;
-    transform: translateX(-50%);
-
-    &::after {
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border-bottom-color: $card-bg;
-      border-top-color: transparent;
-    }
-  }
-
-  // Position: Left
-  &--left &__content {
-    bottom: auto;
-    right: calc(100% + $popover-distance);
-    left: auto;
-    top: 50%;
-    transform: translateY(-50%);
-
-    &::after {
-      left: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      border-left-color: $card-bg;
-      border-top-color: transparent;
-    }
-  }
-
   // Size variants
   &--sm &__content {
     min-width: $popover-sm-min-width;
@@ -516,69 +446,6 @@
   &--lg &__content {
     min-width: $popover-lg-min-width;
     max-width: $popover-lg-max-width;
-  }
-
-  // Smart positioning - collision detection adjustments
-  // Applied dynamically by JavaScript based on viewport boundaries
-
-  // Horizontal shifts (when content would overflow left/right)
-  &--shift-left &__content {
-    transform: translateX(calc(-50% - #{$popover-shift-offset})) !important;
-  }
-
-  &--shift-right &__content {
-    transform: translateX(calc(-50% + #{$popover-shift-offset})) !important;
-  }
-
-  // Auto-flip to opposite side when original position overflows
-  &--auto-flip-bottom &__content {
-    bottom: auto !important;
-    top: calc(100% + $popover-distance) !important;
-
-    &::after {
-      bottom: 100% !important;
-      top: auto !important;
-      border-top-color: transparent !important;
-      border-bottom-color: $card-bg !important;
-    }
-  }
-
-  &--auto-flip-top &__content {
-    top: auto !important;
-    bottom: calc(100% + $popover-distance) !important;
-
-    &::after {
-      top: 100% !important;
-      bottom: auto !important;
-      border-bottom-color: transparent !important;
-      border-top-color: $card-bg !important;
-    }
-  }
-
-  &--auto-flip-right &__content {
-    left: auto !important;
-    right: calc(100% + $popover-distance) !important;
-    transform: translateY(-50%) !important;
-
-    &::after {
-      left: 100% !important;
-      right: auto !important;
-      border-right-color: transparent !important;
-      border-left-color: $card-bg !important;
-    }
-  }
-
-  &--auto-flip-left &__content {
-    right: auto !important;
-    left: calc(100% + $popover-distance) !important;
-    transform: translateY(-50%) !important;
-
-    &::after {
-      right: 100% !important;
-      left: auto !important;
-      border-left-color: transparent !important;
-      border-right-color: $card-bg !important;
-    }
   }
 }
 

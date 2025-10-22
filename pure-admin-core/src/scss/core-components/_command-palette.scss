@@ -47,11 +47,49 @@
   &__search {
     position: relative;
     border-bottom: $border-width-base solid $border-color;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: $spacing-xs $command-palette-input-padding-h;
+    gap: $spacing-xs;
+  }
+
+  // Tokens container (resolved query fragments)
+  &__tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    align-items: center;
+
+    .pa-badge {
+      display: inline-flex;
+      align-items: center;
+      margin: 0;
+
+      // Remove button inside badge
+      &__remove {
+        margin-left: $spacing-xs;
+        padding: 0 $spacing-xs;
+        border: none;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font-size: 1.2em;
+        line-height: 1;
+        opacity: 0.7;
+        transition: opacity $transition-fast $easing-smooth;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
   }
 
   &__input {
-    width: 100%;
-    padding: $command-palette-input-padding-v $command-palette-input-padding-h;
+    flex: 1;
+    min-width: 200px;
+    padding: $command-palette-input-padding-v 0;
     font-size: $command-palette-input-font-size;
     border: none;
     background: transparent;

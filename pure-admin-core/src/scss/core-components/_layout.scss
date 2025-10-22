@@ -382,18 +382,13 @@ body.pa-layout--sticky .pa-layout__sidebar {
       display: none;
     }
 
-    // Center icons in collapsed bar
-    .pa-sidebar__icon {
-      width: 100%;
-      justify-content: center;
-    }
+    // Icon stays in same position (no changes needed - already fixed width)
+    // The icon container maintains its $sidebar-icon-size width and position
 
-    // Adjust link/toggle padding for icon-only
+    // Keep EXACTLY the same padding as expanded state - icon must not move
     .pa-sidebar__link,
     .pa-sidebar__toggle {
-      padding: $spacing-sm 0;
-      justify-content: center;
-      gap: 0; // Remove gap to center icons properly
+      padding: $sidebar-padding; // Same as expanded: 0.5rem 1rem (8px 16px)
       position: relative; // For flyout positioning
     }
 
@@ -563,10 +558,10 @@ body:not(.sidebar-hidden) {
       padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
     }
 
-    // Reset icon width and alignment
+    // Icon maintains same position in both states
     .pa-sidebar__icon {
       width: $sidebar-icon-size;
-      justify-content: flex-start; // Align left with padding, not center
+      // No justify-content needed - parent flex container handles alignment
     }
   }
 }

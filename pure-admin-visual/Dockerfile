@@ -39,6 +39,9 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/fonts ./fonts
 COPY --from=builder /app/assets ./assets
 
+# Copy source files (JavaScript files served directly)
+COPY --from=builder /app/src ./src
+
 # Copy application code
 COPY server.js ./
 COPY views ./views

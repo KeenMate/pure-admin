@@ -587,3 +587,139 @@ body {
 - Route: `/command-palette` added to `server.js`
 - Page title: "Command Palette"
 - Active state: `isCommandPalette` context variable
+
+## Modal Dialogs - Promise-Based API (2025-10-18)
+**Major feature:** JavaScript library for programmatic modal dialogs using async/await syntax.
+
+### **Overview:**
+Promise-based modal system that provides `window.confirm()` like functionality with Pure Admin styling. Perfect for form dirty state checks, destructive action confirmations, and user input collection.
+
+### **Three Dialog Types:**
+
+**1. PureAdmin.confirm(options) → Promise<boolean>**
+- Two-button dialog (OK/Cancel)
+- Returns `true` if confirmed, `false` if cancelled
+```javascript
+const confirmed = await PureAdmin.confirm({
+  title: 'Delete Item?',
+  message: 'This action cannot be undone.',
+  variant: 'danger',
+  confirmText: 'Delete',
+  cancelText: 'Keep It'
+});
+```
+
+**2. PureAdmin.alert(options) → Promise<void>**
+- Single-button dialog for notifications
+- Just waits for user to acknowledge
+```javascript
+await PureAdmin.alert({
+  title: 'Success!',
+  message: 'Your changes have been saved.',
+  variant: 'success'
+});
+```
+
+**3. PureAdmin.prompt(options) → Promise<string | null>**
+- Text input dialog with optional validation
+- Returns entered value or `null` if cancelled
+```javascript
+const email = await PureAdmin.prompt({
+  title: 'Enter Email',
+  message: 'Please enter your email address:',
+  validator: (value) => {
+    if (!value) return 'Email is required';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return 'Please enter a valid email';
+    }
+    return true;
+  }
+});
+```
+
+### **Key Features:**
+- ✅ **Clean async/await syntax** - No callback hell
+- ✅ **Keyboard navigation** - Enter confirms, Esc cancels
+- ✅ **Auto-focus** - Input or button focused automatically
+- ✅ **XSS protection** - All text automatically escaped
+- ✅ **Backdrop dismiss** - Click outside to cancel (configurable)
+- ✅ **Custom validation** - Real-time error display for prompts
+- ✅ **All PA variants** - primary, success, warning, danger
+- ✅ **Responsive** - Works on all screen sizes
+- ✅ **Sequential flows** - Chain multiple dialogs easily
+
+### **Sequential Dialog Pattern:**
+```javascript
+async function registerUser() {
+  // Step 1: Get name
+  const name = await PureAdmin.prompt({
+    title: 'Step 1 of 3',
+    message: 'Enter your name:',
+    variant: 'primary'
+  });
+  if (name === null) return; // User cancelled
+
+  // Step 2: Get email
+  const email = await PureAdmin.prompt({
+    title: 'Step 2 of 3',
+    message: 'Enter your email:',
+    validator: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Invalid email'
+  });
+  if (email === null) return;
+
+  // Step 3: Confirm
+  const confirmed = await PureAdmin.confirm({
+    title: 'Step 3 of 3',
+    message: `Confirm: ${name} <${email}>`,
+    variant: 'success'
+  });
+
+  if (confirmed) {
+    await PureAdmin.alert({
+      title: 'Complete!',
+      message: 'Registration successful.',
+      variant: 'success'
+    });
+  }
+}
+```
+
+### **Form Dirty State Pattern:**
+```javascript
+// Track form changes
+let isFormDirty = false;
+formElement.addEventListener('input', () => { isFormDirty = true; });
+
+// Intercept navigation
+document.addEventListener('click', async (e) => {
+  const link = e.target.closest('a');
+  if (!link || !isFormDirty) return;
+
+  e.preventDefault();
+  const shouldLeave = await PureAdmin.confirm({
+    title: 'Unsaved Changes',
+    message: 'You have unsaved changes. Leave anyway?',
+    variant: 'warning',
+    confirmText: 'Leave',
+    cancelText: 'Stay'
+  });
+
+  if (shouldLeave) {
+    window.location.href = link.href;
+  }
+});
+```
+
+### **Implementation:**
+- **Library:** `dist/js/modal-dialogs.js`
+- **Demo page:** `/modal-dialogs` with comprehensive examples
+- **Navigation:** Components → Modal Dialogs
+- **No dependencies:** Pure vanilla JavaScript
+
+### **Technical Details:**
+- Modals dynamically created and removed from DOM
+- Promise resolves when user responds
+- ESC key handler attached/removed automatically
+- Focus management for accessibility
+- Smooth fade-in/out animations
+- Z-index handled automatically

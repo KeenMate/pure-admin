@@ -134,6 +134,10 @@ app.get('/table-filters', (req, res) => {
     renderWithLayout(res, 'table-filters', { pageTitle: 'Table Filters', currentPage: 'table-filters', isTableFilters: true });
 });
 
+app.get('/smart-filters', (req, res) => {
+    renderWithLayout(res, 'smart-filters', { pageTitle: 'Smart Filters', currentPage: 'smart-filters', isSmartFilters: true });
+});
+
 app.get('/table-multi-select', (req, res) => {
     renderWithLayout(res, 'table-multi-select', { pageTitle: 'Multi-Select Across Filters', currentPage: 'table-multi-select', isTableMultiSelect: true });
 });
@@ -152,6 +156,10 @@ app.get('/badges', (req, res) => {
 
 app.get('/modals', (req, res) => {
     renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals', isModals: true });
+});
+
+app.get('/modal-dialogs', (req, res) => {
+    renderWithLayout(res, 'modal-dialogs', { pageTitle: 'Modal Dialogs', currentPage: 'modal-dialogs', isModalDialogs: true });
 });
 
 app.get('/popconfirm', (req, res) => {

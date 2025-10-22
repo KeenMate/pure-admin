@@ -267,10 +267,17 @@
 // Input with clear button wrapper
 .pa-input-wrapper {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-xs;
   width: 100%;
 
   .pa-input,
-  .pa-select {
+  .pa-select,
+  .pa-virtual-textbox {
+    flex: 1;
+    min-width: 200px;
     padding-right: 2.5rem; // Make room for clear button
   }
 
@@ -303,6 +310,41 @@
     &--hidden {
       display: none;
     }
+  }
+}
+
+// Search Tokens Container (for query builder badges)
+.pa-search-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  align-items: center;
+}
+
+.pa-search-token-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+
+  .pa-badge {
+    margin: 0;
+  }
+}
+
+.pa-search-token-remove {
+  margin-left: $spacing-xs;
+  padding: 0 $spacing-xs;
+  border: none;
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  font-size: 1.2em;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity $transition-fast $easing-smooth;
+
+  &:hover {
+    opacity: 1;
   }
 }
 
@@ -410,6 +452,49 @@
     text-align: center;
     color: $text-secondary;
     font-size: $font-size-sm;
+  }
+}
+
+// Virtual Textbox (Contenteditable with Inline Tokens)
+// Uses same styling as .pa-input for consistency
+.pa-virtual-textbox {
+  width: 100%;
+  padding: $input-padding-v $input-padding-h;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: $input-bg;
+  color: $text-primary;
+  cursor: text;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  line-height: 1.5;
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-color;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
+  }
+
+  &:empty::before {
+    content: attr(data-placeholder);
+    color: $text-secondary;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  // Inline token badges - use standard pa-badge styling
+  .pa-badge {
+    vertical-align: middle;
+    margin: 0 2px;
+    user-select: none;
+    cursor: default;
+
+    // Prevent editing inline tokens
+    &[contenteditable="false"] {
+      outline: none;
+    }
   }
 }
 

@@ -1,0 +1,127 @@
+/* ========================================
+   Settings Panel Component
+   Floating panel for global settings management
+   ======================================== */
+
+.pa-settings-panel {
+  position: fixed;
+  right: -$profile-panel-width-fixed; // Panel hidden by default
+  top: $settings-panel-top; // Position higher up for larger panel
+  z-index: 10000;
+  width: $profile-panel-width-fixed;
+  transition: right $settings-panel-transition-duration $settings-panel-transition-easing;
+
+  &__toggle {
+    position: absolute;
+    right: $profile-panel-width-fixed; // Position button at the right edge
+    top: 0;
+    width: $profile-panel-toggle-size;
+    height: $profile-panel-toggle-size;
+    background: $accent-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius 0 0 $border-radius;
+    cursor: pointer;
+    font-size: $font-size-xl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $settings-panel-transition-duration $settings-panel-transition-easing;
+    box-shadow: $shadow-sidebar;
+
+    &:hover {
+      background: $accent-hover;
+      width: $profile-panel-toggle-size-open;
+      right: calc($profile-panel-width-fixed + $settings-panel-hover-offset);
+    }
+  }
+
+  &__content {
+    background: $content-background-color;
+    border: $border-width-base solid $border-color;
+    border-right: none;
+    border-radius: $border-radius 0 0 $border-radius;
+    box-shadow: $shadow-sidebar-open;
+    padding: $spacing-lg;
+    width: 100%;
+    height: $settings-panel-height; // Larger panel height for more settings
+    min-height: $settings-panel-min-height;
+    max-height: calc(100vh - $settings-panel-vertical-clearance); // Leave space from top/bottom
+    overflow-y: auto;
+  }
+
+  &__title {
+    margin: 0 0 $spacing-lg 0;
+    padding-bottom: $card-footer-padding-v;
+    border-bottom: $border-width-medium solid $border-color;
+    color: $text-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__section {
+    margin-bottom: $spacing-base;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: $spacing-sm;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__select {
+    width: 100%;
+    padding: $spacing-sm;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    background: $input-bg;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+      box-shadow: 0 0 0 $focus-ring-width $accent-light;
+    }
+  }
+
+  &__checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    input[type="checkbox"] {
+      margin-right: $btn-icon-margin;
+      cursor: pointer;
+    }
+
+    &:hover {
+      color: $accent-color;
+    }
+  }
+
+  // Panel states
+  &--open {
+    right: 0; // Slide panel into view
+
+    .pa-settings-panel__toggle {
+      background: $accent-hover;
+      transform: rotate(180deg);
+    }
+  }
+}

@@ -1,0 +1,279 @@
+/**
+ * Logic Tree Renderer - Scratch-style visual query representation
+ * Renders nested blocks showing logical flow and precedence
+ */
+
+.pa-logic-tree {
+    padding: $spacing-base;
+    background: #f9fafb;
+    border-radius: $border-radius;
+    min-height: 4rem;
+    font-family: $body-font-family;
+
+    // Empty state
+    &__empty {
+        text-align: center;
+        color: $text-secondary;
+        padding: $spacing-xl;
+        font-style: italic;
+    }
+
+    // Empty branch (incomplete query)
+    &__empty-branch {
+        color: $text-secondary;
+        font-style: italic;
+        padding: $spacing-sm $spacing-md;
+        background: #f9fafb;
+        border: 1px dashed #d1d5db;
+        border-radius: $border-radius-sm;
+        text-align: center;
+    }
+
+    // Node wrapper
+    &__node {
+        margin-bottom: $spacing-sm;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    // Block (condition, logical, group)
+    &__block {
+        background: #fff;
+        border: 2px solid $border-color;
+        border-radius: $border-radius;
+        padding: $spacing-sm;
+        position: relative;
+        transition: box-shadow 0.2s $easing-smooth;
+
+        &:hover {
+            box-shadow: $shadow-sm;
+        }
+
+        // Condition block (field operator value)
+        &--condition {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-color: $primary-bg;
+            border-left-width: 4px;
+        }
+
+        // Logical operator blocks
+        &--logical {
+            padding: $spacing-md;
+            background: #fff;
+        }
+
+        &--and {
+            border-color: $warning-bg;
+            background: linear-gradient(135deg, #fff8e1 0%, #ffffff 100%);
+        }
+
+        &--or {
+            border-color: $info-bg;
+            background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+        }
+
+        // Group block (parentheses)
+        &--group {
+            border-color: $secondary-bg;
+            border-style: dashed;
+            background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+        }
+    }
+
+    // Block content for conditions
+    &__block-content {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        flex-wrap: wrap;
+    }
+
+    // Tree structure container
+    &__tree-structure {
+        position: relative;
+        padding-left: 2rem;
+    }
+
+    // Tree branch (left or right operand)
+    &__tree-branch {
+        position: relative;
+        padding-left: 1.5rem;
+
+        // Vertical line connector
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 50%;
+            width: 2px;
+            background: #94a3b8;
+        }
+
+        // Horizontal line connector
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            width: 1rem;
+            height: 2px;
+            background: #94a3b8;
+        }
+
+        // Left branch - extends vertical line down
+        &--left {
+            margin-bottom: 0.5rem;
+
+            &::before {
+                bottom: 0;
+            }
+        }
+
+        // Right branch - no bottom extension
+        &--right {
+            margin-top: 0.5rem;
+        }
+    }
+
+    // Operator node in tree
+    &__tree-operator {
+        position: relative;
+        padding-left: 1.5rem;
+        margin: 0.5rem 0;
+
+        // Vertical line through operator
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -0.5rem;
+            bottom: -0.5rem;
+            width: 2px;
+            background: #94a3b8;
+        }
+
+        // Horizontal line to operator
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 2px;
+            background: #94a3b8;
+        }
+
+        .pa-logic-tree__token--logical {
+            display: inline-block;
+            background: #fff3e0;
+            color: #e65100;
+            border: 2px solid #ff9800;
+            padding: 0.25rem 0.75rem;
+            border-radius: $border-radius;
+            font-weight: $font-weight-bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    // Group label
+    &__group-label {
+        font-weight: $font-weight-medium;
+        font-size: $font-size-sm;
+        color: $text-secondary;
+        margin-bottom: $spacing-sm;
+        padding-bottom: $spacing-sm;
+        border-bottom: 1px dashed $border-color;
+    }
+
+    // Group content (indented)
+    &__group-content {
+        padding-left: $spacing-md;
+    }
+
+    // Token representation (colored badges)
+    &__token {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-xs;
+        font-weight: $font-weight-medium;
+        font-family: $font-stack-mono;
+        white-space: nowrap;
+
+        // Field token (blue)
+        &--field {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+        }
+
+        // Operator token (gray)
+        &--operator {
+            background: #f5f5f5;
+            color: #616161;
+            border: 1px solid #e0e0e0;
+        }
+
+        // Value token (green)
+        &--value {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        // Logical token (orange/blue)
+        &--logical {
+            background: #fff3e0;
+            color: #e65100;
+            border: 1px solid #ffe0b2;
+            font-weight: $font-weight-bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        // Paren token (purple)
+        &--paren {
+            background: #f3e5f5;
+            color: #7b1fa2;
+            border: 1px solid #e1bee7;
+        }
+    }
+
+    // Animation for tree building
+    &--animated {
+        .pa-logic-tree__node {
+            animation: slideIn 0.3s $easing-smooth;
+        }
+
+        .pa-logic-tree__block {
+            animation: fadeIn 0.4s $easing-smooth;
+        }
+    }
+}
+
+// Animations
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
