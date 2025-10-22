@@ -118,7 +118,7 @@ renderTimelineItems();</pre>
             <li><strong>Clear DOM</strong>: Remove all items and re-render only ~20-30 visible ones on each scroll event</li>
         </ol>
 
-        <div style="margin-top: 1rem; padding: 1rem; background: #f3f4f6; border-left: 4px solid #3b82f6;">
+        <div class="pa-alert pa-alert--info" style="margin-top: 1rem;">
             <strong>Result:</strong> Scrolling through 5000 items only renders ~20 at a time. DOM stays constant, performance stays smooth.
         </div>
     </div>
@@ -230,7 +230,7 @@ renderTableRows();</pre>
             <li><strong>Colspan</strong>: Spacer uses <code>colspan="4"</code> to span all columns</li>
         </ol>
 
-        <div style="margin-top: 1rem; padding: 1rem; background: #f3f4f6; border-left: 4px solid #10b981;">
+        <div class="pa-alert pa-alert--success" style="margin-top: 1rem;">
             <strong>Visual representation:</strong><br>
             <code>[Top Spacer: 3800px] → [Visible Rows: ~20 rows] → [Bottom Spacer: remaining height]</code>
         </div>
@@ -332,7 +332,7 @@ container.addEventListener('scroll', () => {
             </div>
         </div>
 
-        <div style="margin-top: 1.5rem; padding: 1rem; background: #fef3c7; border-left: 4px solid #f59e0b;">
+        <div class="pa-alert pa-alert--warning" style="margin-top: 1.5rem;">
             <strong>⚡ Performance Benchmark:</strong><br>
             Virtual Scroll: 10,000 rows = ~20 DOM elements<br>
             Infinite Scroll: 10,000 rows = 10,000 DOM elements (browser will struggle)
