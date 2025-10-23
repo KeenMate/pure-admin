@@ -392,6 +392,12 @@
       padding-left: calc($table-responsive-label-width + $table-responsive-card-padding * 2);
     }
 
+    // Disable col-auto effect in responsive view
+    .col-auto {
+      width: auto;
+      white-space: normal;
+    }
+
     // Striped variant still works with alternating rows
     &.pa-table--striped tbody tr:nth-child(even) {
       background-color: transparent; // Reset striped background
@@ -502,6 +508,12 @@
 
     tbody tr[data-grid] td[data-span="full"] {
       grid-column: 1 / -1; // Span all columns
+    }
+
+    // Disable col-auto effect in responsive view
+    .col-auto {
+      width: auto;
+      white-space: normal;
     }
 
     // Striped variant
