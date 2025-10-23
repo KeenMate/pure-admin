@@ -398,9 +398,14 @@
       white-space: normal;
     }
 
-    // Striped variant still works with alternating rows
+    // Striped variant - apply background to entire row (card)
     &.pa-table--striped tbody tr:nth-child(even) {
-      background-color: transparent; // Reset striped background
+      background-color: $table-stripe;
+    }
+
+    // Ensure cells inside striped rows have transparent background
+    &.pa-table--striped tbody tr:nth-child(even) td {
+      background-color: transparent;
     }
 
     // Hover effect on the card
@@ -516,8 +521,13 @@
       white-space: normal;
     }
 
-    // Striped variant
+    // Striped variant - apply background to entire row (card)
     &.pa-table--striped tbody tr:nth-child(even) {
+      background-color: $table-stripe;
+    }
+
+    // Ensure cells inside striped rows have transparent background
+    &.pa-table--striped tbody tr:nth-child(even) td {
       background-color: transparent;
     }
 
