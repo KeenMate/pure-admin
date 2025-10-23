@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added - 2025-10-18
+### Added - 2025-10-23
 
 #### Modal Dialogs - Promise-Based Programmatic API
-- **New JavaScript library**: `dist/js/modal-dialogs.js` - Promise-based modal system for confirm, alert, and prompt dialogs
+- **New JavaScript library**: `src/js/modal-dialogs.js` - Promise-based modal system for confirm, alert, and prompt dialogs
 - **Three dialog types**:
   - **`PureAdmin.confirm()`**: Returns `Promise<boolean>` - Two-button dialog (OK/Cancel)
   - **`PureAdmin.alert()`**: Returns `Promise<void>` - Single-button dialog for notifications
@@ -34,8 +34,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Prompt dialog options**:
   - `title`, `message`, `defaultValue`, `placeholder`
   - `confirmText`, `cancelText`, `validator` function
-  - `variant`, `size`, `closeOnBackdrop`
+  - `variant`, `size` (sm, md, lg, xl)
+  - `closeOnBackdrop` (always false for prompts to prevent accidental dismissal)
   - Validation with real-time error display
+- **Custom dialog advanced API**:
+  - `PureAdmin.custom(options)` - For fully custom modal content
+  - Render function receives container element and close callback
+  - Complete control over modal body and footer
+  - Returns `Promise<any>` with custom value
+- **Architecture**:
+  - **Dynamic HTML generation**: Modals created programmatically via `document.createElement()`
+  - **Promise-based blocking**: `await` pauses execution until user responds
+  - **Automatic cleanup**: Modal removed from DOM after use
+  - **No HTML boilerplate**: No pre-defined modal elements needed in page
+  - **Lifecycle**: Create → Append to body → Show → Wait for user → Close → Resolve → Remove
+- **HTML structure** (matches existing modal system):
+  - `.pa-modal` wrapper with `.pa-modal--show` class
+  - `.pa-modal__backdrop` for dark overlay
+  - `.pa-modal__container` with size modifiers (--sm, --md, --lg, --xl)
+  - `.pa-modal__header`, `.pa-modal__body`, `.pa-modal__footer`
+  - All themed header variants supported (--primary, --success, --warning, --danger)
 - **Validator function pattern**:
   ```javascript
   validator: (value) => {
@@ -75,18 +93,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   }
   ```
 - **Demo page**: `/modal-dialogs` with comprehensive examples
-  - All dialog types demonstrated
+  - All dialog types demonstrated (confirm, alert, prompt, custom)
   - All color variants (primary, success, warning, danger)
-  - Sequential dialog flow example
+  - Sequential dialog flow example (multi-step wizard)
   - Complete API reference tables
-  - Live code examples
-- **Navigation**: Added "Modal Dialogs" link to Components menu
+  - Live interactive code examples
+  - Input validation demonstration
+- **Snippet file**: `snippets/modal-dialogs.html` - Complete programmatic API documentation
+  - Usage examples for all 4 dialog types
+  - Options reference with all parameters
+  - Sequential dialogs (multi-step wizards)
+  - Form integration patterns
+  - Svelte integration example
+  - Key features and differences from static modals
+- **Navigation**: Added "Modal Dialogs" link to Components submenu (💬 icon)
 - **Use cases**:
   - Form dirty state confirmation ("Unsaved changes" dialogs)
   - Destructive action confirmation (delete, remove)
   - Success/error notifications
-  - User input collection
+  - User input collection with validation
   - Multi-step wizards and flows
+  - Perfect for async/await in Svelte/React/Vue components
+- **Key differences from static modals** (`/modals` page):
+  - Static modals: Pre-defined HTML, simple show/hide
+  - Dialog modals: Created on-demand, Promise-based, automatic cleanup
 
 ### Changed - 2025-10-14
 

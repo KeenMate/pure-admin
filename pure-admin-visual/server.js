@@ -130,6 +130,10 @@ app.get('/tables-sizing', (req, res) => {
     renderWithLayout(res, 'tables-sizing', { pageTitle: 'Tables - Sizing', currentPage: 'tables-sizing', isTablesSizing: true });
 });
 
+app.get('/tables-responsive', (req, res) => {
+    renderWithLayout(res, 'tables-responsive', { pageTitle: 'Responsive Tables', currentPage: 'tables-responsive', isTablesResponsive: true });
+});
+
 app.get('/table-filters', (req, res) => {
     renderWithLayout(res, 'table-filters', { pageTitle: 'Table Filters', currentPage: 'table-filters', isTableFilters: true });
 });

@@ -1,13 +1,151 @@
 /**
  * Pure Admin Modal Dialogs
- * Promise-based programmatic modal dialogs for confirm, alert, and prompt actions
+ * Promise-based programmatic modal system (confirm, alert, prompt)
+ *
+ * Usage:
+ *   const result = await PureAdmin.confirm({ title: 'Delete?', message: '...' });
+ *   await PureAdmin.alert({ title: 'Success!', message: '...' });
+ *   const value = await PureAdmin.prompt({ title: 'Enter name:', message: '...' });
  */
 
-(function() {
+(function(window) {
   'use strict';
 
-  // Global PureAdmin namespace
-  window.PureAdmin = window.PureAdmin || {};
+  // Namespace
+  const PureAdmin = window.PureAdmin || {};
+  window.PureAdmin = PureAdmin;
+
+  // Modal counter for unique IDs
+  let modalCounter = 0;
+
+  /**
+   * Create modal element with given structure
+   */
+  function createModal(options) {
+    const {
+      id,
+      size = 'sm',
+      variant = null,
+      title,
+      message,
+      footer
+    } = options;
+
+    const modal = document.createElement('div');
+    modal.className = 'pa-modal pa-modal--show';
+    modal.id = id;
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', `${id}-title`);
+
+    // Container size class
+    const containerClass = size === 'md'
+      ? 'pa-modal__container'
+      : `pa-modal__container pa-modal__container--${size}`;
+
+    // Header class with optional variant
+    const headerClass = variant
+      ? `pa-modal__header pa-modal__header--${variant}`
+      : 'pa-modal__header';
+
+    modal.innerHTML = `
+      <div class="pa-modal__backdrop"></div>
+      <div class="${containerClass}">
+        <div class="${headerClass}">
+          <h3 class="pa-modal__title" id="${id}-title">${escapeHtml(title)}</h3>
+        </div>
+        <div class="pa-modal__body">
+          <p>${escapeHtml(message)}</p>
+          ${options.inputHtml || ''}
+        </div>
+        <div class="pa-modal__footer">
+          ${footer}
+        </div>
+      </div>
+    `;
+
+    return modal;
+  }
+
+  /**
+   * Show modal and return promise that resolves when user responds
+   */
+  function showModal(modal, options = {}) {
+    return new Promise((resolve) => {
+      // Calculate scrollbar width to prevent layout shift
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+      // Add to DOM
+      document.body.appendChild(modal);
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
+
+      // Focus first input if exists, otherwise first button
+      setTimeout(() => {
+        const firstInput = modal.querySelector('input, textarea');
+        const firstButton = modal.querySelector('button');
+        if (firstInput) {
+          firstInput.focus();
+        } else if (firstButton) {
+          firstButton.focus();
+        }
+      }, 100);
+
+      // Store resolve function for cleanup
+      modal._resolve = resolve;
+
+      // Backdrop click to close (if enabled)
+      if (options.closeOnBackdrop !== false) {
+        const backdrop = modal.querySelector('.pa-modal__backdrop');
+        if (backdrop) {
+          backdrop.addEventListener('click', () => {
+            closeModal(modal, options.cancelValue);
+          });
+        }
+      }
+
+      // ESC key to close
+      const escHandler = (e) => {
+        if (e.key === 'Escape') {
+          closeModal(modal, options.cancelValue);
+          document.removeEventListener('keydown', escHandler);
+        }
+      };
+      document.addEventListener('keydown', escHandler);
+      modal._escHandler = escHandler;
+    });
+  }
+
+  /**
+   * Close modal and resolve promise
+   */
+  function closeModal(modal, value) {
+    if (!modal._resolve) return;
+
+    // Remove show class (triggers fade out)
+    modal.classList.remove('pa-modal--show');
+
+    // Wait for animation, then remove from DOM
+    setTimeout(() => {
+      // Clean up event listeners
+      if (modal._escHandler) {
+        document.removeEventListener('keydown', modal._escHandler);
+      }
+
+      // Restore body overflow and padding
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+
+      // Resolve promise
+      modal._resolve(value);
+      modal._resolve = null;
+
+      // Remove from DOM
+      if (modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+      }
+    }, 300); // Match modal transition time
+  }
 
   /**
    * Escape HTML to prevent XSS
@@ -19,413 +157,299 @@
   }
 
   /**
-   * Create modal backdrop
-   */
-  function createBackdrop(closeOnBackdrop, resolveFn) {
-    const backdrop = document.createElement('div');
-    backdrop.className = 'pa-modal__backdrop';
-
-    if (closeOnBackdrop) {
-      backdrop.addEventListener('click', () => {
-        resolveFn(false);
-      });
-    }
-
-    return backdrop;
-  }
-
-  /**
-   * Create modal container
-   */
-  function createModalContainer(size) {
-    const container = document.createElement('div');
-    container.className = 'pa-modal__container';
-
-    if (size && size !== 'md') {
-      container.classList.add(`pa-modal__container--${size}`);
-    }
-
-    return container;
-  }
-
-  /**
-   * Create modal header
-   */
-  function createModalHeader(title, variant, onClose) {
-    const header = document.createElement('div');
-    header.className = 'pa-modal__header';
-
-    if (variant && variant !== 'primary') {
-      header.classList.add(`pa-modal__header--${variant}`);
-    }
-
-    const titleEl = document.createElement('h3');
-    titleEl.className = 'pa-modal__title';
-    titleEl.textContent = title;
-
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm';
-    closeBtn.innerHTML = '&times;';
-    closeBtn.addEventListener('click', onClose);
-
-    header.appendChild(titleEl);
-    header.appendChild(closeBtn);
-
-    return header;
-  }
-
-  /**
-   * Create modal body
-   */
-  function createModalBody(content) {
-    const body = document.createElement('div');
-    body.className = 'pa-modal__body';
-
-    if (typeof content === 'string') {
-      const p = document.createElement('p');
-      p.textContent = content;
-      body.appendChild(p);
-    } else if (content instanceof HTMLElement) {
-      body.appendChild(content);
-    }
-
-    return body;
-  }
-
-  /**
-   * Create modal footer
-   */
-  function createModalFooter(buttons) {
-    const footer = document.createElement('div');
-    footer.className = 'pa-modal__footer';
-
-    buttons.forEach(btnConfig => {
-      const btn = document.createElement('button');
-      btn.className = `pa-btn pa-btn--${btnConfig.variant || 'primary'}`;
-      btn.textContent = btnConfig.text;
-      btn.addEventListener('click', btnConfig.onClick);
-      footer.appendChild(btn);
-    });
-
-    return footer;
-  }
-
-  /**
-   * Show modal with animation
-   */
-  function showModal(modal) {
-    document.body.appendChild(modal);
-
-    // Calculate scrollbar width to prevent layout shift
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-    // Trigger reflow for animation
-    modal.offsetHeight;
-
-    modal.classList.add('pa-modal--show');
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = scrollbarWidth + 'px';
-  }
-
-  /**
-   * Close modal with animation
-   */
-  function closeModal(modal) {
-    modal.classList.remove('pa-modal--show');
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-
-    // Remove from DOM after animation
-    setTimeout(() => {
-      if (modal.parentNode) {
-        modal.parentNode.removeChild(modal);
-      }
-    }, 300);
-  }
-
-  /**
-   * Confirm Dialog
+   * CONFIRM DIALOG
+   * Shows a confirmation dialog with OK/Cancel buttons
    * Returns Promise<boolean> - true if confirmed, false if cancelled
    */
   PureAdmin.confirm = function(options = {}) {
-    return new Promise((resolve) => {
-      const {
-        title = 'Confirm',
-        message = 'Are you sure?',
-        confirmText = 'OK',
-        cancelText = 'Cancel',
-        variant = 'primary',
-        confirmVariant = variant,
-        size = 'sm',
-        closeOnBackdrop = true
-      } = options;
+    console.log('#1 confirm() called with options:', options);
 
-      // Create modal structure
-      const modal = document.createElement('div');
-      modal.className = 'pa-modal';
+    const {
+      title = 'Confirm',
+      message = 'Are you sure?',
+      confirmText = 'OK',
+      cancelText = 'Cancel',
+      variant = 'primary',
+      size = 'sm',
+      confirmVariant = variant,
+      closeOnBackdrop = true
+    } = options;
 
-      // ENTER key handler - declare early
-      let enterKeyHandler;
+    const id = `pa-modal-confirm-${++modalCounter}`;
+    console.log('#2 Creating modal with ID:', id);
 
-      const resolveAndClose = (result) => {
-        closeModal(modal);
-        resolve(result);
+    // Create footer with two buttons
+    const footer = `
+      <button type="button" class="pa-btn pa-btn--secondary" data-action="cancel">
+        ${escapeHtml(cancelText)}
+      </button>
+      <button type="button" class="pa-btn pa-btn--${confirmVariant}" data-action="confirm">
+        ${escapeHtml(confirmText)}
+      </button>
+    `;
 
-        // Remove event handlers
-        document.removeEventListener('keydown', escKeyHandler);
-        if (enterKeyHandler) {
-          document.removeEventListener('keydown', enterKeyHandler);
-        }
-      };
-
-      const backdrop = createBackdrop(closeOnBackdrop, () => resolveAndClose(false));
-      const container = createModalContainer(size);
-      const header = createModalHeader(title, variant, () => resolveAndClose(false));
-      const body = createModalBody(message);
-      const footer = createModalFooter([
-        {
-          text: cancelText,
-          variant: 'secondary',
-          onClick: () => resolveAndClose(false)
-        },
-        {
-          text: confirmText,
-          variant: confirmVariant,
-          onClick: () => resolveAndClose(true)
-        }
-      ]);
-
-      // Assemble modal
-      container.appendChild(header);
-      container.appendChild(body);
-      container.appendChild(footer);
-      modal.appendChild(backdrop);
-      modal.appendChild(container);
-
-      // ESC key handler
-      const escKeyHandler = (e) => {
-        if (e.key === 'Escape') {
-          resolveAndClose(false);
-        }
-      };
-      document.addEventListener('keydown', escKeyHandler);
-
-      // ENTER key handler - confirm
-      enterKeyHandler = (e) => {
-        if (e.key === 'Enter') {
-          resolveAndClose(true);
-        }
-      };
-      document.addEventListener('keydown', enterKeyHandler);
-
-      showModal(modal);
-
-      // Focus confirm button
-      setTimeout(() => {
-        const confirmBtn = footer.lastElementChild;
-        if (confirmBtn) confirmBtn.focus();
-      }, 100);
+    console.log('#3 Calling createModal()');
+    const modal = createModal({
+      id,
+      size,
+      variant,
+      title,
+      message,
+      footer
     });
+    console.log('#4 Modal element created:', modal);
+
+    // Attach button handlers
+    const confirmBtn = modal.querySelector('[data-action="confirm"]');
+    const cancelBtn = modal.querySelector('[data-action="cancel"]');
+    console.log('#5 Buttons found:', { confirmBtn, cancelBtn });
+
+    confirmBtn.addEventListener('click', () => closeModal(modal, true));
+    cancelBtn.addEventListener('click', () => closeModal(modal, false));
+
+    // Enter key confirms
+    const enterHandler = (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        closeModal(modal, true);
+        document.removeEventListener('keydown', enterHandler);
+      }
+    };
+    document.addEventListener('keydown', enterHandler);
+    modal._enterHandler = enterHandler;
+
+    console.log('#6 Calling showModal()');
+    return showModal(modal, { closeOnBackdrop, cancelValue: false });
   };
 
   /**
-   * Alert Dialog
+   * ALERT DIALOG
+   * Shows an alert dialog with single OK button
    * Returns Promise<void> - resolves when user clicks OK
    */
   PureAdmin.alert = function(options = {}) {
-    return new Promise((resolve) => {
-      const {
-        title = 'Alert',
-        message = '',
-        okText = 'OK',
-        variant = 'primary',
-        size = 'sm'
-      } = options;
+    const {
+      title = 'Alert',
+      message = '',
+      okText = 'OK',
+      variant = 'primary',
+      size = 'sm',
+      closeOnBackdrop = true
+    } = options;
 
-      // Create modal structure
-      const modal = document.createElement('div');
-      modal.className = 'pa-modal';
+    const id = `pa-modal-alert-${++modalCounter}`;
 
-      const resolveAndClose = () => {
-        closeModal(modal);
-        resolve();
+    // Create footer with single button
+    const footer = `
+      <button type="button" class="pa-btn pa-btn--${variant}" data-action="ok">
+        ${escapeHtml(okText)}
+      </button>
+    `;
 
-        // Remove ESC key handler
-        document.removeEventListener('keydown', escKeyHandler);
-        document.removeEventListener('keydown', enterKeyHandler);
-      };
-
-      const backdrop = createBackdrop(true, resolveAndClose);
-      const container = createModalContainer(size);
-      const header = createModalHeader(title, variant, resolveAndClose);
-      const body = createModalBody(message);
-      const footer = createModalFooter([
-        {
-          text: okText,
-          variant: variant,
-          onClick: resolveAndClose
-        }
-      ]);
-
-      // Assemble modal
-      container.appendChild(header);
-      container.appendChild(body);
-      container.appendChild(footer);
-      modal.appendChild(backdrop);
-      modal.appendChild(container);
-
-      // ESC key handler
-      const escKeyHandler = (e) => {
-        if (e.key === 'Escape') {
-          resolveAndClose();
-        }
-      };
-      document.addEventListener('keydown', escKeyHandler);
-
-      // ENTER key handler
-      const enterKeyHandler = (e) => {
-        if (e.key === 'Enter') {
-          resolveAndClose();
-        }
-      };
-      document.addEventListener('keydown', enterKeyHandler);
-
-      showModal(modal);
-
-      // Focus OK button
-      setTimeout(() => {
-        const okBtn = footer.firstElementChild;
-        if (okBtn) okBtn.focus();
-      }, 100);
+    const modal = createModal({
+      id,
+      size,
+      variant,
+      title,
+      message,
+      footer
     });
+
+    // Attach button handler
+    const okBtn = modal.querySelector('[data-action="ok"]');
+    okBtn.addEventListener('click', () => closeModal(modal, true));
+
+    // Enter key confirms
+    const enterHandler = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        closeModal(modal, true);
+        document.removeEventListener('keydown', enterHandler);
+      }
+    };
+    document.addEventListener('keydown', enterHandler);
+    modal._enterHandler = enterHandler;
+
+    return showModal(modal, { closeOnBackdrop, cancelValue: true });
   };
 
   /**
-   * Prompt Dialog
-   * Returns Promise<string | null> - entered value or null if cancelled
+   * PROMPT DIALOG
+   * Shows a prompt dialog with text input
+   * Returns Promise<string | null> - string if submitted, null if cancelled
    */
   PureAdmin.prompt = function(options = {}) {
-    return new Promise((resolve) => {
-      const {
-        title = 'Input',
-        message = 'Enter value:',
-        defaultValue = '',
-        placeholder = '',
-        confirmText = 'OK',
-        cancelText = 'Cancel',
-        validator = null,
-        variant = 'primary',
-        size = 'sm'
-      } = options;
+    const {
+      title = 'Input',
+      message = 'Enter value:',
+      defaultValue = '',
+      placeholder = '',
+      confirmText = 'OK',
+      cancelText = 'Cancel',
+      variant = 'primary',
+      size = 'sm',
+      validator = null,
+      closeOnBackdrop = true
+    } = options;
 
-      // Create modal structure
-      const modal = document.createElement('div');
-      modal.className = 'pa-modal';
+    const id = `pa-modal-prompt-${++modalCounter}`;
+    const inputId = `${id}-input`;
+    const errorId = `${id}-error`;
 
-      // Create input element
-      const inputWrapper = document.createElement('div');
-      const messageP = document.createElement('p');
-      messageP.textContent = message;
+    // Create input HTML
+    const inputHtml = `
+      <div class="pa-form-group" style="margin-top: 1rem;">
+        <div class="pa-input-wrapper">
+          <input
+            type="text"
+            id="${inputId}"
+            class="pa-input"
+            value="${escapeHtml(defaultValue)}"
+            placeholder="${escapeHtml(placeholder)}"
+            aria-describedby="${errorId}"
+          />
+        </div>
+        <div id="${errorId}" class="pa-form-error" style="display: none;"></div>
+      </div>
+    `;
 
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'pa-input';
-      input.value = defaultValue;
-      input.placeholder = placeholder;
-      input.style.width = '100%';
-      input.style.marginTop = '0.5rem';
+    // Create footer with two buttons
+    const footer = `
+      <button type="button" class="pa-btn pa-btn--secondary" data-action="cancel">
+        ${escapeHtml(cancelText)}
+      </button>
+      <button type="button" class="pa-btn pa-btn--${variant}" data-action="confirm">
+        ${escapeHtml(confirmText)}
+      </button>
+    `;
 
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'pa-alert pa-alert--danger';
-      errorDiv.style.marginTop = '0.5rem';
-      errorDiv.style.display = 'none';
-
-      inputWrapper.appendChild(messageP);
-      inputWrapper.appendChild(input);
-      inputWrapper.appendChild(errorDiv);
-
-      const resolveAndClose = (result) => {
-        closeModal(modal);
-        resolve(result);
-
-        // Remove event handlers
-        document.removeEventListener('keydown', escKeyHandler);
-      };
-
-      const validateAndConfirm = () => {
-        const value = input.value;
-
-        if (validator) {
-          const validationResult = validator(value);
-
-          if (validationResult !== true) {
-            // Validation failed - show error
-            errorDiv.textContent = validationResult;
-            errorDiv.style.display = 'block';
-            input.classList.add('pa-input--error');
-            input.focus();
-            return;
-          }
-        }
-
-        resolveAndClose(value);
-      };
-
-      const backdrop = createBackdrop(true, () => resolveAndClose(null));
-      const container = createModalContainer(size);
-      const header = createModalHeader(title, variant, () => resolveAndClose(null));
-      const body = createModalBody(inputWrapper);
-      const footer = createModalFooter([
-        {
-          text: cancelText,
-          variant: 'secondary',
-          onClick: () => resolveAndClose(null)
-        },
-        {
-          text: confirmText,
-          variant: variant,
-          onClick: validateAndConfirm
-        }
-      ]);
-
-      // Assemble modal
-      container.appendChild(header);
-      container.appendChild(body);
-      container.appendChild(footer);
-      modal.appendChild(backdrop);
-      modal.appendChild(container);
-
-      // ESC key handler
-      const escKeyHandler = (e) => {
-        if (e.key === 'Escape') {
-          resolveAndClose(null);
-        }
-      };
-      document.addEventListener('keydown', escKeyHandler);
-
-      // ENTER key handler
-      const enterKeyHandler = (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          validateAndConfirm();
-        }
-      };
-      input.addEventListener('keydown', enterKeyHandler);
-
-      // Clear error on input
-      input.addEventListener('input', () => {
-        errorDiv.style.display = 'none';
-        input.classList.remove('pa-input--error');
-      });
-
-      showModal(modal);
-
-      // Focus input
-      setTimeout(() => {
-        input.focus();
-        input.select();
-      }, 100);
+    const modal = createModal({
+      id,
+      size,
+      variant,
+      title,
+      message,
+      inputHtml,
+      footer
     });
+
+    // Get elements
+    const input = modal.querySelector(`#${inputId}`);
+    const errorDiv = modal.querySelector(`#${errorId}`);
+    const confirmBtn = modal.querySelector('[data-action="confirm"]');
+    const cancelBtn = modal.querySelector('[data-action="cancel"]');
+
+    // Validation function
+    function validate() {
+      if (!validator) return true;
+
+      const value = input.value;
+      const result = validator(value);
+
+      if (result === true) {
+        input.classList.remove('pa-input--error');
+        errorDiv.style.display = 'none';
+        return true;
+      } else {
+        input.classList.add('pa-input--error');
+        errorDiv.textContent = typeof result === 'string' ? result : 'Invalid input';
+        errorDiv.style.display = 'block';
+        return false;
+      }
+    }
+
+    // Attach button handlers
+    confirmBtn.addEventListener('click', () => {
+      if (validate()) {
+        closeModal(modal, input.value);
+      }
+    });
+
+    cancelBtn.addEventListener('click', () => closeModal(modal, null));
+
+    // Enter key submits
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (validate()) {
+          closeModal(modal, input.value);
+        }
+      }
+    });
+
+    // Clear error on input
+    if (validator) {
+      input.addEventListener('input', () => {
+        if (errorDiv.style.display !== 'none') {
+          validate();
+        }
+      });
+    }
+
+    return showModal(modal, { closeOnBackdrop: false, cancelValue: null });
   };
 
-})();
+  /**
+   * CUSTOM DIALOG
+   * Advanced API for fully custom modal content
+   * Returns Promise that resolves with whatever value you pass to resolve()
+   */
+  PureAdmin.custom = function(options = {}) {
+    const {
+      title = 'Dialog',
+      size = 'md',
+      variant = null,
+      closeOnBackdrop = true,
+      render
+    } = options;
+
+    if (typeof render !== 'function') {
+      throw new Error('PureAdmin.custom() requires a render function');
+    }
+
+    const id = `pa-modal-custom-${++modalCounter}`;
+
+    const modal = document.createElement('div');
+    modal.className = 'pa-modal pa-modal--show';
+    modal.id = id;
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+
+    // Container size class
+    const containerClass = size === 'md'
+      ? 'pa-modal__container'
+      : `pa-modal__container pa-modal__container--${size}`;
+
+    // Header class with optional variant
+    const headerClass = variant
+      ? `pa-modal__header pa-modal__header--${variant}`
+      : 'pa-modal__header';
+
+    // Create backdrop
+    const backdrop = document.createElement('div');
+    backdrop.className = 'pa-modal__backdrop';
+    modal.appendChild(backdrop);
+
+    // Create container
+    const container = document.createElement('div');
+    container.className = containerClass;
+
+    // Create header
+    const headerDiv = document.createElement('div');
+    headerDiv.className = headerClass;
+    headerDiv.innerHTML = `<h3 class="pa-modal__title">${escapeHtml(title)}</h3>`;
+    container.appendChild(headerDiv);
+
+    modal.appendChild(container);
+
+    // Render function gets container and close callback
+    const closeCallback = (value) => closeModal(modal, value);
+    render(container, closeCallback);
+
+    return showModal(modal, { closeOnBackdrop, cancelValue: null });
+  };
+
+  console.log('✅ PureAdmin Modal Dialogs loaded');
+  console.log('Available methods:', Object.keys(PureAdmin));
+
+})(window);

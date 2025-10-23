@@ -1,0 +1,407 @@
+<!-- ================================
+     MODAL DIALOGS (PROGRAMMATIC)
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!--
+PROGRAMMATIC MODAL DIALOGS
+
+This is a Promise-based JavaScript API for creating modal dialogs programmatically.
+Unlike static modals (see modals.html), these are created on-demand via JavaScript
+and automatically cleaned up after use.
+
+Perfect for:
+- Async/await workflows
+- Svelte/React/Vue components
+- Programmatic confirmations, alerts, and prompts
+- No HTML boilerplate needed
+
+JAVASCRIPT FILE:
+- src/js/modal-dialogs.js (must be included in your page)
+
+AVAILABLE METHODS:
+- PureAdmin.confirm(options) → Promise<boolean>
+- PureAdmin.alert(options) → Promise<void>
+- PureAdmin.prompt(options) → Promise<string | null>
+- PureAdmin.custom(options) → Promise<any>
+-->
+
+
+<!-- ================================
+     USAGE EXAMPLES
+     ================================ -->
+
+<!-- 1. CONFIRMATION DIALOG -->
+<script>
+// Basic confirm
+async function deleteItem() {
+  const confirmed = await PureAdmin.confirm({
+    title: 'Delete Item?',
+    message: 'This action cannot be undone.',
+  });
+
+  if (confirmed) {
+    // User clicked OK
+    console.log('Item deleted');
+  } else {
+    // User clicked Cancel or Esc
+    console.log('Cancelled');
+  }
+}
+
+// Confirm with custom buttons and variant
+async function dangerConfirm() {
+  const result = await PureAdmin.confirm({
+    title: 'Delete Account?',
+    message: 'This will permanently delete your account and all data.',
+    confirmText: 'Delete Forever',
+    cancelText: 'Keep Account',
+    variant: 'danger',
+    confirmVariant: 'danger',
+    size: 'md',
+    closeOnBackdrop: false  // Require explicit button click
+  });
+
+  return result; // true or false
+}
+</script>
+
+
+<!-- 2. ALERT DIALOG -->
+<script>
+// Basic alert
+async function showSuccess() {
+  await PureAdmin.alert({
+    title: 'Success!',
+    message: 'Your changes have been saved.',
+    variant: 'success'
+  });
+
+  // Code here runs AFTER user clicks OK
+  console.log('Alert dismissed');
+}
+
+// Warning alert
+async function showWarning() {
+  await PureAdmin.alert({
+    title: 'Warning',
+    message: 'Your session will expire in 5 minutes.',
+    okText: 'I Understand',
+    variant: 'warning',
+    size: 'sm'
+  });
+}
+</script>
+
+
+<!-- 3. PROMPT DIALOG -->
+<script>
+// Basic prompt
+async function askForName() {
+  const name = await PureAdmin.prompt({
+    title: 'Enter Your Name',
+    message: 'Please provide your full name:',
+    defaultValue: '',
+    placeholder: 'John Doe'
+  });
+
+  if (name !== null) {
+    console.log('User entered:', name);
+  } else {
+    console.log('User cancelled');
+  }
+}
+
+// Prompt with validation
+async function askForEmail() {
+  const email = await PureAdmin.prompt({
+    title: 'Email Address',
+    message: 'Enter a valid email address:',
+    placeholder: 'user@example.com',
+    confirmText: 'Submit',
+    cancelText: 'Skip',
+    variant: 'primary',
+    validator: (value) => {
+      // Return true if valid, or error message string if invalid
+      if (!value) return 'Email is required';
+      if (!value.includes('@')) return 'Invalid email format';
+      return true;
+    }
+  });
+
+  return email; // string or null
+}
+</script>
+
+
+<!-- 4. CUSTOM DIALOG -->
+<script>
+// Advanced custom modal with render function
+async function customDialog() {
+  const result = await PureAdmin.custom({
+    title: 'Select Options',
+    size: 'lg',
+    variant: 'primary',
+    closeOnBackdrop: true,
+    render: (container, close) => {
+      // container is the .pa-modal__container element
+      // close is a callback function to close the modal with a value
+
+      // Create body
+      const body = document.createElement('div');
+      body.className = 'pa-modal__body';
+      body.innerHTML = `
+        <p>Choose your preferences:</p>
+        <div class="pa-form-group">
+          <label class="pa-checkbox">
+            <input type="checkbox" id="option1"> Enable notifications
+          </label>
+        </div>
+        <div class="pa-form-group">
+          <label class="pa-checkbox">
+            <input type="checkbox" id="option2"> Auto-save
+          </label>
+        </div>
+      `;
+
+      // Create footer
+      const footer = document.createElement('div');
+      footer.className = 'pa-modal__footer';
+      footer.innerHTML = `
+        <button class="pa-btn pa-btn--secondary" id="cancelBtn">Cancel</button>
+        <button class="pa-btn pa-btn--primary" id="saveBtn">Save</button>
+      `;
+
+      container.appendChild(body);
+      container.appendChild(footer);
+
+      // Attach event listeners
+      footer.querySelector('#cancelBtn').addEventListener('click', () => {
+        close(null); // Close with null value
+      });
+
+      footer.querySelector('#saveBtn').addEventListener('click', () => {
+        const option1 = body.querySelector('#option1').checked;
+        const option2 = body.querySelector('#option2').checked;
+        close({ option1, option2 }); // Close with custom data
+      });
+    }
+  });
+
+  console.log('User selected:', result);
+  // result = { option1: true, option2: false } or null
+}
+</script>
+
+
+<!-- ================================
+     OPTIONS REFERENCE
+     ================================ -->
+
+<!--
+CONFIRM OPTIONS:
+{
+  title: string           // Modal title (default: 'Confirm')
+  message: string         // Message text (default: 'Are you sure?')
+  confirmText: string     // OK button text (default: 'OK')
+  cancelText: string      // Cancel button text (default: 'Cancel')
+  variant: string         // Modal header color: 'primary', 'success', 'warning', 'danger'
+  confirmVariant: string  // Confirm button color (default: same as variant)
+  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'sm')
+  closeOnBackdrop: bool   // Allow closing by clicking backdrop (default: true)
+}
+
+Returns: Promise<boolean> - true if confirmed, false if cancelled
+
+ALERT OPTIONS:
+{
+  title: string           // Modal title (default: 'Alert')
+  message: string         // Message text (default: '')
+  okText: string          // Button text (default: 'OK')
+  variant: string         // 'primary', 'success', 'warning', 'danger'
+  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'sm')
+  closeOnBackdrop: bool   // Allow closing by clicking backdrop (default: true)
+}
+
+Returns: Promise<void> - resolves when user clicks OK
+
+PROMPT OPTIONS:
+{
+  title: string           // Modal title (default: 'Input')
+  message: string         // Message text (default: 'Enter value:')
+  defaultValue: string    // Pre-filled input value (default: '')
+  placeholder: string     // Input placeholder (default: '')
+  confirmText: string     // Submit button text (default: 'OK')
+  cancelText: string      // Cancel button text (default: 'Cancel')
+  variant: string         // 'primary', 'success', 'warning', 'danger'
+  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'sm')
+  validator: function     // Validation function (optional)
+  closeOnBackdrop: bool   // ALWAYS false for prompts
+}
+
+Validator function signature:
+  (value: string) => true | string
+  Return true if valid, or error message string if invalid
+
+Returns: Promise<string | null> - string if submitted, null if cancelled
+
+CUSTOM OPTIONS:
+{
+  title: string           // Modal title (default: 'Dialog')
+  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'md')
+  variant: string         // 'primary', 'success', 'warning', 'danger'
+  closeOnBackdrop: bool   // Allow closing by clicking backdrop (default: true)
+  render: function        // Render function (required)
+}
+
+Render function signature:
+  (container: HTMLElement, close: Function) => void
+  container: The .pa-modal__container element to append content to
+  close: Function to close modal with a value: close(value)
+
+Returns: Promise<any> - whatever value you pass to close()
+-->
+
+
+<!-- ================================
+     SEQUENTIAL DIALOGS
+     ================================ -->
+
+<script>
+// Example: Multi-step wizard with dialogs
+async function multiStepWizard() {
+  // Step 1: Confirm start
+  const start = await PureAdmin.confirm({
+    title: 'Start Wizard?',
+    message: 'This will guide you through the setup process.',
+    confirmText: 'Start',
+    variant: 'primary'
+  });
+
+  if (!start) return;
+
+  // Step 2: Get name
+  const name = await PureAdmin.prompt({
+    title: 'Step 1: Your Name',
+    message: 'Enter your name:',
+    validator: (v) => v.trim() ? true : 'Name is required'
+  });
+
+  if (!name) return;
+
+  // Step 3: Get email
+  const email = await PureAdmin.prompt({
+    title: 'Step 2: Email',
+    message: 'Enter your email:',
+    validator: (v) => v.includes('@') ? true : 'Invalid email'
+  });
+
+  if (!email) return;
+
+  // Step 4: Confirm
+  const confirm = await PureAdmin.confirm({
+    title: 'Review Information',
+    message: `Name: ${name}\nEmail: ${email}\n\nIs this correct?`,
+    confirmText: 'Submit',
+    variant: 'success'
+  });
+
+  if (confirm) {
+    await PureAdmin.alert({
+      title: 'Success!',
+      message: 'Your information has been saved.',
+      variant: 'success'
+    });
+  }
+}
+</script>
+
+
+<!-- ================================
+     INTEGRATION WITH FORMS
+     ================================ -->
+
+<script>
+// Example: Confirm before form submission
+document.querySelector('#deleteForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const confirmed = await PureAdmin.confirm({
+    title: 'Delete Item?',
+    message: 'This action cannot be undone.',
+    variant: 'danger',
+    confirmVariant: 'danger',
+    confirmText: 'Delete',
+    closeOnBackdrop: false
+  });
+
+  if (confirmed) {
+    // Submit the form
+    this.submit();
+  }
+});
+</script>
+
+
+<!-- ================================
+     SVELTE INTEGRATION EXAMPLE
+     ================================ -->
+
+<!--
+<script>
+  import { onMount } from 'svelte';
+
+  // Make sure modal-dialogs.js is loaded globally
+  onMount(() => {
+    // Now you can use PureAdmin.confirm/alert/prompt anywhere
+  });
+
+  async function handleDelete() {
+    const result = await PureAdmin.confirm({
+      title: 'Delete Item?',
+      message: 'Are you sure?',
+      variant: 'danger'
+    });
+
+    if (result) {
+      // Delete the item
+    }
+  }
+</script>
+
+<button on:click={handleDelete}>Delete</button>
+-->
+
+
+<!-- ================================
+     NOTES
+     ================================ -->
+
+<!--
+KEY FEATURES:
+- ✅ Promise-based API (works with async/await)
+- ✅ No HTML boilerplate needed
+- ✅ Automatic cleanup (modal removed from DOM after use)
+- ✅ XSS protection (all text is escaped)
+- ✅ Keyboard navigation (Enter confirms, Esc cancels)
+- ✅ Auto-focus on inputs/buttons
+- ✅ Backdrop click to close (configurable)
+- ✅ Scrollbar compensation (prevents layout shift)
+- ✅ Input validation for prompts
+
+DIFFERENCES FROM STATIC MODALS:
+- Static modals require pre-defined HTML in the page
+- Dialog modals are created on-demand via JavaScript
+- Dialog modals are automatically removed after use
+- Dialog modals return Promise for easy async/await usage
+
+BROWSER COMPATIBILITY:
+- Requires ES6+ (async/await, Promise, const/let)
+- Modern browsers (Chrome/Firefox/Safari/Edge)
+
+ACCESSIBILITY:
+- ARIA attributes (role="dialog", aria-modal, aria-labelledby)
+- Keyboard support (Enter, Esc)
+- Focus management (auto-focus first input/button)
+- Proper modal structure for screen readers
+-->
