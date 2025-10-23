@@ -11,13 +11,13 @@
 .pa-header__profile-btn {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
   background: none;
   border: none;
-  padding: $profile-button-padding-v $profile-button-padding-h;
+  padding: $spacing-xs $spacing-sm; // Match nav item padding
   border-radius: $border-radius;
   color: $text-primary;
   cursor: pointer;
+  font-size: $font-size-sm; // Apply to whole button (text and icon)
   transition: background-color $transition-fast $easing-snappy;
 
   &:hover {
@@ -32,7 +32,6 @@
 
 .pa-header__profile-name {
   font-weight: $font-weight-medium;
-  font-size: $font-size-sm;
   color: $header-profile-name-color;
 }
 
