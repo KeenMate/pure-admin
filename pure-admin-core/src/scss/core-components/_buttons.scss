@@ -47,21 +47,25 @@
   &--xs {
     padding: $btn-padding-xs-v $btn-padding-xs-h;
     font-size: $font-size-xs;
+    min-height: 1.75rem; // Enforce consistent height
   }
 
   &--sm {
     padding: $btn-padding-sm-v $btn-padding-sm-h;
     font-size: $font-size-sm;
+    min-height: 2rem; // Enforce consistent height (~32px)
   }
 
   &--lg {
     padding: $btn-padding-lg-v $btn-padding-lg-h;
     font-size: $font-size-base;
+    min-height: 2.5rem; // Enforce consistent height
   }
 
   &--xl {
     padding: $btn-padding-xl-v $btn-padding-xl-h;
     font-size: $font-size-lg;
+    min-height: 2.75rem; // Enforce consistent height
   }
 
   // Button variants (colors)
@@ -306,7 +310,7 @@
     .pa-btn__icon {
       width: $sidebar-icon-size;
       min-width: $sidebar-icon-size;
-      height: $sidebar-icon-size;
+      // No fixed height - let button padding control height
       display: flex;
       align-items: center;
       justify-content: center;
@@ -400,7 +404,7 @@
 
 // Button Groups
 .pa-btn-group {
-  display: flex;
+  display: inline-flex;
   gap: 0.2rem; // Compact gap for tight button grouping
   flex-wrap: wrap;
   align-items: center;

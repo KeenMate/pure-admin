@@ -14,7 +14,7 @@ else
     CLEAN_CMD := $(RM) dist && $(MKDIR) dist/css dist/fonts
 endif
 
-.PHONY: help install build watch clean test package publish dev verify prepublish
+.PHONY: help install build watch clean test package publish dev verify prepublish hashes
 
 # Default target - show help
 help:
@@ -25,6 +25,7 @@ help:
 	@echo "  make watch      - Watch SCSS files for changes"
 	@echo "  make dev        - Alias for watch"
 	@echo "  make clean      - Clean dist directory"
+	@echo "  make hashes     - Generate snippet/SCSS hash manifest"
 	@echo "  make package    - Clean, build, and create tarball"
 	@echo "  make test       - Test package locally (npm pack)"
 	@echo "  make verify     - Clean, build, and test workflow"
@@ -52,6 +53,10 @@ clean:
 	@echo "Cleaning dist directory..."
 	@$(CLEAN_CMD)
 	@echo "Clean complete"
+
+# Generate hash manifest for snippets and SCSS
+hashes:
+	npm run generate-hashes
 
 # Create package tarball (clean build)
 package: clean build

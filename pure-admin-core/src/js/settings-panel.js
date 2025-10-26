@@ -11,6 +11,13 @@
         // Settings Panel Elements
         const settingsPanel = document.getElementById('settingsPanel');
         const settingsToggle = document.getElementById('settingsToggle');
+
+        // Check if elements exist
+        if (!settingsPanel || !settingsToggle) {
+            console.error('Settings panel elements not found');
+            return;
+        }
+
         const themeSelector = document.getElementById('themeSelector');
         const fontSizeSelector = document.getElementById('fontSizeSelector');
         const fontFamilySelector = document.getElementById('fontFamilySelector');
@@ -24,8 +31,8 @@
 
         // Load saved settings
         const loadSettings = () => {
-            // Theme - use server-provided currentTheme
-            const currentTheme = document.body.getAttribute('data-theme') || 'audi';
+            // Theme - use server-provided currentTheme from global config
+            const currentTheme = window.PURE_ADMIN_CONFIG?.currentTheme || 'audi';
             themeSelector.value = currentTheme;
 
             // Font size

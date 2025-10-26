@@ -127,7 +127,7 @@
       justify-content: flex-start;
       border-bottom: none;
       border-right: $border-width-medium solid transparent;
-      padding: $spacing-sm $spacing-md $spacing-sm 0;
+      padding: $spacing-sm;
       border-radius: $border-radius 0 0 $border-radius;
       gap: $tabs-vertical-item-gap;
       white-space: nowrap;
@@ -167,8 +167,9 @@
     // For vertical tabs, center the content within each item
     &.pa-tabs--vertical {
       .pa-tabs__item {
+        display: flex !important;
         justify-content: center;
-        padding-right: 0; // Remove padding-right to allow proper centering
+        align-items: center;
       }
     }
   }

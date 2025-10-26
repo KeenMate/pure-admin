@@ -225,6 +225,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
       color: $accent-color;
       background-color: $accent-hover;
       border-right-color: $accent-color; // Only change color, not width
+      font-weight: $font-weight-semibold; // Make active item bolder
     }
   }
 
@@ -697,7 +698,10 @@ body:not(.sidebar-hidden) {
       gap: $spacing-md;
 
       > li {
+        margin: 0; // Disable base margins from _base.scss
         position: relative; // For dropdown positioning
+        display: flex;
+        align-items: center;
 
         > a {
           text-decoration: none;
@@ -707,7 +711,8 @@ body:not(.sidebar-hidden) {
           border-radius: $border-radius;
           transition: all $transition-fast $easing-snappy;
           font-size: $font-size-sm;
-          display: block;
+          display: flex;
+          align-items: center;
 
           &:hover {
             color: $accent-color;
@@ -761,6 +766,7 @@ body:not(.sidebar-hidden) {
     flex-direction: column; // Override any flex from parent
 
     li {
+      margin: 0; // Disable base margins from _base.scss
       display: block;
       position: relative;
 
