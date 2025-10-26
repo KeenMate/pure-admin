@@ -47,9 +47,11 @@
     }
   }
 
-  // Remove bottom border from last row
-  tbody tr:last-child td {
-    border-bottom: none;
+  &:not(&--responsive) {
+	  // Remove bottom border from last row
+	  tbody tr:last-child td {
+		  border-bottom: none;
+	  }
   }
 
   // Striped variant
@@ -322,6 +324,209 @@
 
 .pa-virtual-table__cell:last-child {
   border-right: none;
+}
+
+// Responsive Tables - Stackable Layout
+.pa-table--responsive {
+  // Between tablet and mobile: Enable horizontal scrolling
+  @media (max-width: $tablet-breakpoint) and (min-width: $table-responsive-breakpoint + 1) {
+    // Table becomes scrollable but maintains desktop layout
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+
+    // Show subtle scroll hint with border
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+  }
+
+  // Mobile: Stack into cards
+  @media (max-width: $table-responsive-breakpoint) {
+    // Hide table headers
+    thead {
+      display: none;
+    }
+
+    // Make each row a card
+    tbody tr {
+      display: block;
+      margin-bottom: $table-responsive-card-margin;
+      border: $border-width-base solid $border-color;
+      border-radius: $border-radius;
+      overflow: hidden;
+
+      // Reset hover accent border for mobile
+      @if $table-hover-accent-width > 0 {
+        border-#{$table-hover-accent-position}: $border-width-base solid $border-color !important;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // Make each cell a row within the card
+    tbody td {
+      display: block;
+      text-align: right;
+      padding: $table-responsive-card-padding;
+      position: relative;
+      border-bottom: $border-width-base solid $border-color;
+
+      // Last cell in row has no border
+      &:last-child {
+        border-bottom: none;
+      }
+
+      // Label before content
+      &::before {
+        content: attr(data-label);
+        position: absolute;
+        left: $table-responsive-card-padding;
+        top: $table-responsive-card-padding;
+        font-weight: $table-responsive-label-font-weight;
+        text-align: left;
+        width: $table-responsive-label-width;
+      }
+
+      // Value aligned to the right
+      padding-left: calc($table-responsive-label-width + $table-responsive-card-padding * 2);
+    }
+
+    // Disable col-auto effect in responsive view
+    .col-auto {
+      width: auto;
+      white-space: normal;
+    }
+
+    // Striped variant still works with alternating rows
+    &.pa-table--striped tbody tr:nth-child(even) {
+      background-color: transparent; // Reset striped background
+    }
+
+    // Hover effect on the card
+    tbody tr:hover {
+      background-color: transparent;
+      box-shadow: $shadow-sm;
+    }
+
+    tbody tr:hover td {
+      background-color: transparent;
+    }
+  }
+}
+
+// Responsive Tables - CSS Grid Layout
+// Allows custom grid layouts on mobile instead of simple stacking
+.pa-table--responsive-grid {
+  // Between tablet and mobile: Enable horizontal scrolling
+  @media (max-width: $tablet-breakpoint) and (min-width: $table-responsive-breakpoint + 1) {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-left: $border-width-base solid $border-color;
+    border-right: $border-width-base solid $border-color;
+  }
+
+  // Mobile: CSS Grid layout
+  @media (max-width: $table-responsive-breakpoint) {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: block;
+      margin-bottom: $table-responsive-card-margin;
+      border: $border-width-base solid $border-color;
+      border-radius: $border-radius;
+      overflow: hidden;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    tbody td {
+      display: block;
+      padding: $table-responsive-card-padding;
+      border-bottom: $border-width-base solid $border-color;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      // Label above content (block layout by default)
+      &::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: $table-responsive-label-font-weight;
+        color: $text-secondary;
+        font-size: $font-size-xs;
+        margin-bottom: $spacing-xs;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    // Grid container modifier - apply to tbody tr
+    // Usage: Add data-grid class to <tr> elements that need custom grid
+    tbody tr[data-grid] {
+      display: grid;
+      padding: $table-responsive-card-padding;
+      gap: $table-responsive-card-padding;
+    }
+
+    // Grid cell modifier - cells within grid container
+    tbody tr[data-grid] td {
+      padding: 0;
+      border: none;
+
+      &::before {
+        margin-bottom: $spacing-xs;
+      }
+    }
+
+    // Predefined grid layouts
+    // 2-column grid: data-grid="2"
+    tbody tr[data-grid="2"] {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    // 3-column grid: data-grid="3"
+    tbody tr[data-grid="3"] {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    // Span helpers for custom layouts
+    // Use data-span="2" on td to span 2 columns
+    tbody tr[data-grid] td[data-span="2"] {
+      grid-column: span 2;
+    }
+
+    tbody tr[data-grid] td[data-span="3"] {
+      grid-column: span 3;
+    }
+
+    tbody tr[data-grid] td[data-span="full"] {
+      grid-column: 1 / -1; // Span all columns
+    }
+
+    // Disable col-auto effect in responsive view
+    .col-auto {
+      width: auto;
+      white-space: normal;
+    }
+
+    // Striped variant
+    &.pa-table--striped tbody tr:nth-child(even) {
+      background-color: transparent;
+    }
+
+    // Hover effect
+    tbody tr:hover {
+      background-color: transparent;
+      box-shadow: $shadow-sm;
+    }
+  }
 }
 
 // Text utilities for tables
