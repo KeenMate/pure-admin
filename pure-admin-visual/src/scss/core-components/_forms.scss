@@ -239,23 +239,36 @@
     color: $text-secondary;
     font-size: $font-size-sm;
     white-space: nowrap;
+    border-radius: 0;
   }
 
   &__prepend {
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
     border-right: none;
+
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
   }
 
   &__append {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
     border-left: none;
+
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
   }
 
   &__button {
     border-radius: 0;
     border-left: none;
+
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      border-left: $border-width-base solid $border-color;
+    }
 
     &:last-child {
       border-top-right-radius: $border-radius;
@@ -667,14 +680,14 @@
 .pa-checkbox,
 .pa-radio {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: $form-scale;
   cursor: pointer;
   font-size: $font-size-sm;
   color: $text-primary;
 
   input {
-    margin-top: $checkbox-margin-top;
+    margin: 0;
     width: $checkbox-size;
     height: $checkbox-size;
     cursor: pointer;
