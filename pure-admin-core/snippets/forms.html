@@ -113,16 +113,65 @@
 
 <!-- INPUT GROUPS -->
 
-<!-- Input with Icon Prefix -->
+<!-- Prepend only -->
 <div class="pa-input-group">
-  <span class="pa-input-group__addon">@</span>
+  <span class="pa-input-group__prepend">@</span>
   <input type="text" class="pa-input" placeholder="Username">
+</div>
+
+<!-- Append only -->
+<div class="pa-input-group">
+  <input type="text" class="pa-input" placeholder="Amount">
+  <span class="pa-input-group__append">USD</span>
+</div>
+
+<!-- Prepend and Append -->
+<div class="pa-input-group">
+  <span class="pa-input-group__prepend">$</span>
+  <input type="text" class="pa-input" placeholder="0.00">
+  <span class="pa-input-group__append">.00</span>
 </div>
 
 <!-- Input with Button -->
 <div class="pa-input-group">
   <input type="text" class="pa-input" placeholder="Search...">
-  <button class="pa-btn pa-btn--primary">Search</button>
+  <button class="pa-input-group__button pa-btn pa-btn--primary">Search</button>
+</div>
+
+<!-- Prepend + Input + Button -->
+<div class="pa-input-group">
+  <span class="pa-input-group__prepend">🔍</span>
+  <input type="text" class="pa-input" placeholder="Search...">
+  <button class="pa-input-group__button pa-btn pa-btn--primary">Go</button>
+</div>
+
+<!-- Input + Append + Button -->
+<div class="pa-input-group">
+  <input type="text" class="pa-input" placeholder="Enter amount">
+  <span class="pa-input-group__append">USD</span>
+  <button class="pa-input-group__button pa-btn pa-btn--success">Convert</button>
+</div>
+
+<!-- Button + Input + Append -->
+<div class="pa-input-group">
+  <button class="pa-input-group__button pa-btn pa-btn--secondary">-</button>
+  <input type="number" class="pa-input" value="1">
+  <span class="pa-input-group__append">items</span>
+</div>
+
+<!-- Prepend + Input + Append + Button -->
+<div class="pa-input-group">
+  <span class="pa-input-group__prepend">https://</span>
+  <input type="text" class="pa-input" placeholder="example.com">
+  <span class="pa-input-group__append">.com</span>
+  <button class="pa-input-group__button pa-btn pa-btn--primary">Visit</button>
+</div>
+
+<!-- Button + Input + Button (quantity controls) -->
+<div class="pa-input-group">
+  <button class="pa-input-group__button pa-btn pa-btn--secondary">-</button>
+  <input type="number" class="pa-input" value="1" style="text-align: center;">
+  <button class="pa-input-group__button pa-btn pa-btn--secondary">+</button>
 </div>
 
 
