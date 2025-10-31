@@ -76,7 +76,7 @@
 
   &:focus {
     outline: none;
-    border-color: $accent-color;
+    border-color: $input-focus-border-color;
     box-shadow: 0 0 0 $focus-ring-width $accent-light;
   }
 }
@@ -93,7 +93,7 @@
 
   &:focus {
     outline: none;
-    border-color: $accent-color;
+    border-color: $select-focus-border-color;
     box-shadow: 0 0 0 $focus-ring-width $accent-light;
   }
 }
@@ -110,7 +110,7 @@
 
   &:focus {
     outline: none;
-    border-color: $accent-color;
+    border-color: $textarea-focus-border-color;
     box-shadow: 0 0 0 $focus-ring-width $accent-light;
   }
 
@@ -234,15 +234,15 @@
     display: flex;
     align-items: center;
     padding: $input-padding-v $input-padding-h;
-    background-color: $primary-bg;
     border: $border-width-base solid $border-color;
-    color: $text-secondary;
     font-size: $font-size-sm;
     white-space: nowrap;
     border-radius: 0;
   }
 
   &__prepend {
+    background-color: $input-group-prepend-bg;
+    color: $input-group-prepend-text;
     border-right: none;
 
     &:first-child {
@@ -252,6 +252,8 @@
   }
 
   &__append {
+    background-color: $input-group-append-bg;
+    color: $input-group-append-text;
     border-left: none;
 
     &:last-child {
@@ -486,7 +488,7 @@
 
   &:focus {
     outline: none;
-    border-color: $accent-color;
+    border-color: $input-focus-border-color;
     box-shadow: 0 0 0 $focus-ring-width $accent-light;
   }
 
@@ -561,7 +563,7 @@
 
     &:focus {
       outline: none;
-      border-color: $accent-color;
+      border-color: $input-focus-border-color;
       box-shadow: 0 0 0 $focus-ring-width $accent-light;
     }
 

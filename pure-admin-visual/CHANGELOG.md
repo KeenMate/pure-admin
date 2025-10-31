@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2025-10-30
+
+#### Form Component Variables
+- **Input group prepend/append styling variables**:
+  - `$input-group-prepend-bg`: Background color for input group prepend blocks (default: `$primary-bg`)
+  - `$input-group-prepend-text`: Text color for input group prepend blocks (default: `$text-secondary`)
+  - `$input-group-append-bg`: Background color for input group append blocks (default: `$primary-bg`)
+  - `$input-group-append-text`: Text color for input group append blocks (default: `$text-secondary`)
+  - Allows themes to customize prepend/append styling independently
+  - Replaces hardcoded `$primary-bg` and `$text-secondary` values in `.pa-input-group__prepend` and `.pa-input-group__append`
+- **Focus border color variables**:
+  - `$input-focus-border-color`: Border color for focused input fields (default: `$accent-color`)
+  - `$select-focus-border-color`: Border color for focused select dropdowns (default: `$accent-color`)
+  - `$textarea-focus-border-color`: Border color for focused textarea fields (default: `$accent-color`)
+  - Themes can now customize focus border colors independently for each form element type
+  - Applied to `.pa-input`, `.pa-select`, `.pa-textarea`, `.pa-virtual-textbox`, and `.pa-inline-query-editor__input`
+- **Location**: `_variables.scss:458-464`
+- **Benefits**:
+  - Complete theme control over input group addon styling
+  - Separate focus border color customization per element type
+  - Maintains backward compatibility with default values
+  - Consistent with framework's variable naming conventions
+
+#### Build System
+- **Makefile `setup` command**:
+  - Added `make setup` target for monorepo-wide dependency installation
+  - Installs dependencies for both `pure-admin-visual` and `pure-admin-core` packages
+  - Provides progress feedback during installation
+  - Simplifies initial project setup for new developers
+  - Updated help text to distinguish between `setup` (all packages) and `install` (current package only)
+  - **Location**: `Makefile:15-20`
+
 ### Added - 2025-10-23
 
 #### Modal Dialogs - Promise-Based Programmatic API

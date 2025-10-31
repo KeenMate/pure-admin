@@ -5,11 +5,19 @@ DOCKER_CONTAINER := pure-admin-showcase
 HOST_PORT := 9000
 CONTAINER_PORT := 9000
 
-.PHONY: install build watch dev clean serve start docker-build docker-run docker-stop help
+.PHONY: install setup build watch dev clean serve start docker-build docker-run docker-stop help
 
-# Install dependencies
+# Install dependencies for current package
 install:
 	npm install
+
+# Setup entire monorepo (install all packages)
+setup:
+	@echo "Installing pure-admin-visual dependencies..."
+	npm install
+	@echo "Installing pure-admin-core dependencies..."
+	cd ../pure-admin-core && npm install
+	@echo "Setup complete!"
 
 # Build CSS from SCSS
 build:
@@ -63,7 +71,8 @@ dev-simple: build
 # Help
 help:
 	@echo "Available commands:"
-	@echo "  make install     - Install npm dependencies"
+	@echo "  make setup       - Setup entire monorepo (install all packages)"
+	@echo "  make install     - Install npm dependencies (current package only)"
 	@echo "  make build       - Build CSS from SCSS"
 	@echo "  make watch       - Watch SCSS and auto-rebuild CSS"
 	@echo "  make start       - Start Express server on port 3000"
