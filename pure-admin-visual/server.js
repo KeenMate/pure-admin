@@ -102,6 +102,10 @@ app.get('/forms', (req, res) => {
     renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms', isForms: true });
 });
 
+app.get('/inputs', (req, res) => {
+    renderWithLayout(res, 'inputs', { pageTitle: 'Inputs', currentPage: 'inputs', isInputs: true });
+});
+
 app.get('/checkbox-lists', (req, res) => {
     renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
 });

@@ -262,6 +262,17 @@
     }
   }
 
+  // When input is focused, restore borders on connecting edges of prepend/append with focus color
+  &:focus-within {
+    .pa-input-group__prepend {
+      border-right: $border-width-base solid $input-focus-border-color;
+    }
+
+    .pa-input-group__append {
+      border-left: $border-width-base solid $input-focus-border-color;
+    }
+  }
+
   &__button {
     border-radius: 0;
     border-left: none;

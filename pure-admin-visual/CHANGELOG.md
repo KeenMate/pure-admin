@@ -39,6 +39,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated help text to distinguish between `setup` (all packages) and `install` (current package only)
   - **Location**: `Makefile:15-20`
 
+### Fixed - 2025-10-31
+
+#### Form Components - Input Focus Color Consistency Across Themes
+- **Fixed mismatched focus colors in all themes**:
+  - Previously, `$input-focus-border-color` was evaluating to the default blue color (#007bff) instead of each theme's accent color
+  - This caused visual inconsistency where input border was blue but focus ring (box-shadow) matched the theme accent color
+  - Root cause: When themes override `$accent-color`, the `$input-focus-border-color` variable (which defaults to `$accent-color`) had already been evaluated to the default value
+  - **Solution**: All themes now explicitly override `$input-focus-border-color`, `$select-focus-border-color`, and `$textarea-focus-border-color` to match their accent colors
+  - **Affected themes**: All themes (Audi, Audi Light, Corporate, Dark, Dark Blue, Dark Green, Dark Red, Express, Minimal)
+  - **Example (Audi theme)**: Both border and focus ring now use red (#ff0000) instead of blue border + red ring
+- **Benefits**:
+  - Consistent focus styling across all form elements
+  - Focus colors now properly match each theme's accent color
+  - Better visual coherence and user experience
+
+#### Form Components - Input Group Focus Border
+- **Unified focus styling for input groups with prepend/append blocks**:
+  - Fixed missing visual feedback when input fields with prepend/append blocks receive focus
+  - When an input is inside `.pa-input-group` with `.pa-input-group__prepend` or `.pa-input-group__append`, the connecting borders are removed for seamless appearance
+  - Previously, when the input received focus, the prepend/append blocks maintained their default border color, creating visual disconnect
+  - Now uses `:focus-within` pseudo-class to detect when input is focused and restores the connecting borders on prepend/append blocks with `$input-focus-border-color`
+  - **Implementation**: Added `.pa-input-group:focus-within` selector that applies focus border color to prepend's right edge and append's left edge
+  - **Location**: `_forms.scss:265-274` (both `pure-admin-visual` and `pure-admin-core`)
+- **Benefits**:
+  - Unified focus appearance across the entire input group
+  - No double borders (prepend/append borders change color, input keeps normal focus styling)
+  - Clear visual feedback during user interaction
+  - Maintains seamless appearance in non-focused state
+  - Uses existing `$input-focus-border-color` variable for theme consistency
+
 ### Added - 2025-10-23
 
 #### Modal Dialogs - Promise-Based Programmatic API
