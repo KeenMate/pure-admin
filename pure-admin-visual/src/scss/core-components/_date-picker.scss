@@ -267,6 +267,12 @@
     background-color: $accent-color;
     color: #ffffff;
     font-weight: $font-weight-semibold;
+    cursor: grab;
+    user-select: none;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 
   &--in-range {
@@ -274,6 +280,25 @@
 
     &:hover {
       background-color: rgba($accent-color, 0.25);
+    }
+  }
+
+  // Dragging states
+  &--dragging {
+    cursor: grabbing !important;
+    opacity: 0.7;
+    transform: scale(1.1);
+    transition: transform $transition-fast $easing-snappy;
+  }
+
+  &--drag-preview {
+    background-color: rgba($accent-color, 0.3);
+    border: 2px dashed $accent-color;
+
+    &.pa-date-picker__day--range-start,
+    &.pa-date-picker__day--range-end {
+      background-color: rgba($accent-color, 0.6);
+      color: #ffffff;
     }
   }
 }

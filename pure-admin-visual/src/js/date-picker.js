@@ -64,6 +64,16 @@
                 this.showingRollingSelector.push(false);
             }
 
+            // Drag state for range adjustment
+            this.draggingType = null; // 'start' | 'end'
+            this.isDragging = false;
+            this.dragStartDate = null;
+            this.originalStartDate = null;
+            this.originalEndDate = null;
+            this.dragPreviewStart = null;
+            this.dragPreviewEnd = null;
+            this.autoScrollInterval = null;
+
             this.init();
         }
 
@@ -386,6 +396,11 @@
                     this.renderNormalView(i);
                 }
             }
+
+            // Initialize drag listeners for range mode
+            if (this.options.mode === 'range' && !this.isDragging) {
+                this.initDragListeners();
+            }
         }
 
         renderNormalView(monthIndex) {
@@ -444,7 +459,15 @@
             // Previous month days
             for (let i = firstDay - 1; i >= 0; i--) {
                 const day = daysInPrevMonth - i;
-                html += `<div class="pa-date-picker__day pa-date-picker__day--other-month" data-date="${prevYear}-${prevMonth}-${day}">${day}</div>`;
+                const date = new Date(prevYear, prevMonth, day);
+                const classes = ['pa-date-picker__day', 'pa-date-picker__day--other-month'];
+
+                // Check if in range (for long date ranges spanning multiple months)
+                if (this.options.mode === 'range' && this.isInRange(date)) {
+                    classes.push('pa-date-picker__day--in-range');
+                }
+
+                html += `<div class="${classes.join(' ')}" data-date="${prevYear}-${prevMonth}-${day}">${day}</div>`;
             }
 
             // Current month days
@@ -474,7 +497,15 @@
             const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
             const remainingCells = totalCells - (firstDay + daysInMonth);
             for (let day = 1; day <= remainingCells; day++) {
-                html += `<div class="pa-date-picker__day pa-date-picker__day--other-month" data-date="${nextYear}-${nextMonth}-${day}">${day}</div>`;
+                const date = new Date(nextYear, nextMonth, day);
+                const classes = ['pa-date-picker__day', 'pa-date-picker__day--other-month'];
+
+                // Check if in range (for long date ranges spanning multiple months)
+                if (this.options.mode === 'range' && this.isInRange(date)) {
+                    classes.push('pa-date-picker__day--in-range');
+                }
+
+                html += `<div class="${classes.join(' ')}" data-date="${nextYear}-${nextMonth}-${day}">${day}</div>`;
             }
 
             daysContainer.innerHTML = html;
@@ -762,6 +793,221 @@
                 this.hide();
             }
         }
+
+        // === DRAG FUNCTIONALITY ===
+
+        initDragListeners() {
+            // Add mousedown listeners to range-start and range-end days
+            const rangeStartDays = this.calendar.querySelectorAll('.pa-date-picker__day--range-start');
+            const rangeEndDays = this.calendar.querySelectorAll('.pa-date-picker__day--range-end');
+
+            rangeStartDays.forEach(day => {
+                day.addEventListener('mousedown', (e) => this.startDrag(e, 'start'));
+            });
+
+            rangeEndDays.forEach(day => {
+                day.addEventListener('mousedown', (e) => this.startDrag(e, 'end'));
+            });
+        }
+
+        startDrag(event, type) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            this.isDragging = true;
+            this.draggingType = type;
+            this.originalStartDate = new Date(this.selectedStartDate);
+            this.originalEndDate = new Date(this.selectedEndDate);
+
+            // Add dragging class to the day being dragged
+            event.currentTarget.classList.add('pa-date-picker__day--dragging');
+
+            console.log(`[DatePicker Drag] Started dragging ${type} date`);
+
+            // Add document-level listeners
+            this.onDragMoveBound = this.onDragMove.bind(this);
+            this.onDragEndBound = this.onDragEnd.bind(this);
+            document.addEventListener('mousemove', this.onDragMoveBound);
+            document.addEventListener('mouseup', this.onDragEndBound);
+
+            // Change body cursor
+            document.body.style.cursor = 'grabbing';
+        }
+
+        onDragMove(event) {
+            if (!this.isDragging) return;
+
+            // Find the day element under the cursor
+            const dayElement = document.elementFromPoint(event.clientX, event.clientY);
+            if (!dayElement || !dayElement.classList.contains('pa-date-picker__day')) return;
+
+            // Skip if it's a disabled or other-month day
+            if (dayElement.classList.contains('pa-date-picker__day--disabled')) return;
+            if (dayElement.classList.contains('pa-date-picker__day--other-month')) {
+                // Handle crossing month boundaries - will implement auto-scroll here
+                this.checkAutoScroll(event);
+                return;
+            }
+
+            // Parse the date from the day element
+            const [year, month, day] = dayElement.dataset.date.split('-').map(Number);
+            const hoveredDate = new Date(year, month, day);
+
+            // Update preview based on what's being dragged
+            if (this.draggingType === 'start') {
+                this.dragPreviewStart = hoveredDate;
+                this.dragPreviewEnd = this.originalEndDate;
+
+                // Swap if start is after end
+                if (this.dragPreviewStart > this.dragPreviewEnd) {
+                    [this.dragPreviewStart, this.dragPreviewEnd] = [this.dragPreviewEnd, this.dragPreviewStart];
+                    this.draggingType = 'end'; // Switch which end we're dragging
+                }
+            } else {
+                this.dragPreviewStart = this.originalStartDate;
+                this.dragPreviewEnd = hoveredDate;
+
+                // Swap if end is before start
+                if (this.dragPreviewEnd < this.dragPreviewStart) {
+                    [this.dragPreviewStart, this.dragPreviewEnd] = [this.dragPreviewEnd, this.dragPreviewStart];
+                    this.draggingType = 'start'; // Switch which end we're dragging
+                }
+            }
+
+            // Update preview visuals
+            this.updateDragPreview();
+        }
+
+        updateDragPreview() {
+            // Remove existing preview classes
+            this.calendar.querySelectorAll('.pa-date-picker__day--drag-preview').forEach(day => {
+                day.classList.remove('pa-date-picker__day--drag-preview');
+            });
+
+            if (!this.dragPreviewStart || !this.dragPreviewEnd) return;
+
+            // Add preview classes to days in the preview range
+            const allDays = this.calendar.querySelectorAll('.pa-date-picker__day:not(.pa-date-picker__day--other-month)');
+            allDays.forEach(day => {
+                const [year, month, dayNum] = day.dataset.date.split('-').map(Number);
+                const date = new Date(year, month, dayNum);
+
+                if (date >= this.dragPreviewStart && date <= this.dragPreviewEnd) {
+                    day.classList.add('pa-date-picker__day--drag-preview');
+                }
+            });
+
+            // Update summary with preview counts
+            this.updateSummaryWithPreview();
+        }
+
+        updateSummaryWithPreview() {
+            if (this.options.mode !== 'range') return;
+
+            const summary = this.calendar.querySelector('.pa-date-picker__summary');
+            if (!summary) return;
+
+            if (this.dragPreviewStart && this.dragPreviewEnd) {
+                const msPerDay = 1000 * 60 * 60 * 24;
+                const timeDiff = this.dragPreviewEnd - this.dragPreviewStart;
+                const days = Math.floor(timeDiff / msPerDay) + 1;
+                const nights = days - 1;
+
+                summary.className = 'pa-date-picker__summary pa-date-picker__summary--visible';
+                summary.innerHTML = `
+                    <span style="opacity: 0.7;">Preview: </span>
+                    <span class="pa-date-picker__summary-count">${days} ${days === 1 ? 'day' : 'days'}</span>
+                    <span>, </span>
+                    <span class="pa-date-picker__summary-count">${nights} ${nights === 1 ? 'night' : 'nights'}</span>
+                `;
+            }
+        }
+
+        onDragEnd(event) {
+            if (!this.isDragging) return;
+
+            console.log(`[DatePicker Drag] Ended dragging, finalizing selection`);
+
+            // Finalize the selection
+            if (this.dragPreviewStart && this.dragPreviewEnd) {
+                this.selectedStartDate = this.dragPreviewStart;
+                this.selectedEndDate = this.dragPreviewEnd;
+                this.input.value = `${this.formatDate(this.selectedStartDate)} - ${this.formatDate(this.selectedEndDate)}`;
+
+                if (this.options.onSelect) {
+                    this.options.onSelect({ start: this.selectedStartDate, end: this.selectedEndDate });
+                }
+            }
+
+            // Clean up
+            this.isDragging = false;
+            this.draggingType = null;
+            this.dragPreviewStart = null;
+            this.dragPreviewEnd = null;
+
+            // Remove dragging class
+            this.calendar.querySelectorAll('.pa-date-picker__day--dragging').forEach(day => {
+                day.classList.remove('pa-date-picker__day--dragging');
+            });
+
+            // Remove document-level listeners
+            document.removeEventListener('mousemove', this.onDragMoveBound);
+            document.removeEventListener('mouseup', this.onDragEndBound);
+
+            // Clear auto-scroll interval
+            if (this.autoScrollInterval) {
+                clearInterval(this.autoScrollInterval);
+                this.autoScrollInterval = null;
+            }
+
+            // Reset body cursor
+            document.body.style.cursor = '';
+
+            // Re-render to show final selection
+            this.renderCalendar();
+            this.updateSummary();
+        }
+
+        checkAutoScroll(event) {
+            // Get the calendar's bounding rect
+            const calendarRect = this.calendar.getBoundingClientRect();
+            const edgeThreshold = 50; // pixels from edge to trigger scroll
+
+            // Check horizontal proximity to edges
+            const leftEdge = event.clientX - calendarRect.left;
+            const rightEdge = calendarRect.right - event.clientX;
+
+            // Clear any existing auto-scroll
+            if (this.autoScrollInterval) {
+                clearInterval(this.autoScrollInterval);
+                this.autoScrollInterval = null;
+            }
+
+            // Start auto-scroll if near edges
+            if (leftEdge < edgeThreshold && leftEdge > 0) {
+                // Near left edge - scroll to previous month
+                console.log('[DatePicker Drag] Near left edge, auto-scrolling to previous month');
+                this.autoScrollInterval = setInterval(() => {
+                    if (this.activeMonthIndex > 0) {
+                        this.prevMonth(this.activeMonthIndex);
+                    } else if (this.options.monthsToShow === 1) {
+                        this.prevMonth(0);
+                    }
+                }, 300);
+            } else if (rightEdge < edgeThreshold && rightEdge > 0) {
+                // Near right edge - scroll to next month
+                console.log('[DatePicker Drag] Near right edge, auto-scrolling to next month');
+                this.autoScrollInterval = setInterval(() => {
+                    if (this.activeMonthIndex < this.monthDates.length - 1) {
+                        this.nextMonth(this.activeMonthIndex);
+                    } else if (this.options.monthsToShow === 1) {
+                        this.nextMonth(0);
+                    }
+                }, 300);
+            }
+        }
+
+        // === END DRAG FUNCTIONALITY ===
 
         moveFocus(offset) {
             // Only get days from the active month column
