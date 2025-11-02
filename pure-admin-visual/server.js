@@ -106,6 +106,10 @@ app.get('/inputs', (req, res) => {
     renderWithLayout(res, 'inputs', { pageTitle: 'Inputs', currentPage: 'inputs', isInputs: true });
 });
 
+app.get('/date-picker', (req, res) => {
+    renderWithLayout(res, 'date-picker', { pageTitle: 'Date Picker', currentPage: 'date-picker', isDatePicker: true });
+});
+
 app.get('/checkbox-lists', (req, res) => {
     renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
 });

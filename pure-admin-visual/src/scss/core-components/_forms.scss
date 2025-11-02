@@ -170,11 +170,26 @@
   }
 }
 
+.pa-input--warning,
+.pa-select--warning {
+  border-color: $warning-bg;
+
+  &:focus {
+    border-color: $warning-bg;
+    box-shadow: 0 0 0 $focus-ring-width $warning-bg-light;
+  }
+}
+
 // Form Groups
 .pa-form-group--error {
   .pa-input,
   .pa-select {
     border-color: $danger-bg;
+
+    &:focus {
+      border-color: $danger-bg;
+      box-shadow: 0 0 0 $focus-ring-width $danger-bg-light;
+    }
   }
 }
 
@@ -182,6 +197,23 @@
   .pa-input,
   .pa-select {
     border-color: $success-bg;
+
+    &:focus {
+      border-color: $success-bg;
+      box-shadow: 0 0 0 $focus-ring-width $success-bg-light;
+    }
+  }
+}
+
+.pa-form-group--warning {
+  .pa-input,
+  .pa-select {
+    border-color: $warning-bg;
+
+    &:focus {
+      border-color: $warning-bg;
+      box-shadow: 0 0 0 $focus-ring-width $warning-bg-light;
+    }
   }
 }
 

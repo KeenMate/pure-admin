@@ -1,0 +1,496 @@
+<!-- Date Picker Component Snippets -->
+<!-- Pure Admin Visual Framework -->
+
+<!-- ============================================
+     BASIC DATE PICKER
+     ============================================ -->
+
+<!-- Single Date Picker -->
+<div class="pa-form-group">
+  <label>Select Date</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    placeholder="YYYY-MM-DD"
+  >
+</div>
+
+<!-- Date Range Picker -->
+<div class="pa-form-group">
+  <label>Select Date Range</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    data-date-picker-mode="range"
+    placeholder="Start Date - End Date"
+  >
+</div>
+
+<!-- ============================================
+     SIZE VARIANTS
+     ============================================ -->
+
+<!-- Extra Small Date Picker -->
+<div class="pa-form-group">
+  <label>Extra Small</label>
+  <input
+    type="text"
+    class="pa-input pa-input--xs pa-date-picker-input"
+    data-date-picker
+    placeholder="YYYY-MM-DD"
+  >
+</div>
+
+<!-- Small Date Picker -->
+<div class="pa-form-group">
+  <label>Small</label>
+  <input
+    type="text"
+    class="pa-input pa-input--sm pa-date-picker-input"
+    data-date-picker
+    placeholder="YYYY-MM-DD"
+  >
+</div>
+
+<!-- Default Date Picker -->
+<div class="pa-form-group">
+  <label>Default</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    placeholder="YYYY-MM-DD"
+  >
+</div>
+
+<!-- Large Date Picker -->
+<div class="pa-form-group">
+  <label>Large</label>
+  <input
+    type="text"
+    class="pa-input pa-input--lg pa-date-picker-input"
+    data-date-picker
+    placeholder="YYYY-MM-DD"
+  >
+</div>
+
+<!-- Extra Large Date Picker -->
+<div class="pa-form-group">
+  <label>Extra Large</label>
+  <input
+    type="text"
+    class="pa-input pa-input--xl pa-date-picker-input"
+    data-date-picker
+    placeholder="YYYY-MM-DD"
+  >
+</div>
+
+<!-- ============================================
+     VALIDATION STATES
+     ============================================ -->
+
+<!-- Success State -->
+<div class="pa-form-group pa-form-group--success">
+  <label>Valid Date Range</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    data-date-picker-mode="range"
+    value="2025-11-01 - 2025-11-30"
+  >
+  <small class="pa-form-text">Date range is valid and within allowed period.</small>
+</div>
+
+<!-- Warning State -->
+<div class="pa-form-group pa-form-group--warning">
+  <label>Date Near Expiration</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    value="2025-11-28"
+  >
+  <small class="pa-form-text">Selected date is within 3 days of deadline.</small>
+</div>
+
+<!-- Error State -->
+<div class="pa-form-group pa-form-group--error">
+  <label>Invalid Date</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    value="2025-02-30"
+  >
+  <small class="pa-form-text">Please enter a valid date.</small>
+</div>
+
+<!-- ============================================
+     DISABLED AND READONLY
+     ============================================ -->
+
+<!-- Disabled Date Picker -->
+<div class="pa-form-group">
+  <label>Disabled</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    disabled
+    value="2025-11-01"
+  >
+</div>
+
+<!-- Readonly Date Picker -->
+<div class="pa-form-group">
+  <label>Readonly</label>
+  <input
+    type="text"
+    class="pa-input pa-date-picker-input"
+    data-date-picker
+    readonly
+    value="2025-11-01"
+  >
+</div>
+
+<!-- ============================================
+     INLINE MODE
+     ============================================ -->
+
+<!-- Inline Calendar (Always Visible) -->
+<div class="pa-date-picker pa-date-picker--inline pa-date-picker--visible">
+  <div class="pa-date-picker__header">
+    <button class="pa-date-picker__nav pa-date-picker__nav--prev" data-action="prev"></button>
+    <div class="pa-date-picker__month-year" data-action="toggle-rolling">November 2025</div>
+    <button class="pa-date-picker__nav pa-date-picker__nav--next" data-action="next"></button>
+  </div>
+
+  <div class="pa-date-picker__rolling-selector">
+    <div class="pa-date-picker__rolling-list" data-list="years"></div>
+    <div class="pa-date-picker__rolling-list" data-list="months"></div>
+  </div>
+
+  <div class="pa-date-picker__weekdays">
+    <div class="pa-date-picker__weekday">Su</div>
+    <div class="pa-date-picker__weekday">Mo</div>
+    <div class="pa-date-picker__weekday">Tu</div>
+    <div class="pa-date-picker__weekday">We</div>
+    <div class="pa-date-picker__weekday">Th</div>
+    <div class="pa-date-picker__weekday">Fr</div>
+    <div class="pa-date-picker__weekday">Sa</div>
+  </div>
+
+  <div class="pa-date-picker__days">
+    <!-- Days will be rendered by JavaScript -->
+  </div>
+
+  <div class="pa-date-picker__actions">
+    <button class="pa-date-picker__button pa-date-picker__button--today" data-action="today">Today</button>
+    <button class="pa-date-picker__button pa-date-picker__button--clear" data-action="clear">Clear</button>
+  </div>
+</div>
+
+<!-- ============================================
+     PROGRAMMATIC INITIALIZATION
+     ============================================ -->
+
+<script>
+// Single Date Picker
+const singleDateInput = document.querySelector('#single-date');
+const singlePicker = new PureDatePicker(singleDateInput, {
+  mode: 'single',
+  position: 'bottom-start',
+  onSelect: (date) => {
+    console.log('Selected date:', date);
+  }
+});
+
+// Date Range Picker
+const rangeInput = document.querySelector('#date-range');
+const rangePicker = new PureDatePicker(rangeInput, {
+  mode: 'range',
+  position: 'bottom-start',
+  onSelect: ({ start, end }) => {
+    console.log('Selected range:', start, 'to', end);
+  }
+});
+
+// Inline Calendar (static, always visible)
+const inlineContainer = document.querySelector('#inline-calendar');
+const inlinePicker = new PureDatePicker(inlineContainer, {
+  mode: 'single',
+  inline: true,
+  onSelect: (date) => {
+    console.log('Inline selected:', date);
+  }
+});
+</script>
+
+<!-- ============================================
+     USAGE PATTERNS
+     ============================================ -->
+
+<!-- Filter Form with Date Range -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Filter Reports</h3>
+  </div>
+  <div class="pa-card__body">
+    <div class="pure-g">
+      <div class="pure-u-1 pure-u-md-1-3">
+        <div class="pa-form-group">
+          <label>From Date</label>
+          <input
+            type="text"
+            class="pa-input pa-date-picker-input"
+            data-date-picker
+            placeholder="Start date"
+          >
+        </div>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <div class="pa-form-group">
+          <label>To Date</label>
+          <input
+            type="text"
+            class="pa-input pa-date-picker-input"
+            data-date-picker
+            placeholder="End date"
+          >
+        </div>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <div class="pa-form-group">
+          <label>&nbsp;</label>
+          <button class="pa-btn pa-btn--primary" style="width: 100%;">Apply Filter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Date Range Picker with Single Input -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Booking Dates</h3>
+  </div>
+  <div class="pa-card__body">
+    <div class="pa-form-group">
+      <label>Check-in / Check-out</label>
+      <input
+        type="text"
+        class="pa-input pa-date-picker-input"
+        data-date-picker
+        data-date-picker-mode="range"
+        placeholder="Select date range"
+      >
+      <small class="pa-form-text">Select your arrival and departure dates.</small>
+    </div>
+  </div>
+</div>
+
+<!-- Date Picker in Input Group -->
+<div class="pa-form-group">
+  <label>Event Date</label>
+  <div class="pa-input-group">
+    <span class="pa-input-group__prepend">📅</span>
+    <input
+      type="text"
+      class="pa-input"
+      data-date-picker
+      placeholder="Select date"
+    >
+  </div>
+</div>
+
+<!-- ============================================
+     CALENDAR POPUP STRUCTURE
+     (Auto-created by JavaScript, shown for reference)
+     ============================================ -->
+
+<div class="pa-date-picker pa-date-picker--visible">
+  <!-- Header with Month/Year Navigation -->
+  <div class="pa-date-picker__header">
+    <button class="pa-date-picker__nav pa-date-picker__nav--prev" data-action="prev"></button>
+    <div class="pa-date-picker__month-year" data-action="toggle-rolling">November 2025</div>
+    <button class="pa-date-picker__nav pa-date-picker__nav--next" data-action="next"></button>
+  </div>
+
+  <!-- Rolling Selector (Hidden by Default) -->
+  <div class="pa-date-picker__rolling-selector">
+    <div class="pa-date-picker__rolling-list" data-list="years">
+      <div class="pa-date-picker__rolling-item" data-year="1975">1975</div>
+      <div class="pa-date-picker__rolling-item" data-year="1976">1976</div>
+      <!-- ... more years ... -->
+      <div class="pa-date-picker__rolling-item pa-date-picker__rolling-item--selected" data-year="2025">2025</div>
+      <!-- ... more years ... -->
+    </div>
+    <div class="pa-date-picker__rolling-list" data-list="months">
+      <div class="pa-date-picker__rolling-item" data-month="0">January</div>
+      <div class="pa-date-picker__rolling-item" data-month="1">February</div>
+      <!-- ... more months ... -->
+      <div class="pa-date-picker__rolling-item pa-date-picker__rolling-item--selected" data-month="10">November</div>
+      <div class="pa-date-picker__rolling-item" data-month="11">December</div>
+    </div>
+  </div>
+
+  <!-- Weekday Labels -->
+  <div class="pa-date-picker__weekdays">
+    <div class="pa-date-picker__weekday">Su</div>
+    <div class="pa-date-picker__weekday">Mo</div>
+    <div class="pa-date-picker__weekday">Tu</div>
+    <div class="pa-date-picker__weekday">We</div>
+    <div class="pa-date-picker__weekday">Th</div>
+    <div class="pa-date-picker__weekday">Fr</div>
+    <div class="pa-date-picker__weekday">Sa</div>
+  </div>
+
+  <!-- Days Grid -->
+  <div class="pa-date-picker__days">
+    <div class="pa-date-picker__day pa-date-picker__day--other-month">30</div>
+    <div class="pa-date-picker__day pa-date-picker__day--other-month">31</div>
+    <div class="pa-date-picker__day pa-date-picker__day--today" data-date="2025-10-1">1</div>
+    <div class="pa-date-picker__day" data-date="2025-10-2">2</div>
+    <div class="pa-date-picker__day" data-date="2025-10-3">3</div>
+    <div class="pa-date-picker__day pa-date-picker__day--selected" data-date="2025-10-4">4</div>
+    <div class="pa-date-picker__day" data-date="2025-10-5">5</div>
+    <!-- ... more days ... -->
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="pa-date-picker__actions">
+    <button class="pa-date-picker__button pa-date-picker__button--today" data-action="today">Today</button>
+    <button class="pa-date-picker__button pa-date-picker__button--clear" data-action="clear">Clear</button>
+  </div>
+</div>
+
+<!-- Range Selection with Apply Button -->
+<div class="pa-date-picker pa-date-picker--visible">
+  <!-- ... header, rolling selector, weekdays, days ... -->
+
+  <!-- Action Buttons with Apply -->
+  <div class="pa-date-picker__actions">
+    <button class="pa-date-picker__button pa-date-picker__button--today" data-action="today">Today</button>
+    <button class="pa-date-picker__button pa-date-picker__button--clear" data-action="clear">Clear</button>
+    <button class="pa-date-picker__button pa-date-picker__button--apply" data-action="apply">Apply</button>
+  </div>
+</div>
+
+<!-- ============================================
+     DAY STATES (for reference)
+     ============================================ -->
+
+<!-- Today -->
+<div class="pa-date-picker__day pa-date-picker__day--today" data-date="2025-11-1">1</div>
+
+<!-- Selected (Single Mode) -->
+<div class="pa-date-picker__day pa-date-picker__day--selected" data-date="2025-11-15">15</div>
+
+<!-- Focused (Keyboard Navigation) -->
+<div class="pa-date-picker__day pa-date-picker__day--focused" data-date="2025-11-10">10</div>
+
+<!-- Disabled -->
+<div class="pa-date-picker__day pa-date-picker__day--disabled" data-date="2025-11-5">5</div>
+
+<!-- Other Month (Previous/Next) -->
+<div class="pa-date-picker__day pa-date-picker__day--other-month">28</div>
+
+<!-- Range Start -->
+<div class="pa-date-picker__day pa-date-picker__day--range-start" data-date="2025-11-10">10</div>
+
+<!-- In Range -->
+<div class="pa-date-picker__day pa-date-picker__day--in-range" data-date="2025-11-11">11</div>
+
+<!-- Range End -->
+<div class="pa-date-picker__day pa-date-picker__day--range-end" data-date="2025-11-15">15</div>
+
+<!-- ============================================
+     SIZE VARIANTS (Calendar)
+     ============================================ -->
+
+<!-- Extra Small Calendar -->
+<div class="pa-date-picker pa-date-picker--xs pa-date-picker--visible">
+  <!-- ... calendar structure ... -->
+</div>
+
+<!-- Small Calendar -->
+<div class="pa-date-picker pa-date-picker--sm pa-date-picker--visible">
+  <!-- ... calendar structure ... -->
+</div>
+
+<!-- Default Calendar -->
+<div class="pa-date-picker pa-date-picker--visible">
+  <!-- ... calendar structure ... -->
+</div>
+
+<!-- Large Calendar -->
+<div class="pa-date-picker pa-date-picker--lg pa-date-picker--visible">
+  <!-- ... calendar structure ... -->
+</div>
+
+<!-- Extra Large Calendar -->
+<div class="pa-date-picker pa-date-picker--xl pa-date-picker--visible">
+  <!-- ... calendar structure ... -->
+</div>
+
+<!-- ============================================
+     KEYBOARD SHORTCUTS
+     ============================================ -->
+
+<!--
+  Arrow Keys: Navigate between days
+  - Up Arrow: Move up one week (7 days back)
+  - Down Arrow: Move down one week (7 days forward)
+  - Left Arrow: Move to previous day
+  - Right Arrow: Move to next day
+
+  Enter: Select focused day
+  Escape: Close calendar
+
+  Click month/year: Toggle rolling selector
+  Click year/month in rolling selector: Jump to that date
+-->
+
+<!-- ============================================
+     JAVASCRIPT API
+     ============================================ -->
+
+<script>
+// Constructor Options
+const picker = new PureDatePicker(inputElement, {
+  mode: 'single',           // 'single' or 'range'
+  position: 'bottom-start', // Floating UI position
+  onSelect: (date) => {     // Callback when date selected
+    console.log(date);
+  }
+});
+
+// Methods
+picker.show();              // Show calendar
+picker.hide();              // Hide calendar
+picker.destroy();           // Remove calendar from DOM
+
+// Auto-initialization via data attributes
+// Add data-date-picker to any input
+// Add data-date-picker-mode="range" for range mode
+</script>
+
+<!-- ============================================
+     NOTES
+     ============================================ -->
+
+<!--
+  - Users can type dates directly in the input field
+  - Popup is a convenience feature, not a requirement
+  - Calendar uses Floating UI for intelligent positioning
+  - Keyboard navigation works when calendar is open
+  - Rolling selector provides year/month jumping without dropdowns
+  - Today button jumps to current date
+  - Clear button resets selection
+  - Apply button (range mode) closes calendar after selection
+  - Date format: YYYY-MM-DD
+  - Range format: YYYY-MM-DD - YYYY-MM-DD
+-->
