@@ -506,9 +506,11 @@
                 const date = new Date(prevYear, prevMonth, day);
                 const classes = ['pa-date-picker__day', 'pa-date-picker__day--other-month'];
 
-                // Check if in range (for long date ranges spanning multiple months)
-                if (this.options.mode === 'range' && this.isInRange(date)) {
-                    classes.push('pa-date-picker__day--in-range');
+                // Apply range classes to other-month days
+                if (this.options.mode === 'range') {
+                    if (this.isSameDay(date, this.selectedStartDate)) classes.push('pa-date-picker__day--range-start');
+                    if (this.isSameDay(date, this.selectedEndDate)) classes.push('pa-date-picker__day--range-end');
+                    if (this.isInRange(date)) classes.push('pa-date-picker__day--in-range');
                 }
 
                 html += `<div class="${classes.join(' ')}" data-date="${prevYear}-${prevMonth}-${day}">${day}</div>`;
@@ -544,9 +546,11 @@
                 const date = new Date(nextYear, nextMonth, day);
                 const classes = ['pa-date-picker__day', 'pa-date-picker__day--other-month'];
 
-                // Check if in range (for long date ranges spanning multiple months)
-                if (this.options.mode === 'range' && this.isInRange(date)) {
-                    classes.push('pa-date-picker__day--in-range');
+                // Apply range classes to other-month days
+                if (this.options.mode === 'range') {
+                    if (this.isSameDay(date, this.selectedStartDate)) classes.push('pa-date-picker__day--range-start');
+                    if (this.isSameDay(date, this.selectedEndDate)) classes.push('pa-date-picker__day--range-end');
+                    if (this.isInRange(date)) classes.push('pa-date-picker__day--in-range');
                 }
 
                 html += `<div class="${classes.join(' ')}" data-date="${nextYear}-${nextMonth}-${day}">${day}</div>`;
@@ -727,33 +731,7 @@
             if (daysContainer) {
                 this.activeMonthIndex = parseInt(daysContainer.dataset.monthIndex) || 0;
                 console.log(`[DatePicker Col${this.activeMonthIndex}] selectDay - activeMonthIndex:`, this.activeMonthIndex);
-
-                // If clicked on other-month day, switch that column to the clicked date's month
-                if (isOtherMonth) {
-                    console.log(`[DatePicker Col${this.activeMonthIndex}] Clicked other-month day ${day}, switching to ${year}-${month+1}`);
-                    this.monthDates[this.activeMonthIndex] = new Date(year, month, 1);
-
-                    // Check for collisions after switching month
-                    this.checkAndResolveCollisions(this.activeMonthIndex);
-
-                    // Re-render calendar with the new month
-                    this.renderCalendar();
-
-                    // After switching month, find and click the day again (it's now a current-month day)
-                    setTimeout(() => {
-                        const newDaysContainer = this.calendar.querySelector(`.pa-date-picker__days[data-month-index="${this.activeMonthIndex}"]`);
-                        if (newDaysContainer) {
-                            const allDays = newDaysContainer.querySelectorAll('.pa-date-picker__day');
-                            const targetDay = Array.from(allDays).find(d => d.dataset.date === `${year}-${month}-${day}`);
-                            if (targetDay && !targetDay.classList.contains('pa-date-picker__day--other-month')) {
-                                targetDay.click();
-                            }
-                        }
-                    }, 0);
-                    return; // Exit early, the click above will complete the selection
-                }
-
-                // For current month days, set focused index for keyboard navigation
+                // For all days (including other-month), set focused index for keyboard navigation
                 const days = daysContainer.querySelectorAll('.pa-date-picker__day:not(.pa-date-picker__day--other-month)');
                 this.focusedDayIndex = Array.from(days).indexOf(dayElement);
                 console.log(`[DatePicker Col${this.activeMonthIndex}] selectDay - set focusedDayIndex to:`, this.focusedDayIndex);
@@ -881,32 +859,69 @@
         onDragMove(event) {
             if (!this.isDragging) return;
 
+            // Check if hovering over navigation buttons during drag
+            const element = document.elementFromPoint(event.clientX, event.clientY);
+
+            // Check for previous month button
+            const prevButton = element?.closest('.pa-date-picker__nav--prev');
+            if (prevButton) {
+                // Start continuous navigation if not already running
+                if (!this.navInterval) {
+                    const monthContainer = prevButton.closest('.pa-date-picker__month');
+                    if (monthContainer) {
+                        const monthIndex = parseInt(monthContainer.dataset.monthIndex);
+
+                        // Navigate immediately
+                        this.prevMonth(monthIndex);
+
+                        // Then continue navigating every 1 second
+                        this.navInterval = setInterval(() => {
+                            this.prevMonth(monthIndex);
+                        }, 1000);
+                    }
+                }
+                return; // Don't process day hover while over button
+            } else {
+                // Clear interval when leaving prev button
+                if (this.navInterval) {
+                    clearInterval(this.navInterval);
+                    this.navInterval = null;
+                }
+            }
+
+            // Check for next month button
+            const nextButton = element?.closest('.pa-date-picker__nav--next');
+            if (nextButton) {
+                // Start continuous navigation if not already running
+                if (!this.navInterval) {
+                    const monthContainer = nextButton.closest('.pa-date-picker__month');
+                    if (monthContainer) {
+                        const monthIndex = parseInt(monthContainer.dataset.monthIndex);
+
+                        // Navigate immediately
+                        this.nextMonth(monthIndex);
+
+                        // Then continue navigating every 1 second
+                        this.navInterval = setInterval(() => {
+                            this.nextMonth(monthIndex);
+                        }, 1000);
+                    }
+                }
+                return;
+            } else {
+                // Clear interval when leaving next button
+                if (this.navInterval) {
+                    clearInterval(this.navInterval);
+                    this.navInterval = null;
+                }
+            }
+
             // Find the day element under the cursor
-            const dayElement = document.elementFromPoint(event.clientX, event.clientY);
+            const dayElement = element;
             if (!dayElement || !dayElement.classList.contains('pa-date-picker__day')) return;
 
             // Skip if it's a disabled day
             if (dayElement.classList.contains('pa-date-picker__day--disabled')) return;
-
-            // Handle other-month days - only navigate if first or last day in grid
-            if (dayElement.classList.contains('pa-date-picker__day--other-month')) {
-                const daysContainer = dayElement.closest('.pa-date-picker__days');
-                const allDays = Array.from(daysContainer.querySelectorAll('.pa-date-picker__day'));
-                const isFirstDay = allDays[0] === dayElement;
-                const isLastDay = allDays[allDays.length - 1] === dayElement;
-
-                if (isFirstDay || isLastDay) {
-                    this.handleOtherMonthDrag(dayElement);
-                    return;
-                }
-
-                // For other-month days that aren't edges, continue processing normally
-                // Reset edge navigation tracking since we're not on an edge anymore
-                this.lastEdgeNavigationDate = null;
-            } else {
-                // Reset edge navigation tracking for current-month days
-                this.lastEdgeNavigationDate = null;
-            }
 
             // Parse the date from the day element
             const [year, month, day] = dayElement.dataset.date.split('-').map(Number);
@@ -1013,8 +1028,11 @@
             document.removeEventListener('mousemove', this.onDragMoveBound);
             document.removeEventListener('mouseup', this.onDragEndBound);
 
-            // Reset edge navigation tracking
-            this.lastEdgeNavigationDate = null;
+            // Clear navigation interval
+            if (this.navInterval) {
+                clearInterval(this.navInterval);
+                this.navInterval = null;
+            }
 
             // Reset body cursor
             document.body.style.cursor = '';
@@ -1022,41 +1040,6 @@
             // Re-render to show final selection
             this.renderCalendar();
             this.updateSummary();
-        }
-
-        handleOtherMonthDrag(dayElement) {
-            // Parse the date from the other-month day
-            const [year, month, day] = dayElement.dataset.date.split('-').map(Number);
-            const otherMonthDate = new Date(year, month, day);
-
-            // Track the date to prevent re-navigating on the same edge day
-            const dateKey = `${year}-${month}-${day}`;
-            if (this.lastEdgeNavigationDate === dateKey) {
-                return; // Already navigated for this edge day
-            }
-
-            // Find which month column this day belongs to
-            let monthContainer = dayElement.closest('.pa-date-picker__month');
-            if (!monthContainer) return;
-
-            const monthIndex = parseInt(monthContainer.dataset.monthIndex);
-            const currentMonthDate = this.monthDates[monthIndex];
-
-            // Determine if this is a previous-month or next-month day
-            const currentMonthStart = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth(), 1);
-            const currentMonthEnd = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 0);
-
-            if (otherMonthDate < currentMonthStart) {
-                // This is a previous-month day - navigate to previous month once
-                console.log('[DatePicker Drag] Over previous month day, navigating back once');
-                this.prevMonth(monthIndex);
-                this.lastEdgeNavigationDate = dateKey;
-            } else if (otherMonthDate > currentMonthEnd) {
-                // This is a next-month day - navigate to next month once
-                console.log('[DatePicker Drag] Over next month day, navigating forward once');
-                this.nextMonth(monthIndex);
-                this.lastEdgeNavigationDate = dateKey;
-            }
         }
 
         // === END DRAG FUNCTIONALITY ===
