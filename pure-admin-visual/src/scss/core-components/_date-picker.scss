@@ -259,6 +259,14 @@
   &--other-month {
     color: $text-secondary;
     opacity: 0.5;
+
+    // Reset opacity when other-month days are part of range selection
+    &.pa-date-picker__day--range-start,
+    &.pa-date-picker__day--range-end,
+    &.pa-date-picker__day--in-range,
+    &.pa-date-picker__day--drag-preview {
+      opacity: 1;
+    }
   }
 
   // Range selection states

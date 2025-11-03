@@ -37,9 +37,18 @@
                 mode: options.mode || 'single', // 'single' or 'range'
                 position: options.position || 'bottom-start',
                 monthsToShow: options.monthsToShow || 1, // Number of months to display
+                format: options.format || 'YYYY-MM-DD', // Date format
+                calendarTrigger: options.calendarTrigger || 'auto', // 'auto' or 'button'
                 onSelect: options.onSelect || null,
                 ...options
             };
+
+            // Parse format to understand structure
+            this.formatInfo = this.parseFormat(this.options.format);
+            console.log('[DatePicker] Format info:', this.formatInfo);
+
+            // Track previous input value for deletion detection
+            this._previousInputValue = '';
 
             this.currentDate = new Date();
 
@@ -50,6 +59,18 @@
                 const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
                 this.monthDates.push(date);
                 console.log(`[DatePicker Init] monthDates[${i}] = ${date.getFullYear()}-${date.getMonth()+1}`);
+            }
+
+            // Initialize displayMonths for range mode
+            if (this.options.mode === 'range') {
+                this.displayMonths = [];
+                for (let i = 0; i < this.options.monthsToShow; i++) {
+                    const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
+                    this.displayMonths.push({
+                        month: date.getMonth(),
+                        year: date.getFullYear()
+                    });
+                }
             }
 
             this.selectedDate = null;
@@ -144,14 +165,23 @@
 
         attachInputListeners() {
             console.log('[DatePicker 8] Attaching input listeners');
-            this.input.addEventListener('click', () => {
-                console.log('[DatePicker 9] Input clicked');
-                this.show();
-            });
-            this.input.addEventListener('focus', () => {
-                console.log('[DatePicker 10] Input focused');
-                this.show();
-            });
+
+            // Calendar trigger: only attach if mode is 'auto'
+            if (this.options.calendarTrigger === 'auto') {
+                this.input.addEventListener('click', () => {
+                    console.log('[DatePicker 9] Input clicked');
+                    this.show();
+                });
+                this.input.addEventListener('focus', () => {
+                    console.log('[DatePicker 10] Input focused');
+                    this.show();
+                });
+            }
+
+            // Input masking handlers
+            this.input.addEventListener('input', (e) => this.handleInputMask(e));
+            this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
+            this.input.addEventListener('paste', (e) => this.handlePaste(e));
         }
 
         attachCalendarListeners() {
@@ -208,9 +238,13 @@
                 }
                 else if (e.key === 'Enter') {
                     if (this.focusedDayIndex !== null) {
+                        // Select the focused day
                         const daysContainer = this.calendar.querySelector(`.pa-date-picker__days[data-month-index="${this.activeMonthIndex}"]`);
                         const days = daysContainer.querySelectorAll('.pa-date-picker__day:not(.pa-date-picker__day--other-month)');
                         days[this.focusedDayIndex]?.click();
+                    } else {
+                        // No focused day - close calendar as confirmation
+                        this.hide();
                     }
                     e.preventDefault();
                 }
@@ -345,7 +379,9 @@
 
             // Close on outside click
             document.addEventListener('click', (e) => {
-                if (!this.calendar.contains(e.target) && e.target !== this.input) {
+                // Don't hide if clicking the calendar, input, or calendar button
+                const isCalendarButton = e.target.closest('[data-calendar-button]');
+                if (!this.calendar.contains(e.target) && e.target !== this.input && !isCalendarButton) {
                     this.hide();
                 }
             });
@@ -369,6 +405,14 @@
                 this.showingRollingSelector[i] = false;
             }
             this.renderCalendar();
+        }
+
+        toggle() {
+            if (this.calendar.classList.contains('pa-date-picker--visible')) {
+                this.hide();
+            } else {
+                this.show();
+            }
         }
 
         async position() {
@@ -841,12 +885,27 @@
             const dayElement = document.elementFromPoint(event.clientX, event.clientY);
             if (!dayElement || !dayElement.classList.contains('pa-date-picker__day')) return;
 
-            // Skip if it's a disabled or other-month day
+            // Skip if it's a disabled day
             if (dayElement.classList.contains('pa-date-picker__day--disabled')) return;
+
+            // Handle other-month days - only navigate if first or last day in grid
             if (dayElement.classList.contains('pa-date-picker__day--other-month')) {
-                // Handle crossing month boundaries - will implement auto-scroll here
-                this.checkAutoScroll(event);
-                return;
+                const daysContainer = dayElement.closest('.pa-date-picker__days');
+                const allDays = Array.from(daysContainer.querySelectorAll('.pa-date-picker__day'));
+                const isFirstDay = allDays[0] === dayElement;
+                const isLastDay = allDays[allDays.length - 1] === dayElement;
+
+                if (isFirstDay || isLastDay) {
+                    this.handleOtherMonthDrag(dayElement);
+                    return;
+                }
+
+                // For other-month days that aren't edges, continue processing normally
+                // Reset edge navigation tracking since we're not on an edge anymore
+                this.lastEdgeNavigationDate = null;
+            } else {
+                // Reset edge navigation tracking for current-month days
+                this.lastEdgeNavigationDate = null;
             }
 
             // Parse the date from the day element
@@ -886,8 +945,8 @@
 
             if (!this.dragPreviewStart || !this.dragPreviewEnd) return;
 
-            // Add preview classes to days in the preview range
-            const allDays = this.calendar.querySelectorAll('.pa-date-picker__day:not(.pa-date-picker__day--other-month)');
+            // Add preview classes to days in the preview range (including other-month days)
+            const allDays = this.calendar.querySelectorAll('.pa-date-picker__day');
             allDays.forEach(day => {
                 const [year, month, dayNum] = day.dataset.date.split('-').map(Number);
                 const date = new Date(year, month, dayNum);
@@ -954,11 +1013,8 @@
             document.removeEventListener('mousemove', this.onDragMoveBound);
             document.removeEventListener('mouseup', this.onDragEndBound);
 
-            // Clear auto-scroll interval
-            if (this.autoScrollInterval) {
-                clearInterval(this.autoScrollInterval);
-                this.autoScrollInterval = null;
-            }
+            // Reset edge navigation tracking
+            this.lastEdgeNavigationDate = null;
 
             // Reset body cursor
             document.body.style.cursor = '';
@@ -968,42 +1024,38 @@
             this.updateSummary();
         }
 
-        checkAutoScroll(event) {
-            // Get the calendar's bounding rect
-            const calendarRect = this.calendar.getBoundingClientRect();
-            const edgeThreshold = 50; // pixels from edge to trigger scroll
+        handleOtherMonthDrag(dayElement) {
+            // Parse the date from the other-month day
+            const [year, month, day] = dayElement.dataset.date.split('-').map(Number);
+            const otherMonthDate = new Date(year, month, day);
 
-            // Check horizontal proximity to edges
-            const leftEdge = event.clientX - calendarRect.left;
-            const rightEdge = calendarRect.right - event.clientX;
-
-            // Clear any existing auto-scroll
-            if (this.autoScrollInterval) {
-                clearInterval(this.autoScrollInterval);
-                this.autoScrollInterval = null;
+            // Track the date to prevent re-navigating on the same edge day
+            const dateKey = `${year}-${month}-${day}`;
+            if (this.lastEdgeNavigationDate === dateKey) {
+                return; // Already navigated for this edge day
             }
 
-            // Start auto-scroll if near edges
-            if (leftEdge < edgeThreshold && leftEdge > 0) {
-                // Near left edge - scroll to previous month
-                console.log('[DatePicker Drag] Near left edge, auto-scrolling to previous month');
-                this.autoScrollInterval = setInterval(() => {
-                    if (this.activeMonthIndex > 0) {
-                        this.prevMonth(this.activeMonthIndex);
-                    } else if (this.options.monthsToShow === 1) {
-                        this.prevMonth(0);
-                    }
-                }, 300);
-            } else if (rightEdge < edgeThreshold && rightEdge > 0) {
-                // Near right edge - scroll to next month
-                console.log('[DatePicker Drag] Near right edge, auto-scrolling to next month');
-                this.autoScrollInterval = setInterval(() => {
-                    if (this.activeMonthIndex < this.monthDates.length - 1) {
-                        this.nextMonth(this.activeMonthIndex);
-                    } else if (this.options.monthsToShow === 1) {
-                        this.nextMonth(0);
-                    }
-                }, 300);
+            // Find which month column this day belongs to
+            let monthContainer = dayElement.closest('.pa-date-picker__month');
+            if (!monthContainer) return;
+
+            const monthIndex = parseInt(monthContainer.dataset.monthIndex);
+            const currentMonthDate = this.monthDates[monthIndex];
+
+            // Determine if this is a previous-month or next-month day
+            const currentMonthStart = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth(), 1);
+            const currentMonthEnd = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 0);
+
+            if (otherMonthDate < currentMonthStart) {
+                // This is a previous-month day - navigate to previous month once
+                console.log('[DatePicker Drag] Over previous month day, navigating back once');
+                this.prevMonth(monthIndex);
+                this.lastEdgeNavigationDate = dateKey;
+            } else if (otherMonthDate > currentMonthEnd) {
+                // This is a next-month day - navigate to next month once
+                console.log('[DatePicker Drag] Over next month day, navigating forward once');
+                this.nextMonth(monthIndex);
+                this.lastEdgeNavigationDate = dateKey;
             }
         }
 
@@ -1131,13 +1183,489 @@
             days[this.focusedDayIndex]?.scrollIntoView({ block: 'nearest' });
         }
 
+        // === INPUT MASKING ===
+
+        handleInputMask(event) {
+            const input = event.target;
+            const currentValue = input.value;
+            const currentCursorPos = input.selectionStart;
+
+            // Get previous value (stored before this input event)
+            const previousValue = this._previousInputValue || '';
+            const wasDeleting = currentValue.length < previousValue.length;
+
+            const { separator } = this.formatInfo;
+
+            // For range mode, handle " to " separator
+            if (this.options.mode === 'range') {
+                // Keep digits, date separators, and allow 'to' with spaces
+                const cleanValue = currentValue.replace(new RegExp(`[^0-9${separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}to ]`, 'gi'), '');
+
+                // Apply range mask
+                const formatted = this.applyRangeMask(cleanValue);
+
+                if (formatted !== currentValue) {
+                    input.value = formatted;
+
+                    // Calculate new cursor position
+                    let newCursorPos = currentCursorPos;
+
+                    if (wasDeleting) {
+                        newCursorPos = currentCursorPos;
+                    } else if (formatted.length > currentValue.length) {
+                        // Check if " to " was just inserted
+                        if (formatted.includes(' to ') && !currentValue.includes(' to ')) {
+                            // " to " was auto-inserted, move cursor after it
+                            const toIndex = formatted.indexOf(' to ');
+                            if (currentCursorPos >= toIndex && currentCursorPos <= toIndex + 4) {
+                                newCursorPos = toIndex + 4; // Move after " to "
+                            } else {
+                                newCursorPos = currentCursorPos + (formatted.length - currentValue.length);
+                            }
+                        } else {
+                            // Regular separator insertion
+                            newCursorPos = currentCursorPos + (formatted.length - currentValue.length);
+                        }
+                    }
+
+                    input.setSelectionRange(newCursorPos, newCursorPos);
+                }
+            } else {
+                // Single date mode - original logic
+                const cleanValue = currentValue.replace(new RegExp(`[^0-9${separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}]`, 'g'), '');
+                const formatted = this.applyMask(cleanValue);
+
+                if (formatted !== currentValue) {
+                    input.value = formatted;
+
+                    let newCursorPos = currentCursorPos;
+
+                    if (wasDeleting) {
+                        newCursorPos = currentCursorPos;
+                    } else if (formatted.length > currentValue.length && formatted[currentCursorPos] === separator) {
+                        newCursorPos = currentCursorPos + 1;
+                    } else if (formatted.length > currentValue.length) {
+                        const oldSeparatorsBefore = (currentValue.substring(0, currentCursorPos).match(new RegExp(separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+                        const newSeparatorsBefore = (formatted.substring(0, currentCursorPos).match(new RegExp(separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+                        const separatorDiff = newSeparatorsBefore - oldSeparatorsBefore;
+                        newCursorPos = currentCursorPos + separatorDiff;
+                    }
+
+                    input.setSelectionRange(newCursorPos, newCursorPos);
+                }
+            }
+
+            // Store current value for next time
+            this._previousInputValue = input.value;
+
+            // Update calendar if a valid date was typed
+            this.updateCalendarFromInput();
+        }
+
+        applyMask(value) {
+            const { separator, parts, maxLength } = this.formatInfo;
+
+            // Remove existing separators for clean processing
+            const digitsOnly = value.replace(new RegExp(separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '');
+
+            // Calculate segment lengths
+            const yearLen = parts.year ? parts.year.length : 4;
+            const segments = [
+                { type: 'year', pos: parts.year?.index, length: yearLen },
+                { type: 'month', pos: parts.month?.index, length: 2 },
+                { type: 'day', pos: parts.day?.index, length: 2 }
+            ].sort((a, b) => a.pos - b.pos);
+
+            let result = '';
+            let digitIndex = 0;
+
+            for (let i = 0; i < segments.length; i++) {
+                const segment = segments[i];
+                const segmentValue = digitsOnly.substring(digitIndex, digitIndex + segment.length);
+
+                if (!segmentValue) break;
+
+                result += segmentValue;
+                digitIndex += segmentValue.length;
+
+                // Add separator after this segment (except after last segment)
+                if (i < segments.length - 1 && segmentValue.length === segment.length) {
+                    result += separator;
+                }
+            }
+
+            // Limit to max length
+            return result.substring(0, maxLength);
+        }
+
+        applyRangeMask(value) {
+            const { separator, maxLength } = this.formatInfo;
+
+            // Split by " to " to get start and end dates
+            const toSeparator = ' to ';
+            let startPart = '';
+            let endPart = '';
+
+            if (value.includes(toSeparator)) {
+                const parts = value.split(toSeparator);
+                startPart = parts[0];
+                endPart = parts.slice(1).join(toSeparator); // In case there are multiple "to"
+            } else {
+                startPart = value;
+            }
+
+            // Apply mask to start date
+            const formattedStart = this.applyMask(startPart);
+
+            // Check if start date is complete (maxLength characters)
+            if (formattedStart.length === maxLength) {
+                // Start date is complete, auto-append " to " if not already there
+                if (!value.includes(toSeparator)) {
+                    return formattedStart + toSeparator;
+                } else {
+                    // Apply mask to end date
+                    const formattedEnd = this.applyMask(endPart);
+                    return formattedStart + toSeparator + formattedEnd;
+                }
+            } else {
+                // Start date not complete yet
+                return formattedStart;
+            }
+        }
+
+        handleKeydown(event) {
+            const { key, ctrlKey, metaKey } = event;
+            const { separator } = this.formatInfo;
+
+            // Allow: Backspace, Delete, Tab, Escape, Enter, Arrows, Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+            const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter',
+                                 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+
+            if (allowedKeys.includes(key) || ctrlKey || metaKey) {
+                return; // Allow these keys
+            }
+
+            // Auto-pad single digit with leading zero when separator is pressed
+            if (key === separator) {
+                const input = event.target;
+                const cursorPos = input.selectionStart;
+                const currentValue = input.value;
+
+                // Find the start of the current segment (after last separator or start of string)
+                let segmentStart = 0;
+                for (let i = cursorPos - 1; i >= 0; i--) {
+                    if (currentValue[i] === separator || currentValue[i] === ' ') {
+                        segmentStart = i + 1;
+                        break;
+                    }
+                }
+
+                // Extract the current segment
+                const segment = currentValue.substring(segmentStart, cursorPos);
+
+                // If segment is a single digit, prepend a 0
+                if (/^\d$/.test(segment)) {
+                    event.preventDefault();
+
+                    const newValue = currentValue.substring(0, segmentStart) +
+                                   '0' + segment +
+                                   separator +
+                                   currentValue.substring(cursorPos);
+
+                    input.value = newValue;
+
+                    // Position cursor after the separator
+                    const newCursorPos = segmentStart + 2 + separator.length; // 0 + digit + separator
+                    input.setSelectionRange(newCursorPos, newCursorPos);
+
+                    // Store updated value for deletion tracking
+                    this._previousInputValue = newValue;
+
+                    // Trigger input event to apply mask and update calendar
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+
+                    return;
+                }
+                // Otherwise allow normal separator insertion (will be handled by input mask)
+            }
+
+            // For range mode, also allow space and letters 't', 'o' (for " to ")
+            if (this.options.mode === 'range') {
+                if (!/^\d$/.test(key) && key !== separator && key !== ' ' && key.toLowerCase() !== 't' && key.toLowerCase() !== 'o') {
+                    event.preventDefault();
+                }
+            } else {
+                // For single mode, allow only digits and separator
+                if (!/^\d$/.test(key) && key !== separator) {
+                    event.preventDefault();
+                }
+            }
+        }
+
+        handlePaste(event) {
+            event.preventDefault();
+
+            const pastedText = (event.clipboardData || window.clipboardData).getData('text');
+            const { separator } = this.formatInfo;
+
+            // Clean pasted content: keep only digits and separators
+            const cleaned = pastedText.replace(new RegExp(`[^0-9${separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}]`, 'g'), '');
+
+            // Apply mask to cleaned content
+            const formatted = this.applyMask(cleaned);
+
+            // Insert formatted text at cursor position
+            const input = event.target;
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const currentValue = input.value;
+
+            const newValue = currentValue.substring(0, start) + formatted + currentValue.substring(end);
+            input.value = this.applyMask(newValue);
+
+            // Set cursor after pasted content
+            const newCursorPos = start + formatted.length;
+            input.setSelectionRange(newCursorPos, newCursorPos);
+
+            // Trigger input event to ensure any validation runs
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+
+            // Update calendar if a valid date was pasted
+            this.updateCalendarFromInput();
+        }
+
+        // === END INPUT MASKING ===
+
         // Helper methods
+        parseFormat(formatString) {
+            // Parse format string like "YYYY-MM-DD" or "DD.MM.YYYY"
+            // Returns structure with positions and separator
+            const parts = {};
+            let separator = '';
+
+            // Detect separator
+            if (formatString.includes('-')) separator = '-';
+            else if (formatString.includes('/')) separator = '/';
+            else if (formatString.includes('.')) separator = '.';
+
+            // Split by separator
+            const segments = formatString.split(separator);
+
+            segments.forEach((segment, index) => {
+                if (segment === 'YYYY' || segment === 'YY') {
+                    parts.year = { index, length: segment.length };
+                } else if (segment === 'MM' || segment === 'M') {
+                    parts.month = { index, length: 2 }; // Always 2 digits for consistency
+                } else if (segment === 'DD' || segment === 'D') {
+                    parts.day = { index, length: 2 }; // Always 2 digits for consistency
+                }
+            });
+
+            return {
+                format: formatString,
+                separator,
+                parts,
+                maxLength: formatString.length
+            };
+        }
+
         formatDate(date) {
             if (!date) return '';
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+
+            // Use configured format
+            const { format, separator, parts } = this.formatInfo;
+            const values = [];
+
+            // Build array in correct order
+            for (let i = 0; i < 3; i++) {
+                if (parts.year && parts.year.index === i) {
+                    values.push(parts.year.length === 2 ? String(year).slice(-2) : year);
+                } else if (parts.month && parts.month.index === i) {
+                    values.push(month);
+                } else if (parts.day && parts.day.index === i) {
+                    values.push(day);
+                }
+            }
+
+            return values.join(separator);
+        }
+
+        parseInputValue(value) {
+            // Parse input value according to format and return Date object
+            if (!value) return null;
+
+            const { separator, parts, maxLength } = this.formatInfo;
+
+            // Check if value is complete (full length)
+            if (value.length !== maxLength) return null;
+
+            // Split by separator
+            const segments = value.split(separator);
+            if (segments.length !== 3) return null;
+
+            // Extract year, month, day based on format
+            let year, month, day;
+
+            segments.forEach((segment, index) => {
+                if (parts.year && parts.year.index === index) {
+                    year = parseInt(segment, 10);
+                    // Handle 2-digit years (assume 2000s)
+                    if (parts.year.length === 2 && year < 100) {
+                        year += 2000;
+                    }
+                } else if (parts.month && parts.month.index === index) {
+                    month = parseInt(segment, 10);
+                } else if (parts.day && parts.day.index === index) {
+                    day = parseInt(segment, 10);
+                }
+            });
+
+            // Validate
+            if (!year || !month || !day) return null;
+            if (month < 1 || month > 12) return null;
+            if (day < 1 || day > 31) return null;
+
+            // Create date (month is 0-indexed in JS)
+            const date = new Date(year, month - 1, day);
+
+            // Verify date is valid (handles invalid dates like Feb 30)
+            if (date.getMonth() !== month - 1) return null;
+
+            return date;
+        }
+
+        parseAndUpdateSingleDate(value, dateType = 'single') {
+            // Helper to parse a single date string and update calendar
+            // dateType: 'single', 'start', or 'end'
+            const { separator, parts, maxLength } = this.formatInfo;
+
+            const segments = value.split(separator);
+            let year = null, month = null, day = null;
+
+            segments.forEach((segment, index) => {
+                if (!segment) return;
+
+                if (parts.year && parts.year.index === index) {
+                    const yearValue = parseInt(segment, 10);
+                    if (parts.year.length === 4 && segment.length === 4) {
+                        year = yearValue;
+                    } else if (parts.year.length === 2 && segment.length === 2) {
+                        year = yearValue < 100 ? yearValue + 2000 : yearValue;
+                    }
+                } else if (parts.month && parts.month.index === index) {
+                    const monthValue = parseInt(segment, 10);
+                    if (segment.length === 2 && monthValue >= 1 && monthValue <= 12) {
+                        month = monthValue;
+                    }
+                } else if (parts.day && parts.day.index === index) {
+                    const dayValue = parseInt(segment, 10);
+                    if (segment.length === 2 && dayValue >= 1 && dayValue <= 31) {
+                        day = dayValue;
+                    }
+                }
+            });
+
+            console.log(`[DatePicker] parseAndUpdateSingleDate(${dateType}) - year:`, year, 'month:', month, 'day:', day);
+
+            // Update calendar display if we have year or month
+            if (year !== null || month !== null) {
+                const newYear = year || new Date().getFullYear();
+                const newMonth = month !== null ? month - 1 : new Date().getMonth();
+
+                if (this.options.mode === 'single') {
+                    this.currentYear = newYear;
+                    this.currentMonth = newMonth;
+
+                    this.monthDates = [];
+                    for (let i = 0; i < this.options.monthsToShow; i++) {
+                        const date = new Date(newYear, newMonth + i, 1);
+                        this.monthDates.push(date);
+                    }
+                } else if (this.options.mode === 'range') {
+                    // For start date or first date typed, update first month
+                    if (dateType === 'start' || !this.selectedStartDate) {
+                        this.displayMonths = [
+                            { month: newMonth, year: newYear }
+                        ];
+                        if (this.options.monthsToShow > 1) {
+                            const nextMonth = new Date(newYear, newMonth + 1, 1);
+                            this.displayMonths.push({
+                                month: nextMonth.getMonth(),
+                                year: nextMonth.getFullYear()
+                            });
+                        }
+
+                        this.monthDates = [];
+                        for (let i = 0; i < this.options.monthsToShow; i++) {
+                            const monthData = this.displayMonths[i];
+                            const date = new Date(monthData.year, monthData.month, 1);
+                            this.monthDates.push(date);
+                        }
+                    }
+                }
+
+                this.renderCalendar();
+            }
+
+            // Update selected date if we have complete date
+            if (year !== null && month !== null && day !== null) {
+                const date = new Date(year, month - 1, day);
+                if (date.getMonth() === month - 1) { // Validates date
+                    if (dateType === 'single') {
+                        this.selectedDate = date;
+                    } else if (dateType === 'start') {
+                        this.selectedStartDate = date;
+                    } else if (dateType === 'end') {
+                        this.selectedEndDate = date;
+                    }
+                    this.renderCalendar();
+
+                    // Update summary for range mode when both dates are complete
+                    if (this.options.mode === 'range') {
+                        this.updateSummary();
+                    }
+
+                    console.log(`[DatePicker] Set ${dateType} date:`, date);
+                }
+            }
+        }
+
+        updateCalendarFromInput() {
+            // Parse current input value and update calendar progressively
+            const value = this.input.value;
+            console.log('[DatePicker] updateCalendarFromInput - value:', value);
+
+            if (!value) return;
+
+            const { separator, parts, maxLength } = this.formatInfo;
+            console.log('[DatePicker] Format info:', { separator, parts, maxLength });
+
+            // For range mode, split by " to " first
+            if (this.options.mode === 'range' && value.includes(' to ')) {
+                const rangeParts = value.split(' to ');
+                const startValue = rangeParts[0];
+                const endValue = rangeParts[1];
+
+                console.log('[DatePicker] Range parts - start:', startValue, 'end:', endValue);
+
+                // Parse start date
+                this.parseAndUpdateSingleDate(startValue, 'start');
+
+                // Parse end date if present
+                if (endValue) {
+                    this.parseAndUpdateSingleDate(endValue, 'end');
+                }
+
+                return;
+            }
+
+            // Single mode or range without " to " yet
+            // Use helper to parse and update
+            const dateType = this.options.mode === 'range' ? 'start' : 'single';
+            this.parseAndUpdateSingleDate(value, dateType);
         }
 
         isToday(date) {
@@ -1171,8 +1699,23 @@
             console.log('[DatePicker 14] Initializing picker', index + 1, 'for input:', input);
             const mode = input.dataset.datePickerMode || 'single';
             const monthsToShow = parseInt(input.dataset.datePickerMonths) || (mode === 'range' ? 2 : 1);
-            console.log('[DatePicker 15] Mode:', mode, 'Months:', monthsToShow);
-            new PureDatePicker(input, { mode, monthsToShow });
+            const format = input.dataset.dateFormat || 'YYYY-MM-DD';
+            const calendarTrigger = input.dataset.calendarTrigger || 'auto';
+            console.log('[DatePicker 15] Mode:', mode, 'Months:', monthsToShow, 'Format:', format, 'Trigger:', calendarTrigger);
+
+            const picker = new PureDatePicker(input, { mode, monthsToShow, format, calendarTrigger });
+
+            // If button trigger mode, find and attach button listener
+            if (calendarTrigger === 'button') {
+                const button = input.nextElementSibling;
+                if (button && button.dataset.calendarButton !== undefined) {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        picker.toggle();
+                    });
+                    console.log('[DatePicker] Attached button trigger');
+                }
+            }
         });
         console.log('[DatePicker 16] Auto-initialization complete');
     });
