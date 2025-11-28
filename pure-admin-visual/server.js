@@ -110,6 +110,14 @@ app.get('/date-picker', (req, res) => {
     renderWithLayout(res, 'date-picker', { pageTitle: 'Date Picker', currentPage: 'date-picker', isDatePicker: true });
 });
 
+app.get('/multiselect', (req, res) => {
+    renderWithLayout(res, 'multiselect', { pageTitle: 'Multiselect', currentPage: 'multiselect', isMultiselect: true });
+});
+
+app.get('/file-selector', (req, res) => {
+    renderWithLayout(res, 'file-selector', { pageTitle: 'File Selector', currentPage: 'file-selector', isFileSelector: true });
+});
+
 app.get('/checkbox-lists', (req, res) => {
     renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
 });
@@ -253,6 +261,11 @@ app.use('/assets', express.static(path.join(__dirname, 'assets'), {
 
 // Source files (for development)
 app.use('/src', express.static(path.join(__dirname, 'src'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// Node modules (for web components)
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
     maxAge: 120000 // 2 minutes
 }));
 

@@ -7,6 +7,215 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed - 2025-11-26
+
+#### Date Range Picker - v1.3.0 Upgrade & Semantic Variable Architecture
+- **Updated `@keenmate/web-daterangepicker` to v1.3.0**:
+  - Major CSS architecture overhaul with 60+ new semantic CSS custom properties
+  - Component styling now fully decoupled through semantic variable layer
+  - Three new input size variants (sm, md, lg) with independent styling
+- **Completely rewrote CSS theming integration** (`src/scss/core-components/_web-components-theme.scss`):
+  - **New input semantic variables**: `--drp-input-background`, `--drp-input-color`, `--drp-input-border-color`, `--drp-input-border-color-hover`, `--drp-input-border-color-focus`, `--drp-input-placeholder-color`, `--drp-input-disabled-background`, `--drp-input-focus-shadow-color`, `--drp-input-focus-shadow-size`, `--drp-input-icon-opacity`
+  - **New size variants**: `--drp-input-size-sm-*`, `--drp-input-size-md-*`, `--drp-input-size-lg-*` (font, padding-v, padding-h, height, icon-size)
+  - **New header/navigation variables**: `--drp-header-text-color`, `--drp-header-bg-hover`, `--drp-header-bg-active`, `--drp-nav-text-color`, `--drp-nav-border-color`, `--drp-nav-bg-hover`, `--drp-nav-bg-active`, `--drp-nav-border-hover`
+  - **New calendar grid variables**: `--drp-weekday-color`, `--drp-day-text-color`, `--drp-day-bg-hover`, `--drp-day-border-hover`, `--drp-day-focused-outline`, `--drp-day-other-month-color`, `--drp-day-other-month-opacity`
+  - **New badge types**: `--drp-badge-number-*`, `--drp-badge-count-*`, `--drp-badge-text-*` (bg and color)
+  - **New button variables**: `--drp-button-today-*`, `--drp-button-clear-*`, `--drp-button-cancel-*`, `--drp-button-apply-*` (bg, bg-hover, color, border)
+  - **New summary variables**: `--drp-summary-border-color`, `--drp-summary-text-color`, `--drp-summary-count-color`
+  - **New unified navigation**: `--drp-unified-range-*`, `--drp-unified-month-color`, `--drp-unified-rolling-disabled-color`
+  - **Enhanced rolling selector**: `--drp-rolling-item-text-color`, `--drp-rolling-item-disabled-color`
+- **Benefits of new architecture**:
+  - Inputs now perfectly match Pure Admin's `.pa-input` styling through semantic mapping
+  - All themes automatically get new v1.3.0 features without additional configuration
+  - Enhanced customization capabilities for future theme variations
+  - Better separation between primitive values and component styling
+
+### Changed - 2025-11-24
+
+#### Web Components Integration - Multiselect & Date Range Picker
+- **Replaced custom implementations with production-ready web components**:
+  - Removed old custom JavaScript implementations (`src/js/multiselect.js`, `src/js/date-picker.js`)
+  - Removed old SCSS component files (`src/scss/core-components/_multiselect.scss`, `_date-picker.scss`)
+  - Deleted old snippet files (`snippets/multiselect.html`, `snippets/date-picker.html`)
+- **Installed npm packages**:
+  - `@keenmate/web-multiselect` - Advanced multiselect with virtual scrolling, search, and multiple display modes
+  - `@keenmate/web-daterangepicker@1.3.0` - Full-featured date picker with single/range/multiple selection modes
+- **Created CSS theming integration** (`src/scss/core-components/_web-components-theme.scss`):
+  - Maps 150+ Pure Admin SCSS variables to multiselect CSS custom properties (`--ml-*` prefix)
+  - Maps 240+ Pure Admin SCSS variables to date picker CSS custom properties (`--drp-*` prefix) with v1.3.0 semantic architecture
+  - Ensures seamless visual integration with all Pure Admin themes (corporate, audi, express, dark variants)
+- **Updated core framework** (`src/scss/_core.scss`):
+  - Removed old component imports
+  - Added web components theme import
+- **Updated layout** (`views/layout.mustache`):
+  - Added CSS imports for both web components
+  - Added JavaScript module imports for component registration
+  - Configured Express.js to serve node_modules directory
+- **Completely rewrote demo pages**:
+  - `views/multiselect.mustache` - Comprehensive examples of all display modes (pills, count, compact, partial, none), search features (filter, navigate), grouped options, virtual scrolling with 1,000 items, RTL support, programmatic control, and events
+  - `views/date-picker.mustache` - Full showcase of selection modes (single, range, multiple), date formats, restrictions (min/max, disabled dates/weekdays), action buttons (today, clear, apply), range handling modes, inline mode, keyboard navigation, custom rendering with badges/tooltips, programmatic control, and validation
+- **Created comprehensive snippet documentation**:
+  - `snippets/web-multiselect.html` - Complete API reference with declarative usage, display modes, search & filter, grouped options, virtual scrolling, RTL support, programmatic control, form integration, 150+ CSS variables, TypeScript types, and resources
+  - `snippets/web-daterangepicker.html` - Complete API reference with basic usage, date formats, restrictions, action buttons, inline mode, custom rendering, disabled dates, range handling, events & validation, programmatic control, localization, 40+ CSS variables, keyboard shortcuts, TypeScript types, and resources
+
+### Added - 2025-11-18
+
+#### Toast Service - JavaScript Library & Global Integration
+- **Created toast service library** (`src/js/toast-service.js`):
+  - Full-featured programmatic toast notification system
+  - Follows PureAdmin namespace pattern with `PureAdmin.toast.*` API
+  - Auto-creates toast containers if they don't exist in DOM
+  - XSS protection via `escapeHtml()` helper function
+  - Unique ID generation for programmatic dismissal
+- **API methods** (all return toast ID string):
+  - `PureAdmin.toast.success(message, options)` - Success toast
+  - `PureAdmin.toast.error(message, options)` - Error toast
+  - `PureAdmin.toast.warning(message, options)` - Warning toast
+  - `PureAdmin.toast.info(message, options)` - Info toast
+  - `PureAdmin.toast.primary(message, options)` - Primary toast
+  - `PureAdmin.toast.show(options)` - Full control with all options
+  - `PureAdmin.toast.dismiss(toastId)` - Dismiss specific toast by ID
+  - `PureAdmin.toast.dismissAll(position?)` - Dismiss all or by position
+- **Features**:
+  - 6 position options: top-right, top-center, top-left, bottom-right, bottom-center, bottom-left
+  - 5 variant styles: success, error, warning, info, primary (with icons and colors)
+  - Auto-dismiss with configurable duration (default 5s)
+  - Persistent mode option (no auto-dismiss)
+  - Optional progress bar showing time remaining
+  - Click-to-dismiss: all toasts dismissible by clicking anywhere on toast body
+  - Smooth fade-in/fade-out animations
+- **Global integration**:
+  - Included in `views/layout.mustache` - available on all pages
+  - Toast containers pre-loaded in layout (auto-created as fallback)
+  - Added "Toasts" menu item to sidebar (🔔 icon, between Alerts and Loaders)
+- **Demo page updates**:
+  - Refactored `views/toasts.mustache` to use new service
+  - Reduced inline JavaScript from 135 lines to 58 lines
+  - All demos now use `PureAdmin.toast.*` methods
+- **Usage example**:
+  ```javascript
+  // Simple usage
+  PureAdmin.toast.success('Changes saved!');
+
+  // With options
+  const toastId = PureAdmin.toast.warning('Are you sure?', {
+    position: 'top-center',
+    persistent: true
+  });
+
+  // Dismiss programmatically
+  PureAdmin.toast.dismiss(toastId);
+  ```
+- **Location**: `src/js/toast-service.js` (316 lines), `views/layout.mustache:55-56`, `views/toasts.mustache:162-219`, `views/partials/sidebar.mustache:74-77`
+
+### Fixed - 2025-11-13
+
+#### File Selector - Ultra-Compact Mode Clickable Area
+- **Improved clickable area for opening file details popover**:
+  - **Problem**: During upload, only the "X files" text was clickable to open popover, making it difficult to find
+  - **Solution**: Made entire summary line clickable instead of just file count text
+  - **Visual improvements**:
+    - Changed summary line from `display: inline` to `inline-block` for padding support
+    - Added padding (0.25rem × 0.5rem) to create larger interactive area
+    - Added cursor pointer to indicate interactivity
+    - Added hover state with subtle background highlight (10% opacity accent color)
+    - Added border-radius for polish
+    - Made file count use medium font weight to stand out
+    - Removed underline decoration (not needed since whole line is clickable)
+  - **JavaScript changes**:
+    - Click handler attached to `.pa-file-dropzone__summary-line` instead of `.pa-file-dropzone__summary-count`
+    - Entire line `"📎 3 files (2.5MB) Click to view details"` now clickable
+  - **Benefits**:
+    - Much larger and more obvious clickable area during upload
+    - Clear visual feedback on hover
+    - Better user experience when managing file uploads
+  - **Location**: `src/js/file-selector.js:967-976`, `src/scss/core-components/_file-selector.scss:245-269`
+
+### Added - 2025-11-07
+
+#### Multiselect Component - Badge Positioning System
+- **Badge alignment control**: Added `data-pills-position` attribute with 4 options
+  - `bottom` (default): Pills below input, left-aligned
+  - `top`: Pills above input, left-aligned
+  - `left`: Pills below input, left-aligned (explicit for LTR layouts)
+  - `right`: Pills below input, right-aligned (for RTL layouts)
+- **Wrapper architecture**: All multiselect components now use `.pa-multiselect-wrapper` container
+  - Consistent DOM structure across all positioning modes
+  - Pills container exists outside `.pa-multiselect` element
+  - Prevents width constraint conflicts between input and badges
+  - Width classes (`.w-75`, etc.) apply to multiselect input, not wrapper
+  - Inline layout modifier (`--inline`) for future left/right true inline positioning
+- **CSS positioning system**:
+  - Flexbox-based layout with `flex-direction: column` (default)
+  - Top positioning uses `order: -1` to place pills before input
+  - Right positioning uses `justify-content: flex-end` for alignment
+  - Left positioning uses `justify-content: flex-start` for alignment
+  - All positions maintain full input width
+- **Demo enhancements**:
+  - Badge Position & Alignment section with 3 examples
+  - 1/3 width columns demonstrating different alignments
+  - 10 options per example for realistic testing
+  - Auto-convert at 7+ example showing threshold-based switching
+- **Files modified**:
+  - `src/js/multiselect.js`: Wrapper creation, width class management
+  - `src/scss/core-components/_multiselect.scss`: Position modifiers, alignment styles
+  - `views/multiselect.mustache`: Comprehensive positioning examples
+- **Location**: Multiselect demo page `/multiselect` - Badge Position & Alignment section
+
+#### Width Utility System Refactor
+- **Separated width concerns** into three distinct utility class sets:
+  - **`.w-*`** (7 classes): Flexible width only - allows shrinking in flex/grid layouts
+    - `w-25`, `w-33`, `w-50`, `w-66`, `w-75`, `w-100`, `w-auto`
+  - **`.mw-*`** (7 classes): Minimum width only - prevents shrinking but allows growth
+    - `mw-25`, `mw-33`, `mw-50`, `mw-66`, `mw-75`, `mw-100`, `mw-auto`
+  - **`.w-*-fixed`** (6 classes): Locked width (min-width + width) - exact sizing
+    - `w-25-fixed`, `w-33-fixed`, `w-50-fixed`, `w-66-fixed`, `w-75-fixed`, `w-100-fixed`
+- **Added 33% and 66% widths**: Common grid fractions now available
+  - `33.333333%` for thirds
+  - `66.666667%` for two-thirds
+- **Total utility classes**: 20 width utilities (7 + 7 + 6)
+- **Usage patterns**:
+  ```html
+  <!-- Flexible width (can shrink) -->
+  <div class="w-75">
+
+  <!-- Minimum width (can grow) -->
+  <div class="mw-75">
+
+  <!-- Both: constrained range -->
+  <div class="w-75 mw-50">
+
+  <!-- Fixed/locked width -->
+  <div class="w-75-fixed">
+  ```
+- **Rationale**: Previous approach locked both `min-width` and `width` to same value, breaking flexible layouts
+- **Location**: `src/scss/utilities.scss`
+
+#### Multiselect - Floating UI Placement Locking
+- **Fixed popover repositioning issue**: Selected items popover now maintains initial placement
+  - **Problem**: When removing items from popover, Floating UI would flip from top to bottom as content shrunk
+  - **Solution**: Lock placement after first calculation, only use `flip()` middleware initially
+- **Implementation**:
+  - Added `selectedPopoverPlacement` state variable to store locked placement
+  - Modified `positionSelectedPopover()` to conditionally apply `flip()` middleware
+  - Placement resets when popover closes (allows fresh positioning on next open)
+- **JavaScript changes**:
+  ```javascript
+  // Lock placement after first positioning
+  if (!this.selectedPopoverPlacement) {
+      this.selectedPopoverPlacement = finalPlacement;
+  }
+
+  // Only flip on first positioning
+  middleware: [
+      offset(4),
+      ...(this.selectedPopoverPlacement ? [] : [flip()]),
+      shift({ padding: 8 })
+  ]
+  ```
+- **User experience**: Smoother interaction when managing selections, no jarring position changes
+- **Location**: `src/js/multiselect.js` - `positionSelectedPopover()` method
+
 ### Added - 2025-10-30
 
 #### Form Component Variables

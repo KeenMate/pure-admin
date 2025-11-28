@@ -160,23 +160,7 @@
             </div>
 
 <script>
-// Toast configuration
-const toastIcons = {
-    primary: 'ℹ️',
-    success: '✓',
-    danger: '✕',
-    warning: '⚠',
-    info: 'ℹ'
-};
-
-const toastTitles = {
-    primary: 'Primary',
-    success: 'Success',
-    danger: 'Error',
-    warning: 'Warning',
-    info: 'Information'
-};
-
+// Toast message defaults
 const toastMessages = {
     primary: 'This is a primary toast notification.',
     success: 'Your action was completed successfully.',
@@ -185,112 +169,37 @@ const toastMessages = {
     info: 'Here is some useful information for you.'
 };
 
-// Create and show a toast
-function createToast(position, variant, title, message, duration = 5000, showProgress = false, persistent = false) {
-    const container = document.getElementById(`toast-container-${position}`);
-    const toastId = `toast-${Date.now()}-${Math.random()}`;
-
-    const toast = document.createElement('div');
-    toast.className = `pa-toast pa-toast--${variant}`;
-    toast.id = toastId;
-
-    toast.innerHTML = `
-        <div class="pa-toast__icon">${toastIcons[variant] || 'ℹ'}</div>
-        <div class="pa-toast__content">
-            <div class="pa-toast__title">${title}</div>
-            <div class="pa-toast__message">${message}</div>
-        </div>
-        <button class="pa-toast__close" onclick="dismissToast('${toastId}')" aria-label="Close">
-            ✕
-        </button>
-        ${showProgress && !persistent ? '<div class="pa-toast__progress" style="width: 100%;"></div>' : ''}
-    `;
-
-    container.appendChild(toast);
-
-    // Trigger animation
-    setTimeout(() => {
-        toast.classList.add('pa-toast--show');
-    }, 10);
-
-    // Progress bar animation
-    if (showProgress && !persistent) {
-        const progress = toast.querySelector('.pa-toast__progress');
-        if (progress) {
-            progress.style.transition = `width ${duration}ms linear`;
-            setTimeout(() => {
-                progress.style.width = '0%';
-            }, 50);
-        }
-    }
-
-    // Auto-dismiss (only if not persistent)
-    if (!persistent) {
-        setTimeout(() => {
-            dismissToast(toastId);
-        }, duration);
-    }
-}
-
-// Dismiss a toast
-function dismissToast(toastId) {
-    const toast = document.getElementById(toastId);
-    if (!toast) return;
-
-    toast.classList.remove('pa-toast--show');
-    toast.classList.add('pa-toast--hide');
-
-    setTimeout(() => {
-        toast.remove();
-    }, 300);
-}
-
-// Demo functions
+// Demo functions using PureAdmin.toast API
 function showToast(position, variant) {
-    createToast(
-        position,
-        variant,
-        toastTitles[variant],
-        toastMessages[variant]
-    );
+    PureAdmin.toast.show({
+        variant: variant,
+        message: toastMessages[variant],
+        position: position
+    });
 }
 
 function showToastVariant(variant) {
-    createToast(
-        'top-right',
-        variant,
-        toastTitles[variant],
-        toastMessages[variant]
-    );
+    PureAdmin.toast[variant](toastMessages[variant]);
 }
 
 function showProgressToast() {
-    createToast(
-        'top-right',
-        'primary',
-        'Processing',
-        'Your request is being processed...',
-        5000,
-        true
-    );
+    PureAdmin.toast.primary('Your request is being processed...', {
+        title: 'Processing',
+        showProgress: true
+    });
 }
 
 function showActionToast(message, variant) {
-    createToast(
-        'top-right',
-        variant,
-        toastTitles[variant],
-        message
-    );
+    PureAdmin.toast[variant === 'danger' ? 'error' : variant](message);
 }
 
 function showMultipleToasts() {
-    createToast('top-right', 'success', 'First Toast', 'This is the first notification');
+    PureAdmin.toast.success('This is the first notification', { title: 'First Toast' });
     setTimeout(() => {
-        createToast('top-right', 'warning', 'Second Toast', 'This is the second notification');
+        PureAdmin.toast.warning('This is the second notification', { title: 'Second Toast' });
     }, 300);
     setTimeout(() => {
-        createToast('top-right', 'info', 'Third Toast', 'This is the third notification');
+        PureAdmin.toast.info('This is the third notification', { title: 'Third Toast' });
     }, 600);
 }
 
@@ -301,14 +210,10 @@ function showPersistentToast(variant) {
         info: 'Important information that you should read carefully before dismissing.'
     };
 
-    createToast(
-        'top-right',
-        variant,
-        toastTitles[variant],
-        persistentMessages[variant] || toastMessages[variant],
-        0,
-        false,
-        true  // persistent = true
-    );
+    PureAdmin.toast.show({
+        variant: variant,
+        message: persistentMessages[variant],
+        persistent: true
+    });
 }
 </script>
