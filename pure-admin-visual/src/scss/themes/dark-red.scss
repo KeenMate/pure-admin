@@ -47,10 +47,51 @@ $accent-color: $dark-red-accent;
 $accent-hover: rgba(239, 68, 68, 0.15);
 $accent-light: rgba(239, 68, 68, 0.08);
 
+// Sync base variables with theme colors (for web components)
+// Colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: lighten($base-accent-color, 10%);
+$base-accent-color-active: lighten($base-accent-color, 20%);
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.12);
+$base-primary-bg: $dark-red-bg-800;
+$base-primary-bg-hover: $dark-red-bg-700;
+$base-text-color-1: $dark-red-text-50;
+$base-text-color-2: $dark-red-text-300;
+$base-text-color-3: #b88888;
+$base-text-color-4: #8b5a5a;
+$base-text-on-accent: #ffffff;
+$base-border-color: $dark-red-bg-700;
+
+// Input fields
+$base-input-background: $dark-red-bg-900;
+$base-input-color: $dark-red-text-50;
+$base-input-border: 1px solid $dark-red-bg-700;
+$base-input-border-hover: 1px solid $accent-color;
+$base-input-border-focus: 1px solid $accent-color;
+$base-input-placeholder-color: $dark-red-bg-600;
+$base-input-background-disabled: rgba($dark-red-bg-800, 0.5);
+
+// Dropdown/Popover
+$base-dropdown-background: $dark-red-bg-800;
+$base-dropdown-border: 1px solid $dark-red-bg-700;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+// Tooltip
+$base-tooltip-background: $dark-red-bg-700;
+$base-tooltip-text-color: #ffffff;
+
 // Form focus colors - must match accent color
 $input-focus-border-color: $accent-color;
 $select-focus-border-color: $accent-color;
 $textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
 
 // Card colors
 $card-bg: $dark-red-bg-800;
@@ -105,10 +146,14 @@ $header-profile-name-color: #ffffff;  // White text on dark header
 
 @import '../core';
 @import '../utilities';
+@import '../base-css-variables';
 
-// CSS Variables for page loader (FOUC prevention)
+// CSS Variables for page loader (FOUC prevention) and base theme variables
 :root {
   --page-loader-bg: rgba(26, 26, 26, 0.95);
   --page-loader-spinner-border: #333;
   --page-loader-spinner-accent: #ef4444; // Red
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
 }

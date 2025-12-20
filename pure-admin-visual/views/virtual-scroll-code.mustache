@@ -1,5 +1,5 @@
 <h2>Virtual Scroll Implementation Guide</h2>
-<p class="pa-card__meta" style="margin-bottom: 1.5rem;">Complete code examples showing how virtual scrolling works</p>
+<p class="pa-text pa-text--secondary mb-6">Complete code examples showing how virtual scrolling works</p>
 
 <!-- Overview Card -->
 <div class="pa-card" style="margin-bottom: 1.5rem;">
@@ -118,7 +118,7 @@ renderTimelineItems();</pre>
             <li><strong>Clear DOM</strong>: Remove all items and re-render only ~20-30 visible ones on each scroll event</li>
         </ol>
 
-        <div class="pa-alert pa-alert--info" style="margin-top: 1rem;">
+        <div class="pa-alert pa-alert--info mt-4">
             <strong>Result:</strong> Scrolling through 5000 items only renders ~20 at a time. DOM stays constant, performance stays smooth.
         </div>
     </div>
@@ -230,7 +230,7 @@ renderTableRows();</pre>
             <li><strong>Colspan</strong>: Spacer uses <code>colspan="4"</code> to span all columns</li>
         </ol>
 
-        <div class="pa-alert pa-alert--success" style="margin-top: 1rem;">
+        <div class="pa-alert pa-alert--success mt-4">
             <strong>Visual representation:</strong><br>
             <code>[Top Spacer: 3800px] → [Visible Rows: ~20 rows] → [Bottom Spacer: remaining height]</code>
         </div>
@@ -304,7 +304,7 @@ container.addEventListener('scroll', () => {
                     <li>Data grids</li>
                     <li>Search results with uniform layout</li>
                 </ul>
-                <p style="margin-top: 1rem;"><strong>Characteristics:</strong></p>
+                <p class="pa-text mt-4"><strong>Characteristics:</strong></p>
                 <ul style="line-height: 1.8;">
                     <li>✓ Handles millions of items</li>
                     <li>✓ Constant DOM size (~20 items)</li>
@@ -322,7 +322,7 @@ container.addEventListener('scroll', () => {
                     <li>Image galleries</li>
                     <li>Content with variable heights</li>
                 </ul>
-                <p style="margin-top: 1rem;"><strong>Characteristics:</strong></p>
+                <p class="pa-text mt-4"><strong>Characteristics:</strong></p>
                 <ul style="line-height: 1.8;">
                     <li>✓ Works with variable heights</li>
                     <li>✓ Simpler to implement</li>
@@ -332,7 +332,7 @@ container.addEventListener('scroll', () => {
             </div>
         </div>
 
-        <div class="pa-alert pa-alert--warning" style="margin-top: 1.5rem;">
+        <div class="pa-alert pa-alert--warning mt-6">
             <strong>⚡ Performance Benchmark:</strong><br>
             Virtual Scroll: 10,000 rows = ~20 DOM elements<br>
             Infinite Scroll: 10,000 rows = 10,000 DOM elements (browser will struggle)

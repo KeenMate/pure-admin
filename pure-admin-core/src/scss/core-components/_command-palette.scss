@@ -47,11 +47,7 @@
   &__search {
     position: relative;
     border-bottom: $border-width-base solid $border-color;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: $spacing-xs $command-palette-input-padding-h;
-    gap: $spacing-xs;
+    padding: $spacing-sm;
   }
 
   // Tokens container (resolved query fragments)
@@ -87,14 +83,21 @@
   }
 
   &__input {
-    flex: 1;
-    min-width: 200px;
-    padding: $command-palette-input-padding-v 0;
+    width: 100%;
+    height: $command-palette-input-height;
+    padding: $command-palette-input-padding-v $command-palette-input-padding-h;
     font-size: $command-palette-input-font-size;
-    border: none;
-    background: transparent;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    background-color: $input-bg;
     color: $text-primary;
     outline: none;
+    transition: border-color $transition-fast $easing-snappy;
+
+    &:focus {
+      border-color: $input-focus-border-color;
+      box-shadow: 0 0 0 $focus-ring-width $accent-light;
+    }
 
     &::placeholder {
       color: $text-secondary;
@@ -105,7 +108,7 @@
   // Context label (e.g., "Searching in Products")
   &__context {
     position: absolute;
-    right: $command-palette-input-padding-h;
+    right: calc(#{$spacing-sm} + #{$command-palette-input-padding-h});
     top: 50%;
     transform: translateY(-50%);
     font-size: $font-size-xs;
@@ -326,4 +329,189 @@
       max-height: 60vh;
     }
   }
+}
+
+/* ========================================
+   Navbar Search Trigger
+   Button that opens the command palette
+   ======================================== */
+
+.pa-navbar-search {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $input-padding-v $input-padding-h;
+  background-color: $input-bg;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:hover {
+    border-color: $input-focus-border-color;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $input-focus-border-color;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
+  }
+
+  // Size modifiers (matching input sizes)
+  &--xs {
+    height: #{$base-input-size-xs-height}rem;
+    font-size: $font-size-xs;
+  }
+
+  &--sm {
+    height: #{$base-input-size-sm-height}rem;
+    font-size: $font-size-xs;
+  }
+
+  &--md {
+    height: #{$base-input-size-md-height}rem;
+    font-size: $font-size-sm;
+  }
+
+  &--lg {
+    height: #{$base-input-size-lg-height}rem;
+    font-size: $font-size-base;
+  }
+
+  &--xl {
+    height: #{$base-input-size-xl-height}rem;
+    font-size: $font-size-lg;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    opacity: $opacity-muted;
+  }
+
+  &__placeholder {
+    flex: 1;
+    color: $text-secondary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__shortcut {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2rem;
+      height: 2rem;
+      padding: 0 $spacing-xs;
+      font-family: $body-font-family;
+      font-size: $font-size-2xs;
+      font-weight: $font-weight-medium;
+      color: $text-secondary;
+      background-color: $secondary-light-bg;
+      border: $border-width-base solid $border-color;
+      border-radius: $border-radius-sm;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+// Responsive: hide shortcut on small screens
+@media (max-width: $mobile-breakpoint) {
+  .pa-navbar-search {
+    &__placeholder {
+      display: none;
+    }
+
+    &__shortcut {
+      display: none;
+    }
+  }
+}
+
+/* ========================================
+   Shortcut Help Dialog
+   Modal content for displaying keyboard shortcuts
+   ======================================== */
+
+.pa-shortcut-help {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-base;
+}
+
+.pa-shortcut-help__category {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.pa-shortcut-help__category-title {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-secondary;
+  margin: 0;
+  padding-bottom: $spacing-xs;
+  border-bottom: $border-width-base solid $border-color;
+}
+
+.pa-shortcut-help__list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.pa-shortcut-help__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-base;
+  padding: $spacing-xs 0;
+}
+
+.pa-shortcut-help__keys {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  flex-shrink: 0;
+}
+
+.pa-shortcut-help__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: $spacing-lg;
+  height: $spacing-lg;
+  padding: 0 $spacing-xs;
+  font-family: $body-font-family;
+  font-size: $font-size-2xs;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  background-color: $secondary-light-bg;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius-sm;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.pa-shortcut-help__separator {
+  color: $text-secondary;
+  font-size: $font-size-xs;
+}
+
+.pa-shortcut-help__description {
+  color: $text-primary;
+  font-size: $font-size-sm;
+}
+
+.pa-shortcut-help__empty {
+  text-align: center;
+  color: $text-secondary;
+  padding: $spacing-xl;
 }

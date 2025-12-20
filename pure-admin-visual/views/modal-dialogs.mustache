@@ -3,12 +3,6 @@
 <div class="pa-main-content">
   <div class="pa-layout-container pa-layout-container--xl">
 
-    <!-- Page Header -->
-    <div class="pa-section">
-      <h1>Modal Dialogs</h1>
-      <p class="text-muted">Promise-based programmatic modals for confirm, alert, and prompt actions.</p>
-    </div>
-
     <!-- Basic Usage -->
     <div class="pa-section">
       <div class="pa-card">
@@ -92,9 +86,58 @@ if (name !== null) {
             </div>
           </div>
 
-          <div id="confirm-result" class="pa-alert pa-alert--primary" style="margin-top: 1rem; display: none;">
+          <div id="confirm-result" class="pa-alert pa-alert--primary mt-4" style="display: none;">
             <strong>Result:</strong> <span id="confirm-result-text"></span>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Position Options -->
+    <div class="pa-section">
+      <div class="pa-card">
+        <div class="pa-card__header">
+          <h2>Position Options</h2>
+        </div>
+        <div class="pa-card__body">
+          <p>Dialogs can be positioned in the <strong>center</strong> (default) or at the <strong>top</strong> of the viewport.</p>
+
+          <div class="pa-row" style="gap: 1rem;">
+            <div class="pa-col-100 pa-col-md-25">
+              <button class="pa-btn pa-btn--primary" style="width: 100%;" onclick="positionCenter()">
+                Center (Default)
+              </button>
+            </div>
+            <div class="pa-col-100 pa-col-md-25">
+              <button class="pa-btn pa-btn--primary" style="width: 100%;" onclick="positionTop()">
+                Top Position
+              </button>
+            </div>
+            <div class="pa-col-100 pa-col-md-25">
+              <button class="pa-btn pa-btn--success" style="width: 100%;" onclick="promptTop()">
+                Prompt (Top)
+              </button>
+            </div>
+            <div class="pa-col-100 pa-col-md-25">
+              <button class="pa-btn pa-btn--danger" style="width: 100%;" onclick="confirmTop()">
+                Confirm (Top)
+              </button>
+            </div>
+          </div>
+
+          <pre class="pa-code pa-code--compact mt-4"><code>// Center position (default)
+await PureAdmin.alert({
+  title: 'Centered',
+  message: 'This dialog is centered.',
+  position: 'center'  // default
+});
+
+// Top position
+await PureAdmin.prompt({
+  title: 'Top Position',
+  message: 'This dialog appears near the top.',
+  position: 'top'
+});</code></pre>
         </div>
       </div>
     </div>
@@ -161,7 +204,7 @@ if (name !== null) {
             </div>
           </div>
 
-          <div id="prompt-result" class="pa-alert pa-alert--success" style="margin-top: 1rem; display: none;">
+          <div id="prompt-result" class="pa-alert pa-alert--success mt-4" style="display: none;">
             <strong>You entered:</strong> <span id="prompt-result-text"></span>
           </div>
         </div>
@@ -276,6 +319,12 @@ if (name !== null) {
                 <td>Modal size: sm, md, lg, xl</td>
               </tr>
               <tr>
+                <td><code>position</code></td>
+                <td>string</td>
+                <td>'center'</td>
+                <td>Vertical position: center, top</td>
+              </tr>
+              <tr>
                 <td><code>closeOnBackdrop</code></td>
                 <td>boolean</td>
                 <td>true</td>
@@ -325,6 +374,12 @@ if (name !== null) {
                 <td>string</td>
                 <td>'sm'</td>
                 <td>Modal size</td>
+              </tr>
+              <tr>
+                <td><code>position</code></td>
+                <td>string</td>
+                <td>'center'</td>
+                <td>Vertical position: center, top</td>
               </tr>
             </tbody>
           </table>
@@ -395,6 +450,12 @@ if (name !== null) {
                 <td>'sm'</td>
                 <td>Modal size</td>
               </tr>
+              <tr>
+                <td><code>position</code></td>
+                <td>string</td>
+                <td>'center'</td>
+                <td>Vertical position: center, top</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -406,6 +467,55 @@ if (name !== null) {
 
 <script src="/src/js/modal-dialogs.js"></script>
 <script>
+// Position examples
+async function positionCenter() {
+  await PureAdmin.alert({
+    title: 'Centered Dialog',
+    message: 'This dialog is centered in the viewport (default behavior).',
+    variant: 'primary',
+    position: 'center'
+  });
+}
+
+async function positionTop() {
+  await PureAdmin.alert({
+    title: 'Top Position',
+    message: 'This dialog appears near the top of the viewport. Useful for less intrusive notifications.',
+    variant: 'primary',
+    position: 'top'
+  });
+}
+
+async function promptTop() {
+  const result = await PureAdmin.prompt({
+    title: 'Quick Input',
+    message: 'Enter a value:',
+    placeholder: 'Type here...',
+    variant: 'success',
+    position: 'top'
+  });
+  if (result !== null) {
+    await PureAdmin.alert({
+      title: 'You entered',
+      message: result || '(empty)',
+      variant: 'success',
+      position: 'top'
+    });
+  }
+}
+
+async function confirmTop() {
+  const result = await PureAdmin.confirm({
+    title: 'Delete Item?',
+    message: 'This action cannot be undone.',
+    variant: 'danger',
+    position: 'top',
+    confirmText: 'Delete',
+    cancelText: 'Cancel'
+  });
+  showConfirmResult(result);
+}
+
 // Confirm examples
 async function confirmPrimary() {
   const result = await PureAdmin.confirm({

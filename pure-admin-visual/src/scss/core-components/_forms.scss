@@ -714,7 +714,7 @@
   }
 }
 
-// Checkboxes and Radio Buttons
+// Checkboxes and Radio Buttons Container
 .pa-checkbox-group,
 .pa-radio-group {
   display: flex;
@@ -722,7 +722,160 @@
   gap: $form-scale;
 }
 
-.pa-checkbox,
+// ============================================================================
+// Custom Checkbox Component (Tri-State Support)
+// ============================================================================
+// States: unchecked, checked, indeterminate
+// Set indeterminate via JS: checkbox.indeterminate = true
+// ============================================================================
+.pa-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  color: $text-primary;
+  user-select: none;
+
+  // Hide native checkbox (visually hidden but accessible)
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  // Custom checkbox box
+  &__box {
+    position: relative;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    border: $checkbox-border-width solid $checkbox-border-color;
+    border-radius: $checkbox-border-radius;
+    background-color: $checkbox-bg;
+    transition: all $checkbox-transition $easing-snappy;
+    flex-shrink: 0;
+
+    // Checkmark/dash (hidden by default)
+    &::after {
+      content: '';
+      position: absolute;
+      display: none;
+    }
+  }
+
+  // Hover state
+  &:hover &__box {
+    border-color: $checkbox-border-color-hover;
+  }
+
+  // Focus state (keyboard navigation)
+  input:focus-visible + &__box {
+    box-shadow: $checkbox-focus-shadow;
+    border-color: $checkbox-border-color-checked;
+  }
+
+  // Checked state
+  input:checked + &__box {
+    background-color: $checkbox-bg-checked;
+    border-color: $checkbox-border-color-checked;
+
+    &::after {
+      display: block;
+      // Checkmark shape (CSS border trick)
+      left: 30%;
+      top: 10%;
+      width: 30%;
+      height: 55%;
+      border: solid $checkbox-checkmark-color;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  // Indeterminate state (dash)
+  input:indeterminate + &__box {
+    background-color: $checkbox-bg-indeterminate;
+    border-color: $checkbox-border-color-checked;
+
+    &::after {
+      display: block;
+      // Dash shape
+      left: 20%;
+      top: 45%;
+      width: 60%;
+      height: 0;
+      border: solid $checkbox-checkmark-color;
+      border-width: 0 0 2px 0;
+      transform: none;
+    }
+  }
+
+  // Label text
+  &__label {
+    flex: 1;
+  }
+
+  // Size modifiers - apply to box element
+  &--xs &__box { width: $checkbox-size-xs; height: $checkbox-size-xs; }
+  &--sm &__box { width: $checkbox-size-sm; height: $checkbox-size-sm; }
+  &--lg &__box { width: $checkbox-size-lg; height: $checkbox-size-lg; }
+  &--xl &__box { width: $checkbox-size-xl; height: $checkbox-size-xl; }
+
+  // Checkmark position adjustments for smaller sizes
+  &--xs input:checked + &__box::after,
+  &--sm input:checked + &__box::after {
+    left: 25%;
+    top: 5%;
+  }
+  &--xs input:indeterminate + &__box::after,
+  &--sm input:indeterminate + &__box::after {
+    top: 40%;
+  }
+
+  // X mark modifier (instead of checkmark)
+  &--x input:checked + &__box {
+    &::after {
+      // First diagonal of X
+      left: 50%;
+      top: 50%;
+      width: 60%;
+      height: 0;
+      border: solid $checkbox-checkmark-color;
+      border-width: 0 0 2px 0;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    &::before {
+      // Second diagonal of X
+      content: '';
+      position: absolute;
+      display: block;
+      left: 50%;
+      top: 50%;
+      width: 60%;
+      height: 0;
+      border: solid $checkbox-checkmark-color;
+      border-width: 0 0 2px 0;
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+
+  // Disabled state
+  &--disabled,
+  &:has(input:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    .pa-checkbox__box {
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ============================================================================
+// Radio Buttons (Native styling)
+// ============================================================================
 .pa-radio {
   display: flex;
   align-items: center;

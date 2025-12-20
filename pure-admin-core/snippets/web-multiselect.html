@@ -1,0 +1,362 @@
+<!-- Web Multiselect Component
+     Advanced multiselect web component from @keenmate/web-multiselect
+     Framework-agnostic, TypeScript-based web component with excellent performance
+     Repository: https://github.com/keenmate/web-multiselect
+     Package: npm install @keenmate/web-multiselect
+-->
+
+<!-- ========================================
+     BASIC USAGE
+     ======================================== -->
+
+<!-- Declarative (No JavaScript Needed) -->
+<web-multiselect placeholder="Select options...">
+  <option value="js" selected>JavaScript</option>
+  <option value="ts">TypeScript</option>
+  <option value="python">Python</option>
+  <option value="java">Java</option>
+</web-multiselect>
+
+<!-- Single Select Mode -->
+<web-multiselect placeholder="Select one..." multiple="false">
+  <option value="opt1">Option 1</option>
+  <option value="opt2" selected>Option 2</option>
+  <option value="opt3">Option 3</option>
+</web-multiselect>
+
+<!-- ========================================
+     DISPLAY MODES
+     ======================================== -->
+
+<!-- Pills Mode (Default) - Individual badges -->
+<web-multiselect badges-display-mode="pills" placeholder="Select...">
+  <option value="1" selected>Option 1</option>
+  <option value="2" selected>Option 2</option>
+</web-multiselect>
+
+<!-- Count Mode - "X selected" counter -->
+<web-multiselect badges-display-mode="count" placeholder="Select...">
+  <option value="1" selected>Option 1</option>
+  <option value="2" selected>Option 2</option>
+</web-multiselect>
+
+<!-- Compact Mode - First item + "+X more" -->
+<web-multiselect badges-display-mode="compact" placeholder="Select...">
+  <option value="1" selected>First</option>
+  <option value="2" selected>Second</option>
+  <option value="3" selected>Third</option>
+</web-multiselect>
+
+<!-- Partial Mode - Limited badges + "+X more" -->
+<web-multiselect badges-display-mode="partial" placeholder="Select...">
+  <option value="1" selected>Alpha</option>
+  <option value="2" selected>Beta</option>
+  <option value="3" selected>Gamma</option>
+</web-multiselect>
+
+<!-- None Mode - Minimal UI, no badges -->
+<web-multiselect badges-display-mode="none" placeholder="Select...">
+  <option value="1" selected>Option A</option>
+  <option value="2" selected>Option B</option>
+</web-multiselect>
+
+<!-- ========================================
+     SEARCH & FILTER
+     ======================================== -->
+
+<!-- Search Mode: Filter (hides non-matching) -->
+<web-multiselect search-enabled="true" search-mode="filter" placeholder="Search...">
+  <option value="apple">Apple</option>
+  <option value="banana">Banana</option>
+  <option value="cherry">Cherry</option>
+</web-multiselect>
+
+<!-- Search Mode: Navigate (jumps to matches, keeps all visible) -->
+<web-multiselect search-enabled="true" search-mode="navigate" placeholder="Search...">
+  <option value="argentina">Argentina</option>
+  <option value="brazil">Brazil</option>
+  <option value="canada">Canada</option>
+</web-multiselect>
+
+<!-- ========================================
+     GROUPED OPTIONS
+     ======================================== -->
+
+<web-multiselect placeholder="Select technologies...">
+  <optgroup label="Frontend">
+    <option value="react">React</option>
+    <option value="vue">Vue</option>
+    <option value="angular">Angular</option>
+  </optgroup>
+  <optgroup label="Backend">
+    <option value="nodejs">Node.js</option>
+    <option value="django">Django</option>
+    <option value="laravel">Laravel</option>
+  </optgroup>
+</web-multiselect>
+
+<!-- ========================================
+     DISABLED OPTIONS
+     ======================================== -->
+
+<web-multiselect placeholder="Some options disabled...">
+  <option value="enabled1">Available Option</option>
+  <option value="disabled1" disabled>Unavailable Option</option>
+  <option value="enabled2">Available Option 2</option>
+</web-multiselect>
+
+<!-- ========================================
+     VIRTUAL SCROLLING (Large Datasets)
+     ======================================== -->
+
+<web-multiselect id="large-dataset" search-enabled="true" placeholder="Search 10,000 items...">
+  <!-- Options added via JavaScript for large datasets -->
+</web-multiselect>
+
+<script>
+// Populate large dataset
+const select = document.getElementById('large-dataset');
+for (let i = 1; i <= 10000; i++) {
+  const option = document.createElement('option');
+  option.value = `item${i}`;
+  option.textContent = `Item ${i}`;
+  select.appendChild(option);
+}
+</script>
+
+<!-- ========================================
+     RTL (RIGHT-TO-LEFT) SUPPORT
+     ======================================== -->
+
+<!-- Arabic -->
+<web-multiselect placeholder="اختر خيارات..." dir="rtl" badges-position="right">
+  <option value="1">الخيار الأول</option>
+  <option value="2">الخيار الثاني</option>
+  <option value="3">الخيار الثالث</option>
+</web-multiselect>
+
+<!-- Hebrew -->
+<web-multiselect placeholder="בחר אפשרויות..." dir="rtl" badges-position="right">
+  <option value="1">אפשרות 1</option>
+  <option value="2">אפשרות 2</option>
+  <option value="3">אפשרות 3</option>
+</web-multiselect>
+
+<!-- ========================================
+     PROGRAMMATIC CONTROL (JavaScript API)
+     ======================================== -->
+
+<web-multiselect id="controlled" placeholder="Controlled...">
+  <option value="red">Red</option>
+  <option value="green">Green</option>
+  <option value="blue">Blue</option>
+</web-multiselect>
+
+<script>
+const controlled = document.getElementById('controlled');
+
+// Set selected values
+controlled.setSelected(['red', 'blue']);
+
+// Get selected values
+const values = controlled.getValue(); // ['red', 'blue']
+const selected = controlled.getSelected(); // [{value: 'red', label: 'Red'}, ...]
+
+// Listen for changes
+controlled.addEventListener('change', (e) => {
+  console.log('Selected:', e.detail.selectedValues);
+  console.log('Options:', e.detail.selectedOptions);
+});
+
+// Clear selection
+controlled.setSelected([]);
+</script>
+
+<!-- ========================================
+     PROGRAMMATIC OPTIONS (JavaScript)
+     ======================================== -->
+
+<web-multiselect id="dynamic"></web-multiselect>
+
+<script>
+const dynamic = document.getElementById('dynamic');
+
+// Set options programmatically
+dynamic.options = [
+  { value: 'js', label: 'JavaScript', icon: '🟨' },
+  { value: 'ts', label: 'TypeScript', icon: '🔷' },
+  { value: 'py', label: 'Python', icon: '🐍' }
+];
+
+// Or with custom properties
+dynamic.valueMember = 'id';
+dynamic.displayValueMember = 'name';
+dynamic.iconMember = 'emoji';
+
+dynamic.options = [
+  { id: '1', name: 'React', emoji: '⚛️' },
+  { id: '2', name: 'Vue', emoji: '💚' },
+  { id: '3', name: 'Svelte', emoji: '🧡' }
+];
+</script>
+
+<!-- ========================================
+     FORM INTEGRATION
+     ======================================== -->
+
+<form id="myForm">
+  <web-multiselect name="technologies" placeholder="Select technologies...">
+    <option value="react">React</option>
+    <option value="vue">Vue</option>
+    <option value="angular">Angular</option>
+  </web-multiselect>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById('myForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const technologies = formData.getAll('technologies');
+  console.log('Selected technologies:', technologies);
+});
+</script>
+
+<!-- ========================================
+     AVAILABLE ATTRIBUTES
+     ======================================== -->
+
+<!--
+  Core Attributes:
+  - placeholder: Placeholder text
+  - multiple: "true" (default) or "false" for single-select
+  - badges-display-mode: "pills" | "count" | "compact" | "partial" | "none"
+  - badges-position: "bottom" | "top" | "left" | "right"
+  - dir: "ltr" (default) | "rtl"
+  - disabled: Disable the component
+
+  Search:
+  - search-enabled: "true" | "false" (default)
+  - search-mode: "filter" | "navigate"
+  - search-placeholder: Placeholder for search input
+  - min-search-length: Minimum characters before search
+
+  Display:
+  - show-checkboxes: Show checkboxes for options
+  - partial-display-limit: Number of badges to show in partial mode
+
+  Virtual Scrolling:
+  - virtual-scroll-enabled: "true" | "false" (auto-enabled for large datasets)
+  - virtual-scroll-buffer: Number of items to render outside viewport
+  - option-height: Height of each option in pixels
+-->
+
+<!-- ========================================
+     CSS THEMING (150+ Variables)
+     ======================================== -->
+
+<style>
+/* Override CSS custom properties to match your theme */
+:root {
+  /* Colors */
+  --ml-accent-color: #007bff;
+  --ml-text-primary: #2c3e50;
+  --ml-text-secondary: #6c757d;
+  --ml-bg-primary: #f8f9fa;
+  --ml-border-color: #e1e5e9;
+
+  /* Input */
+  --ml-input-bg: #ffffff;
+  --ml-input-border: #ced4da;
+  --ml-input-padding-v: 0.5rem;
+  --ml-input-padding-h: 0.75rem;
+  --ml-input-font-size: 0.875rem;
+  --ml-input-border-radius: 4px;
+  --ml-input-focus-border: #007bff;
+
+  /* Dropdown */
+  --ml-dropdown-bg: #ffffff;
+  --ml-dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --ml-dropdown-max-height: 300px;
+
+  /* Options */
+  --ml-option-padding-v: 0.5rem;
+  --ml-option-padding-h: 0.75rem;
+  --ml-option-hover-bg: #f8f9fa;
+  --ml-option-selected-bg: rgba(0, 123, 255, 0.05);
+  --ml-option-selected-color: #007bff;
+
+  /* Badges */
+  --ml-badge-bg: #007bff;
+  --ml-badge-text: #ffffff;
+  --ml-badge-padding-v: 0.125rem;
+  --ml-badge-padding-h: 0.5rem;
+  --ml-badge-font-size: 0.75rem;
+  --ml-badge-border-radius: 2px;
+  --ml-badge-gap: 0.5rem;
+
+  /* Animations */
+  --ml-transition-duration: 0.15s;
+  --ml-timing-function: ease;
+}
+</style>
+
+<!-- ========================================
+     TYPESCRIPT TYPES
+     ======================================== -->
+
+<!--
+TypeScript usage:
+
+import '@keenmate/web-multiselect';
+import type { MultiSelectElement, MultiSelectOption } from '@keenmate/web-multiselect';
+
+const select = document.querySelector<MultiSelectElement>('web-multiselect');
+
+if (select) {
+  // Type-safe API
+  select.options = [
+    { value: 'js', label: 'JavaScript' },
+    { value: 'ts', label: 'TypeScript' }
+  ];
+
+  select.addEventListener('change', (e: CustomEvent<{
+    selectedValues: string[];
+    selectedOptions: MultiSelectOption[];
+  }>) => {
+    console.log(e.detail.selectedValues);
+  });
+}
+-->
+
+<!-- ========================================
+     KEY FEATURES
+     ======================================== -->
+
+<!--
+✅ Virtual Scrolling: Handles 15,000+ options efficiently
+✅ Search: Filter or navigate modes with async support
+✅ Display Modes: Pills, count, compact, partial, none
+✅ Keyboard Navigation: Full arrow key support
+✅ RTL Support: Arabic, Hebrew, Persian, etc.
+✅ Grouped Options: Optgroup support with labels
+✅ Disabled Options: Per-option disable state
+✅ Form Integration: Native form submission support
+✅ Framework Agnostic: Works with any framework or vanilla JS
+✅ TypeScript: Full type definitions included
+✅ Accessible: ARIA-friendly with focus management
+✅ Customizable: 150+ CSS variables for theming
+✅ Zero Dependencies: Only requires @floating-ui/dom for positioning
+-->
+
+<!-- ========================================
+     RESOURCES
+     ======================================== -->
+
+<!--
+npm Package: @keenmate/web-multiselect
+Repository: https://github.com/keenmate/web-multiselect
+Documentation: See package README and ../../web-multiselect/ai/ for AI instructions
+Pure Admin Integration: src/scss/core-components/_web-components-theme.scss
+-->

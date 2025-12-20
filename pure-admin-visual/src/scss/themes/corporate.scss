@@ -36,8 +36,8 @@ $corporate-cyan-500: #06b6d4;
 $corporate-cyan-600: #0891b2;
 
 // Layout overrides
-$footer-height: 2rem;
-$sidebar-width: 12rem;
+$footer-height: 3.2rem;    // 32px (10px base) - was 2rem at 16px base
+$sidebar-width: 29rem;   // 290px (10px base)
 
 // Corporate theme color overrides
 $primary-bg: #f4f6f9;
@@ -54,10 +54,24 @@ $accent-color: $corporate-blue-500;
 $accent-hover: rgba(59, 130, 246, 0.1);
 $accent-light: rgba(59, 130, 246, 0.05);
 
+// Sync base variables with theme colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: $corporate-blue-600;
+$base-accent-color-active: $corporate-blue-700;
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.08);
+
 // Form focus colors - must match accent color
 $input-focus-border-color: $accent-color;
 $select-focus-border-color: $accent-color;
 $textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
 
 // Card colors
 $card-bg: #ffffff;
@@ -109,6 +123,7 @@ $modal-content-bg: #ffffff;
 
 @import '../core';
 @import '../utilities';
+@import '../base-css-variables';
 
 // Corporate-specific styling overrides
 // Header text visibility - light text on dark header
@@ -177,9 +192,12 @@ $modal-content-bg: #ffffff;
   }
 }
 
-// CSS Variables for page loader (FOUC prevention)
+// CSS Variables for page loader (FOUC prevention) and base theme variables
 :root {
   --page-loader-bg: rgba(26, 26, 26, 0.95);
   --page-loader-spinner-border: #333;
   --page-loader-spinner-accent: #0066cc;
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
 }

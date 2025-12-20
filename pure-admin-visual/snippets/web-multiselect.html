@@ -253,52 +253,49 @@ document.getElementById('myForm').addEventListener('submit', (e) => {
 -->
 
 <!-- ========================================
-     CSS THEMING (150+ Variables)
+     CSS THEMING
      ======================================== -->
 
+<!--
+  Theming options (in order of precedence):
+
+  1. --base-* variables (recommended for theme integration)
+     Set on :root, cascades to all web components
+
+  2. --ms-* variables (component-specific overrides)
+     Set on web-multiselect element for granular control
+-->
+
 <style>
-/* Override CSS custom properties to match your theme */
+/* Option 1: Theme integration via --base-* variables */
 :root {
   /* Colors */
-  --ml-accent-color: #007bff;
-  --ml-text-primary: #2c3e50;
-  --ml-text-secondary: #6c757d;
-  --ml-bg-primary: #f8f9fa;
-  --ml-border-color: #e1e5e9;
+  --base-accent-color: #007bff;
+  --base-accent-color-hover: #0056b3;
+  --base-accent-color-light: rgba(0, 123, 255, 0.08);
+  --base-accent-color-light-hover: rgba(0, 123, 255, 0.12);
+  --base-text-color-1: #2c3e50;
+  --base-text-color-3: #6c757d;
+  --base-text-on-accent: #ffffff;
+  --base-primary-bg: #f8f9fa;
+  --base-border-color: #e1e5e9;
+  --base-input-background: #ffffff;
+}
 
+/* Option 2: Component-specific overrides via --ms-* variables */
+web-multiselect {
   /* Input */
-  --ml-input-bg: #ffffff;
-  --ml-input-border: #ced4da;
-  --ml-input-padding-v: 0.5rem;
-  --ml-input-padding-h: 0.75rem;
-  --ml-input-font-size: 0.875rem;
-  --ml-input-border-radius: 4px;
-  --ml-input-focus-border: #007bff;
-
-  /* Dropdown */
-  --ml-dropdown-bg: #ffffff;
-  --ml-dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --ml-dropdown-max-height: 300px;
-
-  /* Options */
-  --ml-option-padding-v: 0.5rem;
-  --ml-option-padding-h: 0.75rem;
-  --ml-option-hover-bg: #f8f9fa;
-  --ml-option-selected-bg: rgba(0, 123, 255, 0.05);
-  --ml-option-selected-color: #007bff;
+  --ms-input-background: #ffffff;
+  --ms-input-border: 1px solid #ced4da;
+  --ms-input-border-radius: 4px;
 
   /* Badges */
-  --ml-badge-bg: #007bff;
-  --ml-badge-text: #ffffff;
-  --ml-badge-padding-v: 0.125rem;
-  --ml-badge-padding-h: 0.5rem;
-  --ml-badge-font-size: 0.75rem;
-  --ml-badge-border-radius: 2px;
-  --ml-badge-gap: 0.5rem;
+  --ms-badge-text-background: var(--base-accent-color-light);
+  --ms-badge-text-color: var(--base-accent-color);
+  --ms-badge-remove-background: var(--base-accent-color);
 
-  /* Animations */
-  --ml-transition-duration: 0.15s;
-  --ml-timing-function: ease;
+  /* Scaling (default: 10px, adjust for larger/smaller) */
+  --ms-rem: 10px;
 }
 </style>
 

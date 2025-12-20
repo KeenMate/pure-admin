@@ -65,6 +65,12 @@
     opacity: 1;
   }
 
+  // Disable CSS tooltip when JS floating tooltip is active (prevents double tooltips)
+  &--floating::before,
+  &--floating::after {
+    display: none !important;
+  }
+
   // Top position (default)
   &::before {
     bottom: calc(100% + $tooltip-distance);

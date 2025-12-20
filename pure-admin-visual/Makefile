@@ -5,6 +5,11 @@ DOCKER_CONTAINER := pure-admin-showcase
 HOST_PORT := 9000
 CONTAINER_PORT := 9000
 
+# Use cmd.exe on Windows to avoid path issues with MSYS/Git Bash
+ifeq ($(OS),Windows_NT)
+SHELL := cmd.exe
+endif
+
 .PHONY: install setup build watch dev clean serve start docker-build docker-run docker-stop help
 
 # Install dependencies for current package
@@ -41,8 +46,13 @@ dev-full:
 
 # Clean build artifacts
 clean:
+ifeq ($(OS),Windows_NT)
+	if exist dist\css rd /s /q dist\css
+	if exist node_modules rd /s /q node_modules
+else
 	rm -rf dist/css/*
 	rm -rf node_modules
+endif
 
 # Simple HTTP server for static files (if you have Python)
 serve-python:

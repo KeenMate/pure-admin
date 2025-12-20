@@ -7,6 +7,11 @@
                 <span class="pa-sidebar__label">Dashboard</span>
             </a></li>
 
+            <li class="pa-sidebar__item"><a href="/theme-variables" class="pa-sidebar__link {{#isThemeVariables}}pa-sidebar__link--active{{/isThemeVariables}}">
+                <span class="pa-sidebar__icon">🎨</span>
+                <span class="pa-sidebar__label">Theme Variables</span>
+            </a></li>
+
             <li class="pa-sidebar__item"><a href="/forms" class="pa-sidebar__link {{#isForms}}pa-sidebar__link--active{{/isForms}}">
                 <span class="pa-sidebar__icon">📝</span>
                 <span class="pa-sidebar__label">Forms</span>
@@ -46,6 +51,10 @@
                     <li class="pa-sidebar__item"><a href="/cards" class="pa-sidebar__link {{#isCards}}pa-sidebar__link--active{{/isCards}}">
                         <span class="pa-sidebar__icon">🃏</span>
                         <span class="pa-sidebar__label">Cards</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/grid" class="pa-sidebar__link {{#isGrid}}pa-sidebar__link--active{{/isGrid}}">
+                        <span class="pa-sidebar__icon">⊞</span>
+                        <span class="pa-sidebar__label">Grid System</span>
                     </a></li>
                     <li class="pa-sidebar__item"><a href="/tabs" class="pa-sidebar__link {{#isTabs}}pa-sidebar__link--active{{/isTabs}}">
                         <span class="pa-sidebar__icon">📑</span>
@@ -177,6 +186,35 @@
                     <li class="pa-sidebar__item"><a href="/virtual-scroll-code" class="pa-sidebar__link {{#isVirtualScrollCode}}pa-sidebar__link--active{{/isVirtualScrollCode}}">
                         <span class="pa-sidebar__icon">•</span>
                         <span class="pa-sidebar__label">Code Examples</span>
+                    </a></li>
+                </ul>
+            </li>
+
+            <!-- Test: Mixed Icons (some with, some without) -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">🧪</span>
+                    <span class="pa-sidebar__label">Test Menu</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <!-- WITH icon -->
+                    <li class="pa-sidebar__item"><a href="#test1" class="pa-sidebar__link">
+                        <span class="pa-sidebar__icon">✓</span>
+                        <span class="pa-sidebar__label">With Icon</span>
+                    </a></li>
+                    <!-- WITHOUT icon -->
+                    <li class="pa-sidebar__item"><a href="#test2" class="pa-sidebar__link">
+                        <span class="pa-sidebar__label">No Icon Item</span>
+                    </a></li>
+                    <!-- WITH bullet icon -->
+                    <li class="pa-sidebar__item"><a href="#test3" class="pa-sidebar__link">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Bullet Icon</span>
+                    </a></li>
+                    <!-- WITHOUT icon -->
+                    <li class="pa-sidebar__item"><a href="#test4" class="pa-sidebar__link">
+                        <span class="pa-sidebar__label">Another No Icon</span>
                     </a></li>
                 </ul>
             </li>

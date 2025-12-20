@@ -114,6 +114,9 @@
             if (element.dataset.tooltipInit) return;
             element.dataset.tooltipInit = 'true';
 
+            // Mark as floating tooltip to disable CSS pseudo-element tooltips
+            element.classList.add('pa-tooltip--floating');
+
             // Store tooltip text in data attribute if it's in aria-label
             if (!element.dataset.tooltip && element.getAttribute('aria-label')) {
                 element.dataset.tooltip = element.getAttribute('aria-label');

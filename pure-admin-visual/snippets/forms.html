@@ -90,24 +90,111 @@
 </div>
 
 
-<!-- CHECKBOXES AND RADIOS -->
+<!-- CUSTOM TRI-STATE CHECKBOXES -->
+<!-- States: unchecked, checked, indeterminate (set via JS: checkbox.indeterminate = true) -->
 
-<!-- Checkbox -->
-<div class="pa-form-check">
-  <input type="checkbox" class="pa-checkbox" id="check1">
-  <label class="pa-form-check-label" for="check1">Check me out</label>
-</div>
+<!-- Basic Checkbox -->
+<label class="pa-checkbox">
+  <input type="checkbox">
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Unchecked option</span>
+</label>
 
-<!-- Radio Button -->
-<div class="pa-form-check">
-  <input type="radio" class="pa-radio" id="radio1" name="radioGroup">
-  <label class="pa-form-check-label" for="radio1">Option 1</label>
-</div>
+<!-- Checked Checkbox -->
+<label class="pa-checkbox">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Checked option</span>
+</label>
+
+<!-- Indeterminate Checkbox (set via JavaScript) -->
+<label class="pa-checkbox">
+  <input type="checkbox" id="my-indeterminate-checkbox">
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Indeterminate (partial selection)</span>
+</label>
+<script>document.getElementById('my-indeterminate-checkbox').indeterminate = true;</script>
 
 <!-- Disabled Checkbox -->
-<div class="pa-form-check">
-  <input type="checkbox" class="pa-checkbox" id="check-disabled" disabled>
-  <label class="pa-form-check-label" for="check-disabled">Disabled checkbox</label>
+<label class="pa-checkbox pa-checkbox--disabled">
+  <input type="checkbox" disabled>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Disabled unchecked</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--disabled">
+  <input type="checkbox" checked disabled>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Disabled checked</span>
+</label>
+
+<!-- Checkbox Sizes -->
+<label class="pa-checkbox pa-checkbox--xs">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Extra Small (xs)</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--sm">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Small (sm)</span>
+</label>
+
+<label class="pa-checkbox">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Default</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--lg">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Large (lg)</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--xl">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Extra Large (xl)</span>
+</label>
+
+<!-- Checkbox Group (vertical stack) -->
+<div class="pa-checkbox-group">
+  <label class="pa-checkbox">
+    <input type="checkbox" checked>
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Option A</span>
+  </label>
+  <label class="pa-checkbox">
+    <input type="checkbox">
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Option B</span>
+  </label>
+  <label class="pa-checkbox">
+    <input type="checkbox">
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Option C</span>
+  </label>
+</div>
+
+
+<!-- RADIO BUTTONS (native styling) -->
+
+<!-- Radio Button Group -->
+<div class="pa-radio-group">
+  <label class="pa-radio">
+    <input type="radio" name="radioGroup" checked>
+    Option 1 (selected)
+  </label>
+  <label class="pa-radio">
+    <input type="radio" name="radioGroup">
+    Option 2
+  </label>
+  <label class="pa-radio">
+    <input type="radio" name="radioGroup" disabled>
+    Option 3 (disabled)
+  </label>
 </div>
 
 

@@ -4,7 +4,7 @@
 @import '../variables';
 
 // 2. Override SCSS variables for Audi theme
-$sidebar-width: 19.2rem; // 192px (10px base)
+$sidebar-width: 29rem; // 290px (10px base)
 $border-radius: 1px;
 $border-radius-lg: 2px;
 
@@ -37,10 +37,51 @@ $accent-color: $audi-red;
 $accent-hover: rgba($audi-red, 0.3); // For active/selected state
 $accent-light: rgba($audi-red, 0.25); // For hover state - increased for better visibility on dark bg
 
+// Sync base variables with theme colors (for web components)
+// Colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: lighten($base-accent-color, 10%);
+$base-accent-color-active: lighten($base-accent-color, 20%);
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.3);
+$base-primary-bg: $audi-dark;
+$base-primary-bg-hover: $audi-gray;
+$base-text-color-1: #ffffff;
+$base-text-color-2: #cccccc;
+$base-text-color-3: #999999;
+$base-text-color-4: #666666;
+$base-text-on-accent: #ffffff;
+$base-border-color: $audi-gray-light;
+
+// Input fields
+$base-input-background: $audi-black;
+$base-input-color: #ffffff;
+$base-input-border: 1px solid $audi-gray-light;
+$base-input-border-hover: 1px solid $accent-color;
+$base-input-border-focus: 1px solid $accent-color;
+$base-input-placeholder-color: #666666;
+$base-input-background-disabled: rgba($audi-gray, 0.5);
+
+// Dropdown/Popover
+$base-dropdown-background: $audi-dark;
+$base-dropdown-border: 1px solid $audi-gray-light;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+// Tooltip
+$base-tooltip-background: $audi-gray-light;
+$base-tooltip-text-color: #ffffff;
+
 // Form focus colors - must match accent color
 $input-focus-border-color: $accent-color;
 $select-focus-border-color: $accent-color;
 $textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
 
 // Card colors
 $card-bg: $audi-dark;
@@ -183,6 +224,7 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 
 // 5b. Import utility classes
 @import '../utilities';
+@import '../base-css-variables';
 
 // 6. Audi-specific styling overrides
 .pa-btn--primary {
@@ -230,9 +272,12 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   color: $accent-color !important;
 }
 
-// CSS Variables for page loader (FOUC prevention)
+// CSS Variables for page loader (FOUC prevention) and base theme variables
 :root {
   --page-loader-bg: rgba(10, 10, 10, 0.95);
   --page-loader-spinner-border: #333;
   --page-loader-spinner-accent: #ff0000; // Audi red
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
 }

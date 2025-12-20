@@ -723,3 +723,87 @@ document.addEventListener('click', async (e) => {
 - Focus management for accessibility
 - Smooth fade-in/out animations
 - Z-index handled automatically
+
+## Base CSS Variables Integration (2025-12-13)
+**Major feature:** Pure Admin as authoritative source for `--base-*` CSS custom properties, enabling automatic web component theming.
+
+### **Architecture:**
+1. Pure Admin defines `$base-*` SCSS variables (source of truth)
+2. Themes override these SCSS variables as needed
+3. Output mixin converts SCSS → `--base-*` CSS custom properties
+4. Web components consume CSS variables via fallback chains
+
+### **Data Flow:**
+```
+_variables.scss          themes/express.scss           Output CSS
+────────────────        ─────────────────────        ─────────────
+$base-accent-color:     $base-accent-color:          :root {
+  #3b82f6 !default;  →    #dc2626;               →    --base-accent-color: #dc2626;
+                        @include output-base-vars;     ...
+                                                     }
+```
+
+### **File Structure:**
+```
+src/scss/
+├── _variables.scss              # Contains $base-* SCSS variables (45 variables)
+├── _base-css-variables.scss     # Mixin to output --base-* CSS vars
+├── _core.scss                   # Core framework (unchanged)
+└── themes/
+    └── *.scss                   # Each theme outputs CSS vars via mixin
+```
+
+### **Variable Categories (45 total):**
+| Category | Count | Examples |
+|----------|-------|----------|
+| Colors | 11 | `$base-accent-color`, `$base-text-color-1` |
+| Input Fields | 7 | `$base-input-background`, `$base-input-border` |
+| Input Sizes | 5 | `$base-input-size-sm-height` (unitless × 10px) |
+| Dropdown | 3 | `$base-dropdown-background`, `$base-dropdown-box-shadow` |
+| Tooltip | 2 | `$base-tooltip-background`, `$base-tooltip-text-color` |
+| Typography | 14 | `$base-font-size-sm` (unitless × 10px) |
+| Border Radius | 3 | `$base-border-radius-md` (unitless × 10px) |
+
+### **Theme Pattern:**
+```scss
+// themes/express.scss
+@import '../variables';
+
+// Override accent color
+$accent-color: $express-red;
+
+// Sync base variables with theme colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: $express-red-hover;
+$base-accent-color-active: lighten($express-red, 15%);
+
+// ... other overrides ...
+
+@import '../core';
+@import '../utilities';
+@import '../base-css-variables';
+
+:root {
+  --page-loader-bg: rgba(0, 0, 0, 0.95);
+  // Base CSS variables for web components
+  @include output-base-css-variables;
+}
+```
+
+### **Web Component Consumption:**
+Web components (web-daterangepicker, web-multiselect, etc.) consume these variables:
+```css
+/* In web component CSS */
+--ms-accent-color: var(--base-accent-color, #3b82f6);
+--ms-text-color: var(--base-text-color-1, #333);
+```
+
+### **Benefits:**
+- Web components automatically inherit Pure Admin theme colors
+- Single source of truth for theming
+- No manual CSS variable synchronization needed
+- All 9 themes export consistent `--base-*` variables
+
+### **Documentation:**
+- Full plan: `docs/BASE_VARIABLES_INTEGRATION_PLAN.md`
+- Mixin source: `src/scss/_base-css-variables.scss`

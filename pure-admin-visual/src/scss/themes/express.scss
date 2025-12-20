@@ -20,7 +20,7 @@ $express-gray-lightest: #EBEBEB;
 $express-bg: #F2F2F2;
 
 // Layout overrides
-$sidebar-width: 12rem;
+$sidebar-width: 29rem;   // 290px (10px base)
 
 // Font overrides
 $body-font-family: "Delivery", system-ui, -apple-system, sans-serif;
@@ -43,10 +43,24 @@ $accent-color: $express-red;        // Red accent
 $accent-hover: rgba(212, 5, 17, 0.12);
 $accent-light: rgba(212, 5, 17, 0.06);
 
+// Sync base variables with theme colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: $express-red-hover;
+$base-accent-color-active: lighten($express-red, 15%);
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.10);
+
 // Form focus colors - must match accent color
 $input-focus-border-color: $accent-color;
 $select-focus-border-color: $accent-color;
 $textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
 
 // Card colors
 $card-bg: #ffffff;
@@ -129,6 +143,7 @@ $alert-info-border: #06b6d4;
 
 @import '../core';
 @import '../utilities';
+@import '../base-css-variables';
 
 // Express-specific styling overrides
 // Header text visibility - black text on yellow header
@@ -254,9 +269,12 @@ $alert-info-border: #06b6d4;
   }
 }
 
-// CSS Variables for page loader (FOUC prevention)
+// CSS Variables for page loader (FOUC prevention) and base theme variables
 :root {
   --page-loader-bg: rgba(0, 0, 0, 0.95);
   --page-loader-spinner-border: #333;
   --page-loader-spinner-accent: #FFCC00; // Express yellow
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
 }

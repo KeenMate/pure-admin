@@ -22,8 +22,8 @@ $minimal-dark-700: #23272b;
 $minimal-dark-900: #212529;
 
 // Layout overrides
-$footer-height: 2rem;
-$sidebar-width: 12rem;
+$footer-height: 3.2rem;    // 32px (10px base) - was 2rem at 16px base
+$sidebar-width: 29rem;   // 290px (10px base)
 
 // Color overrides for minimal theme
 $primary-bg: $minimal-white;
@@ -38,10 +38,24 @@ $accent-color: $minimal-gray-800;
 $accent-hover: rgba(85, 85, 85, 0.1);
 $accent-light: rgba(85, 85, 85, 0.05);
 
+// Sync base variables with theme colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: lighten($base-accent-color, 10%);
+$base-accent-color-active: lighten($base-accent-color, 20%);
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.08);
+
 // Form focus colors - must match accent color
 $input-focus-border-color: $accent-color;
 $select-focus-border-color: $accent-color;
 $textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
 
 // Card colors
 $card-bg: $minimal-white;
@@ -93,10 +107,14 @@ $modal-content-bg: $minimal-white;
 
 @import '../core';
 @import '../utilities';
+@import '../base-css-variables';
 
-// CSS Variables for page loader (FOUC prevention)
+// CSS Variables for page loader (FOUC prevention) and base theme variables
 :root {
   --page-loader-bg: rgba(255, 255, 255, 0.95);
   --page-loader-spinner-border: #e0e0e0;
   --page-loader-spinner-accent: #000000;
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
 }

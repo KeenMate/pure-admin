@@ -98,6 +98,10 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/theme-variables', (req, res) => {
+    renderWithLayout(res, 'theme-variables', { pageTitle: 'Theme Variables', currentPage: 'theme-variables', isThemeVariables: true });
+});
+
 app.get('/forms', (req, res) => {
     renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms', isForms: true });
 });
@@ -124,6 +128,10 @@ app.get('/checkbox-lists', (req, res) => {
 
 app.get('/cards', (req, res) => {
     renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
+});
+
+app.get('/grid', (req, res) => {
+    renderWithLayout(res, 'grid', { pageTitle: 'Grid System', currentPage: 'grid', isGrid: true });
 });
 
 app.get('/buttons', (req, res) => {

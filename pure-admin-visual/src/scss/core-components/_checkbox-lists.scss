@@ -1,6 +1,7 @@
 /* ========================================
    Checkbox Lists
    Styled checkbox lists with various layouts and features
+   Uses new .pa-checkbox component for custom tri-state checkboxes
    ======================================== */
 
 // Basic checkbox list (vertical stack)
@@ -25,7 +26,7 @@
     }
   }
 
-  // Label wraps everything for full hitbox
+  // Label wraps everything for full hitbox - now uses .pa-checkbox internally
   &__label {
     display: flex;
     align-items: center;
@@ -36,9 +37,18 @@
     color: $text-primary;
     user-select: none;
     width: 100%;
+
+    // When using .pa-checkbox component inside label
+    .pa-checkbox {
+      margin-right: $spacing-md;
+
+      // Reset gap since label already provides spacing
+      gap: 0;
+    }
   }
 
-  // Checkbox input
+  // Legacy: Checkbox input (for backwards compatibility)
+  // New pattern uses .pa-checkbox component inside .pa-checkbox-list__label
   &__checkbox {
     margin: 0;
     margin-right: $spacing-md;
@@ -245,14 +255,26 @@
     text-align: center;
   }
 
-  // Checkbox in header (select all)
+  // Custom checkbox (.pa-checkbox) in table cells
+  th .pa-checkbox,
+  td .pa-checkbox {
+    // Remove default gap since table already provides spacing
+    gap: 0;
+
+    // Hide label text if any (checkbox only in tables)
+    .pa-checkbox__label {
+      display: none;
+    }
+  }
+
+  // Legacy: Checkbox in header (select all)
   th .pa-checkbox-list__checkbox,
   th input[type="checkbox"] {
     margin: 0;
     cursor: pointer;
   }
 
-  // Checkbox in body cells
+  // Legacy: Checkbox in body cells
   td .pa-checkbox-list__checkbox,
   td input[type="checkbox"] {
     margin: 0;

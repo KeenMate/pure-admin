@@ -332,6 +332,61 @@ lg:  0.625rem × 0.875rem → ~40px height
 xl:  0.75rem × 1rem      → ~44px height
 ```
 
+### Native Grid System (pa-col-*)
+
+Flexbox-based grid with percentage and fraction columns. **Do NOT use legacy `pa-col-100-2` style classes - they don't exist.**
+
+#### Base Classes
+| Class | Behavior |
+|-------|----------|
+| `.pa-row` | Flex container |
+| `.pa-col` | Auto-equal width (flex: 1) |
+| `.pa-col-auto` | Content-based width |
+
+#### Percentage Columns (5% increments)
+`.pa-col-{n}` where n = 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
+
+#### Fraction Columns
+| Class | Width |
+|-------|-------|
+| `.pa-col-1-2` | 50% |
+| `.pa-col-1-3` | 33.333% |
+| `.pa-col-2-3` | 66.667% |
+| `.pa-col-1-4` | 25% |
+| `.pa-col-3-4` | 75% |
+| `.pa-col-1-5` | 20% |
+| `.pa-col-2-5` | 40% |
+| `.pa-col-3-5` | 60% |
+| `.pa-col-4-5` | 80% |
+| `.pa-col-1-6` | 16.667% |
+| `.pa-col-5-6` | 83.333% |
+| `.pa-col-1-12` | 8.333% |
+| `.pa-col-5-12` | 41.667% |
+| `.pa-col-7-12` | 58.333% |
+| `.pa-col-11-12` | 91.667% |
+
+#### Responsive Breakpoints
+All columns have responsive variants:
+- `.pa-col-sm-*` → ≥576px
+- `.pa-col-md-*` → ≥768px
+- `.pa-col-lg-*` → ≥992px
+- `.pa-col-xl-*` → ≥1200px
+
+#### Row Modifiers
+- `.pa-row--no-gutter` - Remove gutters
+- `.pa-row--center` / `--end` / `--between` / `--around` - Horizontal alignment
+- `.pa-row--top` / `--middle` / `--bottom` - Vertical alignment
+- `.pa-row--same-height` - Equal height cards
+
+#### Column Modifiers
+- `.pa-col--no-padding` - Remove padding
+- `.pa-col--grow` / `--shrink` - Flex behavior
+
+#### Visibility Helpers
+- `.pa-hide` / `.pa-show` - Always hide/show
+- `.pa-hide-{bp}` / `.pa-show-{bp}` - At breakpoint and up
+- `.pa-hide-below-{bp}` / `.pa-show-below-{bp}` - Below breakpoint
+
 ---
 
 ## Critical Rules
@@ -355,6 +410,37 @@ xl:  0.75rem × 1rem      → ~44px height
 
 ---
 
+## Base CSS Variables for Web Components
+
+Pure Admin exports `--base-*` CSS custom properties for web component theming integration.
+
+### Architecture
+- SCSS variables (`$base-*`) defined in `_variables.scss` with `!default` flags
+- Themes override these variables as needed
+- `_base-css-variables.scss` contains mixin to output CSS custom properties
+- Each theme includes `@include output-base-css-variables;` in `:root` block
+
+### Variable Categories (45 total)
+| Category | Variables |
+|----------|-----------|
+| Colors | `--base-accent-color`, `--base-text-color-1` to `--base-text-color-4` |
+| Inputs | `--base-input-background`, `--base-input-border`, size heights |
+| Dropdowns | `--base-dropdown-background`, `--base-dropdown-box-shadow` |
+| Typography | `--base-font-size-*` (unitless × 10px base), weights, line-heights |
+| Border Radius | `--base-border-radius-sm/md/lg` (unitless × 10px base) |
+
+### Web Component Usage
+```css
+/* Web components consume via fallback chains */
+--ms-accent-color: var(--base-accent-color, #3b82f6);
+```
+
+### Documentation
+- Full plan: `docs/BASE_VARIABLES_INTEGRATION_PLAN.md`
+- Detailed docs: `pure-admin-visual/CLAUDE.md`
+
+---
+
 ## Quick Reference
 
 | Task | Command | Port |
@@ -367,6 +453,6 @@ xl:  0.75rem × 1rem      → ~44px height
 
 ---
 
-**Last Updated:** 2025-10-03
+**Last Updated:** 2025-12-13
 **Framework Version:** 1.0.0
 **Default Theme:** Corporate

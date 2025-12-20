@@ -1,68 +1,275 @@
-/* ========================================
-   Grid Components
-   PureCSS Grid Gutters, Component Grid Layout, and Quick Examples
-   ======================================== */
+// ============================================================================
+// NATIVE GRID SYSTEM
+// ============================================================================
+// Flexbox-based grid with percentage and fraction columns
+// Replaces PureCSS grid dependency
+//
+// Naming convention:
+// - .pa-row            → flex container
+// - .pa-col            → auto-equal width column
+// - .pa-col-{n}        → percentage width in 5% increments (5, 10, 15... 100)
+// - .pa-col-{x}-{y}    → fraction width (1-2, 1-3, 2-3, 1-4, 3-4, 1-6, 5-6, etc.)
+// - .pa-col-{bp}-{n}   → responsive variants (sm, md, lg, xl)
+// - .pa-offset-{n}     → left margin offset
+// ============================================================================
 
-// PureCSS Grid Gutters
-// Apply padding to grid units for spacing
-.pure-g {
-  // Add negative margin to compensate for padding on children
-  margin-left: -$grid-gutter-base;
-  margin-right: -$grid-gutter-base;
+@use "sass:math";
 
-  // All direct children (grid units) get padding
-  > [class*="pure-u"] {
-    box-sizing: border-box;
-    padding-left: $grid-gutter-base;
-    padding-right: $grid-gutter-base;
-    padding-bottom: $grid-gutter-base;
+// Configuration
+$grid-gutter: 0.8rem !default; // 8px gutter on each side (with 10px base), total gap = 16px
+$grid-breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+// Column sizes - 5% increments (n*5, n=1-20)
+$grid-columns-5: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100);
+
+// Column sizes - fractions (for unintuitive percentages)
+$grid-columns-fractions: (
+  '1-2': 50%,
+  '1-3': 33.333%,
+  '2-3': 66.667%,
+  '1-4': 25%,
+  '3-4': 75%,
+  '1-5': 20%,
+  '2-5': 40%,
+  '3-5': 60%,
+  '4-5': 80%,
+  '1-6': 16.667%,
+  '5-6': 83.333%,
+  '1-12': 8.333%,
+  '5-12': 41.667%,
+  '7-12': 58.333%,
+  '11-12': 91.667%
+);
+
+// ============================================================================
+// ROW (Container)
+// ============================================================================
+.pa-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$grid-gutter;
+  margin-right: -$grid-gutter;
+
+  // Nested rows reset margins
+  .pa-row {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
+// Row modifiers
+.pa-row--no-gutter {
+  margin-left: 0;
+  margin-right: 0;
+
+  > [class*="pa-col"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.pa-row--center {
+  justify-content: center;
+}
+
+.pa-row--end {
+  justify-content: flex-end;
+}
+
+.pa-row--between {
+  justify-content: space-between;
+}
+
+.pa-row--around {
+  justify-content: space-around;
+}
+
+.pa-row--stretch {
+  align-items: stretch;
+}
+
+.pa-row--top {
+  align-items: flex-start;
+}
+
+.pa-row--middle {
+  align-items: center;
+}
+
+.pa-row--bottom {
+  align-items: flex-end;
+}
+
+.pa-row--same-height {
+  > [class*="pa-col"] {
+    > .pa-card {
+      height: 100%;
+    }
+  }
+}
+
+// ============================================================================
+// COLUMN (Base)
+// ============================================================================
+.pa-col {
+  flex: 1;
+  padding-left: $grid-gutter;
+  padding-right: $grid-gutter;
+  min-width: 0; // Prevent content overflow
+}
+
+// Auto-width column
+.pa-col-auto {
+  flex: 0 0 auto;
+  width: auto;
+  padding-left: $grid-gutter;
+  padding-right: $grid-gutter;
+}
+
+// ============================================================================
+// PERCENTAGE COLUMNS (Base - 5% increments)
+// ============================================================================
+@each $size in $grid-columns-5 {
+  .pa-col-#{$size} {
+    flex: 0 0 math.percentage(math.div($size, 100));
+    max-width: math.percentage(math.div($size, 100));
+    padding-left: $grid-gutter;
+    padding-right: $grid-gutter;
+    min-width: 0; // Prevent content overflow
+  }
+}
+
+// ============================================================================
+// FRACTION COLUMNS (Base - intuitive naming)
+// ============================================================================
+@each $name, $width in $grid-columns-fractions {
+  .pa-col-#{$name} {
+    flex: 0 0 $width;
+    max-width: $width;
+    padding-left: $grid-gutter;
+    padding-right: $grid-gutter;
+    min-width: 0; // Prevent content overflow
+  }
+}
+
+// ============================================================================
+// OFFSETS (Base - 5% increments)
+// ============================================================================
+@each $size in $grid-columns-5 {
+  @if $size < 100 {
+    .pa-offset-#{$size} {
+      margin-left: math.percentage(math.div($size, 100));
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE COLUMNS & OFFSETS
+// ============================================================================
+@each $bp, $min-width in $grid-breakpoints {
+  @media (min-width: $min-width) {
+    // Responsive percentage columns (5% increments)
+    @each $size in $grid-columns-5 {
+      .pa-col-#{$bp}-#{$size} {
+        flex: 0 0 math.percentage(math.div($size, 100));
+        max-width: math.percentage(math.div($size, 100));
+        min-width: 0; // Prevent content overflow
+      }
+    }
+
+    // Responsive fraction columns
+    @each $name, $width in $grid-columns-fractions {
+      .pa-col-#{$bp}-#{$name} {
+        flex: 0 0 $width;
+        max-width: $width;
+        min-width: 0; // Prevent content overflow
+      }
+    }
+
+    // Responsive offsets (5% increments)
+    @each $size in $grid-columns-5 {
+      @if $size < 100 {
+        .pa-offset-#{$bp}-#{$size} {
+          margin-left: math.percentage(math.div($size, 100));
+        }
+      }
+    }
+
+    // Responsive auto column
+    .pa-col-#{$bp}-auto {
+      flex: 0 0 auto;
+      width: auto;
+    }
+  }
+}
+
+// ============================================================================
+// COLUMN MODIFIERS
+// ============================================================================
+.pa-col--no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.pa-col--grow {
+  flex-grow: 1;
+}
+
+.pa-col--shrink {
+  flex-shrink: 1;
+}
+
+// ============================================================================
+// VISIBILITY HELPERS (Responsive)
+// ============================================================================
+.pa-hide {
+  display: none !important;
+}
+
+.pa-show {
+  display: block !important;
+}
+
+@each $bp, $min-width in $grid-breakpoints {
+  // Hide at breakpoint and up
+  @media (min-width: $min-width) {
+    .pa-hide-#{$bp} {
+      display: none !important;
+    }
+
+    .pa-show-#{$bp} {
+      display: block !important;
+    }
+  }
+
+  // Hide below breakpoint
+  @media (max-width: $min-width - 1px) {
+    .pa-hide-below-#{$bp} {
+      display: none !important;
+    }
+
+    .pa-show-below-#{$bp} {
+      display: block !important;
+    }
+  }
+}
+
+// ============================================================================
+// REMOVE BOTTOM PADDING IN CARDS
+// ============================================================================
 // Remove bottom padding from grid columns inside cards to avoid conflicts
-.pa-card__body .pure-g > [class*="pure-u"] {
+.pa-card__body .pa-row > [class*="pa-col"] {
   padding-bottom: 0;
 }
 
-// Alternative: Specific gutter classes for different spacing needs
-.pure-g-gutters {
-  margin-left: -$grid-gutter-md;
-  margin-right: -$grid-gutter-md;
-
-  > [class*="pure-u"] {
-    box-sizing: border-box;
-    padding-left: $grid-gutter-md;
-    padding-right: $grid-gutter-md;
-    padding-bottom: $grid-gutter-md;
-  }
-}
-
-.pure-g-gutters-sm {
-  margin-left: -$grid-gutter-sm;
-  margin-right: -$grid-gutter-sm;
-
-  > [class*="pure-u"] {
-    box-sizing: border-box;
-    padding-left: $grid-gutter-sm;
-    padding-right: $grid-gutter-sm;
-    padding-bottom: $grid-gutter-sm;
-  }
-}
-
-.pure-g-gutters-lg {
-  margin-left: -$grid-gutter-lg;
-  margin-right: -$grid-gutter-lg;
-
-  > [class*="pure-u"] {
-    box-sizing: border-box;
-    padding-left: $grid-gutter-lg;
-    padding-right: $grid-gutter-lg;
-    padding-bottom: $grid-gutter-lg;
-  }
-}
-
-// Components Grid Layout
-
+// ============================================================================
+// COMPONENT GRID LAYOUT (Demo page specific)
+// ============================================================================
 .component-category {
   h3 {
     margin: 0 0 $spacing-base 0;

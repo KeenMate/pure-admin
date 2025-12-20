@@ -130,7 +130,7 @@
                 <thead>
                     <tr>
                         <th class="col-auto">
-                            <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this.checked)">
+                            <span class="pa-checkbox"><input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this.checked)"><span class="pa-checkbox__box"></span></span>
                         </th>
                         <th class="col-auto">Actions</th>
                         <th>Name</th>
@@ -213,7 +213,7 @@
             <li>Update counts in real-time as selections change</li>
         </ul>
 
-        <div class="pa-alert pa-alert--warning" style="margin-top: 1rem;">
+        <div class="pa-alert pa-alert--warning mt-4">
             <div class="pa-alert__icon">⚠️</div>
             <div class="pa-alert__content">
                 <strong>Important:</strong> This demo uses simple JavaScript for visualization only.
@@ -290,9 +290,7 @@ function renderTable(filter) {
         return `
             <tr style="${rowStyle}">
                 <td class="col-auto">
-                    <input type="checkbox"
-                           ${isSelected ? 'checked' : ''}
-                           onchange="toggleSelection('${item.id}', this.checked)">
+                    <span class="pa-checkbox"><input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleSelection('${item.id}', this.checked)"><span class="pa-checkbox__box"></span></span>
                 </td>
                 <td class="col-auto">
                     <div class="pa-btn-group">

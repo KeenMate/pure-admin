@@ -7,6 +7,201 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed - 2025-12-20
+
+#### Web Multiselect Badge Colors Not Theming
+- Fixed badge backgrounds appearing as hardcoded light blue (`#eff6ff`) in all themes including dark themes
+- Root cause: Missing `--base-accent-color-light` CSS variable that `@keenmate/web-multiselect` uses for badge backgrounds
+- Added `$base-accent-color-light` and `$base-accent-color-light-hover` SCSS variables to `_variables.scss`
+- Updated `_base-css-variables.scss` mixin to output the new CSS custom properties
+- Added theme-specific values to all 9 theme files (dark, dark-blue, dark-green, dark-red, audi, audi-light, corporate, express, minimal)
+- Badge backgrounds now correctly use theme-appropriate colors (e.g., `rgba(77, 171, 247, 0.08)` for dark theme)
+- Removed unused `--ml-*` CSS variables from `_web-components-theme.scss` (web-multiselect uses `--ms-*` or `--base-*`, not `--ml-*`)
+- Updated `snippets/web-multiselect.html` with correct `--base-*` and `--ms-*` theming examples
+- Updated `views/multiselect.mustache` documentation to reference correct CSS variable prefixes
+
+### Added - 2025-12-13
+
+#### Enhanced Button Group Component
+Extended `.pa-btn-group` with SCSS variables, gap variants, alignment control, and responsive direction modifiers.
+
+**New SCSS Variables** (`_variables.scss`):
+- `$btn-group-gap: 0.32rem` - default gap between buttons
+- `$btn-group-gap-compact: 0.16rem` - tight grouping
+- `$btn-group-gap-loose: 0.8rem` - spacious grouping
+
+**New Modifiers** (`_buttons.scss`):
+- Gap sizes: `--compact`, `--loose`
+- Vertical alignment: `--center`, `--end`, `--stretch`
+- Responsive direction: `--sm-vertical`, `--md-vertical`, `--lg-vertical`, `--xl-vertical`
+- Responsive direction: `--sm-horizontal`, `--md-horizontal`, `--lg-horizontal`, `--xl-horizontal`
+- Wrapping control: `--nowrap`
+
+**Documentation Updates**:
+- `snippets/buttons.html` - Added comprehensive button group examples
+- `views/buttons.mustache` - Added 4 new demo cards (Basic, Gap Sizes, Vertical Alignment, Responsive Direction)
+- `pure-admin-core/snippets/buttons.html` - Synced with visual snippets
+
+### Fixed - 2025-12-11
+
+#### Double Tooltip on Badges
+- Fixed double tooltip appearing on hover for badges with tooltips (e.g., ellipsis badges)
+- Root cause: Both CSS pseudo-element tooltips and JavaScript Floating UI tooltips were active simultaneously
+- Solution: Added `pa-tooltip--floating` class in JS initialization that disables CSS `::before`/`::after` tooltips
+- Files changed: `_tooltips.scss`, `tooltips-popovers.js`
+- Added left-side ellipsis example to `snippets/badges.html` (both visual and core)
+
+#### Inline Styles Cleanup
+- Replaced all inline `style="margin-top: ..."` on alerts with utility classes (`mt-2`, `mt-4`, `mt-6`, `mb-4`)
+- Affected files (14 instances across 7 files):
+  - `badges.mustache` (3×)
+  - `checkbox-lists.mustache` (1×)
+  - `file-selector.mustache` (3×)
+  - `modals.mustache` (1×)
+  - `modal-dialogs.mustache` (2×)
+  - `table-multi-select.mustache` (1×)
+  - `virtual-scroll-code.mustache` (3×)
+
+#### Card Body First-Child Spacing
+- Added `.pa-card__body > :first-child { margin-top: 0 }` rule to `_cards.scss`
+- Prevents double spacing when headings are first element in card body (padding + margin was 4rem total)
+- First-child elements now rely only on card body padding for top spacing
+
+#### Lists Page Inline Styles Cleanup
+- Converted all inline styles in `lists.mustache` to utility classes:
+  - 10× `style="margin-top: 2rem;"` → `class="mt-8"`
+  - 4× `style="margin-top: 1rem;"` → `class="mt-4"`
+  - 7× `style="margin-bottom: 2rem;"` → `class="mb-8"`
+- No inline styles remain in the file
+
+#### Grid Column Overflow Fix
+- Added `min-width: 0` to all column variants in `_grid.scss`
+- Fixes content overflow in flex columns (e.g., `<pre>` blocks overlapping adjacent columns)
+- Affected column types:
+  - Percentage columns (`.pa-col-5` through `.pa-col-100`)
+  - Fraction columns (`.pa-col-1-2`, `.pa-col-1-3`, etc.)
+  - All responsive variants (`.pa-col-sm-*`, `.pa-col-md-*`, `.pa-col-lg-*`, `.pa-col-xl-*`)
+
+#### Simplified Base `<pre>` Styling
+- Removed unnecessary margin and padding from base `<pre>` element in `_base.scss`
+- Base `<pre>` now only has `overflow-x: auto`
+- Margin/padding should come from component classes (`.pa-code`) or utility classes
+
+### Added - 2025-12-10
+
+#### Snippet Documentation Improvements
+Enhanced snippet files to serve as comprehensive blueprints for framework wrappers (Svelte, React, Vue).
+
+**badges.html**:
+- Added `pa-badge--xs` (extra small) size example
+- Added `pa-badge--xl` (extra large) size example
+- Added comprehensive component reference section documenting all classes:
+  - All 8 color variants
+  - All 4 size modifiers (xs, sm, lg, xl)
+  - Fixed width classes (w-1x through w-10x)
+  - Ellipsis-left modifier
+  - Composite badge classes and elements
+  - Badge group classes
+
+**modals.html**:
+- Added `pa-modal__body--scrollable` example with Terms & Conditions use case
+- Added `pa-modal--info` variant to class reference
+- Enhanced class reference documentation:
+  - Body classes section with scrollable modifier
+  - Clarified modal-level vs header-level theming options
+
+**alerts.html**:
+- Added comprehensive component reference section documenting all classes:
+  - All 8 solid background variants
+  - All 5 outline variants
+  - Size modifiers (sm, lg)
+  - All element classes (icon, content, heading, list, actions, close)
+  - Structure patterns for common use cases
+
+### Added - 2025-11-30
+
+#### Grid System Documentation Page
+- **New `/grid` route** with comprehensive grid system documentation
+- Sections: breakpoints reference, percentage columns (5% increments), fraction columns (1/2, 1/3, etc.), responsive grid, offsets, row alignment, visibility utilities, nested grids
+- Added "Grid System" link to sidebar navigation under Components
+
+#### Checkbox Enhancements
+- **X mark modifier** (`.pa-checkbox--x`) - Displays X instead of checkmark when checked
+- **Theme-aware checkbox colors** - All themes now properly use `$accent-color` for checked/indeterminate states
+- **Adjusted checkmark positioning** - `left: 30%`, `top: 10%` for default; `left: 25%`, `top: 5%` for xs/sm sizes
+
+### Changed - 2025-11-30
+
+#### Checkbox Migration
+- **Converted all checkboxes** across the framework to use new `.pa-checkbox` component:
+  - `checkbox-lists.mustache` - 71 checkboxes (lists and tables)
+  - `forms.mustache` - 8 checkboxes
+  - `inputs.mustache` - 8 checkboxes (added missing `.pa-checkbox__box` spans)
+  - `modals.mustache` - 4 checkboxes
+  - `table-multi-select.mustache` - 2 checkboxes
+  - `settings-panel.mustache` - 2 checkboxes
+- **Checkbox lists use default size** - Removed `--sm` modifier from list checkboxes
+
+### Fixed - 2025-11-30
+
+#### SASS Deprecation Warnings
+- Updated `_grid.scss` to use modern Sass math module (`@use "sass:math"`)
+- Replaced deprecated `percentage($size / 100)` with `math.percentage(math.div($size, 100))`
+- Build now runs without deprecation warnings
+
+#### Theme Checkbox Colors
+- Added explicit checkbox color variable overrides to all 9 themes:
+  - `$checkbox-border-color-hover`, `$checkbox-border-color-checked`
+  - `$checkbox-bg-checked`, `$checkbox-bg-indeterminate`, `$checkbox-focus-shadow`
+- Fixes issue where checkbox backgrounds showed default blue instead of theme accent color
+
+### Added - 2025-11-29
+
+#### Custom Tri-State Checkbox Component (.pa-checkbox)
+- **Created fully custom-styled checkbox** replacing native browser checkbox with CSS pseudo-elements:
+  - **Three states**: unchecked (empty box), checked (checkmark icon), indeterminate (dash icon)
+  - **Indeterminate state**: Use CSS `:indeterminate` pseudo-class, set via JS: `checkbox.indeterminate = true`
+  - **HTML pattern**: `<label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Label</span></label>`
+- **New SCSS variables** (`src/scss/_variables.scss`):
+  - `$checkbox-border-radius` - Matches `.pa-input` border-radius
+  - `$checkbox-border-width`, `$checkbox-border-color`, `$checkbox-border-color-hover`, `$checkbox-border-color-checked`
+  - `$checkbox-bg`, `$checkbox-bg-checked`, `$checkbox-bg-indeterminate`
+  - `$checkbox-checkmark-color` - Color of checkmark/dash (default: white)
+  - `$checkbox-focus-shadow`, `$checkbox-transition`
+- **Size variants**: `--xs`, `--sm`, default, `--lg`, `--xl` (using existing `$checkbox-size-*` variables)
+- **States**: hover (border highlight), focus-visible (shadow ring), disabled (50% opacity)
+- **Updated demo page** (`views/checkbox-lists.mustache`):
+  - New "Custom Tri-State Checkbox" section showing all 3 states
+  - Interactive "Select All" pattern demonstrating indeterminate logic
+  - Size variants showcase
+  - Disabled state examples
+- **Updated forms.mustache** - Checkbox examples now use new `.pa-checkbox__box` pattern
+- **Updated snippets/forms.html** - Complete documentation with all variants
+
+#### Typography Component (.pa-text)
+- **Created `.pa-text` BEM component** for paragraph typography (`src/scss/core-components/_utilities.scss`):
+  - Base class with default 14px font and primary text color
+  - **Size modifiers**: `--xs` (10px), `--sm` (12px), `--lg` (16px), `--xl` (18px)
+  - **Color modifiers**: `--primary`, `--secondary` (muted text)
+  - **Alignment modifiers**: `--left`, `--center`, `--right`
+  - **Semantic variants**: `--caption` (small + secondary + margin), `--lead` (large + relaxed line-height)
+- **Created snippet documentation** (`snippets/typography.html`):
+  - Complete examples of all modifiers and combinations
+  - Practical usage patterns for demo pages
+  - Class reference guide
+- **Replaced inline `<p style="...">` across demo pages**:
+  - `views/badges.mustache` - 4 instances
+  - `views/forms.mustache` - 4 instances
+  - `views/toasts.mustache` - 3 instances
+  - `views/comparison.mustache` - 1 instance
+  - `views/smart-filters.mustache` - 2 instances
+  - `views/tabs.mustache` - 3 instances
+  - `views/virtual-scroll-code.mustache` - 3 instances
+  - `views/virtual-scroll.mustache` - 6 instances
+  - `views/timeline.mustache` - 1 instance
+  - `views/timeline-simple.mustache` - 1 instance
+  - `views/timeline-block.mustache` - 2 instances
+
 ### Changed - 2025-11-26
 
 #### Date Range Picker - v1.3.0 Upgrade & Semantic Variable Architecture

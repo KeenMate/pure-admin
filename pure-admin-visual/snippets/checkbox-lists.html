@@ -1,6 +1,109 @@
 <!-- ========================================
-     Checkbox Lists
-     Comprehensive examples of checkbox list patterns
+     Checkbox Lists & Custom Checkbox Component
+     Comprehensive examples of checkbox patterns
+     ======================================== -->
+
+<!-- ========================================
+     CUSTOM TRI-STATE CHECKBOX COMPONENT
+     Fully styled checkboxes with 3 states
+     ======================================== -->
+
+<!-- Basic Custom Checkbox (Three States) -->
+<label class="pa-checkbox">
+  <input type="checkbox">
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Unchecked</span>
+</label>
+
+<label class="pa-checkbox">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Checked</span>
+</label>
+
+<label class="pa-checkbox">
+  <input type="checkbox" id="indeterminate-demo">
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Indeterminate</span>
+</label>
+<script>document.getElementById('indeterminate-demo').indeterminate = true;</script>
+
+<!-- Size Variants -->
+<label class="pa-checkbox pa-checkbox--xs">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Extra Small (xs)</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--sm">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Small (sm)</span>
+</label>
+
+<label class="pa-checkbox">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Default</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--lg">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Large (lg)</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--xl">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Extra Large (xl)</span>
+</label>
+
+<!-- X Mark Modifier (shows X instead of checkmark) -->
+<label class="pa-checkbox pa-checkbox--x pa-checkbox--xs">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Extra Small with X</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--x">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Default with X</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--x pa-checkbox--xl">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Extra Large with X</span>
+</label>
+
+<!-- Disabled State -->
+<label class="pa-checkbox pa-checkbox--disabled">
+  <input type="checkbox" disabled>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Disabled unchecked</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--disabled">
+  <input type="checkbox" checked disabled>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Disabled checked</span>
+</label>
+
+<!-- Custom Checkbox in Checkbox Lists -->
+<ul class="pa-checkbox-list">
+  <li class="pa-checkbox-list__item">
+    <label class="pa-checkbox-list__label">
+      <span class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span></span>
+      <span class="pa-checkbox-list__text">Option with custom checkbox</span>
+    </label>
+  </li>
+</ul>
+
+<!-- ========================================
+     CHECKBOX LISTS
+     List-based checkbox patterns
      ======================================== -->
 
 <!-- Basic Checkbox List -->
@@ -334,11 +437,33 @@
      Available Classes Reference
      ======================================== -->
 
-<!-- Base Classes:
+<!-- Custom Checkbox Component:
+  .pa-checkbox                - Wrapper label for custom checkbox
+  .pa-checkbox__box           - Visual checkbox replacement (hidden native input)
+  .pa-checkbox__label         - Label text
+
+  Checkbox Size Modifiers:
+  .pa-checkbox--xs            - Extra small checkbox
+  .pa-checkbox--sm            - Small checkbox
+  (default)                   - Default size
+  .pa-checkbox--lg            - Large checkbox
+  .pa-checkbox--xl            - Extra large checkbox
+
+  Checkbox State Modifiers:
+  .pa-checkbox--x             - Shows X mark instead of checkmark when checked
+  .pa-checkbox--disabled      - Disabled styling (add disabled attribute to input)
+
+  Indeterminate State:
+  Set via JavaScript: checkbox.indeterminate = true
+  CSS :indeterminate pseudo-class handles styling (shows dash)
+-->
+
+<!-- Checkbox List Base Classes:
   .pa-checkbox-list           - Base checkbox list container
   .pa-checkbox-list__item     - Individual list item
-  .pa-checkbox-list__checkbox - Checkbox input
+  .pa-checkbox-list__checkbox - Checkbox input (native style)
   .pa-checkbox-list__label    - Label text
+  .pa-checkbox-list__text     - Text wrapper (use with custom checkbox)
   .pa-checkbox-list__description - Optional description/metadata
   .pa-checkbox-list__actions  - Optional action buttons container
 -->

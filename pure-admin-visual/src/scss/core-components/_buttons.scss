@@ -405,13 +405,62 @@
 // Button Groups
 .pa-btn-group {
   display: inline-flex;
-  gap: 0.32rem; // Compact gap for tight button grouping
+  gap: $btn-group-gap;
   flex-wrap: wrap;
   align-items: center;
 
+  // === Gap Size Variants ===
+  &--compact {
+    gap: $btn-group-gap-compact;
+  }
+
+  &--loose {
+    gap: $btn-group-gap-loose;
+  }
+
+  // === Direction Variants ===
   &--vertical {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  // === Vertical Alignment Variants ===
+  &--vertical#{&}--center {
+    align-items: center;
+  }
+
+  &--vertical#{&}--end {
+    align-items: flex-end;
+  }
+
+  &--vertical#{&}--stretch {
+    align-items: stretch;
+
+    .pa-btn {
+      width: 100%;
+    }
+  }
+
+  // === Responsive Direction Modifiers ===
+  @each $bp, $min-width in $grid-breakpoints {
+    &--#{$bp}-vertical {
+      @media (min-width: $min-width) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    &--#{$bp}-horizontal {
+      @media (min-width: $min-width) {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+  }
+
+  // === No Wrap Variant ===
+  &--nowrap {
+    flex-wrap: nowrap;
   }
 
   // Ensure tooltips on buttons appear above siblings

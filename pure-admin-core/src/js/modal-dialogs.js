@@ -6,6 +6,9 @@
  *   const result = await PureAdmin.confirm({ title: 'Delete?', message: '...' });
  *   await PureAdmin.alert({ title: 'Success!', message: '...' });
  *   const value = await PureAdmin.prompt({ title: 'Enter name:', message: '...' });
+ *
+ * Options (all methods):
+ *   position: 'center' | 'top' - Modal vertical position (default: 'center')
  */
 
 (function(window) {
@@ -26,13 +29,18 @@
       id,
       size = 'sm',
       variant = null,
+      position = 'center', // 'center' or 'top'
       title,
       message,
       footer
     } = options;
 
     const modal = document.createElement('div');
-    modal.className = 'pa-modal pa-modal--show';
+    // Build modal class with optional variant on the wrapper (not header)
+    let modalClass = 'pa-modal pa-modal--show';
+    if (position === 'top') modalClass += ' pa-modal--top';
+    if (variant) modalClass += ` pa-modal--${variant}`;
+    modal.className = modalClass;
     modal.id = id;
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
@@ -43,10 +51,8 @@
       ? 'pa-modal__container'
       : `pa-modal__container pa-modal__container--${size}`;
 
-    // Header class with optional variant
-    const headerClass = variant
-      ? `pa-modal__header pa-modal__header--${variant}`
-      : 'pa-modal__header';
+    // Header class - variant is on modal wrapper, not here
+    const headerClass = 'pa-modal__header';
 
     modal.innerHTML = `
       <div class="pa-modal__backdrop"></div>
@@ -162,8 +168,6 @@
    * Returns Promise<boolean> - true if confirmed, false if cancelled
    */
   PureAdmin.confirm = function(options = {}) {
-    console.log('#1 confirm() called with options:', options);
-
     const {
       title = 'Confirm',
       message = 'Are you sure?',
@@ -171,12 +175,12 @@
       cancelText = 'Cancel',
       variant = 'primary',
       size = 'sm',
+      position = 'center',
       confirmVariant = variant,
       closeOnBackdrop = true
     } = options;
 
     const id = `pa-modal-confirm-${++modalCounter}`;
-    console.log('#2 Creating modal with ID:', id);
 
     // Create footer with two buttons
     const footer = `
@@ -188,21 +192,19 @@
       </button>
     `;
 
-    console.log('#3 Calling createModal()');
     const modal = createModal({
       id,
       size,
       variant,
+      position,
       title,
       message,
       footer
     });
-    console.log('#4 Modal element created:', modal);
 
     // Attach button handlers
     const confirmBtn = modal.querySelector('[data-action="confirm"]');
     const cancelBtn = modal.querySelector('[data-action="cancel"]');
-    console.log('#5 Buttons found:', { confirmBtn, cancelBtn });
 
     confirmBtn.addEventListener('click', () => closeModal(modal, true));
     cancelBtn.addEventListener('click', () => closeModal(modal, false));
@@ -218,7 +220,6 @@
     document.addEventListener('keydown', enterHandler);
     modal._enterHandler = enterHandler;
 
-    console.log('#6 Calling showModal()');
     return showModal(modal, { closeOnBackdrop, cancelValue: false });
   };
 
@@ -234,6 +235,7 @@
       okText = 'OK',
       variant = 'primary',
       size = 'sm',
+      position = 'center',
       closeOnBackdrop = true
     } = options;
 
@@ -250,6 +252,7 @@
       id,
       size,
       variant,
+      position,
       title,
       message,
       footer
@@ -288,6 +291,7 @@
       cancelText = 'Cancel',
       variant = 'primary',
       size = 'sm',
+      position = 'center',
       validator = null,
       closeOnBackdrop = true
     } = options;
@@ -327,6 +331,7 @@
       id,
       size,
       variant,
+      position,
       title,
       message,
       inputHtml,
@@ -399,6 +404,7 @@
       title = 'Dialog',
       size = 'md',
       variant = null,
+      position = 'center',
       closeOnBackdrop = true,
       render
     } = options;
@@ -410,7 +416,11 @@
     const id = `pa-modal-custom-${++modalCounter}`;
 
     const modal = document.createElement('div');
-    modal.className = 'pa-modal pa-modal--show';
+    // Build modal class with optional variant on the wrapper (not header)
+    let modalClass = 'pa-modal pa-modal--show';
+    if (position === 'top') modalClass += ' pa-modal--top';
+    if (variant) modalClass += ` pa-modal--${variant}`;
+    modal.className = modalClass;
     modal.id = id;
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
@@ -420,10 +430,8 @@
       ? 'pa-modal__container'
       : `pa-modal__container pa-modal__container--${size}`;
 
-    // Header class with optional variant
-    const headerClass = variant
-      ? `pa-modal__header pa-modal__header--${variant}`
-      : 'pa-modal__header';
+    // Header class - variant is on modal wrapper, not here
+    const headerClass = 'pa-modal__header';
 
     // Create backdrop
     const backdrop = document.createElement('div');
@@ -448,8 +456,5 @@
 
     return showModal(modal, { closeOnBackdrop, cancelValue: null });
   };
-
-  console.log('✅ PureAdmin Modal Dialogs loaded');
-  console.log('Available methods:', Object.keys(PureAdmin));
 
 })(window);

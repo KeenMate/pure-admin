@@ -1,5 +1,68 @@
             <p>Complete set of form elements with various styles and states for data input.</p>
 
+            <!-- Input Sizes Reference -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Input Sizes Reference</h3>
+                </div>
+                <div class="pa-card__body pa-card__body--no-padding">
+                    <table class="pa-table pa-table--striped">
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th>Class</th>
+                                <th>Font Size</th>
+                                <th>Padding</th>
+                                <th>Height</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>XS</strong></td>
+                                <td><code>.pa-input--xs</code></td>
+                                <td>1.2rem (12px)</td>
+                                <td>0.6rem 0.8rem</td>
+                                <td>~31px</td>
+                                <td><input type="text" class="pa-input pa-input--xs" placeholder="Extra small" style="width: 140px;"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>SM</strong></td>
+                                <td><code>.pa-input--sm</code></td>
+                                <td>1.4rem (14px)</td>
+                                <td>0.8rem 0.8rem</td>
+                                <td>~33px</td>
+                                <td><input type="text" class="pa-input pa-input--sm" placeholder="Small" style="width: 140px;"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Default</strong></td>
+                                <td><code>.pa-input</code></td>
+                                <td>1.4rem (14px)</td>
+                                <td>0.8rem 0.8rem</td>
+                                <td>~35px</td>
+                                <td><input type="text" class="pa-input" placeholder="Default" style="width: 140px;"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>LG</strong></td>
+                                <td><code>.pa-input--lg</code></td>
+                                <td>1.6rem (16px)</td>
+                                <td>0.8rem 0.8rem</td>
+                                <td>~38px</td>
+                                <td><input type="text" class="pa-input pa-input--lg" placeholder="Large" style="width: 140px;"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>XL</strong></td>
+                                <td><code>.pa-input--xl</code></td>
+                                <td>1.8rem (18px)</td>
+                                <td>0.8rem 0.8rem</td>
+                                <td>~41px</td>
+                                <td><input type="text" class="pa-input pa-input--xl" placeholder="Extra large" style="width: 140px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Form with Buttons in Header -->
             <div class="pa-card">
                 <div class="pa-card__header">
@@ -422,19 +485,22 @@
                 <div class="pa-card__body">
                     <form class="pa-form">
                         <div class="pa-form-group">
-                            <label>Checkboxes</label>
+                            <label>Checkboxes (Custom Tri-State)</label>
                             <div class="pa-checkbox-group">
                                 <label class="pa-checkbox">
                                     <input type="checkbox" checked>
-                                    Option 1 (checked)
+                                    <span class="pa-checkbox__box"></span>
+                                    <span class="pa-checkbox__label">Option 1 (checked)</span>
                                 </label>
                                 <label class="pa-checkbox">
                                     <input type="checkbox">
-                                    Option 2
+                                    <span class="pa-checkbox__box"></span>
+                                    <span class="pa-checkbox__label">Option 2</span>
                                 </label>
                                 <label class="pa-checkbox">
                                     <input type="checkbox" disabled>
-                                    Option 3 (disabled)
+                                    <span class="pa-checkbox__box"></span>
+                                    <span class="pa-checkbox__label">Option 3 (disabled)</span>
                                 </label>
                             </div>
                         </div>
@@ -474,23 +540,28 @@
                                     <div class="pa-checkbox-group">
                                         <label class="pa-checkbox pa-checkbox--xs">
                                             <input type="checkbox" checked>
-                                            Extra Small (12px)
+                                            <span class="pa-checkbox__box"></span>
+                                            <span class="pa-checkbox__label">Extra Small (12px)</span>
                                         </label>
                                         <label class="pa-checkbox pa-checkbox--sm">
                                             <input type="checkbox" checked>
-                                            Small (14px)
+                                            <span class="pa-checkbox__box"></span>
+                                            <span class="pa-checkbox__label">Small (14px)</span>
                                         </label>
                                         <label class="pa-checkbox">
                                             <input type="checkbox" checked>
-                                            Default (16px)
+                                            <span class="pa-checkbox__box"></span>
+                                            <span class="pa-checkbox__label">Default (16px)</span>
                                         </label>
                                         <label class="pa-checkbox pa-checkbox--lg">
                                             <input type="checkbox" checked>
-                                            Large (20px)
+                                            <span class="pa-checkbox__box"></span>
+                                            <span class="pa-checkbox__label">Large (20px)</span>
                                         </label>
                                         <label class="pa-checkbox pa-checkbox--xl">
                                             <input type="checkbox" checked>
-                                            Extra Large (24px)
+                                            <span class="pa-checkbox__box"></span>
+                                            <span class="pa-checkbox__label">Extra Large (24px)</span>
                                         </label>
                                     </div>
                                 </div>
@@ -532,7 +603,7 @@
             <div class="pa-card">
                 <div class="pa-card__header">
                     <h3>Horizontal Form Layout</h3>
-                    <p style="margin: 0; font-weight: normal; font-size: 0.875rem;">Labels on the left, inputs on the right with varying field widths</p>
+                    <p class="pa-text pa-text--sm pa-text--secondary m-0">Labels on the left, inputs on the right with varying field widths</p>
                 </div>
                 <div class="pa-card__body">
                     <form class="pa-form">
@@ -633,7 +704,7 @@
                     </form>
                 </div>
                 <div class="pa-card__footer">
-                    <p style="margin: 0; color: #666; font-size: 0.875rem;">
+                    <p class="pa-text pa-text--sm pa-text--secondary m-0">
                         <strong>Layout pattern:</strong> Each field uses <code>.pa-form-group--horizontal</code> (label left, input right) inside <code>pa-col-*</code> columns.
                         Line 1: equal widths (1/3 each).
                         Line 2: varying sizes (1/4 + 5/12 + 1/3).

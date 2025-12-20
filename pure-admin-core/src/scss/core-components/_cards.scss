@@ -20,6 +20,7 @@
 
   &__header {
     padding: $card-header-padding-v $card-header-padding-h;
+    min-height: $card-header-min-height;
     border-top-left-radius: $border-radius-lg;
     border-top-right-radius: $border-radius-lg;
     border-bottom: $border-width-base solid $border-color;
@@ -88,6 +89,11 @@
     padding: $card-body-padding $card-body-padding $card-body-padding
       $card-body-padding;
     flex: 1;
+
+    // Remove top margin from first child to avoid double spacing with padding
+    > :first-child {
+      margin-top: 0;
+    }
 
     &--no-padding {
       padding: 0;
