@@ -38,6 +38,7 @@
     padding: $input-padding-v $input-padding-h;
     border: $border-width-base solid var(--pa-border-color);
     font-size: $font-size-sm;
+    line-height: 1;
     white-space: nowrap;
     border-radius: 0;
   }
@@ -77,6 +78,7 @@
 
   &__button {
     border-radius: 0;
+    border-color: var(--pa-border-color);
     border-left: none;
 
     &:first-child {
@@ -88,6 +90,39 @@
     &:last-child {
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
+    }
+  }
+
+  // Input group sizes - match prepend/append to input sizes
+  &--xs {
+    .pa-input-group__prepend,
+    .pa-input-group__append {
+      padding: $input-padding-xs-v $input-padding-h;
+      font-size: $font-size-xs;
+    }
+  }
+
+  &--sm {
+    .pa-input-group__prepend,
+    .pa-input-group__append {
+      padding: $input-padding-v $input-padding-h;
+      font-size: $font-size-sm;
+    }
+  }
+
+  &--lg {
+    .pa-input-group__prepend,
+    .pa-input-group__append {
+      padding: $input-padding-v $input-padding-h;
+      font-size: $font-size-base;
+    }
+  }
+
+  &--xl {
+    .pa-input-group__prepend,
+    .pa-input-group__append {
+      padding: $input-padding-v $input-padding-h;
+      font-size: $font-size-lg;
     }
   }
 }

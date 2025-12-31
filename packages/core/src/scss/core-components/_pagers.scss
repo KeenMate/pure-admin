@@ -97,7 +97,7 @@
     gap: $spacing-sm;
     padding: $btn-padding-v $btn-padding-h;
     background-color: transparent;
-    border: $border-width-base solid $border-color;
+    border: $border-width-base solid var(--pa-border-color);
     border-radius: $border-radius;
     color: var(--pa-text-primary);
     font-size: $font-size-sm;
@@ -105,9 +105,9 @@
     transition: all $transition-fast $easing-snappy;
 
     &:hover {
-      border-color: $accent-color;
-      color: $accent-color;
-      background-color: $accent-light;
+      border-color: var(--pa-accent);
+      color: var(--pa-accent);
+      background-color: var(--pa-accent-light);
     }
 
     &--loading {
@@ -123,7 +123,7 @@
   &__spinner {
     width: $spinner-size;
     height: $spinner-size;
-    border: $spinner-border-width solid $border-color;
+    border: $spinner-border-width solid var(--pa-border-color);
     border-top: $spinner-border-width solid $accent-color;
     border-radius: 50%;
   }

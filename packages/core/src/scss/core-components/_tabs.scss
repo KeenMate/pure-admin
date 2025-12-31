@@ -8,7 +8,7 @@
 .pa-tabs {
   display: flex;
   flex-wrap: wrap;
-  border-bottom: $border-width-base solid $border-color;
+  border-bottom: $border-width-base solid var(--pa-border-color);
   gap: $spacing-sm;
   margin-bottom: $tabs-margin-bottom;
 
@@ -72,27 +72,28 @@
     .pa-tabs__item {
       border-radius: $border-radius-lg;
       border: $border-width-base solid transparent;
-      background-color: $primary-bg;
+      background-color: var(--pa-primary-bg);
 
       &:hover {
         background-color: rgba($accent-color, $tabs-pill-hover-opacity);
         border-color: rgba($accent-color, $tabs-pill-border-opacity);
+        color: var(--pa-text-primary);
       }
 
       &--active {
-        background-color: $accent-color;
+        background-color: var(--pa-accent);
         color: white;
-        border-color: $accent-color;
+        border-color: var(--pa-accent);
       }
     }
   }
 
   // Boxed variant
   &--boxed {
-    border: $border-width-base solid $border-color;
+    border: $border-width-base solid var(--pa-border-color);
     border-radius: $border-radius-lg;
     padding: $spacing-xs;
-    background-color: $primary-bg;
+    background-color: var(--pa-primary-bg);
     gap: $spacing-xs;
 
     .pa-tabs__item {
@@ -103,6 +104,7 @@
 
       &:hover {
         background-color: rgba($accent-color, $tabs-boxed-hover-opacity);
+        color: var(--pa-text-primary);
       }
 
       &--active {
@@ -117,7 +119,7 @@
   &--vertical {
     flex-direction: column;
     border-bottom: none;
-    border-right: $border-width-base solid $border-color;
+    border-right: $border-width-base solid var(--pa-border-color);
     gap: 0;
     margin-bottom: 0;
     padding-right: 0;
@@ -300,7 +302,7 @@
   &__container {
     // Bordered variant - wraps entire tabs system in card-like border
     &--bordered {
-      border: $border-width-base solid $border-color;
+      border: $border-width-base solid var(--pa-border-color);
       border-radius: $border-radius-lg;
       padding: $card-body-padding;
       background-color: var(--pa-card-bg);
@@ -310,7 +312,7 @@
         border-bottom: none;
         padding-bottom: $spacing-md;
         margin-bottom: 0;
-        border-bottom: $border-width-base solid $border-color; // Divider between tabs and content
+        border-bottom: $border-width-base solid var(--pa-border-color); // Divider between tabs and content
       }
 
       // Remove top padding from content since wrapper provides spacing
@@ -333,14 +335,14 @@
 
     // Bordered variant - wraps entire tabs system in card-like border
     &--bordered {
-      border: $border-width-base solid $border-color;
+      border: $border-width-base solid var(--pa-border-color);
       border-radius: $border-radius-lg;
       padding: $card-body-padding;
       background-color: var(--pa-card-bg);
 
       // Add divider between tabs and content (gap already provides spacing)
       .pa-tabs--vertical {
-        border-right: $border-width-base solid $border-color;
+        border-right: $border-width-base solid var(--pa-border-color);
 
         // Make tab items full width so active border reaches divider
         .pa-tabs__item {

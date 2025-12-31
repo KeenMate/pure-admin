@@ -336,8 +336,8 @@
     -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
 
     // Show subtle scroll hint with border
-    border-left: $border-width-base solid $border-color;
-    border-right: $border-width-base solid $border-color;
+    border-left: $border-width-base solid var(--pa-border-color);
+    border-right: $border-width-base solid var(--pa-border-color);
   }
 
   // Mobile: Stack into cards
@@ -351,13 +351,13 @@
     tbody tr {
       display: block;
       margin-bottom: $table-responsive-card-margin;
-      border: $border-width-base solid $border-color;
+      border: $border-width-base solid var(--pa-border-color);
       border-radius: $border-radius;
       overflow: hidden;
 
       // Reset hover accent border for mobile
       @if $table-hover-accent-width > 0 {
-        border-#{$table-hover-accent-position}: $border-width-base solid $border-color !important;
+        border-#{$table-hover-accent-position}: $border-width-base solid var(--pa-border-color) !important;
       }
 
       &:last-child {
@@ -371,7 +371,7 @@
       text-align: right;
       padding: $table-responsive-card-padding;
       position: relative;
-      border-bottom: $border-width-base solid $border-color;
+      border-bottom: $border-width-base solid var(--pa-border-color);
 
       // Last cell in row has no border
       &:last-child {
@@ -401,7 +401,7 @@
 
     // Striped variant - apply background to entire row (card)
     &.pa-table--striped tbody tr:nth-child(even) {
-      background-color: $table-stripe;
+      background-color: var(--pa-table-stripe);
     }
 
     // Ensure cells inside striped rows have transparent background
@@ -429,8 +429,8 @@
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border-left: $border-width-base solid $border-color;
-    border-right: $border-width-base solid $border-color;
+    border-left: $border-width-base solid var(--pa-border-color);
+    border-right: $border-width-base solid var(--pa-border-color);
   }
 
   // Mobile: CSS Grid layout
@@ -442,7 +442,7 @@
     tbody tr {
       display: block;
       margin-bottom: $table-responsive-card-margin;
-      border: $border-width-base solid $border-color;
+      border: $border-width-base solid var(--pa-border-color);
       border-radius: $border-radius;
       overflow: hidden;
 
@@ -454,7 +454,7 @@
     tbody td {
       display: block;
       padding: $table-responsive-card-padding;
-      border-bottom: $border-width-base solid $border-color;
+      border-bottom: $border-width-base solid var(--pa-border-color);
 
       &:last-child {
         border-bottom: none;
@@ -524,7 +524,7 @@
 
     // Striped variant - apply background to entire row (card)
     &.pa-table--striped tbody tr:nth-child(even) {
-      background-color: $table-stripe;
+      background-color: var(--pa-table-stripe);
     }
 
     // Ensure cells inside striped rows have transparent background

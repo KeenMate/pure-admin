@@ -27,7 +27,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: $command-palette-backdrop-bg;
+    background-color: var(--pa-command-palette-backdrop-bg);
     backdrop-filter: blur($command-palette-backdrop-blur);
     animation: fadeIn $transition-normal $easing-smooth;
   }
@@ -37,7 +37,7 @@
     position: relative;
     width: 100%;
     max-width: $command-palette-width;
-    background-color: $modal-content-bg;
+    background-color: var(--pa-modal-content-bg);
     border-radius: $command-palette-border-radius;
     box-shadow: $command-palette-shadow;
     animation: slideDown $transition-normal $easing-smooth;
@@ -47,7 +47,7 @@
   // Search input wrapper
   &__search {
     position: relative;
-    border-bottom: $border-width-base solid $border-color;
+    border-bottom: $border-width-base solid var(--pa-border-color);
     padding: $spacing-sm;
   }
 
@@ -88,7 +88,7 @@
     height: $command-palette-input-height;
     padding: $command-palette-input-padding-v $command-palette-input-padding-h;
     font-size: $command-palette-input-font-size;
-    border: $border-width-base solid $border-color;
+    border: $border-width-base solid var(--pa-border-color);
     border-radius: $border-radius;
     background-color: var(--pa-input-bg);
     color: var(--pa-text-primary);
@@ -113,10 +113,10 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: $font-size-xs;
-    color: $accent-color;
+    color: var(--pa-accent);
     font-weight: $font-weight-medium;
     padding: $spacing-xs $spacing-sm;
-    background-color: $accent-light;
+    background-color: var(--pa-accent-light);
     border-radius: $border-radius-sm;
     opacity: 0;
     transition: opacity $transition-fast $easing-smooth;
@@ -183,11 +183,11 @@
     gap: $spacing-sm;
 
     &:hover {
-      background-color: $command-palette-item-hover-bg;
+      background-color: var(--pa-command-palette-item-hover-bg);
     }
 
     &--active {
-      background-color: $command-palette-item-active-bg;
+      background-color: var(--pa-command-palette-item-active-bg);
     }
   }
 
@@ -199,8 +199,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $accent-light;
-    color: $accent-color;
+    background-color: var(--pa-accent-light);
+    color: var(--pa-accent);
     border-radius: $border-radius-sm;
     font-size: $font-size-sm;
   }
@@ -221,8 +221,8 @@
     text-overflow: ellipsis;
 
     mark {
-      background-color: $command-palette-highlight-bg;
-      color: $command-palette-highlight-text;
+      background-color: var(--pa-command-palette-highlight-bg);
+      color: var(--pa-command-palette-highlight-text);
       font-weight: $font-weight-semibold;
       padding: 0 2px;
       border-radius: 2px;
@@ -251,7 +251,7 @@
 
   // Footer with keyboard hints
   &__footer {
-    border-top: $border-width-base solid $border-color;
+    border-top: $border-width-base solid var(--pa-border-color);
     padding: $spacing-sm $command-palette-input-padding-h;
     display: flex;
     gap: $spacing-base;
@@ -268,7 +268,7 @@
   &__key {
     padding: 2px $spacing-xs;
     background-color: $secondary-light-bg;
-    border: $border-width-base solid $border-color;
+    border: $border-width-base solid var(--pa-border-color);
     border-radius: $border-radius-sm;
     font-family: $body-font-family;
     font-weight: $font-weight-medium;
@@ -292,7 +292,7 @@
     text-align: center;
     font-size: $font-size-xs;
     color: var(--pa-text-secondary);
-    border-top: $border-width-base solid $border-color;
+    border-top: $border-width-base solid var(--pa-border-color);
   }
 }
 
@@ -342,8 +342,8 @@
   align-items: center;
   gap: $spacing-sm;
   padding: $input-padding-v $input-padding-h;
-  background-color: $input-bg;
-  border: $border-width-base solid $border-color;
+  background-color: var(--pa-input-bg);
+  border: $border-width-base solid var(--pa-border-color);
   border-radius: $border-radius;
   cursor: pointer;
   transition: border-color $transition-fast $easing-snappy;
@@ -415,7 +415,7 @@
       font-weight: $font-weight-medium;
       color: var(--pa-text-secondary);
       background-color: $secondary-light-bg;
-      border: $border-width-base solid $border-color;
+      border: $border-width-base solid var(--pa-border-color);
       border-radius: $border-radius-sm;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     }
@@ -460,7 +460,7 @@
   color: var(--pa-text-secondary);
   margin: 0;
   padding-bottom: $spacing-xs;
-  border-bottom: $border-width-base solid $border-color;
+  border-bottom: $border-width-base solid var(--pa-border-color);
 }
 
 .pa-shortcut-help__list {
@@ -496,7 +496,7 @@
   font-weight: $font-weight-medium;
   color: var(--pa-text-primary);
   background-color: $secondary-light-bg;
-  border: $border-width-base solid $border-color;
+  border: $border-width-base solid var(--pa-border-color);
   border-radius: $border-radius-sm;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }

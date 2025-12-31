@@ -28,11 +28,11 @@
   transition: background-color $transition-fast $easing-snappy;
 
   &:hover {
-    background-color: $accent-light;
+    background-color: var(--pa-accent-light);
   }
 
   &:focus {
-    outline: $focus-outline-width solid $accent-color;
+    outline: $focus-outline-width solid var(--pa-accent);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -72,7 +72,7 @@
   width: 35.2rem;
   max-height: 44.8rem;
   background-color: var(--pa-card-bg);
-  border: $border-width-base solid $border-color;
+  border: $border-width-base solid var(--pa-border-color);
   border-radius: $border-radius;
   box-shadow: $shadow-2xl;
   z-index: $z-index-profile-panel; // Same as profile panel (5000)
@@ -88,7 +88,7 @@
 // Panel header
 .pa-notifications__header {
   padding: $spacing-sm $spacing-base;
-  border-bottom: $border-width-base solid $border-color;
+  border-bottom: $border-width-base solid var(--pa-border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -131,7 +131,7 @@
   display: flex;
   gap: $spacing-sm;
   padding: $spacing-sm $spacing-base;
-  border-bottom: $border-width-base solid $border-color;
+  border-bottom: $border-width-base solid var(--pa-border-color);
   transition: background-color $transition-fast $easing-snappy;
   cursor: pointer;
 
@@ -140,7 +140,7 @@
   }
 
   &:hover {
-    background-color: $accent-light;
+    background-color: var(--pa-accent-light);
   }
 
   // Unread notification (darker background)
@@ -163,8 +163,8 @@
   justify-content: center;
   border-radius: 50%;
   font-size: $font-size-base;
-  background-color: $accent-light;
-  color: $accent-color;
+  background-color: var(--pa-accent-light);
+  color: var(--pa-accent);
 
   &--primary {
     background-color: rgba($btn-primary-bg, 0.1);
@@ -227,7 +227,7 @@
 // Panel footer
 .pa-notifications__footer {
   padding: $spacing-sm $spacing-base;
-  border-top: $border-width-base solid $border-color;
+  border-top: $border-width-base solid var(--pa-border-color);
   text-align: center;
 
   a {

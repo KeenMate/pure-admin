@@ -15,11 +15,11 @@
 
   &__item {
     position: relative;
-    border-bottom: $border-width-base solid $border-color;
+    border-bottom: $border-width-base solid var(--pa-border-color);
     transition: background-color $transition-fast $easing-snappy;
 
     &:hover {
-      background-color: $table-hover-bg;
+      background-color: var(--pa-table-hover-bg);
     }
 
     &:last-child {
@@ -106,7 +106,7 @@
 
 // Bordered variant (border around entire list)
 .pa-checkbox-list--bordered {
-  border: $border-width-base solid $border-color;
+  border: $border-width-base solid var(--pa-border-color);
   border-radius: $border-radius;
 
   .pa-checkbox-list__item {
@@ -125,16 +125,16 @@
 // Striped variant (alternating row colors)
 .pa-checkbox-list--striped {
   .pa-checkbox-list__item:nth-child(even) {
-    background-color: $table-stripe;
+    background-color: var(--pa-table-stripe);
   }
 }
 
 // Selected state styling
 .pa-checkbox-list__item--selected {
-  background-color: $accent-light;
+  background-color: var(--pa-accent-light);
 
   &:hover {
-    background-color: $accent-light;
+    background-color: var(--pa-accent-light);
   }
 }
 
@@ -189,13 +189,13 @@
   gap: $spacing-md;
 
   .pa-checkbox-list__item {
-    border: $border-width-base solid $border-color;
+    border: $border-width-base solid var(--pa-border-color);
     border-radius: $border-radius;
     flex: 0 1 auto;
 
     &:hover {
-      border-color: $accent-color;
-      background-color: $accent-light;
+      border-color: var(--pa-accent);
+      background-color: var(--pa-accent-light);
     }
   }
 
@@ -211,12 +211,12 @@
   gap: $spacing-sm;
 
   .pa-checkbox-list__item {
-    border: $border-width-base solid $border-color;
+    border: $border-width-base solid var(--pa-border-color);
     border-radius: $border-radius;
 
     &:hover {
-      border-color: $accent-color;
-      background-color: $accent-light;
+      border-color: var(--pa-accent);
+      background-color: var(--pa-accent-light);
     }
   }
 }
@@ -229,7 +229,7 @@
 
   .pa-checkbox-list__item {
     &:nth-child(odd) {
-      border-right: $border-width-base solid $border-color;
+      border-right: $border-width-base solid var(--pa-border-color);
     }
   }
 }
@@ -242,7 +242,7 @@
 
   .pa-checkbox-list__item {
     &:not(:nth-child(3n)) {
-      border-right: $border-width-base solid $border-color;
+      border-right: $border-width-base solid var(--pa-border-color);
     }
   }
 }
@@ -284,6 +284,6 @@
 
   // Row selection styling
   tr.pa-table__row--selected {
-    background-color: $accent-light;
+    background-color: var(--pa-accent-light);
   }
 }
