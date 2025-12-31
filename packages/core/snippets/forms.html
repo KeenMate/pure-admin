@@ -300,22 +300,22 @@
 
 <!-- Multi-Column Horizontal Form (3 equal columns) -->
 <form class="pa-form">
-  <div class="pure-g">
-    <div class="pure-u-1 pure-u-md-1-3">
+  <div class="pa-row">
+    <div class="pa-col-100 pa-col-md-1-3">
       <div class="pa-form-group pa-form-group--horizontal">
         <label for="fname">First Name</label>
         <input type="text" id="fname" class="pa-input" placeholder="John">
       </div>
     </div>
 
-    <div class="pure-u-1 pure-u-md-1-3">
+    <div class="pa-col-100 pa-col-md-1-3">
       <div class="pa-form-group pa-form-group--horizontal">
         <label for="lname">Last Name</label>
         <input type="text" id="lname" class="pa-input" placeholder="Doe">
       </div>
     </div>
 
-    <div class="pure-u-1 pure-u-md-1-3">
+    <div class="pa-col-100 pa-col-md-1-3">
       <div class="pa-form-group pa-form-group--horizontal">
         <label for="email">Email</label>
         <input type="email" id="email" class="pa-input" placeholder="john@example.com">
@@ -326,17 +326,17 @@
 
 <!-- Multi-Column Horizontal Form (varying widths) -->
 <form class="pa-form">
-  <div class="pure-g">
-    <!-- Phone (smaller - 1/4) -->
-    <div class="pure-u-1 pure-u-md-1-4">
+  <div class="pa-row">
+    <!-- Phone (smaller - 25%) -->
+    <div class="pa-col-100 pa-col-md-25">
       <div class="pa-form-group pa-form-group--horizontal">
         <label for="phone">Phone</label>
         <input type="tel" id="phone" class="pa-input" placeholder="+1 555-0123">
       </div>
     </div>
 
-    <!-- Department (larger - 5/12) -->
-    <div class="pure-u-1 pure-u-md-5-12">
+    <!-- Department (larger - 50%) -->
+    <div class="pa-col-100 pa-col-md-50">
       <div class="pa-form-group pa-form-group--horizontal">
         <label for="dept">Department</label>
         <select id="dept" class="pa-select">
@@ -347,8 +347,8 @@
       </div>
     </div>
 
-    <!-- Job Title (medium - 1/3) -->
-    <div class="pure-u-1 pure-u-md-1-3">
+    <!-- Job Title (medium - 25%) -->
+    <div class="pa-col-100 pa-col-md-25">
       <div class="pa-form-group pa-form-group--horizontal">
         <label for="title">Job Title</label>
         <input type="text" id="title" class="pa-input" placeholder="Senior Developer">
@@ -366,20 +366,20 @@
   <div class="pa-card__body">
     <form class="pa-form">
       <!-- Line 1: Personal Info -->
-      <div class="pure-g">
-        <div class="pure-u-1 pure-u-md-1-3">
+      <div class="pa-row">
+        <div class="pa-col-100 pa-col-md-1-3">
           <div class="pa-form-group pa-form-group--horizontal">
             <label for="first">First Name</label>
             <input type="text" id="first" class="pa-input" placeholder="John">
           </div>
         </div>
-        <div class="pure-u-1 pure-u-md-1-3">
+        <div class="pa-col-100 pa-col-md-1-3">
           <div class="pa-form-group pa-form-group--horizontal">
             <label for="last">Last Name</label>
             <input type="text" id="last" class="pa-input" placeholder="Doe">
           </div>
         </div>
-        <div class="pure-u-1 pure-u-md-1-3">
+        <div class="pa-col-100 pa-col-md-1-3">
           <div class="pa-form-group pa-form-group--horizontal">
             <label for="mail">Email</label>
             <input type="email" id="mail" class="pa-input" placeholder="john.doe@company.com">
@@ -388,20 +388,20 @@
       </div>
 
       <!-- Line 2: Address -->
-      <div class="pure-g">
-        <div class="pure-u-1 pure-u-md-1-2">
+      <div class="pa-row">
+        <div class="pa-col-100 pa-col-md-50">
           <div class="pa-form-group pa-form-group--horizontal">
             <label for="address">Address</label>
             <input type="text" id="address" class="pa-input" placeholder="123 Main Street">
           </div>
         </div>
-        <div class="pure-u-1 pure-u-md-1-3">
+        <div class="pa-col-100 pa-col-md-1-3">
           <div class="pa-form-group pa-form-group--horizontal">
             <label for="city">City</label>
             <input type="text" id="city" class="pa-input" placeholder="San Francisco">
           </div>
         </div>
-        <div class="pure-u-1 pure-u-md-1-6">
+        <div class="pa-col-100 pa-col-md-20">
           <div class="pa-form-group pa-form-group--horizontal">
             <label for="zip">Zip</label>
             <input type="text" id="zip" class="pa-input" placeholder="94102">
@@ -410,8 +410,8 @@
       </div>
 
       <!-- Submit Buttons -->
-      <div class="pure-g">
-        <div class="pure-u-1 text-right">
+      <div class="pa-row">
+        <div class="pa-col-100 text-right">
           <button type="button" class="pa-btn pa-btn--secondary">Cancel</button>
           <button type="submit" class="pa-btn pa-btn--primary">Submit</button>
         </div>
@@ -421,20 +421,57 @@
 </div>
 
 
-<!-- NOTES -->
-<!--
-HORIZONTAL FORMS:
-- Use .pa-form-group--horizontal for label-left, input-right layout
-- Labels automatically align with input top edge
-- Input/select/textarea takes flex: 1 (fills remaining space)
-- Wrap in pure-u-* columns for multi-column layouts
-- No nested grids needed inside form groups
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
 
-STRUCTURE:
-<div class="pure-u-1 pure-u-md-1-3">          <!-- Column width -->
-  <div class="pa-form-group pa-form-group--horizontal">
-    <label>Label</label>                      <!-- Label (fixed width) -->
-    <input class="pa-input">                  <!-- Input (flex: 1) -->
-  </div>
-</div>
+<!--
+FORM ELEMENTS:
+- .pa-form: Form container
+- .pa-form--inline: Inline form layout
+- .pa-form-group: Form group wrapper
+- .pa-form-group--required: Shows required indicator
+- .pa-form-group--horizontal: Label-left, input-right layout
+- .pa-form-group--success: Success validation state
+- .pa-form-group--error: Error validation state
+- .pa-form-label: Form label
+
+INPUTS:
+- .pa-input: Text input base class
+- .pa-input--xs, --sm, --lg, --xl: Size variants
+- .pa-input--success, --error: Validation states
+
+TEXTAREA:
+- .pa-textarea: Textarea element
+
+SELECT:
+- .pa-select: Select dropdown
+
+CHECKBOXES (custom tri-state):
+- .pa-checkbox: Checkbox wrapper label
+- .pa-checkbox__box: Custom checkbox visual
+- .pa-checkbox__label: Checkbox label text
+- .pa-checkbox--xs, --sm, --lg, --xl: Size variants
+- .pa-checkbox--disabled: Disabled state
+- .pa-checkbox-group: Vertical checkbox group
+
+RADIO BUTTONS:
+- .pa-radio: Radio wrapper label
+- .pa-radio-group: Vertical radio group
+
+INPUT GROUPS:
+- .pa-input-group: Input group container
+- .pa-input-group__prepend: Left addon
+- .pa-input-group__append: Right addon
+- .pa-input-group__button: Button addon
+
+HELP TEXT:
+- .pa-form-text: Help/hint text below inputs
+- .pa-form-text--success: Success message
+- .pa-form-text--error: Error message
+
+GRID LAYOUT (for multi-column forms):
+- .pa-row: Row container (flexbox)
+- .pa-col-100: Full width on mobile
+- .pa-col-md-25, .pa-col-md-50, .pa-col-md-1-3, etc.: Responsive column widths
 -->

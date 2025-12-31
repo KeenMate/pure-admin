@@ -28,35 +28,67 @@
 
 <!-- ADVANCED LOADERS -->
 
-<!-- Dots Loader -->
-<div class="pa-loader-dots"></div>
+<!-- Dots Loader (requires 3 span children) -->
+<div class="pa-loader-dots">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
 <!-- Dots Loader - Large -->
-<div class="pa-loader-dots pa-loader-dots--lg"></div>
+<div class="pa-loader-dots pa-loader-dots--lg">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
-<!-- Bars Loader -->
-<div class="pa-loader-bars"></div>
+<!-- Bars Loader (requires 5 span children) -->
+<div class="pa-loader-bars">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
 <!-- Bars Loader - Large -->
-<div class="pa-loader-bars pa-loader-bars--lg"></div>
+<div class="pa-loader-bars pa-loader-bars--lg">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
-<!-- Pulse Loader -->
+<!-- Pulse Loader (CSS-only, no children needed) -->
 <div class="pa-loader-pulse"></div>
 
 <!-- Pulse Loader - Large -->
 <div class="pa-loader-pulse pa-loader-pulse--lg"></div>
 
-<!-- Ring Loader -->
+<!-- Ring Loader (CSS-only, no children needed) -->
 <div class="pa-loader-ring"></div>
 
 <!-- Ring Loader - Large -->
 <div class="pa-loader-ring pa-loader-ring--lg"></div>
 
-<!-- Wave Loader -->
-<div class="pa-loader-wave"></div>
+<!-- Wave Loader (requires 5 span children) -->
+<div class="pa-loader-wave">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
 <!-- Wave Loader - Large -->
-<div class="pa-loader-wave pa-loader-wave--lg"></div>
+<div class="pa-loader-wave pa-loader-wave--lg">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
 
 <!-- LOADER UTILITIES -->
@@ -101,8 +133,51 @@
 <div class="pa-card">
   <div class="pa-card__body">
     <div class="pa-loader-center" style="min-height: 200px;">
-      <div class="pa-loader-dots pa-loader-dots--lg" style="color: var(--accent-color);"></div>
+      <div class="pa-loader-dots pa-loader-dots--lg" style="color: var(--accent-color);">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <p style="margin-top: 1rem; color: var(--text-secondary);">Loading content...</p>
     </div>
   </div>
 </div>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+SPINNERS:
+- .pa-spinner: Basic spinner (CSS animation)
+- .pa-spinner--xs, --sm, --md, --lg, --xl, --2xl: Size variants
+- .pa-spinner--primary, --secondary, --success, --danger, --warning, --info: Color variants
+
+ADVANCED LOADERS:
+- .pa-loader-dots: Bouncing dots (requires 3 <span> children)
+- .pa-loader-bars: Animated bars (requires 5 <span> children)
+- .pa-loader-wave: Wave animation (requires 5 <span> children)
+- .pa-loader-pulse: Pulsing circle (CSS-only, no children)
+- .pa-loader-ring: Spinning ring (CSS-only, no children)
+- All support --lg size variant
+
+UTILITIES:
+- .pa-loader-center: Center loader in container (flex column, centered)
+- .pa-loader-overlay: Full-screen overlay with loader
+
+BUTTON LOADING:
+- .pa-btn--loading: Loading state modifier
+- .pa-btn__spinner: Spinner inside button
+
+STRUCTURE EXAMPLES:
+<div class="pa-loader-dots">       <!-- 3 spans required -->
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<div class="pa-loader-bars">       <!-- 5 spans required -->
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+-->

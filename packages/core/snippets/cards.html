@@ -115,12 +115,36 @@
   </div>
 </div>
 
-<!-- Stat Card -->
+<!-- Stat Card (Basic) -->
 <div class="pa-card pa-card--stat">
   <div class="pa-card__body">
     <div class="pa-stat">
       <div class="pa-stat__value">1,234</div>
       <div class="pa-stat__label">Total Users</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stat Card with Icon -->
+<div class="pa-card pa-card--stat">
+  <div class="pa-card__body">
+    <div class="pa-stat pa-stat--with-icon">
+      <div class="pa-stat__icon">👥</div>
+      <div class="pa-stat__content">
+        <div class="pa-stat__value">1,234</div>
+        <div class="pa-stat__label">Total Users</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stat Card with Trend -->
+<div class="pa-card pa-card--stat">
+  <div class="pa-card__body">
+    <div class="pa-stat">
+      <div class="pa-stat__value">$12,345</div>
+      <div class="pa-stat__label">Revenue</div>
+      <div class="pa-stat__trend pa-stat__trend--up">+12.5%</div>
     </div>
   </div>
 </div>
@@ -321,3 +345,49 @@ function switchTab(button, tabId) {
   }
 }
 </script>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+CARD CLASSES:
+- .pa-card: Base card class
+- .pa-card--primary, --success, --warning, --danger: Colored header variants
+- .pa-card--stat: Stat card variant (compact, centered)
+
+CARD ELEMENTS:
+- .pa-card__header: Card header container
+- .pa-card__body: Card body/content container
+- .pa-card__body--no-padding: Remove body padding (for tables)
+- .pa-card__footer: Card footer container
+- .pa-card__meta: Metadata text (dates, author, etc.)
+- .pa-card__title: Title container
+- .pa-card__title-icon: Icon in title
+- .pa-card__title-text: Title text
+- .pa-card__tools: Tools/actions container in header
+- .pa-card__actions: Actions container in footer
+
+CARD TABS:
+- .pa-card__tabs: Tab container in header
+- .pa-card__tab: Individual tab button
+- .pa-card__tab--active: Active tab state
+- .pa-card__tab-content: Tab panel content
+- .pa-card__tab-content--active: Active tab panel
+
+STAT COMPONENT (inside stat cards):
+- .pa-stat: Stat container
+- .pa-stat--with-icon: Stat with icon layout
+- .pa-stat__icon: Stat icon
+- .pa-stat__content: Content wrapper (when using icon)
+- .pa-stat__value: Stat value (large number)
+- .pa-stat__label: Stat label/description
+- .pa-stat__trend: Trend indicator
+- .pa-stat__trend--up: Positive trend (green)
+- .pa-stat__trend--down: Negative trend (red)
+
+LAYOUT:
+- .pa-row--same-height: Equal height cards in a row
+- .pa-section: Section container with heading
+-->
