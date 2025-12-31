@@ -1,0 +1,89 @@
+/* ========================================
+   Form Validation States
+   Input states (error, success, warning), form groups with states, help text
+   ======================================== */
+@use '../../variables' as *;
+
+// Input States
+.pa-input--error,
+.pa-select--error {
+  border-color: var(--pa-danger-bg);
+
+  &:focus {
+    border-color: var(--pa-danger-bg);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-danger-bg-light);
+  }
+}
+
+.pa-input--success,
+.pa-select--success {
+  border-color: var(--pa-success-bg);
+
+  &:focus {
+    border-color: var(--pa-success-bg);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-success-bg-light);
+  }
+}
+
+.pa-input--warning,
+.pa-select--warning {
+  border-color: var(--pa-warning-bg);
+
+  &:focus {
+    border-color: var(--pa-warning-bg);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-warning-bg-light);
+  }
+}
+
+// Form Groups with States
+.pa-form-group--error {
+  .pa-input,
+  .pa-select {
+    border-color: var(--pa-danger-bg);
+
+    &:focus {
+      border-color: var(--pa-danger-bg);
+      box-shadow: 0 0 0 $focus-ring-width var(--pa-danger-bg-light);
+    }
+  }
+}
+
+.pa-form-group--success {
+  .pa-input,
+  .pa-select {
+    border-color: var(--pa-success-bg);
+
+    &:focus {
+      border-color: var(--pa-success-bg);
+      box-shadow: 0 0 0 $focus-ring-width var(--pa-success-bg-light);
+    }
+  }
+}
+
+.pa-form-group--warning {
+  .pa-input,
+  .pa-select {
+    border-color: var(--pa-warning-bg);
+
+    &:focus {
+      border-color: var(--pa-warning-bg);
+      box-shadow: 0 0 0 $focus-ring-width var(--pa-warning-bg-light);
+    }
+  }
+}
+
+// Form Help Text
+.pa-form-help {
+  display: block;
+  margin-top: $form-help-margin-top;
+  font-size: $font-size-xs;
+  color: var(--pa-text-secondary);
+
+  &--error {
+    color: var(--pa-danger-bg);
+  }
+
+  &--success {
+    color: var(--pa-success-bg);
+  }
+}

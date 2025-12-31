@@ -1,0 +1,25 @@
+/* ========================================
+   Badge Group
+   Container for grouped badges with visibility limits
+   ======================================== */
+@use '../../variables' as *;
+
+// Badge Group - limits visible badges and shows "more" indicator
+.pa-badge-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $badge-group-gap;
+
+  // Hide badges beyond the limit
+  .pa-badge:nth-child(n+#{$badge-group-visible-limit + 1}):not(:last-child) {
+    display: none;
+  }
+
+  // Show all badges without limit
+  &--show-all {
+    .pa-badge:nth-child(n+#{$badge-group-visible-limit + 1}):not(:last-child) {
+      display: inline-flex;
+    }
+  }
+}

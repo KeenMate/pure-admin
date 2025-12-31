@@ -1,0 +1,93 @@
+/* ========================================
+   Input Groups
+   Input groups with prepend/append addons and buttons
+   ======================================== */
+@use '../../variables' as *;
+
+.pa-input-group {
+  display: flex;
+  align-items: stretch;
+
+  .pa-input {
+    border-radius: 0;
+    flex: 1;
+
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+
+    &:not(:first-child) {
+      border-left: none;
+    }
+
+    &:not(:last-child) {
+      border-right: none;
+    }
+  }
+
+  &__prepend,
+  &__append {
+    display: flex;
+    align-items: center;
+    padding: $input-padding-v $input-padding-h;
+    border: $border-width-base solid var(--pa-border-color);
+    font-size: $font-size-sm;
+    white-space: nowrap;
+    border-radius: 0;
+  }
+
+  &__prepend {
+    background-color: var(--pa-input-group-prepend-bg);
+    color: var(--pa-input-group-prepend-text);
+    border-right: none;
+
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+  }
+
+  &__append {
+    background-color: var(--pa-input-group-append-bg);
+    color: var(--pa-input-group-append-text);
+    border-left: none;
+
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+
+  // When input is focused, restore borders on connecting edges of prepend/append with focus color
+  &:focus-within {
+    .pa-input-group__prepend {
+      border-right: $border-width-base solid var(--pa-input-focus-border-color);
+    }
+
+    .pa-input-group__append {
+      border-left: $border-width-base solid var(--pa-input-focus-border-color);
+    }
+  }
+
+  &__button {
+    border-radius: 0;
+    border-left: none;
+
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      border-left: $border-width-base solid var(--pa-border-color);
+    }
+
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+}

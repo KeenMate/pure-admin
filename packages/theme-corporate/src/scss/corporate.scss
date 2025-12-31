@@ -1,0 +1,206 @@
+/* Corporate Theme for Pure Admin Visual - Professional blue/gray palette */
+
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// Corporate color palette
+$corporate-slate-50: #f8fafc;
+$corporate-slate-100: #f1f5f9;
+$corporate-slate-200: #e2e8f0;
+$corporate-slate-300: #cbd5e1;
+$corporate-slate-400: #94a3b8;
+$corporate-slate-500: #64748b;
+$corporate-slate-600: #475569;
+$corporate-slate-700: #334155;
+$corporate-slate-800: #1e293b;
+$corporate-slate-900: #0f172a;
+
+$corporate-blue-500: #0ea5e9;  // Brighter, more vibrant blue
+$corporate-blue-600: #0284c7;
+$corporate-blue-700: #0369a1;
+
+$corporate-gray-50: #f9fafb;
+$corporate-gray-100: #f3f4f6;
+$corporate-gray-200: #e5e7eb;
+$corporate-gray-400: #9ca3af;
+$corporate-gray-500: #6b7280;
+$corporate-gray-600: #4b5563;
+$corporate-gray-700: #374151;
+$corporate-gray-800: #1f2937;
+
+$corporate-emerald-500: #10b981;
+$corporate-emerald-600: #059669;
+$corporate-amber-500: #f59e0b;
+$corporate-red-500: #ef4444;
+$corporate-red-600: #dc2626;
+$corporate-cyan-500: #06b6d4;
+$corporate-cyan-600: #0891b2;
+
+// Layout overrides
+$footer-height: 3.2rem;    // 32px (10px base) - was 2rem at 16px base
+$sidebar-width: 29rem;   // 290px (10px base)
+
+// Corporate theme color overrides
+$primary-bg: #f4f6f9;
+$content-background-color: #f4f6f9;
+$header-bg: $corporate-slate-800;
+$header-border-color: $corporate-slate-200; // Match sidebar border color
+$header-profile-name-color: #ffffff;       // Light text on dark header
+$sidebar-bg: $corporate-slate-50;
+$footer-bg: $corporate-slate-800;
+$border-color: $corporate-slate-200;
+$text-primary: $corporate-slate-700;
+$text-secondary: $corporate-slate-500;
+$accent-color: $corporate-blue-500;
+$accent-hover: rgba(59, 130, 246, 0.1);
+$accent-light: rgba(59, 130, 246, 0.05);
+
+// Sync base variables with theme colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: $corporate-blue-600;
+$base-accent-color-active: $corporate-blue-700;
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.08);
+
+// Form focus colors - must match accent color
+$input-focus-border-color: $accent-color;
+$select-focus-border-color: $accent-color;
+$textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
+
+// Card colors
+$card-bg: #ffffff;
+$card-header-bg: $corporate-slate-100;
+$card-footer-bg: $corporate-slate-50;
+$card-tabs-bg: $corporate-slate-200;
+
+// Input colors
+$input-bg: #ffffff;
+$input-border: $corporate-slate-200;
+$input-text: $corporate-slate-700;
+
+// Table colors
+$table-bg: #ffffff;
+$table-header-bg: $corporate-slate-100;
+$table-hover-bg: $corporate-slate-50;
+$table-stripe: $corporate-slate-50;
+
+// Button colors - professional blue/gray palette
+$btn-primary-bg: $corporate-blue-500;
+$btn-primary-bg-hover: $corporate-blue-600;
+$btn-secondary-bg: $corporate-gray-500;
+$btn-secondary-bg-hover: $corporate-gray-600;
+$btn-success-bg: $corporate-emerald-500;
+$btn-success-bg-hover: $corporate-emerald-600;
+$btn-warning-bg: $corporate-amber-500;
+$btn-warning-text: #ffffff;
+$btn-danger-bg: $corporate-red-500;
+$btn-danger-bg-hover: $corporate-red-600;
+$btn-info-bg: $corporate-cyan-500;
+$btn-info-bg-hover: $corporate-cyan-600;
+$btn-light-bg: $corporate-gray-100;
+$btn-light-text: $corporate-gray-700;
+$btn-light-bg-hover: $corporate-gray-200;
+$btn-dark-bg: $corporate-gray-700;
+$btn-dark-bg-hover: $corporate-gray-800;
+
+// Validation shadow colors - match button colors
+$success-bg: $btn-success-bg;
+$success-bg-light: rgba(16, 185, 129, 0.1);
+$warning-bg: $btn-warning-bg;
+$warning-bg-light: rgba(245, 158, 11, 0.1);
+$danger-bg: $btn-danger-bg;
+$danger-bg-light: rgba(239, 68, 68, 0.1);
+
+// Modal colors
+$modal-overlay-bg: rgba(30, 41, 59, 0.5);
+$modal-content-bg: #ffffff;
+
+@import '@keenmate/pure-admin-core/src/scss/core';
+@import '@keenmate/pure-admin-core/src/scss/utilities';
+@import '@keenmate/pure-admin-core/src/scss/base-css-variables';
+
+// Corporate-specific styling overrides
+// Header text visibility - light text on dark header
+.pa-header {
+  &__brand h1 {
+    color: #ffffff !important;
+  }
+
+  &__nav > ul > li > a {
+    color: $corporate-slate-300 !important;
+
+    &:hover {
+      color: $corporate-blue-500 !important;
+      background-color: rgba($corporate-blue-500, 0.1) !important;
+    }
+  }
+
+  // Dropdown menu items - dark text on light background
+  &__dropdown li a {
+    color: $corporate-slate-700 !important;
+
+    &:hover {
+      color: $corporate-blue-500 !important;
+      background-color: rgba($corporate-blue-500, 0.1) !important;
+    }
+  }
+
+  &__title h2 {
+    color: $corporate-slate-300 !important;
+  }
+
+  &__profile-btn {
+    color: #ffffff !important;
+
+    &:hover {
+      background-color: rgba($corporate-blue-500, 0.2) !important;
+    }
+  }
+}
+
+// Burger menu - light bars on dark header
+.burger-menu {
+  span {
+    background-color: #ffffff !important;
+  }
+
+  &:hover span {
+    background-color: $corporate-blue-500 !important;
+  }
+}
+
+// Theme switcher in header
+.theme-switcher {
+  label {
+    color: $corporate-slate-300 !important;
+  }
+
+  select {
+    background-color: $corporate-slate-700 !important;
+    color: #ffffff !important;
+    border-color: $corporate-slate-600 !important;
+
+    &:focus {
+      border-color: $corporate-blue-500 !important;
+    }
+  }
+}
+
+// CSS Variables for page loader (FOUC prevention) and base theme variables
+:root {
+  --page-loader-bg: rgba(26, 26, 26, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #0066cc;
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
+
+  // Pure Admin theme CSS variables for runtime theme switching
+  @include output-pa-css-variables;
+}

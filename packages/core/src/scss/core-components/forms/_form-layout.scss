@@ -1,0 +1,66 @@
+/* ========================================
+   Form Layout
+   Form groups, form containers, horizontal layouts
+   ======================================== */
+@use '../../variables' as *;
+
+// Form Elements
+.pa-form-group {
+  margin-bottom: $form-group-margin-bottom;
+
+  // Remove margins when first/last child in card body (direct, in forms+grids, or in grid columns)
+  .pa-card__body > &:first-child,
+  .pa-card__body > .pa-form > .pure-g > [class*="pure-u"]:first-child > &:first-child,
+  .pa-card__body > [class*="pure-u"]:first-child > &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body > &:last-child,
+  .pa-card__body > .pa-form > .pure-g > [class*="pure-u"]:last-child > &:last-child,
+  .pa-card__body > [class*="pure-u"]:last-child > &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Horizontal form group (label on left, input on right)
+.pa-form-group--horizontal {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-base;
+
+  label {
+    flex-shrink: 0;
+    padding-top: $input-padding-v;
+    margin-bottom: 0;
+    color: var(--pa-text-primary);
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+  }
+
+  // Input container takes remaining space
+  > .pa-input,
+  > .pa-select,
+  > .pa-textarea {
+    flex: 1;
+  }
+}
+
+.pa-form {
+  .pa-form-group {
+    label {
+      display: flex;
+      align-items: center;
+      gap: $form-scale;
+      margin-bottom: $form-label-margin-bottom;
+      color: var(--pa-text-primary);
+      font-weight: $font-weight-medium;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .pa-form-actions {
+    margin-top: $spacing-base;
+    display: flex;
+    gap: $form-scale;
+    flex-wrap: wrap;
+  }
+}

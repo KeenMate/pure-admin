@@ -1,0 +1,105 @@
+/* ========================================
+   Layout Container
+   Main layout wrapper, content areas, sticky/scroll modes
+   ======================================== */
+@use '../../variables' as *;
+
+// Layout wrapper - applied to body for mode-specific classes
+body.pa-layout--sticky {
+  height: 100vh;
+  overflow: hidden;
+}
+
+// Layout Container - centered, starts below navbar
+.pa-layout {
+  max-width: 100%;
+  margin: $header-height auto 0;
+  background-color: var(--pa-primary-bg);
+  overflow: visible; // Allow tooltips to escape
+  display: flex;
+  flex-direction: column;
+}
+
+// Constrained widths - controlled by body class
+body.pa-container-sm .pa-layout {
+  max-width: $layout-container-sm;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid var(--pa-border-color);
+  border-right: $border-width-base solid var(--pa-border-color);
+}
+
+body.pa-container-md .pa-layout {
+  max-width: $layout-container-md;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid var(--pa-border-color);
+  border-right: $border-width-base solid var(--pa-border-color);
+}
+
+body.pa-container-lg .pa-layout {
+  max-width: $layout-container-lg;
+  box-shadow: $shadow-2xl;
+  border-left: $border-width-base solid var(--pa-border-color);
+  border-right: $border-width-base solid var(--pa-border-color);
+}
+
+body.pa-container-xl .pa-layout {
+  max-width: $layout-container-xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid var(--pa-border-color);
+  border-right: $border-width-base solid var(--pa-border-color);
+}
+
+body.pa-container-2xl .pa-layout {
+  max-width: $layout-container-2xl;
+  box-shadow: $shadow-xl;
+  border-left: $border-width-base solid var(--pa-border-color);
+  border-right: $border-width-base solid var(--pa-border-color);
+}
+
+// Sticky mode - fixed height
+body.pa-layout--sticky .pa-layout {
+  height: calc(100vh - #{$header-height}); // Full viewport minus top margin
+}
+
+// Scroll mode - minimum height
+body:not(.pa-layout--sticky) .pa-layout {
+  min-height: calc(100vh - #{$header-height}); // Ensure footer reaches bottom
+}
+
+// Layout inner container - flex wrapper for sidebar + content
+.pa-layout__inner {
+  display: flex;
+  width: 100%;
+  flex: 1; // Take available space, pushing footer to bottom
+}
+
+// Sticky mode - inner container takes full height minus footer
+body.pa-layout--sticky .pa-layout__inner {
+  flex: 1;
+  overflow: hidden; // Prevent overflow, let content wrapper scroll
+}
+
+// Content wrapper - wraps main content only
+.pa-layout__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; // Always scrollable
+}
+
+// Main content area
+.pa-layout__main {
+  flex: 1;
+  padding: $spacing-base;
+}
+
+// Footer - outside inner, sibling to inner
+.pa-layout__footer {
+  height: $footer-height;
+  background-color: var(--pa-footer-bg);
+  border-top: $border-width-base solid var(--pa-footer-border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-base;
+  flex-shrink: 0; // Don't shrink footer
+}

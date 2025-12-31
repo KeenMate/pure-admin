@@ -1,0 +1,34 @@
+{
+  "name": "@keenmate/pure-admin-theme-audi",
+  "version": "1.0.0",
+  "description": "Audi theme for Pure Admin - includes dark and light variants",
+  "style": "dist/audi.css",
+  "exports": {
+    ".": "./dist/audi.css",
+    "./light": "./dist/audi-light.css",
+    "./dark": "./dist/audi.css",
+    "./scss": "./src/scss/audi.scss",
+    "./scss/light": "./src/scss/audi-light.scss"
+  },
+  "files": [
+    "dist/",
+    "src/scss/"
+  ],
+  "scripts": {
+    "build": "sass src/scss:dist --no-source-map --silence-deprecation=import --load-path=../../node_modules",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["pure-admin", "theme", "audi", "css"],
+  "author": "KeenMate",
+  "license": "MIT",
+  "peerDependencies": {
+    "@keenmate/pure-admin-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@keenmate/pure-admin-core": "^1.0.0",
+    "sass": "^1.70.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

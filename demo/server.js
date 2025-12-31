@@ -1,0 +1,332 @@
+const express = require('express');
+const mustacheExpress = require('mustache-express');
+const Mustache = require('mustache');
+const cookieParser = require('cookie-parser');
+const path = require('path');
+const fs = require('fs');
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Path to the core package in workspace
+const corePackagePath = path.join(__dirname, '..', 'packages', 'core');
+
+// Theme packages paths
+const themePackages = {
+    'audi': path.join(__dirname, '..', 'packages', 'theme-audi', 'dist'),
+    'dark': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
+    'dark-blue': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
+    'dark-green': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
+    'dark-red': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
+    'corporate': path.join(__dirname, '..', 'packages', 'theme-corporate', 'dist'),
+    'express': path.join(__dirname, '..', 'packages', 'theme-express', 'dist'),
+    'minimal': path.join(__dirname, '..', 'packages', 'theme-minimal', 'dist')
+};
+
+// Set Mustache as template engine
+app.engine('mustache', mustacheExpress());
+app.set('view engine', 'mustache');
+app.set('views', path.join(__dirname, 'views'));
+
+// Helper to load partials
+const loadPartial = (name) => {
+    return fs.readFileSync(path.join(__dirname, 'views', 'partials', `${name}.mustache`), 'utf-8');
+};
+
+// Add cookie parser middleware
+app.use(cookieParser());
+
+// Middleware to determine current theme, container width, and sidebar mode
+app.use((req, res, next) => {
+    const theme = req.query.theme || req.cookies.selectedTheme || 'audi';
+    res.locals.currentTheme = theme;
+
+    // Set cookie if theme was changed via query param
+    if (req.query.theme) {
+        res.cookie('selectedTheme', theme, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    }
+
+    // Container width
+    const containerWidth = req.query.containerWidth || req.cookies.containerWidth || 'fluid';
+    res.locals.containerWidth = containerWidth;
+
+    // Set cookie if container width was changed via query param
+    if (req.query.containerWidth !== undefined) {
+        res.cookie('containerWidth', containerWidth, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    }
+
+    // Sidebar mode
+    const sidebarMode = req.query.sidebarMode !== undefined ? req.query.sidebarMode : (req.cookies.sidebarMode || '');
+    res.locals.sidebarMode = sidebarMode;
+
+    // Set cookie if sidebar mode was changed via query param
+    if (req.query.sidebarMode !== undefined) {
+        res.cookie('sidebarMode', sidebarMode, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    }
+
+    // Add helper variables for Mustache
+    res.locals.isAudiTheme = theme === 'audi';
+
+    next();
+});
+
+// Custom render helper for layout support
+const renderWithLayout = (res, viewName, data) => {
+    // Merge data with res.locals
+    const viewData = { ...res.locals, ...data };
+
+    // Read and render the page template
+    const pageTemplate = fs.readFileSync(path.join(__dirname, 'views', `${viewName}.mustache`), 'utf-8');
+    const pageHtml = Mustache.render(pageTemplate, viewData);
+
+    // Read and render partials WITH data
+    const navbarTemplate = loadPartial('navbar');
+    const sidebarTemplate = loadPartial('sidebar');
+    const settingsPanelTemplate = loadPartial('settings-panel');
+    const navbarHtml = Mustache.render(navbarTemplate, viewData);
+    const sidebarHtml = Mustache.render(sidebarTemplate, viewData);
+    const settingsPanelHtml = Mustache.render(settingsPanelTemplate, viewData);
+
+    // Read layout template fresh on each request (for development)
+    const layoutTemplate = fs.readFileSync(path.join(__dirname, 'views', 'layout.mustache'), 'utf-8');
+
+    // Render the layout with the page content and rendered partials
+    const finalData = {
+        ...viewData,
+        body: pageHtml,
+        partials: {
+            navbar: navbarHtml,
+            sidebar: sidebarHtml,
+            settingsPanel: settingsPanelHtml
+        }
+    };
+    const finalHtml = Mustache.render(layoutTemplate, finalData);
+
+    res.send(finalHtml);
+};
+
+// Routes
+app.get('/', (req, res) => {
+    renderWithLayout(res, 'dashboard', {
+        pageTitle: 'Dashboard',
+        currentPage: 'dashboard',
+        isDashboard: true
+    });
+});
+
+app.get('/theme-variables', (req, res) => {
+    renderWithLayout(res, 'theme-variables', { pageTitle: 'Theme Variables', currentPage: 'theme-variables', isThemeVariables: true });
+});
+
+app.get('/forms', (req, res) => {
+    renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms', isForms: true });
+});
+
+app.get('/inputs', (req, res) => {
+    renderWithLayout(res, 'inputs', { pageTitle: 'Inputs', currentPage: 'inputs', isInputs: true });
+});
+
+app.get('/date-picker', (req, res) => {
+    renderWithLayout(res, 'date-picker', { pageTitle: 'Date Picker', currentPage: 'date-picker', isDatePicker: true });
+});
+
+app.get('/multiselect', (req, res) => {
+    renderWithLayout(res, 'multiselect', { pageTitle: 'Multiselect', currentPage: 'multiselect', isMultiselect: true });
+});
+
+app.get('/file-selector', (req, res) => {
+    renderWithLayout(res, 'file-selector', { pageTitle: 'File Selector', currentPage: 'file-selector', isFileSelector: true });
+});
+
+app.get('/checkbox-lists', (req, res) => {
+    renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
+});
+
+app.get('/cards', (req, res) => {
+    renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
+});
+
+app.get('/grid', (req, res) => {
+    renderWithLayout(res, 'grid', { pageTitle: 'Grid System', currentPage: 'grid', isGrid: true });
+});
+
+app.get('/buttons', (req, res) => {
+    renderWithLayout(res, 'buttons', { pageTitle: 'Buttons', currentPage: 'buttons', isButtons: true });
+});
+
+app.get('/alerts', (req, res) => {
+    renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts', isAlerts: true });
+});
+
+app.get('/components', (req, res) => {
+    renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components', isComponents: true });
+});
+
+app.get('/tables', (req, res) => {
+    renderWithLayout(res, 'tables', { pageTitle: 'Tables', currentPage: 'tables', isTables: true });
+});
+
+app.get('/tables-sizing', (req, res) => {
+    renderWithLayout(res, 'tables-sizing', { pageTitle: 'Tables - Sizing', currentPage: 'tables-sizing', isTablesSizing: true });
+});
+
+app.get('/tables-responsive', (req, res) => {
+    renderWithLayout(res, 'tables-responsive', { pageTitle: 'Responsive Tables', currentPage: 'tables-responsive', isTablesResponsive: true });
+});
+
+app.get('/table-filters', (req, res) => {
+    renderWithLayout(res, 'table-filters', { pageTitle: 'Table Filters', currentPage: 'table-filters', isTableFilters: true });
+});
+
+app.get('/smart-filters', (req, res) => {
+    renderWithLayout(res, 'smart-filters', { pageTitle: 'Smart Filters', currentPage: 'smart-filters', isSmartFilters: true });
+});
+
+app.get('/table-multi-select', (req, res) => {
+    renderWithLayout(res, 'table-multi-select', { pageTitle: 'Multi-Select Across Filters', currentPage: 'table-multi-select', isTableMultiSelect: true });
+});
+
+app.get('/comparison', (req, res) => {
+    renderWithLayout(res, 'comparison', { pageTitle: 'Comparison Tables', currentPage: 'comparison', isComparison: true });
+});
+
+app.get('/code', (req, res) => {
+    renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code', isCode: true });
+});
+
+app.get('/badges', (req, res) => {
+    renderWithLayout(res, 'badges', { pageTitle: 'Badges & Labels', currentPage: 'badges', isBadges: true });
+});
+
+app.get('/modals', (req, res) => {
+    renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals', isModals: true });
+});
+
+app.get('/modal-dialogs', (req, res) => {
+    renderWithLayout(res, 'modal-dialogs', { pageTitle: 'Modal Dialogs', currentPage: 'modal-dialogs', isModalDialogs: true });
+});
+
+app.get('/popconfirm', (req, res) => {
+    renderWithLayout(res, 'popconfirm', { pageTitle: 'Popconfirm', currentPage: 'popconfirm', isPopconfirm: true });
+});
+
+app.get('/loaders', (req, res) => {
+    renderWithLayout(res, 'loaders', { pageTitle: 'Loaders & Spinners', currentPage: 'loaders', isLoaders: true });
+});
+
+app.get('/tooltips', (req, res) => {
+    renderWithLayout(res, 'tooltips', { pageTitle: 'Tooltips', currentPage: 'tooltips', isTooltips: true });
+});
+
+app.get('/command-palette', (req, res) => {
+    renderWithLayout(res, 'command-palette', { pageTitle: 'Command Palette', currentPage: 'command-palette', isCommandPalette: true });
+});
+
+app.get('/tabs', (req, res) => {
+    renderWithLayout(res, 'tabs', { pageTitle: 'Tabs', currentPage: 'tabs', isTabs: true });
+});
+
+app.get('/toasts', (req, res) => {
+    renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts', isToasts: true });
+});
+
+app.get('/layouts', (req, res) => {
+    renderWithLayout(res, 'layouts', { pageTitle: 'Layouts', currentPage: 'layouts', isLayouts: true });
+});
+
+app.get('/lists', (req, res) => {
+    renderWithLayout(res, 'lists', { pageTitle: 'Lists', currentPage: 'lists', isLists: true });
+});
+
+app.get('/timeline', (req, res) => {
+    renderWithLayout(res, 'timeline', { pageTitle: 'Timeline', currentPage: 'timeline', isTimeline: true });
+});
+
+app.get('/timeline-simple', (req, res) => {
+    renderWithLayout(res, 'timeline-simple', { pageTitle: 'Simple Timeline', currentPage: 'timeline-simple', isTimelineSimple: true });
+});
+
+app.get('/timeline-block', (req, res) => {
+    renderWithLayout(res, 'timeline-block', { pageTitle: 'Timeline Block', currentPage: 'timeline-block', isTimelineBlock: true });
+});
+
+app.get('/virtual-scroll', (req, res) => {
+    renderWithLayout(res, 'virtual-scroll', { pageTitle: 'Virtual Scroll', currentPage: 'virtual-scroll', isVirtualScroll: true });
+});
+
+app.get('/virtual-scroll-code', (req, res) => {
+    renderWithLayout(res, 'virtual-scroll-code', { pageTitle: 'Virtual Scroll Code', currentPage: 'virtual-scroll-code', isVirtualScrollCode: true });
+});
+
+// Serve static files with cache headers (after routes so EJS takes precedence)
+
+// Theme CSS files from separate theme packages
+app.get('/dist/css/themes/:theme.css', (req, res) => {
+    const themeName = req.params.theme;
+    const themeDistPath = themePackages[themeName];
+
+    if (!themeDistPath) {
+        return res.status(404).send(`Theme "${themeName}" not found`);
+    }
+
+    const themeCssPath = path.join(themeDistPath, `${themeName}.css`);
+
+    if (!fs.existsSync(themeCssPath)) {
+        return res.status(404).send(`Theme CSS file not found: ${themeCssPath}`);
+    }
+
+    res.setHeader('Content-Type', 'text/css');
+    res.setHeader('Cache-Control', 'public, max-age=120');
+    res.sendFile(themeCssPath);
+});
+
+// Fonts from core package
+app.use('/fonts', express.static(path.join(corePackagePath, 'dist', 'fonts'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// Also serve fonts from core package fonts/ directory (source fonts)
+app.use('/fonts', express.static(path.join(corePackagePath, 'fonts'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// CSS from core package
+app.use('/dist/css', express.static(path.join(corePackagePath, 'dist', 'css'), {
+    maxAge: 120000, // 2 minutes
+    setHeaders: (res, filePath) => {
+        res.setHeader('Cache-Control', 'public, max-age=120'); // 2 minutes
+    }
+}));
+
+// Other dist files from core package
+app.use('/dist', express.static(path.join(corePackagePath, 'dist'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// SCSS source files from core package
+app.use('/src/scss', express.static(path.join(corePackagePath, 'src', 'scss'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// JavaScript files from demo (local)
+app.use('/src/js', express.static(path.join(__dirname, 'js'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// Assets (images, icons) from demo (local)
+app.use('/assets', express.static(path.join(__dirname, 'assets'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// Snippets from core package
+app.use('/snippets', express.static(path.join(corePackagePath, 'snippets'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+// Node modules (workspace root)
+app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules'), {
+    maxAge: 120000 // 2 minutes
+}));
+
+app.listen(port, () => {
+    console.log(`Pure Admin server running at http://localhost:${port}`);
+});

@@ -1,0 +1,200 @@
+/* ========================================
+   Statistics Components
+   Stat displays with icons, hero variant, and square variant
+   ======================================== */
+@use '../variables' as *;
+
+// Statistics components
+.pa-stat {
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+
+  &__icon {
+    width: $stat-icon-size;
+    height: $stat-icon-size;
+    border-radius: $border-radius-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-xl;
+
+    &--primary {
+      background-color: rgba($accent-color, $opacity-light);
+      color: $accent-color;
+    }
+
+    &--success {
+      background-color: $success-bg-light;
+      color: $success-bg;
+    }
+
+    &--warning {
+      background-color: $warning-bg-light;
+      color: $warning-bg;
+    }
+
+    &--info {
+      background-color: $info-bg-light;
+      color: $info-bg;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__number {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: var(--pa-text-primary);
+    margin-bottom: $stat-number-margin-bottom;
+  }
+
+  &__label {
+    color: var(--pa-text-secondary);
+    font-size: $font-size-sm;
+  }
+
+  // Hero variant - big focus on the number
+  &--hero {
+    display: block;
+    text-align: center;
+    padding: $spacing-lg;
+
+    .pa-stat__label {
+      font-size: $font-size-sm;
+      text-transform: uppercase;
+      letter-spacing: $stat-label-letter-spacing;
+      font-weight: $font-weight-medium;
+      color: var(--pa-text-secondary);
+      margin-bottom: $spacing-sm;
+    }
+
+    .pa-stat__value {
+      font-size: $font-size-4xl;
+      font-weight: $font-weight-bold;
+      color: var(--pa-text-primary);
+      line-height: 1;
+      margin-bottom: $spacing-sm;
+    }
+
+    .pa-stat__change {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+
+      &--positive {
+        color: $success-bg;
+      }
+
+      &--negative {
+        color: $danger-bg;
+      }
+
+      &--neutral {
+        color: var(--pa-text-secondary);
+      }
+    }
+  }
+
+  // Square variant - compact square with big number and shadowed symbol
+  &--square {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-lg;
+    min-height: $stat-square-min-size;
+    min-width: $stat-square-min-size;
+    position: relative;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    margin: $spacing-sm;
+    transition: transform $transition-fast $easing-snappy, box-shadow $transition-fast $easing-snappy;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY($hover-lift-offset);
+      box-shadow: $shadow-lg;
+    }
+
+    .pa-stat__number {
+      font-size: clamp($stat-square-number-min, $stat-square-number-scale, $stat-square-number-max);
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      color: inherit;
+      z-index: $focus-outline-width;
+      position: relative;
+      text-shadow: 0 $stat-text-shadow-1-y $stat-text-shadow-1-blur rgba(0, 0, 0, $btn-focus-ring-opacity),
+                   0 $stat-text-shadow-2-y $stat-text-shadow-2-blur rgba(0, 0, 0, $opacity-shadow-md);
+      filter: drop-shadow(0 $stat-drop-shadow-y $stat-drop-shadow-blur rgba(0, 0, 0, $opacity-light));
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+
+    .pa-stat__symbol {
+      font-size: clamp($stat-square-symbol-min, $stat-square-symbol-scale, $stat-square-symbol-max);
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      opacity: $stat-symbol-opacity;
+      color: inherit;
+      position: absolute;
+      right: $spacing-lg;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: $z-index-base;
+    }
+
+    .pa-stat__label {
+      position: absolute;
+      bottom: $spacing-base;
+      left: $spacing-lg;
+      font-size: $font-size-xs;
+      text-transform: uppercase;
+      letter-spacing: $stat-label-letter-spacing;
+      font-weight: $font-weight-medium;
+      color: inherit;
+      opacity: 0.8;
+      z-index: 2;
+      max-width: calc(100% - #{$spacing-lg * 2});
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    // Color variants
+    &.pa-stat--primary {
+      background-color: $accent-color;
+      color: $modal-content-bg;
+    }
+
+    &.pa-stat--success {
+      background-color: $success-bg;
+      color: $btn-success-text;
+    }
+
+    &.pa-stat--info {
+      background-color: $info-bg;
+      color: $btn-info-text;
+    }
+
+    &.pa-stat--warning {
+      background-color: $warning-bg;
+      color: $btn-warning-color;
+    }
+
+    &.pa-stat--danger {
+      background-color: $danger-bg;
+      color: $btn-danger-text;
+    }
+
+    &.pa-stat--secondary {
+      background-color: var(--pa-text-secondary);
+      color: $modal-content-bg;
+    }
+  }
+}
+
+// KPI Grid - spacing for square stats
+.pa-kpi-grid {
+  margin: -#{$spacing-sm};
+}

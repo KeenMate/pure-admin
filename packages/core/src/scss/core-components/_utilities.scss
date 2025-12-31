@@ -1,0 +1,241 @@
+/* ========================================
+   Utility Components
+   Font utilities, compact mode, component showcase
+   ======================================== */
+@use '../variables' as *;
+
+// Font size classes - Apply to <html> element for proportional scaling of all rem units
+// Example: document.documentElement.classList.add('font-size-large');
+html.font-size-2xs {
+  font-size: $font-size-2xs;
+}
+
+html.font-size-xs {
+  font-size: $font-size-xs;
+}
+
+html.font-size-small {
+  font-size: $font-size-sm;
+}
+
+html.font-size-medium {
+  font-size: $font-size-md;
+}
+
+html.font-size-default {
+  font-size: $font-size-base;
+}
+
+html.font-size-large {
+  font-size: $font-size-lg;
+}
+
+html.font-size-xlarge {
+  font-size: $font-size-xl;
+}
+
+html.font-size-2xl {
+  font-size: $font-size-2xl;
+}
+
+html.font-size-3xl {
+  font-size: $font-size-3xl;
+}
+
+html.font-size-4xl {
+  font-size: $font-size-4xl;
+}
+
+// Font family utilities
+// Only for overriding the theme's default font
+.font-family-serif {
+  font-family: $font-stack-serif;
+}
+
+.font-family-mono {
+  font-family: $font-stack-mono;
+}
+
+// Compact mode
+.compact-mode {
+  .pa-card__body {
+    padding: $spacing-md;
+  }
+
+  .pa-table td,
+  .pa-table th {
+    padding: $btn-padding-v $btn-padding-h;
+  }
+
+  .pa-sidebar__nav ul li a {
+    padding: $sidebar-padding;
+  }
+
+  .pa-form-group {
+    margin-bottom: $form-group-margin-compact;
+  }
+}
+
+
+// Min-height utilities (rem-based)
+.min-h-2x { min-height: 2rem; }   // 32px
+.min-h-3x { min-height: 3rem; }   // 48px
+.min-h-5x { min-height: 5rem; }   // 80px
+.min-h-8x { min-height: 8rem; }   // 128px
+.min-h-10x { min-height: 10rem; } // 160px
+.min-h-12x { min-height: 12rem; } // 192px
+.min-h-15x { min-height: 15rem; } // 240px
+.min-h-20x { min-height: 20rem; } // 320px
+.min-h-25x { min-height: 25rem; } // 400px
+.min-h-30x { min-height: 30rem; } // 480px
+
+// Fixed height utilities (rem-based) - for scrollable containers
+.h-2x { height: 2rem; }   // 32px
+.h-3x { height: 3rem; }   // 48px
+.h-5x { height: 5rem; }   // 80px
+.h-8x { height: 8rem; }   // 128px
+.h-10x { height: 10rem; } // 160px
+.h-12x { height: 12rem; } // 192px
+.h-15x { height: 15rem; } // 240px
+.h-20x { height: 20rem; } // 320px
+.h-25x { height: 25rem; } // 400px
+.h-30x { height: 30rem; } // 480px
+.h-40x { height: 40rem; } // 640px
+.h-50x { height: 50rem; } // 800px
+
+// Max-height utilities (rem-based) - useful for limiting content height
+.max-h-5x { max-height: 5rem; }   // 80px
+.max-h-8x { max-height: 8rem; }   // 128px
+.max-h-10x { max-height: 10rem; } // 160px
+.max-h-12x { max-height: 12rem; } // 192px
+.max-h-15x { max-height: 15rem; } // 240px
+.max-h-20x { max-height: 20rem; } // 320px
+.max-h-25x { max-height: 25rem; } // 400px
+.max-h-30x { max-height: 30rem; } // 480px
+.max-h-40x { max-height: 40rem; } // 640px
+.max-h-50x { max-height: 50rem; } // 800px
+
+// Overflow utilities - pair with height/max-height for scrollable content
+.overflow-auto { overflow: auto; }
+.overflow-y-auto { overflow-y: auto; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-hidden { overflow: hidden; }
+.overflow-visible { overflow: visible; }
+
+// Cursor utilities
+.cursor-pointer { cursor: pointer; }
+.cursor-help { cursor: help; }
+.cursor-wait { cursor: wait; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-text { cursor: text; }
+.cursor-move { cursor: move; }
+.cursor-default { cursor: default; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+.cursor-zoom-in { cursor: zoom-in; }
+.cursor-zoom-out { cursor: zoom-out; }
+
+// ========================================
+// Text Component (BEM pattern)
+// For paragraph typography across pages
+// ========================================
+.pa-text {
+  font-size: $font-size-sm;  // 1.4rem (14px) - default
+  color: var(--pa-text-primary);
+
+  // Size modifiers
+  &--xs {
+    font-size: $font-size-2xs;  // 1rem (10px)
+  }
+
+  &--sm {
+    font-size: $font-size-xs;   // 1.2rem (12px)
+  }
+
+  &--lg {
+    font-size: $font-size-base; // 1.6rem (16px)
+  }
+
+  &--xl {
+    font-size: $font-size-lg;   // 1.8rem (18px)
+  }
+
+  // Color modifiers
+  &--primary {
+    color: var(--pa-text-primary);
+  }
+
+  &--secondary {
+    color: var(--pa-text-secondary);
+  }
+
+  // Alignment modifiers
+  &--left {
+    text-align: left;
+  }
+
+  &--center {
+    text-align: center;
+  }
+
+  &--right {
+    text-align: right;
+  }
+
+  // Semantic variants (compound styles)
+  &--caption {
+    font-size: $font-size-xs;
+    color: var(--pa-text-secondary);
+    margin-bottom: $spacing-sm;
+  }
+
+  &--lead {
+    font-size: $font-size-base;
+    line-height: $line-height-relaxed;
+  }
+}
+
+// Component showcase styling
+.component-showcase {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+}
+
+// Usage example styling
+.usage-example {
+  .user-item,
+  .project-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-md;
+    margin-bottom: $spacing-sm;
+    background-color: var(--pa-card-bg);
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+
+    .user-name {
+      font-weight: $font-weight-medium;
+    }
+
+    h5 {
+      margin: 0 0 $spacing-sm 0;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-xs;
+    }
+  }
+
+  .project-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

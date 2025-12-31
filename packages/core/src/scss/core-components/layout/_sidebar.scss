@@ -1,0 +1,177 @@
+/* ========================================
+   Sidebar Component
+   Sidebar navigation with nested submenus
+   ======================================== */
+@use '../../variables' as *;
+
+// Sidebar layout element
+.pa-layout__sidebar {
+  width: $sidebar-width;
+  background-color: var(--pa-sidebar-bg);
+  border-right: $border-width-base solid var(--pa-border-color);
+  flex-shrink: 0;
+}
+
+// Sticky mode - sidebar scrolls
+body.pa-layout--sticky .pa-layout__sidebar {
+  overflow-y: auto;
+  overflow-x: visible; // Allow tooltips to escape right
+}
+
+// Sidebar component (separate BEM block)
+.pa-sidebar {
+  &__nav {
+    padding: $spacing-base 0;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__item {
+    // Base styles for all sidebar items (regular links and submenu toggles)
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
+    color: var(--pa-sidebar-text-secondary);
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    border-right: $border-width-thick solid transparent; // Reserve space to prevent shift on active
+
+    body.loaded & {
+      transition: all $transition-fast $easing-snappy;
+    }
+
+    &:hover {
+      color: var(--pa-sidebar-text);
+      background-color: var(--pa-accent-light);
+    }
+
+    &--active {
+      color: var(--pa-sidebar-text);
+      background-color: var(--pa-accent-hover);
+      border-right-color: var(--pa-accent); // Only change color, not width
+      font-weight: $font-weight-semibold; // Make active item bolder
+    }
+  }
+
+  &__toggle {
+    // For submenu toggle buttons (non-link items)
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
+    color: var(--pa-sidebar-text-secondary);
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+
+    body.loaded & {
+      transition: all $transition-fast $easing-snappy;
+    }
+
+    &:hover {
+      color: var(--pa-sidebar-text);
+      background-color: var(--pa-accent-light);
+    }
+
+    &--active {
+      color: var(--pa-sidebar-text);
+      background-color: var(--pa-accent-hover);
+    }
+  }
+
+  // Icon and label styles
+  &__icon {
+    width: $sidebar-icon-size;
+    min-width: $sidebar-icon-size;
+    height: $sidebar-icon-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: $font-size-base;
+    text-align: center;
+    line-height: 1; // Prevent emoji baseline shift
+  }
+
+  &__label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    body.loaded & {
+      transition: opacity $transition-normal $easing-snappy, width $transition-normal $easing-snappy;
+    }
+  }
+
+  // Submenu styles - Level 2
+  &__submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    background-color: var(--pa-sidebar-submenu-bg);
+
+    &--open {
+      display: block;
+    }
+  }
+
+  // Level 2 submenu links
+  &__submenu > &__item > &__link {
+    padding-left: $sidebar-submenu-indent;
+    font-size: $font-size-md;
+    border-right: $border-width-medium solid transparent; // Reserve space to prevent shift on active
+
+    &:hover {
+      background-color: var(--pa-sidebar-submenu-hover-bg);
+    }
+
+    &--active {
+      background-color: var(--pa-sidebar-submenu-active-bg);
+      border-right-color: var(--pa-accent); // Only change color, not width
+    }
+  }
+
+  // Level 2 submenu toggles (for third level)
+  &__submenu > &__item > &__toggle {
+    padding-left: $sidebar-submenu-indent;
+    font-size: $font-size-md;
+  }
+
+  // Level 3 submenu links
+  &__submenu &__submenu > &__item > &__link {
+    padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
+    font-size: $font-size-sm;
+    border-right: $border-width-base solid transparent; // Reserve space to prevent shift on active
+
+    &--active {
+      border-right-color: var(--pa-accent); // Only change color, not width
+    }
+  }
+
+  // Chevron icon for toggle buttons
+  &__chevron {
+    margin-left: auto;
+    font-size: $font-size-xs;
+
+    body.loaded & {
+      transition: transform $transition-fast $easing-snappy;
+    }
+
+    .pa-sidebar__item--open & {
+      transform: rotate(90deg);
+    }
+  }
+}

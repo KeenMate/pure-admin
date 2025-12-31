@@ -1,0 +1,288 @@
+/* Pure Admin Visual - Audi Theme (Pure SCSS Variables) */
+@use 'sass:color';
+
+// 1. Import framework variables first (all defaults with !default flags)
+@import '../variables';
+
+// 2. Override SCSS variables for Audi theme
+$sidebar-width: 29rem; // 290px (10px base)
+$border-radius: 1px;
+$border-radius-lg: 2px;
+
+// Audi color palette
+$audi-black: #000000;        // Pure black
+$audi-near-black: #0a0a0a;   // Near black
+$audi-dark: #1a1a1a;         // Dark gray
+$audi-gray: #2a2a2a;         // Medium gray
+$audi-gray-light: #333333;   // Light gray
+$audi-gray-lighter: #4d4d4d; // Lighter gray
+$audi-gray-lightest: #666666;// Lightest gray
+$audi-red: #ff0000;          // Signature red
+$audi-red-dark: #cc0000;     // Dark red
+
+// Audi theme colors - Sharp black/red German aesthetic
+$primary-bg: $audi-near-black;
+$bg-secondary: $audi-near-black;
+$content-background-color: $audi-dark;  // Settings panel and main content background
+$header-bg: $audi-black;
+$header-border-color: $audi-gray-light; // Match sidebar border color
+$sidebar-bg: $audi-dark;
+$sidebar-submenu-bg: $audi-gray-light;
+$sidebar-submenu-hover-bg: rgba($audi-red, 0.25); // Match level 1 hover (red accent)
+$sidebar-submenu-active-bg: rgba($audi-red, 0.3); // Match level 1 active (red accent)
+$footer-bg: $audi-black;
+$border-color: $audi-gray-light;
+$text-primary: #ffffff;
+$text-secondary: #cccccc;
+$accent-color: $audi-red;
+$accent-hover: rgba($audi-red, 0.3); // For active/selected state
+$accent-light: rgba($audi-red, 0.25); // For hover state - increased for better visibility on dark bg
+
+// Sync base variables with theme colors (for web components)
+// Colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%);
+$base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%);
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.3);
+$base-primary-bg: $audi-dark;
+$base-primary-bg-hover: $audi-gray;
+$base-text-color-1: #ffffff;
+$base-text-color-2: #cccccc;
+$base-text-color-3: #999999;
+$base-text-color-4: #666666;
+$base-text-on-accent: #ffffff;
+$base-border-color: $audi-gray-light;
+
+// Input fields
+$base-input-background: $audi-black;
+$base-input-color: #ffffff;
+$base-input-border: 1px solid $audi-gray-light;
+$base-input-border-hover: 1px solid $accent-color;
+$base-input-border-focus: 1px solid $accent-color;
+$base-input-placeholder-color: #666666;
+$base-input-background-disabled: rgba($audi-gray, 0.5);
+
+// Dropdown/Popover
+$base-dropdown-background: $audi-dark;
+$base-dropdown-border: 1px solid $audi-gray-light;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+// Tooltip
+$base-tooltip-background: $audi-gray-light;
+$base-tooltip-text-color: #ffffff;
+
+// Form focus colors - must match accent color
+$input-focus-border-color: $accent-color;
+$select-focus-border-color: $accent-color;
+$textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
+
+// Card colors
+$card-bg: $audi-dark;
+$card-header-bg: $audi-black;
+$card-footer-bg: $audi-black;
+$card-tabs-bg: $audi-gray-light;
+
+// Input colors
+$input-bg: $audi-black;
+$input-border: $audi-gray-light;
+$input-text: #ffffff;
+
+// Multiselect dropdown colors (match dark theme)
+$multiselect-dropdown-bg: $audi-dark;
+$multiselect-dropdown-border: $audi-gray-light;
+$multiselect-dropdown-text: #ffffff;
+
+// Table colors
+$table-stripe: $audi-gray;        // Subtle stripe with medium gray
+$table-bg: $audi-dark;
+$table-header-bg: $audi-black;
+$table-hover-bg: $audi-gray-light;
+
+// Enable red accent on table row hover (Audi signature detail)
+$table-hover-accent-width: 3px;
+$table-hover-accent-color: $accent-color; // Uses the red #ff0000
+$table-hover-accent-position: left;
+
+// Modal colors
+$modal-content-bg: $audi-dark;
+$modal-overlay-bg: rgba($audi-black, 0.8);
+
+// Profile name in header
+$header-profile-name-color: #ffffff;  // White text on black header
+
+// Button colors - German precision with red accents
+$btn-primary-bg: $audi-red;
+$btn-primary-bg-hover: $audi-red-dark;
+$btn-primary-text: #ffffff;
+$btn-secondary-bg: $audi-gray-light;
+$btn-secondary-bg-hover: $audi-gray-lighter;
+$btn-secondary-text: #ffffff;
+$btn-success-bg: #00cc44;
+$btn-success-bg-hover: #009933;
+$btn-success-text: #ffffff;
+$btn-danger-bg: $audi-red;
+$btn-danger-bg-hover: $audi-red-dark;
+$btn-danger-text: #ffffff;
+$btn-warning-bg: #ff6600;
+$btn-warning-bg-hover: #e55a00;
+$btn-warning-text: #ffffff;
+$btn-info-bg: #0099ff;
+$btn-info-bg-hover: #0077cc;
+$btn-info-text: #ffffff;
+$btn-light-bg: $audi-gray-lightest;
+$btn-light-bg-hover: #808080;
+$btn-light-text: #ffffff;
+$btn-dark-bg: $audi-black;
+$btn-dark-bg-hover: $audi-dark;
+$btn-dark-text: #ffffff;
+
+// Validation shadow colors - match button colors
+$success-bg: $btn-success-bg;
+$success-bg-light: rgba(0, 204, 68, 0.25);
+$warning-bg: $btn-warning-bg;
+$warning-bg-light: rgba(255, 102, 0, 0.25);
+$danger-bg: $btn-danger-bg;
+$danger-bg-light: rgba(255, 0, 0, 0.25);
+
+// 3. Add Fira Sans Condensed fonts
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfvtrftV.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfLtrftV.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfrtrftV.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfXtrftV.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfntrftV.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfjtrftV.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfbtrQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+// 4. Override font family SCSS variable after fonts are defined
+$body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
+
+// 5. Import core framework styles (will use all our SCSS variables)
+@import '../core';
+
+// 5b. Import utility classes
+@import '../utilities';
+@import '../base-css-variables';
+
+// 6. Audi-specific styling overrides
+.pa-btn--primary {
+  font-weight: $font-weight-bold;
+  color: #ffffff !important; // Ensure white text on red background
+  border-radius: 0 !important; // Sharp edges for German precision
+}
+
+.pa-btn--danger {
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  color: #ffffff !important; // Ensure white text on red background
+  border-radius: 0 !important; // Sharp edges for German precision
+}
+
+.pa-btn--secondary {
+  border-color: $audi-gray-lightest !important; // Lighter border for better visibility
+}
+
+.pa-btn--outline-secondary {
+  border-color: $audi-gray-lightest !important; // Lighter border for dark background
+  color: #cccccc !important; // Lighter text for dark background
+
+  &:hover {
+    background-color: $audi-gray-light !important;
+    color: #ffffff !important;
+  }
+}
+
+.pa-card {
+  border-radius: 0 !important; // Sharp edges
+  border: $border-width-medium solid $border-color;
+  box-shadow: 0 $spacing-xs ($spacing-sm * 2) rgba($audi-black, 0.8);
+}
+
+// Sidebar left-border accent (instead of default right-border)
+.pa-sidebar__link {
+  border-left: $border-width-thick solid transparent; // Reserve space for active state
+  border-right: none; // Remove default right border reservation
+}
+
+.pa-sidebar__link--active {
+  border-left-color: $accent-color !important;
+  color: $accent-color !important;
+}
+
+.pa-sidebar__link--active .pa-sidebar__label,
+.pa-sidebar__link--active .pa-sidebar__icon {
+  color: $accent-color !important;
+}
+
+// CSS Variables for page loader (FOUC prevention) and base theme variables
+:root {
+  --page-loader-bg: rgba(10, 10, 10, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #ff0000; // Audi red
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
+}

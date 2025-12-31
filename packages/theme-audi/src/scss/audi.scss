@@ -1,0 +1,500 @@
+/* Pure Admin Visual - Audi Theme (Multi-Mode: Dark + Light) */
+/* Supports runtime switching between dark and light modes via body class */
+@use 'sass:color';
+
+// 1. Import framework variables first (all defaults with !default flags)
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// 2. Override structural SCSS variables (shared between modes)
+$sidebar-width: 29rem; // 290px (10px base)
+$border-radius: 1px;
+$border-radius-lg: 2px;
+
+// No border radius for inputs (Audi design language - square corners)
+$base-border-radius-sm: 0;
+$base-border-radius-md: 0;
+$base-border-radius-lg: 0;
+
+// Enable red accent on table row hover (Audi signature detail)
+$table-hover-accent-width: 3px;
+$table-hover-accent-position: left;
+
+// ============================================================================
+// DARK MODE COLORS (Default)
+// ============================================================================
+$audi-black: #000000;
+$audi-near-black: #0a0a0a;
+$audi-dark: #1a1a1a;
+$audi-gray: #2a2a2a;
+$audi-gray-light: #333333;
+$audi-gray-lighter: #4d4d4d;
+$audi-gray-lightest: #666666;
+$audi-red: #ff0000;
+$audi-red-dark: #cc0000;
+
+// Dark mode theme colors
+$primary-bg: $audi-near-black;
+$bg-secondary: $audi-near-black;
+$content-background-color: $audi-dark;
+$header-bg: $audi-black;
+$header-border-color: $audi-gray-light;
+$header-text: #ffffff;
+$header-text-secondary: rgba(255, 255, 255, 0.7);
+$sidebar-bg: $audi-dark;
+$sidebar-text: #ffffff;
+$sidebar-text-secondary: #ffffff;
+$sidebar-submenu-bg: $audi-gray-light;
+$sidebar-submenu-hover-bg: rgba($audi-red, 0.25);
+$sidebar-submenu-active-bg: rgba($audi-red, 0.3);
+$footer-bg: $audi-black;
+$footer-border-color: $audi-gray-light;
+$border-color: $audi-gray-light;
+$text-primary: #ffffff;
+$text-secondary: #cccccc;
+$accent-color: $audi-red;
+$accent-hover: rgba($audi-red, 0.3);
+$accent-light: rgba($audi-red, 0.25);
+
+// Base variables for web components (dark mode)
+$base-accent-color: $accent-color;
+$base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%);
+$base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%);
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.3);
+$base-primary-bg: $audi-dark;
+$base-primary-bg-hover: $audi-gray;
+$base-text-color-1: #ffffff;
+$base-text-color-2: #cccccc;
+$base-text-color-3: #999999;
+$base-text-color-4: #666666;
+$base-text-color-on-accent: #ffffff;
+$base-border-color: $audi-gray-light;
+$base-border: 1px solid $audi-gray-light;
+
+// Input fields (dark mode)
+$base-input-bg: $audi-black;
+$base-input-color: #ffffff;
+$base-input-border: 1px solid $audi-gray-light;
+$base-input-border-hover: 1px solid $accent-color;
+$base-input-border-focus: 1px solid $accent-color;
+$base-input-placeholder-color: #666666;
+$base-input-bg-disabled: rgba($audi-gray, 0.5);
+
+// Dropdown/Popover (dark mode)
+$base-dropdown-bg: $audi-dark;
+$base-dropdown-border: 1px solid $audi-gray-light;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+// Tooltip (dark mode)
+$base-tooltip-bg: $audi-gray-light;
+$base-tooltip-text-color: #ffffff;
+
+// Form focus colors
+$input-focus-border-color: $accent-color;
+$select-focus-border-color: $accent-color;
+$textarea-focus-border-color: $accent-color;
+
+// Checkbox colors
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
+
+// Card colors (dark mode)
+$card-bg: $audi-dark;
+$card-header-bg: $audi-black;
+$card-footer-bg: $audi-black;
+$card-tabs-bg: $audi-gray-light;
+
+// Input colors (dark mode)
+$input-bg: $audi-black;
+$input-border: $audi-gray-light;
+$input-text: #ffffff;
+
+// Multiselect (dark mode)
+$multiselect-dropdown-bg: $audi-dark;
+$multiselect-dropdown-border: $audi-gray-light;
+$multiselect-dropdown-text: #ffffff;
+
+// Table colors (dark mode)
+$table-stripe: $audi-gray;
+$table-bg: $audi-dark;
+$table-header-bg: $audi-black;
+$table-hover-bg: $audi-gray-light;
+$table-hover-accent-color: $accent-color;
+
+// Modal colors (dark mode)
+$modal-content-bg: $audi-dark;
+$modal-overlay-bg: rgba($audi-black, 0.8);
+
+// Profile name in header
+$header-profile-name-color: #ffffff;
+
+// Button colors
+$btn-primary-bg: $audi-red;
+$btn-primary-bg-hover: $audi-red-dark;
+$btn-primary-text: #ffffff;
+$btn-secondary-bg: $audi-gray-light;
+$btn-secondary-bg-hover: $audi-gray-lighter;
+$btn-secondary-text: #ffffff;
+$btn-success-bg: #00cc44;
+$btn-success-bg-hover: #009933;
+$btn-success-text: #ffffff;
+$btn-danger-bg: $audi-red;
+$btn-danger-bg-hover: $audi-red-dark;
+$btn-danger-text: #ffffff;
+$btn-warning-bg: #ff6600;
+$btn-warning-bg-hover: #e55a00;
+$btn-warning-text: #ffffff;
+$btn-info-bg: #0099ff;
+$btn-info-bg-hover: #0077cc;
+$btn-info-text: #ffffff;
+$btn-light-bg: $audi-gray-lightest;
+$btn-light-bg-hover: #808080;
+$btn-light-text: #ffffff;
+$btn-dark-bg: $audi-black;
+$btn-dark-bg-hover: $audi-dark;
+$btn-dark-text: #ffffff;
+
+// Validation colors
+$success-bg: $btn-success-bg;
+$success-bg-light: rgba(0, 204, 68, 0.25);
+$warning-bg: $btn-warning-bg;
+$warning-bg-light: rgba(255, 102, 0, 0.25);
+$danger-bg: $btn-danger-bg;
+$danger-bg-light: rgba(255, 0, 0, 0.25);
+
+// ============================================================================
+// FONTS - Fira Sans Condensed
+// ============================================================================
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfvtrftV.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfLtrftV.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfrtrftV.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfXtrftV.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfntrftV.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfjtrftV.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfbtrQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+$body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
+
+// ============================================================================
+// IMPORT CORE FRAMEWORK (uses dark mode SCSS variables)
+// ============================================================================
+@import '@keenmate/pure-admin-core/src/scss/core';
+@import '@keenmate/pure-admin-core/src/scss/utilities';
+@import '@keenmate/pure-admin-core/src/scss/base-css-variables';
+
+// ============================================================================
+// AUDI-SPECIFIC COMPONENT OVERRIDES
+// ============================================================================
+.pa-btn--primary {
+  font-weight: $font-weight-bold;
+  color: #ffffff !important;
+  border-radius: 0 !important;
+}
+
+.pa-btn--danger {
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  border-radius: 0 !important;
+}
+
+.pa-btn--secondary {
+  border-color: $audi-gray-lightest !important;
+}
+
+.pa-btn--outline-secondary {
+  border-color: $audi-gray-lightest !important;
+  color: #cccccc !important;
+
+  &:hover {
+    background-color: $audi-gray-light !important;
+    color: #ffffff !important;
+  }
+}
+
+.pa-card {
+  border-radius: 0 !important;
+  border: $border-width-medium solid var(--pa-border-color);
+  box-shadow: 0 $spacing-xs ($spacing-sm * 2) rgba(0, 0, 0, 0.4);
+}
+
+// Sidebar left-border accent (instead of default right-border)
+.pa-sidebar__link {
+  border-left: $border-width-thick solid transparent;
+  border-right: none;
+}
+
+.pa-sidebar__link--active {
+  border-left-color: var(--pa-accent) !important;
+  color: var(--pa-sidebar-text) !important;
+}
+
+.pa-sidebar__link--active .pa-sidebar__label,
+.pa-sidebar__link--active .pa-sidebar__icon {
+  color: var(--pa-sidebar-text) !important;
+}
+
+// ============================================================================
+// CSS VARIABLES - DARK MODE (Default)
+// ============================================================================
+:root, .pa-mode-dark {
+  --page-loader-bg: rgba(10, 10, 10, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #ff0000;
+
+  // Base CSS variables for web components
+  @include output-base-css-variables;
+
+  // Pure Admin theme CSS variables
+  @include output-pa-css-variables;
+
+  // Daterangepicker overrides (dark mode)
+  --drp-dropdown-bg: #{$audi-dark};
+  --drp-border-color: #{$audi-gray-light};
+  --drp-primary-bg: #{$audi-gray};
+  --drp-primary-bg-hover: #{$audi-gray-light};
+  --drp-text-primary: #ffffff;
+  --drp-text-secondary: #999999;
+  --drp-button-bg: transparent;
+  --drp-button-color: #ffffff;
+  --drp-button-accent-text-color: #ffffff;
+  --drp-button-clear-color: #999999;
+  --drp-button-cancel-color: #999999;
+
+  // Multiselect overrides (dark mode)
+  --ms-dropdown-bg: #{$audi-dark};
+  --ms-input-bg: #{$audi-black};
+  --ms-primary-bg: #{$audi-gray};
+  --ms-primary-bg-hover: #{$audi-gray-light};
+  --ms-border-color: #{$audi-gray-light};
+  --ms-text-color-1: #ffffff;
+  --ms-text-color-2: #cccccc;
+  --ms-text-color-3: #999999;
+  --ms-text-color-4: #666666;
+  --ms-hint-bg: #{$audi-gray};
+  --ms-actions-bg: #{$audi-gray};
+  --ms-selected-popover-bg: #{$audi-dark};
+}
+
+// ============================================================================
+// CSS VARIABLES - LIGHT MODE
+// ============================================================================
+.pa-mode-light {
+  // Light mode color palette
+  $light-white: #ffffff;
+  $light-gray-50: #f8f9fa;
+  $light-gray-100: #f1f3f5;
+  $light-gray-200: #e9ecef;
+  $light-gray-300: #dee2e6;
+  $light-gray-400: #ced4da;
+  $light-gray-500: #adb5bd;
+  $light-gray-600: #6c757d;
+  $light-gray-700: #495057;
+  $light-gray-800: #343a40;
+  $light-gray-900: #212529;
+
+  --page-loader-bg: rgba(240, 240, 240, 0.95);
+  --page-loader-spinner-border: #d0d0d0;
+  --page-loader-spinner-accent: #ff0000;
+
+  // Core colors - light backgrounds
+  --pa-primary-bg: #{$light-gray-100};
+  --pa-bg-secondary: #{$light-gray-50};
+  --pa-content-bg: #{$light-gray-100};
+
+  // Text colors - dark text on light bg
+  --pa-text-primary: #{$light-gray-900};
+  --pa-text-secondary: #{$light-gray-600};
+
+  // Accent stays red
+  --pa-accent: #ff0000;
+  --pa-accent-hover: rgba(255, 0, 0, 0.1);
+  --pa-accent-light: rgba(255, 0, 0, 0.05);
+
+  // Border - lighter for light mode
+  --pa-border-color: #{$light-gray-200};
+
+  // Header/Sidebar/Footer stay dark for contrast
+  --pa-header-bg: #1a1a1a;
+  --pa-header-border-color: #{$light-gray-300};
+  --pa-header-text: #ffffff;
+  --pa-header-text-secondary: rgba(255, 255, 255, 0.7);
+  --pa-header-profile-name-color: #ffffff;
+  --pa-sidebar-bg: #1a1a1a;
+  --pa-sidebar-text: #ffffff;
+  --pa-sidebar-text-secondary: #ffffff;
+  --pa-sidebar-submenu-bg: #333333;
+  --pa-sidebar-submenu-hover-bg: rgba(255, 0, 0, 0.25);
+  --pa-sidebar-submenu-active-bg: rgba(255, 0, 0, 0.3);
+  --pa-footer-bg: #1a1a1a;
+  --pa-footer-border-color: #{$light-gray-300};
+
+  // Cards - white/light backgrounds
+  --pa-card-bg: #{$light-white};
+  --pa-card-header-bg: #{$light-gray-50};
+  --pa-card-footer-bg: #{$light-gray-50};
+  --pa-card-tabs-bg: #{$light-gray-200};
+
+  // Inputs - white backgrounds
+  --pa-input-bg: #{$light-white};
+  --pa-input-border: #{$light-gray-300};
+  --pa-input-text: #{$light-gray-900};
+
+  // Tables - light backgrounds
+  --pa-table-bg: #{$light-white};
+  --pa-table-header-bg: #{$light-gray-100};
+  --pa-table-stripe: #{$light-gray-50};
+  --pa-table-hover-bg: #{$light-gray-100};
+
+  // Modals
+  --pa-modal-content-bg: #{$light-white};
+  --pa-modal-overlay-bg: rgba(0, 0, 0, 0.75);
+
+  // Buttons - adjust light button for light mode
+  --pa-btn-light-bg: #{$light-gray-200};
+  --pa-btn-light-bg-hover: #{$light-gray-300};
+  --pa-btn-light-text: #{$light-gray-900};
+  --pa-btn-secondary-bg: #{$light-gray-600};
+  --pa-btn-secondary-bg-hover: #{$light-gray-700};
+
+  // Tooltip
+  --pa-tooltip-bg: #{$light-gray-800};
+  --pa-tooltip-text: #ffffff;
+
+  // Popover
+  --pa-popover-content-bg: #{$light-white};
+
+  // Semantic colors - slightly adjusted for light mode
+  --pa-success-bg-light: rgba(0, 204, 68, 0.1);
+  --pa-warning-bg-light: rgba(255, 102, 0, 0.1);
+  --pa-danger-bg-light: rgba(255, 0, 0, 0.1);
+  --pa-info-bg-light: rgba(0, 153, 255, 0.1);
+
+  // Base variables for web components (light mode)
+  --base-primary-bg: #{$light-gray-100};
+  --base-primary-bg-hover: #{$light-gray-200};
+  --base-text-color-1: #{$light-gray-900};
+  --base-text-color-2: #{$light-gray-600};
+  --base-text-color-3: #{$light-gray-500};
+  --base-text-color-4: #{$light-gray-400};
+  --base-border-color: #{$light-gray-300};
+  --base-border: 1px solid #{$light-gray-300};
+  --base-input-bg: #{$light-white};
+  --base-input-color: #{$light-gray-900};
+  --base-input-border: 1px solid #{$light-gray-300};
+  --base-dropdown-bg: #{$light-white};
+  --base-dropdown-border: 1px solid #{$light-gray-300};
+  --base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --base-tooltip-bg: #{$light-gray-800};
+  --base-tooltip-text-color: #ffffff;
+
+  // Daterangepicker overrides (light mode) - must target element directly to override core
+  web-daterangepicker {
+    --drp-dropdown-bg: #{$light-white};
+    --drp-border-color: #{$light-gray-300};
+    --drp-primary-bg: #{$light-gray-100};
+    --drp-primary-bg-hover: #{$light-gray-200};
+    --drp-text-primary: #{$light-gray-900};
+    --drp-text-secondary: #{$light-gray-600};
+    --drp-button-bg: transparent;
+    --drp-button-color: #{$light-gray-900};
+    --drp-button-accent-text-color: #ffffff;
+    --drp-button-today-color: #ff0000;
+    --drp-button-clear-color: #{$light-gray-600};
+    --drp-button-cancel-color: #{$light-gray-600};
+  }
+
+  // Multiselect overrides (light mode) - must target element directly to override core
+  web-multiselect {
+    --ms-dropdown-bg: #{$light-white};
+    --ms-input-bg: #{$light-white};
+    --ms-primary-bg: #{$light-gray-100};
+    --ms-primary-bg-hover: #{$light-gray-200};
+    --ms-border-color: #{$light-gray-300};
+    --ms-text-color-1: #{$light-gray-900};
+    --ms-text-color-2: #{$light-gray-700};
+    --ms-text-color-3: #{$light-gray-500};
+    --ms-text-color-4: #{$light-gray-400};
+    --ms-hint-bg: #{$light-gray-50};
+    --ms-actions-bg: #{$light-gray-50};
+    --ms-selected-popover-bg: #{$light-white};
+  }
+}
+
+// Light mode specific component adjustments
+.pa-mode-light {
+  // Card shadows lighter
+  .pa-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  // Outline secondary button adjustments
+  .pa-btn--outline-secondary {
+    border-color: #adb5bd !important;
+    color: #495057 !important;
+
+    &:hover {
+      background-color: #e9ecef !important;
+      color: #212529 !important;
+    }
+  }
+}

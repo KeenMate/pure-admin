@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#pageTitle}}{{pageTitle}}{{/pageTitle}}{{^pageTitle}}Dashboard{{/pageTitle}} - Pure Admin Visual</title>
+    <!-- Critical CSS: Loader (inline to prevent FOUC) -->
+    <style>
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--page-loader-bg, rgba(26, 26, 26, 0.95));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.15s ease, visibility 0.15s ease;
+        }
+        .page-loader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .page-loader__spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--page-loader-spinner-border, #333);
+            border-top-color: var(--page-loader-spinner-accent, #0066cc);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Preload critical fonts for Audi theme (latin subset) -->
+    {{#isAudiTheme}}
+    <link rel="preload" href="/fonts/google/wEOhEADFm8hSaQTFG18FErVhsC9x-tarUfbtrQ.woff2" as="font" type="font/woff2" crossorigin>
+    {{/isAudiTheme}}
+    <!-- SCSS VARIABLE THEME: Dynamic theme loading -->
+    <link rel="stylesheet" href="/dist/css/themes/{{currentTheme}}.css">
+    <!-- Floating UI for tooltips and popovers -->
+    <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.7.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.4"></script>
+    <!-- D3.js for charts -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Command Palette -->
+    <script src="/src/js/command-palette.js"></script>
+    <!-- Toast Service -->
+    <script src="/src/js/toast-service.js"></script>
+    <!-- Tooltips & Popovers -->
+    <script src="/src/js/tooltips-popovers.js"></script>
+    <!-- Web Components: Multiselect and Date Range Picker -->
+    <link rel="stylesheet" href="/node_modules/@keenmate/web-multiselect/dist/style.css">
+    <link rel="stylesheet" href="/node_modules/@keenmate/web-daterangepicker/dist/style.css">
+    <script type="module" src="/node_modules/@keenmate/web-multiselect/dist/multiselect.js"></script>
+    <script type="module" src="/node_modules/@keenmate/web-daterangepicker/dist/web-daterangepicker.js"></script>
+    <!-- Settings Panel -->
+    <script>
+        // Pass server-provided values to settings panel
+        window.PURE_ADMIN_CONFIG = {
+            currentTheme: '{{currentTheme}}',
+            containerWidth: '{{containerWidth}}',
+            sidebarMode: '{{sidebarMode}}'
+        };
+    </script>
+    <script src="/src/js/settings-panel.js"></script>
+    <!-- Analytics -->
+    <script defer data-domain="pure-admin.keenmate.dev" src="https://stats.keenmate.services/js/plausible.js"></script>
+</head>
+<body>
+    <!-- Page Loader: Shows while fonts/CSS load -->
+    <div class="page-loader" id="pageLoader">
+        <div class="page-loader__spinner"></div>
+    </div>
+
+    <!-- Hide loader when fonts are ready -->
+    <script>
+        (function() {
+            const loader = document.getElementById('pageLoader');
+
+            // Hide loader AFTER fonts are fully loaded
+            if (document.fonts && document.fonts.ready) {
+                Promise.race([
+                    document.fonts.ready,
+                    new Promise(resolve => setTimeout(resolve, 1000)) // 1s timeout fallback
+                ]).then(() => {
+                    requestAnimationFrame(() => {
+                        loader.classList.add('loaded');
+                        // Remove from DOM after transition
+                        setTimeout(() => loader.remove(), 80);
+                    });
+                });
+            } else {
+                // Fallback for browsers without Font Loading API
+                window.addEventListener('load', () => {
+                    loader.classList.add('loaded');
+                    setTimeout(() => loader.remove(), 80);
+                });
+            }
+        })();
+    </script>
+
+    <!-- Prevent FOUC: Apply saved settings immediately before rendering -->
+    <script>
+        (function() {
+            // Apply sidebar behavior immediately
+            const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
+            const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+            const isMobile = window.innerWidth <= 768;
+
+            // Apply sidebar-hidden state (works for both 'hide' and 'icon-collapse' behaviors)
+            if (!isMobile && sidebarHidden) {
+                document.body.classList.add('sidebar-hidden');
+            }
+
+            // Apply compact mode immediately
+            const isCompactMode = localStorage.getItem('compact-mode') === 'true';
+            if (isCompactMode) {
+                document.body.classList.add('compact-mode');
+            }
+
+            // Apply theme mode immediately to prevent dark->light flash
+            const savedThemeMode = localStorage.getItem('theme-mode');
+            if (savedThemeMode === 'light') {
+                document.body.classList.add('pa-mode-light');
+            }
+
+            // Apply font size immediately to prevent size jump
+            const savedFontSize = localStorage.getItem('font-size') || 'default';
+            if (savedFontSize !== 'default') {
+                document.documentElement.classList.add(`font-size-${savedFontSize}`);
+            }
+
+            // Apply sidebar mode to body immediately
+            const sidebarMode = '{{sidebarMode}}';
+            if (sidebarMode === 'sticky') {
+                document.body.classList.add('pa-layout--sticky');
+            }
+
+            // Apply container width to body immediately
+            const containerWidth = '{{containerWidth}}';
+            if (containerWidth && containerWidth !== 'fluid') {
+                document.body.classList.add(`pa-container-${containerWidth}`);
+            }
+        })();
+    </script>
+
+    <!-- Set burger menu state immediately to prevent FOUC -->
+    <script>
+        (function() {
+            const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+            const isMobile = window.innerWidth <= 768;
+
+            if (!isMobile && sidebarHidden) {
+                const burgerMenu = document.querySelector('.burger-menu');
+                if (burgerMenu) {
+                    burgerMenu.classList.add('active');
+                }
+            }
+        })();
+    </script>
+
+    <!-- Navbar (outside layout container) -->
+    {{{partials.navbar}}}
+
+    <!-- Layout Container (below navbar) -->
+    <div class="pa-layout" id="layoutContainer">
+        <!-- Layout Inner: Sidebar + Content -->
+        <div class="pa-layout__inner">
+            {{{partials.sidebar}}}
+
+            <!-- Restore submenu states immediately to prevent FOUC -->
+            <script>
+                (function() {
+                    document.querySelectorAll('.pa-sidebar__toggle').forEach(button => {
+                        const label = button.querySelector('.pa-sidebar__label');
+                        if (!label) return;
+
+                        const submenuId = label.textContent.toLowerCase().replace(/\s+/g, '-');
+                        const savedState = localStorage.getItem(`submenu-${submenuId}`);
+
+                        if (savedState === 'open') {
+                            const parentItem = button.closest('.pa-sidebar__item');
+                            const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+                            if (submenu) {
+                                parentItem.classList.add('pa-sidebar__item--open');
+                                submenu.classList.add('pa-sidebar__submenu--open');
+                            }
+                        }
+                    });
+                })();
+            </script>
+
+            <!-- Layout Content: Main only -->
+            <div class="pa-layout__content">
+                <!-- Main Content -->
+                <main class="pa-layout__main">
+                    <div class="pa-layout__main__inner">
+                        {{{body}}}
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Footer (outside inner, inside layout) -->
+        <footer class="pa-layout__footer">
+            <div class="pa-layout__footer__content">
+                <p class="m-0">&copy; 2024 Pure Admin Visual Framework</p>
+            </div>
+        </footer>
+    </div><!-- /.pa-layout -->
+
+    <!-- Command Palette -->
+    <div class="pa-command-palette" id="commandPalette">
+        <div class="pa-command-palette__backdrop" id="commandPaletteBackdrop"></div>
+        <div class="pa-command-palette__container">
+            <div class="pa-command-palette__search">
+                <div class="pa-command-palette__tokens" id="commandPaletteTokens"></div>
+                <input
+                    type="text"
+                    class="pa-command-palette__input"
+                    id="commandPaletteInput"
+                    placeholder="Search products, orders, users... (try /p, /o, /u)"
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+                <div class="pa-command-palette__context" id="commandPaletteContext"></div>
+            </div>
+            <div class="pa-command-palette__results" id="commandPaletteResults">
+                <div class="pa-command-palette__empty">Type to search or use /p for products, /o for orders, /u for users, /i for invoices</div>
+            </div>
+            <div class="pa-command-palette__footer">
+                <div class="pa-command-palette__hint">
+                    <span class="pa-command-palette__key">↑↓</span>
+                    <span>Navigate</span>
+                </div>
+                <div class="pa-command-palette__hint">
+                    <span class="pa-command-palette__key">←→</span>
+                    <span>Pages</span>
+                </div>
+                <div class="pa-command-palette__hint">
+                    <span class="pa-command-palette__key">↵</span>
+                    <span>Select</span>
+                </div>
+                <div class="pa-command-palette__hint">
+                    <span class="pa-command-palette__key">Esc</span>
+                    <span>Close</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Settings Panel -->
+    {{{partials.settingsPanel}}}
+
+    <!-- User Profile Panel -->
+    <div class="pa-profile-panel" id="profilePanel">
+        <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+        <div class="pa-profile-panel__content">
+            <div class="pa-profile-panel__header">
+                <div class="pa-profile-panel__avatar">
+                    <span class="pa-profile-panel__avatar-icon">👤</span>
+                </div>
+                <div class="pa-profile-panel__info">
+                    <h3 class="pa-profile-panel__name">John Doe</h3>
+                    <p class="pa-profile-panel__email">john.doe@company.com</p>
+                    <span class="pa-profile-panel__role">Administrator</span>
+                </div>
+                <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                    ✕
+                </button>
+            </div>
+
+            <div class="pa-profile-panel__body">
+                <nav class="pa-profile-panel__nav">
+                    <ul>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">👤</span>
+                            Profile Settings
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">🔒</span>
+                            Security
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">🔔</span>
+                            Notifications
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">⚙️</span>
+                            Preferences
+                        </a></li>
+                        <li><a href="#" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">❓</span>
+                            Help & Support
+                        </a></li>
+                    </ul>
+                </nav>
+
+                <div class="pa-profile-panel__actions">
+                    <button class="pa-btn pa-btn--secondary pa-btn--block">
+                        Switch Account
+                    </button>
+                    <button class="pa-btn pa-btn--danger pa-btn--block">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Containers (Global - one for each position) -->
+    <div id="toast-container-top-right" class="pa-toast-container pa-toast-container--top-right"></div>
+    <div id="toast-container-top-center" class="pa-toast-container pa-toast-container--top-center"></div>
+    <div id="toast-container-top-left" class="pa-toast-container pa-toast-container--top-left"></div>
+    <div id="toast-container-bottom-right" class="pa-toast-container pa-toast-container--bottom-right"></div>
+    <div id="toast-container-bottom-center" class="pa-toast-container pa-toast-container--bottom-center"></div>
+    <div id="toast-container-bottom-left" class="pa-toast-container pa-toast-container--bottom-left"></div>
+
+    <script>
+        function switchTheme(theme) {
+            // Redirect to current page with theme parameter
+            const url = new URL(window.location);
+            url.searchParams.set('theme', theme);
+            window.location.href = url.toString();
+        }
+
+        function switchSidebarMode(mode) {
+            // Redirect to current page with sidebar mode parameter
+            const url = new URL(window.location);
+            url.searchParams.set('sidebarMode', mode);
+            window.location.href = url.toString();
+        }
+
+        function toggleSidebar() {
+            const body = document.body;
+            const burgerMenu = document.querySelector('.burger-menu');
+            const sidebar = document.querySelector('.pa-layout__sidebar');
+            const isMobile = window.innerWidth <= 768;
+            const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
+
+            if (isMobile) {
+                // Mobile: Toggle sidebar visibility but don't persist state
+                body.classList.toggle('sidebar-visible');
+                burgerMenu.classList.toggle('active');
+            } else {
+                // Desktop: Check sidebar behavior mode
+                if (sidebarBehavior === 'icon-collapse') {
+                    // Icon-collapse mode: toggle between icon bar and full width
+                    const isExpanded = !body.classList.contains('sidebar-hidden');
+
+                    if (isExpanded) {
+                        // Currently expanded, collapse to icons
+                        body.classList.add('sidebar-hidden');
+                        burgerMenu.classList.remove('active');
+                    } else {
+                        // Currently showing icons, expand to full width
+                        body.classList.remove('sidebar-hidden');
+                        burgerMenu.classList.add('active');
+                    }
+                    localStorage.setItem('sidebar-hidden', body.classList.contains('sidebar-hidden'));
+                } else {
+                    // Normal hide mode: toggle visibility completely
+                    const isHidden = body.classList.contains('sidebar-hidden');
+
+                    if (isHidden) {
+                        // Currently hidden, show it
+                        body.classList.remove('sidebar-hidden');
+                        burgerMenu.classList.add('active');
+                    } else {
+                        // Currently visible, hide it
+                        body.classList.add('sidebar-hidden');
+                        burgerMenu.classList.remove('active');
+                    }
+                    localStorage.setItem('sidebar-hidden', body.classList.contains('sidebar-hidden'));
+                }
+            }
+        }
+
+        function checkMobileLayout() {
+            const body = document.body;
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                // Mobile: Always start with sidebar hidden (not visible)
+                body.classList.remove('sidebar-hidden');
+                body.classList.remove('sidebar-visible');
+                document.querySelector('.burger-menu').classList.remove('active');
+            } else {
+                // Desktop: Use saved state (works for both 'hide' and 'icon-collapse' behaviors)
+                body.classList.remove('sidebar-visible');
+                const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
+                const burgerMenu = document.querySelector('.burger-menu');
+
+                if (sidebarHidden) {
+                    // Collapsed/Hidden state
+                    body.classList.add('sidebar-hidden');
+                    if (burgerMenu) burgerMenu.classList.remove('active'); // Show hamburger
+                } else {
+                    // Expanded/Visible state
+                    body.classList.remove('sidebar-hidden');
+                    if (burgerMenu) burgerMenu.classList.add('active'); // Show X
+                }
+            }
+        }
+
+        function closeMobileSidebar(event) {
+            const body = document.body;
+            if (body.classList.contains('sidebar-visible') && event.target === body) {
+                body.classList.remove('sidebar-visible');
+                document.querySelector('.burger-menu').classList.remove('active');
+                // No need to save mobile sidebar state - always starts hidden on page load
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loaded class after a short delay to prevent FOUC transitions
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 50);
+
+            checkMobileLayout();
+            window.addEventListener('resize', checkMobileLayout);
+            document.body.addEventListener('click', closeMobileSidebar);
+        });
+
+        // Notification Panel Functions
+        function toggleNotifications() {
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            notificationsPanel.classList.toggle('is-open');
+
+            // Close profile panel if open
+            const profilePanel = document.getElementById('profilePanel');
+            if (profilePanel.classList.contains('pa-profile-panel--open')) {
+                profilePanel.classList.remove('pa-profile-panel--open');
+            }
+        }
+
+        function closeNotifications() {
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            notificationsPanel.classList.remove('is-open');
+        }
+
+        function markAllRead() {
+            const unreadItems = document.querySelectorAll('.pa-notifications__item--unread');
+            unreadItems.forEach(item => {
+                item.classList.remove('pa-notifications__item--unread');
+            });
+
+            // Update badge count
+            const badge = document.querySelector('.pa-notifications__badge');
+            if (badge) {
+                badge.textContent = '0';
+                badge.style.display = 'none';
+            }
+        }
+
+        // Profile Panel Functions
+        function toggleProfilePanel() {
+            const profilePanel = document.getElementById('profilePanel');
+            profilePanel.classList.toggle('pa-profile-panel--open');
+
+            // Close notifications if open
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            if (notificationsPanel.classList.contains('is-open')) {
+                notificationsPanel.classList.remove('is-open');
+            }
+        }
+
+        function closeProfilePanel() {
+            const profilePanel = document.getElementById('profilePanel');
+            profilePanel.classList.remove('pa-profile-panel--open');
+        }
+
+        // Close panels when clicking outside
+        document.addEventListener('click', (e) => {
+            const profilePanel = document.getElementById('profilePanel');
+            const profileBtn = document.querySelector('.pa-header__profile-btn');
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            const notificationsBtn = document.querySelector('.pa-notifications__btn');
+
+            // Close profile panel
+            if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target) &&
+                profilePanel.classList.contains('pa-profile-panel--open')) {
+                closeProfilePanel();
+            }
+
+            // Close notifications panel
+            if (!notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target) &&
+                notificationsPanel.classList.contains('is-open')) {
+                closeNotifications();
+            }
+        });
+
+        // Sidebar Submenu Functions - No accordion behavior for multilevel support
+        function toggleSubmenu(button) {
+            const parentItem = button.closest('.pa-sidebar__item');
+            const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+
+            if (!submenu) return;
+
+            const isOpen = parentItem.classList.contains('pa-sidebar__item--open');
+
+            // Simply toggle current submenu without closing others
+            if (isOpen) {
+                parentItem.classList.remove('pa-sidebar__item--open');
+                submenu.classList.remove('pa-sidebar__submenu--open');
+            } else {
+                parentItem.classList.add('pa-sidebar__item--open');
+                submenu.classList.add('pa-sidebar__submenu--open');
+            }
+
+            // Save state to localStorage
+            const submenuId = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
+            localStorage.setItem(`submenu-${submenuId}`, !isOpen ? 'open' : 'closed');
+        }
+
+        // Clear all submenu states (for debugging)
+        function clearAllSubmenuStates() {
+            // Clear localStorage
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('submenu-')) {
+                    localStorage.removeItem(key);
+                }
+            });
+
+            // Close all open submenus
+            document.querySelectorAll('.pa-sidebar__item--open').forEach(item => {
+                item.classList.remove('pa-sidebar__item--open');
+            });
+            document.querySelectorAll('.pa-sidebar__submenu--open').forEach(submenu => {
+                submenu.classList.remove('pa-sidebar__submenu--open');
+            });
+
+            console.log('All submenu states cleared');
+        }
+
+        // Note: Submenu state restoration is now handled by inline script right after sidebar HTML
+        // to prevent FOUC. No need to restore states again on DOMContentLoaded.
+
+        // Tooltip & Popover initialization is handled by src/js/tooltips-popovers.js
+    </script>
+</body>
+</html>

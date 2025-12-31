@@ -1,0 +1,228 @@
+/* ========================================
+   Sidebar States
+   Hidden, icon-collapse, and expanded states
+   ======================================== */
+@use '../../variables' as *;
+
+// Sidebar hidden state
+.sidebar-hidden {
+  .pa-layout__sidebar {
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    border-right: none;
+  }
+
+  // Icon-collapse mode: show narrow icon-only bar when hidden
+  .pa-layout__sidebar--icon-collapse {
+    width: $sidebar-collapsed-width;
+    opacity: 1; // Override parent opacity: 0 to make icons visible
+    overflow: visible !important; // Allow flyout to show outside sidebar
+    z-index: 1050; // Higher than content area (950) for flyouts
+    border-right: $border-width-base solid $border-color; // Restore border
+
+    // Enable positioning for flyouts
+    .pa-sidebar__item {
+      position: relative;
+    }
+
+    // Hide text labels
+    .pa-sidebar__label {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    // Hide chevron indicators
+    .pa-sidebar__chevron {
+      display: none;
+    }
+
+    // Hide submenus when collapsed (but allow hover override)
+    .pa-sidebar__submenu {
+      display: none;
+    }
+
+    // Icon stays in same position (no changes needed - already fixed width)
+    // The icon container maintains its $sidebar-icon-size width and position
+
+    // Keep EXACTLY the same padding as expanded state - icon must not move
+    .pa-sidebar__link,
+    .pa-sidebar__toggle {
+      padding: $sidebar-padding; // Same as expanded: 0.5rem 1rem (8px 16px)
+      position: relative; // For flyout positioning
+    }
+
+    // Flyout label on hover
+    .pa-sidebar__link:hover,
+    .pa-sidebar__toggle:hover {
+      overflow: visible;
+      z-index: 1000; // Elevate parent above content area
+
+      .pa-sidebar__label {
+        opacity: 1;
+        width: auto;
+        overflow: visible; // Remove overflow hidden
+        position: absolute;
+        left: 100%;
+        top: 0;
+        bottom: 0;
+        padding: $spacing-sm $spacing-base;
+        background-color: $sidebar-bg;
+        border: $border-width-base solid $border-color;
+        border-left: none;
+        border-radius: 0 $border-radius $border-radius 0;
+        box-shadow: $shadow-md;
+        white-space: nowrap;
+        z-index: 10; // Relative to parent
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    // Show submenu flyout on hover (for items with submenus)
+    .pa-sidebar__item:hover > .pa-sidebar__submenu,
+    .pa-sidebar__submenu:hover {
+      display: block !important;
+      max-height: none !important;
+      overflow: visible !important;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      min-width: 12rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background-color: $sidebar-submenu-bg;
+      border: $border-width-base solid $border-color;
+      border-left: none;
+      border-radius: 0 $border-radius $border-radius 0;
+      box-shadow: $shadow-md;
+      z-index: 1001; // Higher than parent
+
+      // Reset submenu styling for flyout
+      .pa-sidebar__item {
+        position: relative; // For nested flyouts
+      }
+
+      .pa-sidebar__link,
+      .pa-sidebar__toggle {
+        padding: $spacing-sm $spacing-base;
+        justify-content: flex-start;
+        gap: $sidebar-item-gap;
+        font-size: $font-size-sm;
+        width: 100%;
+
+        &:hover {
+          background-color: $sidebar-submenu-hover-bg;
+        }
+
+        &--active {
+          background-color: $sidebar-submenu-active-bg;
+        }
+      }
+
+      .pa-sidebar__icon {
+        width: $sidebar-icon-size;
+        min-width: $sidebar-icon-size;
+        justify-content: center;
+      }
+
+      .pa-sidebar__label {
+        position: static;
+        opacity: 1;
+        width: auto;
+        padding: 0;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+
+      .pa-sidebar__chevron {
+        display: inline;
+        margin-left: auto;
+        transform: none !important; // Always point right in flyout menus (never rotate down)
+      }
+
+      // Nested submenu flyout (level 3)
+      .pa-sidebar__submenu {
+        display: none;
+      }
+
+      .pa-sidebar__item:hover > .pa-sidebar__submenu,
+      .pa-sidebar__submenu .pa-sidebar__submenu:hover {
+        display: block !important;
+        max-height: none !important;
+        overflow: visible !important;
+        position: absolute;
+        left: 100%;
+        top: 0;
+        min-width: 19.2rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: $sidebar-submenu-bg;
+        border: $border-width-base solid $border-color;
+        border-left: none;
+        border-radius: 0 $border-radius $border-radius 0;
+        box-shadow: $shadow-md;
+        z-index: 1002; // Higher than parent submenu
+
+        .pa-sidebar__link,
+        .pa-sidebar__toggle {
+          font-size: $font-size-xs;
+        }
+
+        .pa-sidebar__chevron {
+          transform: none !important; // Always point right in nested flyout menus
+        }
+      }
+    }
+  }
+}
+
+// Sidebar expanded state (when not hidden) - ensure icon-collapse mode shows full width
+body:not(.sidebar-hidden) {
+  .pa-layout__sidebar--icon-collapse {
+    width: $sidebar-width;
+
+    // Show labels when expanded
+    .pa-sidebar__label {
+      opacity: 1;
+      width: auto;
+    }
+
+    // Show chevron when expanded
+    .pa-sidebar__chevron {
+      display: inline;
+    }
+
+    // Restore normal padding for level 1 items only
+    .pa-sidebar__link,
+    .pa-sidebar__toggle {
+      padding: $sidebar-padding;
+      justify-content: flex-start;
+      gap: $sidebar-item-gap; // Restore gap when expanded
+    }
+
+    // Submenus controlled by --open class (no forced display)
+
+    // Restore submenu indentation for level 2
+    .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
+    .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
+      padding-left: $sidebar-submenu-indent;
+    }
+
+    // Restore submenu indentation for level 3
+    .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
+    .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
+      padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
+    }
+
+    // Icon maintains same position in both states
+    .pa-sidebar__icon {
+      width: $sidebar-icon-size;
+      // No justify-content needed - parent flex container handles alignment
+    }
+  }
+}

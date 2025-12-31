@@ -1,0 +1,238 @@
+/* ========================================
+   Navbar/Header Elements
+   Burger menu, brand, navigation, title, profile button, theme switcher
+   ======================================== */
+@use '../../variables' as *;
+
+// Navbar elements (using pa-header__ prefix for backward compatibility with existing partials)
+.pa-header {
+  &__burger {
+    flex-shrink: 0;
+    margin-left: $burger-menu-margin-left;
+  }
+
+  &__brand {
+    flex-shrink: 0;
+    padding-left: $header-brand-padding-left;
+
+    h1 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: var(--pa-header-text);
+      white-space: nowrap;
+    }
+  }
+
+  &__nav {
+    flex-shrink: 0;
+
+    // Only style the direct child ul (main navigation)
+    > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: $spacing-md;
+
+      > li {
+        margin: 0; // Disable base margins from _base.scss
+        position: relative; // For dropdown positioning
+        display: flex;
+        align-items: center;
+
+        > a {
+          text-decoration: none;
+          color: var(--pa-header-text-secondary);
+          font-weight: $font-weight-medium;
+          padding: $spacing-xs $spacing-sm;
+          border-radius: $border-radius;
+          transition: all $transition-fast $easing-snappy;
+          font-size: $font-size-sm;
+          display: flex;
+          align-items: center;
+
+          &:hover {
+            color: $accent-color;
+            background-color: $accent-hover;
+          }
+        }
+      }
+    }
+
+    &--left {
+      margin-right: auto;
+    }
+
+    &--right {
+      margin-left: auto;
+    }
+  }
+
+  // Dropdown navigation items
+  &__nav-item {
+    &--has-dropdown {
+      position: static; // Position dropdown relative to header, not this item
+
+      &:hover > .pa-header__dropdown {
+        display: block !important; // Override the !important hide
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  // Dropdown menus
+  &__dropdown {
+    display: none !important; // Force hide by default
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 19.2rem;
+    background-color: var(--pa-card-bg);
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+    z-index: 1100;
+    padding: $spacing-xs 0;
+    margin-top: 0;
+    list-style: none;
+    flex-direction: column; // Override any flex from parent
+
+    li {
+      margin: 0; // Disable base margins from _base.scss
+      display: block;
+      position: relative;
+
+      // Create invisible bridge for nested dropdowns (horizontal)
+      &.pa-header__nav-item--has-dropdown::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 6.4px; // Small invisible bridge
+        height: 100%;
+        z-index: 1099;
+      }
+
+      // Show nested dropdown on hover
+      &:hover > .pa-header__dropdown {
+        display: block !important;
+      }
+
+      a {
+        display: block;
+        padding: $spacing-sm $spacing-base;
+        color: var(--pa-text-primary);
+        border-radius: 0;
+        white-space: nowrap;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-sm;
+
+        &:hover {
+          background-color: $accent-light;
+          color: $accent-color;
+        }
+      }
+    }
+
+    // Level 2 dropdown (nested)
+    &--level2 {
+      top: 0;
+      left: 100%;
+      margin-top: 0;
+      margin-left: 0; // Remove gap to prevent dropdown from disappearing
+    }
+  }
+
+  &__title {
+    flex: 1;
+    min-width: 0;  // Enable ellipsis
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: var(--pa-header-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__profile-btn {
+    flex-shrink: 0;
+  }
+}
+
+// Burger menu button
+.burger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: $burger-width;
+  height: $burger-height;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  span {
+    width: 100%;
+    height: $burger-bar-height;
+    background-color: var(--pa-header-text);
+    border-radius: $border-radius;
+    transition: all $transition-normal $easing-snappy;
+    transform-origin: center;
+  }
+
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate($burger-transform-offset, $burger-transform-offset);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate($burger-transform-offset, -$burger-transform-offset);
+    }
+  }
+
+  &:hover span {
+    background-color: $accent-color;
+  }
+}
+
+// Theme switcher styling
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  label {
+    color: var(--pa-header-text-secondary);
+    font-size: $font-size-sm;
+  }
+
+  select {
+    padding: $spacing-xs $spacing-sm;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    background-color: $header-bg;
+    color: var(--pa-header-text);
+    font-size: $font-size-sm;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+    }
+  }
+}

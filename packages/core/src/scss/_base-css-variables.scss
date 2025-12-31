@@ -1,0 +1,348 @@
+// ============================================================================
+// BASE CSS VARIABLES OUTPUT MIXIN
+// ============================================================================
+// This mixin outputs all $base-* SCSS variables as --base-* CSS custom properties.
+// Include this in themes to enable web component theming.
+//
+// Usage in theme file:
+//   @import '../base-css-variables';
+//   :root {
+//     @include output-base-css-variables;
+//   }
+//
+// Web components consume these via fallback chains:
+//   --ms-accent-color: var(--base-accent-color, #3b82f6);
+// ============================================================================
+
+@mixin output-base-css-variables {
+  // === Colors ===
+  --base-accent-color: #{$base-accent-color};
+  --base-accent-color-hover: #{$base-accent-color-hover};
+  --base-accent-color-active: #{$base-accent-color-active};
+  --base-accent-color-light: #{$base-accent-color-light};
+  --base-accent-color-light-hover: #{$base-accent-color-light-hover};
+  --base-primary-bg: #{$base-primary-bg};
+  --base-primary-bg-hover: #{$base-primary-bg-hover};
+  --base-text-color-1: #{$base-text-color-1};
+  --base-text-color-2: #{$base-text-color-2};
+  --base-text-color-3: #{$base-text-color-3};
+  --base-text-color-4: #{$base-text-color-4};
+  --base-text-color-on-accent: #{$base-text-color-on-accent};
+  --base-border-color: #{$base-border-color};
+  --base-border: #{$base-border};
+
+  // === Input Fields ===
+  --base-input-bg: #{$base-input-bg};
+  --base-input-color: #{$base-input-color};
+  --base-input-border: #{$base-input-border};
+  --base-input-border-hover: #{$base-input-border-hover};
+  --base-input-border-focus: #{$base-input-border-focus};
+  --base-input-placeholder-color: #{$base-input-placeholder-color};
+  --base-input-bg-disabled: #{$base-input-bg-disabled};
+
+  // === Input Size Heights ===
+  --base-input-size-xs-height: #{$base-input-size-xs-height};
+  --base-input-size-sm-height: #{$base-input-size-sm-height};
+  --base-input-size-md-height: #{$base-input-size-md-height};
+  --base-input-size-lg-height: #{$base-input-size-lg-height};
+  --base-input-size-xl-height: #{$base-input-size-xl-height};
+
+  // === Dropdown/Popover ===
+  --base-dropdown-bg: #{$base-dropdown-bg};
+  --base-dropdown-border: #{$base-dropdown-border};
+  --base-dropdown-box-shadow: #{$base-dropdown-box-shadow};
+
+  // === Tooltip ===
+  --base-tooltip-bg: #{$base-tooltip-bg};
+  --base-tooltip-text-color: #{$base-tooltip-text-color};
+
+  // === Typography ===
+  --base-font-family: #{$base-font-family};
+  --base-font-size-2xs: #{$base-font-size-2xs};
+  --base-font-size-xs: #{$base-font-size-xs};
+  --base-font-size-sm: #{$base-font-size-sm};
+  --base-font-size-base: #{$base-font-size-base};
+  --base-font-size-lg: #{$base-font-size-lg};
+  --base-font-size-xl: #{$base-font-size-xl};
+  --base-font-size-2xl: #{$base-font-size-2xl};
+  --base-font-weight-normal: #{$base-font-weight-normal};
+  --base-font-weight-medium: #{$base-font-weight-medium};
+  --base-font-weight-semibold: #{$base-font-weight-semibold};
+  --base-line-height-tight: #{$base-line-height-tight};
+  --base-line-height-normal: #{$base-line-height-normal};
+  --base-line-height-relaxed: #{$base-line-height-relaxed};
+
+  // === Border Radius ===
+  --base-border-radius-sm: #{$base-border-radius-sm};
+  --base-border-radius-md: #{$base-border-radius-md};
+  --base-border-radius-lg: #{$base-border-radius-lg};
+}
+
+// ============================================================================
+// PURE ADMIN THEME CSS VARIABLES OUTPUT MIXIN
+// ============================================================================
+// This mixin outputs all themeable SCSS variables as --pa-* CSS custom properties.
+// Components use var(--pa-*) for runtime theme switching capability.
+//
+// Usage in theme file:
+//   :root, .theme-light {
+//     @include output-pa-css-variables;
+//   }
+//   .theme-dark {
+//     @include output-pa-css-variables;
+//   }
+// ============================================================================
+
+@mixin output-pa-css-variables {
+  // =========================================================================
+  // CORE COLORS
+  // =========================================================================
+
+  // Background colors
+  --pa-primary-bg: #{$primary-bg};
+  --pa-bg-secondary: #{$bg-secondary};
+  --pa-content-bg: #{$content-background-color};
+
+  // Text colors
+  --pa-text-primary: #{$text-primary};
+  --pa-text-secondary: #{$text-secondary};
+
+  // Accent colors
+  --pa-accent: #{$accent-color};
+  --pa-accent-hover: #{$accent-hover};
+  --pa-accent-light: #{$accent-light};
+
+  // Border
+  --pa-border-color: #{$border-color};
+
+  // =========================================================================
+  // LAYOUT COLORS
+  // =========================================================================
+
+  // Header
+  --pa-header-bg: #{$header-bg};
+  --pa-header-border-color: #{$header-border-color};
+  --pa-header-text: #{$header-text};
+  --pa-header-text-secondary: #{$header-text-secondary};
+  --pa-header-profile-name-color: #{$header-profile-name-color};
+
+  // Sidebar
+  --pa-sidebar-bg: #{$sidebar-bg};
+  --pa-sidebar-text: #{$sidebar-text};
+  --pa-sidebar-text-secondary: #{$sidebar-text-secondary};
+  --pa-sidebar-submenu-bg: #{$sidebar-submenu-bg};
+  --pa-sidebar-submenu-hover-bg: #{$sidebar-submenu-hover-bg};
+  --pa-sidebar-submenu-active-bg: #{$sidebar-submenu-active-bg};
+
+  // Footer
+  --pa-footer-bg: #{$footer-bg};
+  --pa-footer-border-color: #{$footer-border-color};
+
+  // =========================================================================
+  // BUTTON COLORS
+  // =========================================================================
+
+  // Primary (uses accent color)
+  --pa-btn-primary-bg: #{$btn-primary-bg};
+  --pa-btn-primary-bg-hover: #{$btn-primary-bg-hover};
+  --pa-btn-primary-bg-light: #{$accent-light};
+  --pa-btn-primary-text: #{$btn-primary-text};
+
+  // Secondary
+  --pa-btn-secondary-bg: #{$btn-secondary-bg};
+  --pa-btn-secondary-bg-hover: #{$btn-secondary-bg-hover};
+  --pa-btn-secondary-text: #{$btn-secondary-text};
+
+  // Success
+  --pa-btn-success-bg: #{$btn-success-bg};
+  --pa-btn-success-bg-hover: #{$btn-success-bg-hover};
+  --pa-btn-success-text: #{$btn-success-text};
+
+  // Danger
+  --pa-btn-danger-bg: #{$btn-danger-bg};
+  --pa-btn-danger-bg-hover: #{$btn-danger-bg-hover};
+  --pa-btn-danger-text: #{$btn-danger-text};
+
+  // Warning
+  --pa-btn-warning-bg: #{$btn-warning-bg};
+  --pa-btn-warning-bg-hover: #{$btn-warning-bg-hover};
+  --pa-btn-warning-text: #{$btn-warning-text};
+
+  // Info
+  --pa-btn-info-bg: #{$btn-info-bg};
+  --pa-btn-info-bg-hover: #{$btn-info-bg-hover};
+  --pa-btn-info-text: #{$btn-info-text};
+
+  // Light
+  --pa-btn-light-bg: #{$btn-light-bg};
+  --pa-btn-light-bg-hover: #{$btn-light-bg-hover};
+  --pa-btn-light-text: #{$btn-light-text};
+
+  // Dark
+  --pa-btn-dark-bg: #{$btn-dark-bg};
+  --pa-btn-dark-bg-hover: #{$btn-dark-bg-hover};
+  --pa-btn-dark-text: #{$btn-dark-text};
+
+  // =========================================================================
+  // CONTEXTUAL/SEMANTIC COLORS
+  // =========================================================================
+
+  // Success
+  --pa-success-bg: #{$success-bg};
+  --pa-success-bg-hover: #{$success-bg-hover};
+  --pa-success-bg-light: #{$success-bg-light};
+  --pa-success-bg-subtle: #{$success-bg-subtle};
+  --pa-success-border: #{$success-border};
+  --pa-success-text: #{$success-text};
+  --pa-success-text-light: #{$success-text-light};
+
+  // Danger
+  --pa-danger-bg: #{$danger-bg};
+  --pa-danger-bg-hover: #{$danger-bg-hover};
+  --pa-danger-bg-light: #{$danger-bg-light};
+  --pa-danger-bg-subtle: #{$danger-bg-subtle};
+  --pa-danger-border: #{$danger-border};
+  --pa-danger-text: #{$danger-text};
+  --pa-danger-text-light: #{$danger-text-light};
+
+  // Warning
+  --pa-warning-bg: #{$warning-bg};
+  --pa-warning-bg-hover: #{$warning-bg-hover};
+  --pa-warning-bg-light: #{$warning-bg-light};
+  --pa-warning-bg-subtle: #{$warning-bg-subtle};
+  --pa-warning-border: #{$warning-border};
+  --pa-warning-text: #{$warning-text};
+  --pa-warning-text-light: #{$warning-text-light};
+
+  // Info
+  --pa-info-bg: #{$info-bg};
+  --pa-info-bg-hover: #{$info-bg-hover};
+  --pa-info-bg-light: #{$info-bg-light};
+  --pa-info-bg-subtle: #{$info-bg-subtle};
+  --pa-info-border: #{$info-border};
+  --pa-info-text: #{$info-text};
+  --pa-info-text-light: #{$info-text-light};
+
+  // =========================================================================
+  // CARD COLORS
+  // =========================================================================
+  --pa-card-bg: #{$card-bg};
+  --pa-card-header-bg: #{$card-header-bg};
+  --pa-card-footer-bg: #{$card-footer-bg};
+  --pa-card-tabs-bg: #{$card-tabs-bg};
+
+  // =========================================================================
+  // INPUT/FORM COLORS
+  // =========================================================================
+  --pa-input-bg: #{$input-bg};
+  --pa-input-border: #{$input-border};
+  --pa-input-text: #{$input-text};
+  --pa-input-focus-border-color: #{$input-focus-border-color};
+  --pa-select-focus-border-color: #{$select-focus-border-color};
+  --pa-textarea-focus-border-color: #{$textarea-focus-border-color};
+
+  // Checkbox
+  --pa-checkbox-border-color: #{$checkbox-border-color};
+  --pa-checkbox-border-color-hover: #{$checkbox-border-color-hover};
+  --pa-checkbox-border-color-checked: #{$checkbox-border-color-checked};
+  --pa-checkbox-bg: #{$checkbox-bg};
+  --pa-checkbox-bg-checked: #{$checkbox-bg-checked};
+  --pa-checkbox-bg-indeterminate: #{$checkbox-bg-indeterminate};
+  --pa-checkbox-checkmark-color: #{$checkbox-checkmark-color};
+  --pa-checkbox-focus-shadow: #{$checkbox-focus-shadow};
+
+  // Input group
+  --pa-input-group-prepend-bg: #{$input-group-prepend-bg};
+  --pa-input-group-prepend-text: #{$input-group-prepend-text};
+  --pa-input-group-append-bg: #{$input-group-append-bg};
+  --pa-input-group-append-text: #{$input-group-append-text};
+
+  // =========================================================================
+  // TABLE COLORS
+  // =========================================================================
+  --pa-table-bg: #{$table-bg};
+  --pa-table-header-bg: #{$table-header-bg};
+  --pa-table-stripe: #{$table-stripe};
+  --pa-table-hover-bg: #{$table-hover-bg};
+  --pa-table-hover-accent-color: #{$table-hover-accent-color};
+
+  // =========================================================================
+  // MODAL COLORS
+  // =========================================================================
+  --pa-modal-overlay-bg: #{$modal-overlay-bg};
+  --pa-modal-content-bg: #{$modal-content-bg};
+
+  // =========================================================================
+  // ALERT COLORS
+  // =========================================================================
+  --pa-alert-success-bg: #{$alert-success-bg};
+  --pa-alert-success-border: #{$alert-success-border};
+  --pa-alert-success-text: #{$alert-success-text};
+  --pa-alert-danger-bg: #{$alert-danger-bg};
+  --pa-alert-danger-border: #{$alert-danger-border};
+  --pa-alert-danger-text: #{$alert-danger-text};
+  --pa-alert-warning-bg: #{$alert-warning-bg};
+  --pa-alert-warning-border: #{$alert-warning-border};
+  --pa-alert-warning-text: #{$alert-warning-text};
+  --pa-alert-info-bg: #{$alert-info-bg};
+  --pa-alert-info-border: #{$alert-info-border};
+  --pa-alert-info-text: #{$alert-info-text};
+
+  // =========================================================================
+  // BADGE COLORS
+  // =========================================================================
+  --pa-badge-success-bg: #{$badge-success-bg};
+  --pa-badge-success-text: #{$badge-success-text};
+  --pa-badge-warning-bg: #{$badge-warning-bg};
+  --pa-badge-warning-text: #{$badge-warning-text};
+  --pa-badge-info-bg: #{$badge-info-bg};
+  --pa-badge-info-text: #{$badge-info-text};
+  --pa-badge-danger-bg: #{$badge-danger-bg};
+  --pa-badge-danger-text: #{$badge-danger-text};
+
+  // Composite badge
+  --pa-composite-badge-icon-bg: #{$composite-badge-icon-bg};
+  --pa-composite-badge-label-bg: #{$composite-badge-label-bg};
+  --pa-composite-badge-label-text: #{$composite-badge-label-text};
+  --pa-composite-badge-label-hover-bg: #{$composite-badge-label-hover-bg};
+
+  // =========================================================================
+  // TOOLTIP & POPOVER COLORS
+  // =========================================================================
+  --pa-tooltip-bg: #{$tooltip-bg};
+  --pa-tooltip-text: #{$tooltip-text};
+  --pa-popover-content-bg: #{$popover-content-bg};
+  --pa-popover-text-light: #{$popover-text-light};
+  --pa-popover-text-dark: #{$popover-text-dark};
+
+  // =========================================================================
+  // LOADER COLORS
+  // =========================================================================
+  --pa-loader-overlay-bg: #{$loader-overlay-bg};
+
+  // =========================================================================
+  // PROFILE PANEL COLORS
+  // =========================================================================
+  --pa-profile-overlay-bg: #{$profile-overlay-bg};
+
+  // =========================================================================
+  // COMMAND PALETTE COLORS
+  // =========================================================================
+  --pa-command-palette-backdrop-bg: #{$command-palette-backdrop-bg};
+  --pa-command-palette-item-hover-bg: #{$command-palette-item-hover-bg};
+  --pa-command-palette-item-active-bg: #{$command-palette-item-active-bg};
+  --pa-command-palette-highlight-bg: #{$command-palette-highlight-bg};
+  --pa-command-palette-highlight-text: #{$command-palette-highlight-text};
+
+  // =========================================================================
+  // MULTISELECT COLORS
+  // =========================================================================
+  --pa-multiselect-dropdown-bg: #{$multiselect-dropdown-bg};
+  --pa-multiselect-dropdown-border: #{$multiselect-dropdown-border};
+  --pa-multiselect-dropdown-text: #{$multiselect-dropdown-text};
+  --pa-multiselect-hint-bg: #{$multiselect-hint-bg};
+  --pa-multiselect-hint-border: #{$multiselect-hint-border};
+  --pa-multiselect-option-hover-bg: #{$multiselect-option-hover-bg};
+  --pa-multiselect-pill-bg: #{$multiselect-pill-bg};
+  --pa-multiselect-pill-border: #{$multiselect-pill-border};
+}

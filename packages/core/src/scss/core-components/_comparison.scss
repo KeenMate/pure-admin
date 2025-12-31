@@ -1,0 +1,172 @@
+/* ========================================
+   Comparison Table Component
+   Two-column and three-column comparison tables for version control, data changes, and merge operations
+   ======================================== */
+@use '../variables' as *;
+
+.pa-comparison-table {
+  // Ensure proper spacing and borders
+  border-collapse: collapse;
+
+  // Header styling
+  thead th {
+    background-color: $table-header-bg;
+    font-weight: $font-weight-semibold;
+    text-align: left;
+    padding: $spacing-sm $spacing-base;
+    border-bottom: $border-width-medium solid $border-color;
+  }
+
+  tbody tr {
+    border-bottom: $border-width-base solid $border-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  tbody td {
+    padding: $spacing-sm $spacing-base;
+    vertical-align: middle;
+  }
+
+  // Field label column (left column with field names)
+  &__label {
+    font-weight: $font-weight-medium;
+    color: var(--pa-text-secondary);
+    background-color: var(--pa-primary-bg);
+  }
+
+  // Value wrapper (contains value text + copy button)
+  &__value {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    span {
+      flex: 1;
+      word-break: break-word;
+    }
+  }
+
+  // Copy button
+  &__copy {
+    opacity: 0;
+    transition: opacity $transition-fast $easing-smooth;
+    flex-shrink: 0;
+
+    i {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // Show copy button on row hover
+  tbody tr:hover &__copy {
+    opacity: 1;
+  }
+
+  // Changed value highlighting (pink/salmon background)
+  &__changed {
+    background-color: rgba(244, 114, 182, 0.15); // Pink highlight
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: $border-width-medium;
+      background-color: $comparison-accent-pink;
+    }
+
+    // Solid background variant (no left border accent)
+    &--solid {
+      background-color: rgba(244, 114, 182, 0.25) !important; // More opaque pink
+
+      &::before {
+        content: none; // Remove left border accent
+      }
+    }
+  }
+
+  // Conflict highlighting (orange background for 3-column merge conflicts)
+  &__conflict {
+    background-color: rgba(251, 146, 60, 0.15); // Orange highlight
+
+    &::before {
+      background-color: $comparison-accent-orange;
+    }
+
+    // Solid background variant (no left border accent)
+    &--solid {
+      background-color: rgba(251, 146, 60, 0.25) !important; // More opaque orange
+
+      &::before {
+        content: none; // Remove left border accent
+      }
+    }
+  }
+
+  // Section header rows (for grouping fields)
+  &__section {
+    td {
+      background-color: $table-header-bg;
+      font-weight: $font-weight-semibold;
+      color: var(--pa-text-secondary);
+      padding: $spacing-xs $spacing-base;
+      border-top: $border-width-medium solid $border-color;
+      border-bottom: $border-width-base solid $border-color;
+    }
+  }
+
+  // Responsive behavior - stack on mobile
+  @media (max-width: $mobile-breakpoint) {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: $spacing-base;
+      border: $border-width-base solid $border-color;
+      border-radius: $border-radius;
+    }
+
+    tbody td {
+      display: flex;
+      padding: $spacing-sm;
+      border: none;
+
+      &:not(:last-child) {
+        border-bottom: $border-width-base solid $border-color;
+      }
+
+      &::before {
+        content: attr(data-label);
+        font-weight: $font-weight-semibold;
+        margin-right: $spacing-sm;
+        min-width: 120px;
+      }
+    }
+
+    &__label {
+      background-color: transparent;
+      font-weight: $font-weight-bold;
+      padding: $spacing-xs $spacing-sm;
+    }
+
+    &__section {
+      td {
+        justify-content: center;
+        background-color: $table-header-bg;
+        padding: $spacing-sm;
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+}

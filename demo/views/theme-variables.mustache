@@ -1,0 +1,330 @@
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>Base CSS Variables for Web Components</h2>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">
+            Pure Admin exports <code>--base-*</code> CSS custom properties that enable automatic theming for web components
+            like <strong>web-daterangepicker</strong>, <strong>web-multiselect</strong>, and others.
+        </p>
+
+        <div class="pa-alert pa-alert--info mb-3">
+            <strong>Purpose:</strong> Web components consume these variables via fallback chains, automatically inheriting
+            the current Pure Admin theme colors without any manual configuration.
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>How It Works</h2>
+    </div>
+    <div class="pa-card__body">
+        <h3 class="mb-2">Architecture</h3>
+        <ol class="mb-3">
+            <li><strong>Pure Admin defines SCSS variables</strong> - <code>$base-*</code> variables in <code>_variables.scss</code></li>
+            <li><strong>Themes override as needed</strong> - Each theme can customize these base variables</li>
+            <li><strong>Mixin outputs CSS properties</strong> - <code>_base-css-variables.scss</code> converts SCSS to CSS</li>
+            <li><strong>Web components consume</strong> - Components use <code>var(--base-*, fallback)</code></li>
+        </ol>
+
+        <h3 class="mb-2">Data Flow</h3>
+        <pre class="pa-code mb-3"><code>_variables.scss          themes/express.scss           Output CSS
+────────────────        ─────────────────────        ─────────────
+$base-accent-color:     $base-accent-color:          :root {
+  #3b82f6 !default;  →    #dc2626;               →    --base-accent-color: #dc2626;
+                        @include output-base-vars;     ...
+                                                     }</code></pre>
+
+        <h3 class="mb-2">Web Component Consumption</h3>
+        <pre class="pa-code"><code>/* In web component CSS */
+:host {
+    --ms-accent-color: var(--base-accent-color, #3b82f6);
+    --ms-text-color: var(--base-text-color-1, #333);
+    --ms-input-bg: var(--base-input-background, #fff);
+}</code></pre>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>Variable Reference</h2>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Count</th>
+                    <th>Variables</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Colors</strong></td>
+                    <td>11</td>
+                    <td>
+                        <code>--base-accent-color</code>,
+                        <code>--base-accent-color-hover</code>,
+                        <code>--base-accent-color-active</code>,
+                        <code>--base-primary-bg</code>,
+                        <code>--base-primary-bg-hover</code>,
+                        <code>--base-text-color-1</code> to <code>--base-text-color-4</code>,
+                        <code>--base-text-on-accent</code>,
+                        <code>--base-border-color</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Input Fields</strong></td>
+                    <td>7</td>
+                    <td>
+                        <code>--base-input-background</code>,
+                        <code>--base-input-color</code>,
+                        <code>--base-input-border</code>,
+                        <code>--base-input-border-hover</code>,
+                        <code>--base-input-border-focus</code>,
+                        <code>--base-input-placeholder-color</code>,
+                        <code>--base-input-background-disabled</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Input Sizes</strong></td>
+                    <td>5</td>
+                    <td>
+                        <code>--base-input-size-xs-height</code> (3.1),
+                        <code>--base-input-size-sm-height</code> (3.3),
+                        <code>--base-input-size-md-height</code> (3.5),
+                        <code>--base-input-size-lg-height</code> (3.8),
+                        <code>--base-input-size-xl-height</code> (4.1)
+                        <br><em>Unitless multipliers for 10px base</em>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Dropdown</strong></td>
+                    <td>3</td>
+                    <td>
+                        <code>--base-dropdown-background</code>,
+                        <code>--base-dropdown-border</code>,
+                        <code>--base-dropdown-box-shadow</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Tooltip</strong></td>
+                    <td>2</td>
+                    <td>
+                        <code>--base-tooltip-background</code>,
+                        <code>--base-tooltip-text-color</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Typography</strong></td>
+                    <td>14</td>
+                    <td>
+                        <code>--base-font-family</code>,
+                        <code>--base-font-size-2xs</code> to <code>--base-font-size-2xl</code> (unitless),
+                        <code>--base-font-weight-normal</code>,
+                        <code>--base-font-weight-medium</code>,
+                        <code>--base-font-weight-semibold</code>,
+                        <code>--base-line-height-tight</code>,
+                        <code>--base-line-height-normal</code>,
+                        <code>--base-line-height-relaxed</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Border Radius</strong></td>
+                    <td>3</td>
+                    <td>
+                        <code>--base-border-radius-sm</code> (0.4),
+                        <code>--base-border-radius-md</code> (0.6),
+                        <code>--base-border-radius-lg</code> (0.8)
+                        <br><em>Unitless multipliers for 10px base</em>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>45</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>Current Theme Values</h2>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-2">These are the <code>--base-*</code> CSS variable values from the currently selected theme:</p>
+
+        <div class="pa-row">
+            <div class="pa-col-50 pa-col-md-25">
+                <h4 class="mb-1">Colors</h4>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-accent-color); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-accent-color</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-accent-color-hover); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-accent-color-hover</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-primary-bg); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-primary-bg</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-border-color); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-border-color</code>
+                </div>
+            </div>
+            <div class="pa-col-50 pa-col-md-25">
+                <h4 class="mb-1">Text Colors</h4>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-text-color-1); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-text-color-1</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-text-color-2); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-text-color-2</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-text-color-3); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-text-color-3</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-text-color-4); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-text-color-4</code>
+                </div>
+            </div>
+            <div class="pa-col-50 pa-col-md-25">
+                <h4 class="mb-1">Input Fields</h4>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-input-background); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-input-background</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-dropdown-background); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-dropdown-background</code>
+                </div>
+                <div class="mb-2" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="width: 2.4rem; height: 2.4rem; border-radius: 0.4rem; background: var(--base-tooltip-background); border: 1px solid var(--base-border-color);"></div>
+                    <code>--base-tooltip-background</code>
+                </div>
+            </div>
+            <div class="pa-col-50 pa-col-md-25">
+                <h4 class="mb-1">Typography</h4>
+                <p class="mb-1" style="font-size: calc(var(--base-font-size-2xs) * 1rem);"><code>--base-font-size-2xs</code> (1.0)</p>
+                <p class="mb-1" style="font-size: calc(var(--base-font-size-xs) * 1rem);"><code>--base-font-size-xs</code> (1.2)</p>
+                <p class="mb-1" style="font-size: calc(var(--base-font-size-sm) * 1rem);"><code>--base-font-size-sm</code> (1.4)</p>
+                <p class="mb-1" style="font-size: calc(var(--base-font-size-base) * 1rem);"><code>--base-font-size-base</code> (1.6)</p>
+                <p class="mb-1" style="font-size: calc(var(--base-font-size-lg) * 1rem);"><code>--base-font-size-lg</code> (1.8)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>Theme Implementation Pattern</h2>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-2">Each theme follows this pattern to output base CSS variables:</p>
+
+        <pre class="pa-code"><code>// themes/express.scss
+@import '../variables';
+
+// Override accent color for theme
+$accent-color: $express-red;
+
+// Sync base variables with theme colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: $express-red-hover;
+$base-accent-color-active: lighten($express-red, 15%);
+
+// ... other theme overrides ...
+
+@import '../core';
+@import '../utilities';
+@import '../base-css-variables';
+
+// Output CSS variables in :root block
+:root {
+    --page-loader-bg: rgba(0, 0, 0, 0.95);
+    --page-loader-spinner-border: #333;
+    --page-loader-spinner-accent: #FFCC00;
+
+    // Base CSS variables for web components
+    @include output-base-css-variables;
+}</code></pre>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>Files Reference</h2>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>src/scss/_variables.scss</code></td>
+                    <td>Contains 45 <code>$base-*</code> SCSS variables with <code>!default</code> flags</td>
+                </tr>
+                <tr>
+                    <td><code>src/scss/_base-css-variables.scss</code></td>
+                    <td>Mixin <code>output-base-css-variables</code> that outputs all CSS custom properties</td>
+                </tr>
+                <tr>
+                    <td><code>src/scss/themes/*.scss</code></td>
+                    <td>Each theme imports the mixin and includes it in <code>:root</code></td>
+                </tr>
+                <tr>
+                    <td><code>docs/BASE_VARIABLES_INTEGRATION_PLAN.md</code></td>
+                    <td>Complete implementation plan and architecture documentation</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>Benefits</h2>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-row">
+            <div class="pa-col-50 pa-col-md-25">
+                <div class="pa-alert pa-alert--success">
+                    <strong>Automatic Theming</strong><br>
+                    Web components inherit Pure Admin theme colors without configuration
+                </div>
+            </div>
+            <div class="pa-col-50 pa-col-md-25">
+                <div class="pa-alert pa-alert--success">
+                    <strong>Single Source of Truth</strong><br>
+                    Pure Admin defines the theme, components follow
+                </div>
+            </div>
+            <div class="pa-col-50 pa-col-md-25">
+                <div class="pa-alert pa-alert--success">
+                    <strong>No Manual Sync</strong><br>
+                    Theme changes propagate automatically to all components
+                </div>
+            </div>
+            <div class="pa-col-50 pa-col-md-25">
+                <div class="pa-alert pa-alert--success">
+                    <strong>9 Themes Supported</strong><br>
+                    All themes export consistent <code>--base-*</code> variables
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

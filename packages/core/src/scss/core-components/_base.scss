@@ -1,0 +1,124 @@
+/* ========================================
+   Reset and Base Styles
+   ======================================== */
+@use '../variables' as *;
+
+// 10px rem base for intuitive sizing (1rem = 10px)
+// This makes calculations simple: 1.5rem = 15px, 3.5rem = 35px
+html {
+  font-size: 10px;
+}
+
+// Reset and base styles
+* {
+  box-sizing: border-box;
+}
+
+// Standard HTML element spacing (using framework variables)
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  margin: $heading-margin-top 0 $heading-margin-bottom 0;
+  padding: 0;
+}
+
+// Paragraphs
+p {
+  margin: $paragraph-margin-top 0 $paragraph-margin-bottom 0;
+  padding: 0;
+}
+
+// Lists - styled lists (default browser styling)
+ul, ol {
+  margin: $list-margin-top 0 $list-margin-bottom 0;
+  padding: 0 0 0 $list-padding-left;
+
+  li {
+    margin-bottom: $list-item-margin-bottom;
+  }
+}
+
+// Lists - unstyled (for navigation, etc.)
+ul.unstyled, ol.unstyled {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    margin-bottom: 0;
+  }
+}
+
+// Definition lists
+dl {
+  margin: $list-margin-top 0 $list-margin-bottom 0;
+  padding: 0;
+}
+
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+// Blockquote
+blockquote {
+  margin: $blockquote-margin-top 0 $blockquote-margin-bottom 0;
+  padding: 0 0 0 $blockquote-padding-left;
+}
+
+// Pre/Code blocks
+pre {
+  overflow-x: auto;
+}
+
+// Horizontal rule
+hr {
+  margin: $hr-margin-top 0 $hr-margin-bottom 0;
+}
+
+// Figure
+figure {
+  margin: $figure-margin-top 0 $figure-margin-bottom 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $body-font-family;
+  font-size: 1.6rem; // 16px default text (with 10px rem base)
+  color: var(--pa-text-primary);
+  background-color: var(--pa-primary-bg);
+  line-height: $line-height-base;
+  overflow-x: hidden; // Hide horizontal scrollbar when sidebar slides out on mobile
+  overflow-y: scroll; // Always show vertical scrollbar gutter to prevent layout shift
+
+  // Background pattern for constrained layouts
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at $bg-pattern-circle-1-x $bg-pattern-circle-1-y, rgba($accent-color, $bg-pattern-opacity) $bg-pattern-gradient-start, transparent $bg-pattern-gradient-stop),
+      radial-gradient(circle at $bg-pattern-circle-2-x $bg-pattern-circle-2-y, rgba($accent-color, $bg-pattern-opacity) $bg-pattern-gradient-start, transparent $bg-pattern-gradient-stop);
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+// Sticky sidebar mode: Prevent body scroll, let containers handle it
+body.sidebar-sticky {
+  overflow: hidden;
+  height: 100vh;
+}
+
+// Ensure form elements and labels inherit theme font and size instead of browser defaults
+button,
+input,
+select,
+textarea,
+label {
+  font-family: inherit;
+  font-size: inherit;
+}

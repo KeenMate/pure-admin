@@ -1,136 +1,140 @@
-# Pure Admin - Multi-Package Monorepo
+# Pure Admin - npm Workspace
 
 ## Project Overview
 
 Pure Admin is a lightweight, data-focused HTML/CSS admin framework similar to AdminLTE but more compact. Built with PureCSS foundation, SASS preprocessing, and a comprehensive component system.
 
-## Repository Structure
+## Repository Structure (Workspace)
 
 ```
-C:\Git\KM\pure-admin/
-├── pure-admin-visual/           # Original showcase/demo application
-│   ├── src/scss/                # Original SCSS development source
-│   ├── views/                   # EJS templates for demo
-│   ├── snippets/                # ✅ HTML snippet library (canonical reference)
-│   ├── server.js                # Express.js demo server (port 3000)
-│   └── CLAUDE.md                # Detailed project documentation
+pure-admin/                        # Workspace root
+├── package.json                   # Workspace config (private: true, workspaces)
+├── Makefile                       # Build automation
+├── CLAUDE.md                      # This file
 │
-├── pure-admin-core/             # ✅ npm package (@pure-admin/core)
-│   ├── src/scss/                # Complete SCSS framework (copied from visual)
-│   │   ├── core-components/     # All framework components
-│   │   ├── themes/              # Corporate (default), Audi, Express, Dark variants
-│   │   ├── _variables.scss      # Framework variables with !default
-│   │   ├── _core.scss           # Core framework imports
-│   │   └── main.scss            # Main entry point
-│   ├── dist/                    # Built files
-│   │   ├── css/main.css         # Compiled Corporate theme (default)
-│   │   └── fonts/               # Font files
-│   ├── snippets/                # HTML snippet library (copied from visual)
-│   ├── package.json             # npm package configuration
-│   └── README.md                # Package usage documentation
+├── packages/
+│   └── core/                      # @keenmate/pure-admin-core (npm package)
+│       ├── src/scss/              # SCSS source (single source of truth)
+│       │   ├── _variables.scss    # Framework variables with !default
+│       │   ├── _core.scss         # Core framework imports
+│       │   ├── main.scss          # Main entry point
+│       │   ├── core-components/   # All framework components (31 files)
+│       │   └── themes/            # 9 themes + _dark-base.scss
+│       ├── dist/                  # Built files
+│       │   ├── css/main.css       # Compiled default theme
+│       │   ├── css/themes/        # All compiled themes
+│       │   └── fonts/             # Font files
+│       ├── snippets/              # HTML snippet library (30 files)
+│       ├── fonts/                 # Source font files
+│       ├── scripts/               # Build scripts
+│       ├── package.json           # npm package configuration
+│       └── README.md              # Package documentation
 │
-├── pure-admin-visual-2/         # ✅ Validation project
-│   ├── views/                   # EJS templates using @pure-admin/core
-│   ├── server.js                # Express.js validation server (port 3001)
-│   └── package.json             # Depends on @pure-admin/core via file:
+├── demo/                          # Demo site (NOT published to npm)
+│   ├── server.js                  # Express.js server (port 3000)
+│   ├── views/                     # Mustache templates (40+ files)
+│   │   ├── layout.mustache        # Master layout
+│   │   ├── dashboard.mustache     # Dashboard page
+│   │   └── partials/              # Shared partials
+│   ├── js/                        # Demo JavaScript (12 files)
+│   │   ├── command-palette.js
+│   │   ├── modal-dialogs.js
+│   │   ├── toast-service.js
+│   │   └── ...
+│   ├── assets/                    # Demo assets
+│   └── package.json               # Depends on @keenmate/pure-admin-core
 │
-├── pure-admin-kit/              # (Legacy/POC?)
-├── poc/                         # (Proof of concept files)
-│
-└── PACKAGE_CREATION_SUMMARY.md  # Detailed package creation documentation
+├── pure-admin-visual/             # (Legacy - kept for reference)
+├── pure-admin-core/               # (Legacy - kept for reference)
+└── docs/                          # Documentation
 ```
 
-## Key Packages
+## Quick Start
 
-### 1. pure-admin-visual (Demo/Reference)
-**Purpose:** Original showcase application and development environment
-
-**Key Features:**
-- Express.js + EJS templating for component demos
-- Complete theme showcase (Corporate, Audi, Express, Dark variants)
-- Canonical snippet library in `snippets/` directory
-- Development server on `localhost:3000`
-
-**Run:**
 ```bash
-cd pure-admin-visual
+# Install all workspace dependencies
 npm install
-npm start  # or make dev
+
+# Build CSS
+npm run build -w @keenmate/pure-admin-core
+
+# Build all themes
+npm run build:themes -w @keenmate/pure-admin-core
+
+# Run demo server
+npm run start -w demo
+# → http://localhost:3000
 ```
 
-**Important Files:**
-- `CLAUDE.md` - Comprehensive project documentation, architecture notes, design decisions
-- `snippets/*.html` - Clean HTML patterns for all components (buttons, alerts, badges, cards, forms, modals, toasts, tables, loaders)
+## Makefile Commands
+
+```bash
+make install      # Install all workspace dependencies
+make build        # Build main CSS
+make build-themes # Build all theme CSS files
+make build-all    # Build main CSS + all themes
+make watch        # Watch SCSS files for changes
+make demo         # Run demo server only
+make dev          # Development mode
+make clean        # Clean dist directories
+make package      # Create npm tarball
+make verify       # Clean, build, and verify package
+make publish      # Publish to npm
+```
 
 ---
 
-### 2. pure-admin-core (npm Package)
-**Purpose:** Distributable npm package for use in other projects
+## Package: @keenmate/pure-admin-core
 
-**Package Name:** `@pure-admin/core`
-
-**What's Included:**
-- Complete SCSS framework with all components
-- Corporate theme as default (compiles to `dist/css/main.css`)
-- All font files
-- HTML snippet library
-- Full SCSS variable system with `!default` flags for customization
-
-**Installation:**
+### Installation
 ```bash
-npm install @pure-admin/core
+npm install @keenmate/pure-admin-core
 ```
 
-**Usage:**
+### Usage
+
+**CSS Only:**
 ```html
-<!-- CSS Only -->
-<link rel="stylesheet" href="node_modules/@pure-admin/core/dist/css/main.css">
+<link rel="stylesheet" href="node_modules/@keenmate/pure-admin-core/dist/css/main.css">
 ```
 
+**With Theme:**
+```html
+<link rel="stylesheet" href="node_modules/@keenmate/pure-admin-core/dist/css/themes/audi.css">
+```
+
+**SCSS Customization:**
 ```scss
-// SCSS Customization
+// Override variables BEFORE import
 $primary-bg: #your-color;
 $btn-primary-bg: #your-button-color;
 
-@import '@pure-admin/core/scss';
+@import '@keenmate/pure-admin-core/src/scss/main';
 ```
 
-**Build:**
-```bash
-cd pure-admin-core
-npm run build          # Build SCSS + copy fonts
-npm run watch          # Watch mode
-```
-
----
-
-### 3. pure-admin-visual-2 (Validation)
-**Purpose:** Test project to validate `@pure-admin/core` package works independently
-
-**Key Features:**
-- Uses `@pure-admin/core` as dependency (`file:../pure-admin-core`)
-- Minimal Express.js server
-- Demonstrates package integration
-- Validation server on `localhost:3001`
-
-**Run:**
-```bash
-cd pure-admin-visual-2
-npm install
-npm start
-```
+### Available Themes
+- `main.css` - Default (Corporate)
+- `themes/audi.css` - Audi red with Fira Sans Condensed
+- `themes/audi-light.css` - Light Audi variant
+- `themes/corporate.css` - Professional blue/gray
+- `themes/express.css` - Bold yellow/red logistics
+- `themes/dark.css` - Dark mode base
+- `themes/dark-blue.css` - Dark with blue accent
+- `themes/dark-green.css` - Dark with green accent
+- `themes/dark-red.css` - Dark with red accent
+- `themes/minimal.css` - Clean minimal
 
 ---
 
 ## Component System
 
-### Core Components (in pure-admin-core/src/scss/core-components/)
+### Core Components (packages/core/src/scss/core-components/)
 - **Alerts** - Alert messages with variants and dismissible states
 - **Badges** - Standard badges and composite badges with three-part structure
 - **Buttons** - Complete button system with sizes, variants, icons, alignment
 - **Cards** - Card layouts with header/body/footer
 - **Forms** - Form elements with validation states
-- **Grid** - Grid system and layouts
+- **Grid** - Flexbox grid system (pa-row, pa-col-*)
 - **Layout** - Header, sidebar, footer, responsive layouts
 - **Lists** - List components
 - **Loaders** - Loading spinners and animations
@@ -141,14 +145,14 @@ npm start
 - **Tables** - Table variants (striped, hover, compact)
 - **Toasts** - Toast notification system
 - **Tooltips** - Tooltip and popover components
+- **Command Palette** - Spotlight-style search (Ctrl+K)
 - **Utilities** - Utility classes and helpers
 
 ### HTML Snippets
-Clean HTML patterns for all components are available in:
-- `pure-admin-visual/snippets/` (source)
-- `pure-admin-core/snippets/` (distributed with package)
-
-These snippets are the canonical reference for building framework wrappers (React, Vue, Svelte).
+Clean HTML patterns for all components in `packages/core/snippets/`:
+- alerts.html, badges.html, buttons.html, cards.html
+- forms.html, grid.html, layout.html, modals.html
+- tables.html, toasts.html, tooltips.html, etc.
 
 ---
 
@@ -165,12 +169,12 @@ These snippets are the canonical reference for building framework wrappers (Reac
 ```
 
 ### SCSS Variable System
-**Core principle:** Components use semantic base variables only. Themes control the values.
+Components use semantic base variables. Themes control the values.
 
 ```scss
 // In component
 .pa-badge {
-  padding: $badge-padding-v $badge-padding-h;  // Base variables
+  padding: $badge-padding-v $badge-padding-h;
   font-size: $font-size-xs;
 }
 
@@ -178,122 +182,17 @@ These snippets are the canonical reference for building framework wrappers (Reac
 $badge-padding-h: 0.375rem;  // Theme decides the value
 ```
 
-**No size-specific component variables:**
-- ✅ Use: `$btn-padding-v`, `$btn-padding-h`
-- ❌ Don't: `$btn-padding-sm-v`, `$btn-padding-lg-h`
-
-Size modifiers (`--xs`, `--sm`, `--lg`, `--xl`) should ONLY change `font-size`, never padding.
-
-### Grid Architecture
-**Core principle:** PureCSS grid is imported in `_core.scss`, not in themes.
-
-```scss
-// _core.scss
-// 0. Import PureCSS foundation FIRST (before variables)
-@import 'purecss-grid';
-@import 'purecss-grid-responsive';
-
-@import 'variables';
-// ... component imports
-```
-
-**Benefits:**
-- ✅ `main.css` is fully functional standalone (includes grid)
-- ✅ No code duplication across themes
-- ✅ Core contains everything needed for complete functionality
-- ✅ Themes only customize variables and styling
-
-**Historical note:** Prior to 2025-10-03, each theme imported the grid, causing ~15KB duplication per theme and making `main.css` non-functional.
-
 ### Theme Architecture
-**Pattern:** Import variables → override → add fonts → import core (which includes grid)
-
 ```scss
-// In theme file (e.g., audi.scss)
-@import '../variables';
+// Theme file pattern (e.g., audi.scss)
+@import '../variables';           // Load defaults
 
-// Override variables
-$primary-bg: #bb0a30;
+$primary-bg: #bb0a30;             // Override variables
 $body-font-family: 'Fira Sans Condensed', sans-serif;
 
-// Add custom fonts
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300;400;500;700&display=swap');
-
-// Import core (compiles with overridden variables + includes grid)
-@import '../core';
+@import url('...');               // Add custom fonts
+@import '../core';                // Import core with overrides
 ```
-
-**Import flow:**
-```
-Core Entry (_core.scss):
-  → PureCSS Grid
-  → Variables
-  → Components
-
-Theme Entry (e.g., corporate.scss):
-  → Variables (loads defaults)
-  → Override variables
-  → Add fonts
-  → Core (brings grid + all components with overridden values)
-```
-
-### Font Inheritance
-All form elements inherit fonts globally via `_base.scss`:
-```scss
-button, input, select, textarea, label {
-  font-family: inherit;
-  font-size: inherit;
-}
-```
-
-**Never add `font-family: inherit` to individual components** - the global rule handles all inheritance automatically.
-
----
-
-## Development Workflow
-
-### Working on Components (pure-admin-visual)
-```bash
-cd pure-admin-visual
-npm run watch-css    # Watch SCSS changes
-npm start            # Run demo server (port 3000)
-```
-
-### Building Core Package
-```bash
-cd pure-admin-core
-npm run build        # Compile SCSS + copy fonts
-```
-
-### Validating Package
-```bash
-cd pure-admin-visual-2
-npm install          # Reinstall to pick up core changes
-npm start            # Test package integration (port 3001)
-```
-
----
-
-## Next Steps / Future Work
-
-### npm Publishing
-1. Test package locally: `npm pack` in `pure-admin-core/`
-2. Publish to npm: `npm publish --access public`
-3. Create separate theme packages:
-   - `@pure-admin/theme-audi`
-   - `@pure-admin/theme-express`
-   - `@pure-admin/theme-dark`
-
-### Framework Wrappers
-Create component libraries for popular frameworks:
-- `@pure-admin/svelte` - Svelte component wrappers
-- `@pure-admin/react` - React component wrappers
-- `@pure-admin/vue` - Vue component wrappers
-
-Each wrapper should:
-- Import CSS from `@pure-admin/core`
-- Use `snippets/` as HTML structure reference
-- Provide framework-specific props and events
 
 ---
 
@@ -319,73 +218,19 @@ $font-size-base: 1rem;      // 16px
 $font-size-lg:   1.125rem;  // 18px
 $font-size-xl:   1.25rem;   // 20px
 $font-size-2xl:  1.5rem;    // 24px
-$font-size-3xl:  2rem;      // 32px
-$font-size-4xl:  2.5rem;    // 40px
-```
-
-### Button Size Progression
-```scss
-xs:  0.25rem × 0.5rem   → ~28px height (compact for tables)
-sm:  0.375rem × 0.625rem → ~32px height
-def: 0.5rem × 0.75rem    → ~36px height
-lg:  0.625rem × 0.875rem → ~40px height
-xl:  0.75rem × 1rem      → ~44px height
 ```
 
 ### Native Grid System (pa-col-*)
-
-Flexbox-based grid with percentage and fraction columns. **Do NOT use legacy `pa-col-100-2` style classes - they don't exist.**
-
-#### Base Classes
-| Class | Behavior |
-|-------|----------|
-| `.pa-row` | Flex container |
-| `.pa-col` | Auto-equal width (flex: 1) |
-| `.pa-col-auto` | Content-based width |
-
-#### Percentage Columns (5% increments)
-`.pa-col-{n}` where n = 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
-
-#### Fraction Columns
-| Class | Width |
-|-------|-------|
-| `.pa-col-1-2` | 50% |
-| `.pa-col-1-3` | 33.333% |
-| `.pa-col-2-3` | 66.667% |
-| `.pa-col-1-4` | 25% |
-| `.pa-col-3-4` | 75% |
-| `.pa-col-1-5` | 20% |
-| `.pa-col-2-5` | 40% |
-| `.pa-col-3-5` | 60% |
-| `.pa-col-4-5` | 80% |
-| `.pa-col-1-6` | 16.667% |
-| `.pa-col-5-6` | 83.333% |
-| `.pa-col-1-12` | 8.333% |
-| `.pa-col-5-12` | 41.667% |
-| `.pa-col-7-12` | 58.333% |
-| `.pa-col-11-12` | 91.667% |
-
-#### Responsive Breakpoints
-All columns have responsive variants:
-- `.pa-col-sm-*` → ≥576px
-- `.pa-col-md-*` → ≥768px
-- `.pa-col-lg-*` → ≥992px
-- `.pa-col-xl-*` → ≥1200px
-
-#### Row Modifiers
-- `.pa-row--no-gutter` - Remove gutters
-- `.pa-row--center` / `--end` / `--between` / `--around` - Horizontal alignment
-- `.pa-row--top` / `--middle` / `--bottom` - Vertical alignment
-- `.pa-row--same-height` - Equal height cards
-
-#### Column Modifiers
-- `.pa-col--no-padding` - Remove padding
-- `.pa-col--grow` / `--shrink` - Flex behavior
-
-#### Visibility Helpers
-- `.pa-hide` / `.pa-show` - Always hide/show
-- `.pa-hide-{bp}` / `.pa-show-{bp}` - At breakpoint and up
-- `.pa-hide-below-{bp}` / `.pa-show-below-{bp}` - Below breakpoint
+```
+.pa-row              → Flex container
+.pa-col              → Auto-equal width (flex: 1)
+.pa-col-auto         → Content-based width
+.pa-col-{5-100}      → Percentage columns (5% increments)
+.pa-col-1-2          → 50%
+.pa-col-1-3, 2-3     → Thirds
+.pa-col-1-4, 3-4     → Quarters
+.pa-col-sm-*, md-*, lg-*, xl-*  → Responsive variants
+```
 
 ---
 
@@ -394,65 +239,33 @@ All columns have responsive variants:
 1. **ALWAYS use SCSS variables** - NO CSS variables (`var(--*)`) anywhere
 2. **ONLY use `pa-` prefixed classes** - No demo-specific classes
 3. **Follow BEM strictly** - Components must be reusable framework elements
-4. **Themes override SCSS variables only** - All themes import `_variables.scss` and override specific variables
-5. **Grid columns inside cards have no bottom padding** - Prevents spacing conflicts
-6. **All spacing uses consistent rem units** - Framework-wide consistency
-7. **Font inheritance is global** - Never add `font-family: inherit` to components
-
----
-
-## Resources
-
-- **Main Documentation:** `pure-admin-visual/CLAUDE.md` (comprehensive architecture notes)
-- **Package Summary:** `PACKAGE_CREATION_SUMMARY.md` (package creation phases)
-- **Snippets Reference:** `pure-admin-visual/snippets/*.html` or `pure-admin-core/snippets/*.html`
-- **Theme Examples:** `pure-admin-core/src/scss/themes/*.scss`
+4. **Themes override SCSS variables only** - All themes import `_variables.scss` and override
+5. **Font inheritance is global** - Never add `font-family: inherit` to components
 
 ---
 
 ## Base CSS Variables for Web Components
 
-Pure Admin exports `--base-*` CSS custom properties for web component theming integration.
+Pure Admin exports `--base-*` CSS custom properties for web component theming.
 
-### Architecture
-- SCSS variables (`$base-*`) defined in `_variables.scss` with `!default` flags
-- Themes override these variables as needed
-- `_base-css-variables.scss` contains mixin to output CSS custom properties
-- Each theme includes `@include output-base-css-variables;` in `:root` block
-
-### Variable Categories (45 total)
-| Category | Variables |
-|----------|-----------|
-| Colors | `--base-accent-color`, `--base-text-color-1` to `--base-text-color-4` |
-| Inputs | `--base-input-background`, `--base-input-border`, size heights |
-| Dropdowns | `--base-dropdown-background`, `--base-dropdown-box-shadow` |
-| Typography | `--base-font-size-*` (unitless × 10px base), weights, line-heights |
-| Border Radius | `--base-border-radius-sm/md/lg` (unitless × 10px base) |
-
-### Web Component Usage
 ```css
 /* Web components consume via fallback chains */
 --ms-accent-color: var(--base-accent-color, #3b82f6);
 ```
 
-### Documentation
-- Full plan: `docs/BASE_VARIABLES_INTEGRATION_PLAN.md`
-- Detailed docs: `pure-admin-visual/CLAUDE.md`
+45 variables covering colors, inputs, dropdowns, typography, and border-radius.
 
 ---
 
-## Quick Reference
+## Resources
 
-| Task | Command | Port |
-|------|---------|------|
-| **Run demo** | `cd pure-admin-visual && npm start` | 3000 |
-| **Watch SCSS** | `cd pure-admin-visual && npm run watch-css` | - |
-| **Build core** | `cd pure-admin-core && npm run build` | - |
-| **Validate package** | `cd pure-admin-visual-2 && npm start` | 3001 |
-| **Build all themes** | `cd pure-admin-visual && npm run build-all` | - |
+- **Detailed Documentation:** `demo/views/` (component demos)
+- **Snippets Reference:** `packages/core/snippets/*.html`
+- **Theme Examples:** `packages/core/src/scss/themes/*.scss`
+- **Legacy Docs:** `pure-admin-visual/CLAUDE.md`
 
 ---
 
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-20
 **Framework Version:** 1.0.0
 **Default Theme:** Corporate

@@ -1,0 +1,70 @@
+/* ========================================
+   Composite Badge
+   Multi-part badge with [icon][label][button] structure
+   ======================================== */
+@use '../../variables' as *;
+@use "sass:color";
+
+// Composite Badge - [icon][label][button]
+.pa-composite-badge {
+  display: inline-flex;
+  align-items: center;
+  height: $composite-badge-height;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $composite-badge-icon-width;
+    height: 100%;
+    flex-shrink: 0;
+    background-color: var(--pa-composite-badge-icon-bg);
+    color: var(--pa-btn-primary-text);
+    font-size: $font-size-sm;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 $composite-badge-label-padding;
+    background-color: var(--pa-composite-badge-label-bg);
+    color: var(--pa-composite-badge-label-text);
+    cursor: pointer;
+    transition: background-color $transition-normal ease;
+    user-select: none;
+    min-width: $stat-icon-size;
+
+    &:hover {
+      background-color: var(--pa-composite-badge-label-hover-bg);
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $composite-badge-button-width;
+    height: 100%;
+    flex-shrink: 0;
+    background-color: var(--pa-danger-bg);
+    color: var(--pa-btn-danger-text);
+    border: none;
+    cursor: pointer;
+    transition: background-color $transition-normal ease;
+    font-size: $font-size-xs;
+
+    &:hover {
+      background-color: var(--pa-danger-bg-hover);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 $focus-outline-width rgba($danger-bg, $btn-focus-ring-opacity);
+    }
+  }
+}

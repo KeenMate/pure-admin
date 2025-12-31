@@ -1,0 +1,37 @@
+{
+  "name": "@keenmate/pure-admin-theme-dark",
+  "version": "1.0.0",
+  "description": "Dark themes for Pure Admin - includes default, blue, green, and red variants",
+  "style": "dist/dark.css",
+  "exports": {
+    ".": "./dist/dark.css",
+    "./blue": "./dist/dark-blue.css",
+    "./green": "./dist/dark-green.css",
+    "./red": "./dist/dark-red.css",
+    "./scss": "./src/scss/dark.scss",
+    "./scss/blue": "./src/scss/dark-blue.scss",
+    "./scss/green": "./src/scss/dark-green.scss",
+    "./scss/red": "./src/scss/dark-red.scss"
+  },
+  "files": [
+    "dist/",
+    "src/scss/"
+  ],
+  "scripts": {
+    "build": "sass src/scss:dist --no-source-map --silence-deprecation=import --load-path=../../node_modules",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["pure-admin", "theme", "dark", "css"],
+  "author": "KeenMate",
+  "license": "MIT",
+  "peerDependencies": {
+    "@keenmate/pure-admin-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@keenmate/pure-admin-core": "^1.0.0",
+    "sass": "^1.70.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

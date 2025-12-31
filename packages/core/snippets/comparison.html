@@ -1,0 +1,428 @@
+<!-- ================================
+     COMPARISON TABLE SNIPPETS
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!-- ================================
+     TWO-COLUMN COMPARISON
+     Base values vs New values
+     ================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header d-flex justify-content-between align-items-center">
+        <h3>Version Detail</h3>
+        <div class="pa-btn-group">
+            <button class="pa-btn pa-btn--sm pa-btn--primary">
+                <i class="fa-solid fa-table-list"></i> View in form
+            </button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary">
+                <i class="fa-solid fa-table"></i> View in table
+            </button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary pa-btn--icon-only">
+                <i class="fa-solid fa-location-dot"></i>
+            </button>
+        </div>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-comparison-table">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">#</th>
+                    <th style="width: 40%;">Base values</th>
+                    <th style="width: 40%;">New values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Regular row (no changes) -->
+                <tr>
+                    <td class="pa-comparison-table__label">Country Iso 2</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>be</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>be</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Empty row -->
+                <tr>
+                    <td class="pa-comparison-table__label">Region</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <!-- Changed row (pink highlight) -->
+                <tr>
+                    <td class="pa-comparison-table__label">Town</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>Beveren</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="pa-comparison-table__changed">
+                        <div class="pa-comparison-table__value">
+                            <span>Antwerpen</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Section header -->
+                <tr class="pa-comparison-table__section">
+                    <td colspan="3">Address metadata</td>
+                </tr>
+
+                <!-- Row with status indicator -->
+                <tr>
+                    <td class="pa-comparison-table__label">Is active</td>
+                    <td>
+                        <i class="fa-solid fa-check" style="color: var(--base-success-color);"></i>
+                    </td>
+                    <td>
+                        <i class="fa-solid fa-check" style="color: var(--base-success-color);"></i>
+                    </td>
+                </tr>
+
+                <!-- Row with badge -->
+                <tr>
+                    <td class="pa-comparison-table__label">Status</td>
+                    <td>
+                        <span class="pa-badge pa-badge--success">Active</span>
+                    </td>
+                    <td>
+                        <span class="pa-badge pa-badge--success">Active</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- ================================
+     THREE-COLUMN COMPARISON
+     Base vs Change A vs Change B
+     ================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header d-flex justify-content-between align-items-center">
+        <h3>Merge Comparison</h3>
+        <div class="pa-btn-group">
+            <button class="pa-btn pa-btn--sm pa-btn--success">
+                <i class="fa-solid fa-code-merge"></i> Accept A
+            </button>
+            <button class="pa-btn pa-btn--sm pa-btn--info">
+                <i class="fa-solid fa-code-merge"></i> Accept B
+            </button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary">
+                <i class="fa-solid fa-xmark"></i> Reject Both
+            </button>
+        </div>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-comparison-table">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">#</th>
+                    <th style="width: 26.67%;">Base</th>
+                    <th style="width: 26.67%;">Change A</th>
+                    <th style="width: 26.67%;">Change B</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Section header -->
+                <tr class="pa-comparison-table__section">
+                    <td colspan="4">Contact Information</td>
+                </tr>
+
+                <!-- Single change in column A -->
+                <tr>
+                    <td class="pa-comparison-table__label">Email</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>john.doe@company.com</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="pa-comparison-table__changed">
+                        <div class="pa-comparison-table__value">
+                            <span>john.doe@newcompany.com</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>john.doe@company.com</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Single change in column B -->
+                <tr>
+                    <td class="pa-comparison-table__label">Phone</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>+32 123 456 789</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>+32 123 456 789</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="pa-comparison-table__changed">
+                        <div class="pa-comparison-table__value">
+                            <span>+32 987 654 321</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Conflict (both A and B changed differently) -->
+                <tr>
+                    <td class="pa-comparison-table__label">Department</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>Sales</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="pa-comparison-table__changed">
+                        <div class="pa-comparison-table__value">
+                            <span>Marketing</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="pa-comparison-table__changed pa-comparison-table__conflict">
+                        <div class="pa-comparison-table__value">
+                            <span>Engineering</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- ================================
+     SOLID BACKGROUND VARIANT
+     Using --solid modifier for uniform background highlighting
+     ================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Version Detail (Solid Background)</h3>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <table class="pa-table pa-comparison-table">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">#</th>
+                    <th style="width: 40%;">Base values</th>
+                    <th style="width: 40%;">New values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Regular row (no changes) -->
+                <tr>
+                    <td class="pa-comparison-table__label">Country Iso 2</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>be</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>be</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Changed row with solid background (no left border) -->
+                <tr>
+                    <td class="pa-comparison-table__label">Town</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>Beveren</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="pa-comparison-table__changed pa-comparison-table__changed--solid">
+                        <div class="pa-comparison-table__value">
+                            <span>Antwerpen</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Another changed row with solid background -->
+                <tr>
+                    <td class="pa-comparison-table__label">Postal Code</td>
+                    <td>
+                        <div class="pa-comparison-table__value">
+                            <span>9120</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="pa-comparison-table__changed pa-comparison-table__changed--solid">
+                        <div class="pa-comparison-table__value">
+                            <span>2000</span>
+                            <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+                                <i class="fa-solid fa-clipboard"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- ================================
+     JAVASCRIPT INTEGRATION
+     ================================ -->
+
+<script>
+// Copy button functionality
+document.querySelectorAll('.pa-comparison-table__copy').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const value = this.previousElementSibling.textContent;
+        navigator.clipboard.writeText(value).then(() => {
+            // Visual feedback - change icon temporarily
+            const icon = this.querySelector('i');
+            icon.classList.remove('fa-clipboard');
+            icon.classList.add('fa-check');
+            setTimeout(() => {
+                icon.classList.remove('fa-check');
+                icon.classList.add('fa-clipboard');
+            }, 1000);
+        });
+    });
+});
+
+// Accept/reject button handlers (example)
+document.querySelectorAll('[data-action="accept-a"]').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Get all changed values from column A
+        // Apply them to the base record
+        // Show success notification
+    });
+});
+</script>
+
+
+<!-- ================================
+     CSS CLASSES REFERENCE
+     ================================ -->
+
+<!--
+COMPONENT CLASSES:
+- pa-comparison-table            Main table class
+- pa-comparison-table__label     Field name column (left)
+- pa-comparison-table__value     Value wrapper (contains text + copy button)
+- pa-comparison-table__copy      Copy button styling
+- pa-comparison-table__changed   Pink highlight for changes (light bg + left border accent)
+- pa-comparison-table__changed--solid   Solid pink background (no left border)
+- pa-comparison-table__conflict  Orange highlight for merge conflicts (3-column only)
+- pa-comparison-table__conflict--solid  Solid orange background (no left border)
+- pa-comparison-table__section   Section header row
+
+USAGE PATTERNS:
+
+Two-column comparison:
+- Column 1: Field labels (pa-comparison-table__label)
+- Column 2: Base values
+- Column 3: New values
+- Add pa-comparison-table__changed to cells that changed
+- Add pa-comparison-table__changed--solid for solid background highlighting
+
+Three-column comparison:
+- Column 1: Field labels (pa-comparison-table__label)
+- Column 2: Base values
+- Column 3: Change A values
+- Column 4: Change B values
+- Add pa-comparison-table__changed to cells that changed
+- Add pa-comparison-table__changed--solid for solid background (no border accent)
+- Add pa-comparison-table__conflict to cells with conflicting changes
+- Add pa-comparison-table__conflict--solid for solid conflict highlighting
+
+Highlighting Styles:
+- Default (pa-comparison-table__changed): Light background + colored left border accent
+- Solid (pa-comparison-table__changed--solid): More opaque background, no border accent
+- Use --solid variant when left border might interfere with table layout or when you prefer uniform background highlighting
+
+Section headers:
+- Use <tr class="pa-comparison-table__section">
+- Single <td> with colspan covering all columns
+- Contains section name text
+
+Empty rows:
+- Keep empty <td> elements to maintain table structure
+- Helps with visual scanning
+
+Value cells:
+- Wrap content in pa-comparison-table__value div
+- Include copy button for copyable values
+- Use icons, badges, or plain text as needed
+
+FEATURES:
+✅ Responsive design (stacks on mobile)
+✅ Copy to clipboard functionality
+✅ Hover-visible copy buttons
+✅ Section grouping
+✅ Change highlighting (pink)
+✅ Conflict highlighting (orange)
+✅ Support for icons, badges, and rich content
+✅ Empty row preservation for structure
+-->

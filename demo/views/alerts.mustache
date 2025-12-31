@@ -1,0 +1,221 @@
+            <p>Contextual feedback messages for typical user actions with flexible alert messages.</p>
+
+            <!-- Basic Alerts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Basic Alerts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--primary">
+                        <strong>Primary!</strong> This is a primary alert — check it out!
+                    </div>
+
+                    <div class="pa-alert pa-alert--secondary">
+                        <strong>Secondary!</strong> This is a secondary alert — check it out!
+                    </div>
+
+                    <div class="pa-alert pa-alert--success">
+                        <strong>Success!</strong> This is a success alert — your operation completed successfully.
+                    </div>
+
+                    <div class="pa-alert pa-alert--danger">
+                        <strong>Danger!</strong> This is a danger alert — something went wrong!
+                    </div>
+
+                    <div class="pa-alert pa-alert--warning">
+                        <strong>Warning!</strong> This is a warning alert — please review before proceeding.
+                    </div>
+
+                    <div class="pa-alert pa-alert--info">
+                        <strong>Info!</strong> This is an info alert — here's some useful information.
+                    </div>
+
+                    <div class="pa-alert pa-alert--light">
+                        <strong>Light!</strong> This is a light alert — subtle but important.
+                    </div>
+
+                    <div class="pa-alert pa-alert--dark">
+                        <strong>Dark!</strong> This is a dark alert — for high contrast messaging.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts with Icons -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Alerts with Icons</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--success">
+                        <span class="pa-alert__icon">✓</span>
+                        <div class="pa-alert__content">
+                            <strong>Success!</strong> Your changes have been saved successfully.
+                        </div>
+                    </div>
+
+                    <div class="pa-alert pa-alert--danger">
+                        <span class="pa-alert__icon">⚠</span>
+                        <div class="pa-alert__content">
+                            <strong>Error!</strong> Unable to process your request. Please try again.
+                        </div>
+                    </div>
+
+                    <div class="pa-alert pa-alert--warning">
+                        <span class="pa-alert__icon">!</span>
+                        <div class="pa-alert__content">
+                            <strong>Warning!</strong> Your session will expire in 5 minutes.
+                        </div>
+                    </div>
+
+                    <div class="pa-alert pa-alert--info">
+                        <span class="pa-alert__icon">ⓘ</span>
+                        <div class="pa-alert__content">
+                            <strong>Information!</strong> New features are now available in your account.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dismissible Alerts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Dismissible Alerts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--success pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Well done!</strong> You successfully read this important alert message.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="pa-alert pa-alert--danger pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Oh snap!</strong> Change a few things and try submitting again.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="pa-alert pa-alert--warning pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Warning!</strong> Better check yourself, you're not looking too good.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="pa-alert pa-alert--info pa-alert--dismissible">
+                        <div class="pa-alert__content">
+                            <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+                        </div>
+                        <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts with Additional Content -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Alerts with Additional Content</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-row">
+                        <div class="pa-col-100 pa-col-md-50">
+                            <div class="pa-alert pa-alert--success">
+                                <h4 class="pa-alert__heading">Success!</h4>
+                                <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                <hr>
+                                <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                            </div>
+                        </div>
+
+                        <div class="pa-col-100 pa-col-md-50">
+                            <div class="pa-alert pa-alert--info">
+                                <h4 class="pa-alert__heading">System Update</h4>
+                                <p>A new version of the application is available. This update includes:</p>
+                                <ul class="pa-alert__list">
+                                    <li>Performance improvements</li>
+                                    <li>Bug fixes</li>
+                                    <li>New dashboard features</li>
+                                </ul>
+                                <div class="pa-alert__actions">
+                                    <button class="pa-btn pa-btn--sm pa-btn--primary">Update Now</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary">Remind Me Later</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outline Alerts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Outline Alerts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--outline-primary">
+                        <strong>Primary Outline!</strong> This is a primary outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-success">
+                        <strong>Success Outline!</strong> This is a success outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-danger">
+                        <strong>Danger Outline!</strong> This is a danger outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-warning">
+                        <strong>Warning Outline!</strong> This is a warning outline alert.
+                    </div>
+
+                    <div class="pa-alert pa-alert--outline-info">
+                        <strong>Info Outline!</strong> This is an info outline alert.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compact Alerts Grid -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Compact Alerts in Grid</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-row">
+                        <div class="pa-col-100 pa-col-md-1-3">
+                            <div class="pa-alert pa-alert--success pa-alert--sm">
+                                <span class="pa-alert__icon">✓</span> Saved
+                            </div>
+                        </div>
+                        <div class="pa-col-100 pa-col-md-1-3">
+                            <div class="pa-alert pa-alert--warning pa-alert--sm">
+                                <span class="pa-alert__icon">!</span> Pending
+                            </div>
+                        </div>
+                        <div class="pa-col-100 pa-col-md-1-3">
+                            <div class="pa-alert pa-alert--danger pa-alert--sm">
+                                <span class="pa-alert__icon">×</span> Failed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<script>
+function dismissAlert(button) {
+    const alert = button.closest('.pa-alert');
+    alert.style.transition = 'opacity 0.3s ease';
+    alert.style.opacity = '0';
+    setTimeout(() => {
+        alert.style.display = 'none';
+    }, 300);
+}
+</script>

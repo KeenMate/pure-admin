@@ -1,0 +1,159 @@
+/* Dark Green Theme for Pure Admin Visual */
+@use 'sass:color';
+
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// Dark green theme color palette
+$dark-green-bg-900: #0f1e13;
+$dark-green-bg-800: #1a2e1f;
+$dark-green-bg-700: #2d5b3a;
+$dark-green-bg-600: #365e42;
+$dark-green-bg-500: #1e4025;
+
+$dark-green-text-50: #f0fdf4;
+$dark-green-text-300: #86efac;
+$dark-green-text-100: #dcfce7;
+
+$dark-green-accent: #22c55e;
+$dark-green-primary: #15803d;
+$dark-green-primary-dark: #166534;
+$dark-green-success: #059669;
+$dark-green-success-dark: #047857;
+$dark-green-warning: #854d0e;
+$dark-green-danger: #7f1d1d;
+$dark-green-danger-dark: #991b1b;
+$dark-green-info: #0e7490;
+$dark-green-info-dark: #155e75;
+$dark-green-very-dark: #0a0f0b;
+$dark-green-darkest: #052e16;
+
+// Color overrides for dark green theme
+$primary-bg: $dark-green-bg-900;
+$content-background-color: $dark-green-bg-900;
+$header-bg: $dark-green-bg-800;
+$sidebar-bg: $dark-green-bg-800;
+$sidebar-submenu-bg: $dark-green-bg-700;
+$sidebar-submenu-hover-bg: $dark-green-bg-600;
+$sidebar-submenu-active-bg: $dark-green-bg-700;
+$footer-bg: $dark-green-bg-800;
+$border-color: $dark-green-bg-700;
+$header-border-color: $dark-green-bg-700; // Match sidebar border color
+$text-primary: $dark-green-text-50;
+$text-secondary: $dark-green-text-300;
+$accent-color: $dark-green-accent;
+$accent-hover: rgba(34, 197, 94, 0.15);
+$accent-light: rgba(34, 197, 94, 0.08);
+
+// Sync base variables with theme colors (for web components)
+// Colors
+$base-accent-color: $accent-color;
+$base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%);
+$base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%);
+$base-accent-color-light: $accent-light;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.12);
+$base-primary-bg: $dark-green-bg-800;
+$base-primary-bg-hover: $dark-green-bg-700;
+$base-text-color-1: $dark-green-text-50;
+$base-text-color-2: $dark-green-text-300;
+$base-text-color-3: #6b8f6b;
+$base-text-color-4: #4a6b4a;
+$base-text-on-accent: #ffffff;
+$base-border-color: $dark-green-bg-700;
+
+// Input fields
+$base-input-background: $dark-green-bg-900;
+$base-input-color: $dark-green-text-50;
+$base-input-border: 1px solid $dark-green-bg-700;
+$base-input-border-hover: 1px solid $accent-color;
+$base-input-border-focus: 1px solid $accent-color;
+$base-input-placeholder-color: $dark-green-bg-600;
+$base-input-background-disabled: rgba($dark-green-bg-800, 0.5);
+
+// Dropdown/Popover
+$base-dropdown-background: $dark-green-bg-800;
+$base-dropdown-border: 1px solid $dark-green-bg-700;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+// Tooltip
+$base-tooltip-background: $dark-green-bg-700;
+$base-tooltip-text-color: #ffffff;
+
+// Form focus colors - must match accent color
+$input-focus-border-color: $accent-color;
+$select-focus-border-color: $accent-color;
+$textarea-focus-border-color: $accent-color;
+
+// Checkbox colors - must match accent color
+$checkbox-border-color-hover: $accent-color;
+$checkbox-border-color-checked: $accent-color;
+$checkbox-bg-checked: $accent-color;
+$checkbox-bg-indeterminate: $accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
+
+// Card colors
+$card-bg: $dark-green-bg-800;
+$card-header-bg: $dark-green-bg-900;
+$card-footer-bg: $dark-green-bg-900;
+$card-tabs-bg: $dark-green-bg-700;
+
+// Input colors
+$input-bg: $dark-green-bg-900;
+$input-border: $border-color;
+$input-text: $text-primary;
+
+// Table colors
+$table-bg: $dark-green-bg-800;
+$table-header-bg: $dark-green-bg-900;
+$table-hover-bg: $dark-green-bg-700;
+$table-stripe: $dark-green-bg-800;
+
+// Button colors - green-focused palette
+$btn-primary-bg: $dark-green-primary;
+$btn-primary-bg-hover: $dark-green-primary-dark;
+$btn-secondary-bg: $dark-green-bg-500;
+$btn-secondary-bg-hover: $dark-green-bg-700;
+$btn-success-bg: $dark-green-success;
+$btn-success-bg-hover: $dark-green-success-dark;
+$btn-warning-bg: $dark-green-warning;
+$btn-warning-text: #ffffff;
+$btn-danger-bg: $dark-green-danger;
+$btn-danger-bg-hover: $dark-green-danger-dark;
+$btn-info-bg: $dark-green-info;
+$btn-info-bg-hover: $dark-green-info-dark;
+$btn-light-bg: $dark-green-bg-700;
+$btn-light-text: $dark-green-text-100;
+$btn-light-bg-hover: $dark-green-bg-600;
+$btn-dark-bg: $dark-green-very-dark;
+$btn-dark-bg-hover: $dark-green-darkest;
+
+// Validation shadow colors - match button colors
+$success-bg: $btn-success-bg;
+$success-bg-light: rgba(34, 197, 94, 0.15);
+$warning-bg: $btn-warning-bg;
+$warning-bg-light: rgba(251, 191, 36, 0.15);
+$danger-bg: $btn-danger-bg;
+$danger-bg-light: rgba(239, 68, 68, 0.15);
+
+// Modal colors
+$modal-overlay-bg: rgba(0, 0, 0, 0.7);
+$modal-content-bg: $dark-green-bg-800;
+
+// Profile name in header
+$header-profile-name-color: #ffffff;  // White text on dark header
+
+@import '@keenmate/pure-admin-core/src/scss/core';
+@import '@keenmate/pure-admin-core/src/scss/utilities';
+@import '@keenmate/pure-admin-core/src/scss/base-css-variables';
+
+// CSS Variables for page loader (FOUC prevention) and base theme variables
+:root {
+  --page-loader-bg: rgba(26, 26, 26, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #10b981; // Green
+
+  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  @include output-base-css-variables;
+
+  // Pure Admin theme CSS variables for runtime theme switching
+  @include output-pa-css-variables;
+}

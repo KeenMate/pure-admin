@@ -1,0 +1,154 @@
+<!-- ================================
+     TOAST SNIPPETS
+     Pure Admin Visual Framework
+     ================================ -->
+
+<!-- Note: Toast containers should be at body level in your layout -->
+<!-- Include these containers once in your main layout -->
+<div id="toast-container-top-right" class="pa-toast-container pa-toast-container--top-right"></div>
+<div id="toast-container-top-center" class="pa-toast-container pa-toast-container--top-center"></div>
+<div id="toast-container-top-left" class="pa-toast-container pa-toast-container--top-left"></div>
+<div id="toast-container-bottom-right" class="pa-toast-container pa-toast-container--bottom-right"></div>
+<div id="toast-container-bottom-center" class="pa-toast-container pa-toast-container--bottom-center"></div>
+<div id="toast-container-bottom-left" class="pa-toast-container pa-toast-container--bottom-left"></div>
+
+
+<!-- TOAST STRUCTURE -->
+
+<!-- Primary Toast -->
+<div class="pa-toast pa-toast--primary pa-toast--show">
+  <div class="pa-toast__icon">ℹ️</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Primary</div>
+    <div class="pa-toast__message">This is a primary toast notification.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+<!-- Success Toast -->
+<div class="pa-toast pa-toast--success pa-toast--show">
+  <div class="pa-toast__icon">✓</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Success</div>
+    <div class="pa-toast__message">Your action was completed successfully.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+<!-- Danger Toast -->
+<div class="pa-toast pa-toast--danger pa-toast--show">
+  <div class="pa-toast__icon">✕</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Error</div>
+    <div class="pa-toast__message">An error occurred. Please try again.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+<!-- Warning Toast -->
+<div class="pa-toast pa-toast--warning pa-toast--show">
+  <div class="pa-toast__icon">⚠</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Warning</div>
+    <div class="pa-toast__message">Please review this warning message.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+<!-- Info Toast -->
+<div class="pa-toast pa-toast--info pa-toast--show">
+  <div class="pa-toast__icon">ℹ</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Information</div>
+    <div class="pa-toast__message">Here is some useful information for you.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+
+<!-- TOAST WITH PROGRESS BAR -->
+
+<!-- Toast with Auto-dismiss Progress -->
+<div class="pa-toast pa-toast--primary pa-toast--show">
+  <div class="pa-toast__icon">ℹ</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Processing</div>
+    <div class="pa-toast__message">Your request is being processed...</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <div class="pa-toast__progress w-100" style="transition: width 5000ms linear;"></div>
+</div>
+
+
+<!-- JAVASCRIPT API -->
+<script>
+// Create a toast notification
+function createToast(position, variant, title, message, duration = 5000, showProgress = false, persistent = false) {
+  const container = document.getElementById(`toast-container-${position}`);
+  const toastId = `toast-${Date.now()}-${Math.random()}`;
+
+  const toast = document.createElement('div');
+  toast.className = `pa-toast pa-toast--${variant}`;
+  toast.id = toastId;
+
+  const icons = {
+    primary: 'ℹ️',
+    success: '✓',
+    danger: '✕',
+    warning: '⚠',
+    info: 'ℹ'
+  };
+
+  toast.innerHTML = `
+    <div class="pa-toast__icon">${icons[variant] || 'ℹ'}</div>
+    <div class="pa-toast__content">
+      <div class="pa-toast__title">${title}</div>
+      <div class="pa-toast__message">${message}</div>
+    </div>
+    <button class="pa-toast__close" onclick="dismissToast('${toastId}')" aria-label="Close">✕</button>
+    ${showProgress && !persistent ? '<div class="pa-toast__progress w-100"></div>' : ''}
+  `;
+
+  container.appendChild(toast);
+
+  // Show toast
+  setTimeout(() => {
+    toast.classList.add('pa-toast--show');
+  }, 10);
+
+  // Progress bar animation
+  if (showProgress && !persistent) {
+    const progress = toast.querySelector('.pa-toast__progress');
+    if (progress) {
+      progress.style.transition = `width ${duration}ms linear`;
+      setTimeout(() => {
+        progress.style.width = '0%';
+      }, 50);
+    }
+  }
+
+  // Auto-dismiss (only if not persistent)
+  if (!persistent) {
+    setTimeout(() => {
+      dismissToast(toastId);
+    }, duration);
+  }
+}
+
+// Dismiss a toast
+function dismissToast(toastId) {
+  const toast = document.getElementById(toastId);
+  if (!toast) return;
+
+  toast.classList.remove('pa-toast--show');
+  toast.classList.add('pa-toast--hide');
+
+  setTimeout(() => {
+    toast.remove();
+  }, 300);
+}
+
+// Usage examples:
+// createToast('top-right', 'success', 'Success', 'Operation completed!');
+// createToast('top-right', 'warning', 'Warning', 'Please review', 0, false, true); // Persistent
+</script>

@@ -1,0 +1,396 @@
+/* ========================================
+   Composite Badge Variants
+   Color variations for composite badges
+   ======================================== */
+@use '../../variables' as *;
+@use "sass:color";
+
+.pa-composite-badge {
+  // Standard color variations - all sections match
+  &--primary {
+    .pa-composite-badge__icon {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $accent-light;
+      color: $btn-primary-bg;
+      &:hover {
+        background-color: $accent-hover;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-text;
+      &:hover {
+        background-color: $btn-primary-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--secondary {
+    .pa-composite-badge__icon {
+      background-color: $btn-secondary-bg;
+      color: $btn-secondary-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $bg-secondary;
+      color: var(--pa-text-secondary);
+      &:hover {
+        background-color: $table-hover-bg;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-secondary-bg;
+      color: $btn-secondary-text;
+      &:hover {
+        background-color: $btn-secondary-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--success {
+    .pa-composite-badge__icon {
+      background-color: $btn-success-bg;
+      color: $btn-success-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-success-bg;
+      color: $badge-success-text;
+      &:hover {
+        background-color: color.adjust($badge-success-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-success-bg;
+      color: $btn-success-text;
+      &:hover {
+        background-color: $btn-success-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--danger {
+    .pa-composite-badge__icon {
+      background-color: $btn-danger-bg;
+      color: $btn-danger-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-danger-bg;
+      color: $badge-danger-text;
+      &:hover {
+        background-color: color.adjust($badge-danger-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-danger-bg;
+      color: $btn-danger-text;
+      &:hover {
+        background-color: $btn-danger-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--warning {
+    .pa-composite-badge__icon {
+      background-color: $btn-warning-bg;
+      color: $btn-warning-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-warning-bg;
+      color: $badge-warning-text;
+      &:hover {
+        background-color: color.adjust($badge-warning-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-warning-bg;
+      color: $btn-warning-text;
+      &:hover {
+        background-color: $btn-warning-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--info {
+    .pa-composite-badge__icon {
+      background-color: $btn-info-bg;
+      color: $btn-info-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $badge-info-bg;
+      color: $badge-info-text;
+      &:hover {
+        background-color: color.adjust($badge-info-bg, $lightness: -5%);
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-info-bg;
+      color: $btn-info-text;
+      &:hover {
+        background-color: $btn-info-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--light {
+    .pa-composite-badge__icon {
+      background-color: $btn-light-bg;
+      color: $btn-light-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $header-bg;
+      color: $btn-light-text;
+      &:hover {
+        background-color: $btn-light-bg-hover;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-light-bg;
+      color: $btn-light-text;
+      &:hover {
+        background-color: $btn-light-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  &--dark {
+    .pa-composite-badge__icon {
+      background-color: $btn-dark-bg;
+      color: $btn-dark-text;
+    }
+    .pa-composite-badge__label {
+      background-color: $table-hover-bg;
+      color: var(--pa-text-primary);
+      &:hover {
+        background-color: $border-color;
+      }
+    }
+    .pa-composite-badge__button {
+      background-color: $btn-dark-bg;
+      color: $btn-dark-text;
+      &:hover {
+        background-color: $btn-dark-bg-hover;
+      }
+      &:focus {
+        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+      }
+    }
+  }
+
+  // Color variants for icon section only
+  &--primary &__icon {
+    background-color: $btn-primary-bg;
+  }
+
+  &--secondary &__icon {
+    background-color: $btn-secondary-bg;
+  }
+
+  &--success &__icon {
+    background-color: $btn-success-bg;
+  }
+
+  &--danger &__icon {
+    background-color: $btn-danger-bg;
+  }
+
+  &--warning &__icon {
+    background-color: $btn-warning-bg;
+    color: $btn-warning-color;
+  }
+
+  &--info &__icon {
+    background-color: $btn-info-bg;
+  }
+
+  &--light &__icon {
+    background-color: $btn-light-bg;
+    color: $btn-light-text;
+  }
+
+  &--dark &__icon {
+    background-color: $btn-dark-bg;
+  }
+
+  // Color variants for label section
+  &--label-primary &__label {
+    background-color: color.adjust($btn-primary-bg, $lightness: 40%);
+    color: color.adjust($btn-primary-bg, $lightness: -30%);
+
+    &:hover {
+      background-color: color.adjust($btn-primary-bg, $lightness: 35%);
+    }
+  }
+
+  &--label-secondary &__label {
+    background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
+    color: $secondary-text;
+
+    &:hover {
+      background-color: color.adjust($btn-secondary-bg, $lightness: 30%);
+    }
+  }
+
+  &--label-success &__label {
+    background-color: $badge-success-bg;
+    color: $badge-success-text;
+
+    &:hover {
+      background-color: color.adjust($badge-success-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-danger &__label {
+    background-color: $badge-danger-bg;
+    color: $badge-danger-text;
+
+    &:hover {
+      background-color: color.adjust($badge-danger-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-warning &__label {
+    background-color: $badge-warning-bg;
+    color: $badge-warning-text;
+
+    &:hover {
+      background-color: color.adjust($badge-warning-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-info &__label {
+    background-color: $badge-info-bg;
+    color: $badge-info-text;
+
+    &:hover {
+      background-color: color.adjust($badge-info-bg, $lightness: -5%);
+    }
+  }
+
+  &--label-light &__label {
+    background-color: color.adjust($btn-light-bg, $lightness: 2%);
+    color: $btn-light-text;
+
+    &:hover {
+      background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
+    }
+  }
+
+  &--label-dark &__label {
+    background-color: color.adjust($btn-dark-bg, $lightness: 50%);
+    color: color.adjust($btn-dark-bg, $lightness: 5%);
+
+    &:hover {
+      background-color: color.adjust($btn-dark-bg, $lightness: 45%);
+    }
+  }
+
+  // Color variants for button section
+  &--btn-primary &__button {
+    background-color: $btn-primary-bg;
+
+    &:hover {
+      background-color: $btn-primary-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-primary-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-secondary &__button {
+    background-color: $btn-secondary-bg;
+
+    &:hover {
+      background-color: $btn-secondary-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-secondary-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-success &__button {
+    background-color: $btn-success-bg;
+
+    &:hover {
+      background-color: $btn-success-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-success-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-warning &__button {
+    background-color: $btn-warning-bg;
+    color: $btn-warning-color;
+
+    &:hover {
+      background-color: $btn-warning-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-warning-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-info &__button {
+    background-color: $btn-info-bg;
+
+    &:hover {
+      background-color: $btn-info-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-info-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-light &__button {
+    background-color: $btn-light-bg;
+    color: $btn-light-text;
+
+    &:hover {
+      background-color: $btn-light-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-light-bg, $btn-focus-ring-opacity);
+    }
+  }
+
+  &--btn-dark &__button {
+    background-color: $btn-dark-bg;
+
+    &:hover {
+      background-color: $btn-dark-bg-hover;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width rgba($btn-dark-bg, $btn-focus-ring-opacity);
+    }
+  }
+}

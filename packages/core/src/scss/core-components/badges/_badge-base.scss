@@ -1,0 +1,131 @@
+/* ========================================
+   Badge Base
+   Core badge component with sizes, colors, and modifiers
+   ======================================== */
+@use '../../variables' as *;
+
+// Badge Components
+.pa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  background-color: var(--pa-btn-secondary-bg);
+  color: var(--pa-btn-secondary-text);
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: $border-radius;
+  border: $border-width-base solid transparent;
+  transition: all $transition-fast $easing-snappy;
+
+  &__icon {
+    font-size: $font-size-2xs;
+    line-height: 1;
+  }
+
+  // Size variations
+  &--xs {
+    padding: 0.2rem 0.4rem;
+    font-size: $font-size-2xs;  // 1rem (10px)
+  }
+
+  &--sm {
+    padding: 0.25rem 0.5rem;
+    font-size: $font-size-xs;   // 1.2rem (12px)
+  }
+
+  &--lg {
+    padding: 0.5rem 1rem;
+    font-size: $font-size-sm;   // 1.4rem (14px)
+  }
+
+  &--xl {
+    padding: 0.6rem 1.2rem;
+    font-size: $font-size-base; // 1.6rem (16px)
+  }
+
+  // Shape variations
+  &--pill {
+    border-radius: $badge-pill-radius;
+  }
+
+  // Color variations
+  &--primary {
+    background-color: var(--pa-btn-primary-bg);
+    color: var(--pa-btn-primary-text);
+    border-color: var(--pa-btn-primary-bg);
+  }
+
+  &--secondary {
+    background-color: var(--pa-btn-secondary-bg);
+    color: var(--pa-btn-secondary-text);
+    border-color: var(--pa-btn-secondary-bg);
+  }
+
+  &--success {
+    background-color: var(--pa-btn-success-bg);
+    color: var(--pa-btn-success-text);
+    border-color: var(--pa-btn-success-bg);
+  }
+
+  &--warning {
+    background-color: var(--pa-btn-warning-bg);
+    color: var(--pa-btn-warning-text);
+    border-color: var(--pa-btn-warning-bg);
+  }
+
+  &--danger {
+    background-color: var(--pa-btn-danger-bg);
+    color: var(--pa-btn-danger-text);
+    border-color: var(--pa-btn-danger-bg);
+  }
+
+  &--info {
+    background-color: var(--pa-btn-info-bg);
+    color: var(--pa-btn-info-text);
+    border-color: var(--pa-btn-info-bg);
+  }
+
+  &--light {
+    background-color: var(--pa-btn-light-bg);
+    color: var(--pa-btn-light-text);
+    border-color: var(--pa-btn-light-bg);
+  }
+
+  &--dark {
+    background-color: var(--pa-btn-dark-bg);
+    color: var(--pa-btn-dark-text);
+    border-color: var(--pa-btn-dark-bg);
+  }
+
+  // Fixed-width badges with ellipsis
+  &--w-1x { min-width: 1.6rem; max-width: 1.6rem; }
+  &--w-2x { min-width: 3.2rem; max-width: 3.2rem; }
+  &--w-3x { min-width: 4.8rem; max-width: 4.8rem; }
+  &--w-4x { min-width: 6.4rem; max-width: 6.4rem; }
+  &--w-5x { min-width: 8rem; max-width: 8rem; }
+  &--w-6x { min-width: 9.6rem; max-width: 9.6rem; }
+  &--w-7x { min-width: 11.2rem; max-width: 11.2rem; }
+  &--w-8x { min-width: 12.8rem; max-width: 12.8rem; }
+  &--w-9x { min-width: 14.4rem; max-width: 14.4rem; }
+  &--w-10x { min-width: 16rem; max-width: 16rem; }
+
+  // Apply ellipsis to fixed-width badges
+  &[class*="--w-"] {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  // Left-side ellipsis for paths/hierarchies where end is important
+  &--ellipsis-left {
+    direction: rtl;
+    text-align: left;
+  }
+}

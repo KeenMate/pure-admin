@@ -1,0 +1,209 @@
+/* ========================================
+   Modal Components
+   Modal windows with overlay, sizes, and themed headers
+   ======================================== */
+@use '../variables' as *;
+
+// ===== MODAL COMPONENTS =====
+
+// Modal wrapper
+.pa-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: $z-index-modal;
+
+  &.pa-modal--show {
+    display: flex;
+  }
+
+  // Top-aligned modifier - positions modal near top instead of center
+  &.pa-modal--top {
+    align-items: flex-start;
+    padding-top: 5vh; // Small offset from top
+  }
+}
+
+// Modal backdrop (the dark overlay)
+.pa-modal__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--pa-modal-overlay-bg);
+  z-index: $z-index-modal-backdrop;
+}
+
+// Modal container (the actual dialog)
+.pa-modal__container {
+  background-color: var(--pa-modal-content-bg);
+  border-radius: $modal-border-radius;
+  box-shadow: $modal-box-shadow;
+  width: 100%;
+  max-width: $modal-md-width;
+  max-height: 90vh;
+  margin: $spacing-base;
+  position: relative;
+  z-index: $z-index-modal;
+  display: flex;
+  flex-direction: column;
+
+  // Size variations
+  &--sm {
+    max-width: $modal-sm-width;
+  }
+
+  &--lg {
+    max-width: $modal-lg-width;
+  }
+
+  &--xl {
+    max-width: $modal-xl-width;
+  }
+
+  &--xxl {
+    max-width: $modal-xxl-width;
+  }
+
+  &--fw {
+    max-width: calc(100vw - ($modal-fw-margin * 2));
+    width: calc(100vw - ($modal-fw-margin * 2));
+    max-height: calc(100vh - ($modal-fw-margin * 2));
+    margin: $modal-fw-margin;
+  }
+}
+
+// Modal header
+.pa-modal__header {
+  padding: $modal-header-padding;
+  border-bottom: $border-width-base solid var(--pa-border-color);
+  border-radius: $modal-border-radius $modal-border-radius 0 0; // Match container's top corners
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pa-modal__title {
+  margin: 0;
+  font-size: $modal-title-font-size;
+  font-weight: $font-weight-semibold;
+  color: var(--pa-text-primary);
+}
+
+// Close button uses standard .pa-btn classes
+// No custom styling needed - handled by button component
+
+// Modal body
+.pa-modal__body {
+  padding: $modal-body-padding;
+  flex: 1;
+  overflow-y: auto;
+  color: var(--pa-text-primary);
+}
+
+// Modal footer
+.pa-modal__footer {
+  padding: $modal-footer-padding;
+  border-top: $border-width-base solid var(--pa-border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+  flex-shrink: 0;
+}
+
+// Modal color variations
+.pa-modal--primary .pa-modal__header {
+  background-color: var(--pa-btn-primary-bg);
+  color: var(--pa-modal-content-bg);
+  border-bottom-color: var(--pa-btn-primary-bg);
+
+  .pa-modal__title {
+    color: var(--pa-modal-content-bg);
+  }
+}
+
+.pa-modal--success .pa-modal__header {
+  background-color: var(--pa-btn-success-bg);
+  color: var(--pa-btn-success-text);
+  border-bottom-color: var(--pa-btn-success-bg);
+
+  .pa-modal__title {
+    color: var(--pa-btn-success-text);
+  }
+}
+
+.pa-modal--warning .pa-modal__header {
+  background-color: var(--pa-btn-warning-bg);
+  color: var(--pa-btn-warning-text);
+  border-bottom-color: var(--pa-btn-warning-bg);
+
+  .pa-modal__title {
+    color: var(--pa-btn-warning-text);
+  }
+}
+
+.pa-modal--danger .pa-modal__header {
+  background-color: var(--pa-btn-danger-bg);
+  color: var(--pa-btn-danger-text);
+  border-bottom-color: var(--pa-btn-danger-bg);
+
+  .pa-modal__title {
+    color: var(--pa-btn-danger-text);
+  }
+}
+
+// Modal scrollable content
+.pa-modal__body--scrollable {
+  max-height: $modal-body-scrollable-max-height;
+  overflow-y: auto;
+}
+
+// Modal form styles use the same .pa-form-group as regular forms
+// No additional styling needed - proper grid spacing handles alignment
+
+// Modal backdrop click handling
+.pa-modal[data-backdrop="static"] {
+  // For static modals that don't close on backdrop click
+}
+
+// Responsive modal behavior
+@media (max-width: $mobile-breakpoint) {
+  .pa-modal__container {
+    margin: $modal-mobile-margin;
+    max-height: $modal-mobile-max-height;
+
+    &--lg,
+    &--xl,
+    &--xxl {
+      max-width: calc(100vw - #{$spacing-base});
+    }
+
+    &--fw {
+      --modal-fw-margin: $modal-mobile-margin;
+      max-width: calc(100vw - ($modal-fw-margin * 2));
+      width: calc(100vw - ($modal-fw-margin * 2));
+      max-height: calc(100vh - ($modal-fw-margin * 2));
+      margin: $modal-fw-margin;
+    }
+  }
+
+  .pa-modal__header {
+    padding: $modal-header-padding;
+  }
+
+  .pa-modal__body {
+    padding: $modal-body-padding;
+  }
+
+  .pa-modal__footer {
+    padding: $modal-footer-padding;
+  }
+}
+

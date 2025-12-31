@@ -1,0 +1,81 @@
+// ============================================================================
+// BASE CSS VARIABLES - Source of Truth for Web Components
+// ============================================================================
+// These $base-* SCSS variables are converted to --base-* CSS custom properties
+// by the output-base-css-variables mixin in themes. Web components like
+// web-daterangepicker and web-multiselect consume these via fallback chains.
+// ============================================================================
+
+@use 'sass:color';
+@use 'layout' as *;
+@use 'typography' as *;
+@use 'spacing' as *;
+@use 'colors' as *;
+@use 'system' as *;
+@use 'components' as *;
+
+// --- Colors ---
+$base-accent-color: $accent-color !default;
+$base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%) !default;
+$base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%) !default;
+$base-accent-color-light: $accent-light !default;  // Light variant for badge backgrounds
+$base-accent-color-light-hover: rgba($base-accent-color, 0.12) !default;  // Slightly more opaque on hover
+$base-primary-bg: $card-bg !default;
+$base-primary-bg-hover: color.adjust($base-primary-bg, $lightness: -5%) !default;
+$base-text-color-1: $text-primary !default;
+$base-text-color-2: $text-secondary !default;
+$base-text-color-3: color.mix($text-primary, $card-bg, 60%) !default;
+$base-text-color-4: color.mix($text-primary, $card-bg, 40%) !default;
+$base-text-color-on-accent: #ffffff !default;
+$base-border-color: $border-color !default;
+// Generic border (full shorthand)
+$base-border: 1px solid $base-border-color !default;
+
+// --- Input Fields ---
+$base-input-bg: $input-bg !default;
+$base-input-color: $input-text !default;
+$base-input-border: 1px solid $input-border !default;
+$base-input-border-hover: 1px solid color.adjust($input-border, $lightness: -10%) !default;
+$base-input-border-focus: 1px solid $base-accent-color !default;
+$base-input-placeholder-color: $base-text-color-4 !default;
+$base-input-bg-disabled: rgba($input-bg, 0.5) !default;
+
+// --- Input Size Heights (unitless multipliers × 10px) ---
+$base-input-size-xs-height: 3.1 !default;  // 31px
+$base-input-size-sm-height: 3.3 !default;  // 33px
+$base-input-size-md-height: 3.5 !default;  // 35px
+$base-input-size-lg-height: 3.8 !default;  // 38px
+$base-input-size-xl-height: 4.1 !default;  // 41px
+
+// Command palette input height (must be after $base-input-size-* variables)
+$command-palette-input-height: #{$base-input-size-lg-height}rem !default;  // 38px (lg size)
+
+// --- Dropdown/Popover ---
+$base-dropdown-bg: $card-bg !default;
+$base-dropdown-border: 1px solid $border-color !default;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !default;
+
+// --- Tooltip ---
+$base-tooltip-bg: $tooltip-bg !default;
+$base-tooltip-text-color: $tooltip-text !default;
+
+// --- Typography (unitless multipliers for × 10px base) ---
+$base-font-family: $body-font-family !default;
+$base-font-size-2xs: 1.0 !default;   // × 10px = 10px
+$base-font-size-xs: 1.2 !default;    // × 10px = 12px
+$base-font-size-sm: 1.4 !default;    // × 10px = 14px
+$base-font-size-base: 1.6 !default;  // × 10px = 16px
+$base-font-size-lg: 1.8 !default;    // × 10px = 18px
+$base-font-size-xl: 2.0 !default;    // × 10px = 20px
+$base-font-size-2xl: 2.4 !default;   // × 10px = 24px
+$base-font-weight-normal: $font-weight-normal !default;
+$base-font-weight-medium: $font-weight-medium !default;
+$base-font-weight-semibold: $font-weight-semibold !default;
+$base-line-height-tight: $line-height-tight !default;
+$base-line-height-normal: $line-height-base !default;
+$base-line-height-relaxed: $line-height-relaxed !default;
+
+// --- Border Radius (unitless multipliers for × 10px base) ---
+$base-border-radius-sm: 0.4 !default;  // × 10px = 4px
+$base-border-radius-md: 0.6 !default;  // × 10px = 6px
+$base-border-radius-lg: 0.8 !default;  // × 10px = 8px

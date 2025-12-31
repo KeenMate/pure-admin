@@ -1,0 +1,313 @@
+/* ========================================
+   Query Editor Components
+   Syntax highlighting, autocomplete, virtual textbox, inline query editor
+   ======================================== */
+@use '../../variables' as *;
+
+// Search Query Syntax Highlighting
+.pa-search-highlight {
+  position: relative;
+  display: flex;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: $input-padding-v $input-padding-h;
+    border: $border-width-base solid transparent;
+    border-radius: $border-radius;
+    font-size: $font-size-sm;
+    font-family: inherit;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    pointer-events: none;
+    color: transparent;
+    overflow: hidden;
+  }
+
+  &__input {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    color: var(--pa-text-primary);
+  }
+
+  &__field {
+    display: inline;
+    background-color: rgba($accent-color, 0.15);
+    color: $accent-color;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    font-weight: $font-weight-medium;
+  }
+
+  &__operator {
+    display: inline;
+    background-color: rgba($success-bg, 0.15);
+    color: $success-bg;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    font-weight: $font-weight-medium;
+  }
+}
+
+// Search Autocomplete Popover
+.pa-search-autocomplete {
+  position: absolute;
+  z-index: 1000;
+  background: var(--pa-input-bg);
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  max-height: 24rem;
+  overflow-y: auto;
+  min-width: 19.2rem;
+
+  &__item {
+    padding: $spacing-sm $spacing-md;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    transition: background-color $transition-fast $easing-snappy;
+    font-size: $font-size-sm;
+
+    &:hover,
+    &--active {
+      background-color: $table-hover-bg;
+    }
+
+    &-name {
+      font-weight: $font-weight-medium;
+      color: $accent-color;
+    }
+
+    &-type {
+      margin-left: auto;
+      font-size: $font-size-xs;
+      color: var(--pa-text-secondary);
+      opacity: 0.7;
+    }
+  }
+
+  &__section {
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: var(--pa-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: $card-header-bg;
+    border-bottom: $border-width-base solid $border-color;
+  }
+
+  &__empty {
+    padding: $spacing-md;
+    text-align: center;
+    color: var(--pa-text-secondary);
+    font-size: $font-size-sm;
+  }
+}
+
+// Virtual Textbox (Contenteditable with Inline Tokens)
+// Uses same styling as .pa-input for consistency
+.pa-virtual-textbox {
+  width: 100%;
+  padding: $input-padding-v $input-padding-h;
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: var(--pa-input-bg);
+  color: var(--pa-text-primary);
+  cursor: text;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  line-height: 1.5;
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:focus {
+    outline: none;
+    border-color: $input-focus-border-color;
+    box-shadow: 0 0 0 $focus-ring-width $accent-light;
+  }
+
+  &:empty::before {
+    content: attr(data-placeholder);
+    color: var(--pa-text-secondary);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  // Inline token badges - use standard pa-badge styling
+  .pa-badge {
+    vertical-align: middle;
+    margin: 0 3.2px;
+    user-select: none;
+    cursor: default;
+
+    // Prevent editing inline tokens
+    &[contenteditable="false"] {
+      outline: none;
+    }
+  }
+}
+
+// Inline Query Editor (V2) - Dual Layer Syntax Highlighting
+.pa-inline-query-editor {
+  position: relative;
+  width: 100%;
+
+  &__layers {
+    position: relative;
+    width: 100%;
+  }
+
+  &__highlights {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: $input-padding-v $input-padding-h;
+    border: $border-width-base solid transparent;
+    border-radius: $border-radius;
+    font-size: $font-size-sm;
+    font-family: $body-font-family;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    pointer-events: none;
+    overflow: hidden;
+    line-height: 1.5;
+    background-color: var(--pa-input-bg);
+    z-index: 1;
+  }
+
+  &__input {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: $input-padding-v $input-padding-h;
+    border: $border-width-base solid $border-color;
+    border-radius: $border-radius;
+    font-size: $font-size-sm;
+    font-family: $body-font-family;
+    background: transparent;
+    color: transparent;
+    caret-color: var(--pa-text-primary);
+    resize: none;
+    overflow: hidden;
+    line-height: 1.5;
+    transition: border-color $transition-fast $easing-snappy;
+    min-height: 4rem;
+
+    &:focus {
+      outline: none;
+      border-color: $input-focus-border-color;
+      box-shadow: 0 0 0 $focus-ring-width $accent-light;
+    }
+
+    &::placeholder {
+      color: var(--pa-text-secondary);
+      opacity: 0.7;
+    }
+  }
+}
+
+// Inline Query Token Highlighting
+.pa-inline-query-token {
+  display: inline;
+  font-weight: $font-weight-medium;
+
+  &--field {
+    background-color: rgba($accent-color, 0.15);
+    color: var(--pa-text-primary);
+
+    &.pa-inline-query-token--invalid {
+      background-color: rgba($danger-bg, 0.15);
+      color: var(--pa-text-primary);
+      text-decoration: wavy underline;
+    }
+  }
+
+  &--operator {
+    background-color: rgba(var(--pa-text-secondary), 0.15);
+    color: var(--pa-text-primary);
+  }
+
+  &--value {
+    background-color: rgba($success-bg, 0.15);
+    color: var(--pa-text-primary);
+  }
+
+  &--keyword {
+    background-color: rgba($warning-bg, 0.15);
+    color: var(--pa-text-primary);
+    font-style: italic;
+  }
+}
+
+// Inline Query Autocomplete Popup
+.pa-inline-query-autocomplete {
+  position: absolute;
+  z-index: 1000;
+  background: var(--pa-input-bg);
+  border: $border-width-base solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  max-height: 24rem;
+  overflow-y: auto;
+  min-width: 19.2rem;
+
+  &__item {
+    padding: $spacing-sm $spacing-md;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    transition: background-color $transition-fast $easing-snappy;
+    font-size: $font-size-sm;
+
+    &:hover,
+    &--active {
+      background-color: $table-hover-bg;
+    }
+
+    &-icon {
+      font-size: $font-size-base;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    &-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &-name {
+      display: block;
+      font-weight: $font-weight-medium;
+      color: $accent-color;
+      line-height: 1.3;
+    }
+
+    &-type {
+      display: block;
+      font-size: $font-size-xs;
+      color: var(--pa-text-secondary);
+      opacity: 0.7;
+      line-height: 1.3;
+    }
+
+    &-badge {
+      flex-shrink: 0;
+      font-size: $font-size-xs;
+      padding: 0.2rem 0.6rem;
+      background-color: rgba(var(--pa-text-secondary), 0.1);
+      color: var(--pa-text-secondary);
+      border-radius: 0.4rem;
+      font-family: $body-font-family;
+    }
+  }
+}

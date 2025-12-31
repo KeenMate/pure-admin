@@ -1,0 +1,87 @@
+/* ========================================
+   Form Input Elements
+   Input, select, textarea base styles and sizes
+   ======================================== */
+@use '../../variables' as *;
+
+.pa-input {
+  width: 100%;
+  padding: $input-padding-v $input-padding-h;
+  border: $border-width-base solid var(--pa-border-color);
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: var(--pa-input-bg);
+  color: var(--pa-text-primary);
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:focus {
+    outline: none;
+    border-color: var(--pa-input-focus-border-color);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-accent-light);
+  }
+}
+
+.pa-select {
+  width: 100%;
+  padding: $select-padding-v $select-padding-h;
+  border: $border-width-base solid var(--pa-border-color);
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: var(--pa-input-bg);
+  color: var(--pa-text-primary);
+  transition: border-color $transition-fast $easing-snappy;
+
+  &:focus {
+    outline: none;
+    border-color: var(--pa-select-focus-border-color);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-accent-light);
+  }
+}
+
+.pa-textarea {
+  width: 100%;
+  padding: $input-padding-v $input-padding-h;
+  border: $border-width-base solid var(--pa-border-color);
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: var(--pa-input-bg);
+  color: var(--pa-text-primary);
+  transition: border-color $transition-fast $easing-snappy;
+  resize: vertical;
+  min-height: $textarea-min-height;
+
+  &:focus {
+    outline: none;
+    border-color: var(--pa-textarea-focus-border-color);
+    box-shadow: 0 0 0 $focus-ring-width var(--pa-accent-light);
+  }
+
+  &::placeholder {
+    color: var(--pa-text-secondary);
+  }
+}
+
+// Input Sizes
+.pa-input--xs,
+.pa-select--xs {
+  padding: $input-padding-xs-v $input-padding-h;
+  font-size: $font-size-xs;
+}
+
+.pa-input--sm,
+.pa-select--sm {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-sm;
+}
+
+.pa-input--lg,
+.pa-select--lg {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-base;
+}
+
+.pa-input--xl,
+.pa-select--xl {
+  padding: $input-padding-v $input-padding-h;
+  font-size: $font-size-lg;
+}

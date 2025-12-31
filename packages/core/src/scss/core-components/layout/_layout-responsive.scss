@@ -1,0 +1,100 @@
+/* ========================================
+   Layout Responsive
+   Mobile and tablet media queries
+   ======================================== */
+@use '../../variables' as *;
+
+// Responsive Design - Mobile and Tablet
+@media (max-width: $mobile-breakpoint) {
+  // Mobile: Auto-hide sidebar, content takes full width
+  body:not(.sidebar-visible) {
+    .pa-layout__sidebar {
+      width: 0;
+      opacity: 0;
+      overflow: hidden;
+      border-right: none;
+    }
+
+    // Override icon-collapse mode on mobile - sidebar should be fully hidden
+    .pa-layout__sidebar--icon-collapse {
+      width: 0 !important;
+    }
+  }
+
+  // Mobile: Fullscreen sidebar overlay when visible
+  .sidebar-visible {
+    // Use fixed positioning for mobile overlay
+    .pa-layout__inner {
+      position: relative;
+    }
+
+    .pa-layout__sidebar {
+      position: fixed;
+      top: $header-height;
+      left: 0;
+      bottom: 0;
+      width: $mobile-sidebar-width;
+      z-index: 1050;
+      background-color: $sidebar-bg;
+      opacity: 1;
+      overflow-y: auto;
+    }
+
+    // Override icon-collapse mode on mobile - show full width overlay
+    .pa-layout__sidebar--icon-collapse {
+      width: $mobile-sidebar-width !important;
+      overflow-y: auto !important;
+
+      .pa-sidebar__label {
+        opacity: 1 !important;
+        width: auto !important;
+        overflow: visible !important;
+        position: static !important;
+      }
+    }
+
+    // Add backdrop overlay
+    &::before {
+      content: "";
+      position: fixed;
+      top: $header-height;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: $mobile-backdrop-bg;
+      z-index: 1040;
+    }
+  }
+
+  // Adjust header for mobile
+  .pa-header {
+    gap: $spacing-sm;
+
+    &__nav {
+      display: none; // Hide navigation links on mobile
+    }
+
+    &__title h2 {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // Hide theme switcher label on mobile
+  .theme-switcher {
+    label {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: $tablet-breakpoint) and (min-width: $tablet-breakpoint-min) {
+  // Tablet: Reduce sidebar width
+  .pa-layout__sidebar {
+    width: $sidebar-width-tablet;
+
+    &__nav ul li a {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+    }
+  }
+}

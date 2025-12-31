@@ -1,0 +1,71 @@
+/* ========================================
+   Navbar Component
+   Fixed navbar and constrained container widths
+   ======================================== */
+@use '../../variables' as *;
+
+// Navbar - Fixed at top, full width by default
+.pa-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  background-color: var(--pa-header-bg);
+  border-bottom: $border-width-base solid var(--pa-header-border-color);
+  z-index: $z-index-header; // 2000
+  display: flex;
+  align-items: center;
+  justify-content: center; // Center for constrained mode
+}
+
+// Constrained navbar - limit navbar width to match container
+// Body class is just a marker, no width styles on body itself
+body.pa-container-sm .pa-navbar {
+  max-width: $layout-container-sm;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-md .pa-navbar {
+  max-width: $layout-container-md;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-lg .pa-navbar {
+  max-width: $layout-container-lg;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-xl .pa-navbar {
+  max-width: $layout-container-xl;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.pa-container-2xl .pa-navbar {
+  max-width: $layout-container-2xl;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Navbar inner content
+.pa-navbar__inner {
+  width: 100%;
+  padding: 0 $spacing-base;
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+}

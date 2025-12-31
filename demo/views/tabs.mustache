@@ -1,0 +1,1005 @@
+            <p>Tab navigation components for organizing content into separate sections.</p>
+
+            <!-- Two Column Grid: Card-Based Tabs + Standalone Tabs -->
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <!-- Card-Based Tabs -->
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Card Tabs (Built-in)</h3>
+                        </div>
+                        <div class="pa-card__tabs">
+                            <button class="pa-card__tab pa-card__tab--active" onclick="switchCardTab(this, 'card-tab-1')">Overview</button>
+                            <button class="pa-card__tab" onclick="switchCardTab(this, 'card-tab-2')">Details</button>
+                            <button class="pa-card__tab" onclick="switchCardTab(this, 'card-tab-3')">Settings</button>
+                            <button class="pa-card__tab" onclick="switchCardTab(this, 'card-tab-4')">Reports</button>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-card__tab-content pa-card__tab-content--active" id="card-tab-1">
+                                <h4>Overview</h4>
+                                <p>Card tabs integrate seamlessly.</p>
+                            </div>
+                            <div class="pa-card__tab-content" id="card-tab-2">
+                                <h4>Details</h4>
+                                <p>Detailed information goes here.</p>
+                            </div>
+                            <div class="pa-card__tab-content" id="card-tab-3">
+                                <h4>Settings</h4>
+                                <p>Configuration options here.</p>
+                            </div>
+                            <div class="pa-card__tab-content" id="card-tab-4">
+                                <h4>Reports</h4>
+                                <p>Analytics data displayed here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-50">
+                    <!-- Standalone Tabs - Underline Style -->
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Standalone Tabs</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'tab-1')">Home</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'tab-2')">Profile</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'tab-3')">Messages</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'tab-4')">Settings</button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="tab-1">
+                                    <h4>Home</h4>
+                                    <p>Standalone tabs work anywhere.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="tab-2">
+                                    <h4>Profile</h4>
+                                    <p>User profile information here.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="tab-3">
+                                    <h4>Messages</h4>
+                                    <p>Messages and conversations.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="tab-4">
+                                    <h4>Settings</h4>
+                                    <p>Application settings here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column Grid: Tabs with Icons + Fixed Width Tabs -->
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <!-- Tabs with Icons -->
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Tabs with Icons</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'icon-tab-1')">
+                                    <i class="fa-solid fa-house"></i>
+                                    <span>Home</span>
+                                </button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'icon-tab-2')">
+                                    <i class="fa-solid fa-user"></i>
+                                    <span>Profile</span>
+                                </button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'icon-tab-3')">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <span>Messages</span>
+                                </button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'icon-tab-4')">
+                                    <i class="fa-solid fa-gear"></i>
+                                    <span>Settings</span>
+                                </button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="icon-tab-1">
+                                    <p>Home with icons.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-tab-2">
+                                    <p>Profile with icons.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-tab-3">
+                                    <p>Messages with icons.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-tab-4">
+                                    <p>Settings with icons.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-50">
+                    <!-- Fixed Width Tabs -->
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Fixed Width Tabs</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-alert pa-alert--info">
+                                <strong>Available widths:</strong> Use <code>pa-tabs__item--w-1x</code> through <code>pa-tabs__item--w-10x</code> for 1rem to 10rem min-width.
+                            </div>
+
+                            <h4>6x Width (6rem each)</h4>
+                            <div class="pa-tabs">
+                                <button class="pa-tabs__item pa-tabs__item--w-6x pa-tabs__item--active" onclick="switchTab(this, 'fixed-tab-1')">View</button>
+                                <button class="pa-tabs__item pa-tabs__item--w-6x" onclick="switchTab(this, 'fixed-tab-2')">Edit</button>
+                                <button class="pa-tabs__item pa-tabs__item--w-6x" onclick="switchTab(this, 'fixed-tab-3')">Delete</button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="fixed-tab-1">
+                                    <p>Fixed width tabs maintain consistent sizing.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="fixed-tab-2">
+                                    <p>Edit content here.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="fixed-tab-3">
+                                    <p>Delete operations here.</p>
+                                </div>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">8x Width (8rem each)</h4>
+                            <div class="pa-tabs">
+                                <button class="pa-tabs__item pa-tabs__item--w-8x pa-tabs__item--active" onclick="switchTab(this, 'fixed-8x-1')">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                    <span>Dashboard</span>
+                                </button>
+                                <button class="pa-tabs__item pa-tabs__item--w-8x" onclick="switchTab(this, 'fixed-8x-2')">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                    <span>Analytics</span>
+                                </button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="fixed-8x-1">
+                                    <p>Dashboard data.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="fixed-8x-2">
+                                    <p>Analytics data.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column Grid: Pills Style + Pills with Icons -->
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <!-- Pills Style Tabs -->
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Pills Style Tabs</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs pa-tabs--pills">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'pills-tab-1')">Dashboard</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'pills-tab-2')">Analytics</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'pills-tab-3')">Reports</button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="pills-tab-1">
+                                    <h4>Dashboard</h4>
+                                    <p>Key metrics overview.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="pills-tab-2">
+                                    <h4>Analytics</h4>
+                                    <p>Detailed insights.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="pills-tab-3">
+                                    <h4>Reports</h4>
+                                    <p>Generated summaries.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-50">
+                    <!-- Pills with Icons -->
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Pills with Icons</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs pa-tabs--pills">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'icon-pills-1')">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                    <span>Dashboard</span>
+                                </button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'icon-pills-2')">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                    <span>Analytics</span>
+                                </button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'icon-pills-3')">
+                                    <i class="fa-solid fa-file-lines"></i>
+                                    <span>Reports</span>
+                                </button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="icon-pills-1">
+                                    <p>Dashboard pills.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-pills-2">
+                                    <p>Analytics pills.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-pills-3">
+                                    <p>Reports pills.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column Layout: Left and Right Tab Examples -->
+            <div class="pa-row">
+                <!-- Vertical Tabs - Left -->
+                <div class="pa-col-100 pa-col-lg-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Vertical Tabs</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs__vertical-layout">
+                                <div class="pa-tabs pa-tabs--vertical">
+                                    <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'vert-tab-1')">
+                                        <i class="fa-solid fa-user"></i>
+                                        <span>Account</span>
+                                    </button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'vert-tab-2')">
+                                        <i class="fa-solid fa-lock"></i>
+                                        <span>Security</span>
+                                    </button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'vert-tab-3')">
+                                        <i class="fa-solid fa-bell"></i>
+                                        <span>Notifications</span>
+                                    </button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'vert-tab-4')">
+                                        <i class="fa-solid fa-palette"></i>
+                                        <span>Appearance</span>
+                                    </button>
+                                </div>
+                                <div class="pa-tabs__content" style="flex: 1;">
+                                    <div class="pa-tabs__panel pa-tabs__panel--active" id="vert-tab-1">
+                                        <h4>Account Settings</h4>
+                                        <p>Manage your account information and preferences.</p>
+                                    </div>
+                                    <div class="pa-tabs__panel" id="vert-tab-2">
+                                        <h4>Security Settings</h4>
+                                        <p>Configure password and two-factor authentication.</p>
+                                    </div>
+                                    <div class="pa-tabs__panel" id="vert-tab-3">
+                                        <h4>Notification Preferences</h4>
+                                        <p>Control how and when you receive notifications.</p>
+                                    </div>
+                                    <div class="pa-tabs__panel" id="vert-tab-4">
+                                        <h4>Appearance Options</h4>
+                                        <p>Customize the look and feel of your interface.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boxed Style Tabs - Right -->
+                <div class="pa-col-100 pa-col-lg-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Boxed Tabs</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs pa-tabs--boxed">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'boxed-tab-1')">Code</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'boxed-tab-2')">Issues</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'boxed-tab-3')">Pull Requests</button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="boxed-tab-1">
+                                    <p>Code repository and file browser.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="boxed-tab-2">
+                                    <p>Issue tracker and bug reports.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="boxed-tab-3">
+                                    <p>Pull request reviews and merges.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Sizes -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Tab Sizes</h3>
+                </div>
+                <div class="pa-card__body">
+                    <h4>Small Tabs</h4>
+                    <div class="pa-tabs pa-tabs--sm">
+                        <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'size-sm-1')">Tab 1</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'size-sm-2')">Tab 2</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'size-sm-3')">Tab 3</button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="size-sm-1">
+                            <p>Small tabs content - compact and space-efficient.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="size-sm-2">
+                            <p>Small tabs - Tab 2</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="size-sm-3">
+                            <p>Small tabs - Tab 3</p>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 1.5rem;">Default Tabs</h4>
+                    <div class="pa-tabs">
+                        <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'size-def-1')">Tab 1</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'size-def-2')">Tab 2</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'size-def-3')">Tab 3</button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="size-def-1">
+                            <p>Default size tabs content - standard spacing.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="size-def-2">
+                            <p>Default tabs - Tab 2</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="size-def-3">
+                            <p>Default tabs - Tab 3</p>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 1.5rem;">Large Tabs</h4>
+                    <div class="pa-tabs pa-tabs--lg">
+                        <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'size-lg-1')">Tab 1</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'size-lg-2')">Tab 2</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'size-lg-3')">Tab 3</button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="size-lg-1">
+                            <p>Large tabs content - more generous spacing.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="size-lg-2">
+                            <p>Large tabs - Tab 2</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="size-lg-3">
+                            <p>Large tabs - Tab 3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab with Badges -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Tabs with Badges</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-tabs">
+                        <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'badge-tab-1')">
+                            <span>All</span>
+                            <span class="pa-badge pa-badge--sm">48</span>
+                        </button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'badge-tab-2')">
+                            <span>Active</span>
+                            <span class="pa-badge pa-badge--sm pa-badge--success">12</span>
+                        </button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'badge-tab-3')">
+                            <span>Pending</span>
+                            <span class="pa-badge pa-badge--sm pa-badge--warning">5</span>
+                        </button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'badge-tab-4')">
+                            <span>Closed</span>
+                            <span class="pa-badge pa-badge--sm pa-badge--secondary">31</span>
+                        </button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="badge-tab-1">
+                            <p>All items (48 total).</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="badge-tab-2">
+                            <p>Active items (12 items).</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="badge-tab-3">
+                            <p>Pending items (5 items).</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="badge-tab-4">
+                            <p>Closed items (31 items).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Centered Tabs -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Centered Tabs</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-tabs pa-tabs--centered">
+                        <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'center-tab-1')">Features</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'center-tab-2')">Pricing</button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'center-tab-3')">Testimonials</button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="center-tab-1">
+                            <p class="pa-text pa-text--center">Feature highlights and capabilities.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="center-tab-2">
+                            <p class="pa-text pa-text--center">Pricing plans and options.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="center-tab-3">
+                            <p class="pa-text pa-text--center">Customer testimonials and reviews.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Width Tabs -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Full Width Tabs</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-tabs pa-tabs--full">
+                        <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'full-tab-1')">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <span>Mobile</span>
+                        </button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'full-tab-2')">
+                            <i class="fa-solid fa-tablet-screen-button"></i>
+                            <span>Tablet</span>
+                        </button>
+                        <button class="pa-tabs__item" onclick="switchTab(this, 'full-tab-3')">
+                            <i class="fa-solid fa-desktop"></i>
+                            <span>Desktop</span>
+                        </button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="full-tab-1">
+                            <p>Mobile view and responsive design.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="full-tab-2">
+                            <p>Tablet view and layout.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="full-tab-3">
+                            <p>Desktop view and features.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Icon-Only Tabs -->
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Icon-Only Tabs - Horizontal</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs">
+                                <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" onclick="switchTab(this, 'icon-only-1')" data-tooltip="Dashboard">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </button>
+                                <button class="pa-tabs__item pa-tooltip" onclick="switchTab(this, 'icon-only-2')" data-tooltip="Analytics">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                </button>
+                                <button class="pa-tabs__item pa-tooltip" onclick="switchTab(this, 'icon-only-3')" data-tooltip="Users">
+                                    <i class="fa-solid fa-users"></i>
+                                </button>
+                                <button class="pa-tabs__item pa-tooltip" onclick="switchTab(this, 'icon-only-4')" data-tooltip="Settings">
+                                    <i class="fa-solid fa-gear"></i>
+                                </button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="icon-only-1">
+                                    <h4>Dashboard</h4>
+                                    <p>Icon-only tabs save space.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-only-2">
+                                    <h4>Analytics</h4>
+                                    <p>Analytics data here.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-only-3">
+                                    <h4>Users</h4>
+                                    <p>User management here.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="icon-only-4">
+                                    <h4>Settings</h4>
+                                    <p>Settings here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Icon-Only Tabs - Vertical</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs__vertical-layout">
+                                <div class="pa-tabs pa-tabs--vertical pa-tabs--centered">
+                                    <button class="pa-tabs__item pa-tabs__item--w-4x pa-tabs__item--active pa-tooltip" onclick="switchTab(this, 'icon-vert-1')" data-tooltip="Home">
+                                        <i class="fa-solid fa-house"></i>
+                                    </button>
+                                    <button class="pa-tabs__item pa-tabs__item--w-4x pa-tooltip" onclick="switchTab(this, 'icon-vert-2')" data-tooltip="Profile">
+                                        <i class="fa-solid fa-user"></i>
+                                    </button>
+                                    <button class="pa-tabs__item pa-tabs__item--w-4x pa-tooltip" onclick="switchTab(this, 'icon-vert-3')" data-tooltip="Messages">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </button>
+                                    <button class="pa-tabs__item pa-tabs__item--w-4x pa-tooltip" onclick="switchTab(this, 'icon-vert-4')" data-tooltip="Settings">
+                                        <i class="fa-solid fa-gear"></i>
+                                    </button>
+                                </div>
+                                <div class="pa-tabs__content" style="flex: 1;">
+                                    <div class="pa-tabs__panel pa-tabs__panel--active" id="icon-vert-1">
+                                        <h4>Home</h4>
+                                        <p>Vertical icon-only tabs with centered icons.</p>
+                                    </div>
+                                    <div class="pa-tabs__panel" id="icon-vert-2">
+                                        <h4>Profile</h4>
+                                        <p>Profile settings.</p>
+                                    </div>
+                                    <div class="pa-tabs__panel" id="icon-vert-3">
+                                        <h4>Messages</h4>
+                                        <p>Message inbox.</p>
+                                    </div>
+                                    <div class="pa-tabs__panel" id="icon-vert-4">
+                                        <h4>Settings</h4>
+                                        <p>Application settings.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standalone Tabs (Outside Cards) -->
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Standalone Tabs - No Card Required</h3>
+
+            <div class="pa-tabs">
+                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'standalone-1')">Overview</button>
+                <button class="pa-tabs__item" onclick="switchTab(this, 'standalone-2')">Details</button>
+                <button class="pa-tabs__item" onclick="switchTab(this, 'standalone-3')">Reports</button>
+            </div>
+            <div class="pa-tabs__content">
+                <div class="pa-tabs__panel pa-tabs__panel--active" id="standalone-1">
+                    <div class="pa-card">
+                        <div class="pa-card__body">
+                            <h4>Overview Section</h4>
+                            <p>Tabs can exist outside of cards for page-level navigation. Each tab can contain cards or any other content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-tabs__panel" id="standalone-2">
+                    <div class="pa-card">
+                        <div class="pa-card__body">
+                            <h4>Details Section</h4>
+                            <p>This pattern is useful for organizing page content into sections.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-tabs__panel" id="standalone-3">
+                    <div class="pa-card">
+                        <div class="pa-card__body">
+                            <h4>Reports Section</h4>
+                            <p>The tab content can include multiple cards or complex layouts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Standalone Vertical Tabs</h3>
+
+            <div class="pa-tabs__vertical-layout">
+                <div class="pa-tabs pa-tabs--vertical">
+                    <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'standalone-vert-1')">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="pa-tabs__item" onclick="switchTab(this, 'standalone-vert-2')">
+                        <i class="fa-solid fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </button>
+                    <button class="pa-tabs__item" onclick="switchTab(this, 'standalone-vert-3')">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Users</span>
+                    </button>
+                </div>
+                <div class="pa-tabs__content" style="flex: 1;">
+                    <div class="pa-tabs__panel pa-tabs__panel--active" id="standalone-vert-1">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h3>Dashboard</h3>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Vertical tabs work great for sidebar-style navigation outside of cards.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pa-tabs__panel" id="standalone-vert-2">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h3>Analytics</h3>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Analytics content goes here.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pa-tabs__panel" id="standalone-vert-3">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h3>Users</h3>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>User management content here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Bordered Tabs - Card-Like Wrapper</h3>
+
+            <!-- Bordered Horizontal Tabs -->
+            <div class="pa-tabs__container pa-tabs__container--bordered">
+                <div class="pa-tabs">
+                    <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'bordered-1')">Dashboard</button>
+                    <button class="pa-tabs__item" onclick="switchTab(this, 'bordered-2')">Settings</button>
+                    <button class="pa-tabs__item" onclick="switchTab(this, 'bordered-3')">Profile</button>
+                </div>
+                <div class="pa-tabs__content">
+                    <div class="pa-tabs__panel pa-tabs__panel--active" id="bordered-1">
+                        <h4>Dashboard</h4>
+                        <p>Bordered tabs wrap the entire tab system in a card-like border. The content has no separate border - it's all unified.</p>
+                    </div>
+                    <div class="pa-tabs__panel" id="bordered-2">
+                        <h4>Settings</h4>
+                        <p>This pattern works well for standalone tabs that need visual separation from the page background.</p>
+                    </div>
+                    <div class="pa-tabs__panel" id="bordered-3">
+                        <h4>Profile</h4>
+                        <p>Use <code>pa-tabs__container--bordered</code> wrapper for horizontal tabs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Bordered Vertical Tabs</h3>
+
+            <div class="pa-tabs__vertical-layout pa-tabs__vertical-layout--bordered">
+                <div class="pa-tabs pa-tabs--vertical">
+                    <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'bordered-vert-1')">
+                        <i class="fa-solid fa-gauge"></i>
+                        <span>Overview</span>
+                    </button>
+                    <button class="pa-tabs__item" onclick="switchTab(this, 'bordered-vert-2')">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Reports</span>
+                    </button>
+                    <button class="pa-tabs__item" onclick="switchTab(this, 'bordered-vert-3')">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </button>
+                </div>
+                <div class="pa-tabs__content" style="flex: 1;">
+                    <div class="pa-tabs__panel pa-tabs__panel--active" id="bordered-vert-1">
+                        <h4>Overview</h4>
+                        <p>Bordered vertical tabs create a unified card-like appearance.</p>
+                        <p>The border wraps both the tab navigation and content area with a divider between them.</p>
+                    </div>
+                    <div class="pa-tabs__panel" id="bordered-vert-2">
+                        <h4>Reports</h4>
+                        <p>Perfect for sidebar-style navigation that needs to stand out.</p>
+                    </div>
+                    <div class="pa-tabs__panel" id="bordered-vert-3">
+                        <h4>Settings</h4>
+                        <p>Use <code>pa-tabs__vertical-layout--bordered</code> modifier for vertical tabs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Long Tab Titles in Constrained Space</h3>
+
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Default (Wrap)</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'long-1')">Organizations Tree</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'long-2')">User Management System</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'long-3')">Reports & Analytics</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'long-4')">Settings & Configuration</button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="long-1">
+                                    <p>Default behavior - tabs wrap to multiple lines when needed.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="long-2">
+                                    <p>User Management System content.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="long-3">
+                                    <p>Reports & Analytics content.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="long-4">
+                                    <p>Settings & Configuration content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Collapse Modifier</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs pa-tabs--collapse">
+                                <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" onclick="switchTab(this, 'collapse-1')" data-tooltip="Organizations Tree">
+                                    <i class="fa-solid fa-sitemap"></i>
+                                    <span>Organizations Tree</span>
+                                </button>
+                                <button class="pa-tabs__item pa-tooltip" onclick="switchTab(this, 'collapse-2')" data-tooltip="User Management System">
+                                    <i class="fa-solid fa-users"></i>
+                                    <span>User Management System</span>
+                                </button>
+                                <button class="pa-tabs__item pa-tooltip" onclick="switchTab(this, 'collapse-3')" data-tooltip="Reports & Analytics">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                    <span>Reports & Analytics</span>
+                                </button>
+                                <button class="pa-tabs__item pa-tooltip" onclick="switchTab(this, 'collapse-4')" data-tooltip="Settings & Configuration">
+                                    <i class="fa-solid fa-gear"></i>
+                                    <span>Settings & Configuration</span>
+                                </button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="collapse-1">
+                                    <p>Collapse mode - inactive tabs show only icons, active tab shows full title.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="collapse-2">
+                                    <p>User Management content.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="collapse-3">
+                                    <p>Reports content.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="collapse-4">
+                                    <p>Settings content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Scrollable Modifier</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-tabs pa-tabs--scrollable" data-tabs-scroll>
+                                <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <div class="pa-tabs__scroll-container">
+                                    <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'long-boxed-1')">Organizations Tree</button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'long-boxed-2')">User Management System</button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'long-boxed-3')">Reports & Analytics</button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'long-boxed-4')">Settings & Configuration</button>
+                                </div>
+                                <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="long-boxed-1">
+                                    <p>Scrollable tabs with <code>pa-tabs--scrollable</code> modifier - click arrows to scroll.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="long-boxed-2">
+                                    <p>User Management content.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="long-boxed-3">
+                                    <p>Reports content.</p>
+                                </div>
+                                <div class="pa-tabs__panel" id="long-boxed-4">
+                                    <p>Settings content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Scrollable Tabs - Full Width Demo</h3>
+
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Scrollable Pills</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-tabs pa-tabs--pills pa-tabs--scrollable" data-tabs-scroll>
+                        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="pa-tabs__scroll-container">
+                            <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'scroll-pills-1')">Dashboard Overview</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-2')">Organizations Tree</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-3')">User Management System</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-4')">Reports & Analytics</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-5')">Settings & Configuration</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-6')">Security & Permissions</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-7')">Audit Logs</button>
+                        </div>
+                        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="scroll-pills-1">
+                            <p>Dashboard Overview - arrows appear when tabs overflow the container.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="scroll-pills-2">
+                            <p>Organizations Tree content.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="scroll-pills-3">
+                            <p>User Management content.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="scroll-pills-4">
+                            <p>Reports content.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="scroll-pills-5">
+                            <p>Settings content.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="scroll-pills-6">
+                            <p>Security content.</p>
+                        </div>
+                        <div class="pa-tabs__panel" id="scroll-pills-7">
+                            <p>Audit logs content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            // Scrollable tabs functionality
+            function scrollTabs(button, direction) {
+                const tabsContainer = button.closest('.pa-tabs--scrollable');
+                const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
+                const scrollAmount = 200; // pixels to scroll
+
+                if (direction === 'left') {
+                    scrollContainer.scrollLeft -= scrollAmount;
+                } else {
+                    scrollContainer.scrollLeft += scrollAmount;
+                }
+
+                // Update arrow visibility after scroll
+                setTimeout(() => updateScrollArrows(tabsContainer), 100);
+            }
+
+            function updateScrollArrows(tabsContainer) {
+                const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
+                const leftBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--left');
+                const rightBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--right');
+
+                if (!scrollContainer || !leftBtn || !rightBtn) return;
+
+                const isAtStart = scrollContainer.scrollLeft <= 0;
+                const isAtEnd = scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 1;
+
+                // Show/hide arrows based on scroll position
+                if (isAtStart) {
+                    leftBtn.classList.remove('pa-tabs__scroll-btn--visible');
+                } else {
+                    leftBtn.classList.add('pa-tabs__scroll-btn--visible');
+                }
+
+                if (isAtEnd) {
+                    rightBtn.classList.remove('pa-tabs__scroll-btn--visible');
+                } else {
+                    rightBtn.classList.add('pa-tabs__scroll-btn--visible');
+                }
+            }
+
+            // Initialize scrollable tabs on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                const scrollableTabs = document.querySelectorAll('[data-tabs-scroll]');
+                scrollableTabs.forEach(tabsContainer => {
+                    const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
+
+                    // Initial arrow visibility check
+                    updateScrollArrows(tabsContainer);
+
+                    // Update on scroll
+                    scrollContainer.addEventListener('scroll', () => {
+                        updateScrollArrows(tabsContainer);
+                    });
+
+                    // Update on resize
+                    window.addEventListener('resize', () => {
+                        updateScrollArrows(tabsContainer);
+                    });
+                });
+            });
+
+            // Tab switching for standalone tabs
+            function switchTab(button, panelId) {
+                // Handle both regular tabs and scrollable tabs
+                let tabsContainer = button.closest('.pa-tabs__scroll-container');
+                if (tabsContainer) {
+                    tabsContainer = tabsContainer.parentElement; // Get parent .pa-tabs
+                } else {
+                    tabsContainer = button.closest('.pa-tabs');
+                }
+
+                // Find content container - handle both sibling and wrapper layouts
+                let contentContainer = tabsContainer.nextElementSibling;
+
+                // If nextElementSibling is not the content container (wrapped layouts)
+                if (!contentContainer || !contentContainer.classList.contains('pa-tabs__content')) {
+                    // Search in parent scope (card body, vertical layout wrapper, or container)
+                    const parent = tabsContainer.closest('.pa-card__body, .pa-tabs__vertical-layout, .pa-tabs__container');
+                    if (parent) {
+                        contentContainer = parent.querySelector('.pa-tabs__content');
+                    }
+                }
+
+                if (!contentContainer) return;
+
+                // Remove active class from all tabs in this container
+                const tabs = tabsContainer.querySelectorAll('.pa-tabs__item');
+                tabs.forEach(tab => tab.classList.remove('pa-tabs__item--active'));
+
+                // Add active class to clicked tab
+                button.classList.add('pa-tabs__item--active');
+
+                // Hide all panels in this content container
+                const panels = contentContainer.querySelectorAll('.pa-tabs__panel');
+                panels.forEach(panel => panel.classList.remove('pa-tabs__panel--active'));
+
+                // Show selected panel
+                const selectedPanel = contentContainer.querySelector(`#${panelId}`);
+                if (selectedPanel) {
+                    selectedPanel.classList.add('pa-tabs__panel--active');
+                }
+            }
+
+            // Tab switching for card tabs
+            function switchCardTab(button, panelId) {
+                const card = button.closest('.pa-card');
+
+                // Remove active class from all tabs
+                const tabs = card.querySelectorAll('.pa-card__tab');
+                tabs.forEach(tab => tab.classList.remove('pa-card__tab--active'));
+
+                // Add active class to clicked tab
+                button.classList.add('pa-card__tab--active');
+
+                // Hide all tab content
+                const contents = card.querySelectorAll('.pa-card__tab-content');
+                contents.forEach(content => content.classList.remove('pa-card__tab-content--active'));
+
+                // Show selected tab content
+                const selectedContent = card.querySelector(`#${panelId}`);
+                if (selectedContent) {
+                    selectedContent.classList.add('pa-card__tab-content--active');
+                }
+            }
+            </script>

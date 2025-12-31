@@ -1,0 +1,520 @@
+<div class="pa-layout-container">
+    <p class="mb-4">Mobile-friendly tables that automatically switch to a stacked card layout on small screens. Resize your browser window to see the transformation!</p>
+
+    <!-- Desktop Preview / Mobile Behavior Explanation -->
+    <div class="pa-card mb-4">
+        <div class="pa-card__header">
+            <h3>How It Works</h3>
+        </div>
+        <div class="pa-card__body">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <h4 class="mb-2">Desktop (>1024px)</h4>
+                    <ul class="pa-list-basic">
+                        <li>Standard table layout with columns</li>
+                        <li>Headers visible at top</li>
+                        <li>Data in rows and columns</li>
+                        <li>Full table width displayed</li>
+                    </ul>
+                </div>
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <h4 class="mb-2">Tablet (769px - 1024px)</h4>
+                    <ul class="pa-list-basic">
+                        <li>Table becomes horizontally scrollable</li>
+                        <li>Maintains desktop structure</li>
+                        <li>Prevents cramped columns</li>
+                        <li>Smooth scrolling on touch devices</li>
+                    </ul>
+                </div>
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <h4 class="mb-2">Mobile (≤768px)</h4>
+                    <ul class="pa-list-basic">
+                        <li>Each row becomes a card</li>
+                        <li>Headers hidden</li>
+                        <li>Labels from <code>data-label</code></li>
+                        <li>Label: Value pattern</li>
+                        <li>Stacked vertically</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pa-alert pa-alert--info mt-4">
+                <strong>Try it:</strong> Resize your browser window to see the responsive behavior:
+                <ul class="pa-list-basic mt-2">
+                    <li><strong>1024px → 769px:</strong> Table becomes scrollable (prevents cramping)</li>
+                    <li><strong>768px and below:</strong> Transforms into stacked cards</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Basic Responsive Table -->
+    <div class="pa-card mb-4">
+        <div class="pa-card__header">
+            <h3>Basic Responsive Table</h3>
+            <p>Simple user data table with automatic mobile transformation</p>
+        </div>
+        <div class="pa-card__body pa-card__body--no-padding">
+            <table class="pa-table pa-table--responsive">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="ID">#1001</td>
+                        <td data-label="Name">John Doe</td>
+                        <td data-label="Email">john.doe@example.com</td>
+                        <td data-label="Role">Admin</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--success">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="ID">#1002</td>
+                        <td data-label="Name">Jane Smith</td>
+                        <td data-label="Email">jane.smith@example.com</td>
+                        <td data-label="Role">Editor</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--warning">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="ID">#1003</td>
+                        <td data-label="Name">Bob Johnson</td>
+                        <td data-label="Email">bob.johnson@example.com</td>
+                        <td data-label="Role">Viewer</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--success">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="ID">#1004</td>
+                        <td data-label="Name">Alice Williams</td>
+                        <td data-label="Email">alice.w@example.com</td>
+                        <td data-label="Role">Editor</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--danger">Inactive</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Product Table -->
+    <div class="pa-card mb-4">
+        <div class="pa-card__header">
+            <h3>Product Catalog</h3>
+            <p>E-commerce product table with images, prices, and stock status</p>
+        </div>
+        <div class="pa-card__body pa-card__body--no-padding">
+            <table class="pa-table pa-table--responsive pa-table--striped">
+                <thead>
+                    <tr>
+                        <th class="col-auto">Actions</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary" title="Edit">✏️</button>
+                            </div>
+                        </td>
+                        <td data-label="Product">
+                            <strong>MacBook Pro 16"</strong>
+                        </td>
+                        <td data-label="Category">Laptops</td>
+                        <td data-label="Price">$2,499.00</td>
+                        <td data-label="Stock"><span class="pa-badge pa-badge--success">In Stock</span></td>
+                        <td data-label="Rating">⭐⭐⭐⭐⭐ (4.8)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary" title="Edit">✏️</button>
+                            </div>
+                        </td>
+                        <td data-label="Product">
+                            <strong>iPhone 15 Pro</strong>
+                        </td>
+                        <td data-label="Category">Smartphones</td>
+                        <td data-label="Price">$999.00</td>
+                        <td data-label="Stock"><span class="pa-badge pa-badge--warning">Low Stock</span></td>
+                        <td data-label="Rating">⭐⭐⭐⭐⭐ (4.9)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary" title="Edit">✏️</button>
+                            </div>
+                        </td>
+                        <td data-label="Product">
+                            <strong>AirPods Pro (2nd gen)</strong>
+                        </td>
+                        <td data-label="Category">Audio</td>
+                        <td data-label="Price">$249.00</td>
+                        <td data-label="Stock"><span class="pa-badge pa-badge--success">In Stock</span></td>
+                        <td data-label="Rating">⭐⭐⭐⭐ (4.6)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary" title="Edit">✏️</button>
+                            </div>
+                        </td>
+                        <td data-label="Product">
+                            <strong>iPad Air M2</strong>
+                        </td>
+                        <td data-label="Category">Tablets</td>
+                        <td data-label="Price">$599.00</td>
+                        <td data-label="Stock"><span class="pa-badge pa-badge--danger">Out of Stock</span></td>
+                        <td data-label="Rating">⭐⭐⭐⭐ (4.7)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="pa-card mb-4">
+        <div class="pa-card__header">
+            <h3>Recent Orders</h3>
+            <p>Order management table with dates, customers, and amounts</p>
+        </div>
+        <div class="pa-card__body pa-card__body--no-padding">
+            <table class="pa-table pa-table--responsive">
+                <thead>
+                    <tr>
+                        <th class="col-auto">Actions</th>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <button class="pa-btn pa-btn--xs pa-btn--secondary">View</button>
+                        </td>
+                        <td data-label="Order #">#ORD-2501</td>
+                        <td data-label="Date">Oct 23, 2025</td>
+                        <td data-label="Customer">Sarah Connor</td>
+                        <td data-label="Items">3 items</td>
+                        <td data-label="Total">$3,247.00</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--success">Delivered</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <button class="pa-btn pa-btn--xs pa-btn--secondary">View</button>
+                        </td>
+                        <td data-label="Order #">#ORD-2502</td>
+                        <td data-label="Date">Oct 22, 2025</td>
+                        <td data-label="Customer">John Matrix</td>
+                        <td data-label="Items">1 item</td>
+                        <td data-label="Total">$999.00</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--primary">Shipped</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <button class="pa-btn pa-btn--xs pa-btn--secondary">View</button>
+                        </td>
+                        <td data-label="Order #">#ORD-2503</td>
+                        <td data-label="Date">Oct 21, 2025</td>
+                        <td data-label="Customer">Ellen Ripley</td>
+                        <td data-label="Items">5 items</td>
+                        <td data-label="Total">$1,847.00</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--warning">Processing</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Actions" class="col-auto">
+                            <button class="pa-btn pa-btn--xs pa-btn--secondary">View</button>
+                        </td>
+                        <td data-label="Order #">#ORD-2504</td>
+                        <td data-label="Date">Oct 20, 2025</td>
+                        <td data-label="Customer">Martin Riggs</td>
+                        <td data-label="Items">2 items</td>
+                        <td data-label="Total">$548.00</td>
+                        <td data-label="Status"><span class="pa-badge pa-badge--danger">Cancelled</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CSS Grid Layout Example -->
+    <div class="pa-card mb-4">
+        <div class="pa-card__header">
+            <h3>CSS Grid Custom Layouts</h3>
+            <p>Use <code>.pa-table--responsive-grid</code> for custom multi-column mobile layouts</p>
+        </div>
+        <div class="pa-card__body pa-card__body--no-padding">
+            <table class="pa-table pa-table--responsive-grid pa-table--striped">
+                <thead>
+                    <tr>
+                        <th class="col-auto">Actions</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-grid="2">
+                        <td data-label="Actions" class="col-auto">
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary" title="Edit">✏️</button>
+                            </div>
+                        </td>
+                        <td data-label="First Name">Sarah</td>
+                        <td data-label="Last Name">Johnson</td>
+                        <td data-label="Email" data-span="full">sarah.johnson@company.com</td>
+                        <td data-label="Phone">+1 (555) 123-4567</td>
+                        <td data-label="Department">Engineering</td>
+                        <td data-label="Status" data-span="full"><span class="pa-badge pa-badge--success">Active</span></td>
+                    </tr>
+                    <tr data-grid="2">
+                        <td data-label="Actions" class="col-auto">
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary" title="Edit">✏️</button>
+                            </div>
+                        </td>
+                        <td data-label="First Name">Michael</td>
+                        <td data-label="Last Name">Chen</td>
+                        <td data-label="Email" data-span="full">michael.chen@company.com</td>
+                        <td data-label="Phone">+1 (555) 234-5678</td>
+                        <td data-label="Department">Marketing</td>
+                        <td data-label="Status" data-span="full"><span class="pa-badge pa-badge--warning">Pending</span></td>
+                    </tr>
+                    <tr data-grid="2">
+                        <td data-label="Actions" class="col-auto">
+                            <div class="pa-btn-group">
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+                                <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary" title="Edit">✏️</button>
+                            </div>
+                        </td>
+                        <td data-label="First Name">Emma</td>
+                        <td data-label="Last Name">Rodriguez</td>
+                        <td data-label="Email" data-span="full">emma.rodriguez@company.com</td>
+                        <td data-label="Phone">+1 (555) 345-6789</td>
+                        <td data-label="Department">Sales</td>
+                        <td data-label="Status" data-span="full"><span class="pa-badge pa-badge--success">Active</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pa-card__footer">
+            <div class="pa-alert pa-alert--info">
+                <strong>On mobile:</strong> First name and last name appear side-by-side, email and status span full width, phone and department are on the same row.
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Example -->
+    <div class="pa-card mb-4">
+        <div class="pa-card__header">
+            <h3>HTML Implementation</h3>
+            <p>How to make your tables responsive</p>
+        </div>
+        <div class="pa-card__body">
+            <h4 class="mb-2">1. Add the class modifier</h4>
+            <p class="mb-3">Add <code>.pa-table--responsive</code> to your table element:</p>
+            <pre class="pa-code mb-4"><code>&lt;table class="pa-table pa-table--responsive"&gt;
+  &lt;!-- table content --&gt;
+&lt;/table&gt;</code></pre>
+
+            <h4 class="mb-2">2. Add data-label attributes</h4>
+            <p class="mb-3">Each <code>&lt;td&gt;</code> needs a <code>data-label</code> attribute matching its column header:</p>
+            <pre class="pa-code mb-4"><code>&lt;table class="pa-table pa-table--responsive"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+      &lt;th&gt;Email&lt;/th&gt;
+      &lt;th&gt;Status&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td data-label="Name"&gt;John Doe&lt;/td&gt;
+      &lt;td data-label="Email"&gt;john@example.com&lt;/td&gt;
+      &lt;td data-label="Status"&gt;
+        &lt;span class="pa-badge pa-badge--success"&gt;Active&lt;/span&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+
+            <h4 class="mb-2">3. That's it!</h4>
+            <p>The table will automatically transform on screens smaller than 768px. No JavaScript required!</p>
+
+            <div class="pa-alert pa-alert--success mt-4">
+                <strong>Pro tip:</strong> Combine with <code>.pa-table--striped</code> for better readability on desktop. The striping is automatically disabled on mobile.
+            </div>
+
+            <hr class="mt-4 mb-4">
+
+            <h3 class="mb-3">CSS Grid Layout (Advanced)</h3>
+            <p class="mb-3">For more control over mobile layouts, use <code>.pa-table--responsive-grid</code> instead:</p>
+
+            <pre class="pa-code mb-4"><code>&lt;table class="pa-table pa-table--responsive-grid"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;First Name&lt;/th&gt;
+      &lt;th&gt;Last Name&lt;/th&gt;
+      &lt;th&gt;Email&lt;/th&gt;
+      &lt;th&gt;Phone&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr data-grid="2"&gt;
+      &lt;td data-label="First Name"&gt;John&lt;/td&gt;
+      &lt;td data-label="Last Name"&gt;Doe&lt;/td&gt;
+      &lt;td data-label="Email" data-span="full"&gt;john@example.com&lt;/td&gt;
+      &lt;td data-label="Phone"&gt;555-1234&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+
+            <h4 class="mb-2">Grid Attributes:</h4>
+            <table class="pa-table pa-table--2x mb-4">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>data-grid="2"</code></td>
+                        <td>2-column grid on mobile (applies to <code>&lt;tr&gt;</code>)</td>
+                        <td>Name fields side-by-side</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-grid="3"</code></td>
+                        <td>3-column grid on mobile (applies to <code>&lt;tr&gt;</code>)</td>
+                        <td>Compact data display</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-span="2"</code></td>
+                        <td>Span 2 columns (applies to <code>&lt;td&gt;</code>)</td>
+                        <td>Wider fields</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-span="3"</code></td>
+                        <td>Span 3 columns (applies to <code>&lt;td&gt;</code>)</td>
+                        <td>Extra wide fields</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-span="full"</code></td>
+                        <td>Span all columns (applies to <code>&lt;td&gt;</code>)</td>
+                        <td>Email, description, status</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pa-alert pa-alert--warning">
+                <strong>Grid vs Simple:</strong> Use <code>--responsive-grid</code> when you need custom layouts. Use plain <code>--responsive</code> for simple label:value stacking.
+            </div>
+        </div>
+    </div>
+
+    <!-- SCSS Variables Reference -->
+    <div class="pa-card mb-4">
+        <div class="pa-card__header">
+            <h3>Customization Variables</h3>
+            <p>SCSS variables for responsive table styling</p>
+        </div>
+        <div class="pa-card__body">
+            <table class="pa-table pa-table--2x">
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Default Value</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>$table-responsive-breakpoint</code></td>
+                        <td><code>768px</code></td>
+                        <td>Screen width where tables switch to stacked layout</td>
+                    </tr>
+                    <tr>
+                        <td><code>$table-responsive-card-margin</code></td>
+                        <td><code>1rem</code></td>
+                        <td>Space between stacked row cards</td>
+                    </tr>
+                    <tr>
+                        <td><code>$table-responsive-card-padding</code></td>
+                        <td><code>0.75rem</code></td>
+                        <td>Inner padding for each card cell</td>
+                    </tr>
+                    <tr>
+                        <td><code>$table-responsive-label-width</code></td>
+                        <td><code>40%</code></td>
+                        <td>Width allocated for labels in mobile view</td>
+                    </tr>
+                    <tr>
+                        <td><code>$table-responsive-label-font-weight</code></td>
+                        <td><code>$font-weight-semibold</code></td>
+                        <td>Font weight for labels (default: 600)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pa-alert pa-alert--info mt-4">
+                <strong>Customize in your theme:</strong> Override these variables in your theme file to adjust the responsive behavior and styling.
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Testing Tips -->
+    <div class="pa-card">
+        <div class="pa-card__header">
+            <h3>Testing Tips</h3>
+        </div>
+        <div class="pa-card__body">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <h4>Desktop Browser</h4>
+                    <ul class="pa-list-basic">
+                        <li>Resize browser window</li>
+                        <li>Use DevTools device toolbar</li>
+                        <li>Press F12 → Toggle device toolbar</li>
+                    </ul>
+                </div>
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <h4>Real Device</h4>
+                    <ul class="pa-list-basic">
+                        <li>Test on actual phones/tablets</li>
+                        <li>Check both orientations</li>
+                        <li>Verify touch interactions</li>
+                    </ul>
+                </div>
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <h4>Common Breakpoints</h4>
+                    <ul class="pa-list-basic">
+                        <li>Mobile: 320px - 767px</li>
+                        <li>Tablet: 768px - 1023px</li>
+                        <li>Desktop: 1024px+</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
