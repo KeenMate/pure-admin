@@ -126,9 +126,11 @@
                 document.body.classList.add('compact-mode');
             }
 
-            // Apply theme mode immediately to prevent dark->light flash
+            // Apply theme mode immediately to prevent FOUC
             const savedThemeMode = localStorage.getItem('theme-mode');
-            if (savedThemeMode === 'light') {
+            if (savedThemeMode === 'dark') {
+                document.body.classList.add('pa-mode-dark');
+            } else if (savedThemeMode === 'light') {
                 document.body.classList.add('pa-mode-light');
             }
 

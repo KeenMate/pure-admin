@@ -65,14 +65,35 @@
     }
   }
 
-  // When input is focused, restore borders on connecting edges of prepend/append with focus color
+  // Adjacent prepends/appends need borders between them
+  &__prepend + &__prepend {
+    border-left: $border-width-base solid var(--pa-border-color);
+  }
+
+  &__append + &__append {
+    border-left: $border-width-base solid var(--pa-border-color);
+  }
+
+  // When input is focused, only show focus border on edges adjacent to input
   &:focus-within {
+    // Last prepend (one before input) gets focus border
     .pa-input-group__prepend {
       border-right: $border-width-base solid var(--pa-input-focus-border-color);
     }
 
+    // But prepends followed by another prepend keep normal border
+    .pa-input-group__prepend:has(+ .pa-input-group__prepend) {
+      border-right: none;
+    }
+
+    // First append (one after input) gets focus border
     .pa-input-group__append {
       border-left: $border-width-base solid var(--pa-input-focus-border-color);
+    }
+
+    // But appends following another append keep normal border
+    .pa-input-group__append + .pa-input-group__append {
+      border-left: $border-width-base solid var(--pa-border-color);
     }
   }
 

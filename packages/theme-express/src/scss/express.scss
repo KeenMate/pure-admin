@@ -270,15 +270,279 @@ $alert-info-border: #06b6d4;
   }
 }
 
-// CSS Variables for page loader (FOUC prevention) and base theme variables
-:root {
-  --page-loader-bg: rgba(0, 0, 0, 0.95);
-  --page-loader-spinner-border: #333;
-  --page-loader-spinner-accent: #FFCC00; // Express yellow
+// ============================================================================
+// CSS VARIABLES - LIGHT MODE (Default - matches current Express)
+// ============================================================================
+:root, .pa-mode-light {
+  --page-loader-bg: rgba(255, 255, 255, 0.95);
+  --page-loader-spinner-border: #ccc;
+  --page-loader-spinner-accent: #D40511; // Express red
 
   // Base CSS variables for web components (daterangepicker, multiselect, etc.)
   @include output-base-css-variables;
 
   // Pure Admin theme CSS variables for runtime theme switching
   @include output-pa-css-variables;
+
+  // Web component overrides (light mode)
+  --drp-dropdown-bg: #ffffff;
+  --drp-border-color: #{$express-gray-lighter};
+  --drp-primary-bg: #{$express-bg};
+  --drp-primary-bg-hover: #{$express-gray-lightest};
+  --drp-text-primary: #{$express-dark};
+  --drp-text-secondary: #{$express-gray};
+  --drp-button-bg: transparent;
+  --drp-button-color: #{$express-dark};
+  --drp-button-accent-text-color: #ffffff;
+  --drp-button-today-color: #{$express-red};
+  --drp-button-clear-color: #{$express-gray};
+  --drp-button-cancel-color: #{$express-gray};
+
+  --ms-dropdown-bg: #ffffff;
+  --ms-input-bg: #ffffff;
+  --ms-primary-bg: #{$express-bg};
+  --ms-primary-bg-hover: #{$express-gray-lightest};
+  --ms-border-color: #{$express-gray-lighter};
+  --ms-text-color-1: #{$express-dark};
+  --ms-text-color-2: #{$express-gray};
+  --ms-text-color-3: #{$express-gray-light};
+  --ms-text-color-4: #{$express-gray-lighter};
+  --ms-hint-bg: #{$express-gray-lightest};
+  --ms-actions-bg: #{$express-gray-lightest};
+  --ms-selected-popover-bg: #ffffff;
+}
+
+// ============================================================================
+// CSS VARIABLES - DARK MODE
+// ============================================================================
+.pa-mode-dark {
+  // Express dark palette
+  $dark-bg: #1a1a1a;
+  $dark-card: #242424;
+  $dark-surface: #2a2a2a;
+  $dark-border: #3a3a3a;
+  $dark-text: #ffffff;
+  $dark-text-secondary: #aaaaaa;
+
+  --page-loader-bg: rgba(0, 0, 0, 0.95);
+  --page-loader-spinner-border: #333;
+  --page-loader-spinner-accent: #{$express-yellow};
+
+  // Core colors - dark backgrounds
+  --pa-primary-bg: #{$dark-bg};
+  --pa-bg-secondary: #{$dark-bg};
+  --pa-content-bg: #121212;
+
+  // Text colors - light text on dark bg
+  --pa-text-primary: #{$dark-text};
+  --pa-text-secondary: #{$dark-text-secondary};
+
+  // Keep Express brand colors
+  --pa-accent: #{$express-red};
+  --pa-accent-hover: rgba(212, 5, 17, 0.2);
+  --pa-accent-light: rgba(212, 5, 17, 0.15);
+
+  // Border
+  --pa-border-color: #{$dark-border};
+
+  // Header stays yellow (Express brand)
+  --pa-header-bg: #{$express-yellow};
+  --pa-header-border-color: #{$express-yellow};
+  --pa-header-text: #{$express-black};
+  --pa-header-text-secondary: #{$express-dark};
+  --pa-header-profile-name-color: #{$express-black};
+
+  // Sidebar stays black
+  --pa-sidebar-bg: #{$express-black};
+  --pa-sidebar-text: #ffffff;
+  --pa-sidebar-text-secondary: #ffffff;
+  --pa-sidebar-submenu-bg: #{$dark-bg};
+  --pa-sidebar-submenu-hover-bg: rgba(255, 255, 255, 0.1);
+  --pa-sidebar-submenu-active-bg: #{$express-red};
+
+  // Footer stays yellow
+  --pa-footer-bg: #{$express-yellow};
+  --pa-footer-border-color: #{$express-yellow};
+
+  // Cards - dark backgrounds
+  --pa-card-bg: #{$dark-card};
+  --pa-card-header-bg: #{$dark-surface};
+  --pa-card-footer-bg: #{$dark-surface};
+  --pa-card-tabs-bg: #{$dark-border};
+
+  // Inputs - dark backgrounds
+  --pa-input-bg: #{$dark-surface};
+  --pa-input-border: #{$dark-border};
+  --pa-input-text: #{$dark-text};
+  --pa-input-focus-border-color: #{$express-red};
+
+  // Input group - use muted yellow for Express branding
+  --pa-input-group-prepend-bg: rgba(255, 204, 0, 0.15);
+  --pa-input-group-prepend-text: #{$express-yellow};
+  --pa-input-group-append-bg: rgba(255, 204, 0, 0.15);
+  --pa-input-group-append-text: #{$express-yellow};
+
+  // Input group buttons
+  .pa-input-group__button {
+    background-color: rgba(255, 204, 0, 0.15) !important;
+    color: $express-yellow !important;
+    border-color: $dark-border !important;
+
+    &:hover {
+      background-color: rgba(255, 204, 0, 0.25) !important;
+    }
+  }
+
+  // Tables - dark backgrounds
+  --pa-table-bg: #{$dark-card};
+  --pa-table-header-bg: #{$dark-surface};
+  --pa-table-stripe: #{$dark-bg};
+  --pa-table-hover-bg: #{$dark-surface};
+
+  // Modals
+  --pa-modal-content-bg: #{$dark-card};
+  --pa-modal-overlay-bg: rgba(0, 0, 0, 0.8);
+
+  // Loader overlay
+  --pa-loader-overlay-bg: rgba(0, 0, 0, 0.7);
+
+  // Profile panel
+  --pa-profile-overlay-bg: rgba(0, 0, 0, 0.5);
+
+  // Tooltip/Popover
+  --pa-tooltip-bg: #{$dark-border};
+  --pa-tooltip-text: #{$dark-text};
+  --pa-popover-content-bg: #{$dark-card};
+
+  // Command palette
+  --pa-command-palette-backdrop-bg: rgba(0, 0, 0, 0.8);
+  --pa-command-palette-item-hover-bg: #{$dark-surface};
+  --pa-command-palette-item-active-bg: rgba(212, 5, 17, 0.2);
+  --pa-command-palette-highlight-bg: rgba(212, 5, 17, 0.3);
+
+  // Alerts - light text for dark mode visibility
+  --pa-alert-info-text: #ffffff;
+  --pa-alert-info-bg: rgba(6, 182, 212, 0.3);
+  --pa-alert-success-text: #ffffff;
+  --pa-alert-success-bg: rgba(16, 185, 129, 0.3);
+  --pa-alert-warning-text: #ffffff;
+  --pa-alert-warning-bg: rgba(255, 193, 7, 0.3);
+  --pa-alert-danger-text: #ffffff;
+  --pa-alert-danger-bg: rgba(212, 5, 17, 0.3);
+
+  // Code inside alerts - inherit alert text color
+  .pa-alert code {
+    color: inherit;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  // Buttons - adjust for dark mode
+  --pa-btn-secondary-bg: #{$dark-border};
+  --pa-btn-secondary-bg-hover: #{$dark-surface};
+  --pa-btn-secondary-text: #{$dark-text};
+  --pa-btn-light-bg: #{$dark-surface};
+  --pa-btn-light-bg-hover: #{$dark-border};
+  --pa-btn-light-text: #{$dark-text};
+
+  // Semantic colors - slightly brighter for dark mode
+  --pa-success-bg: #10b981;
+  --pa-success-bg-light: rgba(16, 185, 129, 0.2);
+  --pa-warning-bg: #f59e0b;
+  --pa-warning-bg-light: rgba(245, 158, 11, 0.2);
+  --pa-danger-bg: #{$express-red-dark};
+  --pa-danger-bg-light: rgba(180, 5, 14, 0.2);
+  --pa-info-bg: #06b6d4;
+  --pa-info-bg-light: rgba(6, 182, 212, 0.2);
+
+  // Base variables for web components (dark mode)
+  --base-primary-bg: #{$dark-bg};
+  --base-primary-bg-hover: #{$dark-surface};
+  --base-text-color-1: #{$dark-text};
+  --base-text-color-2: #{$dark-text-secondary};
+  // Accent colors - use yellow for better visibility on dark backgrounds
+  --base-accent-color: #{$express-yellow};
+  --base-accent-color-hover: #{$express-yellow-light};
+  --base-accent-color-active: #{$express-yellow-light};
+  --base-accent-color-light: rgba(255, 204, 0, 0.2);
+  --base-accent-color-light-hover: rgba(255, 204, 0, 0.3);
+  --base-text-color-3: #888888;
+  --base-text-color-4: #666666;
+  --base-border-color: #{$dark-border};
+  --base-border: 1px solid #{$dark-border};
+  --base-input-bg: #{$dark-surface};
+  --base-input-color: #{$dark-text};
+  --base-input-border: 1px solid #{$dark-border};
+  --base-input-border-hover: 1px solid #{$express-red};
+  --base-input-border-focus: 1px solid #{$express-red};
+  --base-input-placeholder-color: #666666;
+  --base-dropdown-bg: #{$dark-card};
+  --base-dropdown-border: 1px solid #{$dark-border};
+  --base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --base-tooltip-bg: #{$dark-border};
+  --base-tooltip-text-color: #{$dark-text};
+
+  // Daterangepicker overrides (dark mode)
+  web-daterangepicker {
+    --drp-dropdown-bg: #{$dark-card};
+    --drp-border-color: #{$dark-border};
+    --drp-primary-bg: #{$dark-bg};
+    --drp-primary-bg-hover: #{$dark-surface};
+    --drp-text-primary: #{$dark-text};
+    --drp-text-secondary: #{$dark-text-secondary};
+    --drp-button-bg: transparent;
+    --drp-button-color: #{$dark-text};
+    --drp-button-accent-text-color: #ffffff;
+    --drp-button-today-color: #{$express-red};
+    --drp-button-clear-color: #{$dark-text-secondary};
+    --drp-button-cancel-color: #{$dark-text-secondary};
+  }
+
+  // Multiselect overrides (dark mode)
+  web-multiselect {
+    --ms-dropdown-bg: #{$dark-card};
+    --ms-input-bg: #{$dark-surface};
+    --ms-primary-bg: #{$dark-bg};
+    --ms-primary-bg-hover: #{$dark-surface};
+    --ms-border-color: #{$dark-border};
+    --ms-text-color-1: #{$dark-text};
+    --ms-text-color-2: #{$dark-text-secondary};
+    --ms-text-color-3: #888888;
+    --ms-text-color-4: #666666;
+    --ms-hint-bg: #{$dark-bg};
+    --ms-actions-bg: #{$dark-bg};
+    --ms-selected-popover-bg: #{$dark-card};
+  }
+}
+
+// ============================================================================
+// DARK MODE COMPONENT ADJUSTMENTS
+// ============================================================================
+.pa-mode-dark {
+  // Card shadows darker
+  .pa-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  // Secondary button adjustments for dark mode
+  .pa-btn--secondary {
+    background-color: #3a3a3a !important;
+    color: #ffffff !important;
+    border-color: #4a4a4a !important;
+
+    &:hover {
+      background-color: #4a4a4a !important;
+      border-color: #5a5a5a !important;
+    }
+  }
+
+  // Outline secondary button
+  .pa-btn--outline-secondary {
+    border-color: #5a5a5a !important;
+    color: #aaaaaa !important;
+
+    &:hover {
+      background-color: #3a3a3a !important;
+      color: #ffffff !important;
+    }
+  }
 }

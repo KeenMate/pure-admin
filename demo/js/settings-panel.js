@@ -32,7 +32,7 @@
         const body = document.body;
 
         // Themes that support light/dark mode switching
-        const multiModeThemes = ['audi'];
+        const multiModeThemes = ['audi', 'express'];
 
         // Update mode section visibility based on current theme
         const updateModeSectionVisibility = (theme) => {
