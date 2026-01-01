@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_No unreleased changes yet._
+
+---
+
+## [1.0.0-rc01] - 2026-01-01
+
+First release candidate for Pure Admin v1.0.0.
+
+### Fixed - 2026-01-01
+
+#### Dark Mode Navbar Dropdown Visibility
+- **Express theme**: Fixed dropdown items unreadable in dark mode
+  - Changed `&__nav ul li a` to `&__nav > ul > li > a` (direct child selector)
+  - Allows dropdown links to use CSS variables (`--pa-text-primary`) as intended
+- **Corporate theme**: Added dark mode dropdown override
+  - White text (`#f1f5f9`) on dark dropdown background
+  - Blue hover state (`#38bdf8`) for consistency
+
+#### Express Theme Dark Mode Fixes
+- **Footer text**: Fixed white text on yellow background (unreadable)
+  - Added `.pa-layout__footer` dark mode override with dark text color
+- **Primary alert**: Fixed red text on red background (low contrast)
+  - Added white text with semi-transparent red background in dark mode
+
+#### Theme Manifest System
+- **New JSON schema**: `packages/core/schemas/pure-admin-theme.schema.json`
+  - Defines theme capabilities: modes, colorVariants, features, colors, fonts
+- **Theme manifests**: Added `theme.json` to all 5 theme packages
+  - Declares supported modes (light/dark), color variants, features
+- **API endpoints**: `/api/themes/manifests`, `/api/themes/:theme/manifest`
+- **Dynamic settings panel**: Reads theme capabilities from manifests
+  - Mode selector shows/hides based on theme support
+  - Color variant selector populated from manifest
+
+#### Dark Theme Consolidation
+- **Consolidated 4 files into 1**: Merged dark-blue, dark-green, dark-red into dark.scss
+  - Color variants now use CSS classes: `.pa-color-blue`, `.pa-color-green`, `.pa-color-red`
+- **Updated package exports**: Single CSS output with runtime color switching
+
 ### Fixed - 2025-12-25
 
 #### Dark Theme Compatibility in Demo Views & Snippets

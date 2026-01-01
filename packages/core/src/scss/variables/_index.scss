@@ -3,11 +3,17 @@
 // Central import point for all variable modules
 // ============================================================================
 
-// Core variable modules (order matters for dependencies)
-@forward 'layout';
+// IMPORTANT: Order matters for dependencies!
+// 1. Base variables are the SOURCE OF TRUTH (standalone, no imports)
+// 2. All other modules can import from base and derive their values
+
+// Base variables FIRST - single source of truth for theming
+@forward 'base';
+
+// Derived framework variables (can use base values)
 @forward 'typography';
 @forward 'spacing';
 @forward 'colors';
+@forward 'layout';
 @forward 'system';
 @forward 'components';
-@forward 'base';

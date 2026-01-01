@@ -1,9 +1,9 @@
 /* Express Theme - Bold yellow and red palette inspired by logistics brands */
 @use 'sass:color';
 
-@import '@keenmate/pure-admin-core/src/scss/variables/index';
-
-// Express color palette - Bold yellow and red
+// ============================================================================
+// EXPRESS COLOR PALETTE
+// ============================================================================
 $express-yellow: #FFCC00;       // Primary yellow
 $express-yellow-light: #FFE57F;
 $express-yellow-lighter: #FFF0B2;
@@ -20,48 +20,110 @@ $express-gray-lighter: #E5E5E5;
 $express-gray-lightest: #EBEBEB;
 $express-bg: #F2F2F2;
 
+// ============================================================================
+// BASE VARIABLES - Single Source of Truth
+// ============================================================================
+// All framework variables will derive from these
+
+// Accent colors (Express uses red as accent)
+$base-accent-color: $express-red;
+$base-accent-color-hover: $express-red-hover;
+$base-accent-color-active: color.adjust($express-red, $lightness: 15%);
+$base-accent-color-light: rgba($express-red, 0.06);
+$base-accent-color-light-hover: rgba($express-red, 0.10);
+
+// Text colors
+$base-text-color-1: $express-dark;
+$base-text-color-2: $express-gray;
+$base-text-color-3: $express-gray-light;
+$base-text-color-4: $express-gray-lighter;
+$base-text-color-on-accent: #ffffff;
+
+// Surface colors
+$base-surface-1: #ffffff;          // Cards, modals
+$base-surface-2: $express-bg;      // Page background
+$base-surface-3: $express-gray-lighter; // Dividers
+$base-surface-inverse: $express-dark;
+$base-overlay-bg: rgba(0, 0, 0, 0.6);
+$base-shadow-color: rgba(0, 0, 0, 0.15);
+
+// Border
+$base-border-color: $express-gray-lighter;
+
+// Input fields
+$base-input-bg: #ffffff;
+$base-input-color: $express-dark;
+$base-input-border: 1px solid $express-gray-lighter;
+$base-input-border-hover: 1px solid $express-gray;
+$base-input-border-focus: 1px solid $express-red;
+$base-input-placeholder-color: $express-gray-light;
+
+// Dropdown/Popover
+$base-dropdown-bg: #ffffff;
+$base-dropdown-border: $express-gray-lighter;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+// Tooltip
+$base-tooltip-bg: $express-dark;
+$base-tooltip-text-color: #ffffff;
+
+// Contextual colors
+$base-success-color: #10b981;
+$base-success-color-hover: #059669;
+$base-success-bg-light: rgba(16, 185, 129, 0.1);
+$base-success-text: #065f46;
+$base-text-on-success: #ffffff;
+
+$base-danger-color: $express-red-dark;
+$base-danger-color-hover: $express-red;
+$base-danger-bg-light: rgba(180, 5, 14, 0.1);
+$base-danger-text: #7f1d1d;
+$base-text-on-danger: #ffffff;
+
+$base-warning-color: #f59e0b;
+$base-warning-color-hover: #d97706;
+$base-warning-bg-light: rgba(245, 158, 11, 0.1);
+$base-warning-text: #78350f;
+$base-text-on-warning: #ffffff;
+
+$base-info-color: #06b6d4;
+$base-info-color-hover: #0891b2;
+$base-info-bg-light: rgba(6, 182, 212, 0.1);
+$base-info-text: #164e63;
+$base-text-on-info: #ffffff;
+
+// Interactive states
+$base-focus-ring-color: rgba($express-red, 0.25);
+
+// Typography
+$base-font-family: "Delivery", system-ui, -apple-system, sans-serif;
+
+// ============================================================================
+// FRAMEWORK VARIABLES - Import and let them derive from base
+// ============================================================================
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
 // Layout overrides
 $sidebar-width: 29rem;   // 290px (10px base)
 
 // Font overrides
-$body-font-family: "Delivery", system-ui, -apple-system, sans-serif;
+$body-font-family: $base-font-family;
 
-// Express theme color overrides - Bold yellow header/footer with red accents
+// Layout-specific overrides (Express brand identity)
 $primary-bg: #ffffff;
 $content-background-color: $express-bg;
 $header-bg: $express-yellow;        // Bold yellow header
-$header-border-color: $express-yellow; // Remove gray line between header and sidebar
+$header-border-color: $express-yellow;
 $sidebar-bg: $express-black;        // Black sidebar
-$sidebar-submenu-bg: #1a1a1a;       // Slightly lighter black for submenus
-$sidebar-submenu-hover-bg: rgba(255, 255, 255, 0.1); // Match level 1 hover
-$sidebar-submenu-active-bg: $express-red; // Match level 1 active (red accent)
+$sidebar-submenu-bg: #1a1a1a;
+$sidebar-submenu-hover-bg: rgba(255, 255, 255, 0.1);
+$sidebar-submenu-active-bg: $express-red;
 $footer-bg: $express-yellow;        // Bold yellow footer
-$footer-border-color: $express-yellow; // Remove gray line between footer and sidebar
-$border-color: $express-gray-lighter;
-$text-primary: $express-dark;
-$text-secondary: $express-gray;
-$accent-color: $express-red;        // Red accent
-$accent-hover: rgba(212, 5, 17, 0.12);
-$accent-light: rgba(212, 5, 17, 0.06);
-
-// Sync base variables with theme colors
-$base-accent-color: $accent-color;
-$base-accent-color-hover: $express-red-hover;
-$base-accent-color-active: color.adjust($express-red, $lightness: 15%);
-$base-accent-color-light: $accent-light;
-$base-accent-color-light-hover: rgba($base-accent-color, 0.10);
-
-// Form focus colors - must match accent color
-$input-focus-border-color: $accent-color;
-$select-focus-border-color: $accent-color;
-$textarea-focus-border-color: $accent-color;
-
-// Checkbox colors - must match accent color
-$checkbox-border-color-hover: $accent-color;
-$checkbox-border-color-checked: $accent-color;
-$checkbox-bg-checked: $accent-color;
-$checkbox-bg-indeterminate: $accent-color;
-$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
+$footer-border-color: $express-yellow;
+$text-primary: $base-text-color-1;
+$text-secondary: $base-text-color-2;
+$accent-hover: rgba($express-red, 0.12);
+$accent-light: rgba($express-red, 0.06);
 
 // Card colors
 $card-bg: #ffffff;
@@ -70,9 +132,21 @@ $card-footer-bg: #ffffff;
 $card-tabs-bg: $express-gray-lighter;
 
 // Input colors
-$input-bg: #ffffff;
-$input-border: $express-gray-lighter;
-$input-text: $express-dark;
+$input-bg: $base-input-bg;
+$input-border: $base-input-border;
+$input-text: $base-input-color;
+
+// Form focus colors
+$input-focus-border-color: $base-accent-color;
+$select-focus-border-color: $base-accent-color;
+$textarea-focus-border-color: $base-accent-color;
+
+// Checkbox colors
+$checkbox-border-color-hover: $base-accent-color;
+$checkbox-border-color-checked: $base-accent-color;
+$checkbox-bg-checked: $base-accent-color;
+$checkbox-bg-indeterminate: $base-accent-color;
+$checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
 
 // Table colors
 $table-bg: #ffffff;
@@ -81,60 +155,50 @@ $table-hover-bg: $express-yellow-lighter;
 $table-stripe: $express-bg;
 
 // Button colors - Red primary, yellow secondary
-$btn-primary-bg: $express-red;
-$btn-primary-bg-hover: $express-red-hover;
+$btn-primary-bg: $base-accent-color;
+$btn-primary-bg-hover: $base-accent-color-hover;
 $btn-primary-text: #ffffff;
 $btn-secondary-bg: $express-yellow;
 $btn-secondary-bg-hover: $express-yellow-light;
 $btn-secondary-text: $express-black;
-$btn-success-bg: #10b981;
-$btn-success-bg-hover: #059669;
-$btn-warning-bg: #f59e0b;
-$btn-warning-text: #ffffff;
-$btn-danger-bg: $express-red-dark;
-$btn-danger-bg-hover: $express-red;
-$btn-info-bg: #06b6d4;
-$btn-info-bg-hover: #0891b2;
 $btn-light-bg: $express-gray-lightest;
 $btn-light-text: $express-dark;
 $btn-light-bg-hover: $express-gray-lighter;
 $btn-dark-bg: $express-dark;
 $btn-dark-bg-hover: $express-black;
 
-// Validation shadow colors - match button colors
-$success-bg: $btn-success-bg;
-$success-bg-light: rgba(16, 185, 129, 0.1);
-$warning-bg: $btn-warning-bg;
-$warning-bg-light: rgba(245, 158, 11, 0.1);
-$danger-bg: $btn-danger-bg;
-$danger-bg-light: rgba(180, 5, 14, 0.1);
+// Validation shadow colors
+$success-bg-light: $base-success-bg-light;
+$warning-bg-light: $base-warning-bg-light;
+$danger-bg-light: $base-danger-bg-light;
 
 // Modal colors
-$modal-overlay-bg: rgba(0, 0, 0, 0.6);
+$modal-overlay-bg: $base-overlay-bg;
 $modal-content-bg: #ffffff;
 
 // Profile name in header
 $header-profile-name-color: $express-black;  // Black text on yellow header
 
 // Alert colors - Vibrant and punchy with semi-transparent backgrounds
-$alert-success-text: #065f46; // Darker green for contrast
-$alert-success-bg: rgba(16, 185, 129, 0.68); // More vibrant
-$alert-success-border: #10b981;
+$alert-success-text: $base-success-text;
+$alert-success-bg: rgba(16, 185, 129, 0.68);
+$alert-success-border: $base-success-color;
 
-$alert-danger-text: #7f1d1d; // Dark red for contrast
+$alert-danger-text: $base-danger-text;
 $alert-danger-bg: rgba(212, 5, 17, 0.58);
 $alert-danger-border: $express-red;
-$alert-danger-text-transform: uppercase; // Uppercase for emphasis
 
-$alert-warning-text: #78350f; // Dark amber for contrast
+$alert-warning-text: $base-warning-text;
 $alert-warning-bg: rgba(255, 193, 7, 0.58);
 $alert-warning-border: #ffc107;
 
-$alert-info-text: #164e63; // Dark cyan for contrast
+$alert-info-text: $base-info-text;
 $alert-info-bg: rgba(6, 182, 212, 0.58);
-$alert-info-border: #06b6d4;
+$alert-info-border: $base-info-color;
 
-// Delivery Font
+// ============================================================================
+// FONTS
+// ============================================================================
 @font-face {
     font-family: "Delivery";
     src: url(/fonts/Delivery/Delivery_W_Rg.woff2) format("woff2");
@@ -142,11 +206,17 @@ $alert-info-border: #06b6d4;
     font-style: normal;
 }
 
+// ============================================================================
+// CORE IMPORTS
+// ============================================================================
 @import '@keenmate/pure-admin-core/src/scss/core';
 @import '@keenmate/pure-admin-core/src/scss/utilities';
 @import '@keenmate/pure-admin-core/src/scss/base-css-variables';
 
-// Express-specific styling overrides
+// ============================================================================
+// EXPRESS-SPECIFIC STYLING OVERRIDES
+// ============================================================================
+
 // Header text visibility - black text on yellow header
 .pa-header {
   &__brand h1 {
@@ -154,7 +224,7 @@ $alert-info-border: #06b6d4;
     font-weight: $font-weight-bold !important;
   }
 
-  &__nav ul li a {
+  &__nav > ul > li > a {
     color: $express-dark !important;
 
     &:hover {
@@ -205,15 +275,17 @@ $alert-info-border: #06b6d4;
 }
 
 // Footer text - black on yellow
-.admin-footer {
-  &__content p {
+.pa-layout__footer {
+  color: $express-dark !important;
+
+  p {
     color: $express-dark !important;
   }
 }
 
 // Sidebar - black background with white/light text
 .pa-sidebar {
-  border-right-color: $express-black !important; // Remove gray border
+  border-right-color: $express-black !important;
 
   &__link,
   &__toggle {
@@ -276,12 +348,12 @@ $alert-info-border: #06b6d4;
 :root, .pa-mode-light {
   --page-loader-bg: rgba(255, 255, 255, 0.95);
   --page-loader-spinner-border: #ccc;
-  --page-loader-spinner-accent: #D40511; // Express red
+  --page-loader-spinner-accent: #{$express-red};
 
-  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  // Base CSS variables for web components
   @include output-base-css-variables;
 
-  // Pure Admin theme CSS variables for runtime theme switching
+  // Pure Admin theme CSS variables
   @include output-pa-css-variables;
 
   // Web component overrides (light mode)
@@ -455,20 +527,20 @@ $alert-info-border: #06b6d4;
   --pa-info-bg-light: rgba(6, 182, 212, 0.2);
 
   // Base variables for web components (dark mode)
-  --base-primary-bg: #{$dark-bg};
-  --base-primary-bg-hover: #{$dark-surface};
+  --base-surface-1: #{$dark-card};
+  --base-surface-2: #{$dark-bg};
+  --base-surface-3: #{$dark-surface};
   --base-text-color-1: #{$dark-text};
   --base-text-color-2: #{$dark-text-secondary};
+  --base-text-color-3: #888888;
+  --base-text-color-4: #666666;
   // Accent colors - use yellow for better visibility on dark backgrounds
   --base-accent-color: #{$express-yellow};
   --base-accent-color-hover: #{$express-yellow-light};
   --base-accent-color-active: #{$express-yellow-light};
   --base-accent-color-light: rgba(255, 204, 0, 0.2);
   --base-accent-color-light-hover: rgba(255, 204, 0, 0.3);
-  --base-text-color-3: #888888;
-  --base-text-color-4: #666666;
   --base-border-color: #{$dark-border};
-  --base-border: 1px solid #{$dark-border};
   --base-input-bg: #{$dark-surface};
   --base-input-color: #{$dark-text};
   --base-input-border: 1px solid #{$dark-border};
@@ -476,7 +548,7 @@ $alert-info-border: #06b6d4;
   --base-input-border-focus: 1px solid #{$express-red};
   --base-input-placeholder-color: #666666;
   --base-dropdown-bg: #{$dark-card};
-  --base-dropdown-border: 1px solid #{$dark-border};
+  --base-dropdown-border: #{$dark-border};
   --base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   --base-tooltip-bg: #{$dark-border};
   --base-tooltip-text-color: #{$dark-text};
@@ -518,6 +590,22 @@ $alert-info-border: #06b6d4;
 // DARK MODE COMPONENT ADJUSTMENTS
 // ============================================================================
 .pa-mode-dark {
+  // Footer text - keep dark on yellow background
+  .pa-layout__footer {
+    color: $express-dark !important;
+
+    p {
+      color: $express-dark !important;
+    }
+  }
+
+  // Primary alert - white text on red background for contrast
+  .pa-alert--primary {
+    color: #ffffff !important;
+    background-color: rgba($express-red, 0.25) !important;
+    border-color: rgba($express-red, 0.4) !important;
+  }
+
   // Card shadows darker
   .pa-card {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);

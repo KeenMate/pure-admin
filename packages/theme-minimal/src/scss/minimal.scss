@@ -1,9 +1,9 @@
 /* Minimal Theme for Pure Admin Visual - Ultra clean, monochrome approach */
 @use 'sass:color';
 
-@import '@keenmate/pure-admin-core/src/scss/variables/index';
-
-// Minimal theme color palette - grayscale focused
+// ============================================================================
+// MINIMAL COLOR PALETTE - Grayscale focused
+// ============================================================================
 $minimal-white: #ffffff;
 $minimal-gray-50: #fafafa;
 $minimal-gray-100: #f8f9fa;
@@ -22,41 +22,100 @@ $minimal-dark-500: #343a40;
 $minimal-dark-700: #23272b;
 $minimal-dark-900: #212529;
 
-// Layout overrides
-$footer-height: 3.2rem;    // 32px (10px base) - was 2rem at 16px base
-$sidebar-width: 29rem;   // 290px (10px base)
+// ============================================================================
+// BASE VARIABLES - Single Source of Truth
+// ============================================================================
+// All framework variables will derive from these
 
-// Color overrides for minimal theme
+// Accent colors (Minimal uses dark gray as accent)
+$base-accent-color: $minimal-gray-800;
+$base-accent-color-hover: color.adjust($minimal-gray-800, $lightness: 10%);
+$base-accent-color-active: color.adjust($minimal-gray-800, $lightness: 20%);
+$base-accent-color-light: rgba($minimal-gray-800, 0.05);
+$base-accent-color-light-hover: rgba($minimal-gray-800, 0.08);
+
+// Text colors
+$base-text-color-1: $minimal-gray-900;
+$base-text-color-2: $minimal-gray-700;
+$base-text-color-3: $minimal-gray-600;
+$base-text-color-4: $minimal-gray-500;
+$base-text-color-on-accent: $minimal-white;
+
+// Surface colors
+$base-surface-1: $minimal-white;      // Cards, modals
+$base-surface-2: $minimal-gray-50;    // Page background
+$base-surface-3: $minimal-gray-400;   // Dividers
+$base-surface-inverse: $minimal-gray-900;
+$base-overlay-bg: rgba(0, 0, 0, 0.4);
+$base-shadow-color: rgba(0, 0, 0, 0.1);
+
+// Border
+$base-border-color: $minimal-gray-400;
+
+// Input fields
+$base-input-bg: $minimal-white;
+$base-input-color: $minimal-gray-900;
+$base-input-border: 1px solid $minimal-gray-400;
+$base-input-border-hover: 1px solid $minimal-gray-700;
+$base-input-border-focus: 1px solid $minimal-gray-800;
+$base-input-placeholder-color: $minimal-gray-500;
+
+// Dropdown/Popover
+$base-dropdown-bg: $minimal-white;
+$base-dropdown-border: $minimal-gray-400;
+$base-dropdown-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+// Tooltip
+$base-tooltip-bg: $minimal-gray-900;
+$base-tooltip-text-color: $minimal-white;
+
+// Contextual colors (kept colorful for visibility in minimal theme)
+$base-success-color: #28a745;
+$base-success-color-hover: #218838;
+$base-success-bg-light: rgba(40, 167, 69, 0.1);
+$base-success-text: #155724;
+$base-text-on-success: $minimal-white;
+
+$base-danger-color: #dc3545;
+$base-danger-color-hover: #c82333;
+$base-danger-bg-light: rgba(220, 53, 69, 0.1);
+$base-danger-text: #721c24;
+$base-text-on-danger: $minimal-white;
+
+$base-warning-color: #ffc107;
+$base-warning-color-hover: #e0a800;
+$base-warning-bg-light: rgba(255, 193, 7, 0.1);
+$base-warning-text: #856404;
+$base-text-on-warning: $minimal-dark-900;
+
+$base-info-color: #17a2b8;
+$base-info-color-hover: #138496;
+$base-info-bg-light: rgba(23, 162, 184, 0.1);
+$base-info-text: #0c5460;
+$base-text-on-info: $minimal-white;
+
+// Interactive states
+$base-focus-ring-color: rgba($minimal-gray-800, 0.25);
+
+// ============================================================================
+// FRAMEWORK VARIABLES - Import and let them derive from base
+// ============================================================================
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// Layout overrides
+$footer-height: 3.2rem;    // 32px (10px base)
+$sidebar-width: 29rem;     // 290px (10px base)
+
+// Layout-specific overrides
 $primary-bg: $minimal-white;
 $content-background-color: $minimal-white;
 $header-bg: $minimal-gray-50;
 $sidebar-bg: $minimal-gray-150;
 $footer-bg: $minimal-gray-50;
-$border-color: $minimal-gray-400;
-$text-primary: $minimal-gray-900;
-$text-secondary: $minimal-gray-700;
-$accent-color: $minimal-gray-800;
-$accent-hover: rgba(85, 85, 85, 0.1);
-$accent-light: rgba(85, 85, 85, 0.05);
-
-// Sync base variables with theme colors
-$base-accent-color: $accent-color;
-$base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%);
-$base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%);
-$base-accent-color-light: $accent-light;
-$base-accent-color-light-hover: rgba($base-accent-color, 0.08);
-
-// Form focus colors - must match accent color
-$input-focus-border-color: $accent-color;
-$select-focus-border-color: $accent-color;
-$textarea-focus-border-color: $accent-color;
-
-// Checkbox colors - must match accent color
-$checkbox-border-color-hover: $accent-color;
-$checkbox-border-color-checked: $accent-color;
-$checkbox-bg-checked: $accent-color;
-$checkbox-bg-indeterminate: $accent-color;
-$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
+$text-primary: $base-text-color-1;
+$text-secondary: $base-text-color-2;
+$accent-hover: rgba($minimal-gray-800, 0.1);
+$accent-light: rgba($minimal-gray-800, 0.05);
 
 // Card colors
 $card-bg: $minimal-white;
@@ -65,9 +124,21 @@ $card-footer-bg: $minimal-gray-50;
 $card-tabs-bg: $minimal-gray-150;
 
 // Input colors
-$input-bg: $minimal-white;
-$input-border: $minimal-gray-400;
-$input-text: $minimal-gray-900;
+$input-bg: $base-input-bg;
+$input-border: $base-input-border;
+$input-text: $base-input-color;
+
+// Form focus colors
+$input-focus-border-color: $base-accent-color;
+$select-focus-border-color: $base-accent-color;
+$textarea-focus-border-color: $base-accent-color;
+
+// Checkbox colors
+$checkbox-border-color-hover: $base-accent-color;
+$checkbox-border-color-checked: $base-accent-color;
+$checkbox-bg-checked: $base-accent-color;
+$checkbox-bg-indeterminate: $base-accent-color;
+$checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
 
 // Table colors
 $table-bg: $minimal-white;
@@ -80,45 +151,313 @@ $btn-primary-bg: $minimal-gray-800;
 $btn-primary-bg-hover: $minimal-gray-850;
 $btn-secondary-bg: $minimal-gray-400;
 $btn-secondary-bg-hover: $minimal-gray-500;
-$btn-success-bg: #28a745;
-$btn-success-bg-hover: #218838;
-$btn-warning-bg: #ffc107;
-$btn-warning-text: $minimal-dark-900;
-$btn-danger-bg: #dc3545;
-$btn-danger-bg-hover: #c82333;
-$btn-info-bg: #17a2b8;
-$btn-info-bg-hover: #138496;
 $btn-light-bg: $minimal-gray-100;
 $btn-light-text: $minimal-gray-900;
 $btn-light-bg-hover: $minimal-gray-600;
 $btn-dark-bg: $minimal-dark-500;
 $btn-dark-bg-hover: $minimal-dark-700;
 
-// Validation shadow colors - match button colors
-$success-bg: $btn-success-bg;
-$success-bg-light: rgba(40, 167, 69, 0.1);
-$warning-bg: $btn-warning-bg;
-$warning-bg-light: rgba(255, 193, 7, 0.1);
-$danger-bg: $btn-danger-bg;
-$danger-bg-light: rgba(220, 53, 69, 0.1);
+// Validation shadow colors
+$success-bg-light: $base-success-bg-light;
+$warning-bg-light: $base-warning-bg-light;
+$danger-bg-light: $base-danger-bg-light;
 
 // Modal colors
-$modal-overlay-bg: rgba(0, 0, 0, 0.4);
+$modal-overlay-bg: $base-overlay-bg;
 $modal-content-bg: $minimal-white;
 
+// ============================================================================
+// CORE IMPORTS
+// ============================================================================
 @import '@keenmate/pure-admin-core/src/scss/core';
 @import '@keenmate/pure-admin-core/src/scss/utilities';
 @import '@keenmate/pure-admin-core/src/scss/base-css-variables';
 
-// CSS Variables for page loader (FOUC prevention) and base theme variables
-:root {
+// ============================================================================
+// CSS VARIABLES - LIGHT MODE (Default)
+// ============================================================================
+:root, .pa-mode-light {
   --page-loader-bg: rgba(255, 255, 255, 0.95);
   --page-loader-spinner-border: #e0e0e0;
-  --page-loader-spinner-accent: #000000;
+  --page-loader-spinner-accent: #{$minimal-gray-800};
 
-  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  // Base CSS variables for web components
   @include output-base-css-variables;
 
-  // Pure Admin theme CSS variables for runtime theme switching
+  // Pure Admin theme CSS variables
   @include output-pa-css-variables;
+
+  // Web component overrides (light mode)
+  --drp-dropdown-bg: #{$minimal-white};
+  --drp-border-color: #{$minimal-gray-400};
+  --drp-primary-bg: #{$minimal-gray-50};
+  --drp-primary-bg-hover: #{$minimal-gray-100};
+  --drp-text-primary: #{$minimal-gray-900};
+  --drp-text-secondary: #{$minimal-gray-700};
+  --drp-button-bg: transparent;
+  --drp-button-color: #{$minimal-gray-900};
+  --drp-button-accent-text-color: #{$minimal-white};
+  --drp-button-today-color: #{$minimal-gray-800};
+  --drp-button-clear-color: #{$minimal-gray-700};
+  --drp-button-cancel-color: #{$minimal-gray-700};
+
+  --ms-dropdown-bg: #{$minimal-white};
+  --ms-input-bg: #{$minimal-white};
+  --ms-primary-bg: #{$minimal-gray-50};
+  --ms-primary-bg-hover: #{$minimal-gray-100};
+  --ms-border-color: #{$minimal-gray-400};
+  --ms-text-color-1: #{$minimal-gray-900};
+  --ms-text-color-2: #{$minimal-gray-700};
+  --ms-text-color-3: #{$minimal-gray-600};
+  --ms-text-color-4: #{$minimal-gray-500};
+  --ms-hint-bg: #{$minimal-gray-100};
+  --ms-actions-bg: #{$minimal-gray-100};
+  --ms-selected-popover-bg: #{$minimal-white};
+}
+
+// ============================================================================
+// CSS VARIABLES - DARK MODE
+// ============================================================================
+.pa-mode-dark {
+  // Minimal dark palette - grayscale focused
+  $dark-bg: #1a1a1a;
+  $dark-card: #242424;
+  $dark-surface: #2e2e2e;
+  $dark-border: #404040;
+  $dark-text: #e8e8e8;
+  $dark-text-secondary: #a0a0a0;
+
+  --page-loader-bg: rgba(26, 26, 26, 0.95);
+  --page-loader-spinner-border: #404040;
+  --page-loader-spinner-accent: #e8e8e8;
+
+  // Core colors - dark backgrounds
+  --pa-primary-bg: #{$dark-bg};
+  --pa-bg-secondary: #{$dark-bg};
+  --pa-content-bg: #141414;
+
+  // Text colors - light text on dark bg
+  --pa-text-primary: #{$dark-text};
+  --pa-text-secondary: #{$dark-text-secondary};
+
+  // Accent stays grayscale
+  --pa-accent: #{$dark-text};
+  --pa-accent-hover: rgba(232, 232, 232, 0.15);
+  --pa-accent-light: rgba(232, 232, 232, 0.08);
+
+  // Border
+  --pa-border-color: #{$dark-border};
+
+  // Header - dark grayscale
+  --pa-header-bg: #{$dark-card};
+  --pa-header-border-color: #{$dark-border};
+  --pa-header-text: #{$dark-text};
+  --pa-header-text-secondary: #{$dark-text-secondary};
+  --pa-header-profile-name-color: #{$dark-text};
+
+  // Sidebar - dark grayscale
+  --pa-sidebar-bg: #{$dark-card};
+  --pa-sidebar-text: #{$dark-text};
+  --pa-sidebar-text-secondary: #{$dark-text-secondary};
+  --pa-sidebar-submenu-bg: #{$dark-bg};
+  --pa-sidebar-submenu-hover-bg: rgba(255, 255, 255, 0.08);
+  --pa-sidebar-submenu-active-bg: #{$dark-surface};
+
+  // Footer - dark grayscale
+  --pa-footer-bg: #{$dark-card};
+  --pa-footer-border-color: #{$dark-border};
+
+  // Cards - dark backgrounds
+  --pa-card-bg: #{$dark-card};
+  --pa-card-header-bg: #{$dark-surface};
+  --pa-card-footer-bg: #{$dark-surface};
+  --pa-card-tabs-bg: #{$dark-border};
+
+  // Inputs - dark backgrounds
+  --pa-input-bg: #{$dark-surface};
+  --pa-input-border: #{$dark-border};
+  --pa-input-text: #{$dark-text};
+  --pa-input-focus-border-color: #{$dark-text};
+
+  // Input group
+  --pa-input-group-prepend-bg: #{$dark-border};
+  --pa-input-group-prepend-text: #{$dark-text-secondary};
+  --pa-input-group-append-bg: #{$dark-border};
+  --pa-input-group-append-text: #{$dark-text-secondary};
+
+  // Input group buttons
+  .pa-input-group__button {
+    background-color: $dark-border !important;
+    color: $dark-text !important;
+    border-color: $dark-border !important;
+
+    &:hover {
+      background-color: $dark-surface !important;
+    }
+  }
+
+  // Tables - dark backgrounds
+  --pa-table-bg: #{$dark-card};
+  --pa-table-header-bg: #{$dark-surface};
+  --pa-table-stripe: #{$dark-bg};
+  --pa-table-hover-bg: #{$dark-surface};
+
+  // Modals
+  --pa-modal-content-bg: #{$dark-card};
+  --pa-modal-overlay-bg: rgba(0, 0, 0, 0.7);
+
+  // Loader overlay
+  --pa-loader-overlay-bg: rgba(0, 0, 0, 0.7);
+
+  // Profile panel
+  --pa-profile-overlay-bg: rgba(0, 0, 0, 0.5);
+
+  // Tooltip/Popover
+  --pa-tooltip-bg: #{$dark-border};
+  --pa-tooltip-text: #{$dark-text};
+  --pa-popover-content-bg: #{$dark-card};
+
+  // Command palette
+  --pa-command-palette-backdrop-bg: rgba(0, 0, 0, 0.8);
+  --pa-command-palette-item-hover-bg: #{$dark-surface};
+  --pa-command-palette-item-active-bg: rgba(255, 255, 255, 0.1);
+  --pa-command-palette-highlight-bg: rgba(255, 255, 255, 0.15);
+
+  // Alerts - light text for dark mode visibility
+  --pa-alert-info-text: #ffffff;
+  --pa-alert-info-bg: rgba(23, 162, 184, 0.3);
+  --pa-alert-success-text: #ffffff;
+  --pa-alert-success-bg: rgba(40, 167, 69, 0.3);
+  --pa-alert-warning-text: #ffffff;
+  --pa-alert-warning-bg: rgba(255, 193, 7, 0.3);
+  --pa-alert-danger-text: #ffffff;
+  --pa-alert-danger-bg: rgba(220, 53, 69, 0.3);
+
+  // Code inside alerts - inherit alert text color
+  .pa-alert code {
+    color: inherit;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  // Buttons - adjust for dark mode (grayscale)
+  --pa-btn-primary-bg: #{$dark-text};
+  --pa-btn-primary-bg-hover: #ffffff;
+  --pa-btn-primary-text: #{$dark-bg};
+  --pa-btn-secondary-bg: #{$dark-border};
+  --pa-btn-secondary-bg-hover: #{$dark-surface};
+  --pa-btn-secondary-text: #{$dark-text};
+  --pa-btn-light-bg: #{$dark-surface};
+  --pa-btn-light-bg-hover: #{$dark-border};
+  --pa-btn-light-text: #{$dark-text};
+
+  // Semantic colors - kept colored for visibility
+  --pa-success-bg: #28a745;
+  --pa-success-bg-light: rgba(40, 167, 69, 0.2);
+  --pa-warning-bg: #ffc107;
+  --pa-warning-bg-light: rgba(255, 193, 7, 0.2);
+  --pa-danger-bg: #dc3545;
+  --pa-danger-bg-light: rgba(220, 53, 69, 0.2);
+  --pa-info-bg: #17a2b8;
+  --pa-info-bg-light: rgba(23, 162, 184, 0.2);
+
+  // Base variables for web components (dark mode)
+  --base-surface-1: #{$dark-card};
+  --base-surface-2: #{$dark-bg};
+  --base-surface-3: #{$dark-surface};
+  --base-text-color-1: #{$dark-text};
+  --base-text-color-2: #{$dark-text-secondary};
+  --base-text-color-3: #707070;
+  --base-text-color-4: #505050;
+  --base-accent-color: #{$dark-text};
+  --base-accent-color-hover: #ffffff;
+  --base-accent-color-active: #ffffff;
+  --base-accent-color-light: rgba(232, 232, 232, 0.15);
+  --base-accent-color-light-hover: rgba(232, 232, 232, 0.2);
+  --base-border-color: #{$dark-border};
+  --base-input-bg: #{$dark-surface};
+  --base-input-color: #{$dark-text};
+  --base-input-border: 1px solid #{$dark-border};
+  --base-input-border-hover: 1px solid #{$dark-text};
+  --base-input-border-focus: 1px solid #{$dark-text};
+  --base-input-placeholder-color: #606060;
+  --base-dropdown-bg: #{$dark-card};
+  --base-dropdown-border: #{$dark-border};
+  --base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --base-tooltip-bg: #{$dark-border};
+  --base-tooltip-text-color: #{$dark-text};
+
+  // Daterangepicker overrides (dark mode)
+  web-daterangepicker {
+    --drp-dropdown-bg: #{$dark-card};
+    --drp-border-color: #{$dark-border};
+    --drp-primary-bg: #{$dark-bg};
+    --drp-primary-bg-hover: #{$dark-surface};
+    --drp-text-primary: #{$dark-text};
+    --drp-text-secondary: #{$dark-text-secondary};
+    --drp-button-bg: transparent;
+    --drp-button-color: #{$dark-text};
+    --drp-button-accent-text-color: #{$dark-bg};
+    --drp-button-today-color: #{$dark-text};
+    --drp-button-clear-color: #{$dark-text-secondary};
+    --drp-button-cancel-color: #{$dark-text-secondary};
+  }
+
+  // Multiselect overrides (dark mode)
+  web-multiselect {
+    --ms-dropdown-bg: #{$dark-card};
+    --ms-input-bg: #{$dark-surface};
+    --ms-primary-bg: #{$dark-bg};
+    --ms-primary-bg-hover: #{$dark-surface};
+    --ms-border-color: #{$dark-border};
+    --ms-text-color-1: #{$dark-text};
+    --ms-text-color-2: #{$dark-text-secondary};
+    --ms-text-color-3: #707070;
+    --ms-text-color-4: #505050;
+    --ms-hint-bg: #{$dark-bg};
+    --ms-actions-bg: #{$dark-bg};
+    --ms-selected-popover-bg: #{$dark-card};
+  }
+}
+
+// ============================================================================
+// DARK MODE COMPONENT ADJUSTMENTS
+// ============================================================================
+.pa-mode-dark {
+  // Card shadows darker
+  .pa-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  // Primary button - inverted for minimal (light on dark)
+  .pa-btn--primary {
+    background-color: #e8e8e8 !important;
+    color: #1a1a1a !important;
+
+    &:hover {
+      background-color: #ffffff !important;
+    }
+  }
+
+  // Secondary button adjustments for dark mode
+  .pa-btn--secondary {
+    background-color: #404040 !important;
+    color: #e8e8e8 !important;
+    border-color: #505050 !important;
+
+    &:hover {
+      background-color: #505050 !important;
+      border-color: #606060 !important;
+    }
+  }
+
+  // Outline secondary button
+  .pa-btn--outline-secondary {
+    border-color: #606060 !important;
+    color: #a0a0a0 !important;
+
+    &:hover {
+      background-color: #404040 !important;
+      color: #e8e8e8 !important;
+    }
+  }
 }

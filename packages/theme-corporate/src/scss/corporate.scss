@@ -1,8 +1,10 @@
 /* Corporate Theme for Pure Admin Visual - Professional blue/gray palette */
+@use 'sass:color';
 
-@import '@keenmate/pure-admin-core/src/scss/variables/index';
+// =============================================================================
+// CORPORATE COLOR PALETTE
+// =============================================================================
 
-// Corporate color palette
 $corporate-slate-50: #f8fafc;
 $corporate-slate-100: #f1f5f9;
 $corporate-slate-200: #e2e8f0;
@@ -14,7 +16,7 @@ $corporate-slate-700: #334155;
 $corporate-slate-800: #1e293b;
 $corporate-slate-900: #0f172a;
 
-$corporate-blue-500: #0ea5e9;  // Brighter, more vibrant blue
+$corporate-blue-500: #0ea5e9;
 $corporate-blue-600: #0284c7;
 $corporate-blue-700: #0369a1;
 
@@ -30,102 +32,144 @@ $corporate-gray-800: #1f2937;
 $corporate-emerald-500: #10b981;
 $corporate-emerald-600: #059669;
 $corporate-amber-500: #f59e0b;
+$corporate-amber-600: #d97706;
 $corporate-red-500: #ef4444;
 $corporate-red-600: #dc2626;
 $corporate-cyan-500: #06b6d4;
 $corporate-cyan-600: #0891b2;
 
-// Layout overrides
-$footer-height: 3.2rem;    // 32px (10px base) - was 2rem at 16px base
-$sidebar-width: 29rem;   // 290px (10px base)
+// =============================================================================
+// BASE VARIABLES - Single Source of Truth
+// Set these and everything else derives automatically
+// =============================================================================
 
-// Corporate theme color overrides
+// Accent colors (brand)
+$base-accent-color: $corporate-blue-500;
+$base-accent-color-hover: $corporate-blue-600;
+$base-accent-color-active: $corporate-blue-700;
+$base-accent-color-light: rgba($corporate-blue-500, 0.05);
+$base-accent-color-light-hover: rgba($corporate-blue-500, 0.08);
+
+// Text colors
+$base-text-color-1: $corporate-slate-700;
+$base-text-color-2: $corporate-slate-500;
+$base-text-color-3: $corporate-slate-400;
+$base-text-color-4: $corporate-slate-300;
+$base-text-color-on-accent: #ffffff;
+
+// Surface colors
+$base-surface-1: #ffffff;
+$base-surface-2: $corporate-slate-50;
+$base-surface-3: $corporate-slate-200;
+$base-surface-inverse: $corporate-slate-800;
+$base-overlay-bg: rgba($corporate-slate-800, 0.5);
+
+// Border
+$base-border-color: $corporate-slate-200;
+
+// Input
+$base-input-bg: #ffffff;
+$base-input-color: $corporate-slate-700;
+$base-input-border: 1px solid $corporate-slate-200;
+$base-input-border-hover: 1px solid $corporate-blue-500;
+$base-input-border-focus: 1px solid $corporate-blue-500;
+
+// Contextual colors
+$base-success-color: $corporate-emerald-500;
+$base-success-color-hover: $corporate-emerald-600;
+$base-success-bg-light: rgba($corporate-emerald-500, 0.1);
+$base-text-on-success: #ffffff;
+
+$base-danger-color: $corporate-red-500;
+$base-danger-color-hover: $corporate-red-600;
+$base-danger-bg-light: rgba($corporate-red-500, 0.1);
+$base-text-on-danger: #ffffff;
+
+$base-warning-color: $corporate-amber-500;
+$base-warning-color-hover: $corporate-amber-600;
+$base-warning-bg-light: rgba($corporate-amber-500, 0.1);
+$base-text-on-warning: #ffffff;
+
+$base-info-color: $corporate-cyan-500;
+$base-info-color-hover: $corporate-cyan-600;
+$base-info-bg-light: rgba($corporate-cyan-500, 0.1);
+$base-text-on-info: #ffffff;
+
+// =============================================================================
+// IMPORT CORE (with base variables already set)
+// =============================================================================
+
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// =============================================================================
+// LAYOUT-SPECIFIC OVERRIDES
+// These don't have base equivalents yet
+// =============================================================================
+
+$footer-height: 3.2rem;
+$sidebar-width: 29rem;
+
+// Layout colors (derived from base but with specific overrides)
 $primary-bg: #f4f6f9;
 $content-background-color: #f4f6f9;
 $header-bg: $corporate-slate-800;
-$header-border-color: $corporate-slate-200; // Match sidebar border color
-$header-profile-name-color: #ffffff;       // Light text on dark header
+$header-border-color: $corporate-slate-200;
+$header-profile-name-color: #ffffff;
 $sidebar-bg: $corporate-slate-50;
 $footer-bg: $corporate-slate-800;
-$border-color: $corporate-slate-200;
-$text-primary: $corporate-slate-700;
-$text-secondary: $corporate-slate-500;
-$accent-color: $corporate-blue-500;
-$accent-hover: rgba(59, 130, 246, 0.1);
-$accent-light: rgba(59, 130, 246, 0.05);
-
-// Sync base variables with theme colors
-$base-accent-color: $accent-color;
-$base-accent-color-hover: $corporate-blue-600;
-$base-accent-color-active: $corporate-blue-700;
-$base-accent-color-light: $accent-light;
-$base-accent-color-light-hover: rgba($base-accent-color, 0.08);
-
-// Form focus colors - must match accent color
-$input-focus-border-color: $accent-color;
-$select-focus-border-color: $accent-color;
-$textarea-focus-border-color: $accent-color;
-
-// Checkbox colors - must match accent color
-$checkbox-border-color-hover: $accent-color;
-$checkbox-border-color-checked: $accent-color;
-$checkbox-bg-checked: $accent-color;
-$checkbox-bg-indeterminate: $accent-color;
-$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
 
 // Card colors
-$card-bg: #ffffff;
 $card-header-bg: $corporate-slate-100;
 $card-footer-bg: $corporate-slate-50;
 $card-tabs-bg: $corporate-slate-200;
 
-// Input colors
-$input-bg: #ffffff;
+// Input border (specific)
 $input-border: $corporate-slate-200;
-$input-text: $corporate-slate-700;
 
 // Table colors
-$table-bg: #ffffff;
 $table-header-bg: $corporate-slate-100;
 $table-hover-bg: $corporate-slate-50;
 $table-stripe: $corporate-slate-50;
 
-// Button colors - professional blue/gray palette
-$btn-primary-bg: $corporate-blue-500;
-$btn-primary-bg-hover: $corporate-blue-600;
+// Secondary button (not derived from base)
 $btn-secondary-bg: $corporate-gray-500;
 $btn-secondary-bg-hover: $corporate-gray-600;
-$btn-success-bg: $corporate-emerald-500;
-$btn-success-bg-hover: $corporate-emerald-600;
-$btn-warning-bg: $corporate-amber-500;
-$btn-warning-text: #ffffff;
-$btn-danger-bg: $corporate-red-500;
-$btn-danger-bg-hover: $corporate-red-600;
-$btn-info-bg: $corporate-cyan-500;
-$btn-info-bg-hover: $corporate-cyan-600;
+
+// Light/dark buttons
 $btn-light-bg: $corporate-gray-100;
 $btn-light-text: $corporate-gray-700;
 $btn-light-bg-hover: $corporate-gray-200;
 $btn-dark-bg: $corporate-gray-700;
 $btn-dark-bg-hover: $corporate-gray-800;
 
-// Validation shadow colors - match button colors
-$success-bg: $btn-success-bg;
-$success-bg-light: rgba(16, 185, 129, 0.1);
-$warning-bg: $btn-warning-bg;
-$warning-bg-light: rgba(245, 158, 11, 0.1);
-$danger-bg: $btn-danger-bg;
-$danger-bg-light: rgba(239, 68, 68, 0.1);
-
-// Modal colors
-$modal-overlay-bg: rgba(30, 41, 59, 0.5);
+// Modal
+$modal-overlay-bg: rgba($corporate-slate-800, 0.5);
 $modal-content-bg: #ffffff;
+
+// Form focus colors
+$input-focus-border-color: $base-accent-color;
+$select-focus-border-color: $base-accent-color;
+$textarea-focus-border-color: $base-accent-color;
+
+// Checkbox colors
+$checkbox-border-color-hover: $base-accent-color;
+$checkbox-border-color-checked: $base-accent-color;
+$checkbox-bg-checked: $base-accent-color;
+$checkbox-bg-indeterminate: $base-accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
+
+// =============================================================================
+// IMPORT CORE STYLES
+// =============================================================================
 
 @import '@keenmate/pure-admin-core/src/scss/core';
 @import '@keenmate/pure-admin-core/src/scss/utilities';
 @import '@keenmate/pure-admin-core/src/scss/base-css-variables';
 
-// Corporate-specific styling overrides
+// =============================================================================
+// CORPORATE-SPECIFIC STYLING OVERRIDES
+// =============================================================================
+
 // Header text visibility - light text on dark header
 .pa-header {
   &__brand h1 {
@@ -141,7 +185,6 @@ $modal-content-bg: #ffffff;
     }
   }
 
-  // Dropdown menu items - dark text on light background
   &__dropdown li a {
     color: $corporate-slate-700 !important;
 
@@ -192,15 +235,277 @@ $modal-content-bg: #ffffff;
   }
 }
 
-// CSS Variables for page loader (FOUC prevention) and base theme variables
-:root {
-  --page-loader-bg: rgba(26, 26, 26, 0.95);
-  --page-loader-spinner-border: #333;
-  --page-loader-spinner-accent: #0066cc;
+// =============================================================================
+// CSS VARIABLES - LIGHT MODE (Default)
+// =============================================================================
+:root, .pa-mode-light {
+  --page-loader-bg: rgba(255, 255, 255, 0.95);
+  --page-loader-spinner-border: #ccc;
+  --page-loader-spinner-accent: #{$corporate-blue-500};
 
-  // Base CSS variables for web components (daterangepicker, multiselect, etc.)
+  // Output all CSS variables
   @include output-base-css-variables;
-
-  // Pure Admin theme CSS variables for runtime theme switching
   @include output-pa-css-variables;
+
+  // Web component overrides (light mode)
+  --drp-dropdown-bg: #ffffff;
+  --drp-border-color: #{$corporate-slate-200};
+  --drp-primary-bg: #{$corporate-slate-50};
+  --drp-primary-bg-hover: #{$corporate-slate-100};
+  --drp-text-primary: #{$corporate-slate-700};
+  --drp-text-secondary: #{$corporate-slate-500};
+  --drp-button-bg: transparent;
+  --drp-button-color: #{$corporate-slate-700};
+  --drp-button-accent-text-color: #ffffff;
+  --drp-button-today-color: #{$corporate-blue-500};
+  --drp-button-clear-color: #{$corporate-slate-500};
+  --drp-button-cancel-color: #{$corporate-slate-500};
+
+  --ms-dropdown-bg: #ffffff;
+  --ms-input-bg: #ffffff;
+  --ms-primary-bg: #{$corporate-slate-50};
+  --ms-primary-bg-hover: #{$corporate-slate-100};
+  --ms-border-color: #{$corporate-slate-200};
+  --ms-text-color-1: #{$corporate-slate-700};
+  --ms-text-color-2: #{$corporate-slate-500};
+  --ms-text-color-3: #{$corporate-slate-400};
+  --ms-text-color-4: #{$corporate-slate-300};
+  --ms-hint-bg: #{$corporate-slate-100};
+  --ms-actions-bg: #{$corporate-slate-100};
+  --ms-selected-popover-bg: #ffffff;
+}
+
+// =============================================================================
+// CSS VARIABLES - DARK MODE
+// =============================================================================
+.pa-mode-dark {
+  // Corporate dark palette
+  $dark-bg: #0f172a;
+  $dark-card: #1e293b;
+  $dark-surface: #334155;
+  $dark-border: #475569;
+  $dark-text: #f1f5f9;
+  $dark-text-secondary: #94a3b8;
+
+  --page-loader-bg: rgba(15, 23, 42, 0.95);
+  --page-loader-spinner-border: #334155;
+  --page-loader-spinner-accent: #{$corporate-blue-500};
+
+  // Core colors - dark backgrounds
+  --pa-primary-bg: #{$dark-bg};
+  --pa-bg-secondary: #{$dark-bg};
+  --pa-content-bg: #0a0f1a;
+
+  // Text colors - light text on dark bg
+  --pa-text-primary: #{$dark-text};
+  --pa-text-secondary: #{$dark-text-secondary};
+
+  // Keep Corporate brand colors
+  --pa-accent: #{$corporate-blue-500};
+  --pa-accent-hover: rgba(14, 165, 233, 0.2);
+  --pa-accent-light: rgba(14, 165, 233, 0.15);
+
+  // Border
+  --pa-border-color: #{$dark-border};
+
+  // Header
+  --pa-header-bg: #{$dark-card};
+  --pa-header-border-color: #{$dark-border};
+  --pa-header-text: #{$dark-text};
+  --pa-header-text-secondary: #{$dark-text-secondary};
+  --pa-header-profile-name-color: #{$dark-text};
+
+  // Sidebar
+  --pa-sidebar-bg: #{$dark-card};
+  --pa-sidebar-text: #{$dark-text};
+  --pa-sidebar-text-secondary: #{$dark-text-secondary};
+  --pa-sidebar-submenu-bg: #{$dark-bg};
+  --pa-sidebar-submenu-hover-bg: rgba(14, 165, 233, 0.1);
+  --pa-sidebar-submenu-active-bg: #{$corporate-blue-600};
+
+  // Footer
+  --pa-footer-bg: #{$dark-card};
+  --pa-footer-border-color: #{$dark-border};
+
+  // Cards
+  --pa-card-bg: #{$dark-card};
+  --pa-card-header-bg: #{$dark-surface};
+  --pa-card-footer-bg: #{$dark-surface};
+  --pa-card-tabs-bg: #{$dark-border};
+
+  // Inputs
+  --pa-input-bg: #{$dark-surface};
+  --pa-input-border: #{$dark-border};
+  --pa-input-text: #{$dark-text};
+  --pa-input-focus-border-color: #{$corporate-blue-500};
+
+  // Input group
+  --pa-input-group-prepend-bg: rgba(14, 165, 233, 0.15);
+  --pa-input-group-prepend-text: #{$corporate-blue-500};
+  --pa-input-group-append-bg: rgba(14, 165, 233, 0.15);
+  --pa-input-group-append-text: #{$corporate-blue-500};
+
+  .pa-input-group__button {
+    background-color: rgba(14, 165, 233, 0.15) !important;
+    color: $corporate-blue-500 !important;
+    border-color: $dark-border !important;
+
+    &:hover {
+      background-color: rgba(14, 165, 233, 0.25) !important;
+    }
+  }
+
+  // Tables
+  --pa-table-bg: #{$dark-card};
+  --pa-table-header-bg: #{$dark-surface};
+  --pa-table-stripe: #{$dark-bg};
+  --pa-table-hover-bg: #{$dark-surface};
+
+  // Modals
+  --pa-modal-content-bg: #{$dark-card};
+  --pa-modal-overlay-bg: rgba(0, 0, 0, 0.8);
+
+  // Loader/Profile
+  --pa-loader-overlay-bg: rgba(0, 0, 0, 0.7);
+  --pa-profile-overlay-bg: rgba(0, 0, 0, 0.5);
+
+  // Tooltip/Popover
+  --pa-tooltip-bg: #{$dark-border};
+  --pa-tooltip-text: #{$dark-text};
+  --pa-popover-content-bg: #{$dark-card};
+
+  // Command palette
+  --pa-command-palette-backdrop-bg: rgba(0, 0, 0, 0.8);
+  --pa-command-palette-item-hover-bg: #{$dark-surface};
+  --pa-command-palette-item-active-bg: rgba(14, 165, 233, 0.2);
+  --pa-command-palette-highlight-bg: rgba(14, 165, 233, 0.3);
+
+  // Alerts
+  --pa-alert-info-text: #ffffff;
+  --pa-alert-info-bg: rgba(6, 182, 212, 0.3);
+  --pa-alert-success-text: #ffffff;
+  --pa-alert-success-bg: rgba(16, 185, 129, 0.3);
+  --pa-alert-warning-text: #ffffff;
+  --pa-alert-warning-bg: rgba(255, 193, 7, 0.3);
+  --pa-alert-danger-text: #ffffff;
+  --pa-alert-danger-bg: rgba(239, 68, 68, 0.3);
+
+  .pa-alert code {
+    color: inherit;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  // Buttons
+  --pa-btn-secondary-bg: #{$dark-border};
+  --pa-btn-secondary-bg-hover: #{$dark-surface};
+  --pa-btn-secondary-text: #{$dark-text};
+  --pa-btn-light-bg: #{$dark-surface};
+  --pa-btn-light-bg-hover: #{$dark-border};
+  --pa-btn-light-text: #{$dark-text};
+
+  // Semantic colors
+  --pa-success-bg: #{$corporate-emerald-500};
+  --pa-success-bg-light: rgba(16, 185, 129, 0.2);
+  --pa-warning-bg: #{$corporate-amber-500};
+  --pa-warning-bg-light: rgba(245, 158, 11, 0.2);
+  --pa-danger-bg: #{$corporate-red-500};
+  --pa-danger-bg-light: rgba(239, 68, 68, 0.2);
+  --pa-info-bg: #{$corporate-cyan-500};
+  --pa-info-bg-light: rgba(6, 182, 212, 0.2);
+
+  // Base variables for web components (dark mode)
+  --base-surface-1: #{$dark-card};
+  --base-surface-2: #{$dark-bg};
+  --base-surface-3: #{$dark-surface};
+  --base-surface-inverse: #{$dark-text};
+  --base-primary-bg: #{$dark-bg};
+  --base-primary-bg-hover: #{$dark-surface};
+  --base-text-color-1: #{$dark-text};
+  --base-text-color-2: #{$dark-text-secondary};
+  --base-text-color-3: #64748b;
+  --base-text-color-4: #475569;
+  --base-border-color: #{$dark-border};
+  --base-border: 1px solid #{$dark-border};
+  --base-input-bg: #{$dark-surface};
+  --base-input-color: #{$dark-text};
+  --base-input-border: 1px solid #{$dark-border};
+  --base-input-border-hover: 1px solid #{$corporate-blue-500};
+  --base-input-border-focus: 1px solid #{$corporate-blue-500};
+  --base-input-placeholder-color: #64748b;
+  --base-dropdown-bg: #{$dark-card};
+  --base-dropdown-border: 1px solid #{$dark-border};
+  --base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --base-tooltip-bg: #{$dark-border};
+  --base-tooltip-text-color: #{$dark-text};
+
+  // Daterangepicker overrides (dark mode)
+  web-daterangepicker {
+    --drp-dropdown-bg: #{$dark-card};
+    --drp-border-color: #{$dark-border};
+    --drp-primary-bg: #{$dark-bg};
+    --drp-primary-bg-hover: #{$dark-surface};
+    --drp-text-primary: #{$dark-text};
+    --drp-text-secondary: #{$dark-text-secondary};
+    --drp-button-bg: transparent;
+    --drp-button-color: #{$dark-text};
+    --drp-button-accent-text-color: #ffffff;
+    --drp-button-today-color: #{$corporate-blue-500};
+    --drp-button-clear-color: #{$dark-text-secondary};
+    --drp-button-cancel-color: #{$dark-text-secondary};
+  }
+
+  // Multiselect overrides (dark mode)
+  web-multiselect {
+    --ms-dropdown-bg: #{$dark-card};
+    --ms-input-bg: #{$dark-surface};
+    --ms-primary-bg: #{$dark-bg};
+    --ms-primary-bg-hover: #{$dark-surface};
+    --ms-border-color: #{$dark-border};
+    --ms-text-color-1: #{$dark-text};
+    --ms-text-color-2: #{$dark-text-secondary};
+    --ms-text-color-3: #64748b;
+    --ms-text-color-4: #475569;
+    --ms-hint-bg: #{$dark-bg};
+    --ms-actions-bg: #{$dark-bg};
+    --ms-selected-popover-bg: #{$dark-card};
+  }
+}
+
+// =============================================================================
+// DARK MODE COMPONENT ADJUSTMENTS
+// =============================================================================
+.pa-mode-dark {
+  .pa-header__dropdown li a {
+    color: #f1f5f9 !important;
+
+    &:hover {
+      color: #38bdf8 !important;
+      background-color: rgba($corporate-blue-500, 0.2) !important;
+    }
+  }
+
+  .pa-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .pa-btn--secondary {
+    background-color: #475569 !important;
+    color: #f1f5f9 !important;
+    border-color: #64748b !important;
+
+    &:hover {
+      background-color: #64748b !important;
+      border-color: #94a3b8 !important;
+    }
+  }
+
+  .pa-btn--outline-secondary {
+    border-color: #64748b !important;
+    color: #94a3b8 !important;
+
+    &:hover {
+      background-color: #475569 !important;
+      color: #f1f5f9 !important;
+    }
+  }
 }

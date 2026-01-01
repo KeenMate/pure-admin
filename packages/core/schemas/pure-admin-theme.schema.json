@@ -1,0 +1,311 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://keenmate.com/schemas/pure-admin-theme.schema.json",
+  "title": "Pure Admin Theme Manifest",
+  "description": "Configuration manifest for Pure Admin CSS themes",
+  "type": "object",
+  "required": ["name", "version", "modes", "exports"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the JSON schema for validation"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the theme"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Unique identifier for the theme (lowercase, hyphens allowed)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9]+)?$",
+      "description": "Semantic version of the theme"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the theme"
+    },
+    "author": {
+      "type": "string",
+      "description": "Theme author or organization"
+    },
+    "license": {
+      "type": "string",
+      "description": "License identifier (e.g., MIT, Apache-2.0)"
+    },
+    "modes": {
+      "type": "object",
+      "description": "Light/dark mode configuration",
+      "required": ["supported", "default"],
+      "properties": {
+        "supported": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["light", "dark"]
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "List of supported color modes"
+        },
+        "default": {
+          "type": "string",
+          "enum": ["light", "dark"],
+          "description": "Default mode when theme is loaded"
+        },
+        "cssClass": {
+          "type": "string",
+          "default": "pa-mode-{mode}",
+          "description": "CSS class pattern for mode switching. Use {mode} as placeholder."
+        },
+        "autoSwitch": {
+          "type": "object",
+          "description": "Automatic mode switching based on system preferences",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable automatic mode switching"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["prefers-color-scheme", "time-based", "manual"],
+              "default": "prefers-color-scheme",
+              "description": "Method for automatic switching"
+            },
+            "respectUserPreference": {
+              "type": "boolean",
+              "default": true,
+              "description": "Remember user's manual override"
+            }
+          }
+        }
+      }
+    },
+    "colorVariants": {
+      "type": "object",
+      "description": "Color variant configuration (e.g., blue, green, red tints)",
+      "properties": {
+        "supported": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Variant identifier (empty string for default)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Display name for the variant"
+              },
+              "description": {
+                "type": "string",
+                "description": "Brief description of the color variant"
+              },
+              "accentColor": {
+                "type": "string",
+                "description": "Primary accent color for this variant"
+              }
+            }
+          },
+          "description": "List of supported color variants"
+        },
+        "default": {
+          "type": "string",
+          "description": "Default variant ID (empty string for default/none)"
+        },
+        "cssClass": {
+          "type": "string",
+          "default": "pa-color-{variant}",
+          "description": "CSS class pattern for variant switching. Use {variant} as placeholder."
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "description": "Feature flags indicating theme capabilities",
+      "properties": {
+        "cssVariables": {
+          "type": "boolean",
+          "default": true,
+          "description": "Theme uses CSS custom properties for runtime customization"
+        },
+        "responsiveLayout": {
+          "type": "boolean",
+          "default": true,
+          "description": "Theme supports responsive layouts"
+        },
+        "compactMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Theme supports compact display mode"
+        },
+        "sidebarCollapse": {
+          "type": "boolean",
+          "default": true,
+          "description": "Theme supports sidebar collapse/expand"
+        },
+        "sidebarIconMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Theme supports icon-only sidebar mode"
+        },
+        "customFonts": {
+          "type": "boolean",
+          "default": false,
+          "description": "Theme includes custom font files"
+        },
+        "rtlSupport": {
+          "type": "boolean",
+          "default": false,
+          "description": "Theme supports right-to-left layouts"
+        },
+        "printStyles": {
+          "type": "boolean",
+          "default": false,
+          "description": "Theme includes print-optimized styles"
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "description": "Key theme colors for preview/documentation",
+      "properties": {
+        "accent": {
+          "type": "string",
+          "description": "Primary accent color"
+        },
+        "accentHover": {
+          "type": "string",
+          "description": "Accent color on hover"
+        },
+        "background": {
+          "type": "string",
+          "description": "Main background color"
+        },
+        "surface": {
+          "type": "string",
+          "description": "Card/surface background color"
+        },
+        "text": {
+          "type": "string",
+          "description": "Primary text color"
+        },
+        "textSecondary": {
+          "type": "string",
+          "description": "Secondary/muted text color"
+        },
+        "border": {
+          "type": "string",
+          "description": "Default border color"
+        },
+        "header": {
+          "type": "string",
+          "description": "Header background color"
+        },
+        "sidebar": {
+          "type": "string",
+          "description": "Sidebar background color"
+        },
+        "footer": {
+          "type": "string",
+          "description": "Footer background color"
+        }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "description": "Font configuration",
+      "properties": {
+        "family": {
+          "type": "string",
+          "description": "Primary font family"
+        },
+        "familyHeading": {
+          "type": "string",
+          "description": "Heading font family (if different)"
+        },
+        "familyMono": {
+          "type": "string",
+          "description": "Monospace font family"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "family": {
+                "type": "string"
+              },
+              "src": {
+                "type": "string"
+              },
+              "weight": {
+                "type": ["string", "integer"]
+              },
+              "style": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Custom font file definitions"
+        }
+      }
+    },
+    "exports": {
+      "type": "object",
+      "description": "File exports for the theme",
+      "required": ["css"],
+      "properties": {
+        "css": {
+          "type": "string",
+          "description": "Path to compiled CSS file"
+        },
+        "cssMinified": {
+          "type": "string",
+          "description": "Path to minified CSS file"
+        },
+        "scss": {
+          "type": "string",
+          "description": "Path to main SCSS source file"
+        },
+        "scssVariables": {
+          "type": "string",
+          "description": "Path to SCSS variables file for customization"
+        }
+      }
+    },
+    "preview": {
+      "type": "object",
+      "description": "Preview assets for theme showcase",
+      "properties": {
+        "thumbnail": {
+          "type": "string",
+          "description": "Path to thumbnail image"
+        },
+        "screenshots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Paths to screenshot images"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Theme dependencies",
+      "properties": {
+        "core": {
+          "type": "string",
+          "description": "Required pure-admin-core version"
+        }
+      }
+    }
+  }
+}

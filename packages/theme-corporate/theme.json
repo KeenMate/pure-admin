@@ -1,0 +1,55 @@
+{
+  "$schema": "../core/schemas/pure-admin-theme.schema.json",
+  "name": "Corporate",
+  "id": "corporate",
+  "version": "1.0.0-rc01",
+  "description": "Professional blue/gray theme for business applications",
+  "author": "KeenMate",
+  "license": "MIT",
+
+  "modes": {
+    "supported": ["light", "dark"],
+    "default": "light",
+    "cssClass": "pa-mode-{mode}",
+    "autoSwitch": {
+      "enabled": true,
+      "method": "prefers-color-scheme",
+      "respectUserPreference": true
+    }
+  },
+
+  "colorVariants": null,
+
+  "features": {
+    "cssVariables": true,
+    "responsiveLayout": true,
+    "compactMode": true,
+    "sidebarCollapse": true,
+    "sidebarIconMode": true,
+    "customFonts": false,
+    "rtlSupport": false,
+    "printStyles": false
+  },
+
+  "colors": {
+    "accent": "#0ea5e9",
+    "accentHover": "#0284c7",
+    "background": "#f4f6f9",
+    "surface": "#ffffff",
+    "text": "#334155",
+    "textSecondary": "#64748b",
+    "border": "#e2e8f0",
+    "header": "#1e293b",
+    "sidebar": "#f8fafc",
+    "footer": "#1e293b"
+  },
+
+  "exports": {
+    "css": "./dist/corporate.css",
+    "scss": "./src/scss/corporate.scss"
+  },
+
+  "dependencies": {
+    "core": "^1.0.0-rc01"
+  }
+}

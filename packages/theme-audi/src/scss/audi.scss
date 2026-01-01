@@ -2,26 +2,9 @@
 /* Supports runtime switching between dark and light modes via body class */
 @use 'sass:color';
 
-// 1. Import framework variables first (all defaults with !default flags)
-@import '@keenmate/pure-admin-core/src/scss/variables/index';
-
-// 2. Override structural SCSS variables (shared between modes)
-$sidebar-width: 29rem; // 290px (10px base)
-$border-radius: 1px;
-$border-radius-lg: 2px;
-
-// No border radius for inputs (Audi design language - square corners)
-$base-border-radius-sm: 0;
-$base-border-radius-md: 0;
-$base-border-radius-lg: 0;
-
-// Enable red accent on table row hover (Audi signature detail)
-$table-hover-accent-width: 3px;
-$table-hover-accent-position: left;
-
-// ============================================================================
-// DARK MODE COLORS (Default)
-// ============================================================================
+// =============================================================================
+// AUDI COLOR PALETTE
+// =============================================================================
 $audi-black: #000000;
 $audi-near-black: #0a0a0a;
 $audi-dark: #1a1a1a;
@@ -32,6 +15,98 @@ $audi-gray-lightest: #666666;
 $audi-red: #ff0000;
 $audi-red-dark: #cc0000;
 
+$audi-success: #00cc44;
+$audi-success-hover: #009933;
+$audi-warning: #ff6600;
+$audi-warning-hover: #e55a00;
+$audi-info: #0099ff;
+$audi-info-hover: #0077cc;
+
+// =============================================================================
+// BASE VARIABLES - Single Source of Truth (Dark Mode Default)
+// =============================================================================
+
+// Accent colors (brand)
+$base-accent-color: $audi-red;
+$base-accent-color-hover: color.adjust($audi-red, $lightness: 10%);
+$base-accent-color-active: color.adjust($audi-red, $lightness: 20%);
+$base-accent-color-light: rgba($audi-red, 0.25);
+$base-accent-color-light-hover: rgba($audi-red, 0.3);
+
+// Text colors (dark mode - light text)
+$base-text-color-1: #ffffff;
+$base-text-color-2: #cccccc;
+$base-text-color-3: #999999;
+$base-text-color-4: #666666;
+$base-text-color-on-accent: #ffffff;
+
+// Surface colors (dark mode)
+$base-surface-1: $audi-dark;
+$base-surface-2: $audi-near-black;
+$base-surface-3: $audi-gray-light;
+$base-surface-inverse: #ffffff;
+$base-overlay-bg: rgba($audi-black, 0.8);
+
+// Border
+$base-border-color: $audi-gray-light;
+
+// Input (dark mode)
+$base-input-bg: $audi-black;
+$base-input-color: #ffffff;
+$base-input-border: 1px solid $audi-gray-light;
+$base-input-border-hover: 1px solid $audi-gray-lighter;
+$base-input-border-focus: 1px solid $audi-red;
+
+// No border radius (Audi design language - square corners)
+$base-border-radius-sm: 0;
+$base-border-radius-md: 0;
+$base-border-radius-lg: 0;
+
+// Dropdown/Popover (dark mode)
+$base-dropdown-bg: $audi-dark;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+// Tooltip (dark mode)
+$base-tooltip-bg: $audi-gray-light;
+$base-tooltip-text-color: #ffffff;
+
+// Contextual colors
+$base-success-color: $audi-success;
+$base-success-color-hover: $audi-success-hover;
+$base-success-bg-light: rgba($audi-success, 0.25);
+$base-text-on-success: #ffffff;
+
+$base-danger-color: $audi-red;
+$base-danger-color-hover: $audi-red-dark;
+$base-danger-bg-light: rgba($audi-red, 0.25);
+$base-text-on-danger: #ffffff;
+
+$base-warning-color: $audi-warning;
+$base-warning-color-hover: $audi-warning-hover;
+$base-warning-bg-light: rgba($audi-warning, 0.25);
+$base-text-on-warning: #ffffff;
+
+$base-info-color: $audi-info;
+$base-info-color-hover: $audi-info-hover;
+$base-info-bg-light: rgba($audi-info, 0.25);
+$base-text-on-info: #ffffff;
+
+// =============================================================================
+// IMPORT CORE VARIABLES (with base variables already set)
+// =============================================================================
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// =============================================================================
+// LAYOUT-SPECIFIC OVERRIDES
+// =============================================================================
+$sidebar-width: 29rem;
+$border-radius: 1px;
+$border-radius-lg: 2px;
+
+// Enable red accent on table row hover (Audi signature detail)
+$table-hover-accent-width: 3px;
+$table-hover-accent-position: left;
+
 // Dark mode theme colors
 $primary-bg: $audi-near-black;
 $bg-secondary: $audi-near-black;
@@ -40,6 +115,7 @@ $header-bg: $audi-black;
 $header-border-color: $audi-gray-light;
 $header-text: #ffffff;
 $header-text-secondary: rgba(255, 255, 255, 0.7);
+$header-profile-name-color: #ffffff;
 $sidebar-bg: $audi-dark;
 $sidebar-text: #ffffff;
 $sidebar-text-secondary: #ffffff;
@@ -48,58 +124,6 @@ $sidebar-submenu-hover-bg: rgba($audi-red, 0.25);
 $sidebar-submenu-active-bg: rgba($audi-red, 0.3);
 $footer-bg: $audi-black;
 $footer-border-color: $audi-gray-light;
-$border-color: $audi-gray-light;
-$text-primary: #ffffff;
-$text-secondary: #cccccc;
-$accent-color: $audi-red;
-$accent-hover: rgba($audi-red, 0.3);
-$accent-light: rgba($audi-red, 0.25);
-
-// Base variables for web components (dark mode)
-$base-accent-color: $accent-color;
-$base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%);
-$base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%);
-$base-accent-color-light: $accent-light;
-$base-accent-color-light-hover: rgba($base-accent-color, 0.3);
-$base-primary-bg: $audi-dark;
-$base-primary-bg-hover: $audi-gray;
-$base-text-color-1: #ffffff;
-$base-text-color-2: #cccccc;
-$base-text-color-3: #999999;
-$base-text-color-4: #666666;
-$base-text-color-on-accent: #ffffff;
-$base-border-color: $audi-gray-light;
-$base-border: 1px solid $audi-gray-light;
-
-// Input fields (dark mode)
-$base-input-bg: $audi-black;
-$base-input-color: #ffffff;
-$base-input-border: 1px solid $audi-gray-light;
-$base-input-border-hover: 1px solid $accent-color;
-$base-input-border-focus: 1px solid $accent-color;
-$base-input-placeholder-color: #666666;
-$base-input-bg-disabled: rgba($audi-gray, 0.5);
-
-// Dropdown/Popover (dark mode)
-$base-dropdown-bg: $audi-dark;
-$base-dropdown-border: 1px solid $audi-gray-light;
-$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-
-// Tooltip (dark mode)
-$base-tooltip-bg: $audi-gray-light;
-$base-tooltip-text-color: #ffffff;
-
-// Form focus colors
-$input-focus-border-color: $accent-color;
-$select-focus-border-color: $accent-color;
-$textarea-focus-border-color: $accent-color;
-
-// Checkbox colors
-$checkbox-border-color-hover: $accent-color;
-$checkbox-border-color-checked: $accent-color;
-$checkbox-bg-checked: $accent-color;
-$checkbox-bg-indeterminate: $accent-color;
-$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
 
 // Card colors (dark mode)
 $card-bg: $audi-dark;
@@ -107,49 +131,43 @@ $card-header-bg: $audi-black;
 $card-footer-bg: $audi-black;
 $card-tabs-bg: $audi-gray-light;
 
-// Input colors (dark mode)
+// Input colors
 $input-bg: $audi-black;
 $input-border: $audi-gray-light;
 $input-text: #ffffff;
 
-// Multiselect (dark mode)
+// Multiselect
 $multiselect-dropdown-bg: $audi-dark;
 $multiselect-dropdown-border: $audi-gray-light;
 $multiselect-dropdown-text: #ffffff;
 
-// Table colors (dark mode)
+// Table colors
 $table-stripe: $audi-gray;
 $table-bg: $audi-dark;
 $table-header-bg: $audi-black;
 $table-hover-bg: $audi-gray-light;
-$table-hover-accent-color: $accent-color;
+$table-hover-accent-color: $audi-red;
 
-// Modal colors (dark mode)
+// Modal colors
 $modal-content-bg: $audi-dark;
 $modal-overlay-bg: rgba($audi-black, 0.8);
 
-// Profile name in header
-$header-profile-name-color: #ffffff;
+// Form focus colors
+$input_focus-border-color: $base-accent-color;
+$select-focus-border-color: $base-accent-color;
+$textarea-focus-border-color: $base-accent-color;
 
-// Button colors
-$btn-primary-bg: $audi-red;
-$btn-primary-bg-hover: $audi-red-dark;
-$btn-primary-text: #ffffff;
+// Checkbox colors
+$checkbox-border-color-hover: $base-accent-color;
+$checkbox-border-color-checked: $base-accent-color;
+$checkbox-bg-checked: $base-accent-color;
+$checkbox-bg-indeterminate: $base-accent-color;
+$checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
+
+// Button colors (secondary not derived from base)
 $btn-secondary-bg: $audi-gray-light;
 $btn-secondary-bg-hover: $audi-gray-lighter;
 $btn-secondary-text: #ffffff;
-$btn-success-bg: #00cc44;
-$btn-success-bg-hover: #009933;
-$btn-success-text: #ffffff;
-$btn-danger-bg: $audi-red;
-$btn-danger-bg-hover: $audi-red-dark;
-$btn-danger-text: #ffffff;
-$btn-warning-bg: #ff6600;
-$btn-warning-bg-hover: #e55a00;
-$btn-warning-text: #ffffff;
-$btn-info-bg: #0099ff;
-$btn-info-bg-hover: #0077cc;
-$btn-info-text: #ffffff;
 $btn-light-bg: $audi-gray-lightest;
 $btn-light-bg-hover: #808080;
 $btn-light-text: #ffffff;
@@ -157,17 +175,9 @@ $btn-dark-bg: $audi-black;
 $btn-dark-bg-hover: $audi-dark;
 $btn-dark-text: #ffffff;
 
-// Validation colors
-$success-bg: $btn-success-bg;
-$success-bg-light: rgba(0, 204, 68, 0.25);
-$warning-bg: $btn-warning-bg;
-$warning-bg-light: rgba(255, 102, 0, 0.25);
-$danger-bg: $btn-danger-bg;
-$danger-bg-light: rgba(255, 0, 0, 0.25);
-
-// ============================================================================
+// =============================================================================
 // FONTS - Fira Sans Condensed
-// ============================================================================
+// =============================================================================
 /* cyrillic-ext */
 @font-face {
   font-family: 'Fira Sans Condensed';
@@ -234,16 +244,16 @@ $danger-bg-light: rgba(255, 0, 0, 0.25);
 
 $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 
-// ============================================================================
-// IMPORT CORE FRAMEWORK (uses dark mode SCSS variables)
-// ============================================================================
+// =============================================================================
+// IMPORT CORE FRAMEWORK
+// =============================================================================
 @import '@keenmate/pure-admin-core/src/scss/core';
 @import '@keenmate/pure-admin-core/src/scss/utilities';
 @import '@keenmate/pure-admin-core/src/scss/base-css-variables';
 
-// ============================================================================
+// =============================================================================
 // AUDI-SPECIFIC COMPONENT OVERRIDES
-// ============================================================================
+// =============================================================================
 .pa-btn--primary {
   font-weight: $font-weight-bold;
   color: #ffffff !important;
@@ -293,18 +303,15 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   color: var(--pa-sidebar-text) !important;
 }
 
-// ============================================================================
+// =============================================================================
 // CSS VARIABLES - DARK MODE (Default)
-// ============================================================================
+// =============================================================================
 :root, .pa-mode-dark {
   --page-loader-bg: rgba(10, 10, 10, 0.95);
   --page-loader-spinner-border: #333;
   --page-loader-spinner-accent: #ff0000;
 
-  // Base CSS variables for web components
   @include output-base-css-variables;
-
-  // Pure Admin theme CSS variables
   @include output-pa-css-variables;
 
   // Daterangepicker overrides (dark mode)
@@ -335,11 +342,10 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   --ms-selected-popover-bg: #{$audi-dark};
 }
 
-// ============================================================================
+// =============================================================================
 // CSS VARIABLES - LIGHT MODE
-// ============================================================================
+// =============================================================================
 .pa-mode-light {
-  // Light mode color palette
   $light-white: #ffffff;
   $light-gray-50: #f8f9fa;
   $light-gray-100: #f1f3f5;
@@ -356,24 +362,18 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   --page-loader-spinner-border: #d0d0d0;
   --page-loader-spinner-accent: #ff0000;
 
-  // Core colors - light backgrounds
+  // Core colors
   --pa-primary-bg: #{$light-gray-100};
   --pa-bg-secondary: #{$light-gray-50};
   --pa-content-bg: #{$light-gray-100};
-
-  // Text colors - dark text on light bg
   --pa-text-primary: #{$light-gray-900};
   --pa-text-secondary: #{$light-gray-600};
-
-  // Accent stays red
   --pa-accent: #ff0000;
   --pa-accent-hover: rgba(255, 0, 0, 0.1);
   --pa-accent-light: rgba(255, 0, 0, 0.05);
-
-  // Border - lighter for light mode
   --pa-border-color: #{$light-gray-200};
 
-  // Header/Sidebar/Footer stay dark for contrast
+  // Header/Sidebar/Footer stay dark
   --pa-header-bg: #1a1a1a;
   --pa-header-border-color: #{$light-gray-300};
   --pa-header-text: #ffffff;
@@ -388,18 +388,18 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   --pa-footer-bg: #1a1a1a;
   --pa-footer-border-color: #{$light-gray-300};
 
-  // Cards - white/light backgrounds
+  // Cards
   --pa-card-bg: #{$light-white};
   --pa-card-header-bg: #{$light-gray-50};
   --pa-card-footer-bg: #{$light-gray-50};
   --pa-card-tabs-bg: #{$light-gray-200};
 
-  // Inputs - white backgrounds
+  // Inputs
   --pa-input-bg: #{$light-white};
   --pa-input-border: #{$light-gray-300};
   --pa-input-text: #{$light-gray-900};
 
-  // Tables - light backgrounds
+  // Tables
   --pa-table-bg: #{$light-white};
   --pa-table-header-bg: #{$light-gray-100};
   --pa-table-stripe: #{$light-gray-50};
@@ -409,27 +409,28 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   --pa-modal-content-bg: #{$light-white};
   --pa-modal-overlay-bg: rgba(0, 0, 0, 0.75);
 
-  // Buttons - adjust light button for light mode
+  // Buttons
   --pa-btn-light-bg: #{$light-gray-200};
   --pa-btn-light-bg-hover: #{$light-gray-300};
   --pa-btn-light-text: #{$light-gray-900};
   --pa-btn-secondary-bg: #{$light-gray-600};
   --pa-btn-secondary-bg-hover: #{$light-gray-700};
 
-  // Tooltip
+  // Tooltip/Popover
   --pa-tooltip-bg: #{$light-gray-800};
   --pa-tooltip-text: #ffffff;
-
-  // Popover
   --pa-popover-content-bg: #{$light-white};
 
-  // Semantic colors - slightly adjusted for light mode
+  // Semantic colors
   --pa-success-bg-light: rgba(0, 204, 68, 0.1);
   --pa-warning-bg-light: rgba(255, 102, 0, 0.1);
   --pa-danger-bg-light: rgba(255, 0, 0, 0.1);
   --pa-info-bg-light: rgba(0, 153, 255, 0.1);
 
   // Base variables for web components (light mode)
+  --base-surface-1: #{$light-white};
+  --base-surface-2: #{$light-gray-100};
+  --base-surface-3: #{$light-gray-200};
   --base-primary-bg: #{$light-gray-100};
   --base-primary-bg-hover: #{$light-gray-200};
   --base-text-color-1: #{$light-gray-900};
@@ -447,7 +448,6 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   --base-tooltip-bg: #{$light-gray-800};
   --base-tooltip-text-color: #ffffff;
 
-  // Daterangepicker overrides (light mode) - must target element directly to override core
   web-daterangepicker {
     --drp-dropdown-bg: #{$light-white};
     --drp-border-color: #{$light-gray-300};
@@ -463,7 +463,6 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
     --drp-button-cancel-color: #{$light-gray-600};
   }
 
-  // Multiselect overrides (light mode) - must target element directly to override core
   web-multiselect {
     --ms-dropdown-bg: #{$light-white};
     --ms-input-bg: #{$light-white};
@@ -480,14 +479,12 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
   }
 }
 
-// Light mode specific component adjustments
+// Light mode component adjustments
 .pa-mode-light {
-  // Card shadows lighter
   .pa-card {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  // Outline secondary button adjustments
   .pa-btn--outline-secondary {
     border-color: #adb5bd !important;
     color: #495057 !important;

@@ -14,9 +14,6 @@ const corePackagePath = path.join(__dirname, '..', 'packages', 'core');
 const themePackages = {
     'audi': path.join(__dirname, '..', 'packages', 'theme-audi', 'dist'),
     'dark': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
-    'dark-blue': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
-    'dark-green': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
-    'dark-red': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
     'corporate': path.join(__dirname, '..', 'packages', 'theme-corporate', 'dist'),
     'express': path.join(__dirname, '..', 'packages', 'theme-express', 'dist'),
     'minimal': path.join(__dirname, '..', 'packages', 'theme-minimal', 'dist')
@@ -277,6 +274,49 @@ app.get('/dist/css/themes/:theme.css', (req, res) => {
     res.setHeader('Content-Type', 'text/css');
     res.setHeader('Cache-Control', 'public, max-age=120');
     res.sendFile(themeCssPath);
+});
+
+// Theme manifest files (theme.json)
+app.get('/api/themes/:theme/manifest', (req, res) => {
+    const themeName = req.params.theme;
+    const themeDistPath = themePackages[themeName];
+
+    if (!themeDistPath) {
+        return res.status(404).json({ error: `Theme "${themeName}" not found` });
+    }
+
+    // theme.json is in the package root, not dist
+    const themeManifestPath = path.join(themeDistPath, '..', 'theme.json');
+
+    if (!fs.existsSync(themeManifestPath)) {
+        return res.status(404).json({ error: `Theme manifest not found for "${themeName}"` });
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
+    res.sendFile(themeManifestPath);
+});
+
+// All theme manifests combined
+app.get('/api/themes/manifests', (req, res) => {
+    const manifests = {};
+
+    for (const [themeName, themeDistPath] of Object.entries(themePackages)) {
+        const themeManifestPath = path.join(themeDistPath, '..', 'theme.json');
+
+        if (fs.existsSync(themeManifestPath)) {
+            try {
+                const manifestContent = fs.readFileSync(themeManifestPath, 'utf-8');
+                manifests[themeName] = JSON.parse(manifestContent);
+            } catch (err) {
+                console.error(`Error reading theme manifest for ${themeName}:`, err);
+            }
+        }
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
+    res.json(manifests);
 });
 
 // Fonts from core package

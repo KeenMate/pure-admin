@@ -1,0 +1,623 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://keenmate.com/schemas/base-variables.schema.json",
+  "title": "Pure Admin Base Variables",
+  "description": "Master definition of all $base-* SCSS variables that can be themed. These are the single source of truth for Pure Admin and web component styling.",
+  "type": "object",
+  "properties": {
+    "variables": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/variable"
+      }
+    }
+  },
+  "definitions": {
+    "variable": {
+      "type": "object",
+      "required": ["type", "category", "description", "default"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["color", "dimension", "number", "font-family", "font-weight", "border", "shadow"],
+          "description": "The CSS value type"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "accent",
+            "text",
+            "surface",
+            "border",
+            "input",
+            "dropdown",
+            "tooltip",
+            "typography",
+            "spacing",
+            "contextual",
+            "interactive"
+          ],
+          "description": "Variable category for grouping in theme designer"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description"
+        },
+        "default": {
+          "type": "string",
+          "description": "Default value"
+        },
+        "cssProperty": {
+          "type": "string",
+          "description": "The CSS custom property name (--base-*)"
+        },
+        "derivedFrom": {
+          "type": "string",
+          "description": "If this variable is computed from another, reference it here"
+        }
+      }
+    }
+  },
+  "variables": {
+    "base-accent-color": {
+      "type": "color",
+      "category": "accent",
+      "description": "Primary interactive/brand color",
+      "default": "#007bff",
+      "cssProperty": "--base-accent-color"
+    },
+    "base-accent-color-hover": {
+      "type": "color",
+      "category": "accent",
+      "description": "Accent color hover state (10% lighter)",
+      "default": "#3395ff",
+      "cssProperty": "--base-accent-color-hover",
+      "derivedFrom": "base-accent-color"
+    },
+    "base-accent-color-active": {
+      "type": "color",
+      "category": "accent",
+      "description": "Accent color active state (20% lighter)",
+      "default": "#66b0ff",
+      "cssProperty": "--base-accent-color-active",
+      "derivedFrom": "base-accent-color"
+    },
+    "base-accent-color-light": {
+      "type": "color",
+      "category": "accent",
+      "description": "Light accent for subtle backgrounds",
+      "default": "rgba(0, 123, 255, 0.05)",
+      "cssProperty": "--base-accent-color-light"
+    },
+    "base-accent-color-light-hover": {
+      "type": "color",
+      "category": "accent",
+      "description": "Light accent hover state",
+      "default": "rgba(0, 123, 255, 0.12)",
+      "cssProperty": "--base-accent-color-light-hover",
+      "derivedFrom": "base-accent-color"
+    },
+
+    "base-text-color-1": {
+      "type": "color",
+      "category": "text",
+      "description": "Primary text color (strongest contrast)",
+      "default": "#2c3e50",
+      "cssProperty": "--base-text-color-1"
+    },
+    "base-text-color-2": {
+      "type": "color",
+      "category": "text",
+      "description": "Secondary text color (muted)",
+      "default": "#6c757d",
+      "cssProperty": "--base-text-color-2"
+    },
+    "base-text-color-3": {
+      "type": "color",
+      "category": "text",
+      "description": "Tertiary text color (60% to background)",
+      "default": "#7a8a99",
+      "cssProperty": "--base-text-color-3",
+      "derivedFrom": "base-text-color-1"
+    },
+    "base-text-color-4": {
+      "type": "color",
+      "category": "text",
+      "description": "Quaternary text color (40% to background)",
+      "default": "#a3b1bf",
+      "cssProperty": "--base-text-color-4",
+      "derivedFrom": "base-text-color-1"
+    },
+    "base-text-color-on-accent": {
+      "type": "color",
+      "category": "text",
+      "description": "Text color on accent backgrounds",
+      "default": "#ffffff",
+      "cssProperty": "--base-text-color-on-accent"
+    },
+
+    "base-surface-1": {
+      "type": "color",
+      "category": "surface",
+      "description": "Primary surface (cards, modals)",
+      "default": "#ffffff",
+      "cssProperty": "--base-surface-1"
+    },
+    "base-surface-2": {
+      "type": "color",
+      "category": "surface",
+      "description": "Secondary surface (subtle backgrounds)",
+      "default": "#f8f9fa",
+      "cssProperty": "--base-surface-2"
+    },
+    "base-surface-3": {
+      "type": "color",
+      "category": "surface",
+      "description": "Tertiary surface (dividers, borders)",
+      "default": "#e9ecef",
+      "cssProperty": "--base-surface-3"
+    },
+    "base-surface-inverse": {
+      "type": "color",
+      "category": "surface",
+      "description": "Inverse surface (tooltips, dark elements)",
+      "default": "#2c3e50",
+      "cssProperty": "--base-surface-inverse"
+    },
+    "base-overlay-bg": {
+      "type": "color",
+      "category": "surface",
+      "description": "Modal/overlay background",
+      "default": "rgba(0, 0, 0, 0.5)",
+      "cssProperty": "--base-overlay-bg"
+    },
+    "base-shadow-color": {
+      "type": "color",
+      "category": "surface",
+      "description": "Shadow color for elevation",
+      "default": "rgba(0, 0, 0, 0.15)",
+      "cssProperty": "--base-shadow-color"
+    },
+
+    "base-border-color": {
+      "type": "color",
+      "category": "border",
+      "description": "Default border color",
+      "default": "#e1e5e9",
+      "cssProperty": "--base-border-color"
+    },
+    "base-border": {
+      "type": "border",
+      "category": "border",
+      "description": "Default border shorthand",
+      "default": "1px solid #e1e5e9",
+      "cssProperty": "--base-border"
+    },
+
+    "base-input-bg": {
+      "type": "color",
+      "category": "input",
+      "description": "Input field background",
+      "default": "#ffffff",
+      "cssProperty": "--base-input-bg"
+    },
+    "base-input-color": {
+      "type": "color",
+      "category": "input",
+      "description": "Input field text color",
+      "default": "#495057",
+      "cssProperty": "--base-input-color"
+    },
+    "base-input-border": {
+      "type": "border",
+      "category": "input",
+      "description": "Input field border",
+      "default": "1px solid #ced4da",
+      "cssProperty": "--base-input-border"
+    },
+    "base-input-border-hover": {
+      "type": "border",
+      "category": "input",
+      "description": "Input field border on hover",
+      "default": "1px solid #b8bfc6",
+      "cssProperty": "--base-input-border-hover"
+    },
+    "base-input-border-focus": {
+      "type": "border",
+      "category": "input",
+      "description": "Input field border on focus",
+      "default": "1px solid #007bff",
+      "cssProperty": "--base-input-border-focus",
+      "derivedFrom": "base-accent-color"
+    },
+    "base-input-placeholder-color": {
+      "type": "color",
+      "category": "input",
+      "description": "Input placeholder text color",
+      "default": "#a3b1bf",
+      "cssProperty": "--base-input-placeholder-color"
+    },
+    "base-input-bg-disabled": {
+      "type": "color",
+      "category": "input",
+      "description": "Disabled input background",
+      "default": "rgba(255, 255, 255, 0.5)",
+      "cssProperty": "--base-input-bg-disabled"
+    },
+    "base-input-size-xs-height": {
+      "type": "number",
+      "category": "input",
+      "description": "Extra small input height (unitless, x10px)",
+      "default": "3.1",
+      "cssProperty": "--base-input-size-xs-height"
+    },
+    "base-input-size-sm-height": {
+      "type": "number",
+      "category": "input",
+      "description": "Small input height (unitless, x10px)",
+      "default": "3.3",
+      "cssProperty": "--base-input-size-sm-height"
+    },
+    "base-input-size-md-height": {
+      "type": "number",
+      "category": "input",
+      "description": "Medium input height (unitless, x10px)",
+      "default": "3.5",
+      "cssProperty": "--base-input-size-md-height"
+    },
+    "base-input-size-lg-height": {
+      "type": "number",
+      "category": "input",
+      "description": "Large input height (unitless, x10px)",
+      "default": "3.8",
+      "cssProperty": "--base-input-size-lg-height"
+    },
+    "base-input-size-xl-height": {
+      "type": "number",
+      "category": "input",
+      "description": "Extra large input height (unitless, x10px)",
+      "default": "4.1",
+      "cssProperty": "--base-input-size-xl-height"
+    },
+
+    "base-dropdown-bg": {
+      "type": "color",
+      "category": "dropdown",
+      "description": "Dropdown menu background",
+      "default": "#ffffff",
+      "cssProperty": "--base-dropdown-bg"
+    },
+    "base-dropdown-border": {
+      "type": "border",
+      "category": "dropdown",
+      "description": "Dropdown menu border",
+      "default": "1px solid #e1e5e9",
+      "cssProperty": "--base-dropdown-border"
+    },
+    "base-dropdown-box-shadow": {
+      "type": "shadow",
+      "category": "dropdown",
+      "description": "Dropdown menu shadow",
+      "default": "0 8px 16px rgba(0, 0, 0, 0.15)",
+      "cssProperty": "--base-dropdown-box-shadow"
+    },
+
+    "base-tooltip-bg": {
+      "type": "color",
+      "category": "tooltip",
+      "description": "Tooltip background",
+      "default": "#2c3e50",
+      "cssProperty": "--base-tooltip-bg"
+    },
+    "base-tooltip-text-color": {
+      "type": "color",
+      "category": "tooltip",
+      "description": "Tooltip text color",
+      "default": "#ffffff",
+      "cssProperty": "--base-tooltip-text-color"
+    },
+
+    "base-success-color": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Success/positive semantic color",
+      "default": "#28a745",
+      "cssProperty": "--base-success-color"
+    },
+    "base-success-color-hover": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Success color hover state",
+      "default": "#1e7e34",
+      "cssProperty": "--base-success-color-hover",
+      "derivedFrom": "base-success-color"
+    },
+    "base-success-bg-light": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Light success background",
+      "default": "rgba(40, 167, 69, 0.1)",
+      "cssProperty": "--base-success-bg-light",
+      "derivedFrom": "base-success-color"
+    },
+    "base-success-text": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Success text color (for light backgrounds)",
+      "default": "#155724",
+      "cssProperty": "--base-success-text"
+    },
+    "base-text-on-success": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Text color on success backgrounds",
+      "default": "#ffffff",
+      "cssProperty": "--base-text-on-success"
+    },
+
+    "base-danger-color": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Danger/error semantic color",
+      "default": "#dc3545",
+      "cssProperty": "--base-danger-color"
+    },
+    "base-danger-color-hover": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Danger color hover state",
+      "default": "#c82333",
+      "cssProperty": "--base-danger-color-hover",
+      "derivedFrom": "base-danger-color"
+    },
+    "base-danger-bg-light": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Light danger background",
+      "default": "rgba(220, 53, 69, 0.1)",
+      "cssProperty": "--base-danger-bg-light",
+      "derivedFrom": "base-danger-color"
+    },
+    "base-danger-text": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Danger text color (for light backgrounds)",
+      "default": "#721c24",
+      "cssProperty": "--base-danger-text"
+    },
+    "base-text-on-danger": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Text color on danger backgrounds",
+      "default": "#ffffff",
+      "cssProperty": "--base-text-on-danger"
+    },
+
+    "base-warning-color": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Warning semantic color",
+      "default": "#ffc107",
+      "cssProperty": "--base-warning-color"
+    },
+    "base-warning-color-hover": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Warning color hover state",
+      "default": "#e0a800",
+      "cssProperty": "--base-warning-color-hover",
+      "derivedFrom": "base-warning-color"
+    },
+    "base-warning-bg-light": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Light warning background",
+      "default": "rgba(255, 193, 7, 0.1)",
+      "cssProperty": "--base-warning-bg-light",
+      "derivedFrom": "base-warning-color"
+    },
+    "base-warning-text": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Warning text color (for light backgrounds)",
+      "default": "#856404",
+      "cssProperty": "--base-warning-text"
+    },
+    "base-text-on-warning": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Text color on warning backgrounds (dark for yellow)",
+      "default": "#212529",
+      "cssProperty": "--base-text-on-warning"
+    },
+
+    "base-info-color": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Info semantic color",
+      "default": "#17a2b8",
+      "cssProperty": "--base-info-color"
+    },
+    "base-info-color-hover": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Info color hover state",
+      "default": "#117a8b",
+      "cssProperty": "--base-info-color-hover",
+      "derivedFrom": "base-info-color"
+    },
+    "base-info-bg-light": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Light info background",
+      "default": "rgba(23, 162, 184, 0.1)",
+      "cssProperty": "--base-info-bg-light",
+      "derivedFrom": "base-info-color"
+    },
+    "base-info-text": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Info text color (for light backgrounds)",
+      "default": "#0c5460",
+      "cssProperty": "--base-info-text"
+    },
+    "base-text-on-info": {
+      "type": "color",
+      "category": "contextual",
+      "description": "Text color on info backgrounds",
+      "default": "#ffffff",
+      "cssProperty": "--base-text-on-info"
+    },
+
+    "base-hover-overlay": {
+      "type": "color",
+      "category": "interactive",
+      "description": "Generic hover overlay color",
+      "default": "rgba(0, 0, 0, 0.04)",
+      "cssProperty": "--base-hover-overlay"
+    },
+    "base-active-overlay": {
+      "type": "color",
+      "category": "interactive",
+      "description": "Generic active/pressed overlay color",
+      "default": "rgba(0, 0, 0, 0.08)",
+      "cssProperty": "--base-active-overlay"
+    },
+    "base-focus-ring-color": {
+      "type": "color",
+      "category": "interactive",
+      "description": "Focus ring/outline color",
+      "default": "#007bff",
+      "cssProperty": "--base-focus-ring-color",
+      "derivedFrom": "base-accent-color"
+    },
+    "base-focus-ring-width": {
+      "type": "dimension",
+      "category": "interactive",
+      "description": "Focus ring width",
+      "default": "3px",
+      "cssProperty": "--base-focus-ring-width"
+    },
+
+    "base-font-family": {
+      "type": "font-family",
+      "category": "typography",
+      "description": "Primary font family",
+      "default": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "cssProperty": "--base-font-family"
+    },
+    "base-font-size-2xs": {
+      "type": "number",
+      "category": "typography",
+      "description": "Extra extra small font size (unitless, x10px)",
+      "default": "1.0",
+      "cssProperty": "--base-font-size-2xs"
+    },
+    "base-font-size-xs": {
+      "type": "number",
+      "category": "typography",
+      "description": "Extra small font size (unitless, x10px)",
+      "default": "1.2",
+      "cssProperty": "--base-font-size-xs"
+    },
+    "base-font-size-sm": {
+      "type": "number",
+      "category": "typography",
+      "description": "Small font size (unitless, x10px)",
+      "default": "1.4",
+      "cssProperty": "--base-font-size-sm"
+    },
+    "base-font-size-base": {
+      "type": "number",
+      "category": "typography",
+      "description": "Base font size (unitless, x10px)",
+      "default": "1.6",
+      "cssProperty": "--base-font-size-base"
+    },
+    "base-font-size-lg": {
+      "type": "number",
+      "category": "typography",
+      "description": "Large font size (unitless, x10px)",
+      "default": "1.8",
+      "cssProperty": "--base-font-size-lg"
+    },
+    "base-font-size-xl": {
+      "type": "number",
+      "category": "typography",
+      "description": "Extra large font size (unitless, x10px)",
+      "default": "2.0",
+      "cssProperty": "--base-font-size-xl"
+    },
+    "base-font-size-2xl": {
+      "type": "number",
+      "category": "typography",
+      "description": "Extra extra large font size (unitless, x10px)",
+      "default": "2.4",
+      "cssProperty": "--base-font-size-2xl"
+    },
+    "base-font-weight-normal": {
+      "type": "font-weight",
+      "category": "typography",
+      "description": "Normal font weight",
+      "default": "400",
+      "cssProperty": "--base-font-weight-normal"
+    },
+    "base-font-weight-medium": {
+      "type": "font-weight",
+      "category": "typography",
+      "description": "Medium font weight",
+      "default": "500",
+      "cssProperty": "--base-font-weight-medium"
+    },
+    "base-font-weight-semibold": {
+      "type": "font-weight",
+      "category": "typography",
+      "description": "Semibold font weight",
+      "default": "600",
+      "cssProperty": "--base-font-weight-semibold"
+    },
+    "base-line-height-tight": {
+      "type": "number",
+      "category": "typography",
+      "description": "Tight line height",
+      "default": "1.25",
+      "cssProperty": "--base-line-height-tight"
+    },
+    "base-line-height-normal": {
+      "type": "number",
+      "category": "typography",
+      "description": "Normal line height",
+      "default": "1.5",
+      "cssProperty": "--base-line-height-normal"
+    },
+    "base-line-height-relaxed": {
+      "type": "number",
+      "category": "typography",
+      "description": "Relaxed line height",
+      "default": "1.75",
+      "cssProperty": "--base-line-height-relaxed"
+    },
+
+    "base-border-radius-sm": {
+      "type": "number",
+      "category": "border",
+      "description": "Small border radius (unitless, x10px)",
+      "default": "0.4",
+      "cssProperty": "--base-border-radius-sm"
+    },
+    "base-border-radius-md": {
+      "type": "number",
+      "category": "border",
+      "description": "Medium border radius (unitless, x10px)",
+      "default": "0.6",
+      "cssProperty": "--base-border-radius-md"
+    },
+    "base-border-radius-lg": {
+      "type": "number",
+      "category": "border",
+      "description": "Large border radius (unitless, x10px)",
+      "default": "0.8",
+      "cssProperty": "--base-border-radius-lg"
+    }
+  }
+}

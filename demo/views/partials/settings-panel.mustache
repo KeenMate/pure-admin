@@ -7,27 +7,28 @@
     <div class="pa-settings-panel__content">
         <h3 class="pa-settings-panel__title">Settings</h3>
 
-        <!-- Theme Selector -->
+        <!-- Theme Selector (populated dynamically from theme manifests) -->
         <div class="pa-settings-panel__section">
             <label class="pa-settings-panel__label">Theme</label>
             <select class="pa-settings-panel__select" id="themeSelector">
-                <option value="audi">Audi</option>
-                <option value="corporate">Corporate</option>
-                <option value="express">Express</option>
-                <option value="dark">Dark</option>
-                <option value="dark-blue">Dark Blue</option>
-                <option value="dark-green">Dark Green</option>
-                <option value="dark-red">Dark Red</option>
-                <option value="minimal">Minimal</option>
+                <!-- Options populated dynamically from /api/themes/manifests -->
+                <option value="">Loading...</option>
             </select>
         </div>
 
-        <!-- Theme Mode (for themes that support light/dark modes) -->
+        <!-- Theme Mode (populated dynamically based on theme manifest) -->
         <div class="pa-settings-panel__section" id="themeModeSection" style="display: none;">
             <label class="pa-settings-panel__label">Mode</label>
             <select class="pa-settings-panel__select" id="themeModeSelector">
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
+                <!-- Options populated dynamically from theme manifest -->
+            </select>
+        </div>
+
+        <!-- Color Variant (populated dynamically based on theme manifest) -->
+        <div class="pa-settings-panel__section" id="colorVariantSection" style="display: none;">
+            <label class="pa-settings-panel__label">Color Variant</label>
+            <select class="pa-settings-panel__select" id="colorVariantSelector">
+                <!-- Options populated dynamically from theme manifest -->
             </select>
         </div>
 

@@ -1,9 +1,9 @@
 /* Dark Theme for Pure Admin Visual */
 @use 'sass:color';
 
-@import '@keenmate/pure-admin-core/src/scss/variables/index';
-
-// Dark theme color palette
+// ============================================================================
+// DARK THEME COLOR PALETTE
+// ============================================================================
 $dark-bg-primary: #1a1a1a;
 $dark-bg-secondary: #2a2a2a;
 $dark-bg-tertiary: #333333;
@@ -17,7 +17,87 @@ $dark-text-secondary: #b8b8b8;
 
 $dark-accent: #4dabf7;
 
-// Color overrides for dark theme
+// ============================================================================
+// BASE VARIABLES - Single Source of Truth
+// ============================================================================
+// All framework variables will derive from these
+
+// Accent colors
+$base-accent-color: $dark-accent;
+$base-accent-color-hover: color.adjust($dark-accent, $lightness: 10%);
+$base-accent-color-active: color.adjust($dark-accent, $lightness: 20%);
+$base-accent-color-light: rgba($dark-accent, 0.08);
+$base-accent-color-light-hover: rgba($dark-accent, 0.12);
+
+// Text colors (dark theme = light text)
+$base-text-color-1: $dark-text-primary;
+$base-text-color-2: $dark-text-secondary;
+$base-text-color-3: #888888;
+$base-text-color-4: #666666;
+$base-text-color-on-accent: #ffffff;
+
+// Surface colors (dark theme = dark surfaces)
+$base-surface-1: $dark-bg-secondary;  // Cards, modals
+$base-surface-2: $dark-bg-primary;    // Page background
+$base-surface-3: $dark-bg-quaternary; // Dividers
+$base-surface-inverse: $dark-text-primary; // Light elements on dark
+$base-overlay-bg: rgba(0, 0, 0, 0.7);
+$base-shadow-color: rgba(0, 0, 0, 0.4);
+
+// Border
+$base-border-color: $dark-bg-quaternary;
+
+// Input fields
+$base-input-bg: $dark-bg-tertiary;
+$base-input-color: $dark-text-primary;
+$base-input-border: 1px solid $dark-bg-quaternary;
+$base-input-border-hover: 1px solid $dark-accent;
+$base-input-border-focus: 1px solid $dark-accent;
+$base-input-placeholder-color: #666666;
+
+// Dropdown/Popover
+$base-dropdown-bg: $dark-bg-secondary;
+$base-dropdown-border: $dark-bg-quaternary;
+$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+// Tooltip
+$base-tooltip-bg: $dark-bg-tertiary;
+$base-tooltip-text-color: $dark-text-primary;
+
+// Contextual colors (adjusted for dark theme visibility)
+$base-success-color: #059669;
+$base-success-color-hover: #047857;
+$base-success-bg-light: rgba(5, 150, 105, 0.15);
+$base-success-text: #34d399;
+$base-text-on-success: #ffffff;
+
+$base-danger-color: #dc2626;
+$base-danger-color-hover: #b91c1c;
+$base-danger-bg-light: rgba(220, 38, 38, 0.15);
+$base-danger-text: #f87171;
+$base-text-on-danger: #ffffff;
+
+$base-warning-color: #d97706;
+$base-warning-color-hover: #b45309;
+$base-warning-bg-light: rgba(217, 119, 6, 0.15);
+$base-warning-text: #fbbf24;
+$base-text-on-warning: #ffffff;
+
+$base-info-color: #0891b2;
+$base-info-color-hover: #0e7490;
+$base-info-bg-light: rgba(8, 145, 178, 0.15);
+$base-info-text: #22d3ee;
+$base-text-on-info: #ffffff;
+
+// Interactive states
+$base-focus-ring-color: rgba($dark-accent, 0.25);
+
+// ============================================================================
+// FRAMEWORK VARIABLES - Import and let them derive from base
+// ============================================================================
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// Layout-specific overrides (these are Pure Admin specific)
 $primary-bg: $dark-bg-primary;
 $content-background-color: $dark-bg-primary;
 $header-bg: $dark-bg-header;
@@ -26,58 +106,10 @@ $sidebar-submenu-bg: $dark-bg-tertiary;
 $sidebar-submenu-hover-bg: $dark-bg-hover;
 $sidebar-submenu-active-bg: $dark-bg-quaternary;
 $footer-bg: $dark-bg-header;
-$border-color: $dark-bg-quaternary;
 $text-primary: $dark-text-primary;
 $text-secondary: $dark-text-secondary;
-$accent-color: $dark-accent;
-$accent-hover: rgba(77, 171, 247, 0.15);
-$accent-light: rgba(77, 171, 247, 0.08);
-
-// Sync base variables with theme colors (for web components)
-// Colors
-$base-accent-color: $accent-color;
-$base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%);
-$base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%);
-$base-accent-color-light: $accent-light;
-$base-accent-color-light-hover: rgba($base-accent-color, 0.12);
-$base-primary-bg: $dark-bg-secondary;
-$base-primary-bg-hover: $dark-bg-tertiary;
-$base-text-color-1: #ffffff;
-$base-text-color-2: #b8b8b8;
-$base-text-color-3: #888888;
-$base-text-color-4: #666666;
-$base-text-on-accent: #ffffff;
-$base-border-color: $dark-bg-quaternary;
-
-// Input fields
-$base-input-background: $dark-bg-tertiary;
-$base-input-color: #ffffff;
-$base-input-border: 1px solid $dark-bg-quaternary;
-$base-input-border-hover: 1px solid $accent-color;
-$base-input-border-focus: 1px solid $accent-color;
-$base-input-placeholder-color: #666666;
-$base-input-background-disabled: rgba($dark-bg-tertiary, 0.5);
-
-// Dropdown/Popover
-$base-dropdown-background: $dark-bg-secondary;
-$base-dropdown-border: 1px solid $dark-bg-quaternary;
-$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-
-// Tooltip
-$base-tooltip-background: $dark-bg-tertiary;
-$base-tooltip-text-color: #ffffff;
-
-// Form focus colors - must match accent color
-$input-focus-border-color: $accent-color;
-$select-focus-border-color: $accent-color;
-$textarea-focus-border-color: $accent-color;
-
-// Checkbox colors - must match accent color
-$checkbox-border-color-hover: $accent-color;
-$checkbox-border-color-checked: $accent-color;
-$checkbox-bg-checked: $accent-color;
-$checkbox-bg-indeterminate: $accent-color;
-$checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25);
+$accent-hover: rgba($dark-accent, 0.15);
+$accent-light: rgba($dark-accent, 0.08);
 
 // Card colors
 $card-bg: $dark-bg-secondary;
@@ -87,8 +119,8 @@ $card-tabs-bg: $dark-bg-tertiary;
 
 // Input colors
 $input-bg: $dark-bg-tertiary;
-$input-border: $border-color;
-$input-text: $text-primary;
+$input-border: $base-border-color;
+$input-text: $dark-text-primary;
 
 // Table colors
 $table-bg: $dark-bg-secondary;
@@ -96,53 +128,458 @@ $table-header-bg: $dark-bg-tertiary;
 $table-hover-bg: $dark-bg-hover;
 $table-stripe: $dark-bg-tertiary;
 
-// Button colors
+// Button colors (override from base contextual)
 $btn-primary-bg: #2563eb;
 $btn-primary-bg-hover: #1d4ed8;
 $btn-secondary-bg: #374151;
 $btn-secondary-bg-hover: #4b5563;
-$btn-success-bg: #059669;
-$btn-success-bg-hover: #047857;
-$btn-warning-bg: #d97706;
-$btn-warning-text: #ffffff;
-$btn-danger-bg: #dc2626;
-$btn-danger-bg-hover: #b91c1c;
-$btn-info-bg: #0891b2;
-$btn-info-bg-hover: #0e7490;
 $btn-light-bg: #374151;
 $btn-light-text: #f3f4f6;
 $btn-light-bg-hover: #4b5563;
 $btn-dark-bg: #111827;
 $btn-dark-bg-hover: #030712;
+$btn-warning-text: #ffffff;
 
-// Validation shadow colors - match button colors
-$success-bg: $btn-success-bg;
-$success-bg-light: rgba(5, 150, 105, 0.15);
-$warning-bg: $btn-warning-bg;
-$warning-bg-light: rgba(217, 119, 6, 0.15);
-$danger-bg: $btn-danger-bg;
-$danger-bg-light: rgba(220, 38, 38, 0.15);
+// Validation shadow colors
+$success-bg-light: $base-success-bg-light;
+$warning-bg-light: $base-warning-bg-light;
+$danger-bg-light: $base-danger-bg-light;
 
 // Modal colors
-$modal-overlay-bg: rgba(0, 0, 0, 0.7);
+$modal-overlay-bg: $base-overlay-bg;
 $modal-content-bg: $dark-bg-secondary;
 
 // Profile name in header
-$header-profile-name-color: #ffffff;  // White text on dark header
+$header-profile-name-color: #ffffff;
 
+// Form focus colors
+$input-focus-border-color: $base-accent-color;
+$select-focus-border-color: $base-accent-color;
+$textarea-focus-border-color: $base-accent-color;
+
+// Checkbox colors
+$checkbox-border-color-hover: $base-accent-color;
+$checkbox-border-color-checked: $base-accent-color;
+$checkbox-bg-checked: $base-accent-color;
+$checkbox-bg-indeterminate: $base-accent-color;
+$checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
+
+// ============================================================================
+// CORE IMPORTS
+// ============================================================================
 @import '@keenmate/pure-admin-core/src/scss/core';
 @import '@keenmate/pure-admin-core/src/scss/utilities';
 @import '@keenmate/pure-admin-core/src/scss/base-css-variables';
 
-// CSS Variables for page loader (FOUC prevention) and base theme variables
-:root {
+// ============================================================================
+// CSS VARIABLES - DARK MODE (Default for dark theme)
+// ============================================================================
+:root, .pa-mode-dark {
   --page-loader-bg: rgba(26, 26, 26, 0.95);
   --page-loader-spinner-border: #333;
-  --page-loader-spinner-accent: #0ea5e9; // Bright blue
+  --page-loader-spinner-accent: #{$dark-accent};
 
   // Base CSS variables for web components (daterangepicker, multiselect, etc.)
   @include output-base-css-variables;
 
   // Pure Admin theme CSS variables for runtime theme switching
   @include output-pa-css-variables;
+
+  // Web component overrides (dark mode)
+  --drp-dropdown-bg: #{$dark-bg-secondary};
+  --drp-border-color: #{$dark-bg-quaternary};
+  --drp-primary-bg: #{$dark-bg-primary};
+  --drp-primary-bg-hover: #{$dark-bg-tertiary};
+  --drp-text-primary: #{$dark-text-primary};
+  --drp-text-secondary: #{$dark-text-secondary};
+  --drp-button-bg: transparent;
+  --drp-button-color: #{$dark-text-primary};
+  --drp-button-accent-text-color: #ffffff;
+  --drp-button-today-color: #{$dark-accent};
+  --drp-button-clear-color: #{$dark-text-secondary};
+  --drp-button-cancel-color: #{$dark-text-secondary};
+
+  --ms-dropdown-bg: #{$dark-bg-secondary};
+  --ms-input-bg: #{$dark-bg-tertiary};
+  --ms-primary-bg: #{$dark-bg-primary};
+  --ms-primary-bg-hover: #{$dark-bg-tertiary};
+  --ms-border-color: #{$dark-bg-quaternary};
+  --ms-text-color-1: #{$dark-text-primary};
+  --ms-text-color-2: #{$dark-text-secondary};
+  --ms-text-color-3: #888888;
+  --ms-text-color-4: #666666;
+  --ms-hint-bg: #{$dark-bg-primary};
+  --ms-actions-bg: #{$dark-bg-primary};
+  --ms-selected-popover-bg: #{$dark-bg-secondary};
+}
+
+// ============================================================================
+// CSS VARIABLES - LIGHT MODE
+// ============================================================================
+.pa-mode-light {
+  // Light palette for dark theme's light mode
+  $light-bg: #f8fafc;
+  $light-card: #ffffff;
+  $light-surface: #f1f5f9;
+  $light-border: #e2e8f0;
+  $light-text: #1e293b;
+  $light-text-secondary: #64748b;
+
+  --page-loader-bg: rgba(255, 255, 255, 0.95);
+  --page-loader-spinner-border: #ccc;
+  --page-loader-spinner-accent: #{$dark-accent};
+
+  // Core colors - light backgrounds
+  --pa-primary-bg: #{$light-card};
+  --pa-bg-secondary: #{$light-bg};
+  --pa-content-bg: #{$light-bg};
+
+  // Text colors - dark text on light bg
+  --pa-text-primary: #{$light-text};
+  --pa-text-secondary: #{$light-text-secondary};
+
+  // Keep accent color
+  --pa-accent: #{$dark-accent};
+  --pa-accent-hover: rgba(77, 171, 247, 0.12);
+  --pa-accent-light: rgba(77, 171, 247, 0.06);
+
+  // Border
+  --pa-border-color: #{$light-border};
+
+  // Header - dark header in light mode too (brand identity)
+  --pa-header-bg: #{$dark-bg-header};
+  --pa-header-border-color: #{$dark-bg-quaternary};
+  --pa-header-text: #ffffff;
+  --pa-header-text-secondary: #{$dark-text-secondary};
+  --pa-header-profile-name-color: #ffffff;
+
+  // Sidebar - light background
+  --pa-sidebar-bg: #{$light-card};
+  --pa-sidebar-text: #{$light-text};
+  --pa-sidebar-text-secondary: #{$light-text-secondary};
+  --pa-sidebar-submenu-bg: #{$light-surface};
+  --pa-sidebar-submenu-hover-bg: rgba(77, 171, 247, 0.1);
+  --pa-sidebar-submenu-active-bg: #{$dark-accent};
+
+  // Footer - dark footer in light mode too
+  --pa-footer-bg: #{$dark-bg-header};
+  --pa-footer-border-color: #{$dark-bg-quaternary};
+
+  // Cards - light backgrounds
+  --pa-card-bg: #{$light-card};
+  --pa-card-header-bg: #{$light-surface};
+  --pa-card-footer-bg: #{$light-surface};
+  --pa-card-tabs-bg: #{$light-border};
+
+  // Inputs - light backgrounds
+  --pa-input-bg: #{$light-card};
+  --pa-input-border: #{$light-border};
+  --pa-input-text: #{$light-text};
+  --pa-input-focus-border-color: #{$dark-accent};
+
+  // Input group
+  --pa-input-group-prepend-bg: #{$light-surface};
+  --pa-input-group-prepend-text: #{$light-text-secondary};
+  --pa-input-group-append-bg: #{$light-surface};
+  --pa-input-group-append-text: #{$light-text-secondary};
+
+  // Tables - light backgrounds
+  --pa-table-bg: #{$light-card};
+  --pa-table-header-bg: #{$light-surface};
+  --pa-table-stripe: #{$light-bg};
+  --pa-table-hover-bg: #{$light-surface};
+
+  // Modals
+  --pa-modal-content-bg: #{$light-card};
+  --pa-modal-overlay-bg: rgba(0, 0, 0, 0.5);
+
+  // Loader overlay
+  --pa-loader-overlay-bg: rgba(255, 255, 255, 0.8);
+
+  // Profile panel
+  --pa-profile-overlay-bg: rgba(0, 0, 0, 0.3);
+
+  // Tooltip/Popover
+  --pa-tooltip-bg: #{$light-text};
+  --pa-tooltip-text: #ffffff;
+  --pa-popover-content-bg: #{$light-card};
+
+  // Command palette
+  --pa-command-palette-backdrop-bg: rgba(0, 0, 0, 0.5);
+  --pa-command-palette-item-hover-bg: #{$light-surface};
+  --pa-command-palette-item-active-bg: rgba(77, 171, 247, 0.15);
+  --pa-command-palette-highlight-bg: rgba(77, 171, 247, 0.2);
+
+  // Alerts
+  --pa-alert-info-text: #0c4a6e;
+  --pa-alert-info-bg: rgba(14, 165, 233, 0.15);
+  --pa-alert-success-text: #14532d;
+  --pa-alert-success-bg: rgba(34, 197, 94, 0.15);
+  --pa-alert-warning-text: #713f12;
+  --pa-alert-warning-bg: rgba(234, 179, 8, 0.15);
+  --pa-alert-danger-text: #7f1d1d;
+  --pa-alert-danger-bg: rgba(239, 68, 68, 0.15);
+
+  // Buttons
+  --pa-btn-secondary-bg: #{$light-border};
+  --pa-btn-secondary-bg-hover: #cbd5e1;
+  --pa-btn-secondary-text: #{$light-text};
+  --pa-btn-light-bg: #{$light-surface};
+  --pa-btn-light-bg-hover: #{$light-border};
+  --pa-btn-light-text: #{$light-text};
+
+  // Semantic colors
+  --pa-success-bg: #22c55e;
+  --pa-success-bg-light: rgba(34, 197, 94, 0.1);
+  --pa-warning-bg: #eab308;
+  --pa-warning-bg-light: rgba(234, 179, 8, 0.1);
+  --pa-danger-bg: #ef4444;
+  --pa-danger-bg-light: rgba(239, 68, 68, 0.1);
+  --pa-info-bg: #0ea5e9;
+  --pa-info-bg-light: rgba(14, 165, 233, 0.1);
+
+  // Base variables for web components (light mode)
+  --base-surface-1: #{$light-card};
+  --base-surface-2: #{$light-bg};
+  --base-surface-3: #{$light-surface};
+  --base-text-color-1: #{$light-text};
+  --base-text-color-2: #{$light-text-secondary};
+  --base-text-color-3: #94a3b8;
+  --base-text-color-4: #cbd5e1;
+  --base-accent-color: #{$dark-accent};
+  --base-accent-color-hover: #{color.adjust($dark-accent, $lightness: -10%)};
+  --base-accent-color-active: #{color.adjust($dark-accent, $lightness: -15%)};
+  --base-accent-color-light: rgba(77, 171, 247, 0.1);
+  --base-accent-color-light-hover: rgba(77, 171, 247, 0.15);
+  --base-border-color: #{$light-border};
+  --base-input-bg: #{$light-card};
+  --base-input-color: #{$light-text};
+  --base-input-border: 1px solid #{$light-border};
+  --base-input-border-hover: 1px solid #{$dark-accent};
+  --base-input-border-focus: 1px solid #{$dark-accent};
+  --base-input-placeholder-color: #94a3b8;
+  --base-dropdown-bg: #{$light-card};
+  --base-dropdown-border: #{$light-border};
+  --base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --base-tooltip-bg: #{$light-text};
+  --base-tooltip-text-color: #ffffff;
+
+  // Daterangepicker overrides (light mode)
+  web-daterangepicker {
+    --drp-dropdown-bg: #{$light-card};
+    --drp-border-color: #{$light-border};
+    --drp-primary-bg: #{$light-bg};
+    --drp-primary-bg-hover: #{$light-surface};
+    --drp-text-primary: #{$light-text};
+    --drp-text-secondary: #{$light-text-secondary};
+    --drp-button-bg: transparent;
+    --drp-button-color: #{$light-text};
+    --drp-button-accent-text-color: #ffffff;
+    --drp-button-today-color: #{$dark-accent};
+    --drp-button-clear-color: #{$light-text-secondary};
+    --drp-button-cancel-color: #{$light-text-secondary};
+  }
+
+  // Multiselect overrides (light mode)
+  web-multiselect {
+    --ms-dropdown-bg: #{$light-card};
+    --ms-input-bg: #{$light-card};
+    --ms-primary-bg: #{$light-bg};
+    --ms-primary-bg-hover: #{$light-surface};
+    --ms-border-color: #{$light-border};
+    --ms-text-color-1: #{$light-text};
+    --ms-text-color-2: #{$light-text-secondary};
+    --ms-text-color-3: #94a3b8;
+    --ms-text-color-4: #cbd5e1;
+    --ms-hint-bg: #{$light-surface};
+    --ms-actions-bg: #{$light-surface};
+    --ms-selected-popover-bg: #{$light-card};
+  }
+
+  // Card shadows lighter
+  .pa-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  // Secondary button adjustments for light mode
+  .pa-btn--secondary {
+    background-color: #e2e8f0 !important;
+    color: #1e293b !important;
+    border-color: #cbd5e1 !important;
+
+    &:hover {
+      background-color: #cbd5e1 !important;
+      border-color: #94a3b8 !important;
+    }
+  }
+}
+
+// ============================================================================
+// COLOR VARIANTS - Apply via class on body or root element
+// ============================================================================
+
+// Blue color variant - slate/blue tinted backgrounds
+.pa-color-blue {
+  // Blue-tinted dark palette
+  $blue-bg: #0f172a;           // slate-900
+  $blue-card: #1e293b;         // slate-800
+  $blue-surface: #334155;      // slate-700
+  $blue-border: #475569;       // slate-600
+  $blue-accent: #3b82f6;       // blue-500
+
+  --pa-primary-bg: #{$blue-bg};
+  --pa-bg-secondary: #{$blue-bg};
+  --pa-content-bg: #020617;
+
+  --pa-header-bg: #{$blue-card};
+  --pa-header-border-color: #{$blue-border};
+  --pa-sidebar-bg: #{$blue-card};
+  --pa-sidebar-submenu-bg: #{$blue-surface};
+  --pa-sidebar-submenu-hover-bg: #{$blue-border};
+  --pa-sidebar-submenu-active-bg: #{$blue-accent};
+  --pa-footer-bg: #{$blue-card};
+  --pa-footer-border-color: #{$blue-border};
+
+  --pa-border-color: #{$blue-surface};
+  --pa-accent: #{$blue-accent};
+  --pa-accent-hover: rgba(59, 130, 246, 0.15);
+  --pa-accent-light: rgba(59, 130, 246, 0.08);
+
+  --pa-card-bg: #{$blue-card};
+  --pa-card-header-bg: #{$blue-bg};
+  --pa-card-footer-bg: #{$blue-bg};
+  --pa-card-tabs-bg: #{$blue-surface};
+
+  --pa-input-bg: #{$blue-bg};
+  --pa-input-border: #{$blue-surface};
+  --pa-input-focus-border-color: #{$blue-accent};
+
+  --pa-table-bg: #{$blue-card};
+  --pa-table-header-bg: #{$blue-bg};
+  --pa-table-stripe: #{$blue-card};
+  --pa-table-hover-bg: #{$blue-surface};
+
+  --pa-btn-primary-bg: #1e40af;
+  --pa-btn-primary-bg-hover: #1e3a8a;
+
+  --page-loader-spinner-accent: #{$blue-accent};
+
+  --base-accent-color: #{$blue-accent};
+  --base-surface-1: #{$blue-card};
+  --base-surface-2: #{$blue-bg};
+  --base-border-color: #{$blue-surface};
+  --base-input-bg: #{$blue-bg};
+  --base-dropdown-bg: #{$blue-card};
+}
+
+// Green color variant - green tinted backgrounds
+.pa-color-green {
+  // Green-tinted dark palette
+  $green-bg: #0f1e13;
+  $green-card: #1a2e1f;
+  $green-surface: #2d5b3a;
+  $green-border: #365e42;
+  $green-accent: #22c55e;
+
+  --pa-primary-bg: #{$green-bg};
+  --pa-bg-secondary: #{$green-bg};
+  --pa-content-bg: #0a0f0b;
+
+  --pa-header-bg: #{$green-card};
+  --pa-header-border-color: #{$green-border};
+  --pa-sidebar-bg: #{$green-card};
+  --pa-sidebar-submenu-bg: #{$green-surface};
+  --pa-sidebar-submenu-hover-bg: #{$green-border};
+  --pa-sidebar-submenu-active-bg: #{$green-accent};
+  --pa-footer-bg: #{$green-card};
+  --pa-footer-border-color: #{$green-border};
+
+  --pa-border-color: #{$green-surface};
+  --pa-accent: #{$green-accent};
+  --pa-accent-hover: rgba(34, 197, 94, 0.15);
+  --pa-accent-light: rgba(34, 197, 94, 0.08);
+
+  --pa-text-secondary: #86efac;
+
+  --pa-card-bg: #{$green-card};
+  --pa-card-header-bg: #{$green-bg};
+  --pa-card-footer-bg: #{$green-bg};
+  --pa-card-tabs-bg: #{$green-surface};
+
+  --pa-input-bg: #{$green-bg};
+  --pa-input-border: #{$green-surface};
+  --pa-input-focus-border-color: #{$green-accent};
+
+  --pa-table-bg: #{$green-card};
+  --pa-table-header-bg: #{$green-bg};
+  --pa-table-stripe: #{$green-card};
+  --pa-table-hover-bg: #{$green-surface};
+
+  --pa-btn-primary-bg: #15803d;
+  --pa-btn-primary-bg-hover: #166534;
+
+  --page-loader-spinner-accent: #{$green-accent};
+
+  --base-accent-color: #{$green-accent};
+  --base-surface-1: #{$green-card};
+  --base-surface-2: #{$green-bg};
+  --base-border-color: #{$green-surface};
+  --base-input-bg: #{$green-bg};
+  --base-dropdown-bg: #{$green-card};
+}
+
+// Red color variant - red tinted backgrounds
+.pa-color-red {
+  // Red-tinted dark palette
+  $red-bg: #1f0f0f;
+  $red-card: #2d1a1a;
+  $red-surface: #5b2d2d;
+  $red-border: #6b3333;
+  $red-accent: #ef4444;
+
+  --pa-primary-bg: #{$red-bg};
+  --pa-bg-secondary: #{$red-bg};
+  --pa-content-bg: #18080a;
+
+  --pa-header-bg: #{$red-card};
+  --pa-header-border-color: #{$red-border};
+  --pa-sidebar-bg: #{$red-card};
+  --pa-sidebar-submenu-bg: #{$red-surface};
+  --pa-sidebar-submenu-hover-bg: #{$red-border};
+  --pa-sidebar-submenu-active-bg: #{$red-accent};
+  --pa-footer-bg: #{$red-card};
+  --pa-footer-border-color: #{$red-border};
+
+  --pa-border-color: #{$red-surface};
+  --pa-accent: #{$red-accent};
+  --pa-accent-hover: rgba(239, 68, 68, 0.15);
+  --pa-accent-light: rgba(239, 68, 68, 0.08);
+
+  --pa-text-secondary: #fca5a5;
+
+  --pa-card-bg: #{$red-card};
+  --pa-card-header-bg: #{$red-bg};
+  --pa-card-footer-bg: #{$red-bg};
+  --pa-card-tabs-bg: #{$red-surface};
+
+  --pa-input-bg: #{$red-bg};
+  --pa-input-border: #{$red-surface};
+  --pa-input-focus-border-color: #{$red-accent};
+
+  --pa-table-bg: #2d1b1b;
+  --pa-table-header-bg: #1a0e0e;
+  --pa-table-stripe: #2d1b1b;
+  --pa-table-hover-bg: #4a2323;
+
+  --pa-btn-primary-bg: #991b1b;
+  --pa-btn-primary-bg-hover: #7f1d1d;
+
+  --page-loader-spinner-accent: #{$red-accent};
+
+  --base-accent-color: #{$red-accent};
+  --base-surface-1: #{$red-card};
+  --base-surface-2: #{$red-bg};
+  --base-border-color: #{$red-surface};
+  --base-input-bg: #{$red-bg};
+  --base-dropdown-bg: #{$red-card};
 }

@@ -1,13 +1,17 @@
 /**
  * Pure Admin Settings Panel
  * Global settings management for theme, layout, sidebar, fonts, and display options
+ * Now with dynamic theme manifest support
  */
 
 (function() {
     'use strict';
 
+    // Theme manifests cache
+    let themeManifests = {};
+
     // Wait for DOM to be ready
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
         // Settings Panel Elements
         const settingsPanel = document.getElementById('settingsPanel');
         const settingsToggle = document.getElementById('settingsToggle');
@@ -21,6 +25,8 @@
         const themeSelector = document.getElementById('themeSelector');
         const themeModeSection = document.getElementById('themeModeSection');
         const themeModeSelector = document.getElementById('themeModeSelector');
+        const colorVariantSection = document.getElementById('colorVariantSection');
+        const colorVariantSelector = document.getElementById('colorVariantSelector');
         const fontSizeSelector = document.getElementById('fontSizeSelector');
         const fontFamilySelector = document.getElementById('fontFamilySelector');
         const sidebarCollapsed = document.getElementById('sidebarCollapsed');
@@ -31,27 +37,123 @@
         const resetSettings = document.getElementById('resetSettings');
         const body = document.body;
 
-        // Themes that support light/dark mode switching
-        const multiModeThemes = ['audi', 'express'];
+        // Fetch theme manifests
+        const fetchThemeManifests = async () => {
+            try {
+                const response = await fetch('/api/themes/manifests');
+                if (response.ok) {
+                    themeManifests = await response.json();
+                    console.log('Theme manifests loaded:', Object.keys(themeManifests));
+                    return true;
+                }
+            } catch (err) {
+                console.error('Failed to fetch theme manifests:', err);
+            }
+            return false;
+        };
 
-        // Update mode section visibility based on current theme
-        const updateModeSectionVisibility = (theme) => {
-            if (multiModeThemes.includes(theme)) {
-                themeModeSection.style.display = '';
-            } else {
+        // Get current theme's manifest
+        const getCurrentThemeManifest = () => {
+            const currentTheme = window.PURE_ADMIN_CONFIG?.currentTheme || 'audi';
+            return themeManifests[currentTheme] || null;
+        };
+
+        // Populate theme selector from manifests
+        const populateThemeSelector = () => {
+            if (!themeSelector) return;
+
+            // Clear existing options
+            themeSelector.innerHTML = '';
+
+            // Sort themes alphabetically by name
+            const sortedThemes = Object.entries(themeManifests)
+                .sort((a, b) => a[1].name.localeCompare(b[1].name));
+
+            for (const [themeId, manifest] of sortedThemes) {
+                const option = document.createElement('option');
+                option.value = themeId;
+                option.textContent = manifest.name;
+                themeSelector.appendChild(option);
+            }
+        };
+
+        // Update mode section based on current theme's manifest
+        const updateModeSectionFromManifest = (manifest) => {
+            if (!themeModeSection || !themeModeSelector) return;
+
+            if (!manifest || !manifest.modes || manifest.modes.supported.length <= 1) {
                 themeModeSection.style.display = 'none';
+                return;
+            }
+
+            // Show mode section
+            themeModeSection.style.display = '';
+
+            // Update mode selector options
+            themeModeSelector.innerHTML = '';
+            for (const mode of manifest.modes.supported) {
+                const option = document.createElement('option');
+                option.value = mode;
+                option.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+                themeModeSelector.appendChild(option);
+            }
+        };
+
+        // Update color variant section based on current theme's manifest
+        const updateColorVariantFromManifest = (manifest) => {
+            if (!colorVariantSection || !colorVariantSelector) return;
+
+            if (!manifest || !manifest.colorVariants || !manifest.colorVariants.supported) {
+                colorVariantSection.style.display = 'none';
+                // Clear color variant when not supported
+                applyColorVariant('', manifest);
+                return;
+            }
+
+            // Show color variant section
+            colorVariantSection.style.display = '';
+
+            // Update color variant selector options
+            colorVariantSelector.innerHTML = '';
+            for (const variant of manifest.colorVariants.supported) {
+                const option = document.createElement('option');
+                option.value = variant.id;
+                option.textContent = variant.name;
+                if (variant.description) {
+                    option.title = variant.description;
+                }
+                colorVariantSelector.appendChild(option);
             }
         };
 
         // Apply theme mode (light/dark) without page reload
-        const applyThemeMode = (mode) => {
+        const applyThemeMode = (mode, manifest) => {
+            const cssClassPattern = manifest?.modes?.cssClass || 'pa-mode-{mode}';
+
+            // Remove all mode classes
             body.classList.remove('pa-mode-light', 'pa-mode-dark');
-            if (mode === 'light') {
-                body.classList.add('pa-mode-light');
-            } else {
-                body.classList.add('pa-mode-dark');
-            }
+
+            // Apply new mode class
+            const modeClass = cssClassPattern.replace('{mode}', mode);
+            body.classList.add(modeClass);
+
             localStorage.setItem('theme-mode', mode);
+        };
+
+        // Apply color variant class
+        const applyColorVariant = (variant, manifest) => {
+            const cssClassPattern = manifest?.colorVariants?.cssClass || 'pa-color-{variant}';
+
+            // Remove all color variant classes
+            body.classList.remove('pa-color-blue', 'pa-color-green', 'pa-color-red');
+
+            // Apply new variant class if not empty
+            if (variant) {
+                const variantClass = cssClassPattern.replace('{variant}', variant);
+                body.classList.add(variantClass);
+            }
+
+            localStorage.setItem('color-variant', variant);
         };
 
         // Load saved settings
@@ -60,14 +162,26 @@
             const currentTheme = window.PURE_ADMIN_CONFIG?.currentTheme || 'audi';
             themeSelector.value = currentTheme;
 
-            // Show/hide mode section based on theme
-            updateModeSectionVisibility(currentTheme);
+            const manifest = getCurrentThemeManifest();
 
-            // Theme mode (light/dark) - only for multi-mode themes
-            if (multiModeThemes.includes(currentTheme)) {
-                const savedMode = localStorage.getItem('theme-mode') || 'dark';
+            // Update mode section based on manifest
+            updateModeSectionFromManifest(manifest);
+
+            // Update color variant section based on manifest
+            updateColorVariantFromManifest(manifest);
+
+            // Theme mode (light/dark) - only for themes with multiple modes
+            if (manifest && manifest.modes && manifest.modes.supported.length > 1) {
+                const savedMode = localStorage.getItem('theme-mode') || manifest.modes.default || 'dark';
                 themeModeSelector.value = savedMode;
-                applyThemeMode(savedMode);
+                applyThemeMode(savedMode, manifest);
+            }
+
+            // Color variant - only for themes that support it
+            if (manifest && manifest.colorVariants && manifest.colorVariants.supported) {
+                const savedVariant = localStorage.getItem('color-variant') || manifest.colorVariants.default || '';
+                colorVariantSelector.value = savedVariant;
+                applyColorVariant(savedVariant, manifest);
             }
 
             // Font size
@@ -158,15 +272,27 @@
         // Theme change
         themeSelector.addEventListener('change', (e) => {
             const theme = e.target.value;
-            // Update mode section visibility before switching
-            updateModeSectionVisibility(theme);
+            const manifest = themeManifests[theme];
+
+            // Update sections based on new theme's manifest before switching
+            updateModeSectionFromManifest(manifest);
+            updateColorVariantFromManifest(manifest);
+
             switchTheme(theme);
         });
 
         // Theme mode change (light/dark) - instant switch, no reload
         themeModeSelector.addEventListener('change', (e) => {
             const mode = e.target.value;
-            applyThemeMode(mode);
+            const manifest = getCurrentThemeManifest();
+            applyThemeMode(mode, manifest);
+        });
+
+        // Color variant change - instant switch, no reload
+        colorVariantSelector.addEventListener('change', (e) => {
+            const variant = e.target.value;
+            const manifest = getCurrentThemeManifest();
+            applyColorVariant(variant, manifest);
         });
 
         // Font size change
@@ -259,6 +385,7 @@
             localStorage.removeItem('sidebar-behavior');
             localStorage.removeItem('compact-mode');
             localStorage.removeItem('theme-mode');
+            localStorage.removeItem('color-variant');
 
             // Reset theme, container width, and sidebar mode to defaults
             const url = new URL(window.location);
@@ -268,7 +395,9 @@
             window.location.href = url.toString();
         });
 
-        // Load settings on init
+        // Initialize: Fetch manifests, populate theme selector, then load settings
+        await fetchThemeManifests();
+        populateThemeSelector();
         loadSettings();
     });
 
@@ -285,5 +414,15 @@
         const url = new URL(window.location);
         url.searchParams.set('sidebarMode', mode);
         window.location.href = url.toString();
+    };
+
+    // Expose theme manifests for external use
+    window.getThemeManifests = function() {
+        return themeManifests;
+    };
+
+    window.getCurrentThemeManifest = function() {
+        const currentTheme = window.PURE_ADMIN_CONFIG?.currentTheme || 'audi';
+        return themeManifests[currentTheme] || null;
     };
 })();

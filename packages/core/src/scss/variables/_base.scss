@@ -1,81 +1,205 @@
 // ============================================================================
-// BASE CSS VARIABLES - Source of Truth for Web Components
+// BASE VARIABLES - Single Source of Truth for Theming
 // ============================================================================
-// These $base-* SCSS variables are converted to --base-* CSS custom properties
-// by the output-base-css-variables mixin in themes. Web components like
-// web-daterangepicker and web-multiselect consume these via fallback chains.
+// These $base-* SCSS variables are the PRIMARY source for all theme colors.
+// Framework variables in _colors.scss, _typography.scss, etc. DERIVE from these.
+// Web components consume these via --base-* CSS custom properties.
+//
+// To create a theme: Override these variables, everything else auto-derives.
 // ============================================================================
 
 @use 'sass:color';
-@use 'layout' as *;
-@use 'typography' as *;
-@use 'spacing' as *;
-@use 'colors' as *;
-@use 'system' as *;
-@use 'components' as *;
 
-// --- Colors ---
-$base-accent-color: $accent-color !default;
+// =============================================================================
+// ACCENT COLORS
+// Primary brand/interactive color and its variants
+// =============================================================================
+
+$base-accent-color: #007bff !default;
 $base-accent-color-hover: color.adjust($base-accent-color, $lightness: 10%) !default;
 $base-accent-color-active: color.adjust($base-accent-color, $lightness: 20%) !default;
-$base-accent-color-light: $accent-light !default;  // Light variant for badge backgrounds
-$base-accent-color-light-hover: rgba($base-accent-color, 0.12) !default;  // Slightly more opaque on hover
-$base-primary-bg: $card-bg !default;
+$base-accent-color-light: rgba($base-accent-color, 0.05) !default;
+$base-accent-color-light-hover: rgba($base-accent-color, 0.12) !default;
+
+// =============================================================================
+// TEXT COLORS
+// Hierarchical text colors for different emphasis levels
+// =============================================================================
+
+$base-text-color-1: #2c3e50 !default;  // Primary text (strongest)
+$base-text-color-2: #6c757d !default;  // Secondary text (muted)
+$base-text-color-3: #7a8a99 !default;  // Tertiary text (lighter)
+$base-text-color-4: #a3b1bf !default;  // Quaternary text (lightest)
+$base-text-color-on-accent: #ffffff !default;  // Text on accent backgrounds
+
+// =============================================================================
+// SURFACE COLORS
+// Background colors for different surface levels
+// =============================================================================
+
+$base-surface-1: #ffffff !default;     // Primary surface (cards, modals)
+$base-surface-2: #f8f9fa !default;     // Secondary surface (subtle backgrounds)
+$base-surface-3: #e9ecef !default;     // Tertiary surface (dividers, borders)
+$base-surface-inverse: #2c3e50 !default;  // Inverse surface (tooltips, dark elements)
+$base-overlay-bg: rgba(0, 0, 0, 0.5) !default;  // Modal/overlay background
+$base-shadow-color: rgba(0, 0, 0, 0.15) !default;  // Shadow color for elevation
+
+// Backward compatibility mappings
+$base-primary-bg: $base-surface-1 !default;
 $base-primary-bg-hover: color.adjust($base-primary-bg, $lightness: -5%) !default;
-$base-text-color-1: $text-primary !default;
-$base-text-color-2: $text-secondary !default;
-$base-text-color-3: color.mix($text-primary, $card-bg, 60%) !default;
-$base-text-color-4: color.mix($text-primary, $card-bg, 40%) !default;
-$base-text-color-on-accent: #ffffff !default;
-$base-border-color: $border-color !default;
-// Generic border (full shorthand)
+
+// =============================================================================
+// BORDER COLORS
+// Border colors and shorthand
+// =============================================================================
+
+$base-border-color: #e1e5e9 !default;
 $base-border: 1px solid $base-border-color !default;
 
-// --- Input Fields ---
-$base-input-bg: $input-bg !default;
-$base-input-color: $input-text !default;
-$base-input-border: 1px solid $input-border !default;
-$base-input-border-hover: 1px solid color.adjust($input-border, $lightness: -10%) !default;
+// =============================================================================
+// INPUT FIELDS
+// Input field styling and states
+// =============================================================================
+
+$base-input-bg: $base-surface-1 !default;
+$base-input-color: #495057 !default;
+$base-input-border: 1px solid #ced4da !default;
+$base-input-border-hover: 1px solid #b8bfc6 !default;
 $base-input-border-focus: 1px solid $base-accent-color !default;
 $base-input-placeholder-color: $base-text-color-4 !default;
-$base-input-bg-disabled: rgba($input-bg, 0.5) !default;
+$base-input-bg-disabled: rgba($base-input-bg, 0.5) !default;
 
-// --- Input Size Heights (unitless multipliers × 10px) ---
+// Input size heights (unitless multipliers for x10px base)
 $base-input-size-xs-height: 3.1 !default;  // 31px
 $base-input-size-sm-height: 3.3 !default;  // 33px
 $base-input-size-md-height: 3.5 !default;  // 35px
 $base-input-size-lg-height: 3.8 !default;  // 38px
 $base-input-size-xl-height: 4.1 !default;  // 41px
 
+// =============================================================================
+// DROPDOWN / POPOVER
+// Floating element styling
+// =============================================================================
+
+$base-dropdown-bg: $base-surface-1 !default;
+$base-dropdown-border: 1px solid $base-border-color !default;
+$base-dropdown-box-shadow: 0 8px 16px $base-shadow-color !default;
+
+// =============================================================================
+// TOOLTIP
+// Tooltip styling
+// =============================================================================
+
+$base-tooltip-bg: $base-surface-inverse !default;
+$base-tooltip-text-color: #ffffff !default;
+
+// =============================================================================
+// CONTEXTUAL COLORS - SUCCESS
+// Success/positive semantic colors
+// =============================================================================
+
+$base-success-color: #28a745 !default;
+$base-success-color-hover: color.adjust($base-success-color, $lightness: -10%) !default;
+$base-success-bg-light: rgba($base-success-color, 0.1) !default;
+$base-success-bg-subtle: rgba($base-success-color, 0.08) !default;
+$base-success-border: rgba($base-success-color, 0.2) !default;
+$base-success-text: #155724 !default;
+$base-success-text-light: #d4edda !default;
+$base-text-on-success: #ffffff !default;
+
+// =============================================================================
+// CONTEXTUAL COLORS - DANGER
+// Danger/error semantic colors
+// =============================================================================
+
+$base-danger-color: #dc3545 !default;
+$base-danger-color-hover: color.adjust($base-danger-color, $lightness: -10%) !default;
+$base-danger-bg-light: rgba($base-danger-color, 0.1) !default;
+$base-danger-bg-subtle: rgba($base-danger-color, 0.08) !default;
+$base-danger-border: rgba($base-danger-color, 0.2) !default;
+$base-danger-text: #721c24 !default;
+$base-danger-text-light: #f8d7da !default;
+$base-text-on-danger: #ffffff !default;
+
+// =============================================================================
+// CONTEXTUAL COLORS - WARNING
+// Warning semantic colors
+// =============================================================================
+
+$base-warning-color: #ffc107 !default;
+$base-warning-color-hover: color.adjust($base-warning-color, $lightness: -10%) !default;
+$base-warning-bg-light: rgba($base-warning-color, 0.1) !default;
+$base-warning-bg-subtle: rgba($base-warning-color, 0.08) !default;
+$base-warning-border: rgba($base-warning-color, 0.2) !default;
+$base-warning-text: #856404 !default;
+$base-warning-text-light: #fff3cd !default;
+$base-text-on-warning: #212529 !default;  // Dark text for yellow backgrounds
+
+// =============================================================================
+// CONTEXTUAL COLORS - INFO
+// Info semantic colors
+// =============================================================================
+
+$base-info-color: #17a2b8 !default;
+$base-info-color-hover: color.adjust($base-info-color, $lightness: -10%) !default;
+$base-info-bg-light: rgba($base-info-color, 0.1) !default;
+$base-info-bg-subtle: rgba($base-info-color, 0.08) !default;
+$base-info-border: rgba($base-info-color, 0.2) !default;
+$base-info-text: #0c5460 !default;
+$base-info-text-light: #d1ecf1 !default;
+$base-text-on-info: #ffffff !default;
+
+// =============================================================================
+// INTERACTIVE STATES
+// Generic interaction feedback colors
+// =============================================================================
+
+$base-hover-overlay: rgba(0, 0, 0, 0.04) !default;
+$base-active-overlay: rgba(0, 0, 0, 0.08) !default;
+$base-focus-ring-color: $base-accent-color !default;
+$base-focus-ring-width: 3px !default;
+
+// =============================================================================
+// TYPOGRAPHY
+// Font families, sizes, weights, and line heights
+// =============================================================================
+
+$base-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !default;
+$base-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
+
+// Font sizes (unitless multipliers for x10px base)
+$base-font-size-2xs: 1.0 !default;   // 10px
+$base-font-size-xs: 1.2 !default;    // 12px
+$base-font-size-sm: 1.4 !default;    // 14px
+$base-font-size-base: 1.6 !default;  // 16px
+$base-font-size-lg: 1.8 !default;    // 18px
+$base-font-size-xl: 2.0 !default;    // 20px
+$base-font-size-2xl: 2.4 !default;   // 24px
+
+// Font weights
+$base-font-weight-normal: 400 !default;
+$base-font-weight-medium: 500 !default;
+$base-font-weight-semibold: 600 !default;
+$base-font-weight-bold: 700 !default;
+
+// Line heights
+$base-line-height-tight: 1.25 !default;
+$base-line-height-normal: 1.5 !default;
+$base-line-height-relaxed: 1.75 !default;
+
+// =============================================================================
+// BORDER RADIUS
+// Border radius sizes (unitless multipliers for x10px base)
+// =============================================================================
+
+$base-border-radius-sm: 0.4 !default;  // 4px
+$base-border-radius-md: 0.6 !default;  // 6px
+$base-border-radius-lg: 0.8 !default;  // 8px
+
+// =============================================================================
+// COMPONENT-SPECIFIC DERIVED VALUES
+// Variables that components need, derived from base
+// =============================================================================
+
 // Command palette input height (must be after $base-input-size-* variables)
-$command-palette-input-height: #{$base-input-size-lg-height}rem !default;  // 38px (lg size)
-
-// --- Dropdown/Popover ---
-$base-dropdown-bg: $card-bg !default;
-$base-dropdown-border: 1px solid $border-color !default;
-$base-dropdown-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !default;
-
-// --- Tooltip ---
-$base-tooltip-bg: $tooltip-bg !default;
-$base-tooltip-text-color: $tooltip-text !default;
-
-// --- Typography (unitless multipliers for × 10px base) ---
-$base-font-family: $body-font-family !default;
-$base-font-size-2xs: 1.0 !default;   // × 10px = 10px
-$base-font-size-xs: 1.2 !default;    // × 10px = 12px
-$base-font-size-sm: 1.4 !default;    // × 10px = 14px
-$base-font-size-base: 1.6 !default;  // × 10px = 16px
-$base-font-size-lg: 1.8 !default;    // × 10px = 18px
-$base-font-size-xl: 2.0 !default;    // × 10px = 20px
-$base-font-size-2xl: 2.4 !default;   // × 10px = 24px
-$base-font-weight-normal: $font-weight-normal !default;
-$base-font-weight-medium: $font-weight-medium !default;
-$base-font-weight-semibold: $font-weight-semibold !default;
-$base-line-height-tight: $line-height-tight !default;
-$base-line-height-normal: $line-height-base !default;
-$base-line-height-relaxed: $line-height-relaxed !default;
-
-// --- Border Radius (unitless multipliers for × 10px base) ---
-$base-border-radius-sm: 0.4 !default;  // × 10px = 4px
-$base-border-radius-md: 0.6 !default;  // × 10px = 6px
-$base-border-radius-lg: 0.8 !default;  // × 10px = 8px
+$command-palette-input-height: #{$base-input-size-lg-height}rem !default;

@@ -1,0 +1,55 @@
+{
+  "$schema": "../core/schemas/pure-admin-theme.schema.json",
+  "name": "Audi",
+  "id": "audi",
+  "version": "1.0.0-rc01",
+  "description": "Premium dark theme inspired by Audi's design language with red accents",
+  "author": "KeenMate",
+  "license": "MIT",
+
+  "modes": {
+    "supported": ["light", "dark"],
+    "default": "dark",
+    "cssClass": "pa-mode-{mode}",
+    "autoSwitch": {
+      "enabled": true,
+      "method": "prefers-color-scheme",
+      "respectUserPreference": true
+    }
+  },
+
+  "colorVariants": null,
+
+  "features": {
+    "cssVariables": true,
+    "responsiveLayout": true,
+    "compactMode": true,
+    "sidebarCollapse": true,
+    "sidebarIconMode": true,
+    "customFonts": false,
+    "rtlSupport": false,
+    "printStyles": false
+  },
+
+  "colors": {
+    "accent": "#bb0a30",
+    "accentHover": "#d40000",
+    "background": "#0d0d0d",
+    "surface": "#1a1a1a",
+    "text": "#ffffff",
+    "textSecondary": "#999999",
+    "border": "#333333",
+    "header": "#000000",
+    "sidebar": "#0d0d0d",
+    "footer": "#0d0d0d"
+  },
+
+  "exports": {
+    "css": "./dist/audi.css",
+    "scss": "./src/scss/audi.scss"
+  },
+
+  "dependencies": {
+    "core": "^1.0.0-rc01"
+  }
+}

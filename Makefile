@@ -6,6 +6,10 @@
 # Theme packages
 THEME_PACKAGES = theme-audi theme-dark theme-corporate theme-express theme-minimal
 
+# NPM publish tag (empty for latest, use TAG=rc for pre-releases)
+TAG ?=
+NPM_TAG = $(if $(TAG),--tag $(TAG),)
+
 # Default target - show help
 help:
 	@echo "Pure Admin Workspace - Available Commands:"
@@ -30,6 +34,7 @@ help:
 	@echo "    make verify       - Clean, build, and verify packages"
 	@echo "    make publish      - Publish core package to npm"
 	@echo "    make publish-all  - Publish all packages to npm"
+	@echo "    make publish-all TAG=rc  - Publish with --tag rc (for pre-releases)"
 	@echo ""
 
 # Install all workspace dependencies
@@ -96,13 +101,13 @@ verify: clean build-all
 
 # Publish core package to npm (clean + build first)
 publish: clean build
-	npm publish -w @keenmate/pure-admin-core
+	npm publish -w @keenmate/pure-admin-core $(NPM_TAG)
 
 # Publish all packages to npm (clean + build-all first)
 publish-all: clean build-all
-	npm publish -w @keenmate/pure-admin-core
-	npm publish -w @keenmate/pure-admin-theme-audi
-	npm publish -w @keenmate/pure-admin-theme-dark
-	npm publish -w @keenmate/pure-admin-theme-corporate
-	npm publish -w @keenmate/pure-admin-theme-express
-	npm publish -w @keenmate/pure-admin-theme-minimal
+	npm publish -w @keenmate/pure-admin-core $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-audi $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-dark $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-corporate $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-express $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-minimal $(NPM_TAG)

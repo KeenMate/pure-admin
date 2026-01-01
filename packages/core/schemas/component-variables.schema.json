@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://keenmate.com/schemas/component-variables.schema.json",
+  "title": "Component Variables Manifest",
+  "description": "Declares which base variables a component consumes. Used by theme-designer to show relevant variables.",
+  "type": "object",
+  "required": ["component", "version", "variables"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this JSON schema"
+    },
+    "component": {
+      "type": "string",
+      "description": "Component package name (e.g., @keenmate/pure-admin-core)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9]+)?$",
+      "description": "Semantic version of the component"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the component"
+    },
+    "variables": {
+      "type": "array",
+      "description": "List of base variables this component consumes",
+      "items": {
+        "$ref": "#/definitions/variableReference"
+      }
+    },
+    "categories": {
+      "type": "array",
+      "description": "Categories of variables this component uses (for filtering in theme-designer)",
+      "items": {
+        "type": "string",
+        "enum": [
+          "accent",
+          "text",
+          "surface",
+          "border",
+          "input",
+          "dropdown",
+          "tooltip",
+          "typography",
+          "spacing",
+          "contextual",
+          "interactive"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "variableReference": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^base-[a-z0-9-]+$",
+          "description": "Base variable name without $ prefix (e.g., base-accent-color)"
+        },
+        "required": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this variable is required for the component to function"
+        },
+        "fallback": {
+          "type": "string",
+          "description": "Fallback value if the variable is not defined"
+        },
+        "usage": {
+          "type": "string",
+          "description": "How this variable is used in the component"
+        }
+      }
+    }
+  }
+}
