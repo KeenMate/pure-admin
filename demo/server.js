@@ -34,12 +34,23 @@ app.use(cookieParser());
 
 // Middleware to determine current theme, container width, and sidebar mode
 app.use((req, res, next) => {
-    const theme = req.query.theme || req.cookies.selectedTheme || 'audi';
+    const DEFAULT_THEME = 'audi';
+
+    let theme = req.query.theme || req.cookies.selectedTheme || DEFAULT_THEME;
+
+    // Validate theme exists - if not, clear cookie and use default
+    if (!themePackages[theme]) {
+        console.warn(`Invalid theme "${theme}" requested, falling back to "${DEFAULT_THEME}"`);
+        theme = DEFAULT_THEME;
+        // Clear the invalid cookie
+        res.clearCookie('selectedTheme');
+    }
+
     res.locals.currentTheme = theme;
 
-    // Set cookie if theme was changed via query param
-    if (req.query.theme) {
-        res.cookie('selectedTheme', theme, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    // Set cookie if theme was changed via query param (and is valid)
+    if (req.query.theme && themePackages[req.query.theme]) {
+        res.cookie('selectedTheme', req.query.theme, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
     }
 
     // Container width
