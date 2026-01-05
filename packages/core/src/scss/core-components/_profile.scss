@@ -88,11 +88,18 @@
   &__header {
     padding: $spacing-lg;
     background-color: var(--pa-header-bg);
-    border-bottom: $border-width-base solid var(--pa-border-color);
+    border-bottom: 1px solid var(--pa-text-primary);
     display: flex;
     align-items: flex-start;
     gap: $spacing-base;
     position: relative;
+
+    // No-avatar variant for corporate apps without user photos
+    &--no-avatar {
+      .pa-profile-panel__avatar {
+        display: none;
+      }
+    }
   }
 
   &__avatar {
@@ -114,6 +121,7 @@
   &__info {
     flex: 1;
     min-width: 0;
+    padding-right: $profile-close-size; // Space for close button
   }
 
   &__name {
@@ -121,6 +129,10 @@
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
     color: var(--pa-text-primary);
+    // Truncate long names
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__email {
@@ -196,8 +208,8 @@
   &__nav-item {
     display: flex;
     align-items: center;
-    gap: $spacing-md;
-    padding: $card-footer-padding-v $card-footer-padding-h;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
     color: var(--pa-text-primary);
     text-decoration: none;
     border-radius: $border-radius;
@@ -217,8 +229,8 @@
   }
 
   &__nav-icon {
-    font-size: $font-size-lg;
-    width: $profile-nav-icon-width;
+    font-size: $font-size-base;
+    width: $sidebar-icon-size;
     text-align: center;
   }
 
@@ -227,6 +239,116 @@
     flex-direction: column;
     gap: $spacing-md;
     margin-top: auto;
+  }
+
+  // Tabs section
+  &__tabs {
+    padding: 0 $spacing-lg;
+    border-bottom: $border-width-base solid var(--pa-border-color);
+    background-color: var(--pa-header-bg);
+
+    .pa-tabs {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .pa-tabs__item {
+      color: var(--pa-header-text-secondary);
+      border-bottom-color: transparent;
+
+      &:hover {
+        color: var(--pa-header-text);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &--active {
+        color: var(--pa-header-text);
+        border-bottom-color: var(--pa-accent);
+      }
+    }
+  }
+
+  // Favorites section
+  &__favorites {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: $spacing-sm;
+    }
+  }
+
+  &__favorite-item {
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    padding: $sidebar-padding;
+    color: var(--pa-text-primary);
+    text-decoration: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color $transition-fast $easing-snappy,
+                color $transition-fast $easing-snappy;
+    font-weight: $font-weight-medium;
+
+    &:hover {
+      background-color: var(--pa-accent-light);
+      color: var(--pa-accent);
+    }
+
+    &:focus {
+      outline: $focus-outline-width solid var(--pa-accent);
+      outline-offset: $focus-outline-offset;
+    }
+  }
+
+  &__favorite-icon {
+    font-size: $font-size-base;
+    width: $sidebar-icon-size;
+    text-align: center;
+  }
+
+  &__favorite-label {
+    flex: 1;
+  }
+
+  // Favorite remove button
+  &__favorite-remove {
+    opacity: 0;
+    margin-left: auto;
+    background: none;
+    border: none;
+    padding: $spacing-sm;
+    color: var(--pa-text-secondary);
+    cursor: pointer;
+    border-radius: $border-radius;
+    font-size: $font-size-sm;
+    line-height: 1;
+    transition: opacity $transition-fast $easing-snappy,
+                color $transition-fast $easing-snappy,
+                background-color $transition-fast $easing-snappy;
+
+    &:hover {
+      color: var(--pa-danger);
+      background-color: var(--pa-danger-bg-light);
+    }
+  }
+
+  // Show remove button on favorite-item hover
+  &__favorite-item:hover &__favorite-remove {
+    opacity: 1;
+  }
+
+  &__favorites-add {
+    margin-top: auto;
+    padding-top: $spacing-md;
   }
 }
 

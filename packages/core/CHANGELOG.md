@@ -7,7 +7,103 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_No unreleased changes yet._
+### Added
+
+#### Profile Panel Enhancements
+- **No-avatar variant**: New `.pa-profile-panel__header--no-avatar` modifier hides avatar for corporate apps without user photos
+- **Text truncation**: Profile name now truncates with ellipsis for long display names
+- **Close button spacing**: Added padding-right to info section to prevent text overlapping close button
+- **Settings panel toggle**: Demo settings panel now includes "Hide Avatar" toggle to switch between avatar/no-avatar modes
+
+---
+
+## [1.0.0-rc02] - 2026-01-04
+
+### Added
+
+#### Profile Panel Favorites Feature
+- **New favorites tab**: Profile panel now supports tabbed interface with Profile and Favorites tabs
+- **Favorites section classes**: New dedicated classes for favorites list items
+  - `.pa-profile-panel__favorites` - Favorites container
+  - `.pa-profile-panel__favorite-item` - Clickable favorite item (uses `data-href` for navigation)
+  - `.pa-profile-panel__favorite-icon` - Icon container
+  - `.pa-profile-panel__favorite-label` - Text label
+  - `.pa-profile-panel__favorite-remove` - Remove button (appears on hover)
+  - `.pa-profile-panel__favorites-add` - Add button container
+- **Profile panel tabs section**: `.pa-profile-panel__tabs` with themed styling
+  - Uses existing `.pa-tabs` component
+  - Tab switching via `data-profile-tab` and `data-profile-panel` attributes
+- **Updated profile.html snippet**: Added "WITH TABS (PROFILE + FAVORITES)" section with complete example
+
+#### Profile Panel Styling Alignment
+- **Aligned profile nav items with sidebar**: Profile and Favorites items now match sidebar first-level links
+  - Gap: `$sidebar-item-gap` (1.2rem = 12px)
+  - Padding: `$sidebar-padding` (0.8rem 1.6rem = 8px 16px)
+  - Icon font-size: `$font-size-base` (1.6rem = 16px)
+  - Icon width: `$sidebar-icon-size` (2.4rem = 24px)
+- **Increased favorite remove button hitbox**: Changed padding from `$spacing-xs` (2.5px) to `$spacing-sm` (5px)
+
+#### Gap Utility Classes
+- **New gap utilities**: Flexbox/grid gap classes to replace inline `style="gap: ..."`
+  - Semantic: `.gap-xs`, `.gap-sm`, `.gap-md`, `.gap-base`, `.gap-lg`, `.gap-xl`, `.gap-2xl`
+  - Numeric (10px rem base): `.gap-1` through `.gap-20` (1px to 20px)
+  - Row-only: `.row-gap-xs`, `.row-gap-sm`, `.row-gap-md`, `.row-gap-base`, `.row-gap-lg`
+  - Column-only: `.column-gap-xs`, `.column-gap-sm`, `.column-gap-md`, `.column-gap-base`, `.column-gap-lg`
+
+#### Font-Size Utility Classes
+- **New text-size utilities**: Direct font-size classes using typography variables (10px rem base)
+  - `.text-2xs` (10px), `.text-xs` (12px), `.text-sm` (14px), `.text-md` (15px)
+  - `.text-base` (16px), `.text-lg` (18px), `.text-xl` (20px)
+  - `.text-2xl` (24px), `.text-3xl` (28px), `.text-4xl` (32px)
+
+#### Width Utility Classes (Expanded)
+- **New 5% increment widths**: `.w-5`, `.w-10`, `.w-15`, `.w-20`, `.w-30`, `.w-35`, `.w-40`, `.w-45`, `.w-55`, `.w-60`, `.w-65`, `.w-70`, `.w-80`, `.w-85`, `.w-90`, `.w-95`
+- **Fraction widths with grid-consistent naming**: `.w-1-3` (33%), `.w-2-3` (66%)
+- **Min-width fractions**: `.mw-1-3`, `.mw-2-3`
+- **Fixed-width fractions**: `.w-1-3-fixed`, `.w-2-3-fixed`
+
+#### Border Style Utilities
+- **New border style classes**: `.border-solid`, `.border-dashed`, `.border-dotted`, `.border-none`
+
+#### Text Color Utilities
+- **Semantic text colors**: `.text-primary`, `.text-success`, `.text-danger`, `.text-warning`, `.text-info`
+  - Fixed: now use proper `--pa-*-text` variables instead of `--pa-*-bg`
+  - Moved from `_tables.scss` to `utilities.scss` (general-purpose)
+- **Custom theme color slots**: `.text-color-1` through `.text-color-9`
+  - Themes can override `$color-1` to `$color-9` to define branded colors
+  - CSS variables: `--pa-color-1` through `--pa-color-9`
+
+#### Callout Component (New)
+- **Documentation-style callouts**: Left border accent with subtle background
+  - Base: `.pa-callout`
+  - Variants: `--primary`, `--secondary`, `--success`, `--danger`, `--warning`, `--info`
+  - Sizes: `--sm`, `--lg`
+  - Elements: `__icon`, `__heading`, `__content`
+- **Use case**: Tips, notes, warnings in documentation and content areas
+- **Variable**: `$callout-border-width` (default: 0.4rem / 4px)
+
+### Changed
+
+#### Card System Refinements
+- **Reduced card header min-height**: `$card-header-min-height` changed from `5rem` (50px) to `4rem` (40px)
+  - Header now fits xs buttons (32px) with 4px breathing room on each side
+  - More compact card appearance while maintaining usability
+- **Split card body padding into h/v variants**: `$card-body-padding` split into separate variables
+  - `$card-body-padding-v: 1.6rem` (vertical padding, unchanged)
+  - `$card-body-padding-h: 1rem` (horizontal padding, reduced from 1.6rem)
+  - Allows independent control of horizontal and vertical body padding
+- **Unified horizontal padding**: All card sections now use consistent 1rem horizontal padding
+  - `$card-header-padding-h: 1rem` (reduced from 1.6rem)
+  - `$card-body-padding-h: 1rem` (reduced from 1.6rem)
+  - `$card-footer-padding-h: 1rem` (reduced from 1.6rem)
+  - Content alignment now consistent across header, body, and footer
+
+### Fixed
+
+#### Card Title Vertical Alignment
+- **Fixed icon/text misalignment in card headers**: Added `line-height: 1` to `.pa-card__title-text`
+  - Icon had `line-height: 1` but title text did not, causing vertical misalignment
+  - Both icon and text now vertically centered within card title
 
 ---
 

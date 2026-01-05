@@ -8,15 +8,15 @@
      ================================ -->
 
 <!-- Profile Button (goes in header/navbar) -->
-<button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon">👤</span>
-    <span class="pa-navbar__profile-name">John Doe</span>
+    <span class="pa-header__profile-name">John Doe</span>
 </button>
 
 <!-- Profile Button with Font Awesome -->
-<button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon"><i class="fa-solid fa-user"></i></span>
-    <span class="pa-navbar__profile-name">John Doe</span>
+    <span class="pa-header__profile-name">John Doe</span>
 </button>
 
 
@@ -25,6 +25,7 @@
      ================================ -->
 
 <!-- Complete Profile Panel (place before closing </body> tag) -->
+<!-- Note: Use title attributes on name/email for tooltips when text may be truncated -->
 <div class="pa-profile-panel" id="profilePanel">
     <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
     <div class="pa-profile-panel__content">
@@ -33,8 +34,8 @@
                 <span class="pa-profile-panel__avatar-icon">👤</span>
             </div>
             <div class="pa-profile-panel__info">
-                <h3 class="pa-profile-panel__name">John Doe</h3>
-                <p class="pa-profile-panel__email">john.doe@company.com</p>
+                <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>
+                <p class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
                 <span class="pa-profile-panel__role">Administrator</span>
             </div>
             <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
@@ -75,6 +76,157 @@
                 <button class="pa-btn pa-btn--danger pa-btn--block">
                     Sign Out
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     PROFILE PANEL - NO AVATAR (CORPORATE)
+     For apps without user photos
+     ================================ -->
+
+<!-- Profile Panel without avatar (for corporate apps that don't have user photos) -->
+<!-- Add --no-avatar modifier to header to hide the avatar -->
+<div class="pa-profile-panel" id="profilePanel">
+    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+    <div class="pa-profile-panel__content">
+        <div class="pa-profile-panel__header pa-profile-panel__header--no-avatar">
+            <div class="pa-profile-panel__avatar">
+                <span class="pa-profile-panel__avatar-icon">👤</span>
+            </div>
+            <div class="pa-profile-panel__info">
+                <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>
+                <p class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
+                <span class="pa-profile-panel__role">Administrator</span>
+            </div>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                ✕
+            </button>
+        </div>
+
+        <div class="pa-profile-panel__body">
+            <nav class="pa-profile-panel__nav">
+                <ul>
+                    <li><a href="#profile" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">👤</span>
+                        Profile Settings
+                    </a></li>
+                    <li><a href="#logout" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">🚪</span>
+                        Sign Out
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     PROFILE PANEL - WITH TABS (PROFILE + FAVORITES)
+     ================================ -->
+
+<div class="pa-profile-panel" id="profilePanel">
+    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+    <div class="pa-profile-panel__content">
+        <div class="pa-profile-panel__header">
+            <div class="pa-profile-panel__avatar">
+                <span class="pa-profile-panel__avatar-icon">👤</span>
+            </div>
+            <div class="pa-profile-panel__info">
+                <h3 class="pa-profile-panel__name">John Doe</h3>
+                <p class="pa-profile-panel__email">john.doe@company.com</p>
+                <span class="pa-profile-panel__role">Administrator</span>
+            </div>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                ✕
+            </button>
+        </div>
+
+        <!-- Profile Panel Tabs -->
+        <div class="pa-profile-panel__tabs">
+            <div class="pa-tabs pa-tabs--full">
+                <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile">
+                    <span>👤</span> Profile
+                </button>
+                <button class="pa-tabs__item" data-profile-tab="favorites">
+                    <span>⭐</span> Favorites
+                </button>
+            </div>
+        </div>
+
+        <div class="pa-profile-panel__body">
+            <!-- Profile Tab -->
+            <div class="pa-tabs__panel pa-tabs__panel--active" data-profile-panel="profile">
+                <nav class="pa-profile-panel__nav">
+                    <ul>
+                        <li><a href="#profile" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">👤</span>
+                            Profile Settings
+                        </a></li>
+                        <li><a href="#security" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">🔒</span>
+                            Security
+                        </a></li>
+                        <li><a href="#notifications" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">🔔</span>
+                            Notifications
+                        </a></li>
+                        <li><a href="#preferences" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">⚙️</span>
+                            Preferences
+                        </a></li>
+                        <li><a href="#help" class="pa-profile-panel__nav-item">
+                            <span class="pa-profile-panel__nav-icon">❓</span>
+                            Help & Support
+                        </a></li>
+                    </ul>
+                </nav>
+
+                <div class="pa-profile-panel__actions">
+                    <button class="pa-btn pa-btn--secondary pa-btn--block">
+                        Switch Account
+                    </button>
+                    <button class="pa-btn pa-btn--danger pa-btn--block">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+
+            <!-- Favorites Tab -->
+            <div class="pa-tabs__panel" data-profile-panel="favorites">
+                <div class="pa-profile-panel__favorites">
+                    <ul>
+                        <li>
+                            <div class="pa-profile-panel__favorite-item" data-href="/dashboard">
+                                <span class="pa-profile-panel__favorite-icon">📊</span>
+                                <span class="pa-profile-panel__favorite-label">Dashboard</span>
+                                <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="pa-profile-panel__favorite-item" data-href="/reports">
+                                <span class="pa-profile-panel__favorite-icon">📝</span>
+                                <span class="pa-profile-panel__favorite-label">Reports</span>
+                                <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="pa-profile-panel__favorite-item" data-href="/settings">
+                                <span class="pa-profile-panel__favorite-icon">⚙️</span>
+                                <span class="pa-profile-panel__favorite-label">Settings</span>
+                                <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pa-profile-panel__favorites-add">
+                    <button class="pa-btn pa-btn--sm pa-btn--outline-secondary pa-btn--block">
+                        + Add Current Page
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -206,7 +358,7 @@ function closeProfilePanel() {
  */
 document.addEventListener('click', (e) => {
     const profilePanel = document.getElementById('profilePanel');
-    const profileBtn = document.querySelector('.pa-navbar__profile-btn');
+    const profileBtn = document.querySelector('.pa-header__profile-btn');
 
     if (!profilePanel || !profileBtn) return;
 
@@ -214,6 +366,43 @@ document.addEventListener('click', (e) => {
         profilePanel.classList.contains('pa-profile-panel--open')) {
         closeProfilePanel();
     }
+});
+
+/**
+ * Profile panel tab switching
+ */
+document.querySelectorAll('[data-profile-tab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const tabId = tab.dataset.profileTab;
+        // Update active tab
+        document.querySelectorAll('[data-profile-tab]').forEach(t =>
+            t.classList.toggle('pa-tabs__item--active', t.dataset.profileTab === tabId));
+        // Update active panel
+        document.querySelectorAll('[data-profile-panel]').forEach(p =>
+            p.classList.toggle('pa-tabs__panel--active', p.dataset.profilePanel === tabId));
+    });
+});
+
+/**
+ * Favorite item click - navigate using data-href
+ */
+document.querySelectorAll('.pa-profile-panel__favorite-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        // Skip if clicking the remove button
+        if (e.target.closest('.pa-profile-panel__favorite-remove')) return;
+        const href = item.dataset.href;
+        if (href) window.location.href = href;
+    });
+});
+
+/**
+ * Favorite remove button - remove item from list
+ */
+document.querySelectorAll('.pa-profile-panel__favorite-remove').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        btn.closest('li').remove();
+    });
 });
 </script>
 
@@ -224,9 +413,9 @@ document.addEventListener('click', (e) => {
 
 <!--
 PROFILE BUTTON (HEADER):
-- .pa-navbar__profile-btn - Profile button in header
+- .pa-header__profile-btn - Profile button in header
 - .pa-btn__icon - Icon container
-- .pa-navbar__profile-name - User name text
+- .pa-header__profile-name - User name text
 
 PROFILE PANEL STRUCTURE:
 - .pa-profile-panel - Main panel container
@@ -237,13 +426,20 @@ PROFILE PANEL STRUCTURE:
 
 PANEL HEADER:
 - .pa-profile-panel__header - Header container
+- .pa-profile-panel__header--no-avatar - Modifier to hide avatar (for corporate apps)
 - .pa-profile-panel__avatar - Avatar container
 - .pa-profile-panel__avatar-icon - Avatar icon/image
 - .pa-profile-panel__info - User info container
-- .pa-profile-panel__name - User name
-- .pa-profile-panel__email - User email
+- .pa-profile-panel__name - User name (truncates with ellipsis, add title for tooltip)
+- .pa-profile-panel__email - User email (truncates with ellipsis, add title for tooltip)
 - .pa-profile-panel__role - User role badge
 - .pa-profile-panel__close - Close button
+
+PANEL TABS (optional):
+- .pa-profile-panel__tabs - Tabs container
+- .pa-tabs.pa-tabs--full - Full-width tabs
+- [data-profile-tab] - Tab button attribute
+- [data-profile-panel] - Tab panel attribute
 
 PANEL BODY:
 - .pa-profile-panel__body - Body container
@@ -252,10 +448,20 @@ PANEL BODY:
 - .pa-profile-panel__nav-icon - Navigation icon
 - .pa-profile-panel__actions - Action buttons container
 
+FAVORITES SECTION:
+- .pa-profile-panel__favorites - Favorites container
+- .pa-profile-panel__favorite-item - Favorite link (use div with data-href)
+- .pa-profile-panel__favorite-icon - Favorite icon
+- .pa-profile-panel__favorite-label - Favorite text label
+- .pa-profile-panel__favorite-remove - Remove button (appears on hover)
+- .pa-profile-panel__favorites-add - Add button container
+
 JAVASCRIPT FUNCTIONS:
 - toggleProfilePanel() - Toggle panel open/closed
 - closeProfilePanel() - Close panel
 - Auto-closes when clicking outside
+- Tab switching via data-profile-tab/data-profile-panel attributes
+- Favorite navigation via data-href attribute
 
 PLACEMENT:
 - Profile button goes in header/navbar

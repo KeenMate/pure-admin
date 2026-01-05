@@ -33,6 +33,7 @@
         const sidebarBehaviorSelector = document.getElementById('sidebarBehaviorSelector');
         const sidebarModeSelector = document.getElementById('sidebarModeSelector');
         const compactMode = document.getElementById('compactMode');
+        const profileNoAvatar = document.getElementById('profileNoAvatar');
         const containerWidthSelector = document.getElementById('containerWidthSelector');
         const resetSettings = document.getElementById('resetSettings');
         const body = document.body;
@@ -241,6 +242,14 @@
                 body.classList.add('compact-mode');
             }
 
+            // Profile panel - no avatar mode
+            const isNoAvatar = localStorage.getItem('profile-no-avatar') === 'true';
+            profileNoAvatar.checked = isNoAvatar;
+            const profileHeader = document.getElementById('profilePanelHeader');
+            if (isNoAvatar && profileHeader) {
+                profileHeader.classList.add('pa-profile-panel__header--no-avatar');
+            }
+
             // Container width - read from body class
             const containerWidthClasses = ['pa-container-sm', 'pa-container-md', 'pa-container-lg', 'pa-container-xl', 'pa-container-2xl'];
             let currentContainerWidth = 'fluid';
@@ -331,6 +340,18 @@
             }
         });
 
+        // Profile panel no-avatar toggle
+        profileNoAvatar.addEventListener('change', (e) => {
+            const profileHeader = document.getElementById('profilePanelHeader');
+            if (e.target.checked) {
+                profileHeader.classList.add('pa-profile-panel__header--no-avatar');
+                localStorage.setItem('profile-no-avatar', 'true');
+            } else {
+                profileHeader.classList.remove('pa-profile-panel__header--no-avatar');
+                localStorage.setItem('profile-no-avatar', 'false');
+            }
+        });
+
         // Container width change - reload page with query param to set cookie
         containerWidthSelector.addEventListener('change', (e) => {
             const width = e.target.value;
@@ -384,6 +405,7 @@
             localStorage.removeItem('sidebar-hidden');
             localStorage.removeItem('sidebar-behavior');
             localStorage.removeItem('compact-mode');
+            localStorage.removeItem('profile-no-avatar');
             localStorage.removeItem('theme-mode');
             localStorage.removeItem('color-variant');
 

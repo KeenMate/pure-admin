@@ -56,11 +56,13 @@
     <script src="/src/js/toast-service.js"></script>
     <!-- Tooltips & Popovers -->
     <script src="/src/js/tooltips-popovers.js"></script>
-    <!-- Web Components: Multiselect and Date Range Picker -->
+    <!-- Web Components: Multiselect, Date Range Picker, and Data Grid -->
     <link rel="stylesheet" href="/node_modules/@keenmate/web-multiselect/dist/style.css">
     <link rel="stylesheet" href="/node_modules/@keenmate/web-daterangepicker/dist/style.css">
+    <link rel="stylesheet" href="/node_modules/@keenmate/web-grid/src/css/main.css">
     <script type="module" src="/node_modules/@keenmate/web-multiselect/dist/multiselect.js"></script>
     <script type="module" src="/node_modules/@keenmate/web-daterangepicker/dist/web-daterangepicker.js"></script>
+    <script type="module" src="/node_modules/@keenmate/web-grid/dist/web-grid.js"></script>
     <!-- Settings Panel -->
     <script>
         // Pass server-provided values to settings panel
@@ -266,13 +268,13 @@
     <div class="pa-profile-panel" id="profilePanel">
         <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
         <div class="pa-profile-panel__content">
-            <div class="pa-profile-panel__header">
+            <div class="pa-profile-panel__header" id="profilePanelHeader">
                 <div class="pa-profile-panel__avatar">
                     <span class="pa-profile-panel__avatar-icon">👤</span>
                 </div>
                 <div class="pa-profile-panel__info">
-                    <h3 class="pa-profile-panel__name">John Doe</h3>
-                    <p class="pa-profile-panel__email">john.doe@company.com</p>
+                    <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>
+                    <p class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
                     <span class="pa-profile-panel__role">Administrator</span>
                 </div>
                 <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
@@ -280,39 +282,95 @@
                 </button>
             </div>
 
-            <div class="pa-profile-panel__body">
-                <nav class="pa-profile-panel__nav">
-                    <ul>
-                        <li><a href="#" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">👤</span>
-                            Profile Settings
-                        </a></li>
-                        <li><a href="#" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">🔒</span>
-                            Security
-                        </a></li>
-                        <li><a href="#" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">🔔</span>
-                            Notifications
-                        </a></li>
-                        <li><a href="#" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">⚙️</span>
-                            Preferences
-                        </a></li>
-                        <li><a href="#" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">❓</span>
-                            Help & Support
-                        </a></li>
-                    </ul>
-                </nav>
+            <!-- Profile Panel Tabs -->
+            <div class="pa-profile-panel__tabs">
+                <div class="pa-tabs pa-tabs--full">
+                    <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile">
+                        <span>👤</span> Profile
+                    </button>
+                    <button class="pa-tabs__item" data-profile-tab="favorites">
+                        <span>⭐</span> Favorites
+                    </button>
+                </div>
+            </div>
 
-                <div class="pa-profile-panel__actions">
-                    <button class="pa-btn pa-btn--secondary pa-btn--block">
-                        Switch Account
-                    </button>
-                    <button class="pa-btn pa-btn--danger pa-btn--block">
-                        Sign Out
-                    </button>
+            <div class="pa-profile-panel__body">
+                <!-- Profile Tab -->
+                <div class="pa-tabs__panel pa-tabs__panel--active" data-profile-panel="profile">
+                    <nav class="pa-profile-panel__nav">
+                        <ul>
+                            <li><a href="#" class="pa-profile-panel__nav-item">
+                                <span class="pa-profile-panel__nav-icon">👤</span>
+                                Profile Settings
+                            </a></li>
+                            <li><a href="#" class="pa-profile-panel__nav-item">
+                                <span class="pa-profile-panel__nav-icon">🔒</span>
+                                Security
+                            </a></li>
+                            <li><a href="#" class="pa-profile-panel__nav-item">
+                                <span class="pa-profile-panel__nav-icon">🔔</span>
+                                Notifications
+                            </a></li>
+                            <li><a href="#" class="pa-profile-panel__nav-item">
+                                <span class="pa-profile-panel__nav-icon">⚙️</span>
+                                Preferences
+                            </a></li>
+                            <li><a href="#" class="pa-profile-panel__nav-item">
+                                <span class="pa-profile-panel__nav-icon">❓</span>
+                                Help & Support
+                            </a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="pa-profile-panel__actions">
+                        <button class="pa-btn pa-btn--secondary pa-btn--block">
+                            Switch Account
+                        </button>
+                        <button class="pa-btn pa-btn--danger pa-btn--block">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Favorites Tab -->
+                <div class="pa-tabs__panel" data-profile-panel="favorites">
+                    <div class="pa-profile-panel__favorites">
+                        <ul>
+                            <li>
+                                <div class="pa-profile-panel__favorite-item" data-href="/">
+                                    <span class="pa-profile-panel__favorite-icon">📊</span>
+                                    <span class="pa-profile-panel__favorite-label">Dashboard</span>
+                                    <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="pa-profile-panel__favorite-item" data-href="/forms">
+                                    <span class="pa-profile-panel__favorite-icon">📝</span>
+                                    <span class="pa-profile-panel__favorite-label">Forms</span>
+                                    <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="pa-profile-panel__favorite-item" data-href="/tables">
+                                    <span class="pa-profile-panel__favorite-icon">📋</span>
+                                    <span class="pa-profile-panel__favorite-label">Tables</span>
+                                    <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="pa-profile-panel__favorite-item" data-href="/data-grid">
+                                    <span class="pa-profile-panel__favorite-icon">📊</span>
+                                    <span class="pa-profile-panel__favorite-label">Data Grid</span>
+                                    <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pa-profile-panel__favorites-add">
+                        <button class="pa-btn pa-btn--sm pa-btn--outline-secondary pa-btn--block">
+                            + Add Current Page
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -480,6 +538,38 @@
             const profilePanel = document.getElementById('profilePanel');
             profilePanel.classList.remove('pa-profile-panel--open');
         }
+
+        // Profile panel tab switching
+        document.querySelectorAll('[data-profile-tab]').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.profileTab;
+                // Update active tab
+                document.querySelectorAll('[data-profile-tab]').forEach(t =>
+                    t.classList.toggle('pa-tabs__item--active', t.dataset.profileTab === tabId));
+                // Update active panel
+                document.querySelectorAll('[data-profile-panel]').forEach(p =>
+                    p.classList.toggle('pa-tabs__panel--active', p.dataset.profilePanel === tabId));
+            });
+        });
+
+        // Favorite item click - navigate using data-href
+        document.querySelectorAll('.pa-profile-panel__favorite-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                // Skip if clicking the remove button
+                if (e.target.closest('.pa-profile-panel__favorite-remove')) return;
+                const href = item.dataset.href;
+                if (href) window.location.href = href;
+            });
+        });
+
+        // Favorite remove button - hide item (demo only)
+        document.querySelectorAll('.pa-profile-panel__favorite-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Demo: hide the list item
+                btn.closest('li').style.display = 'none';
+            });
+        });
 
         // Close panels when clicking outside
         document.addEventListener('click', (e) => {

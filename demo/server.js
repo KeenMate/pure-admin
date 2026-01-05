@@ -141,6 +141,10 @@ app.get('/multiselect', (req, res) => {
     renderWithLayout(res, 'multiselect', { pageTitle: 'Multiselect', currentPage: 'multiselect', isMultiselect: true });
 });
 
+app.get('/data-grid', (req, res) => {
+    renderWithLayout(res, 'data-grid', { pageTitle: 'Data Grid', currentPage: 'data-grid', isDataGrid: true });
+});
+
 app.get('/file-selector', (req, res) => {
     renderWithLayout(res, 'file-selector', { pageTitle: 'File Selector', currentPage: 'file-selector', isFileSelector: true });
 });

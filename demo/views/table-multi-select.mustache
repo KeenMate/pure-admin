@@ -40,7 +40,7 @@
         <h4>Filter by Status</h4>
     </div>
     <div class="pa-card__body">
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <div class="d-flex gap-5 flex-wrap">
             <button class="pa-btn pa-btn--primary filter-tab" data-filter="active" onclick="switchFilter('active')">
                 Active Users <span class="pa-badge pa-badge--light" id="badge-active">0</span>
             </button>
@@ -56,7 +56,7 @@
 
 <!-- Selection Summary Bar (appears when items are selected) -->
 <div id="selection-summary" class="pa-alert pa-alert--primary" style="display: none; align-items: center; justify-content: space-between;">
-    <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+    <div class="d-flex align-items-center gap-10" style="flex: 1;">
         <strong><span id="selection-count">0</span> items selected</strong>
         <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="toggleSelectionDetails()">
             <span class="pa-btn__icon"><i class="fas fa-chevron-down" id="toggle-icon"></i></span>
@@ -70,14 +70,14 @@
                 Export
             </button>
             <button class="pa-btn pa-btn--sm pa-btn--primary" onclick="toggleActionsMenu(event)" style="padding: 0.375rem 0.625rem; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-chevron-down" style="font-size: 1rem;"></i>
+                <i class="fas fa-chevron-down text-2xs"></i>
             </button>
         </div>
         <div id="actions-menu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 0.25rem; background: var(--base-dropdown-background); border: 1px solid var(--base-border-color); border-radius: 4px; box-shadow: var(--base-dropdown-shadow); min-width: 10rem; z-index: 1000;">
-            <button onclick="deleteSelected(); closeActionsMenu();" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer; color: var(--base-danger-color); font-size: 0.875rem;" onmouseover="this.style.backgroundColor='var(--base-primary-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+            <button onclick="deleteSelected(); closeActionsMenu();" class="text-sm" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer; color: var(--base-danger-color);" onmouseover="this.style.backgroundColor='var(--base-primary-bg)'" onmouseout="this.style.backgroundColor='transparent'">
                 <i class="fas fa-trash" style="margin-right: 0.5rem;"></i>Delete Selected
             </button>
-            <button onclick="clearSelection(); closeActionsMenu();" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer; font-size: 0.875rem;" onmouseover="this.style.backgroundColor='var(--base-primary-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+            <button onclick="clearSelection(); closeActionsMenu();" class="text-sm" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer;" onmouseover="this.style.backgroundColor='var(--base-primary-bg)'" onmouseout="this.style.backgroundColor='transparent'">
                 <i class="fas fa-times" style="margin-right: 0.5rem;"></i>Clear All
             </button>
         </div>
@@ -113,7 +113,7 @@
             <span id="current-filter-label">Active Users</span>
             <span class="pa-badge pa-badge--secondary" id="visible-count">3 items</span>
         </h4>
-        <div style="display: flex; gap: 0.5rem;">
+        <div class="d-flex gap-5">
             <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="selectAllVisible()">
                 <span class="pa-btn__icon"><i class="fas fa-check-square"></i></span>
                 Select All Visible

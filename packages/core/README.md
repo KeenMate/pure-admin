@@ -24,8 +24,14 @@ import '@keenmate/pure-admin-core/dist/css/main.css';
 
 ### Using a Theme
 
+Themes are separate packages. Install and import:
+
+```bash
+npm install @keenmate/pure-admin-theme-audi
+```
+
 ```html
-<link rel="stylesheet" href="node_modules/@keenmate/pure-admin-core/dist/css/themes/audi.css">
+<link rel="stylesheet" href="node_modules/@keenmate/pure-admin-theme-audi/dist/audi.css">
 ```
 
 ### SCSS Customization
@@ -39,63 +45,64 @@ $btn-primary-bg: #your-button-color;
 @import '@keenmate/pure-admin-core/src/scss/main';
 ```
 
-### JavaScript Utilities
-
-```js
-import { createToast, openModal, closeModal } from '@pure-admin/core';
-
-// Show a success toast
-createToast('top-right', 'success', 'Success!', 'Operation completed');
-
-// Open a modal
-openModal('myModal');
-```
-
 ## Using HTML Snippets
 
 The `snippets/` directory contains clean HTML patterns for all components:
 
-- `snippets/buttons.html` - All button variants and patterns
-- `snippets/alerts.html` - Alert components
-- `snippets/badges.html` - Badge and composite badge patterns
-- `snippets/cards.html` - Card layouts
-- `snippets/forms.html` - Form elements and validation
-- `snippets/modals.html` - Modal dialogs
-- `snippets/toasts.html` - Toast notifications
-- `snippets/tables.html` - Table variants
-- `snippets/loaders.html` - Loading spinners and animations
+- `alerts.html` - Alert components
+- `badges.html` - Badge and composite badge patterns
+- `buttons.html` - All button variants and patterns
+- `callouts.html` - Documentation-style callouts with left border accent
+- `cards.html` - Card layouts
+- `checkbox-lists.html` - Checkbox list patterns
+- `code.html` - Code display blocks
+- `command-palette.html` - Command palette (Ctrl+K)
+- `comparison.html` - Comparison tables
+- `customization.html` - Theme customization examples
+- `forms.html` - Form elements and validation
+- `grid.html` - Grid system layouts
+- `layout.html` - Page layout structure
+- `lists.html` - Styled lists (ul, ol, dl)
+- `loaders.html` - Loading spinners and animations
+- `modal-dialogs.html` - Confirmation dialogs
+- `modals.html` - Modal windows
+- `popconfirm.html` - Popconfirm component
+- `profile.html` - Profile panel with tabs and favorites
+- `tables.html` - Table variants
+- `tabs.html` - Tab components
+- `timeline.html` - Timeline components
+- `toasts.html` - Toast notifications
+- `tooltips.html` - Tooltips and popovers
+- `typography.html` - Typography styles and headings
+- `utilities.html` - Utility classes
+- `virtual-scroll.html` - Virtual scrolling
+- `web-daterangepicker.html` - Date range picker web component
+- `web-multiselect.html` - Multiselect web component
 
 These snippets are the canonical reference for building framework components in any frontend framework (React, Vue, Svelte, etc.).
 
-## Framework Integration
-
-### Svelte
-
-See `@pure-admin/svelte` package for Svelte component wrappers.
-
-### React
-
-See `@pure-admin/react` package for React component wrappers.
-
-### Vue
-
-See `@pure-admin/vue` package for Vue component wrappers.
-
 ## Themes
 
-All themes are included in this package:
+Themes are available as separate npm packages:
 
-| Theme | File | Description |
-|-------|------|-------------|
-| Corporate | `main.css` or `themes/corporate.css` | Professional blue/gray (default) |
-| Audi | `themes/audi.css` | Audi red with Fira Sans Condensed |
-| Audi Light | `themes/audi-light.css` | Light variant of Audi |
-| Express | `themes/express.css` | Bold yellow/red logistics |
-| Dark | `themes/dark.css` | Dark mode base |
-| Dark Blue | `themes/dark-blue.css` | Dark with blue accent |
-| Dark Green | `themes/dark-green.css` | Dark with green accent |
-| Dark Red | `themes/dark-red.css` | Dark with red accent |
-| Minimal | `themes/minimal.css` | Clean minimal design |
+| Theme | Package | Description |
+|-------|---------|-------------|
+| Audi | `@keenmate/pure-admin-theme-audi` | Audi red with Fira Sans Condensed |
+| Corporate | `@keenmate/pure-admin-theme-corporate` | Professional blue/gray |
+| Dark | `@keenmate/pure-admin-theme-dark` | Dark mode with color variants |
+| Express | `@keenmate/pure-admin-theme-express` | Bold yellow/red logistics |
+| Minimal | `@keenmate/pure-admin-theme-minimal` | Clean minimal design |
+
+### Theme Modes & Variants
+
+Themes support light/dark modes via CSS classes on `<body>`:
+- `.pa-mode-light` - Force light mode
+- `.pa-mode-dark` - Force dark mode
+
+The Dark theme supports color accent variants:
+- `.pa-color-blue` - Blue accent
+- `.pa-color-green` - Green accent
+- `.pa-color-red` - Red accent
 
 ## Component Classes
 
@@ -137,6 +144,14 @@ All themes are included in this package:
 - `.pa-alert--primary/success/danger/warning/info` - Variants
 - `.pa-alert--dismissible` - Closeable alerts
 
+### Callouts
+- `.pa-callout` - Base callout (documentation-style with left border)
+- `.pa-callout--primary/secondary/success/danger/warning/info` - Variants
+- `.pa-callout--sm/lg` - Sizes
+- `.pa-callout__icon` - Icon container
+- `.pa-callout__heading` - Callout heading
+- `.pa-callout__content` - Content wrapper (for icon + text layout)
+
 ### Modals
 - `.pa-modal` - Base modal
 - `.pa-modal__container--sm/md/lg/xl/xxl` - Sizes
@@ -155,6 +170,16 @@ All themes are included in this package:
 - `.pa-popover` - Base popover (requires JavaScript)
 - `.pa-popover--sm/md/lg` - Sizes
 - **JavaScript Required**: Popovers require `tooltips-popovers.js` and Floating UI library for positioning
+
+### Profile Panel
+- `.pa-profile-panel` - Slide-in profile panel
+- `.pa-profile-panel--open` - Open state
+- `.pa-profile-panel__header` - Header with avatar and user info
+- `.pa-profile-panel__header--no-avatar` - Header variant without avatar (for corporate apps)
+- `.pa-profile-panel__tabs` - Tab navigation (Profile/Favorites)
+- `.pa-profile-panel__nav-item` - Navigation link
+- `.pa-profile-panel__favorite-item` - Favorite link (with remove button)
+- `.pa-profile-panel__actions` - Action buttons (Sign Out, etc.)
 
 ## SCSS Variables
 

@@ -1,0 +1,139 @@
+/* ========================================
+   Callout Components
+   Documentation-style callouts with left border accent
+   For tips, notes, warnings in content areas
+   ======================================== */
+@use '../variables' as *;
+
+// Callout base
+.pa-callout {
+  position: relative;
+  padding: $card-footer-padding-v $card-footer-padding-h;
+  margin-bottom: $spacing-base;
+  border-left: $callout-border-width solid var(--pa-border-color);
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  background-color: var(--pa-card-bg);
+
+  // Remove margins when first/last child in card body
+  .pa-card__body &:first-child {
+    margin-top: 0;
+  }
+  .pa-card__body &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Callout variants
+  &--primary {
+    border-left-color: var(--pa-accent);
+    background-color: rgba($accent-color, $opacity-subtle);
+  }
+
+  &--secondary {
+    border-left-color: var(--pa-text-secondary);
+    background-color: color-mix(in srgb, var(--pa-text-secondary) 5%, transparent);
+  }
+
+  &--success {
+    border-left-color: var(--pa-success-bg);
+    background-color: var(--pa-success-bg-subtle);
+  }
+
+  &--danger {
+    border-left-color: var(--pa-danger-bg);
+    background-color: var(--pa-danger-bg-subtle);
+  }
+
+  &--warning {
+    border-left-color: var(--pa-warning-bg);
+    background-color: var(--pa-warning-bg-subtle);
+  }
+
+  &--info {
+    border-left-color: var(--pa-info-bg);
+    background-color: var(--pa-info-bg-subtle);
+  }
+
+  // Callout sizes
+  &--sm {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-xs;
+  }
+
+  &--lg {
+    padding: $spacing-lg $spacing-xl;
+    font-size: $font-size-base;
+  }
+
+  // Callout components
+  &__icon {
+    float: left;
+    margin-right: $spacing-sm;
+    font-size: $font-size-lg;
+    line-height: 1;
+  }
+
+  &__heading {
+    margin: 0 0 $spacing-sm 0;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__content {
+    // Clearfix for floated icon
+    &::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+
+  // Remove margin from last child
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Paragraphs inside callouts
+  p {
+    margin: 0 0 $spacing-sm 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Lists inside callouts
+  ul, ol {
+    margin: $spacing-sm 0;
+    padding-left: $spacing-lg;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Code inside callouts
+  code {
+    background-color: rgba(0, 0, 0, $opacity-subtle);
+    padding: 0.1em 0.3em;
+    border-radius: $border-radius-sm;
+    font-size: 0.9em;
+  }
+
+  // Links styling
+  a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: $font-weight-medium;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  // Headings inside callouts
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    margin-top: 0;
+  }
+}
