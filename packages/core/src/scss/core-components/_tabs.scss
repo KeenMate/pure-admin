@@ -275,6 +275,22 @@
     }
   }
 
+  // Border top variant - active indicator on top instead of bottom
+  &--border-top {
+    border-bottom: none;
+    border-top: $border-width-base solid var(--pa-border-color);
+
+    .pa-tabs__item {
+      border-bottom: none;
+      border-top: $border-width-medium solid transparent;
+
+      &--active {
+        border-top-color: $accent-color;
+        border-bottom-color: transparent;
+      }
+    }
+  }
+
   // Size variants
   &--sm {
     .pa-tabs__item {
@@ -352,87 +368,4 @@
     }
   }
 
-  // Fixed width tab items - multipliers of 1rem
-  .pa-tabs__item {
-    &--w-1x {
-      min-width: 1rem;
-    }
-
-    &--w-2x {
-      min-width: 2rem;
-    }
-
-    &--w-3x {
-      min-width: 3rem;
-    }
-
-    &--w-4x {
-      min-width: 4rem;
-    }
-
-    &--w-5x {
-      min-width: 5rem;
-    }
-
-    &--w-6x {
-      min-width: 6rem;
-    }
-
-    &--w-7x {
-      min-width: 7rem;
-    }
-
-    &--w-8x {
-      min-width: 8rem;
-    }
-
-    &--w-9x {
-      min-width: 9rem;
-    }
-
-    &--w-10x {
-      min-width: 10rem;
-    }
-
-    // Fixed height tab items - multipliers of 1rem
-    &--h-1x {
-      min-height: 1rem;
-    }
-
-    &--h-2x {
-      min-height: 2rem;
-    }
-
-    &--h-3x {
-      min-height: 3rem;
-    }
-
-    &--h-4x {
-      min-height: 4rem;
-    }
-
-    &--h-5x {
-      min-height: 5rem;
-    }
-
-    &--h-6x {
-      min-height: 6rem;
-    }
-
-    &--h-7x {
-      min-height: 7rem;
-    }
-
-    &--h-8x {
-      min-height: 8rem;
-    }
-
-    &--h-9x {
-      min-height: 9rem;
-    }
-
-    &--h-10x {
-      min-height: 10rem;
-    }
-  }
 }

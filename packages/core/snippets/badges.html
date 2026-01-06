@@ -73,18 +73,19 @@
 
 
 <!-- FIXED WIDTH BADGES -->
+<!-- Use wr-*/minwr-*/maxwr-* utilities with text-truncate for ellipsis -->
 
-<!-- Fixed Width 5x -->
-<span class="pa-badge pa-badge--primary pa-badge--w-5x">Status</span>
+<!-- Fixed Width 8rem -->
+<span class="pa-badge pa-badge--primary minwr-8 maxwr-8 text-truncate">Status</span>
 
-<!-- Fixed Width 8x with Ellipsis -->
+<!-- Fixed Width 15rem with Ellipsis -->
 <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Very Long Badge Text That Needs Truncation">
-  <span class="pa-badge pa-badge--info pa-badge--w-8x">Very Long Badge Text That Needs Truncation</span>
+  <span class="pa-badge pa-badge--info minwr-15 maxwr-15 text-truncate">Very Long Badge Text That Needs Truncation</span>
 </span>
 
 <!-- Fixed Width with Left Ellipsis (for paths, breadcrumbs) -->
 <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Settings > User Preferences > Notifications > Email">
-  <span class="pa-badge pa-badge--secondary pa-badge--w-6x pa-badge--ellipsis-left">Settings > User Preferences > Notifications > Email</span>
+  <span class="pa-badge pa-badge--secondary minwr-10 maxwr-10 text-truncate pa-badge--ellipsis-left">Settings > User Preferences > Notifications > Email</span>
 </span>
 
 
@@ -185,8 +186,8 @@ SIZES:
 
 MODIFIERS:
 - .pa-badge--pill: Rounded pill shape
-- .pa-badge--w-1x through .pa-badge--w-10x: Fixed widths (1rem to 10rem)
 - .pa-badge--ellipsis-left: Truncate from left instead of right
+- Use utilities for fixed width: minwr-* maxwr-* text-truncate
 
 ELEMENTS:
 - .pa-badge__icon: Icon container inside badge

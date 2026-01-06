@@ -88,7 +88,7 @@
   &__header {
     padding: $spacing-lg;
     background-color: var(--pa-header-bg);
-    border-bottom: 1px solid var(--pa-text-primary);
+    border-bottom: 1px solid var(--pa-border-color);
     display: flex;
     align-items: flex-start;
     gap: $spacing-base;
@@ -115,7 +115,7 @@
 
   &__avatar-icon {
     font-size: $font-size-4xl;
-    color: $accent-color;
+    color: var(--pa-accent);
   }
 
   &__info {
@@ -186,7 +186,7 @@
 
   &__body {
     flex: 1;
-    padding: $spacing-lg;
+    padding: $spacing-lg 0; // Vertical only - items handle horizontal
     display: flex;
     flex-direction: column;
     gap: $profile-section-gap;
@@ -239,11 +239,12 @@
     flex-direction: column;
     gap: $spacing-md;
     margin-top: auto;
+    padding: 0 $profile-panel-content-padding;
   }
 
   // Tabs section
   &__tabs {
-    padding: 0 $spacing-lg;
+    padding: 0 $profile-panel-content-padding;
     border-bottom: $border-width-base solid var(--pa-border-color);
     background-color: var(--pa-header-bg);
 
@@ -258,7 +259,7 @@
 
       &:hover {
         color: var(--pa-header-text);
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: var(--pa-accent-light);
       }
 
       &--active {
@@ -348,7 +349,7 @@
 
   &__favorites-add {
     margin-top: auto;
-    padding-top: $spacing-md;
+    padding: $spacing-md $profile-panel-content-padding 0;
   }
 }
 

@@ -9,6 +9,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Sizing Utility Classes (Consolidation)
+- **Rem-based utilities** (78 classes) - replaces component-specific `--w-1x` modifiers
+  - Width: `.wr-1` to `.wr-10`, `.wr-15`, `.wr-20`, `.wr-25` (width in rem)
+  - Min-width: `.minwr-1` to `.minwr-25` (min-width in rem)
+  - Max-width: `.maxwr-1` to `.maxwr-25` (max-width in rem)
+  - Height: `.hr-1` to `.hr-25` (height in rem)
+  - Min-height: `.minhr-1` to `.minhr-25` (min-height in rem)
+  - Max-height: `.maxhr-1` to `.maxhr-25` (max-height in rem)
+- **Percentage min/max utilities** (88 classes) - extends existing `w-*` and `h-*`
+  - Min-width: `.minw-5` to `.minw-100`, `.minw-1-3`, `.minw-2-3`
+  - Max-width: `.maxw-5` to `.maxw-100`, `.maxw-1-3`, `.maxw-2-3`
+  - Min-height: `.minh-5` to `.minh-100`, `.minh-1-3`, `.minh-2-3`
+  - Max-height: `.maxh-5` to `.maxh-100`, `.maxh-1-3`, `.maxh-2-3`
+- **Usage**: `<button class="pa-tabs__item minwr-6">` instead of `<button class="pa-tabs__item pa-tabs__item--w-6x">`
+
+### Removed
+
+#### Component-Specific Width Classes (Consolidated to Utilities)
+- **Tabs**: Removed `pa-tabs__item--w-1x` to `--w-10x` and `--h-1x` to `--h-10x`
+- **Badges**: Removed `pa-badge--w-1x` to `--w-10x` and auto-ellipsis selector
+- **Buttons**: Removed `pa-btn--w-1x` to `--w-10x`
+- **Migration**: Use new utility classes instead (e.g., `minwr-6` instead of `pa-tabs__item--w-6x`)
+
+#### Tabs Component
+- **Border top variant**: New `.pa-tabs--border-top` modifier moves active indicator from bottom to top
+  - Container border moves from bottom to top
+  - Tab item active border moves from bottom to top
+  - Useful for profile panel tabs and similar UI patterns
+
+### Changed
+
+#### Profile Panel Padding Architecture
+- **Refactored to follow sidebar pattern**: Body now has vertical padding only, items handle horizontal
+  - `__body` changed from `padding: $spacing-lg` to `padding: $spacing-lg 0`
+  - Nav items extend edge-to-edge for proper hover backgrounds
+  - Actions and favorites-add use `$profile-panel-content-padding` for horizontal padding
+- **New variable**: `$profile-panel-content-padding: 1.6rem` - matches sidebar-padding horizontal (16px)
+- **Updated tabs section**: Now uses `$profile-panel-content-padding` instead of `$spacing-lg`
+
+### Fixed
+
+#### Profile Panel Theme Consistency
+- **Header border**: Changed from `--pa-text-primary` to `--pa-border-color` (line 91)
+- **Avatar icon color**: Changed from hardcoded `$accent-color` to `var(--pa-accent)` (line 118)
+- **Tabs hover background**: Changed from hardcoded `rgba(255, 255, 255, 0.1)` to `var(--pa-accent-light)` (line 261)
+
+---
+
+## [1.0.0-rc03] - 2026-01-05
+
+### Added
+
 #### Profile Panel Enhancements
 - **No-avatar variant**: New `.pa-profile-panel__header--no-avatar` modifier hides avatar for corporate apps without user photos
 - **Text truncation**: Profile name now truncates with ellipsis for long display names
