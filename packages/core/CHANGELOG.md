@@ -5,7 +5,7 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0-rc04] - 2026-01-06
 
 ### Added
 
@@ -32,6 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Buttons**: Removed `pa-btn--w-1x` to `--w-10x`
 - **Migration**: Use new utility classes instead (e.g., `minwr-6` instead of `pa-tabs__item--w-6x`)
 
+#### Button Group Gap Modifiers (Consolidated to Utilities)
+- **Removed**: `pa-btn-group--compact` and `pa-btn-group--loose` modifiers
+- **Removed variables**: `$btn-group-gap-compact`, `$btn-group-gap-loose`
+- **Changed**: Default gap from 3.2px to 3px (`$btn-group-gap: 0.3rem`)
+- **Migration**: Use `gap-*` utility classes instead (e.g., `gap-2` for compact, `gap-8` for loose)
+
 #### Tabs Component
 - **Border top variant**: New `.pa-tabs--border-top` modifier moves active indicator from bottom to top
   - Container border moves from bottom to top
@@ -49,6 +55,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Updated tabs section**: Now uses `$profile-panel-content-padding` instead of `$spacing-lg`
 
 ### Fixed
+
+#### Button/Input Size Alignment
+- **Aligned button padding with input padding** - Buttons now match input heights at each size variant
+  - XS: vertical padding 0.4rem → 0.6rem (matches input--xs)
+  - SM: vertical padding 0.6rem → 0.8rem (matches input default)
+  - LG: vertical padding 1.0rem → 0.8rem (matches input default)
+  - XL: vertical padding 1.2rem → 0.8rem (matches input default)
+- **Removed explicit min-height** from button size variants (natural sizing via padding)
+- **Use case**: Buttons placed next to inputs of the same size now have matching heights
 
 #### Profile Panel Theme Consistency
 - **Header border**: Changed from `--pa-text-primary` to `--pa-border-color` (line 91)

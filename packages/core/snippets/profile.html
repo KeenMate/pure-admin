@@ -83,6 +83,70 @@
 
 
 <!-- ================================
+     PROFILE PANEL - WITH FIXED FOOTER
+     Actions fixed at bottom, content scrolls above
+     ================================ -->
+
+<div class="pa-profile-panel" id="profilePanel">
+    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+    <div class="pa-profile-panel__content">
+        <div class="pa-profile-panel__header">
+            <div class="pa-profile-panel__avatar">
+                <span class="pa-profile-panel__avatar-icon">👤</span>
+            </div>
+            <div class="pa-profile-panel__info">
+                <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>
+                <p class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
+                <span class="pa-profile-panel__role">Administrator</span>
+            </div>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                ✕
+            </button>
+        </div>
+
+        <div class="pa-profile-panel__body">
+            <!-- Body content scrolls -->
+            <nav class="pa-profile-panel__nav">
+                <ul>
+                    <li><a href="#profile" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">👤</span>
+                        Profile Settings
+                    </a></li>
+                    <li><a href="#security" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">🔒</span>
+                        Security
+                    </a></li>
+                    <li><a href="#notifications" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">🔔</span>
+                        Notifications
+                    </a></li>
+                    <li><a href="#preferences" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">⚙️</span>
+                        Preferences
+                    </a></li>
+                    <li><a href="#help" class="pa-profile-panel__nav-item">
+                        <span class="pa-profile-panel__nav-icon">❓</span>
+                        Help & Support
+                    </a></li>
+                </ul>
+            </nav>
+            <!-- NO __actions here - they go in __footer -->
+        </div>
+
+        <!-- Fixed footer - always visible at bottom -->
+        <div class="pa-profile-panel__footer">
+            <button class="pa-btn pa-btn--secondary pa-btn--block">
+                Switch Account
+            </button>
+            <button class="pa-btn pa-btn--danger pa-btn--block">
+                Sign Out
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
      PROFILE PANEL - NO AVATAR (CORPORATE)
      For apps without user photos
      ================================ -->
@@ -442,11 +506,12 @@ PANEL TABS (optional):
 - [data-profile-panel] - Tab panel attribute
 
 PANEL BODY:
-- .pa-profile-panel__body - Body container
+- .pa-profile-panel__body - Body container (scrollable)
 - .pa-profile-panel__nav - Navigation menu
 - .pa-profile-panel__nav-item - Navigation link
 - .pa-profile-panel__nav-icon - Navigation icon
-- .pa-profile-panel__actions - Action buttons container
+- .pa-profile-panel__actions - Action buttons (inside body, scrolls with content)
+- .pa-profile-panel__footer - Fixed footer (outside body, always visible at bottom)
 
 FAVORITES SECTION:
 - .pa-profile-panel__favorites - Favorites container

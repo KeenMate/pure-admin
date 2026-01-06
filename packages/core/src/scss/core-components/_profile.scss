@@ -231,7 +231,10 @@
   &__nav-icon {
     font-size: $font-size-base;
     width: $sidebar-icon-size;
-    text-align: center;
+    height: $sidebar-icon-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__actions {
@@ -240,6 +243,17 @@
     gap: $spacing-md;
     margin-top: auto;
     padding: 0 $profile-panel-content-padding;
+  }
+
+  // Fixed footer - always visible at bottom, content scrolls above
+  &__footer {
+    flex-shrink: 0;
+    padding: $spacing-lg; // Matches header padding
+    border-top: $border-width-base solid var(--pa-border-color);
+    background-color: var(--pa-card-bg);
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
   }
 
   // Tabs section
@@ -271,10 +285,6 @@
 
   // Favorites section
   &__favorites {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-
     ul {
       list-style: none;
       margin: 0;
@@ -313,7 +323,10 @@
   &__favorite-icon {
     font-size: $font-size-base;
     width: $sidebar-icon-size;
-    text-align: center;
+    height: $sidebar-icon-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__favorite-label {
@@ -326,7 +339,7 @@
     margin-left: auto;
     background: none;
     border: none;
-    padding: $spacing-sm;
+    padding: $spacing-xs;
     color: var(--pa-text-secondary);
     cursor: pointer;
     border-radius: $border-radius;
