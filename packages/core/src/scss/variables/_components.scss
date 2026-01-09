@@ -3,6 +3,7 @@
 // Component-specific dimensions, paddings, and settings
 // ============================================================================
 
+@use 'base' as *;
 @use 'layout' as *;
 @use 'typography' as *;
 @use 'spacing' as *;
@@ -62,11 +63,6 @@ $btn-padding-lg-h: 1.4rem !default;        // 14px
 $btn-padding-xl-v: 0.8rem !default;        // 8px - matches input default
 $btn-padding-xl-h: 1.6rem !default;        // 16px
 $btn-border-width: 1px !default;
-$btn-icon-only-size-xs: 2.8rem !default;   // 28px (was 1.75rem)
-$btn-icon-only-size-sm: 3.2rem !default;   // 32px (was 2rem)
-$btn-icon-only-size: 4rem !default;        // 40px (was 2.5rem)
-$btn-icon-only-size-lg: 4.8rem !default;   // 48px (was 3rem)
-$btn-icon-only-size-xl: 5.6rem !default;   // 56px (was 3.5rem)
 $btn-icon-margin: 0.8rem !default;         // 8px (was 0.5rem)
 $btn-min-width: 9.6rem !default;           // 96px (was 6rem)
 
@@ -87,6 +83,21 @@ $btn-hover-lift: -1px !default;
 $btn-hover-brightness: 0.9 !default;
 $btn-disabled-opacity: $opacity-disabled !default;
 $btn-focus-ring-opacity: 0.25 !default;
+
+// Button heights - aligned with input heights (source of truth from _base.scss)
+// These are used for icon-only buttons and table cell heights
+$btn-height-xs: #{$base-input-size-xs-height}rem !default;   // 31px
+$btn-height-sm: #{$base-input-size-sm-height}rem !default;   // 33px
+$btn-height-base: #{$base-input-size-md-height}rem !default; // 35px
+$btn-height-lg: #{$base-input-size-lg-height}rem !default;   // 38px
+$btn-height-xl: #{$base-input-size-xl-height}rem !default;   // 41px
+
+// Icon-only button sizes - match button heights (aligned with inputs)
+$btn-icon-only-size-xs: $btn-height-xs !default;
+$btn-icon-only-size-sm: $btn-height-sm !default;
+$btn-icon-only-size: $btn-height-base !default;
+$btn-icon-only-size-lg: $btn-height-lg !default;
+$btn-icon-only-size-xl: $btn-height-xl !default;
 
 // ============================================================================
 // MODAL SYSTEM
@@ -142,9 +153,11 @@ $profile-panel-content-padding: 1.6rem !default;  // Matches sidebar-padding hor
 // ============================================================================
 // CARD SYSTEM
 // ============================================================================
+$card-border-width: $border-width-base !default;  // Card outer border (themes can override)
+$card-border-radius: $border-radius-lg !default;  // Controls card + header corners
 $card-body-padding-v: 1.6rem !default;     // 16px vertical
 $card-body-padding-h: 1rem !default;       // 10px horizontal
-$card-header-padding-v: 0.8rem !default;   // 8px vertical
+$card-header-padding-v: 0.5rem !default;   // 5px vertical
 $card-header-padding-h: 1rem !default;     // 10px horizontal - matches body
 $card-header-min-height: 4rem !default;    // 40px - fits xs buttons (32px) with padding
 $card-footer-padding-v: 1.2rem !default;   // 12px vertical
@@ -153,13 +166,39 @@ $card-grid-min-width: 280px !default;
 $card-stat-padding-v: $spacing-lg !default;
 $card-stat-padding-h: $spacing-base !default;
 
+// Card inline tabs (tabs inside header)
+$card-tab-inline-padding-v: 0.3rem !default;   // 3px - compact for header
+$card-tab-inline-padding-h: 0.8rem !default;   // 8px
+$card-tab-hover-opacity: 0.1 !default;
+
 // ============================================================================
 // TABLE SYSTEM
 // ============================================================================
-$table-padding-base-v: 0.5rem !default;    // 5px (was 0.3rem ~ 4.8px)
-$table-padding-base-h: 0.8rem !default;    // 8px (was 0.5rem)
-$table-spacing-2x-multiplier: 2 !default;
-$table-spacing-3x-multiplier: 3 !default;
+// Table base padding (matches button/input default)
+$table-padding-base-v: 0.8rem !default;    // 8px - matches button SM/default
+$table-padding-base-h: 0.8rem !default;    // 8px
+
+// Table size variants - synchronized with button/input sizes
+$table-padding-xs-v: $btn-padding-xs-v !default;  // 0.6rem
+$table-padding-xs-h: $btn-padding-xs-h !default;  // 0.8rem
+$table-padding-sm-v: $btn-padding-sm-v !default;  // 0.8rem
+$table-padding-sm-h: $btn-padding-sm-h !default;  // 1rem
+$table-padding-lg-v: $btn-padding-lg-v !default;  // 0.8rem
+$table-padding-lg-h: $btn-padding-lg-h !default;  // 1.4rem
+$table-padding-xl-v: $btn-padding-xl-v !default;  // 0.8rem
+$table-padding-xl-h: $btn-padding-xl-h !default;  // 1.6rem
+
+// Table cell heights - button height + size-specific buffer
+$table-cell-height-buffer-xs: 0.7rem !default;
+$table-cell-height-buffer-sm: 0.8rem !default;
+$table-cell-height-buffer-lg: 0.8rem !default;
+$table-cell-height-buffer-xl: 0.8rem !default;
+
+$table-cell-height-xs: $btn-height-xs + $table-cell-height-buffer-xs !default;
+$table-cell-height: $btn-height-base + $table-cell-height-buffer-sm !default;
+$table-cell-height-sm: $btn-height-sm + $table-cell-height-buffer-sm !default;
+$table-cell-height-lg: $btn-height-lg + $table-cell-height-buffer-lg !default;
+$table-cell-height-xl: $btn-height-xl + $table-cell-height-buffer-xl !default;
 
 // Virtual table (for large datasets)
 $virtual-table-cell-padding-v: 0.5rem !default;  // 5px (was 0.3rem)
@@ -189,9 +228,9 @@ $input-focus-ring-opacity: 0.1 !default;
 $input-focus-border-color: $accent-color !default;
 $select-focus-border-color: $accent-color !default;
 $textarea-focus-border-color: $accent-color !default;
-$input-group-prepend-bg: $primary-bg !default;
+$input-group-prepend-bg: $secondary-bg !default;
 $input-group-prepend-text: $text-secondary !default;
-$input-group-append-bg: $primary-bg !default;
+$input-group-append-bg: $secondary-bg !default;
 $input-group-append-text: $text-secondary !default;
 $checkbox-margin-top: 0.2rem !default;        // 2px (was 0.125rem)
 $checkbox-size-xs: 1.2rem !default;           // 12px (was 0.75rem)

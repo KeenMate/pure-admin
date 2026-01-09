@@ -5,6 +5,85 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-rc05] - 2026-01-09
+
+### Added
+
+#### Tabs as Card Header (`pa-tabs__container--card`)
+- **New modifier**: `pa-tabs__container--card` makes tabs look like a card with tabs replacing the header
+- **Height alignment**: Tabs row has explicit height matching card header (40px)
+- **Use case**: Side-by-side layouts where tabs-card and regular card need aligned headers
+- **Styling**: Same border, border-radius, background, and shadow as regular cards
+- **Theme support**: Uses `$card-border-width` variable so themes control both
+
+#### Tab Overflow Dropdown
+- **New component**: `pa-tabs__overflow` with toggle button and dropdown menu
+- **Overflow toggle**: Ellipsis button at end of tabs row for overflow tabs
+- **Dropdown menu**: Hidden tabs appear in floating dropdown on click
+- **Active indicator**: Toggle shows accent underline when active tab is in overflow
+- **Click outside**: Dropdown closes when clicking outside
+- **New classes**: `pa-tabs__overflow`, `pa-tabs__overflow-toggle`, `pa-tabs__overflow-menu`, `pa-tabs__overflow-toggle--has-active`
+
+#### Inline Tabs in Card Headers (`pa-card__tabs--inline`)
+- **New modifier**: `pa-card__tabs--inline` places tabs inside the card header row
+- **Height alignment**: Cards with inline tabs have the same header height as cards without tabs
+- **Styling**: Tabs appear as pill-style buttons with accent color on active state
+- **New variables**: `$card-tab-inline-padding-v`, `$card-tab-inline-padding-h`
+
+#### Card Border Width Variable
+- **New variable**: `$card-border-width` controls card outer border (default: 1px)
+- **Theme control**: Themes can override (e.g., Audi uses 2px via `$border-width-medium`)
+- **Applied to**: Both `.pa-card` and `.pa-tabs__container--card`
+
+#### Card Border Radius Variable
+- **New variable**: `$card-border-radius` controls both card and header corner radius
+- **Unified styling**: Card container and header now share the same border-radius value
+- **Theme support**: Themes can set `$card-border-radius: 0` for square corners (e.g., Audi design language)
+- **Audi theme**: Removed `!important` override, now uses variable
+
+#### Tooltip Color Variants (color-1 through color-9)
+- **New modifiers**: `pa-tooltip--color-1` through `pa-tooltip--color-9`
+- **Theme-customizable**: Uses `--pa-color-*` CSS variables that themes can define
+- **Floating UI support**: Works with both CSS-only and JavaScript floating tooltips
+- **Default**: Colors are `transparent` unless theme defines `$color-1` through `$color-9`
+
+#### Popover Alignment Modifiers
+- **Default alignment**: Popover body now defaults to `text-align: left` (prevents inherited center alignment)
+- **New modifiers**: `pa-popover--center` and `pa-popover--right` for explicit alignment control
+- **Use case**: Rich content with lists now displays correctly regardless of parent alignment
+
+#### Static Modal Modifier
+- **New modifier**: `pa-modal--static` prevents closing via ESC key or backdrop click
+- **Use case**: License agreements, critical confirmations, or required actions that must be explicitly acknowledged
+- **Implementation**: Add class to modal wrapper, omit onclick from backdrop, optionally remove X button
+- **JavaScript**: ESC handler must check for `--static` class before closing
+
+### Changed
+
+#### Unified Component Height System
+- **Single source of truth**: All component heights now derive from `$base-input-size-*-height` variables in `_base.scss`
+  - XS: 3.1rem (31px), SM: 3.3rem (33px), MD: 3.5rem (35px), LG: 3.8rem (38px), XL: 4.1rem (41px)
+- **Explicit heights for inputs/selects**: `.pa-input` and `.pa-select` now have explicit `height` instead of padding-based sizing
+- **Explicit heights for buttons**: `.pa-btn` and size variants now have explicit `height` matching input heights
+- **Icon-only buttons aligned**: `$btn-icon-only-size-*` variables reference `$btn-height-*` which reference input heights
+- **Result**: Inputs, buttons, and icon-only buttons at the same size variant are guaranteed to be the same height
+
+#### Card Header Refinements
+- **Reduced vertical padding**: `$card-header-padding-v` changed from 0.8rem to 0.5rem (8px → 5px)
+- **Button negative margins**: Added `margin-top/bottom: -0.25rem` to buttons in card headers (same as table cells)
+  - Prevents buttons from increasing header height beyond `min-height`
+  - Card headers now maintain compact appearance with action buttons
+
+### Fixed
+
+#### Icon-Only Button Centering
+- **Added `line-height: 1`** to `.pa-btn--icon-only`
+  - Fixes vertical centering issues with icons and Unicode characters
+  - Works with FontAwesome icons, Unicode symbols, and SVG icons
+  - Standard practice for icon buttons across frameworks
+
+---
+
 ## [1.0.0-rc04] - 2026-01-06
 
 ### Added

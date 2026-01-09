@@ -27,11 +27,17 @@
             </div>
         </div>
         <div class="pa-row" style="margin-top: 1rem;">
-            <div class="pa-col-100">
+            <div class="pa-col-100 pa-col-md-50">
                 <h4>Position Modifiers</h4>
                 <div class="component-showcase">
                     <button class="pa-btn pa-btn--secondary" onclick="openModal('modal-centered')">Centered (Default)</button>
                     <button class="pa-btn pa-btn--secondary" onclick="openModal('modal-top')">Top-Aligned</button>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-50">
+                <h4>Behavior Modifiers</h4>
+                <div class="component-showcase">
+                    <button class="pa-btn pa-btn--warning" onclick="openModal('modal-static')">Static Modal</button>
                 </div>
             </div>
         </div>
@@ -659,6 +665,31 @@
     </div>
 </div>
 
+<!-- Static Modal (no ESC, no backdrop click) -->
+<div id="modal-static" class="pa-modal pa-modal--static">
+    <div class="pa-modal__backdrop"></div>
+    <div class="pa-modal__container pa-modal__container--sm">
+        <div class="pa-modal__header pa-modal__header--warning">
+            <h3 class="pa-modal__title">Static Modal</h3>
+        </div>
+        <div class="pa-modal__body">
+            <p>This modal <strong>cannot</strong> be closed by:</p>
+            <ul>
+                <li>Pressing the <kbd>Escape</kbd> key</li>
+                <li>Clicking the backdrop</li>
+            </ul>
+            <div class="pa-callout pa-callout--warning">
+                <strong>Use case:</strong> Critical confirmations, license agreements, or processes that must be completed.
+            </div>
+            <p>You must click a button below to close this modal.</p>
+        </div>
+        <div class="pa-modal__footer">
+            <button class="pa-btn pa-btn--secondary" onclick="closeModal('modal-static')">Cancel</button>
+            <button class="pa-btn pa-btn--warning" onclick="closeModal('modal-static')">I Understand</button>
+        </div>
+    </div>
+</div>
+
 <script>
 // Modal functionality
 function openModal(modalId) {
@@ -682,11 +713,11 @@ function closeModal(modalId) {
     }
 }
 
-// Close modal with Escape key
+// Close modal with Escape key (skip static modals)
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         const openModal = document.querySelector('.pa-modal--show');
-        if (openModal) {
+        if (openModal && !openModal.classList.contains('pa-modal--static')) {
             closeModal(openModal.id);
         }
     }

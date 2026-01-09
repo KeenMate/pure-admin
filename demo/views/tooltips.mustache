@@ -1,3 +1,18 @@
+<style>
+    /* Demo colors for tooltip color variants */
+    :root {
+        --pa-color-1: #e63946;  /* Red */
+        --pa-color-2: #f4a261;  /* Orange */
+        --pa-color-3: #e9c46a;  /* Yellow */
+        --pa-color-4: #2a9d8f;  /* Teal */
+        --pa-color-5: #264653;  /* Dark blue */
+        --pa-color-6: #7209b7;  /* Purple */
+        --pa-color-7: #3a86ff;  /* Blue */
+        --pa-color-8: #06d6a0;  /* Green */
+        --pa-color-9: #ef476f;  /* Pink */
+    }
+</style>
+
         <div class="pa-layout-container">
             <p class="mb-6">Hover tooltips for quick info, click popovers for rich interactive content.</p>
 
@@ -11,35 +26,66 @@
                         </div>
                         <div class="pa-card__body">
                             <div class="pa-row">
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="pa-tooltip" data-tooltip="Tooltip on top">Top</span>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="pa-tooltip pa-tooltip--right" data-tooltip="Tooltip on right">Right</span>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Tooltip on bottom">Bottom</span>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="pa-tooltip pa-tooltip--left" data-tooltip="Tooltip on left">Left</span>
                                 </div>
                             </div>
                             <hr class="my-3">
                             <div class="pa-row">
-                                <div class="pa-col-1-3 pa-col-md-20 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-1-3 pa-col-md-20 text-center mb-3 p-4">
                                     <span class="pa-tooltip" data-tooltip="Default dark">Default</span>
                                 </div>
-                                <div class="pa-col-1-3 pa-col-md-20 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-1-3 pa-col-md-20 text-center mb-3 p-4">
                                     <span class="pa-tooltip pa-tooltip--primary" data-tooltip="Primary blue">Primary</span>
                                 </div>
-                                <div class="pa-col-1-3 pa-col-md-20 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-1-3 pa-col-md-20 text-center mb-3 p-4">
                                     <span class="pa-tooltip pa-tooltip--success" data-tooltip="Success green">Success</span>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-20 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-20 text-center mb-3 p-4">
                                     <span class="pa-tooltip pa-tooltip--warning" data-tooltip="Warning yellow">Warning</span>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-20 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-20 text-center mb-3 p-4">
                                     <span class="pa-tooltip pa-tooltip--danger" data-tooltip="Danger red">Danger</span>
+                                </div>
+                            </div>
+                            <hr class="my-3">
+                            <p class="text-sm mb-3">Theme colors (color-1 to color-9):</p>
+                            <div class="pa-row">
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-1" data-tooltip="Color 1">1</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-2" data-tooltip="Color 2">2</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-3" data-tooltip="Color 3">3</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-4" data-tooltip="Color 4">4</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-5" data-tooltip="Color 5">5</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-6" data-tooltip="Color 6">6</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-7" data-tooltip="Color 7">7</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-8" data-tooltip="Color 8">8</span>
+                                </div>
+                                <div class="pa-col text-center mb-3 p-2">
+                                    <span class="pa-tooltip pa-tooltip--color-9" data-tooltip="Color 9">9</span>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +184,7 @@
                         <div class="pa-card__body">
                             <p class="mb-3 text-sm">Rich content with links, formatting. Click <strong>?</strong> to open:</p>
                             <div class="pa-row">
-                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center" style="padding: 0.5rem;">
+                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center p-2">
                                     <label class="text-sm">Basic
                                         <div class="pa-popover" data-placement="bottom">
                                             <button class="pa-popover__trigger">?</button>
@@ -154,7 +200,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center" style="padding: 0.5rem;">
+                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center p-2">
                                     <label class="text-sm">With List
                                         <div class="pa-popover" data-placement="bottom">
                                             <button class="pa-popover__trigger">?</button>
@@ -175,7 +221,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center" style="padding: 0.5rem;">
+                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center p-2">
                                     <label class="text-sm">Large
                                         <div class="pa-popover pa-popover--lg" data-placement="bottom">
                                             <button class="pa-popover__trigger">?</button>
@@ -192,7 +238,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center" style="padding: 0.5rem;">
+                                <div class="pa-col-50 pa-col-md-25 mb-3 text-center p-2">
                                     <label class="text-sm">Small
                                         <div class="pa-popover pa-popover--sm" data-placement="bottom">
                                             <button class="pa-popover__trigger">?</button>
@@ -209,6 +255,65 @@
                                     </label>
                                 </div>
                             </div>
+                            <hr class="my-3">
+                            <p class="mb-3 text-sm">Text alignment variants:</p>
+                            <div class="pa-row">
+                                <div class="pa-col-1-3 mb-3 text-center p-2">
+                                    <label class="text-sm">Left (default)
+                                        <div class="pa-popover" data-placement="bottom">
+                                            <button class="pa-popover__trigger">?</button>
+                                            <div class="pa-popover__content">
+                                                <div class="pa-popover__header">
+                                                    <h4>Left Aligned</h4>
+                                                    <button class="pa-popover__close">×</button>
+                                                </div>
+                                                <div class="pa-popover__body">
+                                                    <p>Default alignment is left.</p>
+                                                    <ul>
+                                                        <li>Lists look natural</li>
+                                                        <li>Easy to read</li>
+                                                        <li>Best for content</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="pa-col-1-3 mb-3 text-center p-2">
+                                    <label class="text-sm">Center
+                                        <div class="pa-popover pa-popover--center" data-placement="bottom">
+                                            <button class="pa-popover__trigger">?</button>
+                                            <div class="pa-popover__content">
+                                                <div class="pa-popover__header">
+                                                    <h4>Centered</h4>
+                                                    <button class="pa-popover__close">×</button>
+                                                </div>
+                                                <div class="pa-popover__body">
+                                                    <p>Use <code>--center</code> modifier.</p>
+                                                    <p>Good for short messages or confirmations.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="pa-col-1-3 mb-3 text-center p-2">
+                                    <label class="text-sm">Right
+                                        <div class="pa-popover pa-popover--right" data-placement="bottom">
+                                            <button class="pa-popover__trigger">?</button>
+                                            <div class="pa-popover__content">
+                                                <div class="pa-popover__header">
+                                                    <h4>Right Aligned</h4>
+                                                    <button class="pa-popover__close">×</button>
+                                                </div>
+                                                <div class="pa-popover__body">
+                                                    <p>Use <code>--right</code> modifier.</p>
+                                                    <p>For RTL or special layouts.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -219,7 +324,7 @@
                         </div>
                         <div class="pa-card__body">
                             <div class="pa-row">
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="text-sm">Top </span>
                                     <div class="pa-popover" data-placement="top">
                                         <button class="pa-popover__trigger">?</button>
@@ -234,7 +339,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="text-sm">Right </span>
                                     <div class="pa-popover" data-placement="right">
                                         <button class="pa-popover__trigger">?</button>
@@ -249,7 +354,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="text-sm">Bottom </span>
                                     <div class="pa-popover" data-placement="bottom">
                                         <button class="pa-popover__trigger">?</button>
@@ -264,7 +369,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pa-col-50 pa-col-md-25 text-center mb-3" style="padding: 1rem;">
+                                <div class="pa-col-50 pa-col-md-25 text-center mb-3 p-4">
                                     <span class="text-sm">Left </span>
                                     <div class="pa-popover" data-placement="left">
                                         <button class="pa-popover__trigger">?</button>

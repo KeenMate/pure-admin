@@ -237,6 +237,29 @@
     border-left-color: var(--pa-btn-danger-bg);
   }
 
+  // Numbered color variants (color-1 through color-9)
+  // These use theme-customizable colors from --pa-color-* CSS variables
+  @for $i from 1 through 9 {
+    &--color-#{$i}::before {
+      background-color: var(--pa-color-#{$i});
+    }
+    &--color-#{$i}::after {
+      border-top-color: var(--pa-color-#{$i});
+    }
+    &--color-#{$i}.pa-tooltip--right::after {
+      border-top-color: transparent;
+      border-right-color: var(--pa-color-#{$i});
+    }
+    &--color-#{$i}.pa-tooltip--bottom::after {
+      border-top-color: transparent;
+      border-bottom-color: var(--pa-color-#{$i});
+    }
+    &--color-#{$i}.pa-tooltip--left::after {
+      border-top-color: transparent;
+      border-left-color: var(--pa-color-#{$i});
+    }
+  }
+
   // Smart positioning - collision detection adjustments
   // Applied dynamically by JavaScript based on viewport boundaries
 
@@ -390,6 +413,7 @@
     font-size: $font-size-sm;
     line-height: $line-height-base;
     color: var(--pa-text-primary);
+    text-align: left; // Reset inherited alignment for rich content
 
     p {
       margin: 0 0 $spacing-sm 0;
@@ -454,6 +478,15 @@
     min-width: $popover-lg-min-width;
     max-width: $popover-lg-max-width;
   }
+
+  // Alignment variants
+  &--center &__body {
+    text-align: center;
+  }
+
+  &--right &__body {
+    text-align: right;
+  }
 }
 
 // ========================================
@@ -499,5 +532,12 @@
   &.pa-tooltip--danger {
     background-color: var(--pa-btn-danger-bg);
     color: var(--pa-btn-danger-text);
+  }
+
+  // Numbered color variants (color-1 through color-9)
+  @for $i from 1 through 9 {
+    &.pa-tooltip--color-#{$i} {
+      background-color: var(--pa-color-#{$i});
+    }
   }
 }

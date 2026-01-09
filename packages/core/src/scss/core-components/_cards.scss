@@ -7,8 +7,8 @@
 // Cards
 .pa-card {
   background: var(--pa-card-bg);
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: $border-radius-lg;
+  border: $card-border-width solid var(--pa-border-color);
+  border-radius: $card-border-radius;
   margin-bottom: $spacing-base;
   box-shadow: $shadow-sm;
   transition: box-shadow $transition-fast $easing-snappy;
@@ -22,8 +22,8 @@
   &__header {
     padding: $card-header-padding-v $card-header-padding-h;
     min-height: $card-header-min-height;
-    border-top-left-radius: $border-radius-lg;
-    border-top-right-radius: $border-radius-lg;
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
     border-bottom: $border-width-base solid var(--pa-border-color);
     background: var(--pa-card-header-bg);
     display: flex;
@@ -59,6 +59,12 @@
     h6 {
       color: var(--pa-text-primary);
       font-size: $font-size-base;
+    }
+
+    // Buttons in card headers - negative margin to prevent header height growth
+    .pa-btn {
+      margin-top: -0.25rem;
+      margin-bottom: -0.25rem;
     }
   }
 
@@ -239,6 +245,36 @@
 
     &--active {
       display: block;
+    }
+  }
+
+  // Inline tabs in header (for side-by-side card alignment)
+  &__tabs--inline {
+    display: flex;
+    gap: $spacing-xs;
+    margin: -$card-header-padding-v 0; // Negative margin to fill header height
+    border-bottom: none;
+    background: none;
+
+    .pa-card__tab {
+      padding: $card-tab-inline-padding-v $card-tab-inline-padding-h;
+      border: none;
+      border-radius: $border-radius;
+      font-size: $font-size-sm;
+      background: transparent;
+      color: var(--pa-text-secondary);
+      cursor: pointer;
+      transition: all $transition-fast $easing-snappy;
+
+      &:hover {
+        background-color: rgba($accent-color, $card-tab-hover-opacity);
+        color: var(--pa-text-primary);
+      }
+
+      &--active {
+        background: var(--pa-accent);
+        color: var(--pa-btn-primary-text);
+      }
     }
   }
 }

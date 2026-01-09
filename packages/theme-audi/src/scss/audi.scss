@@ -102,9 +102,10 @@ $base-text-on-info: #ffffff;
 $sidebar-width: 29rem;
 $border-radius: 1px;
 $border-radius-lg: 2px;
+$card-border-radius: 0;  // Square cards (Audi design language)
 
 // Enable red accent on table row hover (Audi signature detail)
-$table-hover-accent-width: 3px;
+$table-hover-accent-width: 0.3rem;  // 3px in 10px base
 $table-hover-accent-position: left;
 
 // Dark mode theme colors
@@ -244,6 +245,10 @@ $btn-dark-text: #ffffff;
 
 $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 
+// Card styling - thicker border for Audi design language
+$card-border-width: $border-width-medium;
+$card-border-radius: 0; // Sharp edges
+
 // =============================================================================
 // IMPORT CORE FRAMEWORK
 // =============================================================================
@@ -282,8 +287,6 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 }
 
 .pa-card {
-  border-radius: 0 !important;
-  border: $border-width-medium solid var(--pa-border-color);
   box-shadow: 0 $spacing-xs ($spacing-sm * 2) rgba(0, 0, 0, 0.4);
 }
 

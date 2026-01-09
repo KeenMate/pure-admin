@@ -8,6 +8,7 @@ MODAL WRAPPER CLASSES:
 - pa-modal: Base modal wrapper
 - pa-modal--show: Show the modal (add/remove via JavaScript)
 - pa-modal--top: Position modal near top instead of center (useful for search/command interfaces)
+- pa-modal--static: Prevent closing via ESC key or backdrop click (must use explicit button)
 - pa-modal--primary: Primary themed modal (blue header)
 - pa-modal--success: Success themed modal (green header)
 - pa-modal--warning: Warning themed modal (orange header)
@@ -70,6 +71,42 @@ HEADER THEME CLASSES (alternative to modal-level themes):
     <div class="pa-modal__footer">
       <button class="pa-btn pa-btn--secondary" onclick="closeModal('topModal')">Close</button>
       <button class="pa-btn pa-btn--primary">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- STATIC MODAL (No ESC, No Backdrop Click) -->
+
+<!--
+Static modals cannot be closed by:
+- Pressing the Escape key
+- Clicking the backdrop
+
+User MUST click an explicit button to close.
+Use for: license agreements, critical confirmations, required actions.
+
+Implementation:
+1. Add pa-modal--static class to the modal wrapper
+2. Do NOT add onclick to the backdrop
+3. Optionally remove the X close button from header
+4. JavaScript must check for --static class before closing on ESC
+-->
+
+<div class="pa-modal pa-modal--static" id="staticModal">
+  <div class="pa-modal__backdrop"></div><!-- No onclick here! -->
+  <div class="pa-modal__container pa-modal__container--sm">
+    <div class="pa-modal__header pa-modal__header--warning">
+      <h3 class="pa-modal__title">License Agreement</h3>
+      <!-- No X close button - user must use footer buttons -->
+    </div>
+    <div class="pa-modal__body">
+      <p>You must accept the terms to continue.</p>
+      <p>This modal cannot be dismissed with ESC or by clicking outside.</p>
+    </div>
+    <div class="pa-modal__footer">
+      <button class="pa-btn pa-btn--secondary" onclick="closeModal('staticModal')">Decline</button>
+      <button class="pa-btn pa-btn--warning" onclick="closeModal('staticModal')">Accept</button>
     </div>
   </div>
 </div>
@@ -278,21 +315,23 @@ function closeModal(modalId) {
   }
 }
 
-// Close modal with Escape key
+// Close modal with Escape key (skip static modals)
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     const openModal = document.querySelector('.pa-modal--show');
-    if (openModal) {
+    // Don't close static modals with ESC
+    if (openModal && !openModal.classList.contains('pa-modal--static')) {
       closeModal(openModal.id);
     }
   }
 });
 
-// Close modal when clicking backdrop
+// Close modal when clicking backdrop (skip static modals)
 document.querySelectorAll('.pa-modal__backdrop').forEach(backdrop => {
   backdrop.addEventListener('click', function() {
     const modal = this.closest('.pa-modal');
-    if (modal) {
+    // Don't close static modals on backdrop click
+    if (modal && !modal.classList.contains('pa-modal--static')) {
       closeModal(modal.id);
     }
   });

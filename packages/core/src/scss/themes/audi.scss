@@ -107,7 +107,7 @@ $table-header-bg: $audi-black;
 $table-hover-bg: $audi-gray-light;
 
 // Enable red accent on table row hover (Audi signature detail)
-$table-hover-accent-width: 3px;
+$table-hover-accent-width: 0.3rem;  // 3px in 10px base
 $table-hover-accent-color: $accent-color; // Uses the red #ff0000
 $table-hover-accent-position: left;
 
@@ -220,6 +220,10 @@ $danger-bg-light: rgba(255, 0, 0, 0.25);
 // 4. Override font family SCSS variable after fonts are defined
 $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 
+// Card styling - thicker border for Audi design language
+$card-border-width: $border-width-medium;
+$card-border-radius: 0; // Sharp edges
+
 // 5. Import core framework styles (will use all our SCSS variables)
 @import '../core';
 
@@ -256,8 +260,6 @@ $body-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 }
 
 .pa-card {
-  border-radius: 0 !important; // Sharp edges
-  border: $border-width-medium solid $border-color;
   box-shadow: 0 $spacing-xs ($spacing-sm * 2) rgba($audi-black, 0.8);
 }
 

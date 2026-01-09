@@ -1,5 +1,64 @@
             <p>Tab navigation components for organizing content into separate sections.</p>
 
+            <!-- Size Comparison: Normal Card vs Tabs as Header -->
+            <h3 style="margin-top: 1rem; margin-bottom: 1rem;">Tabs as Card Header (Same Height)</h3>
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Normal Card</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p>This is a regular card with a header. The header has a min-height of 40px.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-tabs__container pa-tabs__container--card">
+                        <div class="pa-tabs">
+                            <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'card-compare-1')">Overview</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'card-compare-2')">Details</button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'card-compare-3')">Settings</button>
+                            <div class="pa-tabs__overflow">
+                                <button class="pa-tabs__overflow-toggle" onclick="toggleTabsOverflow(this)">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <div class="pa-tabs__overflow-menu">
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'card-compare-4')">History</button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'card-compare-5')">Logs</button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'card-compare-6')">Audit Trail</button>
+                                    <button class="pa-tabs__item" onclick="switchTab(this, 'card-compare-7')">Permissions</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pa-tabs__content">
+                            <div class="pa-tabs__panel pa-tabs__panel--active" id="card-compare-1">
+                                <p>Tabs replace the header using <code>pa-tabs__container--card</code>. The tabs row has the same height (40px) as a card header. Overflow tabs are in the dropdown menu.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="card-compare-2">
+                                <p>Details content.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="card-compare-3">
+                                <p>Settings content.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="card-compare-4">
+                                <p>History content.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="card-compare-5">
+                                <p>Logs content.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="card-compare-6">
+                                <p>Audit Trail content.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="card-compare-7">
+                                <p>Permissions content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Two Column Grid: Card-Based Tabs + Standalone Tabs -->
             <div class="pa-row">
                 <div class="pa-col-100 pa-col-md-50">
@@ -711,6 +770,89 @@
                 </div>
             </div>
 
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Inline Tabs in Header (Same Height Alignment)</h3>
+
+            <!-- Inline Tabs Demo - Cards align when side by side -->
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Card with Title + Inline Tabs</h3>
+                            <div class="pa-card__tabs pa-card__tabs--inline">
+                                <button class="pa-card__tab pa-card__tab--active" onclick="switchCardTab(this, 'inline-tab-1')">Active</button>
+                                <button class="pa-card__tab" onclick="switchCardTab(this, 'inline-tab-2')">Pending</button>
+                                <button class="pa-card__tab" onclick="switchCardTab(this, 'inline-tab-3')">Closed</button>
+                            </div>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-card__tab-content pa-card__tab-content--active" id="inline-tab-1">
+                                <p>Inline tabs sit in the header row, so this card has the same header height as the card next to it.</p>
+                            </div>
+                            <div class="pa-card__tab-content" id="inline-tab-2">
+                                <p>Pending items content.</p>
+                            </div>
+                            <div class="pa-card__tab-content" id="inline-tab-3">
+                                <p>Closed items content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Regular Card (Header Only)</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p>This card has no tabs - just a header. Notice how both card headers align perfectly when side by side.</p>
+                            <p>Use <code>pa-card__tabs--inline</code> when you need cards with tabs to match the height of cards without tabs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inline Tabs - Title Only on Left -->
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <div class="pa-card__tabs pa-card__tabs--inline">
+                                <button class="pa-card__tab pa-card__tab--active" onclick="switchCardTab(this, 'inline-only-1')">Overview</button>
+                                <button class="pa-card__tab" onclick="switchCardTab(this, 'inline-only-2')">Details</button>
+                                <button class="pa-card__tab" onclick="switchCardTab(this, 'inline-only-3')">Settings</button>
+                            </div>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-card__tab-content pa-card__tab-content--active" id="inline-only-1">
+                                <p>Tabs can also be used alone in the header without a title.</p>
+                            </div>
+                            <div class="pa-card__tab-content" id="inline-only-2">
+                                <p>Details content.</p>
+                            </div>
+                            <div class="pa-card__tab-content" id="inline-only-3">
+                                <p>Settings content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Summary Stats</h3>
+                            <div class="pa-card__tools">
+                                <button class="pa-btn pa-btn--secondary pa-btn--sm pa-btn--icon-only">
+                                    <i class="fa-solid fa-refresh"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pa-card__body">
+                            <p>Cards with different header content still align because inline tabs use the same header height.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Bordered Tabs - Card-Like Wrapper</h3>
 
             <!-- Bordered Horizontal Tabs -->
@@ -996,9 +1138,27 @@
                 });
             });
 
+            // Toggle overflow menu for tabs
+            function toggleTabsOverflow(button) {
+                const menu = button.nextElementSibling;
+                menu.classList.toggle('pa-tabs__overflow-menu--open');
+
+                // Close on click outside
+                if (menu.classList.contains('pa-tabs__overflow-menu--open')) {
+                    setTimeout(() => {
+                        document.addEventListener('click', function closeMenu(e) {
+                            if (!menu.contains(e.target) && !button.contains(e.target)) {
+                                menu.classList.remove('pa-tabs__overflow-menu--open');
+                                document.removeEventListener('click', closeMenu);
+                            }
+                        });
+                    }, 0);
+                }
+            }
+
             // Tab switching for standalone tabs
             function switchTab(button, panelId) {
-                // Handle both regular tabs and scrollable tabs
+                // Handle tabs in overflow menu, scrollable tabs, or regular tabs
                 let tabsContainer = button.closest('.pa-tabs__scroll-container');
                 if (tabsContainer) {
                     tabsContainer = tabsContainer.parentElement; // Get parent .pa-tabs
@@ -1020,7 +1180,7 @@
 
                 if (!contentContainer) return;
 
-                // Remove active class from all tabs in this container
+                // Remove active class from all tabs (including those in overflow menu)
                 const tabs = tabsContainer.querySelectorAll('.pa-tabs__item');
                 tabs.forEach(tab => tab.classList.remove('pa-tabs__item--active'));
 
@@ -1035,6 +1195,21 @@
                 const selectedPanel = contentContainer.querySelector(`#${panelId}`);
                 if (selectedPanel) {
                     selectedPanel.classList.add('pa-tabs__panel--active');
+                }
+
+                // Close overflow menu if tab was in it
+                const overflowMenu = button.closest('.pa-tabs__overflow-menu');
+                if (overflowMenu) {
+                    overflowMenu.classList.remove('pa-tabs__overflow-menu--open');
+                }
+
+                // Update overflow toggle indicator if active tab is in overflow
+                const overflow = tabsContainer.querySelector('.pa-tabs__overflow');
+                if (overflow) {
+                    const toggle = overflow.querySelector('.pa-tabs__overflow-toggle');
+                    const menu = overflow.querySelector('.pa-tabs__overflow-menu');
+                    const hasActiveInOverflow = menu && menu.querySelector('.pa-tabs__item--active');
+                    toggle.classList.toggle('pa-tabs__overflow-toggle--has-active', !!hasActiveInOverflow);
                 }
             }
 

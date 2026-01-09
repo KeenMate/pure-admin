@@ -40,6 +40,7 @@
   td {
     color: var(--pa-text-primary);
     background-color: var(--pa-table-bg);
+    height: $table-cell-height;
 
     // Buttons in table cells - negative margin to prevent row height growth
     .pa-btn {
@@ -62,28 +63,51 @@
     }
   }
 
-  // 2x spacing variant - comfortable padding (calculated from base)
-  &--2x {
-    th,
+  // Size variants - synchronized with button/input sizes
+  &--xs {
+    th, td {
+      padding: $table-padding-xs-v $table-padding-xs-h;
+    }
     td {
-      padding: ($table-padding-base-v * $table-spacing-2x-multiplier)
-        ($table-padding-base-h * $table-spacing-2x-multiplier);
+      height: $table-cell-height-xs;
     }
   }
 
-  // 3x spacing variant - spacious padding (calculated from base)
-  &--3x {
-    th,
+  &--sm {
+    th, td {
+      padding: $table-padding-sm-v $table-padding-sm-h;
+    }
     td {
-      padding: ($table-padding-base-v * $table-spacing-3x-multiplier)
-        ($table-padding-base-h * $table-spacing-3x-multiplier);
+      height: $table-cell-height-sm;
+    }
+  }
+
+  &--lg {
+    th, td {
+      padding: $table-padding-lg-v $table-padding-lg-h;
+    }
+    td {
+      height: $table-cell-height-lg;
+    }
+  }
+
+  &--xl {
+    th, td {
+      padding: $table-padding-xl-v $table-padding-xl-h;
+    }
+    td {
+      height: $table-cell-height-xl;
     }
   }
 
   // Hover effects
-  tbody tr {
-    // Setup for hover accent border
-    @if $table-hover-accent-width > 0 {
+  @if $table-hover-accent-width > 0 {
+    // Header alignment - add padding-left instead of border
+    th:first-child {
+      padding-left: $table-hover-accent-width + $table-padding-base-h;
+    }
+
+    tbody tr {
       border-#{$table-hover-accent-position}: #{$table-hover-accent-width} solid transparent;
       transition: border-color $transition-normal $easing-smooth;
     }

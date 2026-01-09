@@ -1,12 +1,73 @@
-            <p>Different table density options for various use cases - from compact data grids to spacious presentation tables.</p>
+            <p>Table size variants synchronized with button/input sizes. Each variant provides enough space for buttons and inputs of the same size.</p>
 
-            <!-- Table Sizes Demo -->
+            <!-- XS Size Table -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>Default (Compact) - ~31px rows</h3>
+                    <h3>XS Size <code>pa-table--xs</code></h3>
                 </div>
                 <div class="pa-card__body">
-                    <p>Best for data-heavy tables where you need to scan hundreds of rows efficiently.</p>
+                    <p>Compact rows - fits button/input XS. Best for dense data grids.</p>
+                    <div class="pa-table-container">
+                        <table class="pa-table pa-table--xs">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Office</th>
+                                    <th>Age</th>
+                                    <th class="col-auto">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>61</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--xs pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Garrett Winters</td>
+                                    <td>Accountant</td>
+                                    <td>Tokyo</td>
+                                    <td>63</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--xs pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ashton Cox</td>
+                                    <td>Junior Technical Author</td>
+                                    <td>San Francisco</td>
+                                    <td>66</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--xs pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Default Size Table -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Default Size <code>pa-table</code></h3>
+                </div>
+                <div class="pa-card__body">
+                    <p>Standard rows - fits button/input SM and default sizes.</p>
                     <div class="pa-table-container">
                         <table class="pa-table">
                             <thead>
@@ -15,8 +76,7 @@
                                     <th>Position</th>
                                     <th>Office</th>
                                     <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
+                                    <th class="col-auto">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -25,40 +85,36 @@
                                     <td>System Architect</td>
                                     <td>Edinburgh</td>
                                     <td>61</td>
-                                    <td>2011-04-25</td>
-                                    <td>$320,800</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--sm pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--sm pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Garrett Winters</td>
                                     <td>Accountant</td>
                                     <td>Tokyo</td>
                                     <td>63</td>
-                                    <td>2011-07-25</td>
-                                    <td>$170,750</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--sm pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--sm pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Ashton Cox</td>
                                     <td>Junior Technical Author</td>
                                     <td>San Francisco</td>
                                     <td>66</td>
-                                    <td>2009-01-12</td>
-                                    <td>$86,000</td>
-                                </tr>
-                                <tr>
-                                    <td>Cedric Kelly</td>
-                                    <td>Senior Javascript Developer</td>
-                                    <td>Edinburgh</td>
-                                    <td>22</td>
-                                    <td>2012-03-29</td>
-                                    <td>$433,060</td>
-                                </tr>
-                                <tr>
-                                    <td>Airi Satou</td>
-                                    <td>Accountant</td>
-                                    <td>Tokyo</td>
-                                    <td>33</td>
-                                    <td>2008-11-28</td>
-                                    <td>$162,700</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--sm pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--sm pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -66,23 +122,22 @@
                 </div>
             </div>
 
-            <!-- 2x Spacing Table -->
+            <!-- SM Size Table -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>2x Spacing - ~62px rows</h3>
+                    <h3>SM Size <code>pa-table--sm</code></h3>
                 </div>
                 <div class="pa-card__body">
-                    <p>Balanced spacing for better readability when you have moderate amounts of data.</p>
+                    <p>Slightly wider horizontal padding than default.</p>
                     <div class="pa-table-container">
-                        <table class="pa-table pa-table--2x">
+                        <table class="pa-table pa-table--sm">
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Position</th>
                                     <th>Office</th>
                                     <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
+                                    <th class="col-auto">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,24 +146,36 @@
                                     <td>System Architect</td>
                                     <td>Edinburgh</td>
                                     <td>61</td>
-                                    <td>2011-04-25</td>
-                                    <td>$320,800</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--sm pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--sm pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Garrett Winters</td>
                                     <td>Accountant</td>
                                     <td>Tokyo</td>
                                     <td>63</td>
-                                    <td>2011-07-25</td>
-                                    <td>$170,750</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--sm pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--sm pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Ashton Cox</td>
                                     <td>Junior Technical Author</td>
                                     <td>San Francisco</td>
                                     <td>66</td>
-                                    <td>2009-01-12</td>
-                                    <td>$86,000</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--sm pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--sm pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -116,23 +183,22 @@
                 </div>
             </div>
 
-            <!-- 3x Spacing Table -->
+            <!-- LG Size Table -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>3x Spacing - ~93px rows</h3>
+                    <h3>LG Size <code>pa-table--lg</code></h3>
                 </div>
                 <div class="pa-card__body">
-                    <p>Spacious layout for presentation tables or when emphasis and clarity are priorities.</p>
+                    <p>Spacious rows - fits button/input LG. Good for forms in tables.</p>
                     <div class="pa-table-container">
-                        <table class="pa-table pa-table--3x">
+                        <table class="pa-table pa-table--lg">
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Position</th>
                                     <th>Office</th>
                                     <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
+                                    <th class="col-auto">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,24 +207,36 @@
                                     <td>System Architect</td>
                                     <td>Edinburgh</td>
                                     <td>61</td>
-                                    <td>2011-04-25</td>
-                                    <td>$320,800</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--lg pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--lg pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Garrett Winters</td>
                                     <td>Accountant</td>
                                     <td>Tokyo</td>
                                     <td>63</td>
-                                    <td>2011-07-25</td>
-                                    <td>$170,750</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--lg pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--lg pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Ashton Cox</td>
                                     <td>Junior Technical Author</td>
                                     <td>San Francisco</td>
                                     <td>66</td>
-                                    <td>2009-01-12</td>
-                                    <td>$86,000</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--lg pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--lg pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -166,32 +244,114 @@
                 </div>
             </div>
 
-            <!-- Usage Guide -->
+            <!-- XL Size Table -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>Usage Guide</h3>
+                    <h3>XL Size <code>pa-table--xl</code></h3>
                 </div>
                 <div class="pa-card__body">
-                    <h4>Default (Compact)</h4>
-                    <pre class="pa-code"><code>&lt;table class="pa-table"&gt;
-  ...
-&lt;/table&gt;</code></pre>
+                    <p>Extra spacious rows - fits button/input XL. Best for presentation tables.</p>
+                    <div class="pa-table-container">
+                        <table class="pa-table pa-table--xl">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Office</th>
+                                    <th>Age</th>
+                                    <th class="col-auto">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>61</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--xl pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--xl pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Garrett Winters</td>
+                                    <td>Accountant</td>
+                                    <td>Tokyo</td>
+                                    <td>63</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--xl pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--xl pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ashton Cox</td>
+                                    <td>Junior Technical Author</td>
+                                    <td>San Francisco</td>
+                                    <td>66</td>
+                                    <td class="col-auto">
+                                        <div class="pa-btn-group">
+                                            <button class="pa-btn pa-btn--xl pa-btn--secondary">Edit</button>
+                                            <button class="pa-btn pa-btn--xl pa-btn--danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-                    <h4>2x Spacing</h4>
-                    <pre class="pa-code"><code>&lt;table class="pa-table pa-table--2x"&gt;
-  ...
-&lt;/table&gt;</code></pre>
-
-                    <h4>3x Spacing</h4>
-                    <pre class="pa-code"><code>&lt;table class="pa-table pa-table--3x"&gt;
-  ...
-&lt;/table&gt;</code></pre>
-
-                    <h4>When to use each size:</h4>
-                    <ul>
-                        <li><strong>Default (Compact):</strong> Data grids, logs, transaction lists, any table with 50+ rows</li>
-                        <li><strong>2x Spacing:</strong> Reports, dashboards, summary tables with 10-50 rows</li>
-                        <li><strong>3x Spacing:</strong> Feature comparisons, pricing tables, highlighted data with &lt;10 rows</li>
-                    </ul>
+            <!-- Size Reference -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Size Reference</h3>
+                </div>
+                <div class="pa-card__body">
+                    <table class="pa-table">
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th>Class</th>
+                                <th>Padding</th>
+                                <th>Best for</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>XS</td>
+                                <td><code>pa-table--xs</code></td>
+                                <td>0.6rem 0.8rem</td>
+                                <td>Dense data grids, logs</td>
+                            </tr>
+                            <tr>
+                                <td>Default</td>
+                                <td><code>pa-table</code></td>
+                                <td>0.8rem 0.8rem</td>
+                                <td>Standard tables</td>
+                            </tr>
+                            <tr>
+                                <td>SM</td>
+                                <td><code>pa-table--sm</code></td>
+                                <td>0.8rem 1rem</td>
+                                <td>Slightly wider spacing</td>
+                            </tr>
+                            <tr>
+                                <td>LG</td>
+                                <td><code>pa-table--lg</code></td>
+                                <td>0.8rem 1.4rem</td>
+                                <td>Forms in tables</td>
+                            </tr>
+                            <tr>
+                                <td>XL</td>
+                                <td><code>pa-table--xl</code></td>
+                                <td>0.8rem 1.6rem</td>
+                                <td>Presentation tables</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>

@@ -169,6 +169,10 @@ app.get('/alerts', (req, res) => {
     renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts', isAlerts: true });
 });
 
+app.get('/callouts', (req, res) => {
+    renderWithLayout(res, 'callouts', { pageTitle: 'Callouts', currentPage: 'callouts', isCallouts: true });
+});
+
 app.get('/components', (req, res) => {
     renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components', isComponents: true });
 });

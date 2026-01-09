@@ -75,6 +75,20 @@
 </span>
 
 
+<!-- THEME COLOR TOOLTIPS (color-1 to color-9) -->
+
+<!-- Theme colors use --pa-color-* CSS variables defined by themes -->
+<span class="pa-tooltip pa-tooltip--color-1" data-tooltip="Color 1">Color 1</span>
+<span class="pa-tooltip pa-tooltip--color-2" data-tooltip="Color 2">Color 2</span>
+<span class="pa-tooltip pa-tooltip--color-3" data-tooltip="Color 3">Color 3</span>
+<span class="pa-tooltip pa-tooltip--color-4" data-tooltip="Color 4">Color 4</span>
+<span class="pa-tooltip pa-tooltip--color-5" data-tooltip="Color 5">Color 5</span>
+<span class="pa-tooltip pa-tooltip--color-6" data-tooltip="Color 6">Color 6</span>
+<span class="pa-tooltip pa-tooltip--color-7" data-tooltip="Color 7">Color 7</span>
+<span class="pa-tooltip pa-tooltip--color-8" data-tooltip="Color 8">Color 8</span>
+<span class="pa-tooltip pa-tooltip--color-9" data-tooltip="Color 9">Color 9</span>
+
+
 <!-- CURSOR MODIFIERS -->
 
 <!-- Default tooltip (inherits parent cursor - good for clickable elements like buttons, tabs) -->
@@ -270,6 +284,55 @@
 </div>
 
 
+<!-- POPOVER ALIGNMENT -->
+
+<!-- Left Aligned (default) -->
+<div class="pa-popover" data-placement="bottom">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Left Aligned</h4>
+      <button class="pa-popover__close">×</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Default alignment is left.</p>
+      <ul>
+        <li>Lists look natural</li>
+        <li>Easy to read</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Center Aligned -->
+<div class="pa-popover pa-popover--center" data-placement="bottom">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Centered</h4>
+      <button class="pa-popover__close">×</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Use --center modifier for centered text.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Right Aligned -->
+<div class="pa-popover pa-popover--right" data-placement="bottom">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Right Aligned</h4>
+      <button class="pa-popover__close">×</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Use --right modifier for RTL layouts.</p>
+    </div>
+  </div>
+</div>
+
+
 <!-- POPOVER WITH RICH CONTENT -->
 
 <!-- Popover with List -->
@@ -346,6 +409,7 @@ VARIANTS:
 - pa-tooltip--success (success colored background)
 - pa-tooltip--warning (warning colored background)
 - pa-tooltip--danger (danger colored background)
+- pa-tooltip--color-1 through pa-tooltip--color-9 (theme-defined colors)
 
 MULTILINE:
 - pa-tooltip--multiline (allows text wrapping)
@@ -362,6 +426,10 @@ POSITIONING (use data-placement attribute):
 SIZES:
 - pa-popover--sm (small)
 - pa-popover--lg (large)
+
+ALIGNMENT:
+- pa-popover--center (centered body text)
+- pa-popover--right (right-aligned body text)
 
 COMPONENTS:
 - pa-popover__trigger (button/trigger element)

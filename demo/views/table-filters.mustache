@@ -3,9 +3,6 @@
     <div class="pa-card__header">
         <h3>Basic Search Filter</h3>
     </div>
-</div>
-
-<div class="pa-card">
     <div class="pa-card__body">
         <div class="pa-row">
             <div class="pa-col-100">
@@ -69,14 +66,11 @@
 </div>
 
 <!-- Search with More Filters Button -->
-<div class="pa-card">
+<div class="pa-card" id="filter-card">
     <div class="pa-card__header">
         <h3>Expandable Filters</h3>
         <p>Search with expandable advanced filters</p>
     </div>
-</div>
-
-<div class="pa-card" id="filter-card">
     <div class="pa-card__body">
         <div class="d-flex gap-5 align-items-center flex-wrap">
             <!-- Search by rule -->
@@ -251,14 +245,9 @@
 
 <!-- Inline Filters -->
 <div class="pa-card">
-    <div class="pa-card__header">
-        <h3>Inline Horizontal Filters</h3>
-        <p>All filters visible in a single row</p>
-    </div>
-</div>
-
-<div class="pa-card">
     <div class="pa-card__body">
+        <h3>Inline Horizontal Filters</h3>
+        <p class="text-secondary mb-4">All filters visible in a single row</p>
         <div class="pa-row">
             <div class="pa-col-100 pa-col-md-20">
                 <div class="pa-form-group">
@@ -357,12 +346,13 @@
 <div class="pa-card">
     <div class="pa-card__header">
         <h3>Active Filter Tags</h3>
-        <p>Visual representation of applied filters with remove buttons</p>
+        <div class="pa-btn-group">
+            <button class="pa-btn pa-btn--sm pa-btn--secondary pa-btn--icon-only" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary pa-btn--icon-only" title="Download"><i class="fas fa-download"></i></button>
+        </div>
     </div>
-</div>
-
-<div class="pa-card">
     <div class="pa-card__body">
+        <div class="pa-callout pa-callout--info mb-4">Visual representation of applied filters with remove buttons</div>
         <div class="pa-input-wrapper">
             <input type="text" class="pa-input" placeholder="Search...">
             <button class="pa-input-wrapper__clear" type="button">×</button>
@@ -390,9 +380,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="pa-card">
     <div class="pa-card__body pa-card__body--no-padding">
         <table class="pa-table pa-table--striped">
             <thead>

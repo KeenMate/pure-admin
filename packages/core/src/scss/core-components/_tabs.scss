@@ -336,6 +336,125 @@
         padding-top: $spacing-md;
       }
     }
+
+    // Card variant - tabs act as card header (same height as pa-card__header)
+    &--card {
+      position: relative; // For dropdown positioning
+      border: $card-border-width solid var(--pa-border-color);
+      border-radius: $card-border-radius;
+      background-color: var(--pa-card-bg);
+      box-shadow: $shadow-sm;
+
+      .pa-tabs {
+        height: $card-header-min-height;
+        padding: $card-header-padding-v $card-header-padding-h;
+        background: var(--pa-card-header-bg);
+        border-bottom: $border-width-base solid var(--pa-border-color);
+        box-sizing: border-box;
+        border-top-left-radius: $card-border-radius;
+        border-top-right-radius: $card-border-radius;
+        margin-bottom: 0;
+        align-items: center;
+        gap: $spacing-xs;
+        flex-wrap: nowrap;
+        overflow: visible; // Allow dropdown to overflow
+      }
+
+      .pa-tabs__content {
+        padding: $card-body-padding-v $card-body-padding-h;
+      }
+
+      .pa-tabs__panel {
+        padding-top: 0;
+      }
+
+      // Overflow toggle for tabs that don't fit
+      .pa-tabs__overflow {
+        position: relative;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+
+      .pa-tabs__overflow-toggle {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: $card-header-min-height;
+        height: 100%;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: var(--pa-text-secondary);
+        cursor: pointer;
+        transition: all $transition-fast $easing-snappy;
+        border-left: $border-width-base solid var(--pa-border-color);
+        margin: (-$card-header-padding-v) (-$card-header-padding-h) (-$card-header-padding-v) 0;
+        box-sizing: content-box;
+        height: $card-header-min-height;
+
+        &:hover {
+          background-color: rgba($accent-color, $card-tab-hover-opacity);
+          color: var(--pa-text-primary);
+        }
+
+        // When overflow contains the active tab
+        &--has-active {
+          color: var(--pa-accent);
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: $border-width-medium;
+            background: var(--pa-accent);
+          }
+        }
+
+        i {
+          font-size: $font-size-sm;
+        }
+      }
+
+      .pa-tabs__overflow-menu {
+        position: absolute;
+        top: $card-header-min-height;
+        right: 0;
+        min-width: 15rem;
+        background: var(--pa-card-bg);
+        border: $card-border-width solid var(--pa-border-color);
+        border-radius: $border-radius;
+        box-shadow: $shadow-lg;
+        z-index: $z-index-dropdown;
+        display: none;
+        flex-direction: column;
+        padding: $spacing-xs 0;
+
+        &--open {
+          display: flex;
+        }
+
+        .pa-tabs__item {
+          padding: $spacing-sm $spacing-base;
+          border: none;
+          border-bottom: none;
+          border-radius: 0;
+          text-align: left;
+          white-space: nowrap;
+
+          &:hover {
+            background-color: rgba($accent-color, $card-tab-hover-opacity);
+          }
+
+          &--active {
+            background-color: rgba($accent-color, 0.1);
+            border-bottom: none;
+          }
+        }
+      }
+    }
   }
 
   // Vertical tabs layout wrapper (for proper spacing with content)

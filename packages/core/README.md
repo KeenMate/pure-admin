@@ -106,6 +106,30 @@ The Dark theme supports color accent variants:
 
 ## Component Classes
 
+### Grid System
+- `.pa-row` - Flex container for columns
+- `.pa-col` - Auto-equal width column (flex: 1)
+- `.pa-col-auto` - Content-based width
+- **Percentage columns (5% increments):** `.pa-col-5`, `.pa-col-10`, ... `.pa-col-100`
+- **Fraction columns:**
+  - `.pa-col-1-2` (50%), `.pa-col-1-3` (33.3%), `.pa-col-2-3` (66.7%)
+  - `.pa-col-1-4` (25%), `.pa-col-3-4` (75%)
+  - `.pa-col-1-5` (20%), `.pa-col-2-5` (40%), `.pa-col-3-5` (60%), `.pa-col-4-5` (80%)
+  - `.pa-col-1-6` (16.7%), `.pa-col-5-6` (83.3%)
+  - `.pa-col-1-12` (8.3%), `.pa-col-5-12` (41.7%), `.pa-col-7-12` (58.3%), `.pa-col-11-12` (91.7%)
+- **Responsive breakpoints:** `.pa-col-sm-*`, `.pa-col-md-*`, `.pa-col-lg-*`, `.pa-col-xl-*`
+- **Offsets:** `.pa-offset-5`, `.pa-offset-10`, ... `.pa-offset-95`
+- **Row modifiers:**
+  - `.pa-row--no-gutter` - Remove column gutters
+  - `.pa-row--center` - Center columns horizontally
+  - `.pa-row--end` - Align columns to end
+  - `.pa-row--between` - Space between columns
+  - `.pa-row--around` - Space around columns
+  - `.pa-row--top` - Align columns to top
+  - `.pa-row--middle` - Align columns to middle
+  - `.pa-row--bottom` - Align columns to bottom
+  - `.pa-row--stretch` - Stretch columns to equal height
+
 ### Buttons
 - `.pa-btn` - Base button
 - `.pa-btn--primary/secondary/success/danger/warning/info` - Variants
@@ -170,6 +194,74 @@ The Dark theme supports color accent variants:
 - `.pa-popover` - Base popover (requires JavaScript)
 - `.pa-popover--sm/md/lg` - Sizes
 - **JavaScript Required**: Popovers require `tooltips-popovers.js` and Floating UI library for positioning
+
+### Tabs
+- `.pa-tabs` - Base tabs container
+- `.pa-tabs__item` - Tab button
+- `.pa-tabs__item--active` - Active tab state
+- `.pa-tabs__content` - Content wrapper
+- `.pa-tabs__panel` - Tab panel (use `--active` to show)
+- **Variants:**
+  - `.pa-tabs--pills` - Pill-style tabs
+  - `.pa-tabs--boxed` - Boxed tabs with background
+  - `.pa-tabs--vertical` - Vertical tab layout
+  - `.pa-tabs--scrollable` - Horizontally scrollable with arrows
+  - `.pa-tabs--collapse` - Icon-only tabs (active shows text)
+  - `.pa-tabs--full` - Full-width tabs
+  - `.pa-tabs--border-top` - Active indicator on top
+  - `.pa-tabs--centered` - Center-aligned tabs
+  - `.pa-tabs--nowrap` - Prevent wrapping
+- **Sizes:** `.pa-tabs--sm`, `.pa-tabs--lg`
+- **Containers:**
+  - `.pa-tabs__container--bordered` - Card-like border wrapper
+  - `.pa-tabs__container--card` - Card header style
+  - `.pa-tabs__vertical-layout` - Wrapper for vertical tabs + content
+
+### Pagers
+- `.pa-pager` - Pagination container
+- `.pa-pager__container` - Inner container with controls and info
+- `.pa-pager__controls` - Navigation buttons wrapper
+- `.pa-pager__info` - Page info display
+- `.pa-pager__input` - Page number input
+- `.pa-pager__text` - Text labels
+- `.pa-pager--left/center/right` - Alignment modifiers
+
+### Load More
+- `.pa-load-more` - Load more container
+- `.pa-load-more__button` - Load more button
+- `.pa-load-more__button--loading` - Loading state
+- `.pa-load-more__spinner` - Loading spinner
+- `.pa-load-more__text` - Button text
+- `.pa-load-more__count` - Item count display
+- `.pa-load-more--left/center/right` - Alignment modifiers
+
+### Statistics
+- `.pa-stat` - Base statistics component
+- `.pa-stat__icon` - Icon container with color variants (`--primary/success/warning/info`)
+- `.pa-stat__content` - Content wrapper
+- `.pa-stat__number` - Large number display
+- `.pa-stat__label` - Label text
+- **Hero variant:** `.pa-stat--hero` - Large centered stat with value and change indicator
+  - `.pa-stat__value` - Hero number
+  - `.pa-stat__change` - Change indicator (`--positive/negative/neutral`)
+- **Square variant:** `.pa-stat--square` - Colored square KPI card
+  - `.pa-stat__symbol` - Background symbol
+  - Color modifiers: `.pa-stat--primary/success/info/warning/danger/secondary`
+- `.pa-kpi-grid` - Grid container for square stats
+
+### Notifications
+- `.pa-notifications` - Notification bell container
+- `.pa-notifications__btn` - Bell button
+- `.pa-notifications__icon` - Bell icon
+- `.pa-notifications__badge` - Unread count badge
+- `.pa-notifications__panel` - Dropdown panel (add `.is-open` to show)
+- `.pa-notifications__header` - Panel header
+- `.pa-notifications__list` - Notification list
+- `.pa-notifications__item` - Individual notification (`--unread` for unread state)
+- `.pa-notifications__icon-wrapper` - Item icon with variants (`--primary/success/warning/danger/secondary`)
+- `.pa-notifications__content` - Item content (title, message)
+- `.pa-notifications__time` - Timestamp
+- `.pa-notifications__footer` - Panel footer with "View all" link
 
 ### Profile Panel
 - `.pa-profile-panel` - Slide-in profile panel
