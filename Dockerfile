@@ -31,8 +31,9 @@ COPY packages/theme-express/ ./packages/theme-express/
 COPY packages/theme-minimal/ ./packages/theme-minimal/
 COPY demo/ ./demo/
 
-# Build core package
-RUN npm run build -w @keenmate/pure-admin-core
+# Clean any existing dist directories and rebuild fresh
+RUN rm -rf packages/*/dist && \
+    npm run build -w @keenmate/pure-admin-core
 
 # Build all theme packages
 RUN npm run build -w @keenmate/pure-admin-theme-audi
