@@ -104,6 +104,14 @@ The Dark theme supports color accent variants:
 - `.pa-color-green` - Green accent
 - `.pa-color-red` - Red accent
 
+### Web Component Dark Mode Support
+
+When switching theme modes, also set `data-theme` attribute on `<body>` for web component compatibility:
+```js
+document.body.dataset.theme = 'dark'; // or 'light'
+```
+This enables dark mode support for web components like `@keenmate/web-grid` that look for `data-theme` attribute.
+
 ## Component Classes
 
 ### Grid System
@@ -146,9 +154,34 @@ The Dark theme supports color accent variants:
 
 ### Layout & Sidebar
 - `.pa-layout` - Main layout container
+- `.pa-layout__inner` - Inner wrapper for sidebar + content
+- `.pa-layout__content` - Content wrapper
+- `.pa-layout__main` - Main content area
 - `.pa-layout__sidebar` - Sidebar navigation
 - `.pa-layout__sidebar--icon-collapse` - Icon-only collapse mode (icons maintain fixed position when collapsed)
 - `.sidebar-hidden` - Body class to toggle sidebar visibility
+
+### Navbar (Header)
+- `.pa-navbar` - Fixed navbar container
+- `.pa-navbar__inner` - Inner content wrapper
+- **Three-section layout:**
+  - `.pa-header__left` - Left section (burger, brand, nav) - stays anchored left
+  - `.pa-header__center` - Center section (page title) - flexible
+  - `.pa-header__right` - Right section (notifications, profile) - stays anchored right
+- `.pa-header__burger` - Hamburger menu button
+- `.pa-header__brand` - Brand/logo container
+- `.pa-header__nav` - Navigation links container
+- `.pa-header__nav--left/--right` - Navigation position
+- `.pa-header__title` - Page title
+- `.pa-header__profile-btn` - Profile button
+
+### Footer
+- `.pa-layout__footer` - Footer container (uses `min-height`, can expand)
+- **Three-section layout:**
+  - `.pa-footer__left` - Left section (copyright) - stays anchored left
+  - `.pa-footer__center` - Center section (optional) - flexible
+  - `.pa-footer__right` - Right section (version info, links) - stays anchored right
+  - `.pa-footer__right--vertical` - Stack items vertically with right-aligned text
 
 ### Forms
 - `.pa-input` - Text inputs
@@ -272,6 +305,29 @@ The Dark theme supports color accent variants:
 - `.pa-profile-panel__nav-item` - Navigation link
 - `.pa-profile-panel__favorite-item` - Favorite link (with remove button)
 - `.pa-profile-panel__actions` - Action buttons (Sign Out, etc.)
+
+## Utility Classes
+
+### Flexbox Alignment
+- `.self-start` - Align item to top (`align-self: flex-start`)
+- `.self-center` - Align item to center (`align-self: center`)
+- `.self-end` - Align item to bottom (`align-self: flex-end`)
+- `.self-stretch` - Stretch item to fill (`align-self: stretch`)
+- `.self-baseline` - Align item to baseline (`align-self: baseline`)
+
+### Spacing (Gap)
+- `.gap-0` through `.gap-2xl` - Gap utilities using spacing scale
+- `.gap-1` through `.gap-20` - Numeric gap utilities (in px-equivalent rem units)
+- `.row-gap-*` - Row gap utilities
+- `.column-gap-*` - Column gap utilities
+
+### Text Size
+- `.text-2xs` through `.text-4xl` - Font size utilities
+
+### Theme Colors
+- `.pa-bg-color-1` through `.pa-bg-color-9` - Background color slots
+- `.pa-text-color-1` through `.pa-text-color-9` - Text color slots
+- `.pa-border-color-1` through `.pa-border-color-9` - Border color slots
 
 ## SCSS Variables
 

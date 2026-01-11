@@ -132,8 +132,10 @@
             const savedThemeMode = localStorage.getItem('theme-mode');
             if (savedThemeMode === 'dark') {
                 document.body.classList.add('pa-mode-dark');
+                document.body.dataset.theme = 'dark'; // For web components (web-grid, etc.)
             } else if (savedThemeMode === 'light') {
                 document.body.classList.add('pa-mode-light');
+                document.body.dataset.theme = 'light';
             }
 
             // Apply font size immediately to prevent size jump
@@ -215,8 +217,21 @@
 
         <!-- Footer (outside inner, inside layout) -->
         <footer class="pa-layout__footer">
-            <div class="pa-layout__footer__content">
+            <!-- Left Section -->
+            <div class="pa-footer__left self-start">
                 <p class="m-0">&copy; 2024 Pure Admin Visual Framework</p>
+            </div>
+
+            <!-- Center Section (flexible) -->
+            <div class="pa-footer__center">
+                <!-- Optional center content -->
+            </div>
+
+            <!-- Right Section (vertical layout) -->
+            <div class="pa-footer__right pa-footer__right--vertical">
+                <span class="text-sm text-secondary">App version: 1.2.1</span>
+                <span class="text-sm text-secondary">Database version: 2.3.1</span>
+                <a href="#" class="text-sm">Open Source Licenses</a>
             </div>
         </footer>
     </div><!-- /.pa-layout -->

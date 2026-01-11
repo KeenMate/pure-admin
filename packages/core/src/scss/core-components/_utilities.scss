@@ -235,6 +235,13 @@ html.font-size-4xl {
 .column-gap-base { column-gap: $spacing-base; }
 .column-gap-lg { column-gap: $spacing-lg; }
 
+// Align-self utilities (for flex/grid children)
+.self-start { align-self: flex-start; }
+.self-center { align-self: center; }
+.self-end { align-self: flex-end; }
+.self-stretch { align-self: stretch; }
+.self-baseline { align-self: baseline; }
+
 // Font-size utilities (10px rem base)
 // Direct font-size classes using typography variables
 .text-2xs { font-size: $font-size-2xs; }   // 1rem = 10px
@@ -290,5 +297,13 @@ html.font-size-4xl {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+// Theme color utilities (color-1 through color-9)
+// Use these to apply theme colors to any element
+@for $i from 1 through 9 {
+  .pa-bg-color-#{$i} { background-color: var(--pa-color-#{$i}); }
+  .pa-text-color-#{$i} { color: var(--pa-color-#{$i}); }
+  .pa-border-color-#{$i} { border-color: var(--pa-color-#{$i}); }
 }
 

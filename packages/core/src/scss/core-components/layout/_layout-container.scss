@@ -95,11 +95,41 @@ body.pa-layout--sticky .pa-layout__inner {
 
 // Footer - outside inner, sibling to inner
 .pa-layout__footer {
-  height: $footer-height;
+  min-height: $footer-height;
   background-color: var(--pa-footer-bg);
   border-top: $border-width-base solid var(--pa-footer-border-color);
   display: flex;
   align-items: center;
-  padding: 0 $spacing-base;
+  padding: $spacing-xs $spacing-base;
   flex-shrink: 0; // Don't shrink footer
+  gap: $spacing-base;
+}
+
+// Footer sections - Left/Center/Right layout (mirrors navbar structure)
+.pa-footer__left {
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+  flex-shrink: 0;
+}
+
+.pa-footer__center {
+  flex: 1;
+  min-width: 0; // Allow shrinking for ellipsis
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pa-footer__right {
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+  flex-shrink: 0;
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+  }
 }

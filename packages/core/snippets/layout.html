@@ -42,9 +42,23 @@
     </div>
 
     <!-- Footer (outside inner, inside layout) -->
+    <!-- Three-section layout: Left / Center / Right -->
     <footer class="pa-layout__footer">
-        <div class="pa-layout__footer__content">
+        <!-- Left Section (stays anchored left) -->
+        <div class="pa-footer__left">
             <p>&copy; 2024 Pure Admin Framework</p>
+        </div>
+
+        <!-- Center Section (flexible, fills space) -->
+        <div class="pa-footer__center">
+            <!-- Optional center content -->
+        </div>
+
+        <!-- Right Section (stays anchored right) -->
+        <div class="pa-footer__right">
+            <span>App version: 1.2.1</span>
+            <span>Database version: 2.3.1</span>
+            <a href="#">Open Source Licenses</a>
         </div>
     </footer>
 </div>
@@ -368,50 +382,67 @@
 
 <!-- ================================
      NAVBAR/HEADER (with burger menu and navigation)
+     Three-section layout: Left / Center / Right
      ================================ -->
 
 <!-- Complete Navbar Example (hybrid: pa-navbar wrapper, pa-header__ elements) -->
 <nav class="pa-navbar">
     <div class="pa-navbar__inner">
-        <!-- Hamburger Menu (burger) -->
-        <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        <!-- Left Section: Burger, Brand, Left Nav (stays anchored left) -->
+        <div class="pa-header__left">
+            <!-- Hamburger Menu (burger) -->
+            <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-        <!-- Brand -->
-        <div class="pa-header__brand">
-            <h1>Pure Admin</h1>
+            <!-- Brand -->
+            <div class="pa-header__brand">
+                <h1>Pure Admin</h1>
+            </div>
+
+            <!-- Left Navigation Links -->
+            <nav class="pa-header__nav pa-header__nav--left">
+                <ul>
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="/components">Components</a></li>
+                    <li><a href="/forms">Forms</a></li>
+                </ul>
+            </nav>
         </div>
 
-        <!-- Left Navigation Links -->
-        <nav class="pa-header__nav pa-header__nav--left">
-            <ul>
-                <li><a href="/">📊 Dashboard</a></li>
-                <li><a href="/components">🧩 Components</a></li>
-                <li><a href="/forms">📝 Forms</a></li>
-            </ul>
-        </nav>
-
-        <!-- Page Title (flexible, with ellipsis) -->
-        <div class="pa-header__title">
-            <h2>Dashboard</h2>
+        <!-- Center Section: Page Title (flexible, fills space between left/right) -->
+        <div class="pa-header__center">
+            <div class="pa-header__title">
+                <h2>Dashboard</h2>
+            </div>
         </div>
 
-        <!-- Right Navigation Links -->
-        <nav class="pa-header__nav pa-header__nav--right">
-            <ul>
-                <li><a href="/alerts">⚠️ Alerts</a></li>
-                <li><a href="/tables">📋 Tables</a></li>
-            </ul>
-        </nav>
+        <!-- Right Section: Right Nav, Notifications, Profile (stays anchored right) -->
+        <div class="pa-header__right">
+            <!-- Right Navigation Links -->
+            <nav class="pa-header__nav pa-header__nav--right">
+                <ul>
+                    <li><a href="/alerts">Alerts</a></li>
+                    <li><a href="/tables">Tables</a></li>
+                </ul>
+            </nav>
 
-        <!-- Profile Button -->
-        <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
-            <span class="pa-btn__icon">👤</span>
-            <span class="pa-header__profile-name">John Doe</span>
-        </button>
+            <!-- Notification Bell -->
+            <div class="pa-notifications">
+                <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
+                    <span class="pa-notifications__icon">🔔</span>
+                    <span class="pa-notifications__badge">3</span>
+                </button>
+            </div>
+
+            <!-- Profile Button -->
+            <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+                <span class="pa-btn__icon">👤</span>
+                <span class="pa-header__profile-name">John Doe</span>
+            </button>
+        </div>
     </div>
 </nav>
 
@@ -518,13 +549,19 @@ NAVBAR CLASSES:
 - .pa-navbar - Navbar outer wrapper (outside layout container)
 - .pa-navbar__inner - Navbar inner container
 
-HEADER/NAVBAR ELEMENT CLASSES (inside pa-navbar__inner):
+HEADER SECTION CONTAINERS (inside pa-navbar__inner):
+- .pa-header__left - Left section (burger, brand, nav--left) - stays anchored left
+- .pa-header__center - Center section (title) - flexible, fills space
+- .pa-header__right - Right section (nav--right, notifications, profile) - stays anchored right
+
+HEADER/NAVBAR ELEMENT CLASSES (inside section containers):
 - .pa-header__burger - Burger menu button
 - .burger-menu - Burger menu class (same as __burger)
 - .pa-header__brand - Brand/logo area
 - .pa-header__nav - Navigation container
 - .pa-header__nav--left/right - Navigation alignment
 - .pa-header__title - Page title area (flexible, with ellipsis)
+- .pa-notifications - Notification bell container
 - .pa-header__profile-btn - Profile button
 - .pa-header__profile-name - Profile name text
 
@@ -536,7 +573,11 @@ LAYOUT CLASSES:
 - .pa-layout__main - Main content area
 - .pa-layout__main__inner - Main content inner wrapper
 - .pa-layout__footer - Footer container
-- .pa-layout__footer__content - Footer content wrapper
+
+FOOTER SECTION CONTAINERS (inside pa-layout__footer):
+- .pa-footer__left - Left section (copyright, etc.) - stays anchored left
+- .pa-footer__center - Center section (optional) - flexible, fills space
+- .pa-footer__right - Right section (version info, links) - stays anchored right
 
 LAYOUT WIDTH VARIANTS (applied to body tag):
 - No class - Fluid layout (full width)

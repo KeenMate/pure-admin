@@ -138,6 +138,9 @@
             const modeClass = cssClassPattern.replace('{mode}', mode);
             body.classList.add(modeClass);
 
+            // Set data-theme attribute for web components (web-grid, etc.)
+            body.dataset.theme = mode;
+
             localStorage.setItem('theme-mode', mode);
         };
 

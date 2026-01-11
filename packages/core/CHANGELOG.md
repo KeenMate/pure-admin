@@ -5,7 +5,46 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0-rc05] - 2026-01-09
+## [1.0.0-rc06] - 2026-01-11
+
+### Changed
+
+#### Navbar Three-Section Layout (Left/Center/Right)
+- **New structure**: Header content now organized into three explicit sections
+  - `.pa-header__left` - Anchored to left edge (burger, brand, nav--left)
+  - `.pa-header__center` - Flexible center section (title)
+  - `.pa-header__right` - Anchored to right edge (nav--right, notifications, profile)
+- **Robust layout**: Left/right sections stay in their corners regardless of center content
+- **Mobile fix**: Notifications and profile no longer collapse to left when title is absent
+- **Removed hacks**: Eliminated `margin-left: auto` workarounds from notifications and nav elements
+- **Files updated**: `_navbar.scss`, `_navbar-elements.scss`, `_notifications.scss`, `navbar.mustache`, `layout.html` snippet
+
+#### Footer Three-Section Layout (Left/Center/Right)
+- **New structure**: Footer now mirrors navbar with three explicit sections
+  - `.pa-footer__left` - Anchored to left edge (copyright)
+  - `.pa-footer__center` - Flexible center section (optional content)
+  - `.pa-footer__right` - Anchored to right edge (version info, links)
+- **Expandable height**: Footer uses `min-height` instead of fixed `height`, allowing it to grow for multi-line content
+- **Vertical modifier**: `.pa-footer__right--vertical` stacks items vertically with right-aligned text
+- **Use case**: Display app/database versions and license links on the right while keeping copyright on left
+- **Files updated**: `_layout-container.scss`, `layout.mustache`, `layout.html` snippet
+
+#### Align-Self Utility Classes
+- **New utilities**: Flexbox/grid child alignment classes
+  - `.self-start` - Align to top (`align-self: flex-start`)
+  - `.self-center` - Align to center (`align-self: center`)
+  - `.self-end` - Align to bottom (`align-self: flex-end`)
+  - `.self-stretch` - Stretch to fill (`align-self: stretch`)
+  - `.self-baseline` - Align to baseline (`align-self: baseline`)
+- **Use case**: Align individual flex children independently, e.g., copyright at top of expanded footer
+
+### Fixed
+
+#### Web Components Dark Mode Support
+- **Added `data-theme` attribute**: Body element now receives `data-theme="dark"` or `data-theme="light"` when theme mode changes
+- **Web-grid compatibility**: The `@keenmate/web-grid` component now properly displays in dark mode
+- **Applies to all web components**: Any web component that looks for `data-theme` attribute on ancestors will now work
+- **Files updated**: `layout.mustache` (FOUC prevention script), `settings-panel.js` (runtime mode switching)
 
 ### Added
 

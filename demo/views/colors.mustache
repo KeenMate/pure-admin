@@ -1,0 +1,325 @@
+<style>
+    .color-swatch {
+        display: flex;
+        flex-direction: column;
+        border-radius: var(--pa-border-radius);
+        overflow: hidden;
+        border: 1px solid var(--pa-border-color);
+    }
+    .color-swatch__preview {
+        height: 6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .color-swatch__info {
+        padding: 0.75rem;
+        background: var(--pa-card-bg);
+        font-size: 1.2rem;
+    }
+    .color-swatch__name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+    .color-swatch__var {
+        color: var(--pa-text-secondary);
+        font-family: monospace;
+        font-size: 1.1rem;
+    }
+</style>
+
+<p>Color palette reference showing semantic colors and theme color slots with their utility classes.</p>
+
+<!-- Semantic Colors -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Semantic Colors</h3>
+    </div>
+    <div class="pa-card__body">
+        <p>Standard semantic colors used throughout the framework for status indication.</p>
+
+        <div class="pa-row gap-base">
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-success-bg);">Success</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Success</div>
+                        <div class="color-swatch__var">--pa-success-bg</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-warning-bg);">Warning</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Warning</div>
+                        <div class="color-swatch__var">--pa-warning-bg</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-danger-bg);">Danger</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Danger</div>
+                        <div class="color-swatch__var">--pa-danger-bg</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-info-bg);">Info</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Info</div>
+                        <div class="color-swatch__var">--pa-info-bg</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-accent);">Accent</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Accent</div>
+                        <div class="color-swatch__var">--pa-accent</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-primary-bg); color: var(--pa-text-primary); text-shadow: none;">Primary BG</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Primary BG</div>
+                        <div class="color-swatch__var">--pa-primary-bg</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-secondary-bg); color: var(--pa-text-primary); text-shadow: none;">Secondary BG</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Secondary BG</div>
+                        <div class="color-swatch__var">--pa-secondary-bg</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Theme Color Slots -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Theme Color Slots (1-9)</h3>
+    </div>
+    <div class="pa-card__body">
+        <p>Custom theme colors that can be overridden per-theme. Use these for branded elements.</p>
+
+        <div class="pa-row gap-base">
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-1);">Color 1</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 1</div>
+                        <div class="color-swatch__var">--pa-color-1</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-2);">Color 2</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 2</div>
+                        <div class="color-swatch__var">--pa-color-2</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-3);">Color 3</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 3</div>
+                        <div class="color-swatch__var">--pa-color-3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-4);">Color 4</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 4</div>
+                        <div class="color-swatch__var">--pa-color-4</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-5);">Color 5</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 5</div>
+                        <div class="color-swatch__var">--pa-color-5</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-6);">Color 6</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 6</div>
+                        <div class="color-swatch__var">--pa-color-6</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-7);">Color 7</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 7</div>
+                        <div class="color-swatch__var">--pa-color-7</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-8);">Color 8</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 8</div>
+                        <div class="color-swatch__var">--pa-color-8</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-1-4">
+                <div class="color-swatch">
+                    <div class="color-swatch__preview" style="background-color: var(--pa-color-9);">Color 9</div>
+                    <div class="color-swatch__info">
+                        <div class="color-swatch__name">Color 9</div>
+                        <div class="color-swatch__var">--pa-color-9</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Utility Classes -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Color Utility Classes</h3>
+    </div>
+    <div class="pa-card__body">
+        <p>Apply theme colors to any element using these utility classes.</p>
+
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-md-1-3">
+                <h4>Background Colors</h4>
+                <code>.pa-bg-color-1</code> to <code>.pa-bg-color-9</code>
+                <div class="component-showcase" style="margin-top: 1rem;">
+                    <span class="pa-badge pa-bg-color-1" style="color: white;">bg-color-1</span>
+                    <span class="pa-badge pa-bg-color-2" style="color: white;">bg-color-2</span>
+                    <span class="pa-badge pa-bg-color-3" style="color: white;">bg-color-3</span>
+                    <span class="pa-badge pa-bg-color-4" style="color: white;">bg-color-4</span>
+                    <span class="pa-badge pa-bg-color-5" style="color: white;">bg-color-5</span>
+                    <span class="pa-badge pa-bg-color-6" style="color: white;">bg-color-6</span>
+                    <span class="pa-badge pa-bg-color-7" style="color: white;">bg-color-7</span>
+                    <span class="pa-badge pa-bg-color-8" style="color: white;">bg-color-8</span>
+                    <span class="pa-badge pa-bg-color-9" style="color: white;">bg-color-9</span>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <h4>Text Colors</h4>
+                <code>.pa-text-color-1</code> to <code>.pa-text-color-9</code>
+                <div class="component-showcase" style="margin-top: 1rem;">
+                    <span class="pa-text-color-1" style="font-weight: 600;">Text 1</span>
+                    <span class="pa-text-color-2" style="font-weight: 600;">Text 2</span>
+                    <span class="pa-text-color-3" style="font-weight: 600;">Text 3</span>
+                    <span class="pa-text-color-4" style="font-weight: 600;">Text 4</span>
+                    <span class="pa-text-color-5" style="font-weight: 600;">Text 5</span>
+                    <span class="pa-text-color-6" style="font-weight: 600;">Text 6</span>
+                    <span class="pa-text-color-7" style="font-weight: 600;">Text 7</span>
+                    <span class="pa-text-color-8" style="font-weight: 600;">Text 8</span>
+                    <span class="pa-text-color-9" style="font-weight: 600;">Text 9</span>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <h4>Border Colors</h4>
+                <code>.pa-border-color-1</code> to <code>.pa-border-color-9</code>
+                <div class="component-showcase" style="margin-top: 1rem;">
+                    <span class="pa-badge pa-border-color-1" style="border: 2px solid; background: transparent;">Border 1</span>
+                    <span class="pa-badge pa-border-color-2" style="border: 2px solid; background: transparent;">Border 2</span>
+                    <span class="pa-badge pa-border-color-3" style="border: 2px solid; background: transparent;">Border 3</span>
+                    <span class="pa-badge pa-border-color-4" style="border: 2px solid; background: transparent;">Border 4</span>
+                    <span class="pa-badge pa-border-color-5" style="border: 2px solid; background: transparent;">Border 5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Applied to Components -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Applied to Components</h3>
+    </div>
+    <div class="pa-card__body">
+        <p>Examples of color utilities applied to various components.</p>
+
+        <h4>Alerts with Theme Colors</h4>
+        <div class="pa-alert pa-bg-color-1" style="color: white; border: none;">
+            <strong>Color 1 Alert:</strong> Using <code style="color: inherit;">.pa-bg-color-1</code> utility class.
+        </div>
+        <div class="pa-alert pa-bg-color-4" style="color: white; border: none;">
+            <strong>Color 4 Alert:</strong> Using <code style="color: inherit;">.pa-bg-color-4</code> utility class.
+        </div>
+        <div class="pa-alert pa-bg-color-7" style="color: white; border: none;">
+            <strong>Color 7 Alert:</strong> Using <code style="color: inherit;">.pa-bg-color-7</code> utility class.
+        </div>
+
+        <h4 style="margin-top: 2rem;">Cards with Colored Headers</h4>
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-md-1-3">
+                <div class="pa-card">
+                    <div class="pa-card__header pa-bg-color-1" style="color: white;">
+                        <h3 style="color: inherit;">Color 1 Header</h3>
+                    </div>
+                    <div class="pa-card__body">
+                        Card with <code>.pa-bg-color-1</code> on header.
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <div class="pa-card">
+                    <div class="pa-card__header pa-bg-color-5" style="color: white;">
+                        <h3 style="color: inherit;">Color 5 Header</h3>
+                    </div>
+                    <div class="pa-card__body">
+                        Card with <code>.pa-bg-color-5</code> on header.
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <div class="pa-card">
+                    <div class="pa-card__header pa-bg-color-8" style="color: white;">
+                        <h3 style="color: inherit;">Color 8 Header</h3>
+                    </div>
+                    <div class="pa-card__body">
+                        Card with <code>.pa-bg-color-8</code> on header.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 style="margin-top: 2rem;">Mixed Badges</h4>
+        <div class="component-showcase">
+            <span class="pa-badge pa-badge--success">Success</span>
+            <span class="pa-badge pa-badge--warning">Warning</span>
+            <span class="pa-badge pa-badge--danger">Danger</span>
+            <span class="pa-badge pa-badge--info">Info</span>
+            <span class="pa-badge pa-bg-color-1" style="color: white;">Color 1</span>
+            <span class="pa-badge pa-bg-color-2" style="color: white;">Color 2</span>
+            <span class="pa-badge pa-bg-color-6" style="color: white;">Color 6</span>
+            <span class="pa-badge pa-bg-color-9" style="color: white;">Color 9</span>
+        </div>
+    </div>
+</div>

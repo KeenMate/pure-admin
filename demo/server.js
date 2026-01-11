@@ -125,6 +125,10 @@ app.get('/theme-variables', (req, res) => {
     renderWithLayout(res, 'theme-variables', { pageTitle: 'Theme Variables', currentPage: 'theme-variables', isThemeVariables: true });
 });
 
+app.get('/colors', (req, res) => {
+    renderWithLayout(res, 'colors', { pageTitle: 'Colors', currentPage: 'colors', isColors: true });
+});
+
 app.get('/forms', (req, res) => {
     renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms', isForms: true });
 });

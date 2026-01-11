@@ -2,6 +2,19 @@
 /* Light version maintaining Audi's red accents and Fira Sans Condensed font */
 @use 'sass:color';
 
+// =============================================================================
+// THEME COLOR SLOTS (1-9) - Audi-inspired palette
+// =============================================================================
+$color-1: #bb0a30;  // Audi Red (classic)
+$color-2: #ff4444;  // Light Red
+$color-3: #ff6600;  // Orange (warning tone)
+$color-4: #d4af37;  // Gold (premium)
+$color-5: #00a0a0;  // Teal (contrast)
+$color-6: #0066cc;  // Blue (professional)
+$color-7: #8c8c8c;  // Silver (metallic)
+$color-8: #404040;  // Charcoal (neutral)
+$color-9: #6b3fa0;  // Purple (luxury)
+
 @import '../variables';
 
 // Audi Light theme configuration
@@ -300,6 +313,19 @@ $card-border-radius: 0; // Sharp edges
 
     &:focus {
       border-color: $audi-red !important;
+    }
+  }
+}
+
+// Footer - light text on dark background
+.pa-layout__footer {
+  color: #cccccc;
+
+  a {
+    color: #ffffff;
+
+    &:hover {
+      color: $audi-red;
     }
   }
 }
