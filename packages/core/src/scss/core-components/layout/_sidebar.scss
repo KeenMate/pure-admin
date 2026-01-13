@@ -4,17 +4,68 @@
    ======================================== */
 @use '../../variables' as *;
 
-// Sidebar layout element
+// CSS variable for sidebar width (allows JS resize)
+:root {
+  --pa-sidebar-width: #{$sidebar-width};
+  --pa-sidebar-min-width: 18rem;
+  --pa-sidebar-max-width: 50rem;
+}
+
+// Sidebar layout element - width in :where() for low specificity (utility classes can override)
+:where(.pa-layout__sidebar) {
+  width: var(--pa-sidebar-width);
+}
+
 .pa-layout__sidebar {
-  width: $sidebar-width;
   background-color: var(--pa-sidebar-bg);
   border-right: $border-width-base solid var(--pa-border-color);
   flex-shrink: 0;
+  position: relative;
+}
+
+// Resize handle on sidebar edge
+.pa-sidebar-resize {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 100;
+
+  // Visual indicator on hover
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background-color: transparent;
+    transition: background-color $transition-fast $easing-snappy;
+  }
+
+  &:hover::after,
+  &--active::after {
+    background-color: var(--pa-accent);
+  }
+}
+
+// Disable text selection during resize
+body.pa-sidebar-resizing {
+  cursor: ew-resize !important;
+  user-select: none;
+
+  * {
+    cursor: ew-resize !important;
+  }
 }
 
 // Sticky mode - sidebar scrolls
 body.pa-layout--sticky .pa-layout__sidebar {
   overflow-y: auto;
+  overflow-y: overlay; // Chromium: scrollbar overlays content, doesn't reduce width
   overflow-x: visible; // Allow tooltips to escape right
 }
 

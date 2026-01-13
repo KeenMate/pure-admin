@@ -45,6 +45,19 @@
     {{/isAudiTheme}}
     <!-- SCSS VARIABLE THEME: Dynamic theme loading -->
     <link rel="stylesheet" href="/dist/css/themes/{{currentTheme}}.css">
+    <!-- Early settings load (before body renders to prevent flash) -->
+    <script>
+        (function() {
+            // Apply sidebar width from localStorage immediately
+            var savedWidth = localStorage.getItem('sidebar-width');
+            if (savedWidth) {
+                var width = parseInt(savedWidth, 10);
+                if (width >= 180 && width <= 500) {
+                    document.documentElement.style.setProperty('--pa-sidebar-width', (width / 10) + 'rem');
+                }
+            }
+        })();
+    </script>
     <!-- Floating UI for tooltips and popovers -->
     <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.7.3"></script>
     <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.4"></script>
@@ -73,6 +86,8 @@
         };
     </script>
     <script src="/src/js/settings-panel.js"></script>
+    <!-- Sidebar Resize -->
+    <script src="/src/js/sidebar-resize.js"></script>
     <!-- Analytics -->
     <script defer data-domain="pure-admin.keenmate.dev" src="https://stats.keenmate.services/js/plausible.js"></script>
 </head>

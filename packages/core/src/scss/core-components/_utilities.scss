@@ -122,6 +122,23 @@ html.font-size-4xl {
 .overflow-hidden { overflow: hidden; }
 .overflow-visible { overflow: visible; }
 
+// Overlay scrollbar utilities (scrollbar floats over content, doesn't reduce width)
+// Supported in Chromium browsers; Firefox falls back to auto
+.overflow-overlay {
+  overflow: auto;
+  overflow: overlay;
+}
+
+.overflow-y-overlay {
+  overflow-y: auto;
+  overflow-y: overlay;
+}
+
+.overflow-x-overlay {
+  overflow-x: auto;
+  overflow-x: overlay;
+}
+
 // Cursor utilities
 .cursor-pointer { cursor: pointer; }
 .cursor-help { cursor: help; }
@@ -254,6 +271,13 @@ html.font-size-4xl {
 .text-2xl { font-size: $font-size-2xl; }   // 2.4rem = 24px
 .text-3xl { font-size: $font-size-3xl; }   // 2.8rem = 28px
 .text-4xl { font-size: $font-size-4xl; }   // 3.2rem = 32px
+
+// Text truncation with ellipsis
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 // Component showcase styling
 .component-showcase {

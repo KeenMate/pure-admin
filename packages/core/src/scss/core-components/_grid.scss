@@ -262,3 +262,28 @@ $grid-columns-fractions: (
   padding-bottom: 0;
 }
 
+// ============================================================================
+// AUTO-STACK ON MOBILE
+// ============================================================================
+// Base percentage/fraction columns auto-stack to 100% on mobile
+// Use explicit responsive classes (pa-col-sm-*, pa-col-md-*) to override
+@media (max-width: $mobile-breakpoint) {
+  // Stack percentage columns
+  @each $size in $grid-columns-5 {
+    @if $size < 100 {
+      .pa-col-#{$size} {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+  }
+
+  // Stack fraction columns
+  @each $name, $width in $grid-columns-fractions {
+    .pa-col-#{$name} {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+}
+

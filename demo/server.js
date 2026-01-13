@@ -277,6 +277,10 @@ app.get('/virtual-scroll-code', (req, res) => {
     renderWithLayout(res, 'virtual-scroll-code', { pageTitle: 'Virtual Scroll Code', currentPage: 'virtual-scroll-code', isVirtualScrollCode: true });
 });
 
+app.get('/notifications', (req, res) => {
+    renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
+});
+
 // Serve static files with cache headers (after routes so EJS takes precedence)
 
 // Theme CSS files from separate theme packages

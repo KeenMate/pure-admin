@@ -1,0 +1,300 @@
+<!-- Notifications Page Header -->
+<div class="pa-row mb-1">
+    <div class="pa-col">
+        <p class="text-muted">View and manage all your notifications</p>
+    </div>
+    <div class="pa-col-auto">
+        <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="markAllRead()">
+            Mark all as read
+        </button>
+    </div>
+</div>
+
+<!-- Notification Filters -->
+<div class="pa-row mb-1">
+    <div class="pa-col-100">
+        <div class="pa-card">
+            <div class="pa-card__body">
+                <div class="d-flex gap-sm flex-wrap align-items-center">
+                    <span class="text-muted text-sm">Filter:</span>
+                    <button class="pa-btn pa-btn--primary pa-btn--sm" onclick="filterNotifications('all')">All</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="filterNotifications('unread')">Unread</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="filterNotifications('read')">Read</button>
+                    <span class="text-muted text-sm ml-2">Type:</span>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="filterNotifications('info')">Info</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="filterNotifications('warning')">Warning</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="filterNotifications('success')">Success</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="filterNotifications('error')">Error</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications List -->
+<div class="pa-row">
+    <div class="pa-col-100">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="d-flex align-items-center gap-base">
+                    <label class="pa-checkbox">
+                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+                        <span class="pa-checkbox__mark"></span>
+                    </label>
+                    <h3>All Notifications</h3>
+                    <span class="pa-badge pa-badge--primary">4 unread</span>
+                </div>
+                <!-- Bulk Actions (hidden by default) -->
+                <div id="bulkActions" class="d-flex gap-sm" style="display: none !important;">
+                    <span class="text-muted text-sm self-center"><span id="selectedCount">0</span> selected</span>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="markSelectedRead()">Mark as read</button>
+                    <button class="pa-btn pa-btn--danger pa-btn--sm" onclick="deleteSelected()">Delete</button>
+                </div>
+            </div>
+            <div class="pa-card__body p-0">
+                <ul class="pa-notifications__list pa-notifications__list--page">
+                    <!-- Notification Item - Unread Primary -->
+                    <li class="pa-notifications__item pa-notifications__item--unread">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--primary">
+                            i
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>New user registration</h4>
+                            <p>John Doe has registered a new account and is awaiting approval.</p>
+                            <span class="pa-notifications__time">2 minutes ago</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">&#x2713;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+
+                    <!-- Notification Item - Unread Warning -->
+                    <li class="pa-notifications__item pa-notifications__item--unread">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">
+                            !
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>Server load high</h4>
+                            <p>Server CPU usage has exceeded 85%. Consider scaling resources.</p>
+                            <span class="pa-notifications__time">15 minutes ago</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">&#x2713;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+
+                    <!-- Notification Item - Unread Success -->
+                    <li class="pa-notifications__item pa-notifications__item--unread">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--success">
+                            &#x2713;
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>Deployment successful</h4>
+                            <p>Version 2.1.0 has been successfully deployed to production.</p>
+                            <span class="pa-notifications__time">1 hour ago</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">&#x2713;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+
+                    <!-- Notification Item - Unread Danger -->
+                    <li class="pa-notifications__item pa-notifications__item--unread">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--danger">
+                            &#x2715;
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>Payment failed</h4>
+                            <p>Payment processing failed for order #12847. Customer has been notified.</p>
+                            <span class="pa-notifications__time">2 hours ago</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">&#x2713;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+
+                    <!-- Notification Item - Read -->
+                    <li class="pa-notifications__item">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--primary">
+                            i
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>System maintenance scheduled</h4>
+                            <p>Scheduled maintenance will occur on Sunday at 2:00 AM UTC.</p>
+                            <span class="pa-notifications__time">Yesterday</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as unread">&#x25CB;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+
+                    <!-- Notification Item - Read -->
+                    <li class="pa-notifications__item">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--success">
+                            &#x2713;
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>Backup completed</h4>
+                            <p>Weekly database backup completed successfully. Size: 2.4 GB.</p>
+                            <span class="pa-notifications__time">2 days ago</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as unread">&#x25CB;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+
+                    <!-- Notification Item - Read -->
+                    <li class="pa-notifications__item">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">
+                            !
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>License expiring soon</h4>
+                            <p>Your enterprise license expires in 30 days. Please renew to avoid service interruption.</p>
+                            <span class="pa-notifications__time">3 days ago</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as unread">&#x25CB;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+
+                    <!-- Notification Item - Read -->
+                    <li class="pa-notifications__item">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" class="notification-checkbox" onchange="updateSelection()">
+                            <span class="pa-checkbox__mark"></span>
+                        </label>
+                        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--secondary">
+                            &#x2139;
+                        </div>
+                        <div class="pa-notifications__content">
+                            <h4>New feature available</h4>
+                            <p>Dark mode is now available. Enable it in Settings > Appearance.</p>
+                            <span class="pa-notifications__time">1 week ago</span>
+                        </div>
+                        <div class="pa-notifications__actions">
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as unread">&#x25CB;</button>
+                            <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">&#x2715;</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="pa-row mt-1">
+    <div class="pa-col-100">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted text-sm">Showing 1-8 of 24 notifications</span>
+            <div class="pa-pager">
+                <div class="pa-pager__container">
+                    <div class="pa-pager__controls">
+                        <button class="pa-btn pa-btn--sm pa-btn--secondary" disabled title="First Page">&laquo;</button>
+                        <button class="pa-btn pa-btn--sm pa-btn--secondary" disabled title="Previous Page">&lsaquo;</button>
+                    </div>
+                    <div class="pa-pager__info">
+                        <input type="number" class="pa-input pa-input--sm pa-pager__input" value="1" min="1" max="3">
+                        <span class="pa-pager__text">/ 3 pages</span>
+                    </div>
+                    <div class="pa-pager__controls">
+                        <button class="pa-btn pa-btn--sm pa-btn--secondary" title="Next Page">&rsaquo;</button>
+                        <button class="pa-btn pa-btn--sm pa-btn--secondary" title="Last Page">&raquo;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleSelectAll(checkbox) {
+    const checkboxes = document.querySelectorAll('.notification-checkbox');
+    checkboxes.forEach(cb => cb.checked = checkbox.checked);
+    updateSelection();
+}
+
+function updateSelection() {
+    const checkboxes = document.querySelectorAll('.notification-checkbox');
+    const checked = document.querySelectorAll('.notification-checkbox:checked');
+    const selectAll = document.getElementById('selectAll');
+    const bulkActions = document.getElementById('bulkActions');
+    const selectedCount = document.getElementById('selectedCount');
+
+    // Update select all checkbox state
+    selectAll.checked = checked.length === checkboxes.length && checkboxes.length > 0;
+    selectAll.indeterminate = checked.length > 0 && checked.length < checkboxes.length;
+
+    // Show/hide bulk actions
+    if (checked.length > 0) {
+        bulkActions.style.display = 'flex';
+        selectedCount.textContent = checked.length;
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+function markSelectedRead() {
+    const checked = document.querySelectorAll('.notification-checkbox:checked');
+    checked.forEach(cb => {
+        cb.closest('.pa-notifications__item').classList.remove('pa-notifications__item--unread');
+        cb.checked = false;
+    });
+    updateSelection();
+}
+
+function deleteSelected() {
+    const checked = document.querySelectorAll('.notification-checkbox:checked');
+    checked.forEach(cb => {
+        cb.closest('.pa-notifications__item').remove();
+    });
+    updateSelection();
+}
+
+function markAllRead() {
+    document.querySelectorAll('.pa-notifications__item--unread').forEach(item => {
+        item.classList.remove('pa-notifications__item--unread');
+    });
+    document.querySelector('.pa-badge').textContent = '0 unread';
+}
+
+function filterNotifications(type) {
+    console.log('Filter:', type);
+}
+</script>

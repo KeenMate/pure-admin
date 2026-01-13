@@ -381,6 +381,52 @@
 
 
 <!-- ================================
+     SIDEBAR WIDTH CONTROL
+     ================================ -->
+
+<!-- Default width (28.8rem / 288px from CSS variable) -->
+<aside class="pa-layout__sidebar">
+    <!-- Nav content -->
+</aside>
+
+<!-- Resizable sidebar (opt-in, drag right edge to resize) -->
+<aside class="pa-layout__sidebar pa-layout__sidebar--resizable">
+    <!-- Nav content -->
+    <!-- Drag handle appears on right edge -->
+    <!-- Width saved to localStorage -->
+    <!-- Double-click handle to reset to default -->
+</aside>
+
+<!-- Custom fixed width using utility class (overrides default and resize) -->
+<aside class="pa-layout__sidebar wr-25">
+    <!-- Fixed 25rem (250px) width -->
+    <!-- wr-* sets exact width, blocks resize -->
+</aside>
+
+<!-- Custom minimum width using utility class (allows resize above minimum) -->
+<aside class="pa-layout__sidebar pa-layout__sidebar--resizable minwr-20">
+    <!-- Minimum 20rem (200px) width -->
+    <!-- minwr-* sets floor, resize still works above it -->
+</aside>
+
+<!--
+SIDEBAR WIDTH OPTIONS:
+1. Default: Uses CSS variable --pa-sidebar-width (28.8rem)
+2. Resizable: Add --resizable class, user can drag to resize (180-500px range)
+3. Fixed width: Add wr-* utility class (e.g., wr-20, wr-25, wr-30)
+4. Minimum width: Add minwr-* utility class (e.g., minwr-15, minwr-20)
+
+WIDTH UTILITY CLASSES (rem-based, 10px = 1rem):
+- .wr-15 to .wr-25 - Fixed width (15rem to 25rem)
+- .minwr-15 to .minwr-25 - Minimum width (allows resize above)
+- .maxwr-15 to .maxwr-25 - Maximum width (limits resize)
+
+NOTE: Fixed width (.wr-*) overrides both default and resizable width.
+      Use .minwr-* with --resizable to set a floor while allowing resize.
+-->
+
+
+<!-- ================================
      NAVBAR/HEADER (with burger menu and navigation)
      Three-section layout: Left / Center / Right
      ================================ -->
@@ -605,6 +651,14 @@ SIDEBAR MODES (modifiers on .pa-layout__sidebar):
 - Default - Sidebar scrolls with content
 - .pa-layout__sidebar--sticky - Sidebar stays fixed while content scrolls
 - .pa-layout__sidebar--icon-collapse - Sidebar collapses to icon bar instead of hiding
+- .pa-layout__sidebar--resizable - Drag right edge to resize (opt-in)
+
+SIDEBAR WIDTH CONTROL:
+- Default width: 28.8rem (288px) via CSS variable --pa-sidebar-width
+- Resizable: Add --resizable class for drag-to-resize (180-500px range)
+- Fixed width: Add .wr-* utility class (e.g., wr-25 = 250px) - overrides resize
+- Min width: Add .minwr-* utility class (e.g., minwr-20) - sets floor for resize
+- Max width: Add .maxwr-* utility class (e.g., maxwr-40) - sets ceiling for resize
 
 BURGER MENU:
 - .burger-menu - Burger menu button (same as .pa-header__burger)
@@ -636,4 +690,16 @@ JAVASCRIPT:
 - toggleSidebar() - Toggle sidebar visibility (burger menu)
 - toggleSubmenu(button) - Toggle submenu open/closed
 - Stores state in localStorage for persistence across page loads
+
+PROFILE PANEL WIDTH CONTROL:
+- Default width: 20vw via CSS variable --pa-profile-panel-width
+- Default max-width: 48rem (480px) via CSS variable --pa-profile-panel-max-width
+- Override with utility classes: Add .wr-* to .pa-profile-panel__content
+- Examples:
+  - .wr-30 = fixed 30rem (300px) width
+  - .wr-40 = fixed 40rem (400px) width
+  - .minwr-25 = minimum 25rem width
+  - .maxwr-50 = maximum 50rem width
+- Uses low specificity (:where) so utility classes can override
+- Available: wr-1 to wr-10, then 15, 20, 25, 30, 35, 40, 45, 50 (same for minwr/maxwr)
 -->

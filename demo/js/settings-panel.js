@@ -30,6 +30,7 @@
         const fontSizeSelector = document.getElementById('fontSizeSelector');
         const fontFamilySelector = document.getElementById('fontFamilySelector');
         const sidebarCollapsed = document.getElementById('sidebarCollapsed');
+        const sidebarResizable = document.getElementById('sidebarResizable');
         const sidebarBehaviorSelector = document.getElementById('sidebarBehaviorSelector');
         const sidebarModeSelector = document.getElementById('sidebarModeSelector');
         const compactMode = document.getElementById('compactMode');
@@ -238,6 +239,17 @@
                 }
             }
 
+            // Sidebar resizable
+            const isSidebarResizable = localStorage.getItem('sidebar-resizable') === 'true';
+            sidebarResizable.checked = isSidebarResizable;
+            if (isSidebarResizable && sidebar) {
+                sidebar.classList.add('pa-layout__sidebar--resizable');
+                // Trigger resize init if the module is loaded
+                if (window.PureAdminSidebarResize && window.PureAdminSidebarResize.init) {
+                    window.PureAdminSidebarResize.init();
+                }
+            }
+
             // Compact mode
             const isCompactMode = localStorage.getItem('compact-mode') === 'true';
             compactMode.checked = isCompactMode;
@@ -332,6 +344,25 @@
             toggleSidebar();
         });
 
+        // Sidebar resizable toggle
+        sidebarResizable.addEventListener('change', (e) => {
+            const sidebar = document.querySelector('.pa-layout__sidebar');
+            if (e.target.checked) {
+                sidebar.classList.add('pa-layout__sidebar--resizable');
+                localStorage.setItem('sidebar-resizable', 'true');
+                // Initialize resize functionality
+                if (window.PureAdminSidebarResize && window.PureAdminSidebarResize.init) {
+                    window.PureAdminSidebarResize.init();
+                }
+            } else {
+                sidebar.classList.remove('pa-layout__sidebar--resizable');
+                localStorage.setItem('sidebar-resizable', 'false');
+                // Remove resize handle if it exists
+                const handle = sidebar.querySelector('.pa-sidebar-resize');
+                if (handle) handle.remove();
+            }
+        });
+
         // Compact mode toggle
         compactMode.addEventListener('change', (e) => {
             if (e.target.checked) {
@@ -407,6 +438,8 @@
             localStorage.removeItem('font-family');
             localStorage.removeItem('sidebar-hidden');
             localStorage.removeItem('sidebar-behavior');
+            localStorage.removeItem('sidebar-resizable');
+            localStorage.removeItem('sidebar-width');
             localStorage.removeItem('compact-mode');
             localStorage.removeItem('profile-no-avatar');
             localStorage.removeItem('theme-mode');

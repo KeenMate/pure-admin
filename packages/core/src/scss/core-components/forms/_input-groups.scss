@@ -35,10 +35,11 @@
   &__append {
     display: flex;
     align-items: center;
-    padding: $input-padding-v $input-padding-h;
+    height: #{$base-input-size-md-height}rem;
+    line-height: #{$base-input-size-md-height}rem;
+    padding: 0 $input-padding-h;
     border: $border-width-base solid var(--pa-border-color);
     font-size: $font-size-sm;
-    line-height: 1;
     white-space: nowrap;
     border-radius: 0;
   }
@@ -74,8 +75,8 @@
     border-left: $border-width-base solid var(--pa-border-color);
   }
 
-  // When input is focused, only show focus border on edges adjacent to input
-  &:focus-within {
+  // When input is focused, show focus border on adjacent prepend/append
+  &:has(.pa-input:focus) {
     // Last prepend (one before input) gets focus border
     .pa-input-group__prepend {
       border-right: $border-width-base solid var(--pa-input-focus-border-color);
@@ -99,13 +100,10 @@
 
   &__button {
     border-radius: 0;
-    border-color: var(--pa-border-color);
-    border-left: none;
 
     &:first-child {
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
-      border-left: $border-width-base solid var(--pa-border-color);
     }
 
     &:last-child {
@@ -118,7 +116,8 @@
   &--xs {
     .pa-input-group__prepend,
     .pa-input-group__append {
-      padding: $input-padding-xs-v $input-padding-h;
+      height: #{$base-input-size-xs-height}rem;
+      line-height: #{$base-input-size-xs-height}rem;
       font-size: $font-size-xs;
     }
   }
@@ -126,7 +125,8 @@
   &--sm {
     .pa-input-group__prepend,
     .pa-input-group__append {
-      padding: $input-padding-v $input-padding-h;
+      height: #{$base-input-size-sm-height}rem;
+      line-height: #{$base-input-size-sm-height}rem;
       font-size: $font-size-sm;
     }
   }
@@ -134,7 +134,8 @@
   &--lg {
     .pa-input-group__prepend,
     .pa-input-group__append {
-      padding: $input-padding-v $input-padding-h;
+      height: #{$base-input-size-lg-height}rem;
+      line-height: #{$base-input-size-lg-height}rem;
       font-size: $font-size-base;
     }
   }
@@ -142,7 +143,8 @@
   &--xl {
     .pa-input-group__prepend,
     .pa-input-group__append {
-      padding: $input-padding-v $input-padding-h;
+      height: #{$base-input-size-xl-height}rem;
+      line-height: #{$base-input-size-xl-height}rem;
       font-size: $font-size-lg;
     }
   }

@@ -1,7 +1,7 @@
 # Pure Admin Workspace - Makefile
 # Root workspace commands for development and build
 
-.PHONY: help setup install build build-themes build-all watch clean demo dev package publish verify publish-all docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
+.PHONY: help setup install build build-themes build-all watch clean demo dev package publish publish-themes verify publish-all docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
 
 # === Configuration ===
 # Docker image settings
@@ -38,10 +38,11 @@ help:
 	@echo "    make clean        - Clean dist directories"
 	@echo ""
 	@echo "  Package:"
-	@echo "    make package      - Create npm tarballs for all packages"
-	@echo "    make verify       - Clean, build, and verify packages"
-	@echo "    make publish      - Publish core package to npm"
-	@echo "    make publish-all  - Publish all packages to npm"
+	@echo "    make package        - Create npm tarballs for all packages"
+	@echo "    make verify         - Clean, build, and verify packages"
+	@echo "    make publish        - Publish core package to npm"
+	@echo "    make publish-themes - Publish theme packages to npm (not core)"
+	@echo "    make publish-all    - Publish all packages to npm"
 	@echo "    make publish-all TAG=rc  - Publish with --tag rc (for pre-releases)"
 	@echo ""
 	@echo "  Docker:"
@@ -120,6 +121,14 @@ verify: clean build-all
 # Publish core package to npm (clean + build first)
 publish: clean build
 	npm publish -w @keenmate/pure-admin-core $(NPM_TAG)
+
+# Publish theme packages only (build-themes first)
+publish-themes: build-themes
+	npm publish -w @keenmate/pure-admin-theme-audi $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-dark $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-corporate $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-express $(NPM_TAG)
+	npm publish -w @keenmate/pure-admin-theme-minimal $(NPM_TAG)
 
 # Publish all packages to npm (clean + build-all first)
 publish-all: clean build-all

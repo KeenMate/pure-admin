@@ -4,6 +4,18 @@
    ======================================== */
 @use '../variables' as *;
 
+// CSS variable for profile panel width (allows utility class override)
+:root {
+  --pa-profile-panel-width: #{$profile-panel-width};
+  --pa-profile-panel-max-width: #{$profile-panel-max-width};
+}
+
+// Profile panel content width - :where() for low specificity (utility classes can override)
+:where(.pa-profile-panel__content) {
+  width: var(--pa-profile-panel-width);
+  max-width: var(--pa-profile-panel-max-width);
+}
+
 // ====================
 // Profile Panel & Header Button
 // ====================
@@ -73,8 +85,6 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: $profile-panel-width;
-    max-width: $profile-panel-max-width;
     height: 100vh;
     background-color: var(--pa-card-bg);
     box-shadow: $shadow-profile-panel;

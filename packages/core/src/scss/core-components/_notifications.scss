@@ -251,3 +251,70 @@
     right: -$spacing-base; // Align to right edge of viewport
   }
 }
+
+// ====================
+// Page View Modifier
+// ====================
+// Larger variant for full-page notification list
+
+.pa-notifications__list--page {
+  max-height: none;
+  overflow: visible;
+
+  .pa-notifications__item {
+    padding: $spacing-base $spacing-lg;
+  }
+
+  .pa-notifications__icon-wrapper {
+    width: 4rem;
+    height: 4rem;
+    font-size: $font-size-lg;
+  }
+
+  .pa-notifications__content {
+    h4 {
+      font-size: $font-size-sm;
+      margin-bottom: $spacing-xs;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      -webkit-line-clamp: 3;
+    }
+  }
+
+  .pa-notifications__time {
+    font-size: $font-size-xs;
+  }
+}
+
+// Action buttons (for page view)
+.pa-notifications__actions {
+  display: flex;
+  gap: $spacing-xs;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity $transition-fast $easing-snappy;
+}
+
+.pa-notifications__item:hover .pa-notifications__actions {
+  opacity: 1;
+}
+
+// Mobile: always show actions
+@media (max-width: $mobile-breakpoint) {
+  .pa-notifications__list--page {
+    .pa-notifications__item {
+      flex-wrap: wrap;
+    }
+
+    .pa-notifications__actions {
+      opacity: 1;
+      width: 100%;
+      justify-content: flex-end;
+      margin-top: $spacing-sm;
+      padding-top: $spacing-sm;
+      border-top: $border-width-base solid var(--pa-border-color);
+    }
+  }
+}

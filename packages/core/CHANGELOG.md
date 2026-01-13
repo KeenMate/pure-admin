@@ -5,7 +5,51 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0-rc06] - 2026-01-11
+## [1.0.0] - 2026-01-13
+
+**Pure Admin 1.0.0** is a lightweight, data-focused CSS/SCSS admin framework. This is the first production release.
+
+### Release Highlights
+
+- **Complete Component Library**: Buttons, cards, forms, tables, modals, toasts, tooltips, tabs, alerts, badges, notifications, profile panel, command palette, and more
+- **Flexible Grid System**: 12-column grid with percentage (5% increments), fraction (halves, thirds, quarters), and responsive breakpoints (sm, md, lg, xl)
+- **5 Themes**: Corporate (default), Audi, Express, Dark (with color variants), Minimal
+- **Dark Mode Support**: Built-in light/dark mode switching with `data-theme` attribute for web component compatibility
+- **Resizable Sidebar**: Opt-in drag-to-resize with localStorage persistence and utility class overrides
+- **Three-Section Layouts**: Navbar and footer with left/center/right anchored sections
+- **Comprehensive Utilities**: Spacing, sizing (rem and percentage), flexbox alignment, text truncation, gap utilities
+- **HTML Snippets**: 30 ready-to-use component patterns for any frontend framework (React, Vue, Svelte, etc.)
+- **SCSS Customization**: All variables use `!default` for easy theming
+
+---
+
+### Added
+
+#### Extended Sizing Utility Classes
+- **Width utilities extended to 50rem**: `.wr-30`, `.wr-35`, `.wr-40`, `.wr-45`, `.wr-50` (and corresponding `minwr-*`, `maxwr-*`)
+- **Height utilities extended to 50rem**: `.hr-30`, `.hr-35`, `.hr-40`, `.hr-45`, `.hr-50` (and corresponding `minhr-*`, `maxhr-*`)
+- **Fractional width utilities**: `.w-1-2`, `.w-1-4`, `.w-3-4` with matching `mw-*`, `maxw-*`, and `-fixed` variants
+- **Fractional height utilities**: `.h-1-2`, `.h-1-3`, `.h-2-3`, `.h-1-4`, `.h-3-4` with matching `minh-*`, `maxh-*` variants
+
+#### Resizable Sidebar (Opt-in)
+- **New feature**: Drag-to-resize sidebar with mouse or touch
+- **Opt-in via class**: Add `pa-layout__sidebar--resizable` to enable
+- **Settings panel toggle**: New "Resizable" checkbox under Sidebar options
+- **CSS variable for width**: `--pa-sidebar-width` allows dynamic width changes
+- **Constraints**: Min 180px, max 500px width
+- **localStorage persistence**: Width saved and restored across sessions
+- **Early load**: Width applied in `<head>` before render to prevent flash
+- **Double-click to reset**: Double-click the resize handle to restore default width (288px)
+- **Visual feedback**: Accent-colored line appears on hover/drag
+- **Smooth performance**: Uses `requestAnimationFrame` throttling for 60fps resize
+- **Utility class override**: Width uses `:where()` for low specificity - `.wr-*` sets fixed width, `.minwr-*` sets minimum
+- **Files**: `_sidebar.scss` (styles), `sidebar-resize.js` (functionality), `settings-panel.js` (toggle)
+
+#### Profile Panel Width Override
+- **CSS variables**: `--pa-profile-panel-width` (default 20vw) and `--pa-profile-panel-max-width` (default 48rem)
+- **Utility class override**: Width uses `:where()` for low specificity - `.wr-*`, `.minwr-*`, `.maxwr-*` classes can override
+- **Apply to `.pa-profile-panel__content`**: Add utility classes to the content element (e.g., `wr-25` for 250px)
+- **Files**: `_profile.scss`
 
 ### Changed
 
@@ -40,6 +84,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+#### Footer Mobile Responsive Layout
+- **Wrap on narrow viewports**: Footer sections now wrap properly at mobile breakpoint (768px)
+- **No overlap**: Left and right sections no longer overlap at narrow widths
+- **Flexible sizing**: Sections can shrink on mobile (`flex-shrink: 1`, `min-width: 0`)
+- **Center hidden**: Empty center section hidden on mobile to save space
+
 #### Web Components Dark Mode Support
 - **Added `data-theme` attribute**: Body element now receives `data-theme="dark"` or `data-theme="light"` when theme mode changes
 - **Web-grid compatibility**: The `@keenmate/web-grid` component now properly displays in dark mode
@@ -47,6 +97,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Files updated**: `layout.mustache` (FOUC prevention script), `settings-panel.js` (runtime mode switching)
 
 ### Added
+
+#### Notifications Page View (`pa-notifications__list--page`)
+- **New modifier**: `pa-notifications__list--page` for full-page notification listings
+- **Larger display**: Increased padding, icon size, and font sizes for page context
+- **Action buttons**: New `pa-notifications__actions` element with hover reveal
+- **Select all**: Checkbox support for bulk selection
+- **Bulk actions**: Mark as read, delete multiple notifications
+- **Mobile responsive**: Actions always visible on mobile with separator border
+- **Demo page**: New `/notifications` route with full working example
+- **Files updated**: `_notifications.scss`, `notifications.mustache`, `server.js`, `sidebar.mustache`, `navbar.mustache`
+
+#### Text Truncation Utility (`.text-truncate`)
+- **New utility**: `.text-truncate` class for ellipsis text overflow
+- **Properties**: `overflow: hidden`, `text-overflow: ellipsis`, `white-space: nowrap`
+- **Use case**: Truncate long text in buttons, badges, or any fixed-width container
+- **Pair with width**: Combine with `.wr-*` classes for fixed width truncation
+- **Files updated**: `_utilities.scss`
+
+#### Grid Auto-Stack on Mobile
+- **Mobile-first**: Base percentage and fraction columns auto-stack to 100% width below mobile breakpoint (768px)
+- **Override with responsive classes**: Use `.pa-col-sm-*`, `.pa-col-md-*` etc. to maintain columns on mobile
+- **Affected classes**: All `.pa-col-{n}` (5-95) and `.pa-col-{fraction}` classes
+- **Files updated**: `_grid.scss`
 
 #### Tabs as Card Header (`pa-tabs__container--card`)
 - **New modifier**: `pa-tabs__container--card` makes tabs look like a card with tabs replacing the header

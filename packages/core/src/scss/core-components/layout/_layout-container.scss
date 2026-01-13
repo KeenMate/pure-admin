@@ -133,3 +133,35 @@ body.pa-layout--sticky .pa-layout__inner {
     gap: $spacing-xs;
   }
 }
+
+// Responsive footer - stack sections on mobile
+@media (max-width: $mobile-breakpoint) {
+  .pa-layout__footer {
+    flex-wrap: wrap;
+    min-height: auto;
+    padding: $spacing-sm $spacing-base;
+  }
+
+  .pa-footer__left,
+  .pa-footer__center,
+  .pa-footer__right {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .pa-footer__left {
+    flex: 1 1 auto;
+  }
+
+  .pa-footer__center {
+    display: none; // Hide empty center on mobile
+  }
+
+  .pa-footer__right {
+    flex: 0 1 auto;
+
+    &--vertical {
+      align-items: flex-end;
+    }
+  }
+}
