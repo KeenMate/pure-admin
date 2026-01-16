@@ -33,20 +33,29 @@ $base-text-color-4: #a3b1bf !default;  // Quaternary text (lightest)
 $base-text-color-on-accent: #ffffff !default;  // Text on accent backgrounds
 
 // =============================================================================
-// SURFACE COLORS
-// Background colors for different surface levels
+// BACKGROUND COLORS
+// Semantic background colors for different purposes
 // =============================================================================
 
-$base-surface-1: #ffffff !default;     // Primary surface (cards, modals)
-$base-surface-2: #f8f9fa !default;     // Secondary surface (subtle backgrounds)
-$base-surface-3: #e9ecef !default;     // Tertiary surface (dividers, borders)
-$base-surface-inverse: #2c3e50 !default;  // Inverse surface (tooltips, dark elements)
+$base-main-bg: #ffffff !default;          // Primary background (cards, modals, content)
+$base-page-bg: #f8f9fa !default;          // Page background, subtle sections
+$base-subtle-bg: #e9ecef !default;        // Muted areas, dividers
+$base-inverse-bg: #2c3e50 !default;       // Inverse background (tooltips, dark elements)
 $base-overlay-bg: rgba(0, 0, 0, 0.5) !default;  // Modal/overlay background
 $base-shadow-color: rgba(0, 0, 0, 0.15) !default;  // Shadow color for elevation
 
-// Backward compatibility mappings
-$base-primary-bg: $base-surface-1 !default;
-$base-primary-bg-hover: color.adjust($base-primary-bg, $lightness: -5%) !default;
+// Interactive state backgrounds
+$base-hover-bg: $base-subtle-bg !default;         // Hover state background
+$base-active-bg: color.adjust($base-subtle-bg, $lightness: -5%) !default;  // Active/pressed state
+$base-disabled-bg: $base-subtle-bg !default;      // Disabled element background
+
+// Legacy aliases (backward compatibility)
+$base-surface-1: $base-main-bg !default;
+$base-surface-2: $base-page-bg !default;
+$base-surface-3: $base-subtle-bg !default;
+$base-surface-inverse: $base-inverse-bg !default;
+$base-primary-bg: $base-main-bg !default;
+$base-primary-bg-hover: color.adjust($base-main-bg, $lightness: -5%) !default;
 
 // =============================================================================
 // BORDER COLORS

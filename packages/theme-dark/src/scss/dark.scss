@@ -49,13 +49,21 @@ $base-text-color-3: #888888;
 $base-text-color-4: #666666;
 $base-text-color-on-accent: #ffffff;
 
-// Surface colors (dark theme = dark surfaces)
-$base-surface-1: $dark-bg-secondary;  // Cards, modals
-$base-surface-2: $dark-bg-primary;    // Page background
-$base-surface-3: $dark-bg-quaternary; // Dividers
-$base-surface-inverse: $dark-text-primary; // Light elements on dark
+// Background colors (dark theme = dark surfaces)
+$base-main-bg: $dark-bg-secondary;    // Cards, modals (primary background)
+$base-page-bg: $dark-bg-primary;      // Page background
+$base-subtle-bg: $dark-bg-tertiary;   // Subtle/muted areas
+$base-inverse-bg: $dark-text-primary; // Light elements on dark
+$base-hover-bg: $dark-bg-hover;       // Hover state background
+$base-disabled-bg: $dark-bg-tertiary; // Disabled state background
 $base-overlay-bg: rgba(0, 0, 0, 0.7);
 $base-shadow-color: rgba(0, 0, 0, 0.4);
+
+// Legacy surface aliases (for backward compatibility)
+$base-surface-1: $base-main-bg;
+$base-surface-2: $base-page-bg;
+$base-surface-3: $dark-bg-quaternary;
+$base-surface-inverse: $base-inverse-bg;
 
 // Border
 $base-border-color: $dark-bg-quaternary;

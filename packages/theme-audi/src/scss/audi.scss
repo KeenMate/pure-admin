@@ -40,12 +40,21 @@ $base-text-color-3: #999999;
 $base-text-color-4: #666666;
 $base-text-color-on-accent: #ffffff;
 
-// Surface colors (dark mode)
-$base-surface-1: $audi-dark;
-$base-surface-2: $audi-near-black;
-$base-surface-3: $audi-gray-light;
-$base-surface-inverse: #ffffff;
+// Background colors (dark mode - semantic naming)
+$base-main-bg: $audi-dark;              // Cards, modals (primary background)
+$base-page-bg: $audi-near-black;        // Page background
+$base-subtle-bg: $audi-gray;            // Subtle/muted areas
+$base-inverse-bg: #ffffff;              // Inverse (light elements on dark)
+$base-hover-bg: $audi-gray;             // Hover state background
+$base-active-bg: $audi-gray-light;      // Active/pressed state
+$base-disabled-bg: $audi-gray;          // Disabled state background
 $base-overlay-bg: rgba($audi-black, 0.8);
+
+// Legacy surface aliases (for backward compatibility)
+$base-surface-1: $base-main-bg;
+$base-surface-2: $base-page-bg;
+$base-surface-3: $audi-gray-light;
+$base-surface-inverse: $base-inverse-bg;
 
 // Border
 $base-border-color: $audi-gray-light;

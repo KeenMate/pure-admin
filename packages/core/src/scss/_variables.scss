@@ -3,12 +3,10 @@
 
 // ============================================================================
 // BACKWARD COMPATIBILITY AGGREGATOR
-// This file re-exports all variables from the modular variables/ directory.
-// For new code, prefer importing from variables/ directly:
-//   @use 'variables' as *;
-// or specific modules:
-//   @use 'variables/colors' as colors;
-//   @use 'variables/layout' as layout;
+// This file imports all variables from the modular variables/ directory.
+// IMPORTANT: We use @import (not @forward) to ensure variables share the global
+// scope. This allows themes to set $base-* variables BEFORE importing this file,
+// and the !default flags will skip already-defined variables.
 // ============================================================================
 
-@forward 'variables/index';
+@import 'variables/index';

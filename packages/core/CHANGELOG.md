@@ -5,6 +5,49 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+#### Theme Architecture - Themes Moved to Separate Packages
+- **Themes extracted from core**: All theme files removed from `packages/core/src/scss/themes/` and moved to dedicated theme packages
+  - Deleted from core: `audi.scss`, `audi-light.scss`, `corporate.scss`, `dark.scss`, `dark-blue.scss`, `dark-green.scss`, `dark-red.scss`, `express.scss`, `minimal.scss`, `_dark-base.scss`
+  - Themes now live in: `packages/theme-audi`, `packages/theme-dark`, `packages/theme-express`, etc.
+- **Core package is now theme-agnostic**: Contains only the framework foundation, not specific themes
+- **Benefits**: Smaller core package size, independent theme versioning, cleaner separation of concerns
+
+#### Base CSS Variables - Semantic Naming
+- **Category renamed**: `surface` → `background` in variable manifest
+- **Variables renamed** with clearer semantic purpose:
+  - `$base-surface-1` → `$base-main-bg` (Primary background: cards, modals, content)
+  - `$base-surface-2` → `$base-page-bg` (Page background, subtle sections)
+  - `$base-surface-3` → `$base-subtle-bg` (Muted areas, dividers)
+  - `$base-surface-inverse` → `$base-inverse-bg` (Inverse background: tooltips, dark elements)
+- **CSS variable output updated**: Both semantic (`--base-main-bg`) and legacy (`--base-surface-1`) variables exported
+
+### Added
+
+#### New Interactive State Background Variables
+- `$base-hover-bg` - Hover state background (default: `$base-subtle-bg`)
+- `$base-active-bg` - Active/pressed state background (default: 5% darker than subtle)
+- `$base-disabled-bg` - Disabled element background (default: `$base-subtle-bg`)
+- **Use case**: Consistent interactive state styling across web components
+
+### Fixed
+
+#### SCSS Variable Scoping for Themes
+- **Changed module system**: `@forward` → `@import` in `_variables.scss` and `variables/_index.scss`
+- **Problem**: `@forward` created isolated scopes, preventing themes from overriding `$base-*` variables before import
+- **Solution**: `@import` ensures variables share global scope, allowing themes to set variables BEFORE importing and `!default` flags skip already-defined variables
+- **Result**: Simpler theme authoring - just define your `$base-*` overrides, then `@import` variables
+
+### Backward Compatibility
+- **Legacy aliases maintained**: `$base-surface-1`, `$base-surface-2`, `$base-surface-3`, `$base-surface-inverse` still work
+- **CSS variables**: Both old (`--base-surface-*`) and new (`--base-main-bg`, etc.) exported
+- **No breaking changes**: Existing themes using old variable names continue to work
+
+---
+
 ## [1.0.0] - 2026-01-13
 
 **Pure Admin 1.0.0** is a lightweight, data-focused CSS/SCSS admin framework. This is the first production release.

@@ -6,14 +6,18 @@
 // IMPORTANT: Order matters for dependencies!
 // 1. Base variables are the SOURCE OF TRUTH (standalone, no imports)
 // 2. All other modules can import from base and derive their values
+//
+// NOTE: We use @import (not @forward) to ensure variables share the global
+// scope. This allows themes to set variables BEFORE importing, and the
+// !default flags will skip already-defined variables.
 
 // Base variables FIRST - single source of truth for theming
-@forward 'base';
+@import 'base';
 
 // Derived framework variables (can use base values)
-@forward 'typography';
-@forward 'spacing';
-@forward 'colors';
-@forward 'layout';
-@forward 'system';
-@forward 'components';
+@import 'typography';
+@import 'spacing';
+@import 'colors';
+@import 'layout';
+@import 'system';
+@import 'components';

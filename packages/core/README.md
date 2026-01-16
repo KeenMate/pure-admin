@@ -338,7 +338,71 @@ All components use SCSS variables with `!default` flags, making them fully custo
 - **Typography**: `$font-size-*`, `$line-height-*`, `$font-weight-*`
 - **Components**: `$btn-*`, `$card-*`, `$table-*`, etc.
 
-See `src/scss/_variables.scss` for the complete list.
+See `src/scss/variables/` for the complete list.
+
+## Base CSS Variables (Web Components)
+
+Pure Admin exports `--base-*` CSS custom properties for theming web components (datepickers, multiselects, grids, etc.).
+
+### Background Colors (Semantic)
+| Variable | Default | Usage |
+|----------|---------|-------|
+| `--base-main-bg` | `#ffffff` | Cards, modals, primary content |
+| `--base-page-bg` | `#f8f9fa` | Page background, subtle sections |
+| `--base-subtle-bg` | `#e9ecef` | Muted areas, dividers |
+| `--base-inverse-bg` | `#2c3e50` | Tooltips, dark elements |
+| `--base-overlay-bg` | `rgba(0,0,0,0.5)` | Modal overlays, backdrops |
+| `--base-hover-bg` | (subtle-bg) | Hover state background |
+| `--base-active-bg` | (darker) | Active/pressed state |
+| `--base-disabled-bg` | (subtle-bg) | Disabled elements |
+
+### Accent Colors
+| Variable | Default | Usage |
+|----------|---------|-------|
+| `--base-accent-color` | `#3b82f6` | Primary accent |
+| `--base-accent-color-hover` | (lighter) | Hover state |
+| `--base-accent-color-active` | (darker) | Active state |
+| `--base-accent-color-light` | (10% opacity) | Subtle highlights |
+
+### Text Colors
+| Variable | Default | Usage |
+|----------|---------|-------|
+| `--base-text-color-1` | `#1f2937` | Primary text |
+| `--base-text-color-2` | `#4b5563` | Secondary text |
+| `--base-text-color-3` | `#6b7280` | Tertiary/muted text |
+| `--base-text-color-4` | `#a3b1bf` | Disabled text |
+| `--base-text-color-on-accent` | `#ffffff` | Text on accent backgrounds |
+
+### Input Fields
+| Variable | Usage |
+|----------|-------|
+| `--base-input-background` | Input background |
+| `--base-input-color` | Input text color |
+| `--base-input-border` | Border shorthand |
+| `--base-input-border-hover` | Hover border |
+| `--base-input-border-focus` | Focus border |
+| `--base-input-placeholder-color` | Placeholder text |
+
+### Legacy Aliases (Backward Compatibility)
+The following legacy variables are still exported for backward compatibility:
+- `--base-surface-1` → `--base-main-bg`
+- `--base-surface-2` → `--base-page-bg`
+- `--base-surface-3` → `--base-subtle-bg`
+- `--base-surface-inverse` → `--base-inverse-bg`
+
+### Usage in Web Components
+```css
+/* Web components consume via fallback chains */
+.my-component {
+  background: var(--base-main-bg, #ffffff);
+  color: var(--base-text-color-1, #1f2937);
+  border: 1px solid var(--base-border-color, #e5e7eb);
+}
+
+.my-component:hover {
+  background: var(--base-hover-bg, var(--base-subtle-bg, #e9ecef));
+}
+```
 
 ## License
 
