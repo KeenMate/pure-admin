@@ -21,6 +21,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+#### CSS Variable Naming Alignment
+- **Renamed core CSS variables** to align with `--base-*` semantic naming:
+  - `--pa-primary-bg` → `--pa-main-bg`
+  - `--pa-bg-secondary` → `--pa-page-bg`
+  - `--pa-content-bg` → `--pa-subtle-bg`
+  - `--pa-text-primary` → `--pa-text-color-1`
+  - `--pa-text-secondary` → `--pa-text-color-2`
+- **Renamed SCSS variables** correspondingly:
+  - `$primary-bg` → `$main-bg`
+  - `$bg-secondary` → `$page-bg`
+  - `$content-background-color` → `$subtle-bg`
+  - `$text-primary` → `$text-color-1`
+  - `$text-secondary` → `$text-color-2`
+
 #### Body Font Uses CSS Variable
 - **Changed `body` font-family** from SCSS variable to CSS variable: `font-family: var(--base-font-family)`
 - **Problem**: SCSS module system (`@use`) caused themes' `$body-font-family` overrides to not propagate to `_base.scss`
@@ -122,7 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **New feature**: Drag-to-resize sidebar with mouse or touch
 - **Opt-in via class**: Add `pa-layout__sidebar--resizable` to enable
 - **Settings panel toggle**: New "Resizable" checkbox under Sidebar options
-- **CSS variable for width**: `--pa-sidebar-width` allows dynamic width changes
+- **CSS variable for width**: `--pa-local-sidebar-width` allows dynamic width changes
 - **Constraints**: Min 180px, max 500px width
 - **localStorage persistence**: Width saved and restored across sessions
 - **Early load**: Width applied in `<head>` before render to prevent flash
@@ -133,7 +147,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Files**: `_sidebar.scss` (styles), `sidebar-resize.js` (functionality), `settings-panel.js` (toggle)
 
 #### Profile Panel Width Override
-- **CSS variables**: `--pa-profile-panel-width` (default 20vw) and `--pa-profile-panel-max-width` (default 48rem)
+- **CSS variables**: `--pa-local-profile-panel-width` (default 20vw) and `--pa-local-profile-panel-max-width` (default 48rem)
 - **Utility class override**: Width uses `:where()` for low specificity - `.wr-*`, `.minwr-*`, `.maxwr-*` classes can override
 - **Apply to `.pa-profile-panel__content`**: Add utility classes to the content element (e.g., `wr-25` for 250px)
 - **Files**: `_profile.scss`

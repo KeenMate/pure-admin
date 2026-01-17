@@ -36,7 +36,7 @@
         top: 0;
         width: $timeline-simple-dot-size;
         height: $timeline-simple-dot-size;
-        background: var(--pa-primary-bg);
+        background: var(--pa-main-bg);
         border: $timeline-simple-dot-border solid $accent-color;
         border-radius: 50%;
         box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($accent-color, $timeline-simple-dot-shadow-opacity);
@@ -69,8 +69,8 @@
       }
 
       &--secondary::before {
-        border-color: var(--pa-text-secondary);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba(var(--pa-text-secondary), $timeline-simple-dot-shadow-opacity);
+        border-color: var(--pa-text-color-2);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba(var(--pa-text-color-2), $timeline-simple-dot-shadow-opacity);
       }
 
       // Filled/solid bullet modifier
@@ -99,7 +99,7 @@
       }
 
       &--filled.pa-timeline__item--secondary::before {
-        background: var(--pa-text-secondary);
+        background: var(--pa-text-color-2);
       }
     }
 
@@ -107,13 +107,13 @@
       display: block;
       font-size: $font-size-sm;
       font-weight: $font-weight-semibold;
-      color: var(--pa-text-primary);
+      color: var(--pa-text-color-1);
       margin-bottom: $spacing-xs;
     }
 
     .pa-timeline__content {
       font-size: $font-size-sm;
-      color: var(--pa-text-secondary);
+      color: var(--pa-text-color-2);
       line-height: $line-height-relaxed;
       margin-top: $timeline-simple-content-margin-top;
     }
@@ -170,7 +170,7 @@
           height: $timeline-block-dot-size;
           top: $timeline-block-dot-top-offset;
           right: $timeline-block-dot-horizontal-offset;
-          background: var(--pa-primary-bg);
+          background: var(--pa-main-bg);
           border: $timeline-block-dot-border solid $accent-color;
           border-radius: 50%;
           z-index: 1;
@@ -215,7 +215,7 @@
           height: $timeline-block-dot-size;
           top: $timeline-block-dot-top-offset;
           left: $timeline-block-dot-horizontal-offset;
-          background: var(--pa-primary-bg);
+          background: var(--pa-main-bg);
           border: $timeline-block-dot-border solid $accent-color;
           border-radius: 50%;
           z-index: 1;
@@ -272,7 +272,7 @@
         margin: 0 0 $spacing-sm 0;
         font-size: $font-size-lg;
         font-weight: $font-weight-normal;
-        color: var(--pa-text-primary);
+        color: var(--pa-text-color-1);
       }
 
       p {
@@ -471,7 +471,7 @@
     .pa-timeline__content {
       flex: 1;
       font-size: $font-size-sm;
-      color: var(--pa-text-secondary);
+      color: var(--pa-text-color-2);
       line-height: $line-height-relaxed;
 
       a {
@@ -485,7 +485,7 @@
       }
 
       time {
-        color: var(--pa-text-secondary);
+        color: var(--pa-text-color-2);
         font-size: $font-size-xs;
       }
     }
@@ -515,7 +515,7 @@
 
       p {
         margin: 0 0 $spacing-sm 0;
-        color: var(--pa-text-primary);
+        color: var(--pa-text-color-1);
         line-height: $line-height-relaxed;
 
         &:last-child {
@@ -545,7 +545,7 @@
     .pa-timeline__date-label {
       font-size: $timeline-feed-date-label-font-size;
       font-weight: $font-weight-semibold;
-      color: var(--pa-text-primary);
+      color: var(--pa-text-color-1);
       text-transform: uppercase;
       letter-spacing: $timeline-feed-date-label-letter-spacing;
     }
@@ -555,7 +555,7 @@
       flex-shrink: 0;
       width: $timeline-feed-time-width;
       font-size: $timeline-feed-time-font-size;
-      color: var(--pa-text-secondary);
+      color: var(--pa-text-color-2);
       font-weight: $font-weight-medium;
       text-align: right;
       padding-right: $spacing-sm;
@@ -579,7 +579,7 @@
   &__loader-text {
     margin-top: $spacing-sm;
     font-size: $font-size-sm;
-    color: var(--pa-text-secondary);
+    color: var(--pa-text-color-2);
   }
 
   &__load-more-wrapper {

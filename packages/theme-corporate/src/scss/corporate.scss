@@ -123,8 +123,8 @@ $footer-height: 3.2rem;
 $sidebar-width: 29rem;
 
 // Layout colors (derived from base but with specific overrides)
-$primary-bg: #f4f6f9;
-$content-background-color: #f4f6f9;
+$main-bg: #f4f6f9;
+$subtle-bg: #f4f6f9;
 $header-bg: $corporate-slate-800;
 $header-border-color: $corporate-slate-200;
 $header-profile-name-color: #ffffff;
@@ -145,8 +145,8 @@ $table-hover-bg: $corporate-slate-50;
 $table-stripe: $corporate-slate-50;
 
 // Secondary button (not derived from base)
-$btn-secondary-bg: $corporate-gray-500;
-$btn-secondary-bg-hover: $corporate-gray-600;
+$btn-bg-bg: $corporate-gray-500;
+$btn-bg-bg-hover: $corporate-gray-600;
 
 // Light/dark buttons
 $btn-light-bg: $corporate-gray-100;
@@ -284,8 +284,8 @@ $checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
   --drp-border-color: #{$corporate-slate-200};
   --drp-primary-bg: #{$corporate-slate-50};
   --drp-primary-bg-hover: #{$corporate-slate-100};
-  --drp-text-primary: #{$corporate-slate-700};
-  --drp-text-secondary: #{$corporate-slate-500};
+  --drp-text-color-1: #{$corporate-slate-700};
+  --drp-text-bg: #{$corporate-slate-500};
   --drp-button-bg: transparent;
   --drp-button-color: #{$corporate-slate-700};
   --drp-button-accent-text-color: #ffffff;
@@ -317,20 +317,20 @@ $checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
   $dark-surface: #334155;
   $dark-border: #475569;
   $dark-text: #f1f5f9;
-  $dark-text-secondary: #94a3b8;
+  $dark-text-bg: #94a3b8;
 
   --page-loader-bg: rgba(15, 23, 42, 0.95);
   --page-loader-spinner-border: #334155;
   --page-loader-spinner-accent: #{$corporate-blue-500};
 
   // Core colors - dark backgrounds
-  --pa-primary-bg: #{$dark-bg};
-  --pa-bg-secondary: #{$dark-bg};
-  --pa-content-bg: #0a0f1a;
+  --pa-main-bg: #{$dark-bg};
+  --pa-page-bg: #{$dark-bg};
+  --pa-subtle-bg: #0a0f1a;
 
   // Text colors - light text on dark bg
-  --pa-text-primary: #{$dark-text};
-  --pa-text-secondary: #{$dark-text-secondary};
+  --pa-text-color-1: #{$dark-text};
+  --pa-text-color-2: #{$dark-text-bg};
 
   // Keep Corporate brand colors
   --pa-accent: #{$corporate-blue-500};
@@ -344,13 +344,13 @@ $checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
   --pa-header-bg: #{$dark-card};
   --pa-header-border-color: #{$dark-border};
   --pa-header-text: #{$dark-text};
-  --pa-header-text-secondary: #{$dark-text-secondary};
+  --pa-header-text-secondary: #{$dark-text-bg};
   --pa-header-profile-name-color: #{$dark-text};
 
   // Sidebar
   --pa-sidebar-bg: #{$dark-card};
   --pa-sidebar-text: #{$dark-text};
-  --pa-sidebar-text-secondary: #{$dark-text-secondary};
+  --pa-sidebar-text-secondary: #{$dark-text-bg};
   --pa-sidebar-submenu-bg: #{$dark-bg};
   --pa-sidebar-submenu-hover-bg: rgba(14, 165, 233, 0.1);
   --pa-sidebar-submenu-active-bg: #{$corporate-blue-600};
@@ -446,14 +446,23 @@ $checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
   --pa-info-bg-light: rgba(6, 182, 212, 0.2);
 
   // Base variables for web components (dark mode)
+  // Semantic names (preferred)
+  --base-main-bg: #{$dark-card};
+  --base-page-bg: #{$dark-bg};
+  --base-subtle-bg: #{$dark-surface};
+  --base-hover-bg: #{$dark-surface};
+  --base-active-bg: #{$dark-border};
+  --base-disabled-bg: #{$dark-surface};
+  // Legacy aliases
   --base-surface-1: #{$dark-card};
   --base-surface-2: #{$dark-bg};
   --base-surface-3: #{$dark-surface};
   --base-surface-inverse: #{$dark-text};
-  --base-primary-bg: #{$dark-bg};
-  --base-primary-bg-hover: #{$dark-surface};
+  --base-color-1-bg: #{$dark-bg};
+  --base-color-1-bg-hover: #{$dark-surface};
+  // Text colors
   --base-text-color-1: #{$dark-text};
-  --base-text-color-2: #{$dark-text-secondary};
+  --base-text-color-2: #{$dark-text-bg};
   --base-text-color-3: #64748b;
   --base-text-color-4: #475569;
   --base-border-color: #{$dark-border};
@@ -476,14 +485,14 @@ $checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
     --drp-border-color: #{$dark-border};
     --drp-primary-bg: #{$dark-bg};
     --drp-primary-bg-hover: #{$dark-surface};
-    --drp-text-primary: #{$dark-text};
-    --drp-text-secondary: #{$dark-text-secondary};
+    --drp-text-color-1: #{$dark-text};
+    --drp-text-bg: #{$dark-text-bg};
     --drp-button-bg: transparent;
     --drp-button-color: #{$dark-text};
     --drp-button-accent-text-color: #ffffff;
     --drp-button-today-color: #{$corporate-blue-500};
-    --drp-button-clear-color: #{$dark-text-secondary};
-    --drp-button-cancel-color: #{$dark-text-secondary};
+    --drp-button-clear-color: #{$dark-text-bg};
+    --drp-button-cancel-color: #{$dark-text-bg};
   }
 
   // Multiselect overrides (dark mode)
@@ -494,7 +503,7 @@ $checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
     --ms-primary-bg-hover: #{$dark-surface};
     --ms-border-color: #{$dark-border};
     --ms-text-color-1: #{$dark-text};
-    --ms-text-color-2: #{$dark-text-secondary};
+    --ms-text-color-2: #{$dark-text-bg};
     --ms-text-color-3: #64748b;
     --ms-text-color-4: #475569;
     --ms-hint-bg: #{$dark-bg};
@@ -531,7 +540,7 @@ $checkbox-focus-shadow: 0 0 0 2px rgba($base-accent-color, 0.25);
     }
   }
 
-  .pa-btn--outline-secondary {
+  .pa-btn--outline-bg {
     border-color: #64748b !important;
     color: #94a3b8 !important;
 

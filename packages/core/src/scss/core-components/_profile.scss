@@ -4,16 +4,16 @@
    ======================================== */
 @use '../variables' as *;
 
-// CSS variable for profile panel width (allows utility class override)
+// Local CSS variables for profile panel (runtime state, modified by JS for resize)
 :root {
-  --pa-profile-panel-width: #{$profile-panel-width};
-  --pa-profile-panel-max-width: #{$profile-panel-max-width};
+  --pa-local-profile-panel-width: #{$profile-panel-width};
+  --pa-local-profile-panel-max-width: #{$profile-panel-max-width};
 }
 
 // Profile panel content width - :where() for low specificity (utility classes can override)
 :where(.pa-profile-panel__content) {
-  width: var(--pa-profile-panel-width);
-  max-width: var(--pa-profile-panel-max-width);
+  width: var(--pa-local-profile-panel-width);
+  max-width: var(--pa-local-profile-panel-max-width);
 }
 
 // ====================
@@ -139,7 +139,7 @@
     margin: 0 0 $spacing-xs 0;
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-primary);
+    color: var(--pa-text-color-1);
     // Truncate long names
     overflow: hidden;
     text-overflow: ellipsis;
@@ -149,7 +149,7 @@
   &__email {
     margin: 0 0 $spacing-sm 0;
     font-size: $font-size-sm;
-    color: var(--pa-text-secondary);
+    color: var(--pa-text-color-2);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -179,7 +179,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--pa-text-secondary);
+    color: var(--pa-text-color-2);
     border-radius: $border-radius;
     transition: background-color $transition-fast $easing-snappy,
                 color $transition-fast $easing-snappy;
@@ -221,7 +221,7 @@
     align-items: center;
     gap: $sidebar-item-gap;
     padding: $sidebar-padding;
-    color: var(--pa-text-primary);
+    color: var(--pa-text-color-1);
     text-decoration: none;
     border-radius: $border-radius;
     transition: background-color $transition-fast $easing-snappy,
@@ -312,7 +312,7 @@
     align-items: center;
     gap: $sidebar-item-gap;
     padding: $sidebar-padding;
-    color: var(--pa-text-primary);
+    color: var(--pa-text-color-1);
     text-decoration: none;
     border-radius: $border-radius;
     cursor: pointer;
@@ -351,7 +351,7 @@
     background: none;
     border: none;
     padding: $spacing-xs;
-    color: var(--pa-text-secondary);
+    color: var(--pa-text-color-2);
     cursor: pointer;
     border-radius: $border-radius;
     font-size: $font-size-sm;
@@ -361,7 +361,7 @@
                 background-color $transition-fast $easing-snappy;
 
     &:hover {
-      color: var(--pa-danger);
+      color: var(--pa-danger-bg);
       background-color: var(--pa-danger-bg-light);
     }
   }

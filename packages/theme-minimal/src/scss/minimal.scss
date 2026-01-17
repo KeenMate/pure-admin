@@ -120,13 +120,13 @@ $footer-height: 3.2rem;    // 32px (10px base)
 $sidebar-width: 29rem;     // 290px (10px base)
 
 // Layout-specific overrides
-$primary-bg: $minimal-white;
-$content-background-color: $minimal-white;
+$main-bg: $minimal-white;
+$subtle-bg: $minimal-white;
 $header-bg: $minimal-gray-50;
 $sidebar-bg: $minimal-gray-150;
 $footer-bg: $minimal-gray-50;
-$text-primary: $base-text-color-1;
-$text-secondary: $base-text-color-2;
+$text-color-1: $base-text-color-1;
+$text-color-2: $base-text-color-2;
 $accent-hover: rgba($minimal-gray-800, 0.1);
 $accent-light: rgba($minimal-gray-800, 0.05);
 
@@ -160,10 +160,10 @@ $table-hover-bg: $minimal-gray-100;
 $table-stripe: $minimal-gray-200;
 
 // Button colors - minimal grayscale approach with selective color
-$btn-primary-bg: $minimal-gray-800;
-$btn-primary-bg-hover: $minimal-gray-850;
-$btn-secondary-bg: $minimal-gray-400;
-$btn-secondary-bg-hover: $minimal-gray-500;
+$btn-color-1-bg: $minimal-gray-800;
+$btn-color-1-bg-hover: $minimal-gray-850;
+$btn-bg-bg: $minimal-gray-400;
+$btn-bg-bg-hover: $minimal-gray-500;
 $btn-light-bg: $minimal-gray-100;
 $btn-light-text: $minimal-gray-900;
 $btn-light-bg-hover: $minimal-gray-600;
@@ -211,8 +211,8 @@ $modal-content-bg: $minimal-white;
   --drp-border-color: #{$minimal-gray-400};
   --drp-primary-bg: #{$minimal-gray-50};
   --drp-primary-bg-hover: #{$minimal-gray-100};
-  --drp-text-primary: #{$minimal-gray-900};
-  --drp-text-secondary: #{$minimal-gray-700};
+  --drp-text-color-1: #{$minimal-gray-900};
+  --drp-text-bg: #{$minimal-gray-700};
   --drp-button-bg: transparent;
   --drp-button-color: #{$minimal-gray-900};
   --drp-button-accent-text-color: #{$minimal-white};
@@ -244,20 +244,20 @@ $modal-content-bg: $minimal-white;
   $dark-surface: #2e2e2e;
   $dark-border: #404040;
   $dark-text: #e8e8e8;
-  $dark-text-secondary: #a0a0a0;
+  $dark-text-bg: #a0a0a0;
 
   --page-loader-bg: rgba(26, 26, 26, 0.95);
   --page-loader-spinner-border: #404040;
   --page-loader-spinner-accent: #e8e8e8;
 
   // Core colors - dark backgrounds
-  --pa-primary-bg: #{$dark-bg};
-  --pa-bg-secondary: #{$dark-bg};
-  --pa-content-bg: #141414;
+  --pa-main-bg: #{$dark-bg};
+  --pa-page-bg: #{$dark-bg};
+  --pa-subtle-bg: #141414;
 
   // Text colors - light text on dark bg
-  --pa-text-primary: #{$dark-text};
-  --pa-text-secondary: #{$dark-text-secondary};
+  --pa-text-color-1: #{$dark-text};
+  --pa-text-color-2: #{$dark-text-bg};
 
   // Accent stays grayscale
   --pa-accent: #{$dark-text};
@@ -271,13 +271,13 @@ $modal-content-bg: $minimal-white;
   --pa-header-bg: #{$dark-card};
   --pa-header-border-color: #{$dark-border};
   --pa-header-text: #{$dark-text};
-  --pa-header-text-secondary: #{$dark-text-secondary};
+  --pa-header-text-secondary: #{$dark-text-bg};
   --pa-header-profile-name-color: #{$dark-text};
 
   // Sidebar - dark grayscale
   --pa-sidebar-bg: #{$dark-card};
   --pa-sidebar-text: #{$dark-text};
-  --pa-sidebar-text-secondary: #{$dark-text-secondary};
+  --pa-sidebar-text-secondary: #{$dark-text-bg};
   --pa-sidebar-submenu-bg: #{$dark-bg};
   --pa-sidebar-submenu-hover-bg: rgba(255, 255, 255, 0.08);
   --pa-sidebar-submenu-active-bg: #{$dark-surface};
@@ -300,9 +300,9 @@ $modal-content-bg: $minimal-white;
 
   // Input group
   --pa-input-group-prepend-bg: #{$dark-border};
-  --pa-input-group-prepend-text: #{$dark-text-secondary};
+  --pa-input-group-prepend-text: #{$dark-text-bg};
   --pa-input-group-append-bg: #{$dark-border};
-  --pa-input-group-append-text: #{$dark-text-secondary};
+  --pa-input-group-append-text: #{$dark-text-bg};
 
   // Input group buttons
   .pa-input-group__button {
@@ -380,11 +380,20 @@ $modal-content-bg: $minimal-white;
   --pa-info-bg-light: rgba(23, 162, 184, 0.2);
 
   // Base variables for web components (dark mode)
+  // Semantic names (preferred)
+  --base-main-bg: #{$dark-card};
+  --base-page-bg: #{$dark-bg};
+  --base-subtle-bg: #{$dark-surface};
+  --base-hover-bg: #{$dark-surface};
+  --base-active-bg: #{$dark-border};
+  --base-disabled-bg: #{$dark-surface};
+  // Legacy aliases
   --base-surface-1: #{$dark-card};
   --base-surface-2: #{$dark-bg};
   --base-surface-3: #{$dark-surface};
+  // Text colors
   --base-text-color-1: #{$dark-text};
-  --base-text-color-2: #{$dark-text-secondary};
+  --base-text-color-2: #{$dark-text-bg};
   --base-text-color-3: #707070;
   --base-text-color-4: #505050;
   --base-accent-color: #{$dark-text};
@@ -411,14 +420,14 @@ $modal-content-bg: $minimal-white;
     --drp-border-color: #{$dark-border};
     --drp-primary-bg: #{$dark-bg};
     --drp-primary-bg-hover: #{$dark-surface};
-    --drp-text-primary: #{$dark-text};
-    --drp-text-secondary: #{$dark-text-secondary};
+    --drp-text-color-1: #{$dark-text};
+    --drp-text-bg: #{$dark-text-bg};
     --drp-button-bg: transparent;
     --drp-button-color: #{$dark-text};
     --drp-button-accent-text-color: #{$dark-bg};
     --drp-button-today-color: #{$dark-text};
-    --drp-button-clear-color: #{$dark-text-secondary};
-    --drp-button-cancel-color: #{$dark-text-secondary};
+    --drp-button-clear-color: #{$dark-text-bg};
+    --drp-button-cancel-color: #{$dark-text-bg};
   }
 
   // Multiselect overrides (dark mode)
@@ -429,7 +438,7 @@ $modal-content-bg: $minimal-white;
     --ms-primary-bg-hover: #{$dark-surface};
     --ms-border-color: #{$dark-border};
     --ms-text-color-1: #{$dark-text};
-    --ms-text-color-2: #{$dark-text-secondary};
+    --ms-text-color-2: #{$dark-text-bg};
     --ms-text-color-3: #707070;
     --ms-text-color-4: #505050;
     --ms-hint-bg: #{$dark-bg};
@@ -448,7 +457,7 @@ $modal-content-bg: $minimal-white;
   }
 
   // Primary button - inverted for minimal (light on dark)
-  .pa-btn--primary {
+  .pa-btn--color-1 {
     background-color: #e8e8e8 !important;
     color: #1a1a1a !important;
 
@@ -470,7 +479,7 @@ $modal-content-bg: $minimal-white;
   }
 
   // Outline secondary button
-  .pa-btn--outline-secondary {
+  .pa-btn--outline-bg {
     border-color: #606060 !important;
     color: #a0a0a0 !important;
 

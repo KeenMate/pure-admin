@@ -120,8 +120,8 @@ $base-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 $sidebar-width: 29rem;   // 290px (10px base)
 
 // Layout-specific overrides (Express brand identity)
-$primary-bg: #ffffff;
-$content-background-color: $express-bg;
+$main-bg: #ffffff;
+$subtle-bg: $express-bg;
 $header-bg: $express-yellow;        // Bold yellow header
 $header-border-color: $express-yellow;
 $sidebar-bg: $express-black;        // Black sidebar
@@ -130,8 +130,8 @@ $sidebar-submenu-hover-bg: rgba(255, 255, 255, 0.1);
 $sidebar-submenu-active-bg: $express-red;
 $footer-bg: $express-yellow;        // Bold yellow footer
 $footer-border-color: $express-yellow;
-$text-primary: $base-text-color-1;
-$text-secondary: $base-text-color-2;
+$text-color-1: $base-text-color-1;
+$text-color-2: $base-text-color-2;
 $accent-hover: rgba($express-red, 0.12);
 $accent-light: rgba($express-red, 0.06);
 
@@ -165,12 +165,12 @@ $table-hover-bg: $express-yellow-lighter;
 $table-stripe: $express-bg;
 
 // Button colors - Red primary, yellow secondary
-$btn-primary-bg: $base-accent-color;
-$btn-primary-bg-hover: $base-accent-color-hover;
-$btn-primary-text: #ffffff;
-$btn-secondary-bg: $express-yellow;
-$btn-secondary-bg-hover: $express-yellow-light;
-$btn-secondary-text: $express-black;
+$btn-color-1-bg: $base-accent-color;
+$btn-color-1-bg-hover: $base-accent-color-hover;
+$btn-color-1-text: #ffffff;
+$btn-bg-bg: $express-yellow;
+$btn-bg-bg-hover: $express-yellow-light;
+$btn-bg-text: $express-black;
 $btn-light-bg: $express-gray-lightest;
 $btn-light-text: $express-dark;
 $btn-light-bg-hover: $express-gray-lighter;
@@ -374,7 +374,7 @@ $alert-info-border: $base-info-color;
 }
 
 // Primary button - bold red with white text
-.pa-btn--primary {
+.pa-btn--color-1 {
   font-weight: $font-weight-bold !important;
   background-color: $express-red !important;
   color: #ffffff !important;
@@ -449,8 +449,8 @@ $alert-info-border: $base-info-color;
   --drp-border-color: #{$express-gray-lighter};
   --drp-primary-bg: #{$express-bg};
   --drp-primary-bg-hover: #{$express-gray-lightest};
-  --drp-text-primary: #{$express-dark};
-  --drp-text-secondary: #{$express-gray};
+  --drp-text-color-1: #{$express-dark};
+  --drp-text-bg: #{$express-gray};
   --drp-button-bg: transparent;
   --drp-button-color: #{$express-dark};
   --drp-button-accent-text-color: #ffffff;
@@ -482,20 +482,20 @@ $alert-info-border: $base-info-color;
   $dark-surface: #2a2a2a;
   $dark-border: #3a3a3a;
   $dark-text: #ffffff;
-  $dark-text-secondary: #aaaaaa;
+  $dark-text-bg: #aaaaaa;
 
   --page-loader-bg: rgba(0, 0, 0, 0.95);
   --page-loader-spinner-border: #333;
   --page-loader-spinner-accent: #{$express-yellow};
 
   // Core colors - dark backgrounds
-  --pa-primary-bg: #{$dark-bg};
-  --pa-bg-secondary: #{$dark-bg};
-  --pa-content-bg: #121212;
+  --pa-main-bg: #{$dark-bg};
+  --pa-page-bg: #{$dark-bg};
+  --pa-subtle-bg: #121212;
 
   // Text colors - light text on dark bg
-  --pa-text-primary: #{$dark-text};
-  --pa-text-secondary: #{$dark-text-secondary};
+  --pa-text-color-1: #{$dark-text};
+  --pa-text-color-2: #{$dark-text-bg};
 
   // Keep Express brand colors
   --pa-accent: #{$express-red};
@@ -615,11 +615,20 @@ $alert-info-border: $base-info-color;
   --pa-info-bg-light: rgba(6, 182, 212, 0.2);
 
   // Base variables for web components (dark mode)
+  // Semantic names (preferred)
+  --base-main-bg: #{$dark-card};
+  --base-page-bg: #{$dark-bg};
+  --base-subtle-bg: #{$dark-surface};
+  --base-hover-bg: #{$dark-surface};
+  --base-active-bg: #{$dark-border};
+  --base-disabled-bg: #{$dark-surface};
+  // Legacy aliases
   --base-surface-1: #{$dark-card};
   --base-surface-2: #{$dark-bg};
   --base-surface-3: #{$dark-surface};
+  // Text colors
   --base-text-color-1: #{$dark-text};
-  --base-text-color-2: #{$dark-text-secondary};
+  --base-text-color-2: #{$dark-text-bg};
   --base-text-color-3: #888888;
   --base-text-color-4: #666666;
   // Accent colors - use yellow for better visibility on dark backgrounds
@@ -647,14 +656,14 @@ $alert-info-border: $base-info-color;
     --drp-border-color: #{$dark-border};
     --drp-primary-bg: #{$dark-bg};
     --drp-primary-bg-hover: #{$dark-surface};
-    --drp-text-primary: #{$dark-text};
-    --drp-text-secondary: #{$dark-text-secondary};
+    --drp-text-color-1: #{$dark-text};
+    --drp-text-bg: #{$dark-text-bg};
     --drp-button-bg: transparent;
     --drp-button-color: #{$dark-text};
     --drp-button-accent-text-color: #ffffff;
     --drp-button-today-color: #{$express-red};
-    --drp-button-clear-color: #{$dark-text-secondary};
-    --drp-button-cancel-color: #{$dark-text-secondary};
+    --drp-button-clear-color: #{$dark-text-bg};
+    --drp-button-cancel-color: #{$dark-text-bg};
   }
 
   // Multiselect overrides (dark mode)
@@ -665,7 +674,7 @@ $alert-info-border: $base-info-color;
     --ms-primary-bg-hover: #{$dark-surface};
     --ms-border-color: #{$dark-border};
     --ms-text-color-1: #{$dark-text};
-    --ms-text-color-2: #{$dark-text-secondary};
+    --ms-text-color-2: #{$dark-text-bg};
     --ms-text-color-3: #888888;
     --ms-text-color-4: #666666;
     --ms-hint-bg: #{$dark-bg};
@@ -688,7 +697,7 @@ $alert-info-border: $base-info-color;
   }
 
   // Primary alert - white text on red background for contrast
-  .pa-alert--primary {
+  .pa-alert--color-1 {
     color: #ffffff !important;
     background-color: rgba($express-red, 0.25) !important;
     border-color: rgba($express-red, 0.4) !important;
@@ -712,7 +721,7 @@ $alert-info-border: $base-info-color;
   }
 
   // Outline secondary button
-  .pa-btn--outline-secondary {
+  .pa-btn--outline-bg {
     border-color: #5a5a5a !important;
     color: #aaaaaa !important;
 

@@ -17,7 +17,7 @@
     padding: $btn-padding-v $btn-padding-h;
     border: none;
     background: none;
-    color: var(--pa-text-secondary);
+    color: var(--pa-text-color-2);
     cursor: pointer;
     transition: all $transition-fast $easing-snappy;
     border-bottom: $border-width-medium solid transparent;
@@ -28,7 +28,7 @@
     white-space: nowrap;
 
     &:hover {
-      color: var(--pa-text-primary);
+      color: var(--pa-text-color-1);
       background-color: rgba($accent-color, $card-tab-hover-opacity);
     }
 
@@ -72,12 +72,12 @@
     .pa-tabs__item {
       border-radius: $border-radius-lg;
       border: $border-width-base solid transparent;
-      background-color: var(--pa-primary-bg);
+      background-color: var(--pa-main-bg);
 
       &:hover {
         background-color: rgba($accent-color, $tabs-pill-hover-opacity);
         border-color: rgba($accent-color, $tabs-pill-border-opacity);
-        color: var(--pa-text-primary);
+        color: var(--pa-text-color-1);
       }
 
       &--active {
@@ -93,7 +93,7 @@
     border: $border-width-base solid var(--pa-border-color);
     border-radius: $border-radius-lg;
     padding: $spacing-xs;
-    background-color: var(--pa-primary-bg);
+    background-color: var(--pa-main-bg);
     gap: $spacing-xs;
 
     .pa-tabs__item {
@@ -104,12 +104,12 @@
 
       &:hover {
         background-color: rgba($accent-color, $tabs-boxed-hover-opacity);
-        color: var(--pa-text-primary);
+        color: var(--pa-text-color-1);
       }
 
       &--active {
         background-color: var(--pa-card-bg);
-        color: var(--pa-text-primary);
+        color: var(--pa-text-color-1);
         box-shadow: $shadow-sm;
       }
     }
@@ -209,8 +209,8 @@
       bottom: 0;
       width: $tabs-scroll-btn-width;
       border: none;
-      background: linear-gradient(to right, color-mix(in srgb, var(--pa-primary-bg) 95%, transparent), transparent);
-      color: var(--pa-text-primary);
+      background: linear-gradient(to right, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+      color: var(--pa-text-color-1);
       cursor: pointer;
       z-index: 1;
       display: flex;
@@ -221,17 +221,17 @@
       pointer-events: none;
 
       &:hover {
-        background: linear-gradient(to right, var(--pa-primary-bg), color-mix(in srgb, var(--pa-primary-bg) 80%, transparent));
+        background: linear-gradient(to right, var(--pa-main-bg), color-mix(in srgb, var(--pa-main-bg) 80%, transparent));
       }
 
       &--left {
         left: 0;
-        background: linear-gradient(to right, color-mix(in srgb, var(--pa-primary-bg) 95%, transparent), transparent);
+        background: linear-gradient(to right, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
       }
 
       &--right {
         right: 0;
-        background: linear-gradient(to left, color-mix(in srgb, var(--pa-primary-bg) 95%, transparent), transparent);
+        background: linear-gradient(to left, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
       }
 
       &--visible {
@@ -387,7 +387,7 @@
         padding: 0;
         border: none;
         background: transparent;
-        color: var(--pa-text-secondary);
+        color: var(--pa-text-color-2);
         cursor: pointer;
         transition: all $transition-fast $easing-snappy;
         border-left: $border-width-base solid var(--pa-border-color);
@@ -397,7 +397,7 @@
 
         &:hover {
           background-color: rgba($accent-color, $card-tab-hover-opacity);
-          color: var(--pa-text-primary);
+          color: var(--pa-text-color-1);
         }
 
         // When overflow contains the active tab

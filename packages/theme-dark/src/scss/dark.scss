@@ -119,16 +119,16 @@ $base-focus-ring-color: rgba($dark-accent, 0.25);
 @import '@keenmate/pure-admin-core/src/scss/variables/index';
 
 // Layout-specific overrides (these are Pure Admin specific)
-$primary-bg: $dark-bg-primary;
-$content-background-color: $dark-bg-primary;
+$main-bg: $dark-bg-primary;
+$subtle-bg: $dark-bg-primary;
 $header-bg: $dark-bg-header;
 $sidebar-bg: $dark-bg-sidebar;
 $sidebar-submenu-bg: $dark-bg-tertiary;
 $sidebar-submenu-hover-bg: $dark-bg-hover;
 $sidebar-submenu-active-bg: $dark-bg-quaternary;
 $footer-bg: $dark-bg-header;
-$text-primary: $dark-text-primary;
-$text-secondary: $dark-text-secondary;
+$text-color-1: $dark-text-primary;
+$text-color-2: $dark-text-secondary;
 $accent-hover: rgba($dark-accent, 0.15);
 $accent-light: rgba($dark-accent, 0.08);
 
@@ -211,8 +211,8 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --drp-border-color: #{$dark-bg-quaternary};
   --drp-primary-bg: #{$dark-bg-primary};
   --drp-primary-bg-hover: #{$dark-bg-tertiary};
-  --drp-text-primary: #{$dark-text-primary};
-  --drp-text-secondary: #{$dark-text-secondary};
+  --drp-text-color-1: #{$dark-text-primary};
+  --drp-text-color-2: #{$dark-text-secondary};
   --drp-button-bg: transparent;
   --drp-button-color: #{$dark-text-primary};
   --drp-button-accent-text-color: #ffffff;
@@ -251,13 +251,13 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --page-loader-spinner-accent: #{$dark-accent};
 
   // Core colors - light backgrounds
-  --pa-primary-bg: #{$light-card};
-  --pa-bg-secondary: #{$light-bg};
-  --pa-content-bg: #{$light-bg};
+  --pa-main-bg: #{$light-card};
+  --pa-page-bg: #{$light-bg};
+  --pa-subtle-bg: #{$light-bg};
 
   // Text colors - dark text on light bg
-  --pa-text-primary: #{$light-text};
-  --pa-text-secondary: #{$light-text-secondary};
+  --pa-text-color-1: #{$light-text};
+  --pa-text-color-2: #{$light-text-secondary};
 
   // Keep accent color
   --pa-accent: #{$dark-accent};
@@ -360,9 +360,18 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --pa-info-bg-light: rgba(14, 165, 233, 0.1);
 
   // Base variables for web components (light mode)
+  // Semantic names (preferred)
+  --base-main-bg: #{$light-card};
+  --base-page-bg: #{$light-bg};
+  --base-subtle-bg: #{$light-surface};
+  --base-hover-bg: #{$light-surface};
+  --base-active-bg: #{$light-border};
+  --base-disabled-bg: #{$light-surface};
+  // Legacy aliases
   --base-surface-1: #{$light-card};
   --base-surface-2: #{$light-bg};
   --base-surface-3: #{$light-surface};
+  // Text colors
   --base-text-color-1: #{$light-text};
   --base-text-color-2: #{$light-text-secondary};
   --base-text-color-3: #94a3b8;
@@ -391,8 +400,8 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
     --drp-border-color: #{$light-border};
     --drp-primary-bg: #{$light-bg};
     --drp-primary-bg-hover: #{$light-surface};
-    --drp-text-primary: #{$light-text};
-    --drp-text-secondary: #{$light-text-secondary};
+    --drp-text-color-1: #{$light-text};
+    --drp-text-color-2: #{$light-text-secondary};
     --drp-button-bg: transparent;
     --drp-button-color: #{$light-text};
     --drp-button-accent-text-color: #ffffff;
@@ -448,9 +457,9 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   $blue-border: #475569;       // slate-600
   $blue-accent: #3b82f6;       // blue-500
 
-  --pa-primary-bg: #{$blue-bg};
-  --pa-bg-secondary: #{$blue-bg};
-  --pa-content-bg: #020617;
+  --pa-main-bg: #{$blue-bg};
+  --pa-page-bg: #{$blue-bg};
+  --pa-subtle-bg: #020617;
 
   --pa-header-bg: #{$blue-card};
   --pa-header-border-color: #{$blue-border};
@@ -486,6 +495,11 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --page-loader-spinner-accent: #{$blue-accent};
 
   --base-accent-color: #{$blue-accent};
+  // Semantic names (preferred)
+  --base-main-bg: #{$blue-card};
+  --base-page-bg: #{$blue-bg};
+  --base-hover-bg: #{$blue-surface};
+  // Legacy aliases
   --base-surface-1: #{$blue-card};
   --base-surface-2: #{$blue-bg};
   --base-border-color: #{$blue-surface};
@@ -502,9 +516,9 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   $green-border: #365e42;
   $green-accent: #22c55e;
 
-  --pa-primary-bg: #{$green-bg};
-  --pa-bg-secondary: #{$green-bg};
-  --pa-content-bg: #0a0f0b;
+  --pa-main-bg: #{$green-bg};
+  --pa-page-bg: #{$green-bg};
+  --pa-subtle-bg: #0a0f0b;
 
   --pa-header-bg: #{$green-card};
   --pa-header-border-color: #{$green-border};
@@ -520,7 +534,7 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --pa-accent-hover: rgba(34, 197, 94, 0.15);
   --pa-accent-light: rgba(34, 197, 94, 0.08);
 
-  --pa-text-secondary: #86efac;
+  --pa-text-color-2: #86efac;
 
   --pa-card-bg: #{$green-card};
   --pa-card-header-bg: #{$green-bg};
@@ -542,6 +556,11 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --page-loader-spinner-accent: #{$green-accent};
 
   --base-accent-color: #{$green-accent};
+  // Semantic names (preferred)
+  --base-main-bg: #{$green-card};
+  --base-page-bg: #{$green-bg};
+  --base-hover-bg: #{$green-surface};
+  // Legacy aliases
   --base-surface-1: #{$green-card};
   --base-surface-2: #{$green-bg};
   --base-border-color: #{$green-surface};
@@ -558,9 +577,9 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   $red-border: #6b3333;
   $red-accent: #ef4444;
 
-  --pa-primary-bg: #{$red-bg};
-  --pa-bg-secondary: #{$red-bg};
-  --pa-content-bg: #18080a;
+  --pa-main-bg: #{$red-bg};
+  --pa-page-bg: #{$red-bg};
+  --pa-subtle-bg: #18080a;
 
   --pa-header-bg: #{$red-card};
   --pa-header-border-color: #{$red-border};
@@ -576,7 +595,7 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --pa-accent-hover: rgba(239, 68, 68, 0.15);
   --pa-accent-light: rgba(239, 68, 68, 0.08);
 
-  --pa-text-secondary: #fca5a5;
+  --pa-text-color-2: #fca5a5;
 
   --pa-card-bg: #{$red-card};
   --pa-card-header-bg: #{$red-bg};
@@ -598,6 +617,11 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --page-loader-spinner-accent: #{$red-accent};
 
   --base-accent-color: #{$red-accent};
+  // Semantic names (preferred)
+  --base-main-bg: #{$red-card};
+  --base-page-bg: #{$red-bg};
+  --base-hover-bg: #{$red-surface};
+  // Legacy aliases
   --base-surface-1: #{$red-card};
   --base-surface-2: #{$red-bg};
   --base-border-color: #{$red-surface};

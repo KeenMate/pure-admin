@@ -77,7 +77,7 @@
     function setSidebarWidth(width) {
         // Convert pixels to rem (10px base)
         const remWidth = width / 10;
-        document.documentElement.style.setProperty('--pa-sidebar-width', `${remWidth}rem`);
+        document.documentElement.style.setProperty('--pa-local-sidebar-width', `${remWidth}rem`);
     }
 
     /**

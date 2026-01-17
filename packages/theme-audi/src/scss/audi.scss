@@ -134,9 +134,9 @@ $table-hover-accent-width: 0.3rem;  // 3px in 10px base
 $table-hover-accent-position: left;
 
 // Dark mode theme colors
-$primary-bg: $audi-near-black;
-$bg-secondary: $audi-near-black;
-$content-background-color: $audi-dark;
+$main-bg: $audi-near-black;
+$page-bg: $audi-near-black;
+$subtle-bg: $audi-dark;
 $header-bg: $audi-black;
 $header-border-color: $audi-gray-light;
 $header-text: #ffffff;
@@ -282,7 +282,7 @@ $card-border-radius: 0; // Sharp edges
 // =============================================================================
 // AUDI-SPECIFIC COMPONENT OVERRIDES
 // =============================================================================
-.pa-btn--primary {
+.pa-btn--color-1 {
   font-weight: $font-weight-bold;
   color: #ffffff !important;
   border-radius: 0 !important;
@@ -345,8 +345,8 @@ $card-border-radius: 0; // Sharp edges
   --drp-border-color: #{$audi-gray-light};
   --drp-primary-bg: #{$audi-gray};
   --drp-primary-bg-hover: #{$audi-gray-light};
-  --drp-text-primary: #ffffff;
-  --drp-text-secondary: #999999;
+  --drp-text-color-1: #ffffff;
+  --drp-text-color-2: #999999;
   --drp-button-bg: transparent;
   --drp-button-color: #ffffff;
   --drp-button-accent-text-color: #ffffff;
@@ -389,11 +389,11 @@ $card-border-radius: 0; // Sharp edges
   --page-loader-spinner-accent: #ff0000;
 
   // Core colors
-  --pa-primary-bg: #{$light-gray-100};
-  --pa-bg-secondary: #{$light-gray-50};
-  --pa-content-bg: #{$light-gray-100};
-  --pa-text-primary: #{$light-gray-900};
-  --pa-text-secondary: #{$light-gray-600};
+  --pa-main-bg: #{$light-gray-100};
+  --pa-page-bg: #{$light-gray-50};
+  --pa-subtle-bg: #{$light-gray-100};
+  --pa-text-color-1: #{$light-gray-900};
+  --pa-text-color-2: #{$light-gray-600};
   --pa-accent: #ff0000;
   --pa-accent-hover: rgba(255, 0, 0, 0.1);
   --pa-accent-light: rgba(255, 0, 0, 0.05);
@@ -460,11 +460,18 @@ $card-border-radius: 0; // Sharp edges
   --pa-info-bg-light: rgba(0, 153, 255, 0.1);
 
   // Base variables for web components (light mode)
+  // Semantic names (preferred)
+  --base-main-bg: #{$light-white};
+  --base-page-bg: #{$light-gray-100};
+  --base-subtle-bg: #{$light-gray-200};
+  --base-hover-bg: #{$light-gray-200};
+  --base-active-bg: #{$light-gray-300};
+  --base-disabled-bg: #{$light-gray-100};
+  // Legacy aliases
   --base-surface-1: #{$light-white};
   --base-surface-2: #{$light-gray-100};
   --base-surface-3: #{$light-gray-200};
-  --base-primary-bg: #{$light-gray-100};
-  --base-primary-bg-hover: #{$light-gray-200};
+  // Text colors
   --base-text-color-1: #{$light-gray-900};
   --base-text-color-2: #{$light-gray-600};
   --base-text-color-3: #{$light-gray-500};
@@ -485,8 +492,8 @@ $card-border-radius: 0; // Sharp edges
     --drp-border-color: #{$light-gray-300};
     --drp-primary-bg: #{$light-gray-100};
     --drp-primary-bg-hover: #{$light-gray-200};
-    --drp-text-primary: #{$light-gray-900};
-    --drp-text-secondary: #{$light-gray-600};
+    --drp-text-color-1: #{$light-gray-900};
+    --drp-text-color-2: #{$light-gray-600};
     --drp-button-bg: transparent;
     --drp-button-color: #{$light-gray-900};
     --drp-button-accent-text-color: #ffffff;

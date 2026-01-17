@@ -112,11 +112,11 @@ These variables control the appearance of Pure Admin framework components.
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-primary-bg` | Primary background |
-| `--pa-bg-secondary` | Secondary background |
-| `--pa-content-bg` | Content area background |
-| `--pa-text-primary` | Primary text color |
-| `--pa-text-secondary` | Secondary text color |
+| `--pa-main-bg` | Main background (cards, modals) |
+| `--pa-page-bg` | Page background |
+| `--pa-subtle-bg` | Subtle/muted area background |
+| `--pa-text-color-1` | Primary text color |
+| `--pa-text-color-2` | Secondary text color |
 | `--pa-accent` | Accent color |
 | `--pa-accent-hover` | Accent hover |
 | `--pa-accent-light` | Light accent background |

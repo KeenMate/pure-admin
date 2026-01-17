@@ -38,7 +38,7 @@ npm install @keenmate/pure-admin-theme-audi
 
 ```scss
 // Override variables before importing
-$primary-bg: #your-color;
+$main-bg: #your-color;
 $btn-primary-bg: #your-button-color;
 
 // Import the framework
@@ -333,7 +333,7 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 
 All components use SCSS variables with `!default` flags, making them fully customizable:
 
-- **Colors**: `$primary-bg`, `$accent-color`, `$text-primary`, etc.
+- **Colors**: `$main-bg`, `$page-bg`, `$subtle-bg`, `$accent-color`, `$text-color-1`, `$text-color-2`, etc.
 - **Spacing**: `$spacing-xs` through `$spacing-2xl`
 - **Typography**: `$font-size-*`, `$line-height-*`, `$font-weight-*`
 - **Components**: `$btn-*`, `$card-*`, `$table-*`, etc.

@@ -4,16 +4,16 @@
    ======================================== */
 @use '../../variables' as *;
 
-// CSS variable for sidebar width (allows JS resize)
+// Local CSS variables for sidebar (runtime state, modified by JS for resize)
 :root {
-  --pa-sidebar-width: #{$sidebar-width};
-  --pa-sidebar-min-width: 18rem;
-  --pa-sidebar-max-width: 50rem;
+  --pa-local-sidebar-width: #{$sidebar-width};
+  --pa-local-sidebar-min-width: 18rem;
+  --pa-local-sidebar-max-width: 50rem;
 }
 
 // Sidebar layout element - width in :where() for low specificity (utility classes can override)
 :where(.pa-layout__sidebar) {
-  width: var(--pa-sidebar-width);
+  width: var(--pa-local-sidebar-width);
 }
 
 .pa-layout__sidebar {
