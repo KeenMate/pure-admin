@@ -5,7 +5,51 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.1] - 2026-01-17
+
+### Fixed
+
+#### Notification Bell Color
+- **Fixed notification bell color** - Changed `.pa-notifications__btn` to use `var(--pa-header-text)` instead of `var(--pa-text-primary)`
+
+#### Header Profile Button Color
+- **Fixed profile icon color** in header not matching header text color
+- **Changed** `.pa-header__profile-btn` from `color: var(--pa-text-primary)` to `color: var(--pa-header-text)`
+- **Changed** `.pa-header__profile-name` from SCSS variable to CSS variable `var(--pa-header-profile-name-color)`
+- **Added `gap`** property to profile button for consistent icon/name spacing
+- **Result**: Profile icon and name now correctly use header-specific text colors in all themes
+
+### Changed
+
+#### Body Font Uses CSS Variable
+- **Changed `body` font-family** from SCSS variable to CSS variable: `font-family: var(--base-font-family)`
+- **Problem**: SCSS module system (`@use`) caused themes' `$body-font-family` overrides to not propagate to `_base.scss`
+- **Solution**: Body now uses CSS variable which is set via `output-base-css-variables` mixin in themes
+- **Result**: Themes can set `$base-font-family` before importing variables, and it flows through to the body
+- **File**: `core-components/_base.scss`
+
+#### Typography Variables Derive from Base
+- **Changed `$body-font-family`** to derive from `$base-font-family` instead of `$font-stack-system`
+- **Before**: `$body-font-family: $font-stack-system !default;`
+- **After**: `$body-font-family: $base-font-family !default;`
+- **File**: `variables/_typography.scss`
+
+### Removed
+
+#### Delivery Font
+- **Removed Delivery font** from framework (was unused, Express theme uses Fira Sans Condensed)
+- **Deleted @font-face declaration** for Delivery font from `_fonts.scss`
+- **Deleted `.font-family-delivery` class** from `_fonts.scss`
+- **Deleted font files**: `fonts/Delivery/` directory (8 woff2 files)
+- **Removed from settings panel**: Delivery option removed from font family selector in demo
+
+### Added
+
+#### Forms Page Size Reference Table
+- **Added height columns** to Input Sizes Reference table on `/forms` page
+- **Shows actual rendered height** (in pixels) for inputs and buttons at each size
+- **JavaScript measurement**: Heights calculated via `offsetHeight` after page load
+- **Use case**: Compare declared sizes with actual rendered dimensions
 
 ### Changed
 

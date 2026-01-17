@@ -6,7 +6,7 @@
                     <h3>Input Sizes Reference</h3>
                 </div>
                 <div class="pa-card__body pa-card__body--no-padding">
-                    <table class="pa-table pa-table--striped">
+                    <table class="pa-table pa-table--striped" id="sizesTable">
                         <thead>
                             <tr>
                                 <th>Size</th>
@@ -14,6 +14,8 @@
                                 <th>Font Size</th>
                                 <th>Padding (v/h)</th>
                                 <th>Input + Button</th>
+                                <th>Input Height</th>
+                                <th>Button Height</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,10 +26,12 @@
                                 <td>0.6rem / 0.8rem</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-sm">
-                                        <input type="text" class="pa-input pa-input--xs" placeholder="Extra small" style="width: 120px;">
-                                        <button class="pa-btn pa-btn--primary pa-btn--xs">Submit</button>
+                                        <input type="text" class="pa-input pa-input--xs" placeholder="Extra small" style="width: 120px;" data-measure="input">
+                                        <button class="pa-btn pa-btn--primary pa-btn--xs" data-measure="button">Submit</button>
                                     </div>
                                 </td>
+                                <td class="height-input">-</td>
+                                <td class="height-button">-</td>
                             </tr>
                             <tr>
                                 <td><strong>SM</strong></td>
@@ -36,10 +40,12 @@
                                 <td>0.8rem / 0.8rem</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-sm">
-                                        <input type="text" class="pa-input pa-input--sm" placeholder="Small" style="width: 120px;">
-                                        <button class="pa-btn pa-btn--primary pa-btn--sm">Submit</button>
+                                        <input type="text" class="pa-input pa-input--sm" placeholder="Small" style="width: 120px;" data-measure="input">
+                                        <button class="pa-btn pa-btn--primary pa-btn--sm" data-measure="button">Submit</button>
                                     </div>
                                 </td>
+                                <td class="height-input">-</td>
+                                <td class="height-button">-</td>
                             </tr>
                             <tr>
                                 <td><strong>Default</strong></td>
@@ -48,10 +54,12 @@
                                 <td>0.8rem / 0.8rem</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-sm">
-                                        <input type="text" class="pa-input" placeholder="Default" style="width: 120px;">
-                                        <button class="pa-btn pa-btn--primary">Submit</button>
+                                        <input type="text" class="pa-input" placeholder="Default" style="width: 120px;" data-measure="input">
+                                        <button class="pa-btn pa-btn--primary" data-measure="button">Submit</button>
                                     </div>
                                 </td>
+                                <td class="height-input">-</td>
+                                <td class="height-button">-</td>
                             </tr>
                             <tr>
                                 <td><strong>LG</strong></td>
@@ -60,10 +68,12 @@
                                 <td>0.8rem / 0.8rem</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-sm">
-                                        <input type="text" class="pa-input pa-input--lg" placeholder="Large" style="width: 120px;">
-                                        <button class="pa-btn pa-btn--primary pa-btn--lg">Submit</button>
+                                        <input type="text" class="pa-input pa-input--lg" placeholder="Large" style="width: 120px;" data-measure="input">
+                                        <button class="pa-btn pa-btn--primary pa-btn--lg" data-measure="button">Submit</button>
                                     </div>
                                 </td>
+                                <td class="height-input">-</td>
+                                <td class="height-button">-</td>
                             </tr>
                             <tr>
                                 <td><strong>XL</strong></td>
@@ -72,13 +82,34 @@
                                 <td>0.8rem / 0.8rem</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-sm">
-                                        <input type="text" class="pa-input pa-input--xl" placeholder="Extra large" style="width: 120px;">
-                                        <button class="pa-btn pa-btn--primary pa-btn--xl">Submit</button>
+                                        <input type="text" class="pa-input pa-input--xl" placeholder="Extra large" style="width: 120px;" data-measure="input">
+                                        <button class="pa-btn pa-btn--primary pa-btn--xl" data-measure="button">Submit</button>
                                     </div>
                                 </td>
+                                <td class="height-input">-</td>
+                                <td class="height-button">-</td>
                             </tr>
                         </tbody>
                     </table>
+                    <script>
+                        // Measure and display actual heights
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const table = document.getElementById('sizesTable');
+                            const rows = table.querySelectorAll('tbody tr');
+                            rows.forEach(row => {
+                                const input = row.querySelector('[data-measure="input"]');
+                                const button = row.querySelector('[data-measure="button"]');
+                                const inputHeightCell = row.querySelector('.height-input');
+                                const buttonHeightCell = row.querySelector('.height-button');
+                                if (input && inputHeightCell) {
+                                    inputHeightCell.textContent = input.offsetHeight + 'px';
+                                }
+                                if (button && buttonHeightCell) {
+                                    buttonHeightCell.textContent = button.offsetHeight + 'px';
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
 

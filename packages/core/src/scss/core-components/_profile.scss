@@ -24,11 +24,12 @@
 .pa-header__profile-btn {
   display: flex;
   align-items: center;
+  gap: $spacing-xs;
   background: none;
   border: none;
   padding: $spacing-xs $spacing-sm; // Match nav item padding
   border-radius: $border-radius;
-  color: var(--pa-text-primary);
+  color: var(--pa-header-text);  // Use header text color, not content text color
   cursor: pointer;
   font-size: $font-size-sm; // Apply to whole button (text and icon)
   transition: background-color $transition-fast $easing-snappy;
@@ -45,7 +46,7 @@
 
 .pa-header__profile-name {
   font-weight: $font-weight-medium;
-  color: $header-profile-name-color;
+  color: var(--pa-header-profile-name-color);  // Use CSS variable for theme control
 }
 
 // Profile panel
