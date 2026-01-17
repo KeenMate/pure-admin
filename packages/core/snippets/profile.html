@@ -209,14 +209,16 @@
             </button>
         </div>
 
-        <!-- Profile Panel Tabs -->
+        <!-- Profile Panel Tabs (with text labels) -->
         <div class="pa-profile-panel__tabs">
             <div class="pa-tabs pa-tabs--full">
                 <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile">
-                    <span>👤</span> Profile
+                    <i class="fa-solid fa-user"></i>
+                    <span class="pa-profile-panel__tab-text">Profile</span>
                 </button>
                 <button class="pa-tabs__item" data-profile-tab="favorites">
-                    <span>⭐</span> Favorites
+                    <i class="fa-solid fa-star"></i>
+                    <span class="pa-profile-panel__tab-text">Favorites</span>
                 </button>
             </div>
         </div>
@@ -292,6 +294,49 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     PROFILE PANEL - WITH ICON-ONLY TABS
+     Add --icon-only modifier to hide text labels
+     ================================ -->
+
+<div class="pa-profile-panel" id="profilePanel">
+    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+    <div class="pa-profile-panel__content">
+        <div class="pa-profile-panel__header">
+            <div class="pa-profile-panel__avatar">
+                <span class="pa-profile-panel__avatar-icon"><i class="fa-solid fa-user"></i></span>
+            </div>
+            <div class="pa-profile-panel__info">
+                <h3 class="pa-profile-panel__name">John Doe</h3>
+                <p class="pa-profile-panel__email">john.doe@company.com</p>
+                <span class="pa-profile-panel__role">Administrator</span>
+            </div>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Profile Panel Tabs (icon-only) - add --icon-only modifier -->
+        <div class="pa-profile-panel__tabs pa-profile-panel__tabs--icon-only">
+            <div class="pa-tabs pa-tabs--full">
+                <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile" title="Profile">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="pa-profile-panel__tab-text">Profile</span>
+                </button>
+                <button class="pa-tabs__item" data-profile-tab="favorites" title="Favorites">
+                    <i class="fa-solid fa-star"></i>
+                    <span class="pa-profile-panel__tab-text">Favorites</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="pa-profile-panel__body">
+            <!-- Content same as regular tabs variant -->
         </div>
     </div>
 </div>
@@ -501,9 +546,12 @@ PANEL HEADER:
 
 PANEL TABS (optional):
 - .pa-profile-panel__tabs - Tabs container
+- .pa-profile-panel__tabs--icon-only - Modifier to hide text labels (icon-only mode)
+- .pa-profile-panel__tab-text - Text label element (hidden when --icon-only is applied)
 - .pa-tabs.pa-tabs--full - Full-width tabs
 - [data-profile-tab] - Tab button attribute
 - [data-profile-panel] - Tab panel attribute
+- Add title attribute to tab buttons for tooltip when using icon-only mode
 
 PANEL BODY:
 - .pa-profile-panel__body - Body container (scrollable)

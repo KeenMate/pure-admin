@@ -35,6 +35,7 @@
         const sidebarModeSelector = document.getElementById('sidebarModeSelector');
         const compactMode = document.getElementById('compactMode');
         const profileNoAvatar = document.getElementById('profileNoAvatar');
+        const profileIconOnlyTabs = document.getElementById('profileIconOnlyTabs');
         const containerWidthSelector = document.getElementById('containerWidthSelector');
         const resetSettings = document.getElementById('resetSettings');
         const body = document.body;
@@ -265,6 +266,14 @@
                 profileHeader.classList.add('pa-profile-panel__header--no-avatar');
             }
 
+            // Profile panel - icon-only tabs
+            const isIconOnlyTabs = localStorage.getItem('profile-icon-only-tabs') === 'true';
+            profileIconOnlyTabs.checked = isIconOnlyTabs;
+            const profileTabs = document.querySelector('.pa-profile-panel__tabs');
+            if (isIconOnlyTabs && profileTabs) {
+                profileTabs.classList.add('pa-profile-panel__tabs--icon-only');
+            }
+
             // Container width - read from body class
             const containerWidthClasses = ['pa-container-sm', 'pa-container-md', 'pa-container-lg', 'pa-container-xl', 'pa-container-2xl'];
             let currentContainerWidth = 'fluid';
@@ -383,6 +392,18 @@
             } else {
                 profileHeader.classList.remove('pa-profile-panel__header--no-avatar');
                 localStorage.setItem('profile-no-avatar', 'false');
+            }
+        });
+
+        // Profile panel icon-only tabs toggle
+        profileIconOnlyTabs.addEventListener('change', (e) => {
+            const profileTabs = document.querySelector('.pa-profile-panel__tabs');
+            if (e.target.checked) {
+                profileTabs.classList.add('pa-profile-panel__tabs--icon-only');
+                localStorage.setItem('profile-icon-only-tabs', 'true');
+            } else {
+                profileTabs.classList.remove('pa-profile-panel__tabs--icon-only');
+                localStorage.setItem('profile-icon-only-tabs', 'false');
             }
         });
 
