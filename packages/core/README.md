@@ -315,11 +315,17 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 - `.self-stretch` - Stretch item to fill (`align-self: stretch`)
 - `.self-baseline` - Align item to baseline (`align-self: baseline`)
 
+### Spacing (Margin & Padding)
+- **Semantic:** `.m-xs`, `.m-sm`, `.m-md`, `.m-base`, `.m-lg`, `.m-xl`, `.m-2xl`
+- **Directional:** `.mt-*`, `.mr-*`, `.mb-*`, `.ml-*`, `.mx-*`, `.my-*`
+- **Padding:** `.p-xs`, `.p-sm`, `.p-md`, `.p-base`, `.p-lg`, `.p-xl`, `.p-2xl` (and directional variants)
+- **Numeric:** `.m-0` through `.m-20`, `.p-0` through `.p-20` (in px-equivalent rem units)
+
 ### Spacing (Gap)
-- `.gap-0` through `.gap-2xl` - Gap utilities using spacing scale
-- `.gap-1` through `.gap-20` - Numeric gap utilities (in px-equivalent rem units)
-- `.row-gap-*` - Row gap utilities
-- `.column-gap-*` - Column gap utilities
+- **Semantic:** `.gap-0`, `.gap-xs`, `.gap-sm`, `.gap-md`, `.gap-base`, `.gap-lg`, `.gap-xl`, `.gap-2xl`
+- **Numeric:** `.gap-1` through `.gap-20` (in px-equivalent rem units)
+- **Row gap:** `.row-gap-0` through `.row-gap-2xl`
+- **Column gap:** `.column-gap-0` through `.column-gap-2xl`
 
 ### Text Size
 - `.text-2xs` through `.text-4xl` - Font size utilities

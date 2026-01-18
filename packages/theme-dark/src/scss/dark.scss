@@ -206,6 +206,9 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   // Pure Admin theme CSS variables for runtime theme switching
   @include output-pa-css-variables;
 
+  // Override base-elevated-bg for dark mode (web-grid striped rows, headers)
+  --base-elevated-bg: #{$dark-bg-tertiary};
+
   // Web component overrides (dark mode)
   --drp-dropdown-bg: #{$dark-bg-secondary};
   --drp-border-color: #{$dark-bg-quaternary};
@@ -367,6 +370,7 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --base-hover-bg: #{$light-surface};
   --base-active-bg: #{$light-border};
   --base-disabled-bg: #{$light-surface};
+  --base-elevated-bg: #{$light-surface};
   // Legacy aliases
   --base-surface-1: #{$light-card};
   --base-surface-2: #{$light-bg};

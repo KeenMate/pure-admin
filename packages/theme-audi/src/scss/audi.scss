@@ -340,6 +340,9 @@ $card-border-radius: 0; // Sharp edges
   @include output-base-css-variables;
   @include output-pa-css-variables;
 
+  // Override base-elevated-bg for dark mode (web-grid striped rows, headers)
+  --base-elevated-bg: #{$audi-gray};
+
   // Daterangepicker overrides (dark mode)
   --drp-dropdown-bg: #{$audi-dark};
   --drp-border-color: #{$audi-gray-light};
@@ -467,6 +470,7 @@ $card-border-radius: 0; // Sharp edges
   --base-hover-bg: #{$light-gray-200};
   --base-active-bg: #{$light-gray-300};
   --base-disabled-bg: #{$light-gray-100};
+  --base-elevated-bg: #{$light-gray-100};
   // Legacy aliases
   --base-surface-1: #{$light-white};
   --base-surface-2: #{$light-gray-100};

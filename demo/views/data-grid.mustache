@@ -4,123 +4,173 @@
   </div>
   <div class="pa-card__body">
     <p>
-      Advanced data grid web component from <code>@keenmate/web-grid</code> with sorting, filtering,
+      Advanced data grid web component from <code>@keenmate/web-grid</code> with sorting,
       pagination, inline editing, and keyboard navigation. Built as a framework-agnostic web component.
     </p>
     <p>
-      <strong>Key Features:</strong> Multi-column sorting, per-column filtering, inline editing with 7 editor types,
-      spreadsheet-like keyboard navigation, row toolbar, context menu, and dark mode support.
+      <strong>Key Features:</strong> Multi-column sorting, inline editing with 6 editor types (text, number, date, select, combobox, autocomplete),
+      spreadsheet-like keyboard navigation, row selection, row toolbar, context menu, and dark mode support.
     </p>
   </div>
 </div>
 
-<!-- Basic Example -->
+<!-- Main Example with Controls -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Basic Grid</h3>
+    <h3>Employee Grid</h3>
   </div>
   <div class="pa-card__body">
-    <web-grid id="basic-grid" striped hoverable></web-grid>
-    <small class="pa-form-text">Simple grid with striped rows and hover effect</small>
+    <div class="pa-row gap-lg mb-lg flex-wrap">
+      <label class="d-flex align-items-center gap-xs">
+        <input type="checkbox" id="isStriped" checked> Striped
+      </label>
+      <label class="d-flex align-items-center gap-xs">
+        <input type="checkbox" id="isHoverable" checked> Hoverable
+      </label>
+      <label class="d-flex align-items-center gap-xs">
+        <input type="checkbox" id="sortable" checked> Sortable
+      </label>
+      <label class="d-flex align-items-center gap-xs">
+        <input type="checkbox" id="isPageable"> Pageable
+      </label>
+      <label class="d-flex align-items-center gap-xs">
+        <input type="checkbox" id="isEditable" checked> Editable
+      </label>
+      <label class="d-flex align-items-center gap-xs">
+        <input type="checkbox" id="navigate" checked> Navigate Mode
+      </label>
+    </div>
+
+    <web-grid id="main-grid" style="max-height: 400px;"></web-grid>
+
+    <div class="mt-lg">
+      <strong>Current Sort:</strong>
+      <span id="sortState" class="text-color-2 ml-sm">No sorting applied</span>
+      <small class="d-block text-color-3 mt-sm">Click column header to sort. Ctrl+Click to add columns (cascading sort).</small>
+    </div>
   </div>
 </div>
 
-<!-- Sortable Grid -->
+<!-- Keyboard Navigation -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Sorting</h3>
+    <h3>Keyboard Navigation</h3>
   </div>
   <div class="pa-card__body">
+    <p class="mb-base">Navigate mode enables Excel-like keyboard navigation. Use the controls above to toggle it on/off.</p>
+
     <div class="pa-row">
       <div class="pa-col-100 pa-col-md-50">
-        <h4>Single Column Sort</h4>
-        <web-grid id="single-sort-grid" striped hoverable></web-grid>
-        <small class="pa-form-text">Click column headers to sort</small>
+        <h4>Cell Navigation</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+          <li><code>Arrow Up/Down</code> - Move between rows</li>
+          <li><code>Arrow Left/Right</code> - Move between columns</li>
+          <li><code>Tab / Shift+Tab</code> - Next/previous editable cell</li>
+          <li><code>Home / End</code> - First/last cell in row</li>
+          <li><code>PageUp / PageDown</code> - Move up/down by ~10 rows</li>
+        </ul>
       </div>
       <div class="pa-col-100 pa-col-md-50">
-        <h4>Multi-Column Sort</h4>
-        <web-grid id="multi-sort-grid" striped hoverable></web-grid>
-        <small class="pa-form-text">Hold Ctrl/Cmd and click to sort by multiple columns</small>
+        <h4>Jump Navigation</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+          <li><code>Ctrl+Home</code> - First cell in grid</li>
+          <li><code>Ctrl+End</code> - Last cell in grid</li>
+          <li><code>Ctrl+PageUp</code> - First cell in column</li>
+          <li><code>Ctrl+PageDown</code> - Last cell in column</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pa-alert pa-alert--info mt-base">
+      <div class="pa-alert__content">
+        <strong>Editing Keys:</strong>
+        <code>Enter</code> or <code>F2</code> - Start editing |
+        <code>Space</code> - Toggle checkbox or open dropdown |
+        <code>Escape</code> - Cancel edit |
+        Type any character to start editing with that character
       </div>
     </div>
   </div>
 </div>
 
-<!-- Filterable Grid -->
+<!-- Sorting & Pagination -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Filtering</h3>
+    <h3>Sorting &amp; Pagination</h3>
   </div>
   <div class="pa-card__body">
-    <web-grid id="filterable-grid" striped hoverable></web-grid>
-    <small class="pa-form-text">Type in the filter row to filter data</small>
+    <p class="mb-base">Click column headers to sort. <strong>Ctrl+Click</strong> to add columns for multi-column sort. Sort indicators show direction and priority numbers.</p>
+
+    <web-grid id="paging-grid" style="max-height: 350px;"></web-grid>
+
+    <div class="mt-base">
+      <strong>Current Sort:</strong>
+      <span id="pagingSortState" class="text-color-2 ml-xs">No sorting applied</span>
+    </div>
   </div>
 </div>
 
-<!-- Paginated Grid -->
+<!-- Row Selection -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Pagination</h3>
+    <h3>Row Selection</h3>
   </div>
   <div class="pa-card__body">
-    <web-grid id="paginated-grid" striped hoverable></web-grid>
-    <small class="pa-form-text">Navigate through pages using the pagination controls</small>
+    <p class="mb-base">Click row numbers to select rows. <strong>Ctrl+Click</strong> to toggle, <strong>Shift+Click</strong> for range selection.</p>
+
+    <web-grid id="selection-grid" style="max-height: 350px;"></web-grid>
+
+    <div id="selectionLog" class="mt-base text-color-2">
+      Click row numbers to select rows...
+    </div>
+
+    <div class="pa-alert pa-alert--secondary mt-base">
+      <div class="pa-alert__content">
+        <strong>Selection Shortcuts:</strong>
+        <code>Ctrl+C</code> - Copy selected rows |
+        <code>Delete</code> - Delete selected rows |
+        <code>Escape</code> - Clear selection |
+        <code>Click #</code> (top-left) - Select all
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Editable Grid -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>Inline Editing</h3>
+<!-- Row Toolbar & Context Menu -->
+<div class="pa-row">
+  <div class="pa-col-100 pa-col-md-50">
+    <div class="pa-card h-100">
+      <div class="pa-card__header">
+        <h3>Row Toolbar</h3>
+      </div>
+      <div class="pa-card__body">
+        <web-grid id="toolbar-grid" style="max-height: 300px;"></web-grid>
+        <small class="pa-form-text">Hover over rows to see the action toolbar</small>
+      </div>
+    </div>
   </div>
-  <div class="pa-card__body">
-    <web-grid id="editable-grid" striped hoverable></web-grid>
-    <small class="pa-form-text">Double-click cells to edit. Supports text, number, select, checkbox, and date editors.</small>
-  </div>
-</div>
-
-<!-- Row Toolbar Grid -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>Row Toolbar</h3>
-  </div>
-  <div class="pa-card__body">
-    <web-grid id="toolbar-grid" striped hoverable></web-grid>
-    <small class="pa-form-text">Hover over rows to see the action toolbar</small>
-  </div>
-</div>
-
-<!-- Context Menu Grid -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>Context Menu</h3>
-  </div>
-  <div class="pa-card__body">
-    <web-grid id="context-menu-grid" striped hoverable></web-grid>
-    <small class="pa-form-text">Right-click on rows to open the context menu</small>
+  <div class="pa-col-100 pa-col-md-50">
+    <div class="pa-card h-100">
+      <div class="pa-card__header">
+        <h3>Context Menu</h3>
+      </div>
+      <div class="pa-card__body">
+        <web-grid id="context-grid" style="max-height: 300px;"></web-grid>
+        <small class="pa-form-text">Right-click on rows to open the context menu</small>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Full Featured Grid -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>Full Featured Example</h3>
-  </div>
-  <div class="pa-card__body">
-    <web-grid id="full-grid" striped hoverable></web-grid>
-    <small class="pa-form-text">Combines sorting, filtering, pagination, editing, toolbar, and context menu</small>
-  </div>
-</div>
-
-<!-- Documentation -->
+<!-- Resources -->
 <div class="pa-card">
   <div class="pa-card__header">
     <h3>Resources</h3>
   </div>
   <div class="pa-card__body">
-    <ul>
+    <ul class="pa-list-basic">
       <li><strong>npm Package:</strong> <code>@keenmate/web-grid</code></li>
-      <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-grid" target="_blank">github.com/keenmate/web-grid</a></li>
+      <li><strong>Repository:</strong> <a href="https://github.com/nicoalee/web-grid" target="_blank">github.com/nicoalee/web-grid</a></li>
       <li><strong>CSS Variables:</strong> Uses <code>--wg-*</code> prefix (component) and <code>--base-*</code> prefix (theme integration)</li>
       <li><strong>Theming:</strong> Pure Admin provides <code>--base-*</code> variables via <code>src/scss/_base-css-variables.scss</code></li>
     </ul>
@@ -128,91 +178,278 @@
 </div>
 
 <script type="module">
-// Sample data
-const employees = [
-  { id: 1, name: 'Alice Johnson', department: 'Engineering', salary: 95000, hired: '2020-03-15', active: true },
-  { id: 2, name: 'Bob Smith', department: 'Marketing', salary: 72000, hired: '2019-07-22', active: true },
-  { id: 3, name: 'Carol Williams', department: 'Engineering', salary: 105000, hired: '2018-01-10', active: true },
-  { id: 4, name: 'David Brown', department: 'Sales', salary: 68000, hired: '2021-11-05', active: false },
-  { id: 5, name: 'Eva Martinez', department: 'HR', salary: 62000, hired: '2022-02-28', active: true },
-  { id: 6, name: 'Frank Garcia', department: 'Engineering', salary: 88000, hired: '2020-09-14', active: true },
-  { id: 7, name: 'Grace Lee', department: 'Marketing', salary: 75000, hired: '2019-04-03', active: true },
-  { id: 8, name: 'Henry Wilson', department: 'Sales', salary: 82000, hired: '2017-08-19', active: true },
-  { id: 9, name: 'Ivy Chen', department: 'Engineering', salary: 110000, hired: '2016-12-01', active: true },
-  { id: 10, name: 'Jack Taylor', department: 'HR', salary: 58000, hired: '2023-01-15', active: true },
-  { id: 11, name: 'Karen Davis', department: 'Sales', salary: 71000, hired: '2021-06-20', active: false },
-  { id: 12, name: 'Leo Anderson', department: 'Marketing', salary: 79000, hired: '2020-04-08', active: true }
-];
+// web-grid is loaded globally via layout.mustache
+
+// =============================================================================
+// Sample Data
+// =============================================================================
+const departments = ['Engineering', 'Marketing', 'Sales', 'HR', 'Finance']
+const statuses = ['Active', 'Inactive', 'On Leave']
+const locations = ['New York', 'Los Angeles', 'Chicago', 'Miami', 'Seattle', 'Boston']
+const managers = ['John Doe', 'Jane Smith', 'Mike Johnson', 'Sarah Lee', 'Robert Williams', 'Emily Brown']
+
+const sampleData = [
+  { id: 1847, name: 'Alice Johnson', email: 'alice@example.com', department: 'Engineering', salary: 85000, startDate: '2020-03-15', status: 'Active', manager: 'John Doe', location: 'New York' },
+  { id: 2391, name: 'Bob Smith', email: 'bob@example.com', department: 'Marketing', salary: 72000, startDate: '2019-07-22', status: 'Active', manager: 'Jane Smith', location: 'Los Angeles' },
+  { id: 1052, name: 'Carol Williams', email: 'carol@example.com', department: 'Engineering', salary: 92000, startDate: '2018-11-01', status: 'Active', manager: 'John Doe', location: 'New York' },
+  { id: 3764, name: 'David Brown', email: 'david@example.com', department: 'Sales', salary: 68000, startDate: '2021-01-10', status: 'Active', manager: 'Mike Johnson', location: 'Chicago' },
+  { id: 2908, name: 'Eva Martinez', email: 'eva@example.com', department: 'HR', salary: 65000, startDate: '2020-06-20', status: 'On Leave', manager: 'Sarah Lee', location: 'Miami' },
+  { id: 1523, name: 'Frank Lee', email: 'frank@example.com', department: 'Engineering', salary: 88000, startDate: '2019-02-14', status: 'Active', manager: 'John Doe', location: 'New York' },
+  { id: 4281, name: 'Grace Kim', email: 'grace@example.com', department: 'Marketing', salary: 75000, startDate: '2020-09-05', status: 'Active', manager: 'Jane Smith', location: 'Los Angeles' },
+  { id: 3156, name: 'Henry Chen', email: 'henry@example.com', department: 'Sales', salary: 71000, startDate: '2021-04-18', status: 'Inactive', manager: 'Mike Johnson', location: 'Chicago' },
+  { id: 1739, name: 'Ivy Wang', email: 'ivy@example.com', department: 'Engineering', salary: 95000, startDate: '2017-08-30', status: 'Active', manager: 'John Doe', location: 'Seattle' },
+  { id: 4592, name: 'Jack Davis', email: 'jack@example.com', department: 'HR', salary: 62000, startDate: '2022-02-01', status: 'Active', manager: 'Sarah Lee', location: 'Miami' },
+  { id: 2847, name: 'Karen Wilson', email: 'karen@example.com', department: 'Engineering', salary: 89000, startDate: '2019-05-12', status: 'Active', manager: 'John Doe', location: 'New York' },
+  { id: 3620, name: 'Leo Garcia', email: 'leo@example.com', department: 'Marketing', salary: 73000, startDate: '2020-11-25', status: 'Active', manager: 'Jane Smith', location: 'Los Angeles' }
+]
+
+// Generate more data for pagination demo
+const allData = []
+for (let i = 1; i <= 50; i++) {
+  allData.push({
+    id: 1000 + i,
+    name: `Employee ${i}`,
+    department: departments[i % departments.length],
+    salary: 50000 + Math.floor(Math.random() * 60000),
+    status: statuses[i % statuses.length],
+    location: locations[i % locations.length],
+    startDate: `202${Math.floor(Math.random() * 4)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`
+  })
+}
+
+// =============================================================================
+// Column Definitions
+// =============================================================================
+const departmentOptions = [
+  { value: 'Engineering', label: 'Engineering', icon: '⚙️' },
+  { value: 'Marketing', label: 'Marketing', icon: '📢' },
+  { value: 'Sales', label: 'Sales', icon: '💼' },
+  { value: 'HR', label: 'HR', icon: '👥' },
+  { value: 'Finance', label: 'Finance', icon: '💰' }
+]
+
+const statusOptions = [
+  { value: 'Active', label: 'Active', icon: '✅' },
+  { value: 'Inactive', label: 'Inactive', icon: '⏸️' },
+  { value: 'On Leave', label: 'On Leave', icon: '🏖️' }
+]
+
+const locationOptions = locations.map(l => ({ value: l, label: l }))
+
+const mainColumns = [
+  { field: 'id', title: 'ID', width: '70px', horizontalAlign: 'center', isEditable: false },
+  { field: 'name', title: 'Name', width: '140px', editor: 'text' },
+  { field: 'email', title: 'Email', width: '180px', editor: 'text' },
+  {
+    field: 'department',
+    title: 'Dept',
+    width: '130px',
+    editor: 'select',
+    editorOptions: { options: departmentOptions, iconMember: 'icon' },
+    dropdownToggleVisibility: 'on-focus'
+  },
+  {
+    field: 'salary',
+    title: 'Salary',
+    width: '100px',
+    horizontalAlign: 'right',
+    editor: 'number',
+    formatCallback: (val) => val != null ? `$${val.toLocaleString()}` : ''
+  },
+  {
+    field: 'startDate',
+    title: 'Start Date',
+    width: '120px',
+    editor: 'date',
+    editorOptions: { dateFormat: 'DD.MM.YYYY', outputFormat: 'iso' },
+    formatCallback: (val) => {
+      if (!val) return ''
+      const date = new Date(val)
+      return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
+    }
+  },
+  {
+    field: 'status',
+    title: 'Status',
+    width: '110px',
+    editor: 'select',
+    editorOptions: { options: statusOptions, iconMember: 'icon' }
+  },
+  {
+    field: 'location',
+    title: 'Location',
+    width: '130px',
+    editor: 'combobox',
+    editorOptions: { options: locationOptions }
+  }
+]
 
 const basicColumns = [
-  { field: 'id', title: 'ID', width: '60px' },
-  { field: 'name', title: 'Name' },
-  { field: 'department', title: 'Department' },
-  { field: 'salary', title: 'Salary', formatCallback: (v) => '$' + v.toLocaleString() },
-  { field: 'active', title: 'Active', formatCallback: (v) => v ? 'Yes' : 'No' }
-];
+  { field: 'id', title: 'ID', width: '70px', horizontalAlign: 'center' },
+  { field: 'name', title: 'Name', width: '140px' },
+  { field: 'department', title: 'Department', width: '120px' },
+  { field: 'salary', title: 'Salary', width: '100px', horizontalAlign: 'right', formatCallback: v => `$${v.toLocaleString()}` },
+  { field: 'status', title: 'Status', width: '100px' },
+  { field: 'location', title: 'Location', width: '120px' }
+]
 
-// Basic Grid
-const basicGrid = document.getElementById('basic-grid');
-basicGrid.items = employees.slice(0, 5);
-basicGrid.columns = basicColumns;
+// =============================================================================
+// Wait for web-grid component to be defined before initializing
+// =============================================================================
+customElements.whenDefined('web-grid').then(() => {
 
-// Single Sort Grid
-const singleSortGrid = document.getElementById('single-sort-grid');
-singleSortGrid.items = [...employees];
-singleSortGrid.columns = basicColumns;
-singleSortGrid.sortMode = 'single';
+// =============================================================================
+// Main Grid with All Features
+// =============================================================================
+const mainGrid = document.getElementById('main-grid')
+mainGrid.columns = mainColumns
+mainGrid.items = [...sampleData]
+mainGrid.pageSize = 10
+mainGrid.isEditable = true
+mainGrid.editTrigger = 'navigate'
+mainGrid.isRowNumbersVisible = true
+mainGrid.sortMode = 'multi'
+mainGrid.tooltipShowDelay = 0
+mainGrid.tooltipHideDelay = 100
 
-// Multi Sort Grid
-const multiSortGrid = document.getElementById('multi-sort-grid');
-multiSortGrid.items = [...employees];
-multiSortGrid.columns = basicColumns;
-multiSortGrid.sortMode = 'multi';
+// Custom styles for dynamic classes (Shadow DOM)
+mainGrid.customStylesCallback = () => `
+  .row-inactive { opacity: 0.6; }
+`
 
-// Filterable Grid
-const filterableGrid = document.getElementById('filterable-grid');
-filterableGrid.items = [...employees];
-filterableGrid.columns = basicColumns.map(col => ({ ...col, filterable: true }));
-filterableGrid.filterable = true;
-filterableGrid.sortMode = 'single';
+// Dynamic row styling based on status
+mainGrid.rowClassCallback = (row) => {
+  if (row.status === 'On Leave' || row.status === 'Inactive') return 'row-inactive'
+  return null
+}
 
-// Paginated Grid
-const paginatedGrid = document.getElementById('paginated-grid');
-paginatedGrid.items = [...employees];
-paginatedGrid.columns = basicColumns;
-paginatedGrid.pageable = true;
-paginatedGrid.pageSize = 5;
-paginatedGrid.sortMode = 'single';
+// Sort state display
+const sortStateEl = document.getElementById('sortState')
+mainGrid.ondatarequest = ({ sort }) => {
+  if (!sort || sort.length === 0) {
+    sortStateEl.textContent = 'No sorting applied'
+  } else {
+    sortStateEl.innerHTML = sort.map((s, i) =>
+      `<span class="pa-badge pa-badge--primary pa-badge--sm mr-xs">
+        <sup style="opacity: 0.7;">${i + 1}</sup> ${s.column} ${s.direction === 'asc' ? '▲' : '▼'}
+      </span>`
+    ).join('')
+  }
+}
 
-// Editable Grid
-const editableGrid = document.getElementById('editable-grid');
-editableGrid.items = employees.slice(0, 5).map(e => ({ ...e }));
-editableGrid.columns = [
-  { field: 'id', title: 'ID', width: '60px', editable: false },
-  { field: 'name', title: 'Name', editable: true, editor: 'text' },
-  { field: 'department', title: 'Department', editable: true, editor: 'select', editorOptions: {
-    options: [
-      { value: 'Engineering', label: 'Engineering' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Sales', label: 'Sales' },
-      { value: 'HR', label: 'HR' }
-    ]
-  }},
-  { field: 'salary', title: 'Salary', editable: true, editor: 'number', formatCallback: (v) => '$' + v.toLocaleString() },
-  { field: 'hired', title: 'Hired', editable: true, editor: 'date' },
-  { field: 'active', title: 'Active', editable: true, editor: 'checkbox' }
-];
-editableGrid.editable = true;
-editableGrid.editTrigger = 'dblclick';
-editableGrid.addEventListener('rowchange', (e) => {
-  console.log('Row changed:', e.detail);
-});
+// Wire up controls
+document.getElementById('isStriped').addEventListener('change', (e) => mainGrid.isStriped = e.target.checked)
+document.getElementById('isHoverable').addEventListener('change', (e) => mainGrid.isHoverable = e.target.checked)
+document.getElementById('sortable').addEventListener('change', (e) => mainGrid.sortMode = e.target.checked ? 'multi' : 'none')
+document.getElementById('isPageable').addEventListener('change', (e) => mainGrid.isPageable = e.target.checked)
+document.getElementById('isEditable').addEventListener('change', (e) => mainGrid.isEditable = e.target.checked)
+document.getElementById('navigate').addEventListener('change', (e) => mainGrid.editTrigger = e.target.checked ? 'navigate' : 'dblclick')
 
+// =============================================================================
+// Sorting & Pagination Grid
+// =============================================================================
+const pagingGrid = document.getElementById('paging-grid')
+pagingGrid.columns = basicColumns
+pagingGrid.items = [...allData]
+pagingGrid.sortMode = 'multi'
+pagingGrid.isPageable = true
+pagingGrid.pageSize = 10
+pagingGrid.pageSizes = [5, 10, 25, 50]
+pagingGrid.paginationPosition = 'bottom-right'
+pagingGrid.paginationLayout = 'first|previous|pageInfo|next|last|pageSize'
+pagingGrid.isRowNumbersVisible = true
+
+// Summary
+pagingGrid.summaryPosition = 'bottom-left'
+pagingGrid.summaryContentCallback = ({ allItems }) => {
+  const totalSalary = allItems.reduce((sum, item) => sum + item.salary, 0)
+  const avgSalary = Math.round(totalSalary / allItems.length)
+  return `<strong>Total:</strong> $${totalSalary.toLocaleString()} | <strong>Avg:</strong> $${avgSalary.toLocaleString()}`
+}
+
+const pagingSortStateEl = document.getElementById('pagingSortState')
+pagingGrid.ondatarequest = ({ sort }) => {
+  if (!sort || sort.length === 0) {
+    pagingSortStateEl.textContent = 'No sorting applied'
+  } else {
+    pagingSortStateEl.innerHTML = sort.map((s, i) =>
+      `<span class="pa-badge pa-badge--primary pa-badge--sm mr-xs">
+        <sup style="opacity: 0.7;">${i + 1}</sup> ${s.column} ${s.direction === 'asc' ? '▲' : '▼'}
+      </span>`
+    ).join('')
+  }
+}
+
+// =============================================================================
+// Selection Grid
+// =============================================================================
+const selectionGrid = document.getElementById('selection-grid')
+selectionGrid.columns = basicColumns
+selectionGrid.items = sampleData.slice(0, 8).map(e => ({ ...e }))
+selectionGrid.isRowNumbersVisible = true
+selectionGrid.isHoverable = true
+selectionGrid.cellSelectionMode = 'click'
+selectionGrid.sortMode = 'single'
+
+selectionGrid.rangeShortcuts = [
+  {
+    key: 'Delete',
+    id: 'delete-rows',
+    label: 'Delete selected rows',
+    action: ({ rows, rowIndices }) => {
+      const log = document.getElementById('selectionLog')
+      log.innerHTML = `<span class="text-danger"><strong>Deleted:</strong> ${rows.length} row(s) - ${rows.map(r => r.name).join(', ')}</span>`
+      for (const idx of [...rowIndices].reverse()) {
+        selectionGrid.items.splice(idx, 1)
+      }
+      selectionGrid.items = [...selectionGrid.items]
+      selectionGrid.clearSelection()
+    }
+  },
+  {
+    key: 'Ctrl+C',
+    id: 'copy-rows',
+    label: 'Copy to clipboard',
+    action: async ({ rows }) => {
+      const log = document.getElementById('selectionLog')
+      const success = await selectionGrid.copySelectedRowsToClipboard()
+      if (success) {
+        log.innerHTML = `<span class="text-success"><strong>Copied:</strong> ${rows.length} row(s) to clipboard</span>`
+      }
+    }
+  }
+]
+
+// Selection display
+setInterval(() => {
+  const log = document.getElementById('selectionLog')
+  const selected = selectionGrid.selectedRows
+  const cellRange = selectionGrid.selectedCellRange
+
+  if (cellRange) {
+    const cells = selectionGrid.getSelectedCells()
+    log.innerHTML = `<strong>Cell Range:</strong> ${cells.length} cell(s) selected`
+  } else if (selected.length === 0) {
+    log.textContent = 'No rows selected'
+  } else {
+    const names = selected.map(idx => selectionGrid.items[idx]?.name).filter(Boolean)
+    log.innerHTML = `<strong>Selected ${selected.length} row(s):</strong> ${names.join(', ')}`
+  }
+}, 200)
+
+// =============================================================================
 // Row Toolbar Grid
-const toolbarGrid = document.getElementById('toolbar-grid');
-toolbarGrid.items = employees.slice(0, 5).map(e => ({ ...e }));
-toolbarGrid.columns = basicColumns;
-toolbarGrid.showRowToolbar = true;
+// =============================================================================
+const toolbarGrid = document.getElementById('toolbar-grid')
+toolbarGrid.columns = [
+  { field: 'id', title: 'ID', width: '60px' },
+  { field: 'name', title: 'Name', width: '140px' },
+  { field: 'department', title: 'Department', width: '120px' },
+  { field: 'salary', title: 'Salary', width: '100px', formatCallback: v => `$${v.toLocaleString()}` }
+]
+toolbarGrid.items = sampleData.slice(0, 5).map(e => ({ ...e }))
+toolbarGrid.isHoverable = true
+toolbarGrid.showRowToolbar = true
 toolbarGrid.rowToolbar = [
   'add',
   'duplicate',
@@ -221,52 +458,28 @@ toolbarGrid.rowToolbar = [
     id: 'view',
     icon: '👁️',
     title: 'View Details',
-    onclick: ({ row }) => alert(`Viewing: ${row.name}`)
+    onclick: ({ row }) => alert(`Viewing: ${row.name}\nDepartment: ${row.department}\nSalary: $${row.salary.toLocaleString()}`)
   }
-];
-toolbarGrid.addEventListener('rowaction', (e) => {
-  console.log('Row action:', e.detail);
-});
+]
 
+// =============================================================================
 // Context Menu Grid
-const contextMenuGrid = document.getElementById('context-menu-grid');
-contextMenuGrid.items = employees.slice(0, 5).map(e => ({ ...e }));
-contextMenuGrid.columns = basicColumns;
-contextMenuGrid.contextMenu = [
+// =============================================================================
+const contextGrid = document.getElementById('context-grid')
+contextGrid.columns = [
+  { field: 'id', title: 'ID', width: '60px' },
+  { field: 'name', title: 'Name', width: '140px' },
+  { field: 'department', title: 'Department', width: '120px' },
+  { field: 'salary', title: 'Salary', width: '100px', formatCallback: v => `$${v.toLocaleString()}` }
+]
+contextGrid.items = sampleData.slice(0, 5).map(e => ({ ...e }))
+contextGrid.isHoverable = true
+contextGrid.contextMenu = [
   { id: 'view', label: 'View Details', icon: '👁️', onclick: ({ row }) => alert(`Viewing: ${row.name}`) },
   { id: 'edit', label: 'Edit', icon: '✏️', onclick: ({ row }) => alert(`Editing: ${row.name}`) },
-  { id: 'delete', label: 'Delete', icon: '🗑️', danger: true, onclick: ({ row }) => alert(`Deleting: ${row.name}`) }
-];
-
-// Full Featured Grid
-const fullGrid = document.getElementById('full-grid');
-fullGrid.items = [...employees];
-fullGrid.columns = [
-  { field: 'id', title: 'ID', width: '60px', filterable: true },
-  { field: 'name', title: 'Name', filterable: true, editable: true, editor: 'text' },
-  { field: 'department', title: 'Department', filterable: true, editable: true, editor: 'select', editorOptions: {
-    options: [
-      { value: 'Engineering', label: 'Engineering' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Sales', label: 'Sales' },
-      { value: 'HR', label: 'HR' }
-    ]
-  }},
-  { field: 'salary', title: 'Salary', filterable: true, editable: true, editor: 'number', formatCallback: (v) => '$' + v.toLocaleString() },
-  { field: 'hired', title: 'Hired', filterable: true, editable: true, editor: 'date' },
-  { field: 'active', title: 'Active', editable: true, editor: 'checkbox', formatCallback: (v) => v ? 'Yes' : 'No' }
-];
-fullGrid.sortMode = 'multi';
-fullGrid.filterable = true;
-fullGrid.pageable = true;
-fullGrid.pageSize = 5;
-fullGrid.editable = true;
-fullGrid.editTrigger = 'dblclick';
-fullGrid.showRowToolbar = true;
-fullGrid.rowToolbar = ['add', 'duplicate', 'delete'];
-fullGrid.contextMenu = [
-  { id: 'view', label: 'View Details', icon: '👁️', onclick: ({ row }) => alert(`Viewing: ${row.name}`) },
-  { id: 'edit', label: 'Edit Row', icon: '✏️', onclick: ({ row }) => alert(`Editing: ${row.name}`) },
+  { id: 'duplicate', label: 'Duplicate', icon: '📋', onclick: ({ row }) => alert(`Duplicating: ${row.name}`) },
   { id: 'delete', label: 'Delete', icon: '🗑️', danger: true, onclick: ({ row }) => confirm(`Delete ${row.name}?`) }
-];
+]
+
+}) // end customElements.whenDefined
 </script>

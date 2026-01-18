@@ -5,7 +5,34 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.1] - 2026-01-17
+## [1.1.0] - 2026-01-18
+
+### Added
+
+#### Semantic Spacing Utility Classes
+- **New `$semantic-spacers` map** in `variables/_spacing.scss` - Single source of truth for named spacing utilities
+  - Values: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl` mapped to spacing variables
+- **Semantic margin utilities**: `.m-xs`, `.m-sm`, `.m-md`, `.m-base`, `.m-lg`, `.m-xl`, `.m-2xl` (and all directional variants: `mt-*`, `mr-*`, `mb-*`, `ml-*`, `mx-*`, `my-*`)
+- **Semantic padding utilities**: `.p-xs`, `.p-sm`, `.p-md`, `.p-base`, `.p-lg`, `.p-xl`, `.p-2xl` (and all directional variants)
+- **Refactored gap utilities** to use `@each` loop over `$semantic-spacers`
+  - Now generates `row-gap-xl`, `row-gap-2xl`, `column-gap-xl`, `column-gap-2xl` (previously missing)
+- **Numeric gap classes preserved** for backwards compatibility (`.gap-1` through `.gap-20`)
+
+### Added
+
+#### Base Elevated Background Variable (`--base-elevated-bg`)
+- **New CSS variable**: `--base-elevated-bg` for elevated surfaces like table headers, striped rows
+- **SCSS variable**: `$base-elevated-bg: #f5f5f5 !default` in `variables/_base.scss`
+- **CSS output**: Added to `output-base-css-variables` mixin in `_base-css-variables.scss`
+- **Manifest**: Added to `base-variables.manifest.json` as required variable
+- **Use case**: Web components (e.g., `@keenmate/web-grid`) use this for header rows and striped even rows
+- **Problem solved**: Web-grid striped rows showed white background in dark mode because `--base-elevated-bg` was missing
+- **Theme updates**: All themes now set appropriate dark values in their dark mode blocks:
+  - Express: `#2a2a2a` (`$dark-surface`)
+  - Corporate: `#334155` (`$dark-surface`)
+  - Minimal: `#2e2e2e` (`$dark-surface`)
+  - Dark: `#333333` (`$dark-bg-tertiary`) in dark mode, `#f1f5f9` in light mode
+  - Audi: `#2a2a2a` (`$audi-gray`) in dark mode, `#f1f3f5` in light mode
 
 ### Fixed
 

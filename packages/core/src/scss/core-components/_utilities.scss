@@ -214,16 +214,13 @@ html.font-size-4xl {
 
 // Gap utilities (10px rem base)
 // Semantic gap classes using spacing variables
-.gap-0 { gap: 0; }
-.gap-xs { gap: $spacing-xs; }     // 0.25rem = 2.5px
-.gap-sm { gap: $spacing-sm; }     // 0.5rem = 5px
-.gap-md { gap: $spacing-md; }     // 0.75rem = 7.5px
-.gap-base { gap: $spacing-base; } // 1rem = 10px
-.gap-lg { gap: $spacing-lg; }     // 1.5rem = 15px
-.gap-xl { gap: $spacing-xl; }     // 2rem = 20px
-.gap-2xl { gap: $spacing-2xl; }   // 3rem = 30px
+@each $name, $value in $semantic-spacers {
+  .gap-#{$name} { gap: #{$value}; }
+  .row-gap-#{$name} { row-gap: #{$value}; }
+  .column-gap-#{$name} { column-gap: #{$value}; }
+}
 
-// Numeric gap classes (in 10px rem units)
+// Numeric gap classes (in 10px rem units) - kept for backwards compatibility
 .gap-1 { gap: 0.1rem; }  // 1px
 .gap-2 { gap: 0.2rem; }  // 2px
 .gap-3 { gap: 0.3rem; }  // 3px
@@ -235,22 +232,6 @@ html.font-size-4xl {
 .gap-12 { gap: 1.2rem; } // 12px
 .gap-15 { gap: 1.5rem; } // 15px
 .gap-20 { gap: 2rem; }   // 20px
-
-// Row gap utilities
-.row-gap-0 { row-gap: 0; }
-.row-gap-xs { row-gap: $spacing-xs; }
-.row-gap-sm { row-gap: $spacing-sm; }
-.row-gap-md { row-gap: $spacing-md; }
-.row-gap-base { row-gap: $spacing-base; }
-.row-gap-lg { row-gap: $spacing-lg; }
-
-// Column gap utilities
-.column-gap-0 { column-gap: 0; }
-.column-gap-xs { column-gap: $spacing-xs; }
-.column-gap-sm { column-gap: $spacing-sm; }
-.column-gap-md { column-gap: $spacing-md; }
-.column-gap-base { column-gap: $spacing-base; }
-.column-gap-lg { column-gap: $spacing-lg; }
 
 // Align-self utilities (for flex/grid children)
 .self-start { align-self: flex-start; }

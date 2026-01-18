@@ -2,6 +2,8 @@
 // Spacing utilities similar to Bootstrap/Tailwind
 // Based on rem units: 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5
 
+@use './variables' as *;
+
 // Spacing scale
 $spacers: (
   0: 0,
@@ -127,6 +129,28 @@ $spacers: (
 .my-auto {
   margin-top: auto !important;
   margin-bottom: auto !important;
+}
+
+// Semantic margin utilities (using spacing variables)
+@each $name, $value in $semantic-spacers {
+  .m-#{$name} { margin: #{$value} !important; }
+  .mt-#{$name} { margin-top: #{$value} !important; }
+  .mr-#{$name} { margin-right: #{$value} !important; }
+  .mb-#{$name} { margin-bottom: #{$value} !important; }
+  .ml-#{$name} { margin-left: #{$value} !important; }
+  .mx-#{$name} { margin-left: #{$value} !important; margin-right: #{$value} !important; }
+  .my-#{$name} { margin-top: #{$value} !important; margin-bottom: #{$value} !important; }
+}
+
+// Semantic padding utilities (using spacing variables)
+@each $name, $value in $semantic-spacers {
+  .p-#{$name} { padding: #{$value} !important; }
+  .pt-#{$name} { padding-top: #{$value} !important; }
+  .pr-#{$name} { padding-right: #{$value} !important; }
+  .pb-#{$name} { padding-bottom: #{$value} !important; }
+  .pl-#{$name} { padding-left: #{$value} !important; }
+  .px-#{$name} { padding-left: #{$value} !important; padding-right: #{$value} !important; }
+  .py-#{$name} { padding-top: #{$value} !important; padding-bottom: #{$value} !important; }
 }
 
 // Display utilities
