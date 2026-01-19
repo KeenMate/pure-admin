@@ -1,0 +1,215 @@
+<p>Pagination controls and load more buttons for navigating through data.</p>
+
+<!-- Basic Pager -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Basic Pager</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-lg-1-3">
+                <h4>Left Aligned</h4>
+                <div class="pa-pager pa-pager--left">
+                    <div class="pa-pager__container">
+                        <div class="pa-pager__controls">
+                            <button class="pa-btn pa-btn--secondary pa-btn--sm">Previous</button>
+                            <button class="pa-btn pa-btn--secondary pa-btn--sm">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-lg-1-3">
+                <h4>Center Aligned (default)</h4>
+                <div class="pa-pager">
+                    <div class="pa-pager__container">
+                        <div class="pa-pager__controls">
+                            <button class="pa-btn pa-btn--secondary pa-btn--sm">Previous</button>
+                            <button class="pa-btn pa-btn--secondary pa-btn--sm">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-lg-1-3">
+                <h4>Right Aligned</h4>
+                <div class="pa-pager pa-pager--right">
+                    <div class="pa-pager__container">
+                        <div class="pa-pager__controls">
+                            <button class="pa-btn pa-btn--secondary pa-btn--sm">Previous</button>
+                            <button class="pa-btn pa-btn--secondary pa-btn--sm">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pager with Page Info -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Pager with Page Info</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-pager">
+            <div class="pa-pager__container">
+                <div class="pa-pager__controls">
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" disabled>Previous</button>
+                </div>
+                <div class="pa-pager__info">
+                    <span class="pa-pager__text">Page</span>
+                    <input type="number" class="pa-input pa-input--sm pa-pager__input" value="1" min="1" max="10">
+                    <span class="pa-pager__text">of 10</span>
+                </div>
+                <div class="pa-pager__controls">
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pager with Item Count -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Pager with Item Count</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-pager">
+            <div class="pa-pager__container">
+                <span class="pa-pager__text">Showing 1-25 of 247 items</span>
+                <div class="pa-pager__controls">
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" disabled>Previous</button>
+                    <button class="pa-btn pa-btn--primary pa-btn--sm">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load More Button -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Load More Button</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-lg-1-3">
+                <h4>Left Aligned</h4>
+                <div class="pa-load-more pa-load-more--left">
+                    <button class="pa-load-more__button">
+                        <span class="pa-load-more__text">Load More</span>
+                    </button>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-lg-1-3">
+                <h4>Center Aligned (default)</h4>
+                <div class="pa-load-more">
+                    <button class="pa-load-more__button">
+                        <span class="pa-load-more__text">Load More</span>
+                    </button>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-lg-1-3">
+                <h4>Right Aligned</h4>
+                <div class="pa-load-more pa-load-more--right">
+                    <button class="pa-load-more__button">
+                        <span class="pa-load-more__text">Load More</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load More with Count -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Load More with Count</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-load-more">
+            <button class="pa-load-more__button">
+                <span class="pa-load-more__text">Load More</span>
+                <span class="pa-load-more__count">(25 of 247)</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Load More Loading State -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Load More Loading State</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text pa-text--secondary mb-4">Click to simulate loading state:</p>
+        <div class="pa-load-more">
+            <button class="pa-load-more__button" id="load-more-demo">
+                <span class="pa-load-more__text">Load More Items</span>
+                <span class="pa-load-more__count">(showing 25 of 100)</span>
+            </button>
+        </div>
+
+        <h4 class="mt-4">Loading State (static example)</h4>
+        <div class="pa-load-more">
+            <button class="pa-load-more__button pa-load-more__button--loading">
+                <span class="pa-load-more__spinner"></span>
+                <span class="pa-load-more__text">Loading...</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Pager Component</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-pager</code> - Pager container (centered by default)</li>
+            <li><code>pa-pager--left</code> - Left-align pager</li>
+            <li><code>pa-pager--center</code> - Center-align pager (default)</li>
+            <li><code>pa-pager--right</code> - Right-align pager</li>
+            <li><code>pa-pager__container</code> - Inner container for pager content</li>
+            <li><code>pa-pager__controls</code> - Container for navigation buttons</li>
+            <li><code>pa-pager__info</code> - Container for page info display</li>
+            <li><code>pa-pager__input</code> - Page number input field</li>
+            <li><code>pa-pager__text</code> - Text labels (e.g., "Page", "of 10")</li>
+        </ul>
+
+        <h4 class="mt-4">Load More Component</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-load-more</code> - Load more container (centered by default)</li>
+            <li><code>pa-load-more--left</code> - Left-align load more</li>
+            <li><code>pa-load-more--center</code> - Center-align load more (default)</li>
+            <li><code>pa-load-more--right</code> - Right-align load more</li>
+            <li><code>pa-load-more__button</code> - The load more button</li>
+            <li><code>pa-load-more__button--loading</code> - Loading state for button</li>
+            <li><code>pa-load-more__spinner</code> - Loading spinner element</li>
+            <li><code>pa-load-more__text</code> - Button text</li>
+            <li><code>pa-load-more__count</code> - Item count display</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('load-more-demo');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            const btn = this;
+            const originalHTML = btn.innerHTML;
+
+            btn.classList.add('pa-load-more__button--loading');
+            btn.innerHTML = '<span class="pa-load-more__spinner"></span><span class="pa-load-more__text">Loading...</span>';
+
+            setTimeout(() => {
+                btn.classList.remove('pa-load-more__button--loading');
+                btn.innerHTML = originalHTML;
+            }, 2000);
+        });
+    }
+});
+</script>

@@ -189,6 +189,14 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 - `.pa-textarea` - Textareas
 - `.pa-checkbox` - Checkboxes
 - `.pa-radio` - Radio buttons
+- **Size modifiers:** `--xs`, `--sm`, `--lg`, `--xl`
+- **Validation states:** `--success`, `--warning`, `--error`
+- **Color variants:** `--color-1` through `--color-9` (theme color slots)
+- `.pa-form-group` - Form group wrapper
+- `.pa-form-group--horizontal` - Horizontal label/input layout
+- `.pa-form-help` - Help text below inputs
+  - `--success`, `--warning`, `--error` - Validation state colors
+  - `--color-1` through `--color-9` - Theme color variants
 
 ### Tables
 - `.pa-table` - Base table

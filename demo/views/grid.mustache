@@ -429,34 +429,88 @@
     </div>
 </div>
 
-<!-- Class Reference -->
+<!-- CSS Classes Reference -->
 <div class="pa-card">
     <div class="pa-card__header">
-        <h3>Quick Reference</h3>
+        <h3>CSS Classes Reference</h3>
     </div>
     <div class="pa-card__body">
-        <div class="pa-row">
-            <div class="pa-col-100 pa-col-md-50">
-                <h4>Percentage Classes</h4>
-                <p class="pa-text pa-text--secondary">
-                    <code>.pa-col-5</code> <code>.pa-col-10</code> <code>.pa-col-15</code> <code>.pa-col-20</code> <code>.pa-col-25</code><br>
-                    <code>.pa-col-30</code> <code>.pa-col-35</code> <code>.pa-col-40</code> <code>.pa-col-45</code> <code>.pa-col-50</code><br>
-                    <code>.pa-col-55</code> <code>.pa-col-60</code> <code>.pa-col-65</code> <code>.pa-col-70</code> <code>.pa-col-75</code><br>
-                    <code>.pa-col-80</code> <code>.pa-col-85</code> <code>.pa-col-90</code> <code>.pa-col-95</code> <code>.pa-col-100</code>
-                </p>
-            </div>
-            <div class="pa-col-100 pa-col-md-50">
-                <h4>Fraction Classes</h4>
-                <p class="pa-text pa-text--secondary">
-                    <code>.pa-col-1-2</code><br>
-                    <code>.pa-col-1-3</code> <code>.pa-col-2-3</code><br>
-                    <code>.pa-col-1-4</code> <code>.pa-col-3-4</code><br>
-                    <code>.pa-col-1-5</code> <code>.pa-col-2-5</code> <code>.pa-col-3-5</code> <code>.pa-col-4-5</code><br>
-                    <code>.pa-col-1-6</code> <code>.pa-col-5-6</code><br>
-                    <code>.pa-col-1-12</code> <code>.pa-col-5-12</code> <code>.pa-col-7-12</code> <code>.pa-col-11-12</code>
-                </p>
-            </div>
-        </div>
+        <h4>Row Container</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-row</code> - Flex container for columns</li>
+            <li><code>pa-row--no-gutter</code> - Remove spacing between columns</li>
+        </ul>
+
+        <h4 class="mt-4">Row Horizontal Alignment</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-row--center</code> - Center columns horizontally</li>
+            <li><code>pa-row--end</code> - Align columns to the right</li>
+            <li><code>pa-row--between</code> - Space between columns (justify-content: space-between)</li>
+            <li><code>pa-row--around</code> - Space around columns (justify-content: space-around)</li>
+        </ul>
+
+        <h4 class="mt-4">Row Vertical Alignment</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-row--top</code> - Align columns to top</li>
+            <li><code>pa-row--middle</code> - Align columns to middle</li>
+            <li><code>pa-row--bottom</code> - Align columns to bottom</li>
+            <li><code>pa-row--stretch</code> - Stretch columns to fill height</li>
+            <li><code>pa-row--same-height</code> - Equal height columns</li>
+        </ul>
+
+        <h4 class="mt-4">Column Base Classes</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-col</code> - Auto-equal width column (flex: 1)</li>
+            <li><code>pa-col-auto</code> - Content-based width column</li>
+        </ul>
+
+        <h4 class="mt-4">Percentage Columns (5% increments)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-col-5</code> through <code>pa-col-100</code> - Fixed percentage widths</li>
+            <li>Available: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100</li>
+        </ul>
+
+        <h4 class="mt-4">Fraction Columns</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-col-1-2</code> - Half width (50%)</li>
+            <li><code>pa-col-1-3</code>, <code>pa-col-2-3</code> - Thirds</li>
+            <li><code>pa-col-1-4</code>, <code>pa-col-3-4</code> - Quarters</li>
+            <li><code>pa-col-1-5</code>, <code>pa-col-2-5</code>, <code>pa-col-3-5</code>, <code>pa-col-4-5</code> - Fifths</li>
+            <li><code>pa-col-1-6</code>, <code>pa-col-5-6</code> - Sixths</li>
+            <li><code>pa-col-1-12</code>, <code>pa-col-5-12</code>, <code>pa-col-7-12</code>, <code>pa-col-11-12</code> - Twelfths</li>
+        </ul>
+
+        <h4 class="mt-4">Responsive Variants</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-col-sm-{n}</code> - 576px and up</li>
+            <li><code>pa-col-md-{n}</code> - 768px and up</li>
+            <li><code>pa-col-lg-{n}</code> - 992px and up</li>
+            <li><code>pa-col-xl-{n}</code> - 1200px and up</li>
+            <li>Works with percentages and fractions (e.g., <code>pa-col-md-50</code>, <code>pa-col-lg-1-3</code>)</li>
+        </ul>
+
+        <h4 class="mt-4">Offsets</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-offset-{n}</code> - Left margin in 5% increments (5-95)</li>
+            <li><code>pa-offset-{bp}-{n}</code> - Responsive offsets (e.g., <code>pa-offset-md-25</code>)</li>
+        </ul>
+
+        <h4 class="mt-4">Column Modifiers</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-col--no-padding</code> - Remove column padding</li>
+            <li><code>pa-col--grow</code> - Allow column to grow (flex-grow: 1)</li>
+            <li><code>pa-col--shrink</code> - Allow column to shrink (flex-shrink: 1)</li>
+        </ul>
+
+        <h4 class="mt-4">Visibility Utilities</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-hide</code> - Always hidden</li>
+            <li><code>pa-show</code> - Always visible</li>
+            <li><code>pa-hide-{bp}</code> - Hidden at breakpoint and up</li>
+            <li><code>pa-show-{bp}</code> - Visible at breakpoint and up</li>
+            <li><code>pa-hide-below-{bp}</code> - Hidden below breakpoint</li>
+            <li><code>pa-show-below-{bp}</code> - Visible below breakpoint</li>
+        </ul>
     </div>
 </div>
 

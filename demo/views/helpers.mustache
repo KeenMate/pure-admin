@@ -1,0 +1,555 @@
+<p>Utility classes for spacing, sizing, display, flexbox, text, and more.</p>
+
+<!-- Spacing - Margin -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Spacing - Margin</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Numeric Scale (0-20)</h4>
+        <p class="pa-text pa-text--secondary mb-4">Values: 0, 1 (0.25rem), 2 (0.5rem), 3 (0.75rem), 4 (1rem), 5 (1.25rem), 6 (1.5rem), 8 (2rem), 10 (2.5rem), 12 (3rem), 16 (4rem), 20 (5rem)</p>
+        <p class="pa-text mb-4">
+            Classes: <code>m-0</code>, <code>m-4</code>, <code>mt-2</code>, <code>mr-4</code>, <code>mb-6</code>, <code>ml-8</code>, <code>mx-4</code>, <code>my-2</code>
+        </p>
+
+        <h4>Semantic Scale</h4>
+        <p class="pa-text pa-text--secondary mb-4">Values: 0, xs, sm, md, base, lg, xl, 2xl</p>
+        <p class="pa-text mb-4">
+            Classes: <code>m-xs</code>, <code>mt-sm</code>, <code>mb-md</code>, <code>mx-lg</code>, <code>my-xl</code>, <code>m-2xl</code>
+        </p>
+
+        <h4>Auto Margins</h4>
+        <p class="pa-text mb-4">
+            Classes: <code>m-auto</code>, <code>mx-auto</code>, <code>my-auto</code>, <code>ml-auto</code>, <code>mr-auto</code>
+        </p>
+
+        <h4>Live Example</h4>
+        <p class="pa-text pa-text--secondary mb-2">Using <code>mr-auto</code> to push element left:</p>
+        <div class="d-flex" style="background: var(--pa-subtle-bg); padding: 1rem;">
+            <span class="pa-badge pa-badge--primary mr-auto">mr-auto (pushed left)</span>
+            <span class="pa-badge pa-badge--success">normal</span>
+        </div>
+    </div>
+</div>
+
+<!-- Spacing - Padding -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Spacing - Padding</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text pa-text--secondary mb-4">Same scale as margin: numeric (0-20) and semantic (xs, sm, md, base, lg, xl, 2xl)</p>
+
+        <table class="pa-table pa-table--striped pa-table--compact mb-4">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Numeric</td>
+                    <td><code>p-0</code>, <code>p-4</code>, <code>pt-2</code>, <code>px-6</code>, <code>py-4</code></td>
+                </tr>
+                <tr>
+                    <td>Semantic</td>
+                    <td><code>p-xs</code>, <code>p-sm</code>, <code>p-md</code>, <code>p-lg</code>, <code>px-xl</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Live Example</h4>
+        <p class="pa-text pa-text--secondary mb-2">Boxes showing different padding sizes:</p>
+        <div class="d-flex gap-md flex-wrap">
+            <div class="p-xs" style="background: var(--pa-accent-light);">p-xs</div>
+            <div class="p-sm" style="background: var(--pa-accent-light);">p-sm</div>
+            <div class="p-md" style="background: var(--pa-accent-light);">p-md</div>
+            <div class="p-lg" style="background: var(--pa-accent-light);">p-lg</div>
+            <div class="p-xl" style="background: var(--pa-accent-light);">p-xl</div>
+        </div>
+    </div>
+</div>
+
+<!-- Gap Utilities -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Gap Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Semantic Gap</h4>
+        <p class="pa-text pa-text--secondary mb-2">For flex/grid containers:</p>
+        <p class="pa-text mb-4">
+            Classes: <code>gap-xs</code>, <code>gap-sm</code>, <code>gap-md</code>, <code>gap-lg</code>, <code>gap-xl</code>, <code>gap-2xl</code>
+        </p>
+        <p class="pa-text mb-4">
+            Directional: <code>row-gap-*</code>, <code>column-gap-*</code>
+        </p>
+
+        <h4>Numeric Gap (pixels)</h4>
+        <p class="pa-text mb-4">
+            Classes: <code>gap-1</code> (1px), <code>gap-2</code> (2px), <code>gap-4</code> (4px), <code>gap-8</code> (8px), <code>gap-10</code> (10px), <code>gap-20</code> (20px)
+        </p>
+
+        <h4>Live Example</h4>
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-md-1-3">
+                <p class="pa-text pa-text--secondary mb-2"><code>gap-xs</code></p>
+                <div class="d-flex gap-xs" style="background: var(--pa-subtle-bg); padding: 0.5rem;">
+                    <span class="pa-badge pa-badge--primary">A</span>
+                    <span class="pa-badge pa-badge--primary">B</span>
+                    <span class="pa-badge pa-badge--primary">C</span>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <p class="pa-text pa-text--secondary mb-2"><code>gap-md</code></p>
+                <div class="d-flex gap-md" style="background: var(--pa-subtle-bg); padding: 0.5rem;">
+                    <span class="pa-badge pa-badge--success">A</span>
+                    <span class="pa-badge pa-badge--success">B</span>
+                    <span class="pa-badge pa-badge--success">C</span>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <p class="pa-text pa-text--secondary mb-2"><code>gap-xl</code></p>
+                <div class="d-flex gap-xl" style="background: var(--pa-subtle-bg); padding: 0.5rem;">
+                    <span class="pa-badge pa-badge--warning">A</span>
+                    <span class="pa-badge pa-badge--warning">B</span>
+                    <span class="pa-badge pa-badge--warning">C</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Width Utilities -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Width Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Percentage Width (5% increments)</h4>
+        <p class="pa-text pa-text--secondary mb-2">Classes: <code>w-5</code> through <code>w-100</code>, plus <code>w-auto</code></p>
+        <div style="background: var(--pa-subtle-bg); padding: 0.5rem;" class="mb-4">
+            <div class="w-25 mb-2" style="background: var(--pa-accent); color: white; padding: 0.25rem;">w-25</div>
+            <div class="w-50 mb-2" style="background: var(--pa-accent); color: white; padding: 0.25rem;">w-50</div>
+            <div class="w-75 mb-2" style="background: var(--pa-accent); color: white; padding: 0.25rem;">w-75</div>
+            <div class="w-100" style="background: var(--pa-accent); color: white; padding: 0.25rem;">w-100</div>
+        </div>
+
+        <h4>Fraction Width</h4>
+        <table class="pa-table pa-table--striped pa-table--compact mb-4">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>w-1-2</code></td><td>50%</td></tr>
+                <tr><td><code>w-1-3</code></td><td>33.3%</td></tr>
+                <tr><td><code>w-2-3</code></td><td>66.7%</td></tr>
+                <tr><td><code>w-1-4</code></td><td>25%</td></tr>
+                <tr><td><code>w-3-4</code></td><td>75%</td></tr>
+            </tbody>
+        </table>
+
+        <h4>REM Width</h4>
+        <p class="pa-text pa-text--secondary mb-2">Classes: <code>wr-1</code> through <code>wr-50</code> (1rem to 50rem)</p>
+        <p class="pa-text">
+            Examples: <code>wr-5</code>, <code>wr-10</code>, <code>wr-15</code>, <code>wr-20</code>, <code>wr-30</code>
+        </p>
+    </div>
+</div>
+
+<!-- Min/Max Width -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Min/Max Width Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <table class="pa-table pa-table--striped pa-table--compact">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Classes</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Min-Width (%)</td>
+                    <td><code>minw-5</code> through <code>minw-100</code></td>
+                    <td><code>minw-25</code>, <code>minw-50</code>, <code>minw-1-3</code></td>
+                </tr>
+                <tr>
+                    <td>Max-Width (%)</td>
+                    <td><code>maxw-5</code> through <code>maxw-100</code></td>
+                    <td><code>maxw-50</code>, <code>maxw-75</code>, <code>maxw-2-3</code></td>
+                </tr>
+                <tr>
+                    <td>Min-Width (REM)</td>
+                    <td><code>minwr-1</code> through <code>minwr-50</code></td>
+                    <td><code>minwr-10</code>, <code>minwr-20</code></td>
+                </tr>
+                <tr>
+                    <td>Max-Width (REM)</td>
+                    <td><code>maxwr-1</code> through <code>maxwr-50</code></td>
+                    <td><code>maxwr-20</code>, <code>maxwr-30</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Height Utilities -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Height Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <table class="pa-table pa-table--striped pa-table--compact mb-4">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Percentage</td>
+                    <td><code>h-25</code>, <code>h-50</code>, <code>h-75</code>, <code>h-100</code>, <code>h-auto</code></td>
+                </tr>
+                <tr>
+                    <td>REM Height</td>
+                    <td><code>hr-1</code> through <code>hr-50</code></td>
+                </tr>
+                <tr>
+                    <td>REM Height (x notation)</td>
+                    <td><code>h-2x</code> through <code>h-50x</code></td>
+                </tr>
+                <tr>
+                    <td>Min/Max Height</td>
+                    <td><code>min-h-5x</code>, <code>max-h-20x</code>, <code>minhr-10</code>, <code>maxhr-30</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Live Example</h4>
+        <p class="pa-text pa-text--secondary mb-2">Boxes with different heights:</p>
+        <div class="d-flex gap-md align-items-end">
+            <div class="hr-3 wr-5" style="background: var(--pa-accent);">hr-3</div>
+            <div class="hr-5 wr-5" style="background: var(--pa-accent);">hr-5</div>
+            <div class="hr-8 wr-5" style="background: var(--pa-accent);">hr-8</div>
+        </div>
+    </div>
+</div>
+
+<!-- Display Utilities -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Display Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">
+            Classes: <code>d-none</code>, <code>d-inline</code>, <code>d-inline-block</code>, <code>d-block</code>, <code>d-flex</code>, <code>d-inline-flex</code>
+        </p>
+
+        <h4>Live Example</h4>
+        <p class="pa-text pa-text--secondary mb-2"><code>d-inline</code> vs <code>d-block</code>:</p>
+        <div style="background: var(--pa-subtle-bg); padding: 0.5rem;" class="mb-2">
+            <span class="d-inline" style="background: var(--pa-accent-light);">Inline 1</span>
+            <span class="d-inline" style="background: var(--pa-accent-light);">Inline 2</span>
+            <span class="d-inline" style="background: var(--pa-accent-light);">Inline 3</span>
+        </div>
+        <div style="background: var(--pa-subtle-bg); padding: 0.5rem;">
+            <div class="d-block" style="background: var(--pa-accent-light);">Block 1</div>
+            <div class="d-block" style="background: var(--pa-accent-light);">Block 2</div>
+            <div class="d-block" style="background: var(--pa-accent-light);">Block 3</div>
+        </div>
+    </div>
+</div>
+
+<!-- Flexbox Utilities -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Flexbox Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <table class="pa-table pa-table--striped pa-table--compact mb-4">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Direction & Wrap</td>
+                    <td><code>flex-row</code>, <code>flex-column</code>, <code>flex-wrap</code>, <code>flex-nowrap</code></td>
+                </tr>
+                <tr>
+                    <td>Justify Content</td>
+                    <td><code>justify-content-start</code>, <code>justify-content-end</code>, <code>justify-content-center</code>, <code>justify-content-between</code>, <code>justify-content-around</code></td>
+                </tr>
+                <tr>
+                    <td>Align Items</td>
+                    <td><code>align-items-start</code>, <code>align-items-end</code>, <code>align-items-center</code>, <code>align-items-baseline</code>, <code>align-items-stretch</code></td>
+                </tr>
+                <tr>
+                    <td>Flex Properties</td>
+                    <td><code>flex-fill</code>, <code>flex-grow-0</code>, <code>flex-grow-1</code>, <code>flex-shrink-0</code>, <code>flex-shrink-1</code></td>
+                </tr>
+                <tr>
+                    <td>Align Self</td>
+                    <td><code>self-start</code>, <code>self-center</code>, <code>self-end</code>, <code>self-stretch</code>, <code>self-baseline</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Live Examples</h4>
+        <p class="pa-text pa-text--secondary mb-2"><code>justify-content-between</code>:</p>
+        <div class="d-flex justify-content-between mb-4" style="background: var(--pa-subtle-bg); padding: 0.5rem;">
+            <span class="pa-badge pa-badge--primary">Left</span>
+            <span class="pa-badge pa-badge--primary">Center</span>
+            <span class="pa-badge pa-badge--primary">Right</span>
+        </div>
+
+        <p class="pa-text pa-text--secondary mb-2"><code>align-items-center</code> with different heights:</p>
+        <div class="d-flex align-items-center gap-md" style="background: var(--pa-subtle-bg); padding: 0.5rem;">
+            <div class="p-xs" style="background: var(--pa-accent-light);">Small</div>
+            <div class="p-lg" style="background: var(--pa-accent-light);">Large</div>
+            <div class="p-sm" style="background: var(--pa-accent-light);">Medium</div>
+        </div>
+    </div>
+</div>
+
+<!-- Text Utilities -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Text Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <table class="pa-table pa-table--striped pa-table--compact mb-4">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alignment</td>
+                    <td><code>text-left</code>, <code>text-center</code>, <code>text-right</code></td>
+                </tr>
+                <tr>
+                    <td>Wrapping</td>
+                    <td><code>text-nowrap</code>, <code>text-truncate</code></td>
+                </tr>
+                <tr>
+                    <td>Font Size</td>
+                    <td><code>text-2xs</code>, <code>text-xs</code>, <code>text-sm</code>, <code>text-base</code>, <code>text-lg</code>, <code>text-xl</code>, <code>text-2xl</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Font Size Scale</h4>
+        <div class="d-flex flex-column gap-xs">
+            <span class="text-2xs">text-2xs (10px)</span>
+            <span class="text-xs">text-xs (12px)</span>
+            <span class="text-sm">text-sm (14px)</span>
+            <span class="text-base">text-base (16px)</span>
+            <span class="text-lg">text-lg (18px)</span>
+            <span class="text-xl">text-xl (20px)</span>
+            <span class="text-2xl">text-2xl (24px)</span>
+        </div>
+    </div>
+</div>
+
+<!-- Overflow & Cursor -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Overflow & Cursor Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-md-50">
+                <h4>Overflow</h4>
+                <p class="pa-text">
+                    <code>overflow-auto</code>, <code>overflow-hidden</code>, <code>overflow-visible</code>, <code>overflow-y-auto</code>, <code>overflow-x-auto</code>, <code>overflow-overlay</code>
+                </p>
+            </div>
+            <div class="pa-col-100 pa-col-md-50">
+                <h4>Cursor</h4>
+                <p class="pa-text mb-2">Hover to see cursor change:</p>
+                <div class="d-flex flex-wrap gap-sm">
+                    <span class="pa-badge pa-badge--secondary cursor-pointer">cursor-pointer</span>
+                    <span class="pa-badge pa-badge--secondary cursor-help">cursor-help</span>
+                    <span class="pa-badge pa-badge--secondary cursor-wait">cursor-wait</span>
+                    <span class="pa-badge pa-badge--secondary cursor-not-allowed">cursor-not-allowed</span>
+                    <span class="pa-badge pa-badge--secondary cursor-move">cursor-move</span>
+                    <span class="pa-badge pa-badge--secondary cursor-grab">cursor-grab</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Position & Border -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Position & Border Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-md-50">
+                <h4>Position</h4>
+                <p class="pa-text">
+                    <code>position-static</code>, <code>position-relative</code>, <code>position-absolute</code>, <code>position-fixed</code>, <code>position-sticky</code>
+                </p>
+            </div>
+            <div class="pa-col-100 pa-col-md-50">
+                <h4>Border</h4>
+                <p class="pa-text">
+                    <code>border</code>, <code>border-top</code>, <code>border-bottom</code>, <code>border-0</code>
+                </p>
+            </div>
+            <div class="pa-col-100 pa-col-md-50 mt-4">
+                <h4>Border Style</h4>
+                <p class="pa-text">
+                    <code>border-solid</code>, <code>border-dashed</code>, <code>border-dotted</code>, <code>border-none</code>
+                </p>
+            </div>
+            <div class="pa-col-100 pa-col-md-50 mt-4">
+                <h4>Border Radius</h4>
+                <p class="pa-text">
+                    <code>rounded</code>, <code>rounded-lg</code>, <code>rounded-circle</code>, <code>rounded-0</code>, <code>rounded-top</code>, <code>rounded-bottom</code>
+                </p>
+            </div>
+        </div>
+
+        <h4 class="mt-4">Border Radius Examples</h4>
+        <div class="d-flex gap-lg">
+            <div class="p-md rounded-0" style="background: var(--pa-accent-light);">rounded-0</div>
+            <div class="p-md rounded" style="background: var(--pa-accent-light);">rounded</div>
+            <div class="p-md rounded-lg" style="background: var(--pa-accent-light);">rounded-lg</div>
+            <div class="p-lg rounded-circle" style="background: var(--pa-accent-light);">circle</div>
+        </div>
+    </div>
+</div>
+
+<!-- Shadow Utilities -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Shadow Utilities</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">
+            Classes: <code>shadow-none</code>, <code>shadow-sm</code>, <code>shadow</code>, <code>shadow-lg</code>
+        </p>
+        <div class="d-flex gap-lg flex-wrap">
+            <div class="p-lg shadow-none" style="background: var(--pa-card-bg);">shadow-none</div>
+            <div class="p-lg shadow-sm" style="background: var(--pa-card-bg);">shadow-sm</div>
+            <div class="p-lg shadow" style="background: var(--pa-card-bg);">shadow</div>
+            <div class="p-lg shadow-lg" style="background: var(--pa-card-bg);">shadow-lg</div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Spacing (Margin & Padding)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>m-{0-20}</code>, <code>p-{0-20}</code> - Numeric scale (0.25rem increments)</li>
+            <li><code>m-{xs|sm|md|base|lg|xl|2xl}</code> - Semantic margin</li>
+            <li><code>p-{xs|sm|md|base|lg|xl|2xl}</code> - Semantic padding</li>
+            <li><code>mt-*</code>, <code>mr-*</code>, <code>mb-*</code>, <code>ml-*</code> - Directional</li>
+            <li><code>mx-*</code>, <code>my-*</code> - Horizontal/vertical axis</li>
+            <li><code>m-auto</code>, <code>mx-auto</code>, <code>ml-auto</code>, <code>mr-auto</code> - Auto margins</li>
+        </ul>
+
+        <h4 class="mt-4">Gap</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>gap-{xs|sm|md|base|lg|xl|2xl}</code> - Semantic gap</li>
+            <li><code>gap-{1-20}</code> - Numeric gap (0.1rem increments)</li>
+            <li><code>row-gap-*</code>, <code>column-gap-*</code> - Directional gap</li>
+        </ul>
+
+        <h4 class="mt-4">Width</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>w-{5-100}</code> - Percentage width (5% increments)</li>
+            <li><code>w-{1-2|1-3|2-3|1-4|3-4}</code> - Fraction width</li>
+            <li><code>wr-{1-50}</code> - REM width</li>
+            <li><code>minw-{5-100}</code>, <code>maxw-{5-100}</code> - Min/max percentage</li>
+            <li><code>minwr-{1-50}</code>, <code>maxwr-{1-50}</code> - Min/max REM</li>
+            <li><code>w-{25|50|75|100}-fixed</code> - Fixed width (min + width)</li>
+        </ul>
+
+        <h4 class="mt-4">Height</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>h-{25|50|75|100|auto}</code> - Percentage height</li>
+            <li><code>hr-{1-50}</code> - REM height</li>
+            <li><code>h-{2-50}x</code> - REM height (x notation)</li>
+            <li><code>min-h-{2-30}x</code>, <code>max-h-{5-50}x</code> - Min/max REM</li>
+            <li><code>minhr-{1-50}</code>, <code>maxhr-{1-50}</code> - Min/max REM (alternative)</li>
+        </ul>
+
+        <h4 class="mt-4">Display</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>d-none</code>, <code>d-block</code>, <code>d-inline</code>, <code>d-inline-block</code></li>
+            <li><code>d-flex</code>, <code>d-inline-flex</code></li>
+        </ul>
+
+        <h4 class="mt-4">Flexbox</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>flex-row</code>, <code>flex-column</code>, <code>flex-wrap</code>, <code>flex-nowrap</code></li>
+            <li><code>justify-content-{start|end|center|between|around}</code></li>
+            <li><code>align-items-{start|end|center|baseline|stretch}</code></li>
+            <li><code>flex-fill</code>, <code>flex-grow-{0|1}</code>, <code>flex-shrink-{0|1}</code></li>
+            <li><code>self-{start|center|end|stretch|baseline}</code></li>
+        </ul>
+
+        <h4 class="mt-4">Text</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>text-left</code>, <code>text-center</code>, <code>text-right</code></li>
+            <li><code>text-nowrap</code>, <code>text-truncate</code></li>
+            <li><code>text-{2xs|xs|sm|md|base|lg|xl|2xl|3xl|4xl}</code> - Font size</li>
+            <li><code>text-{primary|success|danger|warning|info}</code> - Semantic colors</li>
+        </ul>
+
+        <h4 class="mt-4">Overflow</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>overflow-{auto|hidden|visible}</code></li>
+            <li><code>overflow-{x|y}-auto</code></li>
+            <li><code>overflow-overlay</code>, <code>overflow-{x|y}-overlay</code></li>
+        </ul>
+
+        <h4 class="mt-4">Cursor</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>cursor-{pointer|help|wait|not-allowed|text|move|default}</code></li>
+            <li><code>cursor-{grab|grabbing|zoom-in|zoom-out}</code></li>
+        </ul>
+
+        <h4 class="mt-4">Position</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>position-{static|relative|absolute|fixed|sticky}</code></li>
+        </ul>
+
+        <h4 class="mt-4">Border</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>border</code>, <code>border-{top|right|bottom|left}</code></li>
+            <li><code>border-0</code>, <code>border-{top|right|bottom|left}-0</code></li>
+            <li><code>border-{solid|dashed|dotted|none}</code></li>
+            <li><code>rounded</code>, <code>rounded-lg</code>, <code>rounded-circle</code>, <code>rounded-0</code></li>
+            <li><code>rounded-{top|bottom|left|right}</code></li>
+        </ul>
+
+        <h4 class="mt-4">Shadow</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>shadow-none</code>, <code>shadow-sm</code>, <code>shadow</code>, <code>shadow-lg</code></li>
+        </ul>
+    </div>
+</div>

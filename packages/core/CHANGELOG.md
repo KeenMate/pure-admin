@@ -5,9 +5,21 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2026-01-18
+## [1.1.1] - 2026-01-19
 
 ### Added
+
+#### Demo Pages - CSS Classes Reference
+- **Added CSS Classes Reference sections** to all component demo pages for quick reference
+  - Pages updated: `/alerts`, `/badges`, `/buttons`, `/callouts`, `/cards`, `/checkbox-lists`, `/code`, `/grid`, `/inputs`, `/lists`, `/loaders`, `/modals`, `/tabs`, `/tables`, `/toasts`, `/tooltips`
+  - Consistent format using `pa-list-basic pa-list-basic--compact` for class documentation
+- **New `/pagers` demo page** - Demonstrates pager and load-more components with examples and CSS reference
+- **New `/helpers` demo page** - Comprehensive utility class reference with live examples
+  - Spacing (margin/padding): numeric and semantic scales
+  - Gap utilities: semantic and numeric
+  - Width/height utilities: percentage, fraction, REM variants
+  - Min/max sizing utilities
+  - Display, flexbox, text, overflow, cursor, position, border, shadow utilities
 
 #### Semantic Spacing Utility Classes
 - **New `$semantic-spacers` map** in `variables/_spacing.scss` - Single source of truth for named spacing utilities
@@ -34,7 +46,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dark: `#333333` (`$dark-bg-tertiary`) in dark mode, `#f1f5f9` in light mode
   - Audi: `#2a2a2a` (`$audi-gray`) in dark mode, `#f1f3f5` in light mode
 
+### Added
+
+#### Input Color Variants (`pa-input--color-1` through `--color-9`)
+- **New color modifiers** for inputs, selects, and textareas using theme color slots
+- **Classes**: `pa-input--color-1` through `pa-input--color-9` (same for `pa-select--*` and `pa-textarea--*`)
+- **Styling**: Border color and focus ring use the theme's `--pa-color-*` CSS variables
+- **Focus ring**: Uses `color-mix()` for 25% opacity version of the color
+- **Use case**: Custom input accents beyond semantic success/warning/error states
+- **Theme control**: Colors are `transparent` by default unless theme defines `$color-1` through `$color-9`
+- **File**: `core-components/forms/_form-states.scss`
+
+#### Form Help Text Color Variants (`pa-form-help--color-1` through `--color-9`)
+- **New color modifiers** for help text using theme color slots
+- **Classes**: `pa-form-help--color-1` through `pa-form-help--color-9`
+- **Use case**: Match help text color to input color variant, or leave gray for neutral appearance
+- **File**: `core-components/forms/_form-states.scss`
+
+#### Missing Form Help Warning State
+- **Added `pa-form-help--warning`** - was missing from the form states
+- **Color**: Uses `--pa-warning-bg` to match input warning state
+
+### Changed
+
+#### Demo Page `/inputs` - Validation States Section
+- **Added colored help text** to validation state examples (success, warning, error)
+- **Added theme color variants section** showing `pa-input--color-1`, `--color-2`, `--color-3` with help text examples
+- **Updated CSS Classes Reference** with new color variant classes for inputs, selects, textareas, and help text
+
+#### Snippets `forms.html` Updates
+- **Fixed class names**: Changed `pa-form-text` to correct `pa-form-help`
+- **Added warning state example** with `pa-form-group--warning` and `pa-form-help--warning`
+- **Added theme color variants section** with examples for inputs, selects, and textareas
+- **Updated component reference** with all new classes
+
 ### Fixed
+
+#### Textarea Size Modifiers Not Rendering Different Heights
+- **Fixed textarea size modifiers** (`--xs`, `--sm`, `--lg`, `--xl`) all rendering at the same height
+- **Root cause**: Modifiers only set `min-height`, which doesn't control actual rendered height
+- **Solution**: Added `height` property alongside `min-height` for each size modifier
+  - `height` sets the initial rendered size
+  - `min-height` prevents shrinking below that size when user resizes
+- **File**: `core-components/forms/_form-inputs.scss`
 
 #### Notification Bell Color
 - **Fixed notification bell color** - Changed `.pa-notifications__btn` to use `var(--pa-header-text)` instead of `var(--pa-text-primary)`
@@ -734,13 +788,16 @@ First release candidate for Pure Admin v1.0.0.
   - **Ordered lists**: `.pa-list-ordered` with number/letter/roman variants
   - **Definition lists**: `.pa-list-definition` for term/description pairs
 - **List modifiers**:
-  - `.pa-list-basic--icon`: Replace bullets with checkmarks or custom icons
-  - `.pa-list-basic--bordered`: Add borders between items
   - `.pa-list-basic--compact`: Reduced spacing for dense content
-  - `.pa-list-basic--inline`: Horizontal layout with separators
-  - `.pa-list-ordered--compact`: Reduced spacing for numbered lists
-  - `.pa-list-definition--horizontal`: Side-by-side term/description layout
-  - `.pa-list-definition--striped`: Alternating row backgrounds
+  - `.pa-list-basic--spacious`: Increased spacing
+  - `.pa-list-basic--unstyled`: No bullets, no padding
+  - `.pa-list-basic--inline`: Horizontal layout
+  - `.pa-list-basic--bordered`: Add borders between items
+  - `.pa-list-basic--striped`: Zebra striping
+  - `.pa-list-basic--icon`: Checkmarks (combine with `--danger`, `--info`, `--warning` for variants)
+  - `.pa-list-ordered--roman`: Roman numerals
+  - `.pa-list-ordered--alpha`: Lowercase letters
+  - `.pa-list-definition--inline`: Horizontal key-value pairs
 - **Features**:
   - All spacing controlled by SCSS variables (`$spacing-sm`, `$spacing-base`, `$spacing-lg`)
   - Border colors use `$border-color` for theme consistency

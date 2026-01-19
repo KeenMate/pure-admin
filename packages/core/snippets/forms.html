@@ -78,15 +78,62 @@
 <!-- Success State -->
 <div class="pa-form-group pa-form-group--success">
   <label class="pa-form-label" for="valid-input">Valid Input</label>
-  <input type="text" class="pa-input pa-input--success" id="valid-input" value="Valid value">
-  <small class="pa-form-text pa-form-text--success">Looks good!</small>
+  <input type="text" class="pa-input" id="valid-input" value="Valid value">
+  <small class="pa-form-help pa-form-help--success">Looks good!</small>
+</div>
+
+<!-- Warning State -->
+<div class="pa-form-group pa-form-group--warning">
+  <label class="pa-form-label" for="warning-input">Warning Input</label>
+  <input type="text" class="pa-input" id="warning-input" value="Check this">
+  <small class="pa-form-help pa-form-help--warning">Please verify this field.</small>
 </div>
 
 <!-- Error State -->
 <div class="pa-form-group pa-form-group--error">
   <label class="pa-form-label" for="invalid-input">Invalid Input</label>
-  <input type="text" class="pa-input pa-input--error" id="invalid-input" value="Invalid value">
-  <small class="pa-form-text pa-form-text--error">Please provide a valid value.</small>
+  <input type="text" class="pa-input" id="invalid-input" value="Invalid value">
+  <small class="pa-form-help pa-form-help--error">Please provide a valid value.</small>
+</div>
+
+
+<!-- THEME COLOR VARIANTS -->
+<!-- Use --pa-color-1 through --pa-color-9 CSS variables (set by theme) -->
+
+<!-- Color 1 with matching help text -->
+<div class="pa-form-group">
+  <label class="pa-form-label" for="color1-input">Color 1</label>
+  <input type="text" class="pa-input pa-input--color-1" id="color1-input" value="Color 1 input">
+  <small class="pa-form-help pa-form-help--color-1">Colored help text</small>
+</div>
+
+<!-- Color 2 with matching help text -->
+<div class="pa-form-group">
+  <label class="pa-form-label" for="color2-input">Color 2</label>
+  <input type="text" class="pa-input pa-input--color-2" id="color2-input" value="Color 2 input">
+  <small class="pa-form-help pa-form-help--color-2">Colored help text</small>
+</div>
+
+<!-- Color 3 with gray help text (no color class) -->
+<div class="pa-form-group">
+  <label class="pa-form-label" for="color3-input">Color 3</label>
+  <input type="text" class="pa-input pa-input--color-3" id="color3-input" value="Color 3 input">
+  <small class="pa-form-help">Gray help text (no color class)</small>
+</div>
+
+<!-- Select with color variant -->
+<div class="pa-form-group">
+  <label class="pa-form-label" for="color-select">Color Select</label>
+  <select class="pa-select pa-select--color-1" id="color-select">
+    <option>Option 1</option>
+    <option>Option 2</option>
+  </select>
+</div>
+
+<!-- Textarea with color variant -->
+<div class="pa-form-group">
+  <label class="pa-form-label" for="color-textarea">Color Textarea</label>
+  <textarea class="pa-textarea pa-textarea--color-2" id="color-textarea">Color 2 textarea</textarea>
 </div>
 
 
@@ -433,19 +480,27 @@ FORM ELEMENTS:
 - .pa-form-group--required: Shows required indicator
 - .pa-form-group--horizontal: Label-left, input-right layout
 - .pa-form-group--success: Success validation state
+- .pa-form-group--warning: Warning validation state
 - .pa-form-group--error: Error validation state
 - .pa-form-label: Form label
 
 INPUTS:
 - .pa-input: Text input base class
 - .pa-input--xs, --sm, --lg, --xl: Size variants
-- .pa-input--success, --error: Validation states
+- .pa-input--success, --warning, --error: Validation states
+- .pa-input--color-1 through --color-9: Theme color variants
 
 TEXTAREA:
 - .pa-textarea: Textarea element
+- .pa-textarea--xs, --sm, --lg, --xl: Size variants
+- .pa-textarea--success, --warning, --error: Validation states
+- .pa-textarea--color-1 through --color-9: Theme color variants
 
 SELECT:
 - .pa-select: Select dropdown
+- .pa-select--xs, --sm, --lg, --xl: Size variants
+- .pa-select--success, --warning, --error: Validation states
+- .pa-select--color-1 through --color-9: Theme color variants
 
 CHECKBOXES (custom tri-state):
 - .pa-checkbox: Checkbox wrapper label
@@ -466,9 +521,11 @@ INPUT GROUPS:
 - .pa-input-group__button: Button addon
 
 HELP TEXT:
-- .pa-form-text: Help/hint text below inputs
-- .pa-form-text--success: Success message
-- .pa-form-text--error: Error message
+- .pa-form-help: Help/hint text below inputs
+- .pa-form-help--success: Success message
+- .pa-form-help--warning: Warning message
+- .pa-form-help--error: Error message
+- .pa-form-help--color-1 through --color-9: Theme color variants
 
 GRID LAYOUT (for multi-column forms):
 - .pa-row: Row container (flexbox)

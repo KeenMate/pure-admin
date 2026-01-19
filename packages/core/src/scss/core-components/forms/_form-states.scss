@@ -86,4 +86,30 @@
   &--success {
     color: var(--pa-success-bg);
   }
+
+  &--warning {
+    color: var(--pa-warning-bg);
+  }
+}
+
+// Theme Color Variants for Help Text (color-1 through color-9)
+@for $i from 1 through 9 {
+  .pa-form-help--color-#{$i} {
+    color: var(--pa-color-#{$i});
+  }
+}
+
+// Theme Color Variants for Inputs (color-1 through color-9)
+// These use theme-customizable colors from --pa-color-* CSS variables
+@for $i from 1 through 9 {
+  .pa-input--color-#{$i},
+  .pa-select--color-#{$i},
+  .pa-textarea--color-#{$i} {
+    border-color: var(--pa-color-#{$i});
+
+    &:focus {
+      border-color: var(--pa-color-#{$i});
+      box-shadow: 0 0 0 $focus-ring-width color-mix(in srgb, var(--pa-color-#{$i}) 25%, transparent);
+    }
+  }
 }

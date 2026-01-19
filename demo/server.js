@@ -129,6 +129,10 @@ app.get('/colors', (req, res) => {
     renderWithLayout(res, 'colors', { pageTitle: 'Colors', currentPage: 'colors', isColors: true });
 });
 
+app.get('/helpers', (req, res) => {
+    renderWithLayout(res, 'helpers', { pageTitle: 'Helpers', currentPage: 'helpers', isHelpers: true });
+});
+
 app.get('/forms', (req, res) => {
     renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms', isForms: true });
 });
@@ -279,6 +283,10 @@ app.get('/virtual-scroll-code', (req, res) => {
 
 app.get('/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
+});
+
+app.get('/pagers', (req, res) => {
+    renderWithLayout(res, 'pagers', { pageTitle: 'Pagers', currentPage: 'pagers', isPagers: true });
 });
 
 // Serve static files with cache headers (after routes so EJS takes precedence)
