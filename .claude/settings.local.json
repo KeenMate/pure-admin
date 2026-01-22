@@ -38,7 +38,13 @@
       "Bash(git -C \"C:\\\\Git\\\\KM\\\\pure-admin\" describe --tags)",
       "Bash(git -C:*)",
       "Bash(npm version patch --no-git-tag-version -w @keenmate/pure-admin-core -w @keenmate/pure-admin-theme-audi -w @keenmate/pure-admin-theme-corporate -w @keenmate/pure-admin-theme-dark -w @keenmate/pure-admin-theme-express -w @keenmate/pure-admin-theme-minimal)",
-      "Bash(node scripts/check-css-variables.js:*)"
+      "Bash(node scripts/check-css-variables.js:*)",
+      "Bash(for theme in theme-audi theme-corporate theme-dark theme-express theme-minimal)",
+      "Bash(do echo \"=== Building $theme ===\")",
+      "Bash(echo:*)",
+      "Bash(npm update:*)",
+      "Bash(make build-all:*)",
+      "Bash(make verify:*)"
     ],
     "deny": [],
     "ask": []

@@ -5,6 +5,57 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-01-22
+
+### Added
+
+#### Web Multiselect Group Label Styling
+- **Added group label styling** to `_web-components-theme.scss` for better visibility
+- **CSS variables set on `web-multiselect`**:
+  - `--ms-group-label-color: var(--base-text-color-1)` - Uses primary text color instead of muted
+  - `--ms-group-label-font-weight: 600` - Semibold for emphasis
+- **Applies to all themes** - Included via `_core.scss` web-components-theme import
+
+### Changed
+
+#### Demo Page `/inputs` - Input Groups Section
+- **Added width utility example** to "$" prepend element using `wr-3` class
+- **Added tip note** explaining that width utilities (`wr-*`, `wp-*`) can be used on prepend/append elements
+
+#### Demo Page `/multiselect` - Improved Examples
+- **Grouped Options ("Technologies by Category")** - Now uses JavaScript initialization with `group` property and `group-member` attribute for proper group rendering
+- **Disabled Options** - Now uses JavaScript initialization with `disabled: true` property and `disabled-member` attribute for proper disabled state
+- **RTL Examples** - Added proper Arabic (`بحث...`) and Hebrew (`חיפוש...`) search placeholders using `search-placeholder` attribute
+
+### Fixed
+
+#### Link Utility Class Color
+- **Fixed `.pa-link` class** - Changed from removed `$primary-bg` to `$accent-color` for proper link styling
+
+### Removed
+
+#### Unnecessary Web Component Variable Overrides
+- **Removed `web-daterangepicker` CSS variable block** from `_web-components-theme.scss` (~280 lines)
+  - The daterangepicker component now uses `--base-*` CSS variables with built-in fallback chains
+  - Pure Admin only needs to set `--base-*` variables (via `output-base-css-variables` mixin)
+  - Component automatically picks up theme colors from:
+    1. External override: `--drp-accent-color: #custom`
+    2. Theme base value: `var(--base-accent-color)`
+    3. Hardcoded default: `#3b82f6`
+- **Removed `web-daterangepicker` blocks from all theme files** (~70 lines each):
+  - `packages/theme-express/src/scss/express.scss`
+  - `packages/theme-audi/src/scss/audi.scss`
+  - `packages/theme-corporate/src/scss/corporate.scss`
+  - `packages/theme-dark/src/scss/dark.scss`
+  - `packages/theme-minimal/src/scss/minimal.scss`
+- **Removed `--ms-*` multiselect overrides from all theme files** (~26 lines each):
+  - Same pattern as daterangepicker - component now reads from `--base-*` variables
+  - Removed both `:root` level variables and `web-multiselect { }` selector blocks
+- **Total reduction**: ~650 lines of unnecessary CSS variable overrides removed
+- **Benefit**: Simpler theme maintenance - just set `--base-*` variables once and both web components inherit automatically
+
+---
+
 ## [1.1.1] - 2026-01-19
 
 ### Added

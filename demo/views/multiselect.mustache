@@ -121,12 +121,14 @@
       <div class="pa-col-100 pa-col-md-1-3">
         <div class="pa-form-group">
           <label>None Mode</label>
-          <web-multiselect placeholder="Select items..." badges-display-mode="none" value-member="value" display-value-member="label">
-            <option value="1" selected>Option A</option>
-            <option value="2" selected>Option B</option>
-            <option value="3">Option C</option>
-            <option value="4">Option D</option>
-            <option value="5">Option E</option>
+          <web-multiselect
+            id="none-mode"
+            value-member="value"
+            display-value-member="label"
+            icon-member="icon"
+            badges-display-mode="none"
+            show-counter="true"
+            search-placeholder="Select technologies...">
           </web-multiselect>
           <small class="pa-form-text">Minimal UI with no badges</small>
         </div>
@@ -200,39 +202,27 @@
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
           <label>Technologies by Category</label>
-          <web-multiselect placeholder="Select technologies..." value-member="value" display-value-member="label">
-            <optgroup label="Frontend">
-              <option value="react">React</option>
-              <option value="vue">Vue</option>
-              <option value="angular">Angular</option>
-              <option value="svelte">Svelte</option>
-            </optgroup>
-            <optgroup label="Backend">
-              <option value="nodejs">Node.js</option>
-              <option value="django">Django</option>
-              <option value="rails">Ruby on Rails</option>
-              <option value="laravel">Laravel</option>
-            </optgroup>
-            <optgroup label="Database">
-              <option value="postgresql">PostgreSQL</option>
-              <option value="mysql">MySQL</option>
-              <option value="mongodb">MongoDB</option>
-              <option value="redis">Redis</option>
-            </optgroup>
+          <web-multiselect
+            id="grouped-demo"
+            placeholder="Select technologies..."
+            value-member="value"
+            display-value-member="label"
+            group-member="group">
           </web-multiselect>
+          <small class="pa-form-text">Options grouped by Frontend, Backend, and Database categories</small>
         </div>
       </div>
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
           <label>Disabled Options</label>
-          <web-multiselect placeholder="Some options disabled..." value-member="value" display-value-member="label">
-            <option value="enabled1">Available Option 1</option>
-            <option value="disabled1" disabled>Unavailable Option 1</option>
-            <option value="enabled2">Available Option 2</option>
-            <option value="disabled2" disabled>Unavailable Option 2</option>
-            <option value="enabled3">Available Option 3</option>
-            <option value="disabled3" disabled>Unavailable Option 3</option>
+          <web-multiselect
+            id="disabled-demo"
+            placeholder="Some options disabled..."
+            value-member="value"
+            display-value-member="label"
+            disabled-member="disabled">
           </web-multiselect>
+          <small class="pa-form-text">Some options are disabled and cannot be selected</small>
         </div>
       </div>
     </div>
@@ -271,7 +261,7 @@
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
           <label>Arabic (RTL)</label>
-          <web-multiselect placeholder="اختر خيارات..." dir="rtl" badges-position="right" value-member="value" display-value-member="label">
+          <web-multiselect placeholder="بحث..." search-placeholder="بحث..." dir="rtl" badges-position="right" value-member="value" display-value-member="label">
             <option value="1">الخيار الأول</option>
             <option value="2">الخيار الثاني</option>
             <option value="3">الخيار الثالث</option>
@@ -284,7 +274,7 @@
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
           <label>Hebrew (RTL)</label>
-          <web-multiselect placeholder="בחר אפשרויות..." dir="rtl" badges-position="right" value-member="value" display-value-member="label">
+          <web-multiselect placeholder="חיפוש..." search-placeholder="חיפוש..." dir="rtl" badges-position="right" value-member="value" display-value-member="label">
             <option value="1">אפשרות 1</option>
             <option value="2">אפשרות 2</option>
             <option value="3">אפשרות 3</option>
@@ -364,7 +354,7 @@
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
           <label>Event Log</label>
-          <div id="event-log" class="text-xs h-15x overflow-y-auto" style="padding: 0.5rem; background: var(--base-primary-bg); border-radius: 4px; font-family: monospace;"></div>
+          <div id="event-log" class="text-xs h-15x overflow-y-auto" style="padding: 0.5rem; background: var(--base-subtle-bg); border-radius: 4px; font-family: monospace;"></div>
         </div>
       </div>
     </div>
@@ -379,7 +369,7 @@
   <div class="pa-card__body">
     <ul>
       <li><strong>npm Package:</strong> <code>@keenmate/web-multiselect</code></li>
-      <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-multiselect" target="_blank">github.com/keenmate/web-multiselect</a></li>
+      <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-multiselect" target="_blank" class="pa-link">github.com/keenmate/web-multiselect</a></li>
       <li><strong>Documentation:</strong> See package README and AI instructions in <code>../../web-multiselect/ai/</code></li>
       <li><strong>CSS Variables:</strong> Uses <code>--ms-*</code> prefix (component) and <code>--base-*</code> prefix (theme integration)</li>
       <li><strong>Theming:</strong> Pure Admin provides <code>--base-*</code> variables via <code>src/scss/_base-css-variables.scss</code></li>
@@ -400,6 +390,59 @@
     }
   }
 })();
+
+// None Mode demo - initialize with technology options
+customElements.whenDefined('web-multiselect').then(() => {
+  const noneMode = document.getElementById('none-mode');
+  if (noneMode) {
+    customElements.upgrade(noneMode);
+    noneMode.options = [
+      { value: 'js', label: 'JavaScript', icon: '🟨' },
+      { value: 'ts', label: 'TypeScript', icon: '🔷' },
+      { value: 'py', label: 'Python', icon: '🐍' },
+      { value: 'rust', label: 'Rust', icon: '🦀' },
+      { value: 'go', label: 'Go', icon: '🐹' },
+      { value: 'java', label: 'Java', icon: '☕' },
+      { value: 'csharp', label: 'C#', icon: '🟣' },
+      { value: 'cpp', label: 'C++', icon: '🔵' }
+    ];
+    noneMode.value = ['js', 'ts'];
+  }
+
+  // Grouped options demo - initialize with group property
+  const groupedDemo = document.getElementById('grouped-demo');
+  if (groupedDemo) {
+    customElements.upgrade(groupedDemo);
+    groupedDemo.options = [
+      { value: 'react', label: 'React', group: 'Frontend' },
+      { value: 'vue', label: 'Vue', group: 'Frontend' },
+      { value: 'angular', label: 'Angular', group: 'Frontend' },
+      { value: 'svelte', label: 'Svelte', group: 'Frontend' },
+      { value: 'nodejs', label: 'Node.js', group: 'Backend' },
+      { value: 'django', label: 'Django', group: 'Backend' },
+      { value: 'rails', label: 'Ruby on Rails', group: 'Backend' },
+      { value: 'laravel', label: 'Laravel', group: 'Backend' },
+      { value: 'postgresql', label: 'PostgreSQL', group: 'Database' },
+      { value: 'mysql', label: 'MySQL', group: 'Database' },
+      { value: 'mongodb', label: 'MongoDB', group: 'Database' },
+      { value: 'redis', label: 'Redis', group: 'Database' }
+    ];
+  }
+
+  // Disabled options demo - initialize with disabled property
+  const disabledDemo = document.getElementById('disabled-demo');
+  if (disabledDemo) {
+    customElements.upgrade(disabledDemo);
+    disabledDemo.options = [
+      { value: 'enabled1', label: 'Available Option 1' },
+      { value: 'disabled1', label: 'Unavailable Option 1', disabled: true },
+      { value: 'enabled2', label: 'Available Option 2' },
+      { value: 'disabled2', label: 'Unavailable Option 2', disabled: true },
+      { value: 'enabled3', label: 'Available Option 3' },
+      { value: 'disabled3', label: 'Unavailable Option 3', disabled: true }
+    ];
+  }
+});
 
 // Programmatic control functions
 function selectColors(values) {

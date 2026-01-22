@@ -486,7 +486,7 @@
   <div class="pa-card__body">
     <ul>
       <li><strong>npm Package:</strong> <code>@keenmate/web-daterangepicker</code></li>
-      <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-daterangepicker" target="_blank">github.com/keenmate/web-daterangepicker</a></li>
+      <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-daterangepicker" target="_blank" class="pa-link">github.com/keenmate/web-daterangepicker</a></li>
       <li><strong>Documentation:</strong> See package README and AI instructions in <code>../../web-daterangepicker/ai/</code></li>
       <li><strong>CSS Variables:</strong> 40+ customizable variables with <code>--drp-*</code> prefix</li>
       <li><strong>Theming:</strong> Pure Admin theme overrides in <code>src/scss/core-components/_web-components-theme.scss</code></li>
@@ -548,9 +548,8 @@ function setThisWeek() {
     const lastDay = new Date(firstDay);
     lastDay.setDate(firstDay.getDate() + 6); // Sunday
 
-    // Note: Setting values programmatically requires accessing internal methods
-    // This is a placeholder - actual implementation depends on web component API
-    console.log('Set week:', firstDay, lastDay);
+    // Use selectedRanges property to set the range
+    picker.selectedRanges = [{ start: firstDay, end: lastDay }];
   }
 }
 
@@ -561,7 +560,8 @@ function setThisMonth() {
     const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
     const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    console.log('Set month:', firstDay, lastDay);
+    // Use selectedRanges property to set the range
+    picker.selectedRanges = [{ start: firstDay, end: lastDay }];
   }
 }
 
@@ -577,7 +577,7 @@ function getSelection() {
 function clearSelection() {
   const picker = document.getElementById('programmatic-demo');
   if (picker) {
-    picker.value = '';
+    picker.clearSelection();  // Use the proper API method
   }
 }
 
