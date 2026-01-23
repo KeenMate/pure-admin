@@ -149,6 +149,65 @@
 }
 
 // ============================================================================
+// ALERT COLOR DERIVATION MIXINS
+// ============================================================================
+// These mixins use color-mix() to automatically derive alert colors from
+// semantic base colors (--pa-success-bg, --pa-danger-bg, etc.)
+//
+// Light mode: dark text on subtle backgrounds
+// Dark mode: light text on tinted backgrounds
+//
+// Themes call the appropriate mixin instead of hardcoding 12+ CSS variables.
+// Override specific variables after the mixin call if needed.
+// ============================================================================
+
+// Light mode: dark text on subtle backgrounds
+@mixin output-pa-alert-variables-light {
+  // Success
+  --pa-alert-success-text: color-mix(in srgb, var(--pa-success-bg) #{$alert-text-mix-light}, black);
+  --pa-alert-success-bg: color-mix(in srgb, var(--pa-success-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pa-alert-success-border: color-mix(in srgb, var(--pa-success-bg) #{$alert-border-opacity-light}%, transparent);
+
+  // Danger
+  --pa-alert-danger-text: color-mix(in srgb, var(--pa-danger-bg) #{$alert-text-mix-light}, black);
+  --pa-alert-danger-bg: color-mix(in srgb, var(--pa-danger-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pa-alert-danger-border: color-mix(in srgb, var(--pa-danger-bg) #{$alert-border-opacity-light}%, transparent);
+
+  // Warning
+  --pa-alert-warning-text: color-mix(in srgb, var(--pa-warning-bg) #{$alert-text-mix-light}, black);
+  --pa-alert-warning-bg: color-mix(in srgb, var(--pa-warning-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pa-alert-warning-border: color-mix(in srgb, var(--pa-warning-bg) #{$alert-border-opacity-light}%, transparent);
+
+  // Info
+  --pa-alert-info-text: color-mix(in srgb, var(--pa-info-bg) #{$alert-text-mix-light}, black);
+  --pa-alert-info-bg: color-mix(in srgb, var(--pa-info-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pa-alert-info-border: color-mix(in srgb, var(--pa-info-bg) #{$alert-border-opacity-light}%, transparent);
+}
+
+// Dark mode: white text on tinted backgrounds (white text is always readable)
+@mixin output-pa-alert-variables-dark {
+  // Success
+  --pa-alert-success-text: #ffffff;
+  --pa-alert-success-bg: color-mix(in srgb, var(--pa-success-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pa-alert-success-border: color-mix(in srgb, var(--pa-success-bg) #{$alert-border-opacity-dark}%, transparent);
+
+  // Danger
+  --pa-alert-danger-text: #ffffff;
+  --pa-alert-danger-bg: color-mix(in srgb, var(--pa-danger-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pa-alert-danger-border: color-mix(in srgb, var(--pa-danger-bg) #{$alert-border-opacity-dark}%, transparent);
+
+  // Warning
+  --pa-alert-warning-text: #ffffff;
+  --pa-alert-warning-bg: color-mix(in srgb, var(--pa-warning-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pa-alert-warning-border: color-mix(in srgb, var(--pa-warning-bg) #{$alert-border-opacity-dark}%, transparent);
+
+  // Info
+  --pa-alert-info-text: #ffffff;
+  --pa-alert-info-bg: color-mix(in srgb, var(--pa-info-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pa-alert-info-border: color-mix(in srgb, var(--pa-info-bg) #{$alert-border-opacity-dark}%, transparent);
+}
+
+// ============================================================================
 // PURE ADMIN THEME CSS VARIABLES OUTPUT MIXIN
 // ============================================================================
 // This mixin outputs all themeable SCSS variables as --pa-* CSS custom properties.
@@ -343,20 +402,9 @@
   --pa-modal-content-bg: #{$modal-content-bg};
 
   // =========================================================================
-  // ALERT COLORS
+  // ALERT COLORS - Now derived via output-pa-alert-variables-light/dark mixins
+  // Themes must call the appropriate mixin after output-pa-css-variables
   // =========================================================================
-  --pa-alert-success-bg: #{$alert-success-bg};
-  --pa-alert-success-border: #{$alert-success-border};
-  --pa-alert-success-text: #{$alert-success-text};
-  --pa-alert-danger-bg: #{$alert-danger-bg};
-  --pa-alert-danger-border: #{$alert-danger-border};
-  --pa-alert-danger-text: #{$alert-danger-text};
-  --pa-alert-warning-bg: #{$alert-warning-bg};
-  --pa-alert-warning-border: #{$alert-warning-border};
-  --pa-alert-warning-text: #{$alert-warning-text};
-  --pa-alert-info-bg: #{$alert-info-bg};
-  --pa-alert-info-border: #{$alert-info-border};
-  --pa-alert-info-text: #{$alert-info-text};
 
   // =========================================================================
   // BADGE COLORS
@@ -429,4 +477,15 @@
   --pa-color-7: #{$color-7};
   --pa-color-8: #{$color-8};
   --pa-color-9: #{$color-9};
+
+  // Theme color slots - text/contrast colors
+  --pa-color-1-text: #{$color-1-text};
+  --pa-color-2-text: #{$color-2-text};
+  --pa-color-3-text: #{$color-3-text};
+  --pa-color-4-text: #{$color-4-text};
+  --pa-color-5-text: #{$color-5-text};
+  --pa-color-6-text: #{$color-6-text};
+  --pa-color-7-text: #{$color-7-text};
+  --pa-color-8-text: #{$color-8-text};
+  --pa-color-9-text: #{$color-9-text};
 }

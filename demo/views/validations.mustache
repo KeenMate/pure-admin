@@ -1,0 +1,537 @@
+<p>Different UI patterns for displaying form validation errors. Choose the pattern that best fits your UX requirements.</p>
+
+<!-- Pattern 1: Inline Field Errors -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>1. Inline Field Errors</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">The most common pattern. Error messages appear directly below each field. Best for forms where users need immediate field-level feedback.</p>
+
+        <form class="pa-form">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Email Address <span class="text-danger">*</span></label>
+                        <input type="email" class="pa-input" value="invalid-email">
+                        <small class="pa-form-help pa-form-help--error">Please enter a valid email address</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Password <span class="text-danger">*</span></label>
+                        <input type="password" class="pa-input" value="123">
+                        <small class="pa-form-help pa-form-help--error">Password must be at least 8 characters</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--success">
+                        <label>Username <span class="text-danger">*</span></label>
+                        <input type="text" class="pa-input" value="johndoe">
+                        <small class="pa-form-help pa-form-help--success">Username is available</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--warning">
+                        <label>Phone Number</label>
+                        <input type="tel" class="pa-input" value="555-1234">
+                        <small class="pa-form-help pa-form-help--warning">Consider adding country code for international format</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="pa-callout pa-callout--info mt-4">
+            <strong>Usage:</strong> Add <code>pa-form-group--error</code> to the form group and <code>pa-form-help--error</code> to the help text.
+        </div>
+    </div>
+</div>
+
+<!-- Pattern 2: Summary Block -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>2. Summary Block (Top of Form)</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">All errors collected in a single alert at the top. Good for accessibility and giving users a quick overview of all issues.</p>
+
+        <form class="pa-form">
+            <div class="pa-alert pa-alert--danger mb-4">
+                <strong>Please fix the following errors:</strong>
+                <ul class="mt-2 mb-0">
+                    <li>First name is required</li>
+                    <li>Email address is not valid</li>
+                    <li>Password must contain at least one uppercase letter</li>
+                    <li>Please accept the terms and conditions</li>
+                </ul>
+            </div>
+
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>First Name <span class="text-danger">*</span></label>
+                        <input type="text" class="pa-input" placeholder="Enter first name">
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group">
+                        <label>Last Name</label>
+                        <input type="text" class="pa-input" value="Smith">
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Email <span class="text-danger">*</span></label>
+                        <input type="email" class="pa-input" value="not-an-email">
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Password <span class="text-danger">*</span></label>
+                        <input type="password" class="pa-input" value="password">
+                    </div>
+                </div>
+                <div class="pa-col-100">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label class="pa-checkbox">
+                            <input type="checkbox">
+                            <span class="pa-checkbox__box"></span>
+                            <span class="pa-checkbox__label">I accept the terms and conditions <span class="text-danger">*</span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="pa-callout pa-callout--info mt-4">
+            <strong>Best Practice:</strong> Combine summary block with inline errors for maximum accessibility. Screen readers can announce all errors at once.
+        </div>
+    </div>
+</div>
+
+<!-- Pattern 3: Inline + Summary Combined -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>3. Combined: Summary + Inline (Recommended)</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">The best of both worlds. Summary for overview, inline for specific guidance. Most accessible approach.</p>
+
+        <form class="pa-form">
+            <div class="pa-alert pa-alert--danger mb-4">
+                <strong>2 errors found:</strong>
+                <ul class="mt-2 mb-0">
+                    <li><a href="#card-number">Card number</a> - Invalid card number format</li>
+                    <li><a href="#cvv">CVV</a> - Must be 3 or 4 digits</li>
+                </ul>
+            </div>
+
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label for="card-number">Card Number <span class="text-danger">*</span></label>
+                        <input type="text" id="card-number" class="pa-input" value="1234-5678-XXXX">
+                        <small class="pa-form-help pa-form-help--error">Invalid card number format. Please use 16 digits.</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-25">
+                    <div class="pa-form-group pa-form-group--success">
+                        <label>Expiry Date</label>
+                        <input type="text" class="pa-input" value="12/25">
+                        <small class="pa-form-help pa-form-help--success">Valid</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-25">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label for="cvv">CVV <span class="text-danger">*</span></label>
+                        <input type="text" id="cvv" class="pa-input" value="12">
+                        <small class="pa-form-help pa-form-help--error">Must be 3 or 4 digits</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="pa-callout pa-callout--success mt-4">
+            <strong>Tip:</strong> Make summary items clickable links that jump to the relevant field using anchor IDs.
+        </div>
+    </div>
+</div>
+
+<!-- Pattern 4: Border + Icon Only -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>4. Border + Icon Only (Minimal)</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Space-efficient but less informative. Red border and icon indicate error without text message. User must infer the issue or hover/click for details.</p>
+
+        <form class="pa-form">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <div class="pa-form-group">
+                        <label>Username</label>
+                        <div class="pa-input-group">
+                            <input type="text" class="pa-input pa-input--error" value="">
+                            <span class="pa-input-group__append text-danger" title="This field is required">!</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <div class="pa-form-group">
+                        <label>Email</label>
+                        <div class="pa-input-group">
+                            <input type="email" class="pa-input pa-input--error" value="bad@">
+                            <span class="pa-input-group__append text-danger" title="Invalid email format">!</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-1-3">
+                    <div class="pa-form-group">
+                        <label>Password</label>
+                        <div class="pa-input-group">
+                            <input type="password" class="pa-input pa-input--success" value="securepass123">
+                            <span class="pa-input-group__append text-success">&#10003;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="pa-callout pa-callout--warning mt-4">
+            <strong>Caution:</strong> This pattern provides poor accessibility. Consider using tooltips or aria-describedby for screen readers.
+        </div>
+    </div>
+</div>
+
+<!-- Pattern 5: Right-side Indicators -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>5. Right-side Indicators</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Error text positioned to the right of the input. Works well in horizontal form layouts with more screen real estate.</p>
+
+        <form class="pa-form">
+            <div class="pa-form-group pa-form-group--horizontal align-items-center">
+                <label class="pa-col-md-25">Company Name</label>
+                <div class="pa-col-md-40">
+                    <input type="text" class="pa-input pa-input--error" value="">
+                </div>
+                <div class="pa-col-md-35">
+                    <span class="pa-form-help pa-form-help--error mt-0">Company name is required</span>
+                </div>
+            </div>
+            <div class="pa-form-group pa-form-group--horizontal align-items-center">
+                <label class="pa-col-md-25">Website URL</label>
+                <div class="pa-col-md-40">
+                    <input type="url" class="pa-input pa-input--error" value="not-a-url">
+                </div>
+                <div class="pa-col-md-35">
+                    <span class="pa-form-help pa-form-help--error mt-0">Please enter a valid URL (e.g., https://example.com)</span>
+                </div>
+            </div>
+            <div class="pa-form-group pa-form-group--horizontal align-items-center">
+                <label class="pa-col-md-25">Industry</label>
+                <div class="pa-col-md-40">
+                    <select class="pa-select pa-select--success">
+                        <option>Technology</option>
+                    </select>
+                </div>
+                <div class="pa-col-md-35">
+                    <span class="pa-form-help pa-form-help--success mt-0">&#10003; Valid selection</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Pattern 6: Floating/Transforming Helper Text -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>6. Helper Text Transforms to Error</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Helper text below the field transforms into error text when validation fails. Maintains consistent spacing.</p>
+
+        <form class="pa-form">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group">
+                        <label>Bio</label>
+                        <textarea class="pa-textarea" rows="3">This is my bio text that keeps going and going...</textarea>
+                        <small class="pa-form-help">Maximum 100 characters (85/100)</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Bio (Over Limit)</label>
+                        <textarea class="pa-textarea" rows="3">This is my bio text that keeps going and going and going until it exceeds the character limit which causes a validation error...</textarea>
+                        <small class="pa-form-help pa-form-help--error">Maximum 100 characters exceeded (142/100)</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Pattern 7: Toast Notifications -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>7. Toast Notifications</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Validation errors shown as toast notifications. Best for submit-level errors or async validation (e.g., server-side checks).</p>
+
+        <form class="pa-form">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group">
+                        <label>Email</label>
+                        <input type="email" class="pa-input" value="user@example.com">
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group">
+                        <label>Password</label>
+                        <input type="password" class="pa-input" value="password123">
+                    </div>
+                </div>
+                <div class="pa-col-100">
+                    <button type="button" class="pa-btn pa-btn--primary" onclick="showValidationToast()">Submit (Shows Toast)</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Simulated toast preview -->
+        <div class="mt-4 p-3 bg-light" style="position: relative; min-height: 80px;">
+            <p class="text-muted mb-2"><em>Toast preview (normally appears in corner):</em></p>
+            <div class="pa-toast pa-toast--danger" style="position: relative; display: inline-block;">
+                <div class="pa-toast__content">
+                    <strong>Validation Failed</strong>
+                    <p class="mb-0">Invalid credentials. Please check your email and password.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-callout pa-callout--warning mt-4">
+            <strong>Note:</strong> Toasts are ephemeral. Don't use them as the only validation feedback - users may miss them.
+        </div>
+    </div>
+</div>
+
+<!-- Pattern 8: Validation Timing -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>8. Validation Timing Strategies</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">When to trigger validation affects user experience significantly.</p>
+
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-md-1-3">
+                <div class="pa-card pa-card--bordered">
+                    <div class="pa-card__header pa-card__header--warning">
+                        <h4>On Input (Real-time)</h4>
+                    </div>
+                    <div class="pa-card__body">
+                        <div class="pa-form-group pa-form-group--error">
+                            <label>Email</label>
+                            <input type="email" class="pa-input" value="user@" placeholder="Type to see validation...">
+                            <small class="pa-form-help pa-form-help--error">Email incomplete</small>
+                        </div>
+                        <p class="text-muted mt-2"><small>Validates as user types. Can feel aggressive.</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <div class="pa-card pa-card--bordered">
+                    <div class="pa-card__header pa-card__header--success">
+                        <h4>On Blur (Recommended)</h4>
+                    </div>
+                    <div class="pa-card__body">
+                        <div class="pa-form-group pa-form-group--error">
+                            <label>Email</label>
+                            <input type="email" class="pa-input" value="invalid" placeholder="Tab out to validate...">
+                            <small class="pa-form-help pa-form-help--error">Invalid email format</small>
+                        </div>
+                        <p class="text-muted mt-2"><small>Validates when field loses focus. Good balance.</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-1-3">
+                <div class="pa-card pa-card--bordered">
+                    <div class="pa-card__header pa-card__header--info">
+                        <h4>On Submit</h4>
+                    </div>
+                    <div class="pa-card__body">
+                        <div class="pa-form-group">
+                            <label>Email</label>
+                            <input type="email" class="pa-input" value="anything" placeholder="No validation until submit">
+                        </div>
+                        <p class="text-muted mt-2"><small>All errors shown at once on submit. Traditional approach.</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pattern 9: Multi-field Validation -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>9. Multi-field / Cross-field Validation</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">When validation depends on multiple fields (e.g., password confirmation, date ranges).</p>
+
+        <form class="pa-form">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--success">
+                        <label>New Password</label>
+                        <input type="password" class="pa-input" value="SecurePass123!">
+                        <small class="pa-form-help pa-form-help--success">Strong password</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Confirm Password</label>
+                        <input type="password" class="pa-input" value="SecurePass123">
+                        <small class="pa-form-help pa-form-help--error">Passwords do not match</small>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Start Date</label>
+                        <input type="date" class="pa-input" value="2025-12-31">
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>End Date</label>
+                        <input type="date" class="pa-input" value="2025-01-01">
+                    </div>
+                </div>
+                <div class="pa-col-100">
+                    <div class="pa-alert pa-alert--danger">
+                        End date must be after start date
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Pattern 10: Progressive/Stepped Validation -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>10. Progressive Validation (Multi-step Forms)</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Validate each step before allowing progression. Prevents users from reaching the end with invalid data.</p>
+
+        <!-- Step indicators -->
+        <div class="pa-row mb-4">
+            <div class="pa-col-1-3 text-center">
+                <div class="pa-badge pa-badge--success pa-badge--lg">1</div>
+                <p class="mt-2 text-success">Account</p>
+            </div>
+            <div class="pa-col-1-3 text-center">
+                <div class="pa-badge pa-badge--danger pa-badge--lg">2</div>
+                <p class="mt-2 text-danger">Profile</p>
+            </div>
+            <div class="pa-col-1-3 text-center">
+                <div class="pa-badge pa-badge--default pa-badge--lg">3</div>
+                <p class="mt-2 text-muted">Confirm</p>
+            </div>
+        </div>
+
+        <div class="pa-alert pa-alert--danger mb-3">
+            Please complete all required fields in Step 2 before proceeding.
+        </div>
+
+        <form class="pa-form">
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--error">
+                        <label>Display Name <span class="text-danger">*</span></label>
+                        <input type="text" class="pa-input" placeholder="Enter display name">
+                        <small class="pa-form-help pa-form-help--error">Display name is required</small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group pa-form-group--success">
+                        <label>Avatar URL</label>
+                        <input type="url" class="pa-input" value="https://example.com/avatar.jpg">
+                        <small class="pa-form-help pa-form-help--success">Valid URL</small>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-form-actions">
+                <button type="button" class="pa-btn pa-btn--default">Back</button>
+                <button type="button" class="pa-btn pa-btn--primary" disabled>Next Step</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Form Group States</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-form-group--success</code> - Success state (green)</li>
+            <li><code>pa-form-group--warning</code> - Warning state (yellow/orange)</li>
+            <li><code>pa-form-group--error</code> - Error state (red)</li>
+        </ul>
+
+        <h4 class="mt-4">Input States</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-input--success</code> - Success border on input</li>
+            <li><code>pa-input--warning</code> - Warning border on input</li>
+            <li><code>pa-input--error</code> - Error border on input</li>
+        </ul>
+
+        <h4 class="mt-4">Help/Message Text</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-form-help</code> - Base help text styling</li>
+            <li><code>pa-form-help--success</code> - Green help text</li>
+            <li><code>pa-form-help--warning</code> - Yellow/orange help text</li>
+            <li><code>pa-form-help--error</code> - Red help text</li>
+        </ul>
+
+        <h4 class="mt-4">Alert Variants (for Summary Blocks)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-alert pa-alert--danger</code> - Error summary block</li>
+            <li><code>pa-alert pa-alert--warning</code> - Warning summary block</li>
+            <li><code>pa-alert pa-alert--success</code> - Success message block</li>
+            <li><code>pa-alert pa-alert--info</code> - Info message block</li>
+        </ul>
+
+        <h4 class="mt-4">Text Utility Classes</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>text-danger</code> - Red text color</li>
+            <li><code>text-warning</code> - Yellow/orange text color</li>
+            <li><code>text-success</code> - Green text color</li>
+            <li><code>text-muted</code> - Muted/gray text color</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+function showValidationToast() {
+    if (typeof ToastService !== 'undefined') {
+        ToastService.error('Validation Failed', 'Invalid credentials. Please check your email and password.');
+    } else {
+        alert('Toast Service not loaded. In production, this would show a toast notification.');
+    }
+}
+</script>

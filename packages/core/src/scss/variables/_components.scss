@@ -283,23 +283,10 @@ $alert-icon-margin: $spacing-sm !default;
 $alert-list-padding-left: $spacing-lg !default;
 $alert-list-item-margin-top: $card-footer-padding-v !default;
 
-// Alert colors
-$alert-success-bg: $success-bg-subtle !default;
-$alert-success-border: $success-border !default;
-$alert-success-text: $success-bg !default;
-
-$alert-danger-bg: $danger-bg-subtle !default;
-$alert-danger-border: $danger-border !default;
-$alert-danger-text: $danger-bg !default;
+// Alert colors - Now derived via color-mix() mixins in _base-css-variables.scss
+// Themes call output-pa-alert-variables-light/dark instead of hardcoding values
+// Keep only the text transform variable as it's not color-related
 $alert-danger-text-transform: none !default;
-
-$alert-warning-bg: $warning-bg-subtle !default;
-$alert-warning-border: $warning-border !default;
-$alert-warning-text: $warning-bg !default;
-
-$alert-info-bg: $info-bg-subtle !default;
-$alert-info-border: $info-border !default;
-$alert-info-text: $info-bg !default;
 
 // ============================================================================
 // CALLOUT SYSTEM

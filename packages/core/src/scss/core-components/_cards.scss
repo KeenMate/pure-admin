@@ -213,6 +213,28 @@
     }
   }
 
+  // Theme color variants (color-1 through color-9)
+  // These use theme-customizable colors from --pa-color-* CSS variables
+  @for $i from 1 through 9 {
+    &--color-#{$i} {
+      border-color: var(--pa-color-#{$i});
+
+      .pa-card__header {
+        background-color: var(--pa-color-#{$i});
+        color: var(--pa-color-#{$i}-text);
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: var(--pa-color-#{$i}-text);
+        }
+      }
+    }
+  }
+
   // Card tabs
   &__tabs {
     display: flex;

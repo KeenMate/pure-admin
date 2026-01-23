@@ -47,6 +47,7 @@
   &__prepend {
     background-color: var(--pa-input-group-prepend-bg);
     color: var(--pa-input-group-prepend-text);
+    border-color: var(--pa-input-group-prepend-bg);
     border-right: none;
 
     &:first-child {
@@ -58,6 +59,7 @@
   &__append {
     background-color: var(--pa-input-group-append-bg);
     color: var(--pa-input-group-append-text);
+    border-color: var(--pa-input-group-append-bg);
     border-left: none;
 
     &:last-child {
@@ -68,11 +70,11 @@
 
   // Adjacent prepends/appends need borders between them
   &__prepend + &__prepend {
-    border-left: $border-width-base solid var(--pa-border-color);
+    border-left: $border-width-base solid var(--pa-input-group-prepend-bg);
   }
 
   &__append + &__append {
-    border-left: $border-width-base solid var(--pa-border-color);
+    border-left: $border-width-base solid var(--pa-input-group-append-bg);
   }
 
   // When input is focused, show focus border on adjacent prepend/append

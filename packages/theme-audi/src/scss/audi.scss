@@ -113,6 +113,17 @@ $color-7: #8c8c8c;  // Silver (metallic)
 $color-8: #404040;  // Charcoal (neutral)
 $color-9: #6b3fa0;  // Purple (luxury)
 
+// Contrast text colors for color slots
+$color-1-text: #ffffff;  // White on Audi Red
+$color-2-text: #ffffff;  // White on Light Red
+$color-3-text: #ffffff;  // White on Orange
+$color-4-text: #1a1a1a;  // Dark on Gold (light background)
+$color-5-text: #ffffff;  // White on Teal
+$color-6-text: #ffffff;  // White on Blue
+$color-7-text: #ffffff;  // White on Silver
+$color-8-text: #ffffff;  // White on Charcoal
+$color-9-text: #ffffff;  // White on Purple
+
 // Typography - Fira Sans Condensed for Audi brand
 $base-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 
@@ -339,6 +350,7 @@ $card-border-radius: 0; // Sharp edges
 
   @include output-base-css-variables;
   @include output-pa-css-variables;
+  @include output-pa-alert-variables-dark;
 
   // Override base-elevated-bg for dark mode (web-grid striped rows, headers)
   --base-elevated-bg: #{$audi-gray};
@@ -435,6 +447,9 @@ $card-border-radius: 0; // Sharp edges
   --pa-warning-bg-light: rgba(255, 102, 0, 0.1);
   --pa-danger-bg-light: rgba(255, 0, 0, 0.1);
   --pa-info-bg-light: rgba(0, 153, 255, 0.1);
+
+  // Alert colors - derived from semantic colors
+  @include output-pa-alert-variables-light;
 
   // Base variables for web components (light mode)
   // Semantic names (preferred)

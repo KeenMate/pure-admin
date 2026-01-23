@@ -5,6 +5,80 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2026-01-23
+
+### Added
+
+#### Theme Color Contrast Text Variables
+- **New SCSS variables** `$color-1-text` through `$color-9-text` in `variables/_colors.scss`:
+  - Define text color to use when corresponding `$color-N` is used as a background
+  - Default: `#ffffff` (white text), themes override for light backgrounds
+- **New CSS variables** `--pa-color-1-text` through `--pa-color-9-text`:
+  - Output via `output-pa-css-variables` mixin in `_base-css-variables.scss`
+  - Enables runtime contrast text color for card headers and tooltips
+- **Updated components** to use contrast variables instead of hardcoded `#ffffff`:
+  - `_cards.scss`: Card header text in `.pa-card--color-N` variants
+  - `_tooltips.scss`: Tooltip text in `.pa-tooltip--color-N` and floating tooltip variants
+- **Theme-specific contrast colors** defined in all 5 theme packages:
+  - **Corporate**: Dark text (`#1a1a1a`) for color-4 (amber)
+  - **Audi**: Dark text for color-4 (gold)
+  - **Dark**: Dark text for colors 2, 3, 6, 7, 8, 9 (all light/vibrant colors)
+  - **Express**: Dark text for color-2 (yellow)
+  - **Minimal**: Dark text for color-7 (light gray)
+- **Demo page `/cards`**: Added "Theme Color Cards" section with color-1, color-2, color-3 examples
+- **Use case**: Ensures readable text on colored card headers regardless of background brightness
+
+#### Alert Color Derivation System
+- **New SCSS variables** in `variables/_base.scss` for configurable alert color derivation:
+  - `$alert-bg-opacity-light: 15` - Light mode background opacity (%)
+  - `$alert-bg-opacity-dark: 45` - Dark mode background opacity (%)
+  - `$alert-border-opacity-light: 30` - Light mode border opacity (%)
+  - `$alert-border-opacity-dark: 70` - Dark mode border opacity (%)
+  - `$alert-text-mix-light: 60%` - Light mode text mix with black
+  - `$alert-text-mix-dark: 80%` - Dark mode text mix with white
+- **New mixins** in `_base-css-variables.scss`:
+  - `output-pa-alert-variables-light` - Derives alert colors using CSS `color-mix()` for light mode (dark text on subtle backgrounds)
+  - `output-pa-alert-variables-dark` - Derives alert colors for dark mode (white text on tinted backgrounds)
+- **Benefits**: Themes now define 0 alert colors instead of 12+ hardcoded CSS variables
+
+### Changed
+
+#### Theme Alert Color Architecture
+- **All 5 themes updated** to use new derivation mixins instead of hardcoded alert CSS variables:
+  - Corporate, Audi, Dark, Express, Minimal themes
+  - Pattern: `@include output-pa-alert-variables-light;` in light mode, `@include output-pa-alert-variables-dark;` in dark mode
+- **Express theme special handling**: Custom opacity overrides for saturated backgrounds
+  - `$alert-bg-opacity-light: 68` (saturated)
+  - `$alert-bg-opacity-dark: 30`
+  - White text overrides for all alert types in light mode
+- **Dark mode alert text**: Changed from `color-mix()` derivation to pure white (`#ffffff`) for all alert types
+  - Fixes muddy/brownish text colors that resulted from mixing semantic colors with white
+
+#### Input Group Border Colors
+- **Prepend/append borders** now match their background colors instead of using generic border color
+  - `border-color: var(--pa-input-group-prepend-bg)` for prepend
+  - `border-color: var(--pa-input-group-append-bg)` for append
+  - Provides visual cohesion when using colored prepend/append elements
+
+### Fixed
+
+#### Express Theme Dark Mode Input Groups
+- **Fixed washed-out input group colors**: Increased append/prepend background opacity from 15% to 35%
+  - `--pa-input-group-prepend-bg: rgba(255, 204, 0, 0.35)` (was 0.15)
+  - `--pa-input-group-append-bg: rgba(255, 204, 0, 0.35)` (was 0.15)
+
+### Removed
+
+#### Deprecated Alert SCSS Variables
+- **Removed 12 alert SCSS variables** from `variables/_components.scss` (now derived via CSS `color-mix()`):
+  - `$alert-success-bg`, `$alert-success-border`, `$alert-success-text`
+  - `$alert-danger-bg`, `$alert-danger-border`, `$alert-danger-text`
+  - `$alert-warning-bg`, `$alert-warning-border`, `$alert-warning-text`
+  - `$alert-info-bg`, `$alert-info-border`, `$alert-info-text`
+- **Removed static alert output** from `output-pa-css-variables` mixin (replaced by dedicated alert mixins)
+
+---
+
 ## [1.1.2] - 2026-01-22
 
 ### Added

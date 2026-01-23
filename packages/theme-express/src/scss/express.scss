@@ -14,6 +14,17 @@ $color-7: #8C8C8C;  // Gray (neutral)
 $color-8: #333333;  // Dark (contrast)
 $color-9: #00b4d8;  // Cyan (info)
 
+// Contrast text colors for color slots
+$color-1-text: #ffffff;  // White on Express Red
+$color-2-text: #1a1a1a;  // Dark on Express Yellow (light background)
+$color-3-text: #ffffff;  // White on Orange
+$color-4-text: #ffffff;  // White on Green
+$color-5-text: #ffffff;  // White on Blue
+$color-6-text: #ffffff;  // White on Purple
+$color-7-text: #ffffff;  // White on Gray
+$color-8-text: #ffffff;  // White on Dark
+$color-9-text: #ffffff;  // White on Cyan
+
 // ============================================================================
 // EXPRESS COLOR PALETTE
 // ============================================================================
@@ -112,6 +123,12 @@ $base-focus-ring-color: rgba($express-red, 0.25);
 $base-font-family: "Fira Sans Condensed", "Arial Narrow", "Arial", sans-serif;
 
 // ============================================================================
+// ALERT COLOR DERIVATION - Express wants saturated, high-contrast alerts
+// ============================================================================
+$alert-bg-opacity-light: 68;  // Saturated backgrounds for light mode
+$alert-bg-opacity-dark: 30;   // Standard dark mode backgrounds
+
+// ============================================================================
 // FRAMEWORK VARIABLES - Import and let them derive from base
 // ============================================================================
 @import '@keenmate/pure-admin-core/src/scss/variables/index';
@@ -188,23 +205,6 @@ $modal-content-bg: #ffffff;
 
 // Profile name in header
 $header-profile-name-color: $express-black;  // Black text on yellow header
-
-// Alert colors - Vibrant and punchy with semi-transparent backgrounds
-$alert-success-text: $base-success-text;
-$alert-success-bg: rgba(16, 185, 129, 0.68);
-$alert-success-border: $base-success-color;
-
-$alert-danger-text: $base-danger-text;
-$alert-danger-bg: rgba(212, 5, 17, 0.58);
-$alert-danger-border: $express-red;
-
-$alert-warning-text: $base-warning-text;
-$alert-warning-bg: rgba(255, 193, 7, 0.58);
-$alert-warning-border: #ffc107;
-
-$alert-info-text: $base-info-text;
-$alert-info-bg: rgba(6, 182, 212, 0.58);
-$alert-info-border: $base-info-color;
 
 // ============================================================================
 // FONTS - Fira Sans Condensed
@@ -437,12 +437,19 @@ $alert-info-border: $base-info-color;
 
   // Pure Admin theme CSS variables
   @include output-pa-css-variables;
+  @include output-pa-alert-variables-light;
 
   // Input group - light gray background for light mode
   --pa-input-group-prepend-bg: #{$express-gray-lightest};
   --pa-input-group-prepend-text: #{$express-dark};
   --pa-input-group-append-bg: #{$express-gray-lightest};
   --pa-input-group-append-text: #{$express-dark};
+
+  // Override alert text to white for saturated backgrounds (Express brand)
+  --pa-alert-success-text: #ffffff;
+  --pa-alert-warning-text: #ffffff;
+  --pa-alert-danger-text: #ffffff;
+  --pa-alert-info-text: #ffffff;
 
 }
 
@@ -510,10 +517,10 @@ $alert-info-border: $base-info-color;
   --pa-input-text: #{$dark-text};
   --pa-input-focus-border-color: #{$express-red};
 
-  // Input group - use muted yellow for Express branding
-  --pa-input-group-prepend-bg: rgba(255, 204, 0, 0.15);
+  // Input group - vibrant yellow for Express branding
+  --pa-input-group-prepend-bg: rgba(255, 204, 0, 0.35);
   --pa-input-group-prepend-text: #{$express-yellow};
-  --pa-input-group-append-bg: rgba(255, 204, 0, 0.15);
+  --pa-input-group-append-bg: rgba(255, 204, 0, 0.35);
   --pa-input-group-append-text: #{$express-yellow};
 
   // Input group buttons
@@ -554,15 +561,8 @@ $alert-info-border: $base-info-color;
   --pa-command-palette-item-active-bg: rgba(212, 5, 17, 0.2);
   --pa-command-palette-highlight-bg: rgba(212, 5, 17, 0.3);
 
-  // Alerts - light text for dark mode visibility
-  --pa-alert-info-text: #ffffff;
-  --pa-alert-info-bg: rgba(6, 182, 212, 0.3);
-  --pa-alert-success-text: #ffffff;
-  --pa-alert-success-bg: rgba(16, 185, 129, 0.3);
-  --pa-alert-warning-text: #ffffff;
-  --pa-alert-warning-bg: rgba(255, 193, 7, 0.3);
-  --pa-alert-danger-text: #ffffff;
-  --pa-alert-danger-bg: rgba(212, 5, 17, 0.3);
+  // Alert colors - derived from semantic colors
+  @include output-pa-alert-variables-dark;
 
   // Code inside alerts - inherit alert text color
   .pa-alert code {
@@ -578,14 +578,14 @@ $alert-info-border: $base-info-color;
   --pa-btn-light-bg-hover: #{$dark-border};
   --pa-btn-light-text: #{$dark-text};
 
-  // Semantic colors - slightly brighter for dark mode
-  --pa-success-bg: #10b981;
+  // Semantic colors - brighter for dark mode visibility
+  --pa-success-bg: #34d399;
   --pa-success-bg-light: rgba(16, 185, 129, 0.2);
-  --pa-warning-bg: #f59e0b;
+  --pa-warning-bg: #fbbf24;
   --pa-warning-bg-light: rgba(245, 158, 11, 0.2);
-  --pa-danger-bg: #{$express-red-dark};
-  --pa-danger-bg-light: rgba(180, 5, 14, 0.2);
-  --pa-info-bg: #06b6d4;
+  --pa-danger-bg: #f87171;
+  --pa-danger-bg-light: rgba(248, 113, 113, 0.2);
+  --pa-info-bg: #22d3ee;
   --pa-info-bg-light: rgba(6, 182, 212, 0.2);
 
   // Base variables for web components (dark mode)

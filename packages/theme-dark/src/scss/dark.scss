@@ -14,6 +14,17 @@ $color-7: #adb5bd;  // Gray (neutral)
 $color-8: #f8f9fa;  // Light (contrast)
 $color-9: #ffa94d;  // Orange (highlight)
 
+// Contrast text colors for color slots
+$color-1-text: #ffffff;  // White on Light Blue
+$color-2-text: #1a1a1a;  // Dark on Light Green
+$color-3-text: #1a1a1a;  // Dark on Yellow (light background)
+$color-4-text: #ffffff;  // White on Light Red
+$color-5-text: #ffffff;  // White on Light Purple
+$color-6-text: #1a1a1a;  // Dark on Teal (light background)
+$color-7-text: #1a1a1a;  // Dark on Gray (light background)
+$color-8-text: #1a1a1a;  // Dark on Light (very light background)
+$color-9-text: #1a1a1a;  // Dark on Orange (light background)
+
 // ============================================================================
 // DARK THEME COLOR PALETTE
 // ============================================================================
@@ -205,6 +216,7 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
 
   // Pure Admin theme CSS variables for runtime theme switching
   @include output-pa-css-variables;
+  @include output-pa-alert-variables-dark;
 
   // Override base-elevated-bg for dark mode (web-grid striped rows, headers)
   --base-elevated-bg: #{$dark-bg-tertiary};
@@ -308,15 +320,8 @@ $checkbox-focus-shadow: 0 0 0 2px $base-focus-ring-color;
   --pa-command-palette-item-active-bg: rgba(77, 171, 247, 0.15);
   --pa-command-palette-highlight-bg: rgba(77, 171, 247, 0.2);
 
-  // Alerts
-  --pa-alert-info-text: #0c4a6e;
-  --pa-alert-info-bg: rgba(14, 165, 233, 0.15);
-  --pa-alert-success-text: #14532d;
-  --pa-alert-success-bg: rgba(34, 197, 94, 0.15);
-  --pa-alert-warning-text: #713f12;
-  --pa-alert-warning-bg: rgba(234, 179, 8, 0.15);
-  --pa-alert-danger-text: #7f1d1d;
-  --pa-alert-danger-bg: rgba(239, 68, 68, 0.15);
+  // Alert colors - derived from semantic colors
+  @include output-pa-alert-variables-light;
 
   // Buttons
   --pa-btn-secondary-bg: #{$light-border};

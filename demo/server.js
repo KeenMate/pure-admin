@@ -141,6 +141,10 @@ app.get('/inputs', (req, res) => {
     renderWithLayout(res, 'inputs', { pageTitle: 'Inputs', currentPage: 'inputs', isInputs: true });
 });
 
+app.get('/validations', (req, res) => {
+    renderWithLayout(res, 'validations', { pageTitle: 'Form Validations', currentPage: 'validations', isValidations: true });
+});
+
 app.get('/date-picker', (req, res) => {
     renderWithLayout(res, 'date-picker', { pageTitle: 'Date Picker', currentPage: 'date-picker', isDatePicker: true });
 });

@@ -151,6 +151,10 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 - `.pa-card__header` - Card header
 - `.pa-card__body` - Card body
 - `.pa-card__footer` - Card footer
+- **Semantic variants:** `.pa-card--primary/success/danger/warning`
+- **Theme color variants:** `.pa-card--color-1` through `.pa-card--color-9`
+  - Uses `--pa-color-N` for header background and border
+  - Text color automatically adjusts via `--pa-color-N-text` for readability
 
 ### Layout & Sidebar
 - `.pa-layout` - Main layout container
@@ -230,7 +234,9 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 ### Tooltips & Popovers
 - `.pa-tooltip` - Base tooltip (pure CSS, no JS required)
 - `.pa-tooltip--top/right/bottom/left` - Positioning
-- `.pa-tooltip--primary/success/warning/danger` - Variants
+- `.pa-tooltip--primary/success/warning/danger` - Semantic variants
+- `.pa-tooltip--color-1` through `.pa-tooltip--color-9` - Theme color variants
+  - Text color automatically adjusts via `--pa-color-N-text` for readability
 - `.pa-tooltip--multiline` - Multiline tooltips
 - `.pa-popover` - Base popover (requires JavaScript)
 - `.pa-popover--sm/md/lg` - Sizes
@@ -342,12 +348,16 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 - `.pa-bg-color-1` through `.pa-bg-color-9` - Background color slots
 - `.pa-text-color-1` through `.pa-text-color-9` - Text color slots
 - `.pa-border-color-1` through `.pa-border-color-9` - Border color slots
+- **CSS Variables:**
+  - `--pa-color-1` through `--pa-color-9` - Background colors (theme-defined)
+  - `--pa-color-1-text` through `--pa-color-9-text` - Contrast text colors for readability on colored backgrounds
 
 ## SCSS Variables
 
 All components use SCSS variables with `!default` flags, making them fully customizable:
 
 - **Colors**: `$main-bg`, `$page-bg`, `$subtle-bg`, `$accent-color`, `$text-color-1`, `$text-color-2`, etc.
+- **Theme Color Slots**: `$color-1` through `$color-9` (background colors), `$color-1-text` through `$color-9-text` (contrast text colors)
 - **Spacing**: `$spacing-xs` through `$spacing-2xl`
 - **Typography**: `$font-size-*`, `$line-height-*`, `$font-weight-*`
 - **Components**: `$btn-*`, `$card-*`, `$table-*`, etc.

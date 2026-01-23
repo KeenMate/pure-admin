@@ -14,6 +14,17 @@ $color-7: #9ca3af;  // Gray 400 (light)
 $color-8: #1f2937;  // Gray 800 (dark)
 $color-9: #db2777;  // Pink 600 (highlight)
 
+// Contrast text colors for color slots
+$color-1-text: #ffffff;  // White on Gray 700
+$color-2-text: #ffffff;  // White on Gray 500
+$color-3-text: #ffffff;  // White on Emerald 600
+$color-4-text: #ffffff;  // White on Amber 600
+$color-5-text: #ffffff;  // White on Indigo 600
+$color-6-text: #ffffff;  // White on Violet 600
+$color-7-text: #1a1a1a;  // Dark on Gray 400 (light background)
+$color-8-text: #ffffff;  // White on Gray 800
+$color-9-text: #ffffff;  // White on Pink 600
+
 // ============================================================================
 // MINIMAL COLOR PALETTE - Grayscale focused
 // ============================================================================
@@ -199,13 +210,13 @@ $modal-content-bg: $minimal-white;
 
   // Pure Admin theme CSS variables
   @include output-pa-css-variables;
+  @include output-pa-alert-variables-light;
 
   // Input group - light gray background for light mode
   --pa-input-group-prepend-bg: #{$minimal-gray-100};
   --pa-input-group-prepend-text: #{$minimal-gray-800};
   --pa-input-group-append-bg: #{$minimal-gray-100};
   --pa-input-group-append-text: #{$minimal-gray-800};
-
 }
 
 // ============================================================================
@@ -316,15 +327,8 @@ $modal-content-bg: $minimal-white;
   --pa-command-palette-item-active-bg: rgba(255, 255, 255, 0.1);
   --pa-command-palette-highlight-bg: rgba(255, 255, 255, 0.15);
 
-  // Alerts - light text for dark mode visibility
-  --pa-alert-info-text: #ffffff;
-  --pa-alert-info-bg: rgba(23, 162, 184, 0.3);
-  --pa-alert-success-text: #ffffff;
-  --pa-alert-success-bg: rgba(40, 167, 69, 0.3);
-  --pa-alert-warning-text: #ffffff;
-  --pa-alert-warning-bg: rgba(255, 193, 7, 0.3);
-  --pa-alert-danger-text: #ffffff;
-  --pa-alert-danger-bg: rgba(220, 53, 69, 0.3);
+  // Alert colors - derived from semantic colors
+  @include output-pa-alert-variables-dark;
 
   // Code inside alerts - inherit alert text color
   .pa-alert code {

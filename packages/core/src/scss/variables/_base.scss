@@ -213,3 +213,16 @@ $base-border-radius-lg: 0.8 !default;  // 8px
 
 // Command palette input height (must be after $base-input-size-* variables)
 $command-palette-input-height: #{$base-input-size-lg-height}rem !default;
+
+// =============================================================================
+// ALERT COLOR DERIVATION PARAMETERS
+// Used by color-mix() mixins to derive alert colors from semantic base colors
+// Themes can override these to customize alert appearance
+// =============================================================================
+
+$alert-bg-opacity-light: 15 !default;       // Light mode: subtle bg (%)
+$alert-bg-opacity-dark: 45 !default;        // Dark mode: punchy, vibrant bg (%)
+$alert-border-opacity-light: 30 !default;   // Light mode border (%)
+$alert-border-opacity-dark: 70 !default;    // Dark mode border - more visible (%)
+$alert-text-mix-light: 60% !default;        // Mix with black for dark text
+$alert-text-mix-dark: 80% !default;         // Mix with white for light text
