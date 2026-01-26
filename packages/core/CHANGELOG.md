@@ -5,7 +5,79 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.3] - 2026-01-23
+## [1.2.0] - 2026-01-26
+
+### Added
+
+#### Detail Panel Component (New)
+- **New component**: `_detail-panel.scss` — inline split-view and overlay detail panels for master/detail layouts
+- **Three display modes**:
+  - **Inline split-view** (`.pa-detail-view`): Table shrinks, panel appears alongside
+  - **Card overlay** (`.pa-detail-view--overlay`): Panel overlays the table within the card boundary
+  - **Full-screen overlay** (`.pa-detail-panel--overlay`): Fixed-position panel slides in from right (like profile panel)
+- **Panel structure** (`.pa-detail-panel__content`):
+  - `__header` — Title, optional action buttons (`.pa-btn-group`), close button
+  - `__tabs` — Optional tab navigation between header and body
+  - `__body` — Scrollable content area
+  - `__footer` — Optional action footer
+- **Resize handle** (`.pa-detail-panel-resize`): Drag left edge to resize panel width, double-click to reset
+- **Card overlay backdrop** (`.pa-detail-view__overlay`): Optional click-to-close backdrop with `--visible` modifier
+- **Row selection highlight**: `.is-selected` on `<tr>` elements for accent-tinted background
+- **Responsive**: Inline mode collapses to overlay on mobile (`< 768px`)
+- **CSS custom properties** (runtime state):
+  - `--pa-local-detail-panel-width` — Current panel width (set by JS resize, default `40rem`)
+  - `--pa-local-detail-panel-max-width` — Max width (default `64rem`)
+  - `--pa-detail-panel-overlay-bg` — Backdrop color
+  - `--pa-detail-panel-selected-bg` — Selected row highlight color
+
+#### Detail Panel SCSS Variables
+- `$detail-panel-width: 40rem` — Default panel width
+- `$detail-panel-min-width: 28rem` — Minimum panel width
+- `$detail-panel-max-width: 64rem` — Maximum panel width
+- `$detail-panel-mobile-width: 90vw` — Mobile overlay width
+- `$detail-panel-header-padding-v/h: 1.2rem / 1.6rem` — Header padding
+- `$detail-panel-body-padding-v/h: 1.2rem / 1.6rem` — Body padding
+- `$detail-panel-footer-padding-v/h: 1.2rem / 1.6rem` — Footer padding
+- `$detail-panel-overlay-bg: rgba(0,0,0,0.3)` — Backdrop background
+- `$detail-panel-z-index: 4500` — Z-index (below profile panel, above header)
+- `$detail-panel-shadow: $shadow-profile-panel` — Box shadow for overlay mode
+- `$detail-panel-close-size: 3.2rem` — Close button hit area
+- `$detail-panel-resize-handle-width: 6px` — Resize drag handle width
+- `$detail-panel-selected-bg: rgba($accent-color, 0.08)` — Selected row background
+
+#### Detail Panel Snippet
+- **New snippet**: `snippets/detail-panel.html` with three patterns:
+  - Inline split-view with table and side panel
+  - Card overlay with backdrop
+  - Full-screen overlay (fixed position)
+
+#### Detail Panel Demo Page
+- **New demo page**: `/detail-panel` with 7 sections:
+  1. **Inline Split-View** — Table shrinks to make room for panel
+  2. **Card Overlay** — Panel overlays table with backdrop
+  3. **Card Overlay — No Backdrop** — Panel stays open across row clicks, 600ms loading spinner
+  4. **Tabbed Detail Panel** — Tabs inside panel (Details, Activity, Notes)
+  5. **Header Actions — No Footer** — Icon buttons in header (edit, bookmark, delete)
+  6. **Web-Grid Integration** — `<web-grid>` drives panel via `onrowfocus` event
+  7. **Overlay Mode** — Full-screen slide-in panel (like profile panel)
+- **CSS Reference tables** with all classes, SCSS variables, and CSS custom properties
+
+#### Web-Grid Integration Demo (Section 6)
+- `<web-grid>` drives detail panel via `onrowfocus` callback
+- `onrowfocus` receives `{ rowIndex, row, previousRowIndex }` and opens/updates panel
+- 6 read-only columns (ID, Name, Department, Salary, Status, Location), 10 sample rows
+- `isHoverable = true`, `isRowNumbersVisible = true`
+- 600ms spinner delay simulating server fetch
+- Self-contained `<script type="module">` block
+
+### Changed
+
+#### Demo Dependency
+- **Bumped `@keenmate/web-grid`**: `^1.0.0-rc11` → `^1.0.0-rc12` (adds `onrowfocus` event)
+
+---
+
+## [1.1.3] - 2026-01-24
 
 ### Added
 

@@ -1,0 +1,138 @@
+<!-- =============================================
+     Detail Panel - Inline Split-View Mode
+     ============================================= -->
+
+<!-- Inline split-view: table + side panel -->
+<div class="pa-detail-view">
+    <!-- Left side: table -->
+    <div class="pa-detail-view__main">
+        <table class="pa-table pa-table--hover pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="is-selected" onclick="openInlinePanel(1)">
+                    <td>John Doe</td>
+                    <td>john@example.com</td>
+                    <td>Admin</td>
+                </tr>
+                <tr onclick="openInlinePanel(2)">
+                    <td>Jane Smith</td>
+                    <td>jane@example.com</td>
+                    <td>Editor</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Right side: detail panel -->
+    <div class="pa-detail-view__panel pa-detail-view__panel--open">
+        <div class="pa-detail-panel__content">
+            <div class="pa-detail-panel-resize"></div>
+            <div class="pa-detail-panel__header">
+                <h4 class="pa-detail-panel__title">User Details</h4>
+                <button class="pa-detail-panel__close" onclick="closeInlinePanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="pa-detail-panel__body">
+                <p>Detail content goes here...</p>
+            </div>
+            <div class="pa-detail-panel__footer">
+                <button class="pa-btn pa-btn--primary pa-btn--sm">Edit</button>
+                <button class="pa-btn pa-btn--secondary pa-btn--sm">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- =============================================
+     Detail Panel - Card Overlay Mode
+     ============================================= -->
+
+<!-- Card overlay: panel floats over the table within the card -->
+<div class="pa-detail-view pa-detail-view--overlay">
+    <!-- Backdrop (click to close) -->
+    <div class="pa-detail-view__overlay" onclick="closeCardOverlayPanel()"></div>
+
+    <!-- Table (stays full width) -->
+    <div class="pa-detail-view__main">
+        <table class="pa-table pa-table--hover pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="is-selected" onclick="openCardOverlayPanel(1)">
+                    <td>John Doe</td>
+                    <td>john@example.com</td>
+                    <td>Admin</td>
+                </tr>
+                <tr onclick="openCardOverlayPanel(2)">
+                    <td>Jane Smith</td>
+                    <td>jane@example.com</td>
+                    <td>Editor</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Detail panel (overlays the table) -->
+    <div class="pa-detail-view__panel pa-detail-view__panel--open">
+        <div class="pa-detail-panel__content">
+            <div class="pa-detail-panel-resize"></div>
+            <div class="pa-detail-panel__header">
+                <h4 class="pa-detail-panel__title">User Details</h4>
+                <button class="pa-detail-panel__close" onclick="closeCardOverlayPanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="pa-detail-panel__body">
+                <p>Detail content goes here...</p>
+            </div>
+            <div class="pa-detail-panel__footer">
+                <button class="pa-btn pa-btn--primary pa-btn--sm">Edit</button>
+                <button class="pa-btn pa-btn--secondary pa-btn--sm">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- =============================================
+     Detail Panel - Overlay Mode
+     ============================================= -->
+
+<!-- Trigger button (typically a table row click) -->
+<button class="pa-btn pa-btn--primary" onclick="openOverlayPanel(1)">
+    Open Detail Panel
+</button>
+
+<!-- Overlay panel (fixed position, like profile panel) -->
+<div class="pa-detail-panel--overlay" id="detailPanelOverlay">
+    <div class="pa-detail-panel__overlay" onclick="closeOverlayPanel()"></div>
+    <div class="pa-detail-panel__content">
+        <div class="pa-detail-panel-resize"></div>
+        <div class="pa-detail-panel__header">
+            <h4 class="pa-detail-panel__title">User Details</h4>
+            <button class="pa-detail-panel__close" onclick="closeOverlayPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="pa-detail-panel__body">
+            <p>Detail content goes here...</p>
+        </div>
+        <div class="pa-detail-panel__footer">
+            <button class="pa-btn pa-btn--primary pa-btn--sm">Edit</button>
+            <button class="pa-btn pa-btn--secondary pa-btn--sm">Delete</button>
+        </div>
+    </div>
+</div>

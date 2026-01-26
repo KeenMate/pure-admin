@@ -1,0 +1,335 @@
+/* ========================================
+   Detail Panel Components
+   Inline split-view and overlay detail panels
+   ======================================== */
+@use '../variables' as *;
+
+// Local CSS variables for detail panel (runtime state, modified by JS for resize)
+:root {
+  --pa-local-detail-panel-width: #{$detail-panel-width};
+  --pa-local-detail-panel-max-width: #{$detail-panel-max-width};
+}
+
+// Detail panel content width - :where() for low specificity (utility classes can override)
+:where(.pa-detail-view__panel) {
+  width: var(--pa-local-detail-panel-width);
+  max-width: var(--pa-local-detail-panel-max-width);
+}
+
+// ============================================================================
+// INLINE SPLIT-VIEW MODE
+// .pa-detail-view wraps a table (left) + panel (right)
+// ============================================================================
+
+.pa-detail-view {
+  display: flex;
+  gap: 0;
+  width: 100%;
+
+  // Left side: table/content area
+  &__main {
+    flex: 1;
+    min-width: 0;
+    overflow: auto;
+  }
+
+  // Right side: detail panel (hidden by default)
+  &__panel {
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-left: 0 solid var(--pa-border-color);
+
+    // Open state: show panel with configured width
+    &--open {
+      width: var(--pa-local-detail-panel-width);
+      min-width: $detail-panel-min-width;
+      max-width: var(--pa-local-detail-panel-max-width);
+      border-left-width: $border-width-base;
+      overflow: visible;
+    }
+  }
+}
+
+// ============================================================================
+// CARD OVERLAY MODE
+// .pa-detail-view--overlay: panel overlays the table within the card
+// ============================================================================
+
+.pa-detail-view--overlay {
+  position: relative;
+  overflow: hidden;
+
+  .pa-detail-view__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 2;
+  }
+}
+
+// Backdrop for card overlay mode
+.pa-detail-view__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--pa-detail-panel-overlay-bg);
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// ============================================================================
+// OVERLAY MODE
+// .pa-detail-panel--overlay is a fixed overlay (like profile panel)
+// ============================================================================
+
+.pa-detail-panel--overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: $detail-panel-z-index;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+
+  &.pa-detail-panel--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+
+    .pa-detail-panel__content {
+      transform: translateX(0);
+    }
+  }
+}
+
+// ============================================================================
+// SHARED PANEL STRUCTURE (used by both inline and overlay modes)
+// ============================================================================
+
+// Panel content wrapper (flex column: header/body/footer)
+.pa-detail-panel__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--pa-card-bg);
+  position: relative;
+
+  // In overlay mode: slide-in from right
+  .pa-detail-panel--overlay & {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: var(--pa-local-detail-panel-width);
+    max-width: var(--pa-local-detail-panel-max-width);
+    box-shadow: $detail-panel-shadow;
+    transform: translateX(100%);
+  }
+}
+
+// Backdrop overlay (overlay mode only)
+.pa-detail-panel__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--pa-detail-panel-overlay-bg);
+  cursor: pointer;
+}
+
+// Panel header
+.pa-detail-panel__header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $detail-panel-header-padding-v $detail-panel-header-padding-h;
+  border-bottom: $border-width-base solid var(--pa-border-color);
+  background-color: var(--pa-card-bg);
+  min-height: 0;
+}
+
+// Panel title
+.pa-detail-panel__title {
+  flex: 1;
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: var(--pa-text-color-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Close button
+.pa-detail-panel__close {
+  width: $detail-panel-close-size;
+  height: $detail-panel-close-size;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pa-text-color-2);
+  border-radius: $border-radius;
+
+  &:hover {
+    background-color: var(--pa-accent-light);
+    color: var(--pa-accent);
+  }
+
+  &:focus {
+    outline: $focus-outline-width solid var(--pa-accent);
+    outline-offset: $focus-outline-offset;
+  }
+}
+
+// Panel tabs (between header and body, like profile panel)
+.pa-detail-panel__tabs {
+  flex-shrink: 0;
+  padding: 0 $detail-panel-header-padding-h;
+  border-bottom: $border-width-base solid var(--pa-border-color);
+  background-color: var(--pa-card-bg);
+
+  .pa-tabs__item {
+    color: var(--pa-text-color-2);
+    border-bottom-color: transparent;
+
+    &:hover {
+      color: var(--pa-text-color-1);
+      background-color: var(--pa-accent-light);
+    }
+
+    &--active {
+      color: var(--pa-text-color-1);
+      border-bottom-color: var(--pa-accent);
+    }
+  }
+}
+
+// Panel body (scrollable)
+.pa-detail-panel__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: $detail-panel-body-padding-v $detail-panel-body-padding-h;
+}
+
+// Panel footer
+.pa-detail-panel__footer {
+  flex-shrink: 0;
+  padding: $detail-panel-footer-padding-v $detail-panel-footer-padding-h;
+  border-top: $border-width-base solid var(--pa-border-color);
+  background-color: var(--pa-card-bg);
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+// ============================================================================
+// RESIZE HANDLE
+// ============================================================================
+
+.pa-detail-panel-resize {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: $detail-panel-resize-handle-width;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 1;
+
+  &:hover,
+  &--active {
+    background-color: var(--pa-accent);
+    opacity: 0.3;
+  }
+}
+
+// Body class applied during resize drag
+.pa-detail-panel-resizing {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+// ============================================================================
+// TABLE ROW SELECTION
+// ============================================================================
+
+.pa-table tbody tr.is-selected {
+  background-color: var(--pa-detail-panel-selected-bg);
+
+  &:hover {
+    background-color: var(--pa-detail-panel-selected-bg);
+  }
+}
+
+// ============================================================================
+// RESPONSIVE: Inline collapses to overlay on mobile
+// ============================================================================
+
+@media (max-width: $mobile-breakpoint) {
+  // Inline mode: hide the panel from the flex layout
+  .pa-detail-view__panel {
+    display: none;
+  }
+
+  // Mobile overlay: shown as fixed overlay instead
+  .pa-detail-panel--mobile-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    z-index: $detail-panel-z-index;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+
+    &.pa-detail-panel--open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+
+      .pa-detail-panel__content {
+        transform: translateX(0);
+      }
+    }
+
+    .pa-detail-panel__content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: $detail-panel-mobile-width;
+      max-width: none;
+      box-shadow: $detail-panel-shadow;
+      transform: translateX(100%);
+    }
+
+    .pa-detail-panel__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--pa-detail-panel-overlay-bg);
+      cursor: pointer;
+    }
+  }
+}

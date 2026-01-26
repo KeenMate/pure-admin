@@ -77,6 +77,7 @@ The `snippets/` directory contains clean HTML patterns for all components:
 - `utilities.html` - Utility classes
 - `virtual-scroll.html` - Virtual scrolling
 - `web-daterangepicker.html` - Date range picker web component
+- `detail-panel.html` - Detail panel (inline, overlay, full-screen)
 - `web-multiselect.html` - Multiselect web component
 
 These snippets are the canonical reference for building framework components in any frontend framework (React, Vue, Svelte, etc.).
@@ -309,6 +310,26 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 - `.pa-notifications__content` - Item content (title, message)
 - `.pa-notifications__time` - Timestamp
 - `.pa-notifications__footer` - Panel footer with "View all" link
+
+### Detail Panel
+- `.pa-detail-view` - Flex wrapper for inline split-view (table + panel side by side)
+- `.pa-detail-view__main` - Left side (table area), `flex: 1`
+- `.pa-detail-view__panel` - Right side panel, hidden by default (`width: 0`)
+- `.pa-detail-view__panel--open` - Shows panel with configured width
+- `.pa-detail-view--overlay` - Card overlay modifier (panel overlays table within card)
+- `.pa-detail-view__overlay` - Backdrop element (click to close), use `--visible` to show
+- `.pa-detail-panel--overlay` - Full-screen overlay mode (fixed position, like profile panel)
+- `.pa-detail-panel--open` - Makes overlay panel visible with slide-in transition
+- `.pa-detail-panel__content` - Panel content wrapper (flex column: header/body/footer)
+- `.pa-detail-panel__header` - Panel header with title, optional action buttons, close button
+- `.pa-detail-panel__title` - Truncated panel title
+- `.pa-detail-panel__close` - Close button
+- `.pa-detail-panel__tabs` - Optional tab navigation (between header and body)
+- `.pa-detail-panel__body` - Scrollable body area
+- `.pa-detail-panel__footer` - Fixed footer with action buttons
+- `.pa-detail-panel__overlay` - Backdrop (overlay mode, click to close)
+- `.pa-detail-panel-resize` - Drag handle on left edge for resizing
+- `.is-selected` - Applied to `<tr>` to highlight selected row
 
 ### Profile Panel
 - `.pa-profile-panel` - Slide-in profile panel

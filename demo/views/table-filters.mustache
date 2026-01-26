@@ -92,9 +92,9 @@
             </div>
 
             <!-- Action buttons -->
-            <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Clear all filters">×</button>
-            <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Refresh">🔄</button>
-            <button id="toggle-filters-btn" class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters" onclick="toggleFilters()">▼</button>
+            <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Clear all filters"><i class="fas fa-times"></i></button>
+            <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+            <button id="toggle-filters-btn" class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters" onclick="toggleFilters()"><i class="fas fa-caret-down"></i></button>
         </div>
 
         <!-- Advanced Filters (Hidden by default) -->
@@ -418,10 +418,11 @@
 function toggleFilters() {
     const filters = document.getElementById('advanced-filters');
     const toggleBtn = document.getElementById('toggle-filters-btn');
+    const icon = toggleBtn.querySelector('i');
     const isHidden = filters.style.display === 'none';
 
     filters.style.display = isHidden ? 'block' : 'none';
-    toggleBtn.textContent = isHidden ? '▲' : '▼';
+    icon.className = isHidden ? 'fas fa-caret-up' : 'fas fa-caret-down';
     toggleBtn.title = isHidden ? 'Hide filters' : 'More filters';
 }
 </script>

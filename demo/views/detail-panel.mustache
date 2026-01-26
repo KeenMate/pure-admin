@@ -1,0 +1,1108 @@
+<p>Detail panels display row details alongside a table. Two modes: <strong>inline split-view</strong> (table shrinks, panel appears alongside) and <strong>overlay</strong> (panel slides over content).</p>
+
+<!-- Load Detail Panel JS -->
+<script src="/src/js/detail-panel.js"></script>
+
+<!-- ============================================================
+     Section 1: Inline Split-View
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Inline Split-View</h3>
+        <p>Click a row to open the detail panel alongside the table. The table shrinks to make room.</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <div class="pa-detail-view">
+            <!-- Left: Table -->
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="inlineTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-id="1" onclick="openInlinePanel(1)" style="cursor: pointer;">
+                            <td>John Doe</td>
+                            <td>john.doe@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="2" onclick="openInlinePanel(2)" style="cursor: pointer;">
+                            <td>Jane Smith</td>
+                            <td>jane.smith@company.com</td>
+                            <td>Editor</td>
+                            <td>Marketing</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="3" onclick="openInlinePanel(3)" style="cursor: pointer;">
+                            <td>Bob Wilson</td>
+                            <td>bob.wilson@company.com</td>
+                            <td>Viewer</td>
+                            <td>Sales</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="4" onclick="openInlinePanel(4)" style="cursor: pointer;">
+                            <td>Alice Brown</td>
+                            <td>alice.brown@company.com</td>
+                            <td>Editor</td>
+                            <td>Design</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                        <tr data-id="5" onclick="openInlinePanel(5)" style="cursor: pointer;">
+                            <td>Charlie Davis</td>
+                            <td>charlie.davis@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="6" onclick="openInlinePanel(6)" style="cursor: pointer;">
+                            <td>Diana Evans</td>
+                            <td>diana.evans@company.com</td>
+                            <td>Viewer</td>
+                            <td>HR</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="7" onclick="openInlinePanel(7)" style="cursor: pointer;">
+                            <td>Edward Foster</td>
+                            <td>edward.foster@company.com</td>
+                            <td>Editor</td>
+                            <td>Content</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="8" onclick="openInlinePanel(8)" style="cursor: pointer;">
+                            <td>Fiona Garcia</td>
+                            <td>fiona.garcia@company.com</td>
+                            <td>Viewer</td>
+                            <td>Support</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right: Detail Panel -->
+            <div class="pa-detail-view__panel" id="inlineDetailPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="inlineDetailTitle">Select a row</h4>
+                        <button class="pa-detail-panel__close" onclick="closeInlinePanel()" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="inlineDetailBody">
+                        <p class="text-secondary">Click a table row to view details here.</p>
+                    </div>
+                    <div class="pa-detail-panel__footer">
+                        <button class="pa-btn pa-btn--primary pa-btn--sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="pa-btn pa-btn--outline-danger pa-btn--sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeInlinePanel()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     Section 2: Card Overlay
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Card Overlay</h3>
+        <p>Panel overlays the table within the card instead of pushing it aside. Combines inline sizing with overlay behavior.</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <!-- Backdrop -->
+            <div class="pa-detail-view__overlay" onclick="closeCardOverlayPanel()"></div>
+
+            <!-- Left: Table -->
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="cardOverlayTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-id="1" onclick="openCardOverlayPanel(1)" style="cursor: pointer;">
+                            <td>John Doe</td>
+                            <td>john.doe@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="2" onclick="openCardOverlayPanel(2)" style="cursor: pointer;">
+                            <td>Jane Smith</td>
+                            <td>jane.smith@company.com</td>
+                            <td>Editor</td>
+                            <td>Marketing</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="3" onclick="openCardOverlayPanel(3)" style="cursor: pointer;">
+                            <td>Bob Wilson</td>
+                            <td>bob.wilson@company.com</td>
+                            <td>Viewer</td>
+                            <td>Sales</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="4" onclick="openCardOverlayPanel(4)" style="cursor: pointer;">
+                            <td>Alice Brown</td>
+                            <td>alice.brown@company.com</td>
+                            <td>Editor</td>
+                            <td>Design</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                        <tr data-id="5" onclick="openCardOverlayPanel(5)" style="cursor: pointer;">
+                            <td>Charlie Davis</td>
+                            <td>charlie.davis@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="6" onclick="openCardOverlayPanel(6)" style="cursor: pointer;">
+                            <td>Diana Evans</td>
+                            <td>diana.evans@company.com</td>
+                            <td>Viewer</td>
+                            <td>HR</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="7" onclick="openCardOverlayPanel(7)" style="cursor: pointer;">
+                            <td>Edward Foster</td>
+                            <td>edward.foster@company.com</td>
+                            <td>Editor</td>
+                            <td>Content</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="8" onclick="openCardOverlayPanel(8)" style="cursor: pointer;">
+                            <td>Fiona Garcia</td>
+                            <td>fiona.garcia@company.com</td>
+                            <td>Viewer</td>
+                            <td>Support</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right: Detail Panel (overlays the table) -->
+            <div class="pa-detail-view__panel" id="cardOverlayPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="cardOverlayTitle">Select a row</h4>
+                        <button class="pa-detail-panel__close" onclick="closeCardOverlayPanel()" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="cardOverlayBody">
+                        <p class="text-secondary">Click a table row to view details here.</p>
+                    </div>
+                    <div class="pa-detail-panel__footer">
+                        <button class="pa-btn pa-btn--primary pa-btn--sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="pa-btn pa-btn--outline-danger pa-btn--sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeCardOverlayPanel()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     Section 3: Card Overlay (No Backdrop)
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Card Overlay — No Backdrop</h3>
+        <p>Panel stays open while you click rows. Simulates loading data from a server with a short delay.</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <!-- No backdrop element -->
+
+            <!-- Left: Table -->
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="noBackdropTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-id="1" onclick="selectDetailRow(1)" style="cursor: pointer;">
+                            <td>John Doe</td>
+                            <td>john.doe@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="2" onclick="selectDetailRow(2)" style="cursor: pointer;">
+                            <td>Jane Smith</td>
+                            <td>jane.smith@company.com</td>
+                            <td>Editor</td>
+                            <td>Marketing</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="3" onclick="selectDetailRow(3)" style="cursor: pointer;">
+                            <td>Bob Wilson</td>
+                            <td>bob.wilson@company.com</td>
+                            <td>Viewer</td>
+                            <td>Sales</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="4" onclick="selectDetailRow(4)" style="cursor: pointer;">
+                            <td>Alice Brown</td>
+                            <td>alice.brown@company.com</td>
+                            <td>Editor</td>
+                            <td>Design</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                        <tr data-id="5" onclick="selectDetailRow(5)" style="cursor: pointer;">
+                            <td>Charlie Davis</td>
+                            <td>charlie.davis@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="6" onclick="selectDetailRow(6)" style="cursor: pointer;">
+                            <td>Diana Evans</td>
+                            <td>diana.evans@company.com</td>
+                            <td>Viewer</td>
+                            <td>HR</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="7" onclick="selectDetailRow(7)" style="cursor: pointer;">
+                            <td>Edward Foster</td>
+                            <td>edward.foster@company.com</td>
+                            <td>Editor</td>
+                            <td>Content</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="8" onclick="selectDetailRow(8)" style="cursor: pointer;">
+                            <td>Fiona Garcia</td>
+                            <td>fiona.garcia@company.com</td>
+                            <td>Viewer</td>
+                            <td>Support</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right: Detail Panel (no backdrop, stays open) -->
+            <div class="pa-detail-view__panel" id="noBackdropPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="noBackdropTitle">Select a row</h4>
+                        <button class="pa-detail-panel__close" onclick="closeDetailRow()" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="noBackdropBody">
+                        <p class="text-secondary">Click a table row to view details here.</p>
+                    </div>
+                    <div class="pa-detail-panel__footer">
+                        <button class="pa-btn pa-btn--primary pa-btn--sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="pa-btn pa-btn--outline-danger pa-btn--sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeDetailRow()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     Section 4: Tabbed Detail Panel
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Tabbed Detail Panel</h3>
+        <p>Detail panel with tabs inside, like the profile panel. Click a row, then switch between Details, Activity and Notes.</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="tabbedTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-id="1" onclick="selectTabbedRow(1)" style="cursor: pointer;">
+                            <td>John Doe</td>
+                            <td>john.doe@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="2" onclick="selectTabbedRow(2)" style="cursor: pointer;">
+                            <td>Jane Smith</td>
+                            <td>jane.smith@company.com</td>
+                            <td>Editor</td>
+                            <td>Marketing</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="3" onclick="selectTabbedRow(3)" style="cursor: pointer;">
+                            <td>Bob Wilson</td>
+                            <td>bob.wilson@company.com</td>
+                            <td>Viewer</td>
+                            <td>Sales</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="4" onclick="selectTabbedRow(4)" style="cursor: pointer;">
+                            <td>Alice Brown</td>
+                            <td>alice.brown@company.com</td>
+                            <td>Editor</td>
+                            <td>Design</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                        <tr data-id="5" onclick="selectTabbedRow(5)" style="cursor: pointer;">
+                            <td>Charlie Davis</td>
+                            <td>charlie.davis@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="6" onclick="selectTabbedRow(6)" style="cursor: pointer;">
+                            <td>Diana Evans</td>
+                            <td>diana.evans@company.com</td>
+                            <td>Viewer</td>
+                            <td>HR</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="7" onclick="selectTabbedRow(7)" style="cursor: pointer;">
+                            <td>Edward Foster</td>
+                            <td>edward.foster@company.com</td>
+                            <td>Editor</td>
+                            <td>Content</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="8" onclick="selectTabbedRow(8)" style="cursor: pointer;">
+                            <td>Fiona Garcia</td>
+                            <td>fiona.garcia@company.com</td>
+                            <td>Viewer</td>
+                            <td>Support</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right: Tabbed Detail Panel -->
+            <div class="pa-detail-view__panel" id="tabbedPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="tabbedTitle">Select a row</h4>
+                        <button class="pa-detail-panel__close" onclick="closeTabbedRow()" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="pa-detail-panel__tabs">
+                        <div class="pa-tabs pa-tabs--full">
+                            <button class="pa-tabs__item pa-tabs__item--active" data-detail-tab="details" title="Details">
+                                <i class="fa-solid fa-user"></i>
+                                <span>Details</span>
+                            </button>
+                            <button class="pa-tabs__item" data-detail-tab="activity" title="Activity">
+                                <i class="fa-solid fa-clock"></i>
+                                <span>Activity</span>
+                            </button>
+                            <button class="pa-tabs__item" data-detail-tab="notes" title="Notes">
+                                <i class="fa-solid fa-sticky-note"></i>
+                                <span>Notes</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab Panels -->
+                    <div class="pa-detail-panel__body" id="tabbedBody">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" data-detail-panel="details" id="tabbedDetailsContent">
+                            <p class="text-secondary">Click a table row to view details here.</p>
+                        </div>
+                        <div class="pa-tabs__panel" data-detail-panel="activity" id="tabbedActivityContent">
+                            <p class="text-secondary">Select a row to see activity.</p>
+                        </div>
+                        <div class="pa-tabs__panel" data-detail-panel="notes" id="tabbedNotesContent">
+                            <p class="text-secondary">Select a row to see notes.</p>
+                        </div>
+                    </div>
+
+                    <div class="pa-detail-panel__footer">
+                        <button class="pa-btn pa-btn--primary pa-btn--sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="pa-btn pa-btn--outline-danger pa-btn--sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeTabbedRow()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     Section 5: Header Actions (no footer)
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Header Actions — No Footer</h3>
+        <p>Icon buttons live in the header next to the close button. No footer, like a compact card.</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="headerActionsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-id="1" onclick="selectHeaderActionsRow(1)" style="cursor: pointer;">
+                            <td>John Doe</td>
+                            <td>john.doe@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="2" onclick="selectHeaderActionsRow(2)" style="cursor: pointer;">
+                            <td>Jane Smith</td>
+                            <td>jane.smith@company.com</td>
+                            <td>Editor</td>
+                            <td>Marketing</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="3" onclick="selectHeaderActionsRow(3)" style="cursor: pointer;">
+                            <td>Bob Wilson</td>
+                            <td>bob.wilson@company.com</td>
+                            <td>Viewer</td>
+                            <td>Sales</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="4" onclick="selectHeaderActionsRow(4)" style="cursor: pointer;">
+                            <td>Alice Brown</td>
+                            <td>alice.brown@company.com</td>
+                            <td>Editor</td>
+                            <td>Design</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                        <tr data-id="5" onclick="selectHeaderActionsRow(5)" style="cursor: pointer;">
+                            <td>Charlie Davis</td>
+                            <td>charlie.davis@company.com</td>
+                            <td>Administrator</td>
+                            <td>Engineering</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="6" onclick="selectHeaderActionsRow(6)" style="cursor: pointer;">
+                            <td>Diana Evans</td>
+                            <td>diana.evans@company.com</td>
+                            <td>Viewer</td>
+                            <td>HR</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="7" onclick="selectHeaderActionsRow(7)" style="cursor: pointer;">
+                            <td>Edward Foster</td>
+                            <td>edward.foster@company.com</td>
+                            <td>Editor</td>
+                            <td>Content</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                        <tr data-id="8" onclick="selectHeaderActionsRow(8)" style="cursor: pointer;">
+                            <td>Fiona Garcia</td>
+                            <td>fiona.garcia@company.com</td>
+                            <td>Viewer</td>
+                            <td>Support</td>
+                            <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right: Detail Panel with header actions, no footer -->
+            <div class="pa-detail-view__panel" id="headerActionsPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="headerActionsTitle">Select a row</h4>
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--icon pa-btn--outline-primary pa-btn--xs" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="pa-btn pa-btn--icon pa-btn--outline-secondary pa-btn--xs" title="Bookmark">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                            <button class="pa-btn pa-btn--icon pa-btn--outline-danger pa-btn--xs" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <button class="pa-detail-panel__close" onclick="closeHeaderActionsRow()" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="headerActionsBody">
+                        <p class="text-secondary">Click a table row to view details here.</p>
+                    </div>
+                    <!-- No footer -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     Section 6: Web-Grid Integration
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Web-Grid Integration</h3>
+        <p>A <code>&lt;web-grid&gt;</code> drives the detail panel via <code>onrowfocus</code>. Click or arrow-navigate rows to open/update the panel.</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <!-- No backdrop — panel stays open while navigating rows -->
+
+            <!-- Left: Web-Grid -->
+            <div class="pa-detail-view__main">
+                <web-grid id="detail-grid"></web-grid>
+            </div>
+
+            <!-- Right: Detail Panel with header actions, no footer -->
+            <div class="pa-detail-view__panel" id="gridDetailPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="gridDetailTitle">Select a row</h4>
+                        <div class="pa-btn-group">
+                            <button class="pa-btn pa-btn--icon pa-btn--outline-primary pa-btn--xs" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="pa-btn pa-btn--icon pa-btn--outline-secondary pa-btn--xs" title="Bookmark">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                            <button class="pa-btn pa-btn--icon pa-btn--outline-danger pa-btn--xs" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <button class="pa-detail-panel__close" id="gridDetailClose" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="gridDetailBody">
+                        <p class="text-secondary">Click a grid row to view details here.</p>
+                    </div>
+                    <!-- No footer -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+customElements.whenDefined('web-grid').then(() => {
+    const grid = document.getElementById('detail-grid')
+    const panel = document.getElementById('gridDetailPanel')
+    const title = document.getElementById('gridDetailTitle')
+    const body = document.getElementById('gridDetailBody')
+    const closeBtn = document.getElementById('gridDetailClose')
+
+    if (!grid || !panel) return
+
+    // Column subset (read-only)
+    const columns = [
+        { field: 'id', title: 'ID', width: '70px', horizontalAlign: 'center' },
+        { field: 'name', title: 'Name', width: '140px' },
+        { field: 'department', title: 'Department', width: '120px' },
+        { field: 'salary', title: 'Salary', width: '100px', horizontalAlign: 'right', formatCallback: v => v != null ? `$${v.toLocaleString()}` : '' },
+        { field: 'status', title: 'Status', width: '100px' },
+        { field: 'location', title: 'Location', width: '120px' }
+    ]
+
+    // Inline sample data (self-contained — no dependency on data-grid page)
+    const gridData = [
+        { id: 1847, name: 'Alice Johnson', email: 'alice@example.com', department: 'Engineering', salary: 85000, startDate: '2020-03-15', status: 'Active', location: 'New York' },
+        { id: 1848, name: 'Bob Smith', email: 'bob@example.com', department: 'Marketing', salary: 72000, startDate: '2019-07-22', status: 'Active', location: 'Chicago' },
+        { id: 1849, name: 'Carol Williams', email: 'carol@example.com', department: 'Sales', salary: 91000, startDate: '2021-01-10', status: 'Inactive', location: 'Boston' },
+        { id: 1850, name: 'David Brown', email: 'david@example.com', department: 'Engineering', salary: 95000, startDate: '2018-11-05', status: 'Active', location: 'Seattle' },
+        { id: 1851, name: 'Eva Martinez', email: 'eva@example.com', department: 'Design', salary: 78000, startDate: '2022-04-18', status: 'Active', location: 'Austin' },
+        { id: 1852, name: 'Frank Davis', email: 'frank@example.com', department: 'HR', salary: 68000, startDate: '2020-09-30', status: 'Active', location: 'Denver' },
+        { id: 1853, name: 'Grace Lee', email: 'grace@example.com', department: 'Engineering', salary: 102000, startDate: '2017-06-12', status: 'Active', location: 'San Francisco' },
+        { id: 1854, name: 'Henry Wilson', email: 'henry@example.com', department: 'Support', salary: 62000, startDate: '2023-02-01', status: 'Active', location: 'Miami' },
+        { id: 1855, name: 'Iris Taylor', email: 'iris@example.com', department: 'Marketing', salary: 76000, startDate: '2021-08-20', status: 'Inactive', location: 'Portland' },
+        { id: 1856, name: 'Jack Anderson', email: 'jack@example.com', department: 'Sales', salary: 88000, startDate: '2019-12-03', status: 'Active', location: 'Dallas' }
+    ]
+
+    // Configure grid
+    grid.columns = columns
+    grid.items = [...gridData]
+    grid.isHoverable = true
+    grid.isRowNumbersVisible = true
+
+    // Track loading timer
+    let loadTimer = null
+
+    function openPanel(row) {
+        panel.classList.add('pa-detail-view__panel--open')
+
+        // Show spinner
+        title.textContent = 'Loading\u2026'
+        body.innerHTML =
+            '<div class="pa-loader-center" style="padding: 4rem 0;">' +
+                '<div class="pa-spinner"></div>' +
+            '</div>'
+
+        if (loadTimer) clearTimeout(loadTimer)
+
+        loadTimer = setTimeout(() => {
+            title.textContent = row.name
+            body.innerHTML = renderGridDetails(row)
+            loadTimer = null
+        }, 600)
+    }
+
+    function closePanel() {
+        if (loadTimer) {
+            clearTimeout(loadTimer)
+            loadTimer = null
+        }
+        panel.classList.remove('pa-detail-view__panel--open')
+    }
+
+    function renderGridDetails(row) {
+        const statusClass = row.status === 'Active' ? 'pa-badge--success' : 'pa-badge--secondary'
+        const initial = row.name ? row.name.charAt(0) : '?'
+        const salary = row.salary != null ? `$${row.salary.toLocaleString()}` : '\u2014'
+        const startDate = row.startDate || '\u2014'
+
+        return `
+            <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">
+                <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pa-accent-light); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pa-accent); flex-shrink: 0;">
+                    ${initial}
+                </div>
+                <div>
+                    <div style="font-weight: 600; font-size: 1.6rem; color: var(--pa-text-color-1);">${row.name}</div>
+                    <div style="color: var(--pa-text-color-2); font-size: 1.3rem;">${row.email || ''}</div>
+                </div>
+            </div>
+
+            <table class="pa-table pa-table--sm pa-table--borderless" style="margin-bottom: 0;">
+                <tbody>
+                    <tr>
+                        <td style="width: 40%; color: var(--pa-text-color-2); font-weight: 500;">ID</td>
+                        <td>${row.id}</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Department</td>
+                        <td>${row.department}</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Salary</td>
+                        <td>${salary}</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Start Date</td>
+                        <td>${startDate}</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Location</td>
+                        <td>${row.location}</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Status</td>
+                        <td><span class="pa-badge ${statusClass}">${row.status}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        `
+    }
+
+    // Wire up row focus event — fires with { rowIndex, row, previousRowIndex }
+    grid.onrowfocus = ({ row }) => {
+        openPanel(row)
+    }
+
+    // Close button
+    closeBtn.addEventListener('click', () => {
+        closePanel()
+    })
+
+    // Escape key (scoped — only if this panel is open)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel.classList.contains('pa-detail-view__panel--open')) {
+            closePanel()
+        }
+    })
+})
+</script>
+
+
+<!-- ============================================================
+     Section 7: Overlay Mode
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Overlay Mode</h3>
+        <p>Click a row to open an overlay panel that slides in from the right, like the profile panel.</p>
+    </div>
+    <div class="pa-card__body">
+        <table class="pa-table pa-table--hover pa-table--striped" id="overlayTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-id="1" onclick="openOverlayPanel(1)" style="cursor: pointer;">
+                    <td>John Doe</td>
+                    <td>john.doe@company.com</td>
+                    <td>Administrator</td>
+                    <td>Engineering</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr data-id="2" onclick="openOverlayPanel(2)" style="cursor: pointer;">
+                    <td>Jane Smith</td>
+                    <td>jane.smith@company.com</td>
+                    <td>Editor</td>
+                    <td>Marketing</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr data-id="3" onclick="openOverlayPanel(3)" style="cursor: pointer;">
+                    <td>Bob Wilson</td>
+                    <td>bob.wilson@company.com</td>
+                    <td>Viewer</td>
+                    <td>Sales</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr data-id="4" onclick="openOverlayPanel(4)" style="cursor: pointer;">
+                    <td>Alice Brown</td>
+                    <td>alice.brown@company.com</td>
+                    <td>Editor</td>
+                    <td>Design</td>
+                    <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                </tr>
+                <tr data-id="5" onclick="openOverlayPanel(5)" style="cursor: pointer;">
+                    <td>Charlie Davis</td>
+                    <td>charlie.davis@company.com</td>
+                    <td>Administrator</td>
+                    <td>Engineering</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr data-id="6" onclick="openOverlayPanel(6)" style="cursor: pointer;">
+                    <td>Diana Evans</td>
+                    <td>diana.evans@company.com</td>
+                    <td>Viewer</td>
+                    <td>HR</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr data-id="7" onclick="openOverlayPanel(7)" style="cursor: pointer;">
+                    <td>Edward Foster</td>
+                    <td>edward.foster@company.com</td>
+                    <td>Editor</td>
+                    <td>Content</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                </tr>
+                <tr data-id="8" onclick="openOverlayPanel(8)" style="cursor: pointer;">
+                    <td>Fiona Garcia</td>
+                    <td>fiona.garcia@company.com</td>
+                    <td>Viewer</td>
+                    <td>Support</td>
+                    <td><span class="pa-badge pa-badge--secondary">Inactive</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Overlay Detail Panel (fixed position, outside card) -->
+<div class="pa-detail-panel--overlay" id="overlayDetailPanel">
+    <div class="pa-detail-panel__overlay" onclick="closeOverlayPanel()"></div>
+    <div class="pa-detail-panel__content">
+        <div class="pa-detail-panel-resize"></div>
+        <div class="pa-detail-panel__header">
+            <h4 class="pa-detail-panel__title" id="overlayDetailTitle">Select a row</h4>
+            <button class="pa-detail-panel__close" onclick="closeOverlayPanel()" aria-label="Close panel">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="pa-detail-panel__body" id="overlayDetailBody">
+            <p class="text-secondary">Click a table row to view details here.</p>
+        </div>
+        <div class="pa-detail-panel__footer">
+            <button class="pa-btn pa-btn--primary pa-btn--sm">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="pa-btn pa-btn--outline-danger pa-btn--sm">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+            <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeOverlayPanel()">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     CSS Reference
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Reference</h3>
+    </div>
+    <div class="pa-card__body p-0">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.pa-detail-view</code></td>
+                    <td>Flex wrapper for inline split-view mode (table + panel side by side)</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-view__main</code></td>
+                    <td>Left side container (table area), <code>flex: 1</code></td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-view__panel</code></td>
+                    <td>Right side panel container, hidden by default (<code>width: 0</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-view__panel--open</code></td>
+                    <td>Shows the inline panel with configured width</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-view--overlay</code></td>
+                    <td>Card overlay modifier: panel overlays the table within the card instead of pushing it</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-view__overlay</code></td>
+                    <td>Backdrop overlay for card overlay mode (click to close)</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-view__overlay--visible</code></td>
+                    <td>Shows the card overlay backdrop</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel--overlay</code></td>
+                    <td>Full-screen overlay mode wrapper (fixed position, like profile panel)</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel--open</code></td>
+                    <td>Makes the overlay panel visible with slide-in transition</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel__content</code></td>
+                    <td>Panel content wrapper (flex column: header/body/footer)</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel__header</code></td>
+                    <td>Panel header with title and close button</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel__title</code></td>
+                    <td>Truncated panel title</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel__close</code></td>
+                    <td>Close button in header</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel__body</code></td>
+                    <td>Scrollable body area (<code>flex: 1; overflow-y: auto</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel__footer</code></td>
+                    <td>Fixed footer with action buttons</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel__overlay</code></td>
+                    <td>Backdrop overlay (overlay mode only, click to close)</td>
+                </tr>
+                <tr>
+                    <td><code>.pa-detail-panel-resize</code></td>
+                    <td>Drag handle on left edge of panel for resizing</td>
+                </tr>
+                <tr>
+                    <td><code>.is-selected</code></td>
+                    <td>Applied to <code>tr</code> elements to highlight the selected row</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>SCSS Variables</h3>
+    </div>
+    <div class="pa-card__body p-0">
+        <table class="pa-table pa-table--striped pa-table--sm">
+            <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>$detail-panel-width</code></td>
+                    <td><code>40rem</code></td>
+                    <td>Default panel width</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-min-width</code></td>
+                    <td><code>28rem</code></td>
+                    <td>Minimum panel width</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-max-width</code></td>
+                    <td><code>64rem</code></td>
+                    <td>Maximum panel width</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-mobile-width</code></td>
+                    <td><code>90vw</code></td>
+                    <td>Panel width on mobile (overlay mode)</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-overlay-bg</code></td>
+                    <td><code>rgba(0,0,0,0.3)</code></td>
+                    <td>Backdrop overlay background</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-z-index</code></td>
+                    <td><code>4500</code></td>
+                    <td>Z-index (below profile panel, above header)</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-shadow</code></td>
+                    <td><code>$shadow-profile-panel</code></td>
+                    <td>Box shadow for overlay mode</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-close-size</code></td>
+                    <td><code>3.2rem</code></td>
+                    <td>Close button size</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-resize-handle-width</code></td>
+                    <td><code>6px</code></td>
+                    <td>Width of the resize drag handle</td>
+                </tr>
+                <tr>
+                    <td><code>$detail-panel-selected-bg</code></td>
+                    <td><code>rgba($accent-color, 0.08)</code></td>
+                    <td>Background color of selected table rows</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Custom Properties</h3>
+    </div>
+    <div class="pa-card__body p-0">
+        <table class="pa-table pa-table--striped pa-table--sm">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>--pa-local-detail-panel-width</code></td>
+                    <td>Runtime panel width (set by JS resize handle). Default: <code>40rem</code></td>
+                </tr>
+                <tr>
+                    <td><code>--pa-local-detail-panel-max-width</code></td>
+                    <td>Runtime max width. Default: <code>64rem</code></td>
+                </tr>
+                <tr>
+                    <td><code>--pa-detail-panel-overlay-bg</code></td>
+                    <td>Backdrop overlay color (themeable via CSS variables)</td>
+                </tr>
+                <tr>
+                    <td><code>--pa-detail-panel-selected-bg</code></td>
+                    <td>Selected row highlight color (themeable via CSS variables)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
