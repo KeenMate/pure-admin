@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `--pa-local-detail-panel-max-width` — Max width (default `64rem`)
   - `--pa-detail-panel-overlay-bg` — Backdrop color
   - `--pa-detail-panel-selected-bg` — Selected row highlight color
+  - `--pa-detail-panel-z-index` — Z-index for overlay modes (default `4500`, overridable by apps)
 
 #### Detail Panel SCSS Variables
 - `$detail-panel-width: 40rem` — Default panel width
