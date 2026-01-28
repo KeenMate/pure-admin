@@ -1,0 +1,1195 @@
+<p>Read-only data display components for showing label-value pairs without form inputs. Useful for profile pages, detail views, order summaries, and anywhere you need to present structured data.</p>
+
+<!-- ============================================================
+     Row 1: Stacked (50%) | Multi-Column Grid (50%)
+     ============================================================ -->
+
+<div class="pa-row">
+    <div class="pa-col-1-2">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Multiple pa-fields Blocks</h3>
+                <p>Consecutive <code>pa-fields</code> blocks get automatic spacing via <code>.pa-fields + .pa-fields</code>.</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--row">
+                    <div class="pa-field">
+                        <span class="pa-field__label">First Name</span>
+                        <span class="pa-field__value">Elena</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Last Name</span>
+                        <span class="pa-field__value">Petrova</span>
+                    </div>
+                </div>
+                <div class="pa-fields pa-fields--cols-2">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Date of Birth</span>
+                        <span class="pa-field__value">14 March 1992</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Role</span>
+                        <span class="pa-field__value">Senior Developer</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Office</span>
+                        <span class="pa-field__value">Prague, Karlin</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Start Date</span>
+                        <span class="pa-field__value">1 Sep 2019</span>
+                    </div>
+                </div>
+                <div class="pa-fields">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Notes</span>
+                        <span class="pa-field__value">Team lead for the frontend platform team. Available for mentoring.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-1-2">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Multi-Column Grid</h3>
+                <p>Uses <code>pa-fields--cols-2/3/4</code>. Use <code>pa-field--full</code> to span all columns.</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--cols-2">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Company</span>
+                        <span class="pa-field__value">Acme Logistics</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Reg. No.</span>
+                        <span class="pa-field__value">CZ27082440</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Contact</span>
+                        <span class="pa-field__value">Jan Kratochvil</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Phone</span>
+                        <span class="pa-field__value">+420 234 567 890</span>
+                    </div>
+                    <div class="pa-field pa-field--full">
+                        <span class="pa-field__label">Notes</span>
+                        <span class="pa-field__value">Preferred carrier for Central European routes.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 2: Field Groups (100%)
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Field Groups</h3>
+        <p>Labeled sections using <code>pa-field-group</code> with <code>pa-field-group__title</code>.</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-row">
+            <div class="pa-col-1-3">
+                <div class="pa-field-group">
+                    <div class="pa-field-group__title">Personal</div>
+                    <div class="pa-fields">
+                        <div class="pa-field">
+                            <span class="pa-field__label">Full Name</span>
+                            <span class="pa-field__value">Petra Konecna</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">Date of Birth</span>
+                            <span class="pa-field__value">22 June 1990</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-3">
+                <div class="pa-field-group">
+                    <div class="pa-field-group__title">Employment</div>
+                    <div class="pa-fields">
+                        <div class="pa-field">
+                            <span class="pa-field__label">Position</span>
+                            <span class="pa-field__value">Product Manager</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">Department</span>
+                            <span class="pa-field__value">Product Dev</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-3">
+                <div class="pa-field-group">
+                    <div class="pa-field-group__title">Emergency Contact</div>
+                    <div class="pa-fields">
+                        <div class="pa-field">
+                            <span class="pa-field__label">Name</span>
+                            <span class="pa-field__value">Martin Konecny</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">Phone</span>
+                            <span class="pa-field__value">+420 777 888 999</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 3: Horizontal (1/3) | Table-Style (1/3) | Striped (1/3)
+     ============================================================ -->
+
+<div class="pa-row">
+    <div class="pa-col-1-3">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Horizontal</h3>
+                <p>Uses <code>pa-fields--horizontal</code>.</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--horizontal">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Company</span>
+                        <span class="pa-field__value">Acme Corp</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Reg. No.</span>
+                        <span class="pa-field__value">CZ12345678</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">VAT ID</span>
+                        <span class="pa-field__value">CZ12345678</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Industry</span>
+                        <span class="pa-field__value">Software</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-1-3">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Table-Style Bordered</h3>
+                <p>Uses <code>pa-fields--table pa-fields--bordered</code>.</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--table pa-fields--bordered">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Order ID</span>
+                        <span class="pa-field__value">#ORD-00847</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Status</span>
+                        <span class="pa-field__value"><span class="pa-badge pa-badge--success">Delivered</span></span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Payment</span>
+                        <span class="pa-field__value">Visa *4242</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Total</span>
+                        <span class="pa-field__value"><strong>$1,249</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-1-3">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Striped</h3>
+                <p>Uses <code>pa-fields--striped</code>.</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--striped">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Server</span>
+                        <span class="pa-field__value">prod-api-01</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">IP</span>
+                        <span class="pa-field__value">10.0.12.45</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">OS</span>
+                        <span class="pa-field__value">Ubuntu 22.04</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Memory</span>
+                        <span class="pa-field__value">16 GB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 4: Compact (25%) | Inline (25%) | Row (25%) | Relaxed (25%)
+     ============================================================ -->
+
+<div class="pa-row">
+    <div class="pa-col-1-4">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Compact</h3>
+                <p><code>pa-fields--compact</code></p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--compact">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Name</span>
+                        <span class="pa-field__value">Martin</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Role</span>
+                        <span class="pa-field__value">DevOps</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Team</span>
+                        <span class="pa-field__value">Infra</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-1-4">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Inline</h3>
+                <p><code>pa-fields--inline</code></p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--inline">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Browser</span>
+                        <span class="pa-field__value">Chrome</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">OS</span>
+                        <span class="pa-field__value">Win 11</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Lang</span>
+                        <span class="pa-field__value">en-US</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-1-4">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Row</h3>
+                <p><code>pa-fields--row</code></p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--row">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Width</span>
+                        <span class="pa-field__value">120cm</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Height</span>
+                        <span class="pa-field__value">80cm</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Depth</span>
+                        <span class="pa-field__value">60cm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-1-4">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Relaxed</h3>
+                <p><code>pa-fields--relaxed</code></p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--relaxed">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Name</span>
+                        <span class="pa-field__value">Elena</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Role</span>
+                        <span class="pa-field__value">Developer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 5: Filled (75%) | Form vs Display (25%)
+     ============================================================ -->
+
+<div class="pa-row">
+    <div class="pa-col-3-4">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Filled Fields</h3>
+                <p>Subtle background to distinguish data blocks. Uses <code>pa-fields--filled</code>.</p>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-row">
+                    <div class="pa-col-1-2">
+                        <div class="pa-fields pa-fields--filled">
+                            <div class="pa-field">
+                                <span class="pa-field__label">Contract No.</span>
+                                <span class="pa-field__value">CTR-2025-00194</span>
+                            </div>
+                            <div class="pa-field">
+                                <span class="pa-field__label">Type</span>
+                                <span class="pa-field__value">Framework Agreement</span>
+                            </div>
+                            <div class="pa-field">
+                                <span class="pa-field__label">Status</span>
+                                <span class="pa-field__value"><span class="pa-badge pa-badge--success">Active</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pa-col-1-2">
+                        <div class="pa-fields pa-fields--filled pa-fields--row">
+                            <div class="pa-field">
+                                <span class="pa-field__label">Plan</span>
+                                <span class="pa-field__value">Enterprise</span>
+                            </div>
+                            <div class="pa-field">
+                                <span class="pa-field__label">Renewal</span>
+                                <span class="pa-field__value">1 Jan 2027</span>
+                            </div>
+                            <div class="pa-field">
+                                <span class="pa-field__label">Seats</span>
+                                <span class="pa-field__value">48 / 50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-1-4">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Form vs Display</h3>
+            </div>
+            <div class="pa-card__body">
+                <h4>Edit</h4>
+                <div class="pa-form-group">
+                    <label class="pa-form-label">Name</label>
+                    <input type="text" class="pa-input" value="Tomas">
+                </div>
+                <h4>View</h4>
+                <div class="pa-fields">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Name</span>
+                        <span class="pa-field__value">Tomas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 6: Color Variants (100%)
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Color Variants</h3>
+        <p>Theme colors for border and filled background. Uses <code>pa-fields--color-{1-9}</code>. Combine with <code>pa-fields--filled</code> for tinted backgrounds. Use <code>pa-fields--no-border</code> to remove the border.</p>
+    </div>
+    <div class="pa-card__body">
+        <h4>Border Colors</h4>
+        <div class="pa-row">
+            <div class="pa-col-1-3">
+                <div class="pa-fields pa-fields--color-1">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Color 1</span>
+                        <span class="pa-field__value">Red / Primary</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-3">
+                <div class="pa-fields pa-fields--color-4">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Color 4</span>
+                        <span class="pa-field__value">Green / Success</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-3">
+                <div class="pa-fields pa-fields--color-7">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Color 7</span>
+                        <span class="pa-field__value">Blue / Info</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mt-4">Filled + Color (Tinted Background)</h4>
+        <div class="pa-row">
+            <div class="pa-col-1-3">
+                <div class="pa-fields pa-fields--filled pa-fields--color-1">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Status</span>
+                        <span class="pa-field__value"><span class="pa-badge pa-badge--danger">Error</span></span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Message</span>
+                        <span class="pa-field__value">Connection failed</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-3">
+                <div class="pa-fields pa-fields--filled pa-fields--color-4">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Status</span>
+                        <span class="pa-field__value"><span class="pa-badge pa-badge--success">Success</span></span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Message</span>
+                        <span class="pa-field__value">Order completed</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-3">
+                <div class="pa-fields pa-fields--filled pa-fields--color-3">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Status</span>
+                        <span class="pa-field__value"><span class="pa-badge pa-badge--warning">Warning</span></span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Message</span>
+                        <span class="pa-field__value">Low inventory</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mt-4">No Border</h4>
+        <div class="pa-row">
+            <div class="pa-col-1-2">
+                <div class="pa-fields pa-fields--no-border">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Name</span>
+                        <span class="pa-field__value">Elena Petrova</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Email</span>
+                        <span class="pa-field__value">elena@acme.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-2">
+                <div class="pa-fields pa-fields--filled pa-fields--no-border">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Name</span>
+                        <span class="pa-field__value">Elena Petrova</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Email</span>
+                        <span class="pa-field__value">elena@acme.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 7: Invoice Layout (100%)
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Real-World: Invoice Layout</h3>
+        <p>Customer (full width) + Receipt/Delivery addresses (50/50). Combines <code>pa-field-group</code> with <code>pa-row</code>/<code>pa-col-*</code>.</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Customer</div>
+            <div class="pa-fields pa-fields--cols-3">
+                <div class="pa-field">
+                    <span class="pa-field__label">Name</span>
+                    <span class="pa-field__value">Novak &amp; Partners s.r.o.</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Registration No.</span>
+                    <span class="pa-field__value">CZ48207497</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">VAT ID</span>
+                    <span class="pa-field__value">CZ48207497</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Contact</span>
+                    <span class="pa-field__value">Jan Novak</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Email</span>
+                    <span class="pa-field__value">jan.novak@novakpartners.cz</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Phone</span>
+                    <span class="pa-field__value">+420 234 111 222</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-row" style="margin-top: 2.4rem;">
+            <div class="pa-col-1-2">
+                <div class="pa-field-group">
+                    <div class="pa-field-group__title">Receipt Address</div>
+                    <div class="pa-fields pa-fields--filled">
+                        <div class="pa-field">
+                            <span class="pa-field__label">Street</span>
+                            <span class="pa-field__value">Vinohradska 2468/164</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">City</span>
+                            <span class="pa-field__value">Prague 3, 130 00</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">Country</span>
+                            <span class="pa-field__value">Czech Republic</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col-1-2">
+                <div class="pa-field-group">
+                    <div class="pa-field-group__title">Delivery Address</div>
+                    <div class="pa-fields pa-fields--filled">
+                        <div class="pa-field">
+                            <span class="pa-field__label">Street</span>
+                            <span class="pa-field__value">Prumyslova 1234/5</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">City</span>
+                            <span class="pa-field__value">Brno-Slatina, 627 00</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">Country</span>
+                            <span class="pa-field__value">Czech Republic</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-field-group" style="margin-top: 2.4rem;">
+            <div class="pa-field-group__title">Items</div>
+            <table class="pa-table pa-table--hover pa-table--striped">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>SKU</th>
+                        <th style="text-align: right;">Qty</th>
+                        <th style="text-align: right;">Price</th>
+                        <th style="text-align: right;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mechanical Keyboard</td>
+                        <td>KB-MX-BRN</td>
+                        <td style="text-align: right;">2</td>
+                        <td style="text-align: right;">$149</td>
+                        <td style="text-align: right;">$298</td>
+                    </tr>
+                    <tr>
+                        <td>27" 4K Monitor</td>
+                        <td>MON-27-4K</td>
+                        <td style="text-align: right;">4</td>
+                        <td style="text-align: right;">$449</td>
+                        <td style="text-align: right;">$1,796</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pa-fields pa-fields--horizontal" style="max-width: 25rem; margin-left: auto; margin-top: 1.2rem;">
+            <div class="pa-field">
+                <span class="pa-field__label">Subtotal</span>
+                <span class="pa-field__value" style="text-align: right;">$2,094</span>
+            </div>
+            <div class="pa-field">
+                <span class="pa-field__label">VAT 21%</span>
+                <span class="pa-field__value" style="text-align: right;">$439.74</span>
+            </div>
+            <div class="pa-field" style="border-top: 1px solid; padding-top: 0.8rem;">
+                <span class="pa-field__label" style="font-weight: 700;">Total</span>
+                <span class="pa-field__value" style="text-align: right; font-weight: 700; font-size: 1.6rem;">$2,533.74</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 7: User Profile (1/3) | CSS Reference (2/3)
+     ============================================================ -->
+
+<div class="pa-row">
+    <div class="pa-col-1-3">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>User Profile</h3>
+            </div>
+            <div class="pa-card__body">
+                <div style="text-align: center; margin-bottom: 1.6rem;">
+                    <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); margin: 0 auto 0.8rem; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem; font-weight: 600;">EP</div>
+                    <strong>Elena Petrova</strong><br>
+                    <span class="pa-badge pa-badge--success">Active</span>
+                </div>
+                <div class="pa-field-group">
+                    <div class="pa-field-group__title">Contact</div>
+                    <div class="pa-fields pa-fields--compact">
+                        <div class="pa-field">
+                            <span class="pa-field__label">Email</span>
+                            <span class="pa-field__value">elena@acme.com</span>
+                        </div>
+                        <div class="pa-field">
+                            <span class="pa-field__label">Phone</span>
+                            <span class="pa-field__value">+420 776 123 456</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-field-group">
+                    <div class="pa-field-group__title">Skills</div>
+                    <div class="pa-fields">
+                        <div class="pa-field">
+                            <span class="pa-field__value">
+                                <span class="pa-badge">TypeScript</span>
+                                <span class="pa-badge">React</span>
+                                <span class="pa-badge">Node.js</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-2-3">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>CSS Classes Reference</h3>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-row">
+                    <div class="pa-col-1-2">
+                        <h4>Field Elements</h4>
+                        <ul class="pa-list-basic pa-list-basic--compact">
+                            <li><code>pa-field</code> - Label-value pair</li>
+                            <li><code>pa-field__label</code> - Label element</li>
+                            <li><code>pa-field__value</code> - Value element</li>
+                            <li><code>pa-field--full</code> - Span all grid columns</li>
+                        </ul>
+
+                        <h4 class="mt-4">Container &amp; Groups</h4>
+                        <ul class="pa-list-basic pa-list-basic--compact">
+                            <li><code>pa-fields</code> - Field container</li>
+                            <li><code>pa-field-group</code> - Section wrapper</li>
+                            <li><code>pa-field-group__title</code> - Section title</li>
+                        </ul>
+
+                        <h4 class="mt-4">Grid Columns</h4>
+                        <ul class="pa-list-basic pa-list-basic--compact">
+                            <li><code>pa-fields--cols-2</code> - 2 columns</li>
+                            <li><code>pa-fields--cols-3</code> - 3 columns</li>
+                            <li><code>pa-fields--cols-4</code> - 4 columns</li>
+                        </ul>
+                    </div>
+                    <div class="pa-col-1-2">
+                        <h4>Layout Modifiers</h4>
+                        <ul class="pa-list-basic pa-list-basic--compact">
+                            <li><code>pa-fields--horizontal</code> - Label left, value right</li>
+                            <li><code>pa-fields--table</code> - Table-like widths</li>
+                            <li><code>pa-fields--bordered</code> - Row separators</li>
+                            <li><code>pa-fields--striped</code> - Alternating bg</li>
+                            <li><code>pa-fields--compact</code> - Tighter spacing</li>
+                            <li><code>pa-fields--relaxed</code> - Larger spacing</li>
+                            <li><code>pa-fields--inline</code> - Inline flow</li>
+                            <li><code>pa-fields--row</code> - Equal-width columns</li>
+                            <li><code>pa-fields--filled</code> - Background panel</li>
+                            <li><code>pa-fields--color-{1-9}</code> - Border color</li>
+                            <li><code>pa-fields--no-border</code> - Remove border</li>
+                        </ul>
+
+                        <h4 class="mt-4">Combining</h4>
+                        <ul class="pa-list-basic pa-list-basic--compact">
+                            <li><code>--table --bordered</code></li>
+                            <li><code>--horizontal --compact</code></li>
+                            <li><code>--filled --cols-2</code></li>
+                            <li><code>--filled --color-1</code> (tinted bg)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     Row 9: Detail Panel Integration (100%)
+     ============================================================ -->
+
+<!-- Load Detail Panel JS -->
+<script src="/src/js/detail-panel.js"></script>
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Detail Panel Integration</h3>
+        <p>Headerless detail panel with floating close button. Click a row to view order data using <code>pa-fields</code> components.</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <div class="pa-detail-view">
+            <!-- Left: Table -->
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="dataDisplayTable">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th style="text-align: right;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr onclick="showDataDisplayDetail(1)" data-order="1" style="cursor: pointer;">
+                            <td>#ORD-001</td>
+                            <td>Elena Petrova</td>
+                            <td>28 Jan 2026</td>
+                            <td><span class="pa-badge pa-badge--success">Delivered</span></td>
+                            <td style="text-align: right;">$1,249.00</td>
+                        </tr>
+                        <tr onclick="showDataDisplayDetail(2)" data-order="2" style="cursor: pointer;">
+                            <td>#ORD-002</td>
+                            <td>Jan Novak</td>
+                            <td>27 Jan 2026</td>
+                            <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                            <td style="text-align: right;">$2,847.50</td>
+                        </tr>
+                        <tr onclick="showDataDisplayDetail(3)" data-order="3" style="cursor: pointer;">
+                            <td>#ORD-003</td>
+                            <td>Martin Svoboda</td>
+                            <td>26 Jan 2026</td>
+                            <td><span class="pa-badge pa-badge--info">Processing</span></td>
+                            <td style="text-align: right;">$589.00</td>
+                        </tr>
+                        <tr onclick="showDataDisplayDetail(4)" data-order="4" style="cursor: pointer;">
+                            <td>#ORD-004</td>
+                            <td>Petra Konecna</td>
+                            <td>25 Jan 2026</td>
+                            <td><span class="pa-badge pa-badge--danger">Cancelled</span></td>
+                            <td style="text-align: right;">$3,120.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right: Detail Panel (headerless variant) -->
+            <div class="pa-detail-view__panel" id="dataDisplayPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <!-- No header - close button floats in body -->
+                    <div class="pa-detail-panel__body" id="dataDisplayBody" style="position: relative; padding-top: 1.2rem;">
+                        <button class="pa-detail-panel__close" onclick="closeDataDisplayPanel()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <p class="text-secondary">Click a table row to view order details here.</p>
+                    </div>
+                    <div class="pa-detail-panel__footer">
+                        <button class="pa-btn pa-btn--primary pa-btn--sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeDataDisplayPanel()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const orderData = {
+    1: {
+        id: '#ORD-001',
+        customer: 'Elena Petrova',
+        email: 'elena.petrova@example.com',
+        phone: '+420 776 123 456',
+        date: '28 January 2026',
+        status: '<span class="pa-badge pa-badge--success">Delivered</span>',
+        statusColor: '4',
+        total: '$1,249.00',
+        address: 'Vinohradska 2468/164, Prague 3, 130 00',
+        items: '2x Mechanical Keyboard, 1x USB-C Hub'
+    },
+    2: {
+        id: '#ORD-002',
+        customer: 'Jan Novak',
+        email: 'jan.novak@novakpartners.cz',
+        phone: '+420 234 111 222',
+        date: '27 January 2026',
+        status: '<span class="pa-badge pa-badge--warning">Pending</span>',
+        statusColor: '3',
+        total: '$2,847.50',
+        address: 'Revolucni 1082/8, Praha 1, 110 00',
+        items: '4x 27" Monitor, 2x Docking Station'
+    },
+    3: {
+        id: '#ORD-003',
+        customer: 'Martin Svoboda',
+        email: 'martin.s@company.com',
+        phone: '+420 602 345 678',
+        date: '26 January 2026',
+        status: '<span class="pa-badge pa-badge--info">Processing</span>',
+        statusColor: '7',
+        total: '$589.00',
+        address: 'Masarykova 123, Brno, 602 00',
+        items: '1x Ergonomic Chair'
+    },
+    4: {
+        id: '#ORD-004',
+        customer: 'Petra Konecna',
+        email: 'petra.k@email.cz',
+        phone: '+420 777 888 999',
+        date: '25 January 2026',
+        status: '<span class="pa-badge pa-badge--danger">Cancelled</span>',
+        statusColor: '1',
+        total: '$3,120.00',
+        address: 'Karlova 45, Prague 1, 110 00',
+        items: '2x Standing Desk, 2x Monitor Arm'
+    }
+};
+
+function showDataDisplayDetail(orderId) {
+    const order = orderData[orderId];
+    if (!order) return;
+
+    // Update body with pa-fields (includes floating close button)
+    document.getElementById('dataDisplayBody').innerHTML = `
+        <button class="pa-detail-panel__close" onclick="closeDataDisplayPanel()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Order Info</div>
+            <div class="pa-fields pa-fields--filled pa-fields--color-${order.statusColor}">
+                <div class="pa-field">
+                    <span class="pa-field__label">Order ID</span>
+                    <span class="pa-field__value">${order.id}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Date</span>
+                    <span class="pa-field__value">${order.date}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Status</span>
+                    <span class="pa-field__value">${order.status}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Total</span>
+                    <span class="pa-field__value"><strong>${order.total}</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Customer</div>
+            <div class="pa-fields">
+                <div class="pa-field">
+                    <span class="pa-field__label">Name</span>
+                    <span class="pa-field__value">${order.customer}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Email</span>
+                    <span class="pa-field__value">${order.email}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Phone</span>
+                    <span class="pa-field__value">${order.phone}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Shipping</div>
+            <div class="pa-fields">
+                <div class="pa-field">
+                    <span class="pa-field__label">Address</span>
+                    <span class="pa-field__value">${order.address}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Items</span>
+                    <span class="pa-field__value">${order.items}</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Show panel and highlight row
+    document.getElementById('dataDisplayPanel').classList.add('pa-detail-view__panel--open');
+    document.querySelectorAll('#dataDisplayTable tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+    document.querySelector(`#dataDisplayTable tr[data-order="${orderId}"]`).classList.add('is-selected');
+}
+
+function closeDataDisplayPanel() {
+    document.getElementById('dataDisplayPanel').classList.remove('pa-detail-view__panel--open');
+    document.querySelectorAll('#dataDisplayTable tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+}
+</script>
+
+<!-- ============================================================
+     Row 10: Full-Screen Overlay Panel (100%)
+     ============================================================ -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Full-Screen Overlay Panel</h3>
+        <p>Click a row to open a full-screen overlay panel (slides in from right, like profile panel).</p>
+    </div>
+    <div class="pa-card__body p-0">
+        <table class="pa-table pa-table--hover pa-table--striped" id="productTable">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th style="text-align: right;">Price</th>
+                    <th style="text-align: right;">Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr onclick="showProductOverlay(1)" data-product="1" style="cursor: pointer;">
+                    <td>KB-MX-001</td>
+                    <td>Mechanical Keyboard Pro</td>
+                    <td>Peripherals</td>
+                    <td style="text-align: right;">$149.00</td>
+                    <td style="text-align: right;">234</td>
+                </tr>
+                <tr onclick="showProductOverlay(2)" data-product="2" style="cursor: pointer;">
+                    <td>MON-4K-27</td>
+                    <td>27" 4K IPS Monitor</td>
+                    <td>Displays</td>
+                    <td style="text-align: right;">$449.00</td>
+                    <td style="text-align: right;">89</td>
+                </tr>
+                <tr onclick="showProductOverlay(3)" data-product="3" style="cursor: pointer;">
+                    <td>DSK-STD-01</td>
+                    <td>Standing Desk Frame</td>
+                    <td>Furniture</td>
+                    <td style="text-align: right;">$599.00</td>
+                    <td style="text-align: right;">42</td>
+                </tr>
+                <tr onclick="showProductOverlay(4)" data-product="4" style="cursor: pointer;">
+                    <td>CHR-ERG-X1</td>
+                    <td>Ergonomic Office Chair</td>
+                    <td>Furniture</td>
+                    <td style="text-align: right;">$389.00</td>
+                    <td style="text-align: right;">156</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Full-Screen Overlay Panel (outside card, fixed position) -->
+<div class="pa-detail-panel--overlay" id="productOverlayPanel">
+    <div class="pa-detail-panel__overlay" onclick="closeProductOverlay()"></div>
+    <div class="pa-detail-panel__content">
+        <div class="pa-detail-panel-resize"></div>
+        <!-- Headerless: close button in body -->
+        <div class="pa-detail-panel__body" id="productOverlayBody" style="position: relative;">
+            <button class="pa-detail-panel__close" onclick="closeProductOverlay()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
+                <i class="fas fa-times"></i>
+            </button>
+            <p class="text-secondary">Click a table row to view product details.</p>
+        </div>
+        <div class="pa-detail-panel__footer">
+            <button class="pa-btn pa-btn--primary pa-btn--sm">
+                <i class="fas fa-edit"></i> Edit Product
+            </button>
+            <button class="pa-btn pa-btn--outline-danger pa-btn--sm">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+            <button class="pa-btn pa-btn--secondary pa-btn--sm" style="margin-left: auto;" onclick="closeProductOverlay()">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+const productData = {
+    1: {
+        sku: 'KB-MX-001',
+        name: 'Mechanical Keyboard Pro',
+        category: 'Peripherals',
+        price: '$149.00',
+        stock: 234,
+        status: '<span class="pa-badge pa-badge--success">In Stock</span>',
+        description: 'Premium mechanical keyboard with Cherry MX Brown switches, RGB backlighting, and aluminum frame.',
+        supplier: 'TechParts GmbH',
+        supplierContact: 'orders@techparts.de',
+        weight: '1.2 kg',
+        dimensions: '44 x 14 x 4 cm',
+        warranty: '2 years'
+    },
+    2: {
+        sku: 'MON-4K-27',
+        name: '27" 4K IPS Monitor',
+        category: 'Displays',
+        price: '$449.00',
+        stock: 89,
+        status: '<span class="pa-badge pa-badge--success">In Stock</span>',
+        description: '27-inch 4K UHD IPS panel with 99% sRGB coverage, USB-C connectivity, and adjustable stand.',
+        supplier: 'DisplayTech Korea',
+        supplierContact: 'b2b@displaytech.kr',
+        weight: '6.8 kg',
+        dimensions: '61 x 45 x 20 cm',
+        warranty: '3 years'
+    },
+    3: {
+        sku: 'DSK-STD-01',
+        name: 'Standing Desk Frame',
+        category: 'Furniture',
+        price: '$599.00',
+        stock: 42,
+        status: '<span class="pa-badge pa-badge--warning">Low Stock</span>',
+        description: 'Electric height-adjustable desk frame with dual motors, memory presets, and anti-collision system.',
+        supplier: 'ErgoFurniture EU',
+        supplierContact: 'sales@ergofurniture.eu',
+        weight: '32 kg',
+        dimensions: '120-180 x 70 x 65-125 cm',
+        warranty: '5 years'
+    },
+    4: {
+        sku: 'CHR-ERG-X1',
+        name: 'Ergonomic Office Chair',
+        category: 'Furniture',
+        price: '$389.00',
+        stock: 156,
+        status: '<span class="pa-badge pa-badge--success">In Stock</span>',
+        description: 'Full mesh ergonomic chair with lumbar support, 4D armrests, and breathable headrest.',
+        supplier: 'ErgoFurniture EU',
+        supplierContact: 'sales@ergofurniture.eu',
+        weight: '18 kg',
+        dimensions: '70 x 70 x 115-125 cm',
+        warranty: '5 years'
+    }
+};
+
+function showProductOverlay(productId) {
+    const product = productData[productId];
+    if (!product) return;
+
+    document.getElementById('productOverlayBody').innerHTML = `
+        <button class="pa-detail-panel__close" onclick="closeProductOverlay()" aria-label="Close panel" style="position: absolute; top: 0.8rem; right: 0.8rem; z-index: 1;">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Product</div>
+            <div class="pa-fields pa-fields--filled">
+                <div class="pa-field">
+                    <span class="pa-field__label">SKU</span>
+                    <span class="pa-field__value"><code>${product.sku}</code></span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Name</span>
+                    <span class="pa-field__value"><strong>${product.name}</strong></span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Category</span>
+                    <span class="pa-field__value">${product.category}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Description</span>
+                    <span class="pa-field__value">${product.description}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Inventory</div>
+            <div class="pa-fields pa-fields--row">
+                <div class="pa-field">
+                    <span class="pa-field__label">Price</span>
+                    <span class="pa-field__value"><strong>${product.price}</strong></span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Stock</span>
+                    <span class="pa-field__value">${product.stock} units</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Status</span>
+                    <span class="pa-field__value">${product.status}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Specifications</div>
+            <div class="pa-fields pa-fields--cols-2">
+                <div class="pa-field">
+                    <span class="pa-field__label">Weight</span>
+                    <span class="pa-field__value">${product.weight}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Dimensions</span>
+                    <span class="pa-field__value">${product.dimensions}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Warranty</span>
+                    <span class="pa-field__value">${product.warranty}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Supplier</div>
+            <div class="pa-fields">
+                <div class="pa-field">
+                    <span class="pa-field__label">Name</span>
+                    <span class="pa-field__value">${product.supplier}</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Contact</span>
+                    <span class="pa-field__value">${product.supplierContact}</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Show overlay panel
+    document.getElementById('productOverlayPanel').classList.add('pa-detail-panel--open');
+
+    // Highlight row
+    document.querySelectorAll('#productTable tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+    document.querySelector(`#productTable tr[data-product="${productId}"]`).classList.add('is-selected');
+}
+
+function closeProductOverlay() {
+    document.getElementById('productOverlayPanel').classList.remove('pa-detail-panel--open');
+    document.querySelectorAll('#productTable tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+}
+</script>

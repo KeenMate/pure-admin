@@ -1,0 +1,256 @@
+/* ========================================
+   Data Display Components
+   Read-only label-value field pairs
+   ======================================== */
+@use '../variables' as *;
+
+// ============================================================================
+// SINGLE FIELD (.pa-field)
+// Default: stacked (label on top, value below)
+// ============================================================================
+
+.pa-field {
+  display: flex;
+  flex-direction: column;
+  gap: $field-gap;
+
+  &__label {
+    display: block;
+    font-size: $field-label-font-size;
+    font-weight: $field-label-font-weight;
+    opacity: $field-label-opacity;
+    line-height: $line-height-tight;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__value {
+    display: block;
+    font-size: $field-value-font-size;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-base;
+  }
+
+  // Full-width modifier (spans entire row in grid layouts)
+  &--full {
+    grid-column: 1 / -1;
+  }
+}
+
+// ============================================================================
+// FIELD GROUP (.pa-field-group)
+// Labeled section containing .pa-fields (e.g., "Customer", "Delivery Address")
+// ============================================================================
+
+.pa-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: $field-group-gap;
+
+  &__title {
+    font-size: $field-group-title-font-size;
+    font-weight: $field-group-title-font-weight;
+    line-height: $line-height-tight;
+    padding-bottom: $spacing-xs;
+    border-bottom: $border-width-thin solid $field-group-title-border-color;
+    margin: 0;
+  }
+}
+
+// Vertical spacing between consecutive field groups
+.pa-field-group + .pa-field-group {
+  margin-top: $field-group-spacing;
+}
+
+// Vertical spacing between consecutive pa-fields containers
+.pa-fields + .pa-fields {
+  margin-top: $field-group-spacing;
+}
+
+// ============================================================================
+// FIELD CONTAINER (.pa-fields)
+// Container for multiple .pa-field items
+// ============================================================================
+
+.pa-fields {
+  display: flex;
+  flex-direction: column;
+  gap: $fields-gap;
+  border-left: $fields-border-left;
+  padding-left: $fields-padding-left;
+
+  // ------------------------------------------------------------------
+  // GRID COLUMNS: multi-column layouts using CSS grid
+  // ------------------------------------------------------------------
+  &--cols-2,
+  &--cols-3,
+  &--cols-4 {
+    display: grid;
+    gap: $fields-cols-gap $fields-cols-gap;
+  }
+
+  &--cols-2 { grid-template-columns: repeat(2, 1fr); }
+  &--cols-3 { grid-template-columns: repeat(3, 1fr); }
+  &--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  @media (max-width: $mobile-breakpoint) {
+    &--cols-2,
+    &--cols-3,
+    &--cols-4 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // HORIZONTAL: label left, value right (side-by-side)
+  // ------------------------------------------------------------------
+  &--horizontal {
+    .pa-field {
+      flex-direction: row;
+      align-items: baseline;
+      gap: $spacing-base;
+    }
+
+    .pa-field__label {
+      flex: 0 0 auto;
+      min-width: 8rem;
+      max-width: 40%;
+    }
+
+    .pa-field__value {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // TABLE: consistent label widths, like a key-value table
+  // ------------------------------------------------------------------
+  &--table {
+    .pa-field {
+      flex-direction: row;
+      align-items: baseline;
+      gap: $spacing-base;
+    }
+
+    .pa-field__label {
+      flex: 0 0 auto;
+      min-width: 8rem;
+      max-width: 40%;
+    }
+
+    .pa-field__value {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // BORDERED: bottom border separator between fields
+  // ------------------------------------------------------------------
+  &--bordered {
+    .pa-field {
+      padding-bottom: $fields-bordered-padding;
+      border-bottom: $border-width-thin solid $fields-bordered-border-color;
+    }
+
+    .pa-field:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // STRIPED: alternating background rows
+  // ------------------------------------------------------------------
+  &--striped {
+    .pa-field:nth-child(odd) {
+      background: var(--pa-table-stripe);
+      padding: $fields-bordered-padding;
+      border-radius: $border-radius;
+    }
+
+    .pa-field:nth-child(even) {
+      padding: $fields-bordered-padding;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // COMPACT: tighter spacing
+  // ------------------------------------------------------------------
+  &--compact {
+    gap: $spacing-xs;
+
+    .pa-field {
+      gap: $spacing-xs;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // INLINE: multiple fields flowing on one line
+  // ------------------------------------------------------------------
+  &--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $spacing-base;
+
+    .pa-field {
+      flex: 0 0 auto;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // RELAXED: larger gap between fields
+  // ------------------------------------------------------------------
+  &--relaxed {
+    gap: $fields-relaxed-gap;
+  }
+
+  // ------------------------------------------------------------------
+  // ROW: equal-width columns (auto based on child count)
+  // ------------------------------------------------------------------
+  &--row {
+    flex-direction: row;
+
+    .pa-field {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width: $mobile-breakpoint) {
+      flex-direction: column;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // FILLED: subtle background panel
+  // ------------------------------------------------------------------
+  &--filled {
+    background: $fields-filled-bg;
+    padding: $fields-filled-padding;
+    border-radius: $border-radius;
+  }
+
+  // ------------------------------------------------------------------
+  // COLOR VARIANTS: theme colors for border and filled background
+  // Uses --pa-color-{1-9} CSS variables
+  // ------------------------------------------------------------------
+  @for $i from 1 through 9 {
+    &--color-#{$i} {
+      border-left-color: var(--pa-color-#{$i});
+
+      // When combined with --filled, tint the background
+      &.pa-fields--filled {
+        background: color-mix(in srgb, var(--pa-color-#{$i}) 10%, transparent);
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // NO BORDER: remove left border
+  // ------------------------------------------------------------------
+  &--no-border {
+    border-left: none;
+    padding-left: 0;
+  }
+}

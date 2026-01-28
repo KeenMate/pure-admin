@@ -5,6 +5,83 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-28
+
+### Added
+
+#### Data Display Component (New)
+- **New component**: `_data-display.scss` — Read-only label-value field pairs for displaying structured data without form inputs
+- **Core elements**:
+  - `.pa-field` — Single label-value pair (stacked by default: label on top, value below)
+  - `.pa-field__label` — Muted uppercase label with letter-spacing
+  - `.pa-field__value` — Normal text value
+  - `.pa-field--full` — Span full width in grid layouts
+- **Container** (`.pa-fields`):
+  - Flexbox column layout with left accent border
+  - Gap between fields for visual grouping
+  - Auto-spacing between consecutive `.pa-fields` blocks (`.pa-fields + .pa-fields`)
+- **Field groups** (`.pa-field-group`):
+  - Labeled sections with `__title` element (bordered bottom)
+  - Auto-spacing between consecutive groups
+
+#### Data Display Layout Modifiers
+- `.pa-fields--cols-2/3/4` — CSS grid multi-column layouts (responsive, collapses on mobile)
+- `.pa-fields--horizontal` — Label left, value right (side-by-side)
+- `.pa-fields--table` — Consistent label widths, table-like appearance
+- `.pa-fields--bordered` — Bottom border separators between fields
+- `.pa-fields--striped` — Alternating background rows (uses `var(--pa-table-stripe)`)
+- `.pa-fields--compact` — Tighter spacing
+- `.pa-fields--relaxed` — Larger gap between fields
+- `.pa-fields--inline` — Fields flow inline on one line
+- `.pa-fields--row` — Equal-width columns (auto column count based on children)
+- `.pa-fields--filled` — Subtle background panel for distinguishing data blocks
+
+#### Data Display Color Variants
+- `.pa-fields--color-{1-9}` — Theme color for left border (uses `--pa-color-{n}` CSS variables)
+- Combined with `--filled`: tints background 10% with the color using `color-mix()`
+- `.pa-fields--no-border` — Removes left border entirely
+
+#### Data Display SCSS Variables
+- `$field-label-font-size: $font-size-xs` — Label text size
+- `$field-label-font-weight: $font-weight-semibold` — Label weight
+- `$field-label-opacity: 0.55` — Label opacity (adapts to light/dark modes)
+- `$field-value-font-size: $font-size-sm` — Value text size
+- `$field-gap: $spacing-xs` — Gap between label and value within a field
+- `$field-horizontal-label-width: 14rem` — Label width in horizontal/table modes
+- `$fields-gap: $spacing-base` — Gap between consecutive fields
+- `$fields-relaxed-gap: $spacing-lg` — Gap for `--relaxed` modifier
+- `$fields-bordered-padding: $spacing-sm` — Padding for bordered/striped rows
+- `$fields-border-left: 3px solid $accent-color` — Left accent border
+- `$fields-padding-left: $spacing-base` — Left padding after border
+- `$fields-filled-bg: rgba(128, 128, 128, 0.06)` — Filled background color
+- `$fields-filled-padding: $spacing-base` — Filled variant padding
+- `$field-group-gap: $spacing-sm` — Gap within field groups
+- `$field-group-title-font-size: $font-size-sm` — Group title size
+- `$field-group-title-font-weight: $font-weight-semibold` — Group title weight
+- `$field-group-title-border-color: $border-color` — Group title underline
+- `$field-group-spacing: $spacing-lg` — Spacing between consecutive groups
+
+#### Data Display Demo Page
+- **New demo page**: `/data-display` with multiple sections:
+  1. **Multiple pa-fields Blocks** — Demonstrates auto-spacing between consecutive `.pa-fields` containers with different layouts (row, cols-2, stacked)
+  2. **Multi-Column Grid** — `pa-fields--cols-2/3/4` with `pa-field--full` spanning
+  3. **Field Groups** — Three groups in 1/3 columns (Personal, Employment, Emergency Contact)
+  4. **Horizontal** | **Table-Style Bordered** | **Striped** — 1/3 each
+  5. **Compact** | **Inline** | **Row** | **Relaxed** — 25% each
+  6. **Filled Fields** (75%) | **Form vs Display** comparison (25%)
+  7. **Color Variants** — Border colors, filled+color tints, no-border
+  8. **Invoice Layout** — Real-world example with Customer, Receipt/Delivery addresses, items table, totals
+  9. **User Profile** (1/3) | **CSS Reference** (2/3)
+  10. **Detail Panel Integration (Inline)** — Headerless side panel with floating close button, orders table
+  11. **Detail Panel Integration (Full-Screen Overlay)** — Products table with full-screen overlay panel
+- Varied column layouts demonstrating grid system (50/50, 1/3 1/3 1/3, 25/25/25/25, 75/25, 1/3+2/3)
+- Detail panel examples show headerless variant with floating X close button
+
+#### Sidebar Navigation
+- Added "Data Display" link in Components submenu with 👁️ icon
+
+---
+
 ## [1.2.0] - 2026-01-26
 
 ### Added

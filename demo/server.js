@@ -297,6 +297,10 @@ app.get('/detail-panel', (req, res) => {
     renderWithLayout(res, 'detail-panel', { pageTitle: 'Detail Panel', currentPage: 'detail-panel', isDetailPanel: true });
 });
 
+app.get('/data-display', (req, res) => {
+    renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
+});
+
 // Serve static files with cache headers (after routes so EJS takes precedence)
 
 // Theme CSS files from separate theme packages
