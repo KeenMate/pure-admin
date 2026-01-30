@@ -173,6 +173,8 @@ $grid-columns-fractions: (
       .pa-col-#{$bp}-#{$size} {
         flex: 0 0 math.percentage(math.div($size, 100));
         max-width: math.percentage(math.div($size, 100));
+        padding-left: $grid-gutter;
+        padding-right: $grid-gutter;
         min-width: 0; // Prevent content overflow
       }
     }
@@ -182,6 +184,8 @@ $grid-columns-fractions: (
       .pa-col-#{$bp}-#{$name} {
         flex: 0 0 $width;
         max-width: $width;
+        padding-left: $grid-gutter;
+        padding-right: $grid-gutter;
         min-width: 0; // Prevent content overflow
       }
     }

@@ -35,6 +35,97 @@
   &--full {
     grid-column: 1 / -1;
   }
+
+  // ------------------------------------------------------------------
+  // COPYABLE: copy value to clipboard
+  // ------------------------------------------------------------------
+
+  // Copy button always visible
+  &--copy-btn {
+    .pa-field__value {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+    }
+
+    .pa-field__copy {
+      flex-shrink: 0;
+      padding: 0.4rem;
+      background: transparent;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.15s, background 0.15s;
+
+      &:hover {
+        opacity: 1;
+        background: rgba(128, 128, 128, 0.1);
+      }
+    }
+  }
+
+  // Click value to copy
+  &--copy-click {
+    .pa-field__value {
+      cursor: pointer;
+      transition: opacity 0.15s;
+
+      &:hover {
+        opacity: 0.7;
+      }
+
+      &::after {
+        content: 'Click to copy';
+        font-size: $font-size-2xs;
+        opacity: 0;
+        margin-left: $spacing-sm;
+        transition: opacity 0.15s;
+      }
+
+      &:hover::after {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  // Copy icon on hover only
+  &--copy-hover {
+    .pa-field__value {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+    }
+
+    .pa-field__copy {
+      flex-shrink: 0;
+      padding: 0.4rem;
+      background: transparent;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s, background 0.15s;
+    }
+
+    &:hover .pa-field__copy {
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+        background: rgba(128, 128, 128, 0.1);
+      }
+    }
+  }
+
+  // Copied feedback state
+  &--copied {
+    .pa-field__value::after {
+      content: 'Copied!' !important;
+      opacity: 1 !important;
+      color: var(--pa-color-4, #28a745);
+    }
+  }
 }
 
 // ============================================================================

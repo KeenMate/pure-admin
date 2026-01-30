@@ -546,6 +546,872 @@
                 </div>
             </div>
 
+<!-- Panel Tables -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Panel Tables</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-4">Tables with card-like visual containment using the <code>--panel</code> modifier. Use when tables need to stand alongside cards without being wrapped in one.</p>
+
+        <h4>Basic Panel Table (no header)</h4>
+        <div class="pa-table-container pa-table-container--panel">
+            <table class="pa-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>SKU</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wireless Keyboard</td>
+                        <td>WK-2024</td>
+                        <td>$79.99</td>
+                        <td>45</td>
+                    </tr>
+                    <tr>
+                        <td>USB-C Hub</td>
+                        <td>HUB-7P</td>
+                        <td>$49.99</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>Monitor Stand</td>
+                        <td>MS-ADJ</td>
+                        <td>$129.99</td>
+                        <td>28</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Panel Table with Header</h4>
+        <div class="pa-table-container pa-table-container--panel">
+            <div class="pa-table-container__header">
+                <h3 class="pa-table-container__title">Recent Orders</h3>
+                <div class="pa-table-container__actions">
+                    <button class="pa-btn pa-btn--sm pa-btn--secondary">Export</button>
+                    <button class="pa-btn pa-btn--sm pa-btn--primary">Add Order</button>
+                </div>
+            </div>
+            <table class="pa-table pa-table--striped">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ORD-1001</td>
+                        <td>Alice Johnson</td>
+                        <td>2024-01-28</td>
+                        <td>$234.50</td>
+                        <td><span class="pa-badge pa-badge--success">Shipped</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-1002</td>
+                        <td>Bob Williams</td>
+                        <td>2024-01-27</td>
+                        <td>$89.00</td>
+                        <td><span class="pa-badge pa-badge--warning">Processing</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-1003</td>
+                        <td>Carol Davis</td>
+                        <td>2024-01-27</td>
+                        <td>$567.25</td>
+                        <td><span class="pa-badge pa-badge--success">Delivered</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-1004</td>
+                        <td>David Miller</td>
+                        <td>2024-01-26</td>
+                        <td>$145.00</td>
+                        <td><span class="pa-badge pa-badge--danger">Cancelled</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Panel Tables in Grid (75/25 split)</h4>
+        <p class="mb-4">Panel tables work inside <code>pa-row</code>/<code>pa-col</code> grid just like cards.</p>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-md-75">
+        <div class="pa-table-container pa-table-container--panel">
+            <div class="pa-table-container__header">
+                <h3 class="pa-table-container__title">Activity Log (75%)</h3>
+            </div>
+            <table class="pa-table pa-table--sm">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10:45 AM</td>
+                        <td>admin</td>
+                        <td>Updated product pricing</td>
+                    </tr>
+                    <tr>
+                        <td>10:32 AM</td>
+                        <td>john.doe</td>
+                        <td>Created new order #1005</td>
+                    </tr>
+                    <tr>
+                        <td>10:15 AM</td>
+                        <td>admin</td>
+                        <td>Approved refund request</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="pa-col-md-25">
+        <div class="pa-table-container pa-table-container--panel">
+            <div class="pa-table-container__header">
+                <h3 class="pa-table-container__title">Stats (25%)</h3>
+            </div>
+            <table class="pa-table pa-table--sm">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Orders</td>
+                        <td>156</td>
+                    </tr>
+                    <tr>
+                        <td>Revenue</td>
+                        <td>$12.4k</td>
+                    </tr>
+                    <tr>
+                        <td>Refunds</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Table Cards -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Table Cards</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-4">The <code>pa-table-card</code> component is a card specifically designed for tables. It includes header, body (for the table), footer, and color variants like regular cards.</p>
+
+        <h4>Basic Table Card with Actions</h4>
+    </div>
+</div>
+
+<div class="pa-table-card">
+    <div class="pa-table-card__header">
+        <h3>Recent Orders</h3>
+        <div class="pa-table-card__actions">
+            <button class="pa-btn pa-btn--sm pa-btn--secondary">Export</button>
+            <button class="pa-btn pa-btn--sm pa-btn--primary">Add Order</button>
+        </div>
+    </div>
+    <div class="pa-table-card__body">
+        <table class="pa-table pa-table--striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#1001</td>
+                    <td>John Smith</td>
+                    <td>2024-01-28</td>
+                    <td>$250.00</td>
+                    <td><span class="pa-badge pa-badge--success">Completed</span></td>
+                </tr>
+                <tr>
+                    <td>#1002</td>
+                    <td>Jane Doe</td>
+                    <td>2024-01-27</td>
+                    <td>$180.00</td>
+                    <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                </tr>
+                <tr>
+                    <td>#1003</td>
+                    <td>Bob Wilson</td>
+                    <td>2024-01-26</td>
+                    <td>$320.00</td>
+                    <td><span class="pa-badge pa-badge--success">Completed</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pa-table-card__footer">
+        <span>Showing 3 of 156 orders</span>
+        <button class="pa-btn pa-btn--sm pa-btn--secondary">View All</button>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body">
+        <h4>Color Variants</h4>
+        <p class="mb-4">Table cards support the same color variants as regular cards: <code>--primary</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>, and theme colors <code>--color-1</code> through <code>--color-9</code>.</p>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--primary">
+            <div class="pa-table-card__header">
+                <h3>Primary Table Card</h3>
+                <div class="pa-table-card__actions">
+                    <button class="pa-btn pa-btn--sm pa-btn--light">Refresh</button>
+                </div>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--sm">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alice</td>
+                            <td>Admin</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>Bob</td>
+                            <td>Editor</td>
+                            <td>Active</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--success">
+            <div class="pa-table-card__header">
+                <h3>Success Table Card</h3>
+                <div class="pa-table-card__actions">
+                    <button class="pa-btn pa-btn--sm pa-btn--light">Export</button>
+                </div>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--sm">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Database backup</td>
+                            <td>10:00 AM</td>
+                        </tr>
+                        <tr>
+                            <td>Cache cleared</td>
+                            <td>10:15 AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--warning">
+            <div class="pa-table-card__header">
+                <h3>Warning Table Card</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--sm">
+                    <thead>
+                        <tr>
+                            <th>Alert</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>High CPU usage</td>
+                            <td>2 min ago</td>
+                        </tr>
+                        <tr>
+                            <td>Low disk space</td>
+                            <td>5 min ago</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--danger">
+            <div class="pa-table-card__header">
+                <h3>Danger Table Card</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--sm">
+                    <thead>
+                        <tr>
+                            <th>Error</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Connection timeout</td>
+                            <td>23</td>
+                        </tr>
+                        <tr>
+                            <td>Auth failure</td>
+                            <td>7</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__body">
+        <h4>Table Card with Web Grid</h4>
+        <p class="mb-4">The <code>pa-table-card</code> also works with the <code>web-grid</code> component. The grid automatically inherits Pure Admin theming via CSS variables.</p>
+    </div>
+</div>
+
+<div class="pa-table-card pa-table-card--primary">
+    <div class="pa-table-card__header">
+        <h3>Employee Directory</h3>
+        <div class="pa-table-card__actions">
+            <button class="pa-btn pa-btn--sm pa-btn--light" onclick="document.getElementById('table-card-grid').items = [...document.getElementById('table-card-grid').items]">Refresh</button>
+            <button class="pa-btn pa-btn--sm pa-btn--light">Export</button>
+            <button class="pa-btn pa-btn--sm pa-btn--light">Add Employee</button>
+        </div>
+    </div>
+    <div class="pa-table-card__body">
+        <web-grid id="table-card-grid"></web-grid>
+    </div>
+</div>
+
+<script type="module">
+customElements.whenDefined('web-grid').then(() => {
+    const grid = document.getElementById('table-card-grid')
+
+    const departments = ['Engineering', 'Marketing', 'Sales', 'HR', 'Finance']
+    const statuses = ['Active', 'Active', 'Active', 'On Leave', 'Inactive'] // Weighted towards Active
+
+    // Generate 25 employees for paging demo
+    const employees = []
+    const names = ['Alice Johnson', 'Bob Smith', 'Carol Williams', 'David Brown', 'Eva Martinez',
+                   'Frank Lee', 'Grace Kim', 'Henry Chen', 'Ivy Wang', 'Jack Davis',
+                   'Karen Wilson', 'Leo Garcia', 'Maria Lopez', 'Nathan Park', 'Olivia Scott',
+                   'Peter Adams', 'Quinn Murphy', 'Rachel Green', 'Steve Rogers', 'Tina Turner',
+                   'Uma Patel', 'Victor Hugo', 'Wendy Wu', 'Xavier Bell', 'Yuki Tanaka']
+    for (let i = 0; i < 25; i++) {
+        employees.push({
+            id: 1001 + i,
+            name: names[i],
+            department: departments[i % departments.length],
+            salary: 55000 + Math.floor(Math.random() * 50000),
+            status: statuses[i % statuses.length]
+        })
+    }
+
+    grid.columns = [
+        { field: 'id', title: 'ID', width: '70px', horizontalAlign: 'center' },
+        { field: 'name', title: 'Name', width: '150px' },
+        { field: 'department', title: 'Department', width: '120px' },
+        { field: 'salary', title: 'Salary', width: '100px', horizontalAlign: 'right', formatCallback: v => `$${v.toLocaleString()}` },
+        { field: 'status', title: 'Status', width: '100px' }
+    ]
+    grid.items = employees
+    grid.isStriped = true
+    grid.isHoverable = true
+    grid.sortMode = 'single'
+    grid.isRowNumbersVisible = true
+
+    // Paging
+    grid.isPageable = true
+    grid.pageSize = 5
+    grid.pageSizes = [5, 10, 25]
+    grid.paginationPosition = 'top-right|bottom-right'
+    grid.paginationLayout = 'first|previous|pageInfo|next|last|pageSize'
+
+    // Summary on bottom-left
+    grid.summaryPosition = 'bottom-left'
+    grid.summaryContentCallback = ({ allItems }) => {
+        const totalSalary = allItems.reduce((sum, e) => sum + e.salary, 0)
+        return `<strong>${allItems.length}</strong> employees | Total: <strong>$${totalSalary.toLocaleString()}</strong>`
+    }
+})
+</script>
+
+<div class="pa-card">
+    <div class="pa-card__body">
+        <h4>Plain Table Cards</h4>
+        <p class="mb-4">Use <code>pa-table-card--plain</code> to remove the card visual styling (border, shadow, background) while keeping grid behavior. Tables work side by side with proper gaps.</p>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3>Sales by Region</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--striped">
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Q1</th>
+                            <th>Q2</th>
+                            <th>Q3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>North</td>
+                            <td>$45,000</td>
+                            <td>$52,000</td>
+                            <td>$48,000</td>
+                        </tr>
+                        <tr>
+                            <td>South</td>
+                            <td>$38,000</td>
+                            <td>$41,000</td>
+                            <td>$44,000</td>
+                        </tr>
+                        <tr>
+                            <td>East</td>
+                            <td>$62,000</td>
+                            <td>$58,000</td>
+                            <td>$65,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3>Top Products</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--striped">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Units</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Widget Pro</td>
+                            <td>1,245</td>
+                            <td>$124,500</td>
+                        </tr>
+                        <tr>
+                            <td>Gadget Plus</td>
+                            <td>892</td>
+                            <td>$89,200</td>
+                        </tr>
+                        <tr>
+                            <td>Tool Master</td>
+                            <td>567</td>
+                            <td>$56,700</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3>Bordered Table</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--bordered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Widget A</td>
+                            <td>10</td>
+                            <td>$25.00</td>
+                            <td>$250.00</td>
+                        </tr>
+                        <tr>
+                            <td>Widget B</td>
+                            <td>5</td>
+                            <td>$45.00</td>
+                            <td>$225.00</td>
+                        </tr>
+                        <tr>
+                            <td>Widget C</td>
+                            <td>8</td>
+                            <td>$30.00</td>
+                            <td>$240.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3>Bordered + Striped</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--bordered pa-table--striped">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Employees</th>
+                            <th>Budget</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Engineering</td>
+                            <td>45</td>
+                            <td>$2.5M</td>
+                        </tr>
+                        <tr>
+                            <td>Marketing</td>
+                            <td>22</td>
+                            <td>$1.2M</td>
+                        </tr>
+                        <tr>
+                            <td>Sales</td>
+                            <td>38</td>
+                            <td>$1.8M</td>
+                        </tr>
+                        <tr>
+                            <td>HR</td>
+                            <td>12</td>
+                            <td>$0.6M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3 class="pa-table-card__title">Plain Table with Pagers</h3>
+                <div class="pa-table-card__actions">
+                    <div class="pa-pager pa-pager--right">
+                        <div class="pa-pager__container">
+                            <span class="pa-pager__text">Showing 1-10 of 156</span>
+                            <div class="pa-pager__controls">
+                                <button class="pa-btn pa-btn--sm" disabled>‹</button>
+                                <button class="pa-btn pa-btn--sm">›</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-table-card__body">
+                <table class="pa-table pa-table--bordered pa-table--striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1001</td>
+                            <td>John Smith</td>
+                            <td>2026-01-15</td>
+                            <td><span class="pa-badge pa-badge--success">Completed</span></td>
+                            <td>$245.00</td>
+                        </tr>
+                        <tr>
+                            <td>#1002</td>
+                            <td>Jane Doe</td>
+                            <td>2026-01-16</td>
+                            <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                            <td>$189.50</td>
+                        </tr>
+                        <tr>
+                            <td>#1003</td>
+                            <td>Bob Wilson</td>
+                            <td>2026-01-17</td>
+                            <td><span class="pa-badge pa-badge--success">Completed</span></td>
+                            <td>$312.75</td>
+                        </tr>
+                        <tr>
+                            <td>#1004</td>
+                            <td>Alice Brown</td>
+                            <td>2026-01-18</td>
+                            <td><span class="pa-badge pa-badge--danger">Cancelled</span></td>
+                            <td>$78.00</td>
+                        </tr>
+                        <tr>
+                            <td>#1005</td>
+                            <td>Charlie Davis</td>
+                            <td>2026-01-19</td>
+                            <td><span class="pa-badge pa-badge--success">Completed</span></td>
+                            <td>$456.25</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pa-table-card__footer">
+                <div class="pa-pager">
+                    <div class="pa-pager__container">
+                        <div class="pa-pager__controls">
+                            <button class="pa-btn pa-btn--sm" disabled>‹</button>
+                        </div>
+                        <div class="pa-pager__info">
+                            <span class="pa-pager__text">Page</span>
+                            <input type="number" class="pa-input pa-input--sm pa-pager__input" value="1" min="1" max="16">
+                            <span class="pa-pager__text">of 16</span>
+                        </div>
+                        <div class="pa-pager__controls">
+                            <button class="pa-btn pa-btn--sm">›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3 class="pa-table-card__title">Plain Table Card with Web Grid</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <web-grid id="plain-table-card-grid"></web-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+customElements.whenDefined('web-grid').then(() => {
+    const grid = document.getElementById('plain-table-card-grid')
+
+    const products = [
+        { sku: 'PRD-001', name: 'Wireless Mouse', category: 'Electronics', price: 29.99, stock: 145 },
+        { sku: 'PRD-002', name: 'USB-C Hub', category: 'Electronics', price: 49.99, stock: 78 },
+        { sku: 'PRD-003', name: 'Mechanical Keyboard', category: 'Electronics', price: 129.99, stock: 32 },
+        { sku: 'PRD-004', name: 'Monitor Stand', category: 'Accessories', price: 39.99, stock: 56 },
+        { sku: 'PRD-005', name: 'Webcam HD', category: 'Electronics', price: 79.99, stock: 23 },
+        { sku: 'PRD-006', name: 'Desk Lamp', category: 'Accessories', price: 34.99, stock: 89 },
+        { sku: 'PRD-007', name: 'Cable Organizer', category: 'Accessories', price: 12.99, stock: 234 },
+        { sku: 'PRD-008', name: 'Laptop Stand', category: 'Accessories', price: 59.99, stock: 67 },
+        { sku: 'PRD-009', name: 'Bluetooth Speaker', category: 'Electronics', price: 89.99, stock: 41 },
+        { sku: 'PRD-010', name: 'Mouse Pad XL', category: 'Accessories', price: 19.99, stock: 156 },
+        { sku: 'PRD-011', name: 'Headphone Stand', category: 'Accessories', price: 24.99, stock: 92 },
+        { sku: 'PRD-012', name: 'USB Microphone', category: 'Electronics', price: 69.99, stock: 38 }
+    ]
+
+    grid.columns = [
+        { field: 'sku', title: 'SKU', width: '100px' },
+        { field: 'name', title: 'Product Name', width: '180px' },
+        { field: 'category', title: 'Category', width: '120px' },
+        { field: 'price', title: 'Price', width: '90px', horizontalAlign: 'right', formatCallback: v => `$${v.toFixed(2)}` },
+        { field: 'stock', title: 'In Stock', width: '90px', horizontalAlign: 'right' }
+    ]
+    grid.items = products
+    grid.isStriped = true
+    grid.isHoverable = true
+    grid.sortMode = 'single'
+
+    // Paging
+    grid.isPageable = true
+    grid.pageSize = 5
+    grid.pageSizes = [5, 10]
+    grid.paginationPosition = 'bottom-right'
+    grid.paginationLayout = 'first|previous|pageInfo|next|last'
+})
+</script>
+
+<!-- Real-World Example: Order Detail Layout -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Real-World Example: Order Detail Layout</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-4">Cards and panel tables side by side - all with consistent visual treatment.</p>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-md-50">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Customer Information</h3>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--horizontal">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Name</span>
+                        <span class="pa-field__value">John Smith</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Email</span>
+                        <span class="pa-field__value">john.smith@example.com</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Phone</span>
+                        <span class="pa-field__value">+1 (555) 123-4567</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Customer Since</span>
+                        <span class="pa-field__value">March 2021</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-md-50">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h3>Delivery Details</h3>
+            </div>
+            <div class="pa-card__body">
+                <div class="pa-fields pa-fields--horizontal">
+                    <div class="pa-field">
+                        <span class="pa-field__label">Address</span>
+                        <span class="pa-field__value">123 Main Street, Apt 4B</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">City</span>
+                        <span class="pa-field__value">New York, NY 10001</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Delivery Method</span>
+                        <span class="pa-field__value">Express Shipping</span>
+                    </div>
+                    <div class="pa-field">
+                        <span class="pa-field__label">Est. Delivery</span>
+                        <span class="pa-field__value">Jan 30, 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col">
+        <div class="pa-table-container pa-table-container--panel">
+            <div class="pa-table-container__header">
+                <h3 class="pa-table-container__title">Order Items</h3>
+            </div>
+            <table class="pa-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>SKU</th>
+                        <th class="text-right">Qty</th>
+                        <th class="text-right">Unit Price</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wireless Bluetooth Headphones</td>
+                        <td>WBH-PRO-BK</td>
+                        <td class="text-right">1</td>
+                        <td class="text-right">$149.99</td>
+                        <td class="text-right">$149.99</td>
+                    </tr>
+                    <tr>
+                        <td>USB-C Charging Cable (2m)</td>
+                        <td>USB-C-2M</td>
+                        <td class="text-right">2</td>
+                        <td class="text-right">$19.99</td>
+                        <td class="text-right">$39.98</td>
+                    </tr>
+                    <tr>
+                        <td>Carrying Case</td>
+                        <td>CASE-HP-01</td>
+                        <td class="text-right">1</td>
+                        <td class="text-right">$29.99</td>
+                        <td class="text-right">$29.99</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Subtotal</strong></td>
+                        <td class="text-right">$219.96</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Shipping</strong></td>
+                        <td class="text-right">$12.99</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Tax</strong></td>
+                        <td class="text-right">$18.70</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Total</strong></td>
+                        <td class="text-right"><strong>$251.65</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
 <!-- CSS Classes Reference -->
 <div class="pa-card">
     <div class="pa-card__header">
@@ -555,6 +1421,10 @@
         <h4>Tables</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-table-container</code> - Scrollable table wrapper with border</li>
+            <li><code>pa-table-container--panel</code> - Card-like containment with shadow and margin</li>
+            <li><code>pa-table-container__header</code> - Header row for panel tables</li>
+            <li><code>pa-table-container__title</code> - Title text in header</li>
+            <li><code>pa-table-container__actions</code> - Actions container in header</li>
             <li><code>pa-table</code> - Base table class</li>
             <li><code>pa-table--striped</code> - Zebra striping on rows</li>
             <li><code>pa-table--xs</code> - Extra small padding</li>

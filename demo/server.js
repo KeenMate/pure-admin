@@ -4,6 +4,7 @@ const Mustache = require('mustache');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const fs = require('fs');
+const { marked } = require('marked');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -118,6 +119,20 @@ app.get('/', (req, res) => {
         pageTitle: 'Dashboard',
         currentPage: 'dashboard',
         isDashboard: true
+    });
+});
+
+app.get('/changelog', (req, res) => {
+    // Read and parse CHANGELOG.md from core package
+    const changelogPath = path.join(corePackagePath, 'CHANGELOG.md');
+    const changelogMd = fs.readFileSync(changelogPath, 'utf-8');
+    const changelogHtml = marked(changelogMd);
+
+    renderWithLayout(res, 'changelog', {
+        pageTitle: 'Changelog',
+        currentPage: 'changelog',
+        isChangelog: true,
+        changelogContent: changelogHtml
     });
 });
 

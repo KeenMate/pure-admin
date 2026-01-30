@@ -13,6 +13,266 @@
   border-radius: $border-radius;
   border: $border-width-base solid var(--pa-border-color);
   background-color: var(--pa-table-bg);
+
+  // Panel modifier - card-like visual containment
+  &--panel {
+    box-shadow: $shadow-sm;
+    border-radius: $card-border-radius;
+    margin-bottom: $spacing-base;
+    transition: box-shadow $transition-fast $easing-snappy;
+
+    &:hover {
+      box-shadow: $shadow-lg;
+    }
+  }
+
+  // Header for panel tables
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $card-header-padding-v $card-header-padding-h;
+    min-height: $card-header-min-height;
+    border-bottom: $border-width-base solid var(--pa-border-color);
+    background: var(--pa-card-header-bg);
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
+  }
+
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+    color: var(--pa-text-color-1);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    // Buttons in header - negative margin to prevent header height growth
+    .pa-btn {
+      margin-top: -0.25rem;
+      margin-bottom: -0.25rem;
+    }
+  }
+}
+
+// ============================================================================
+// TABLE CARD
+// Card-like container specifically designed for tables
+// Similar to pa-card but with table as body content (no body padding)
+// ============================================================================
+.pa-table-card {
+  background: var(--pa-card-bg);
+  border: $card-border-width solid var(--pa-border-color);
+  border-radius: $card-border-radius;
+  margin-bottom: $spacing-base;
+  box-shadow: $shadow-sm;
+  transition: box-shadow $transition-fast $easing-snappy;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Ensure table respects border-radius
+
+  &:hover {
+    box-shadow: $shadow-lg;
+  }
+
+  &__header {
+    padding: $card-header-padding-v $card-header-padding-h;
+    min-height: $card-header-min-height;
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
+    border-bottom: $border-width-base solid var(--pa-border-color);
+    background: var(--pa-card-header-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 0;
+
+    h1, h2, h3, h4, h5, h6, p {
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--pa-text-color-1);
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+    }
+
+    .pa-btn {
+      margin-top: -0.25rem;
+      margin-bottom: -0.25rem;
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    min-width: 0;
+    flex: 1;
+
+    &-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+      color: var(--pa-text-color-1);
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      line-height: 1;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    align-items: center;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0; // Allow body to shrink below content size for proper overflow
+
+    // Scrollable wrapper for tables (optional - use when table needs horizontal scroll)
+    &--scrollable {
+      overflow-x: auto;
+    }
+
+    // Table inside body
+    .pa-table {
+      border-radius: 0;
+
+      // Align first/last column with card header/footer padding
+      th:first-child,
+      td:first-child {
+        padding-left: $card-header-padding-h;
+      }
+
+      th:last-child,
+      td:last-child {
+        padding-right: $card-header-padding-h;
+      }
+
+      // Remove bottom border from last row (card border handles it)
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__footer {
+    padding: $card-footer-padding-v $card-footer-padding-h;
+    border-top: $border-width-base solid var(--pa-border-color);
+    border-bottom-left-radius: $card-border-radius;
+    border-bottom-right-radius: $card-border-radius;
+    background: var(--pa-card-footer-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // Color variants
+  &--primary {
+    border-color: var(--pa-accent);
+
+    .pa-table-card__header {
+      background-color: var(--pa-accent);
+      color: var(--pa-btn-primary-text);
+
+      h1, h2, h3, h4, h5, h6 {
+        color: var(--pa-btn-primary-text);
+      }
+    }
+  }
+
+  &--success {
+    border-color: var(--pa-success-bg);
+
+    .pa-table-card__header {
+      background-color: var(--pa-success-bg);
+      color: var(--pa-btn-success-text);
+
+      h1, h2, h3, h4, h5, h6 {
+        color: var(--pa-btn-success-text);
+      }
+    }
+  }
+
+  &--warning {
+    border-color: var(--pa-warning-bg);
+
+    .pa-table-card__header {
+      background-color: var(--pa-warning-bg);
+      color: var(--pa-btn-warning-text);
+
+      h1, h2, h3, h4, h5, h6 {
+        color: var(--pa-btn-warning-text);
+      }
+    }
+  }
+
+  &--danger {
+    border-color: var(--pa-danger-bg);
+
+    .pa-table-card__header {
+      background-color: var(--pa-danger-bg);
+      color: var(--pa-btn-danger-text);
+
+      h1, h2, h3, h4, h5, h6 {
+        color: var(--pa-btn-danger-text);
+      }
+    }
+  }
+
+  // Theme color variants (color-1 through color-9)
+  @for $i from 1 through 9 {
+    &--color-#{$i} {
+      border-color: var(--pa-color-#{$i});
+
+      .pa-table-card__header {
+        background-color: var(--pa-color-#{$i});
+        color: var(--pa-color-#{$i}-text);
+
+        h1, h2, h3, h4, h5, h6 {
+          color: var(--pa-color-#{$i}-text);
+        }
+      }
+    }
+  }
+
+  // Plain variant - no card visual styling, just layout structure
+  &--plain {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    &:hover {
+      box-shadow: none;
+    }
+
+    // Header in plain mode - simple text header without card styling
+    .pa-table-card__header {
+      background: transparent;
+      border-bottom: none;
+      border-radius: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    // Footer in plain mode
+    .pa-table-card__footer {
+      background: transparent;
+      border-top: none;
+      border-radius: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
 .pa-table {
@@ -60,6 +320,23 @@
   &--striped {
     tbody tr:nth-child(even) td {
       background-color: var(--pa-table-stripe);
+    }
+  }
+
+  // Bordered variant - full cell borders
+  &--bordered {
+    border: $border-width-base solid var(--pa-border-color);
+
+    th,
+    td {
+      border: $border-width-base solid var(--pa-border-color);
+    }
+
+    // Keep last row border in bordered mode
+    &:not(&--responsive) {
+      tbody tr:last-child td {
+        border-bottom: $border-width-base solid var(--pa-border-color);
+      }
     }
   }
 

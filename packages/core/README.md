@@ -206,8 +206,23 @@ This enables dark mode support for web components like `@keenmate/web-grid` that
 ### Tables
 - `.pa-table` - Base table
 - `.pa-table--striped` - Striped rows
+- `.pa-table--bordered` - Full cell borders on all sides
 - `.pa-table--hover` - Row hover effects
 - `.pa-table--compact` - Reduced padding
+
+### Table Cards
+Card container specifically designed for tables and web-grids:
+- `.pa-table-card` - Base table card container
+- `.pa-table-card__header` - Header with title and actions
+- `.pa-table-card__body` - Body for table/grid content (no padding)
+- `.pa-table-card__footer` - Footer with summary/actions
+- `.pa-table-card__title` - Title element
+- `.pa-table-card__actions` - Actions container for buttons
+- **Semantic variants:** `.pa-table-card--primary/success/danger/warning`
+- **Theme color variants:** `.pa-table-card--color-1` through `.pa-table-card--color-9`
+- **Plain variant:** `.pa-table-card--plain` - No border/shadow/background, keeps grid behavior
+
+Works with both `pa-table` and `web-grid` component. First/last columns automatically align with header/footer padding.
 
 ### Alerts
 - `.pa-alert` - Base alert

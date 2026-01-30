@@ -1,0 +1,103 @@
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h2>Changelog</h2>
+    </div>
+    <div class="pa-card__body changelog-content">
+        {{{changelogContent}}}
+    </div>
+</div>
+
+<style>
+.changelog-content {
+    line-height: 1.6;
+}
+
+/* 10px rem base - use larger values */
+.changelog-content h1 {
+    font-size: 2.4rem; /* 24px */
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--pa-border-color);
+}
+
+.changelog-content h2 {
+    font-size: 2rem; /* 20px */
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--pa-border-color);
+    color: var(--pa-accent);
+}
+
+.changelog-content h3 {
+    font-size: 1.6rem; /* 16px */
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--pa-text-color-1);
+    font-weight: 600;
+}
+
+.changelog-content h4 {
+    font-size: 1.4rem; /* 14px */
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--pa-text-color-1);
+    font-weight: 600;
+}
+
+.changelog-content ul {
+    margin: 0.5rem 0 1rem 0;
+    padding-left: 2rem;
+}
+
+.changelog-content li {
+    margin-bottom: 0.4rem;
+}
+
+.changelog-content code {
+    background: var(--pa-subtle-bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.changelog-content pre {
+    background: var(--pa-subtle-bg);
+    padding: 1.5rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.changelog-content pre code {
+    background: none;
+    padding: 0;
+}
+
+.changelog-content p {
+    margin-bottom: 1rem;
+}
+
+.changelog-content strong {
+    color: var(--pa-text-color-1);
+    font-size: 1.3rem; /* 13px - smaller than h4 */
+}
+
+.changelog-content a {
+    color: var(--pa-accent);
+    text-decoration: none;
+}
+
+.changelog-content a:hover {
+    text-decoration: underline;
+}
+
+/* Version badges */
+.changelog-content h2 code {
+    background: var(--pa-accent);
+    color: var(--pa-btn-primary-text);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+</style>

@@ -5,9 +5,60 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.0] - 2026-01-28
+## [1.3.0] - 2026-01-30
 
 ### Added
+
+#### Table Card Component (New)
+- **New component**: `.pa-table-card` — Card container specifically designed for tables and web-grids
+- **Structure**:
+  - `.pa-table-card__header` — Header with title and actions (same styling as card header)
+  - `.pa-table-card__body` — Body for table content (no padding, handles overflow)
+  - `.pa-table-card__footer` — Footer with summary/actions (same styling as card footer)
+  - `.pa-table-card__title` — Title with text truncation support
+  - `.pa-table-card__actions` — Actions container for buttons
+- **Color variants**: `--primary`, `--success`, `--warning`, `--danger` (colored header with matching border)
+- **Theme color variants**: `--color-1` through `--color-9`
+- **Plain variant**: `--plain` — Removes card visual styling (border, shadow, background) while keeping grid behavior
+  - Tables work side by side with proper gaps
+  - Optional header displays as plain text above table
+  - Useful for embedding tables without card decoration
+- **Features**:
+  - First/last column padding aligned with header/footer for consistent visual alignment
+  - Works with both `pa-table` and `web-grid` component
+  - Web-grid handles its own scrolling without conflicting scrollbars
+- **Demo page**: Added "Table Cards" section in `/tables` with examples:
+  - Color variant table cards
+  - Web-grid with paging inside table card
+  - Plain table cards side by side (bordered, striped)
+  - Plain table card with pagers (top and bottom)
+  - Plain table card with web-grid and paging
+
+#### Table Bordered Modifier (New)
+- **New modifier**: `.pa-table--bordered` — Full cell borders on all sides
+- Adds outer border to table and borders to all cells (th and td)
+- Works with all other table modifiers (striped, size variants, etc.)
+
+### Fixed
+
+#### Grid System - Responsive Column Padding
+- **Fixed**: Responsive columns (`.pa-col-md-*`, `.pa-col-lg-*`, etc.) were missing `padding-left` and `padding-right`
+- **Impact**: Content in responsive columns now properly respects grid gutters
+- **Result**: Cards and tables in grid rows now have correct gaps between them and don't extend beyond container bounds
+
+#### Table Panel Modifier (New)
+- **New modifier**: `.pa-table-container--panel` — Card-like visual containment for tables without wrapping in a card
+- **Visual features**:
+  - Box shadow matching cards (`$shadow-sm`, `$shadow-lg` on hover)
+  - Larger border-radius (`$card-border-radius`)
+  - Bottom margin (`$spacing-base`)
+  - Hover shadow transition
+- **New elements**:
+  - `.pa-table-container__header` — Optional header row with title and actions
+  - `.pa-table-container__title` — Title text styling (matches card header)
+  - `.pa-table-container__actions` — Actions container for buttons in header
+- **Use case**: Order detail pages with Customer Info card, Delivery Details card, and Order Items table - all with consistent visual treatment
+- **Demo page**: Added "Panel Tables" section in `/tables` with examples
 
 #### Data Display Component (New)
 - **New component**: `_data-display.scss` — Read-only label-value field pairs for displaying structured data without form inputs
@@ -40,6 +91,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.pa-fields--color-{1-9}` — Theme color for left border (uses `--pa-color-{n}` CSS variables)
 - Combined with `--filled`: tints background 10% with the color using `color-mix()`
 - `.pa-fields--no-border` — Removes left border entirely
+
+#### Data Display Copyable Fields
+- `.pa-field--copy-btn` — Copy button always visible next to value (`.pa-field__copy` button element)
+- `.pa-field--copy-click` — Entire value clickable, shows "Click to copy" hint on hover
+- `.pa-field--copy-hover` — Copy button appears only on field hover
+- `.pa-field--copied` — Feedback state showing "Copied!" (applied via JS after copy)
+- Uses `navigator.clipboard.writeText()` for clipboard access
+- Visual feedback: checkmark icon or "Copied!" text for 1.5 seconds
 
 #### Data Display SCSS Variables
 - `$field-label-font-size: $font-size-xs` — Label text size
