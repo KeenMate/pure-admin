@@ -53,7 +53,7 @@
 .pa-profile-panel {
   position: fixed;
   top: 0;
-  right: 0;
+  inset-inline-end: 0; // RTL: flips to left
   height: 100vh;
   z-index: $z-index-profile-panel;
   pointer-events: none;
@@ -75,7 +75,7 @@
   &__overlay {
     position: absolute;
     top: 0;
-    left: 0;
+    inset-inline-start: 0; // RTL: flips to right
     width: 100vw;
     height: 100vh;
     background-color: var(--pa-profile-overlay-bg);
@@ -85,7 +85,7 @@
   &__content {
     position: absolute;
     top: 0;
-    right: 0;
+    inset-inline-end: 0; // RTL: flips to left
     height: 100vh;
     background-color: var(--pa-card-bg);
     box-shadow: $shadow-profile-panel;
@@ -94,6 +94,11 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+
+    // RTL: slide from left instead of right
+    [dir="rtl"] & {
+      transform: translateX(-100%);
+    }
   }
 
   &__header {
@@ -132,7 +137,7 @@
   &__info {
     flex: 1;
     min-width: 0;
-    padding-right: $profile-close-size; // Space for close button
+    padding-inline-end: $profile-close-size; // RTL: flips to padding-left (space for close button)
   }
 
   &__name {
@@ -170,7 +175,7 @@
   &__close {
     position: absolute;
     top: $spacing-base;
-    right: $spacing-base;
+    inset-inline-end: $spacing-base; // RTL: flips to left
     width: $profile-close-size;
     height: $profile-close-size;
     background: none;
@@ -357,7 +362,7 @@
   // Favorite remove button
   &__favorite-remove {
     opacity: 0;
-    margin-left: auto;
+    margin-inline-start: auto; // RTL: flips to margin-right
     background: none;
     border: none;
     padding: $spacing-xs;

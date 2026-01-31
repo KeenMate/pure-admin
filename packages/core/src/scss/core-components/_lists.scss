@@ -7,7 +7,7 @@
 // Basic HTML Lists (ul, ol, dl)
 .pa-list-basic {
   margin: 0;
-  padding-left: $spacing-lg;
+  padding-inline-start: $spacing-lg; // RTL: flips to right
 
   li {
     margin-bottom: $spacing-sm;
@@ -24,12 +24,12 @@
 
   &--unstyled {
     list-style: none;
-    padding-left: 0;
+    padding-inline-start: 0; // RTL: flips to right
   }
 
   &--inline {
     list-style: none;
-    padding-left: 0;
+    padding-inline-start: 0; // RTL: flips to right
     display: flex;
     flex-wrap: wrap;
     gap: $spacing-base;
@@ -37,7 +37,7 @@
 
   &--bordered {
     list-style: none;
-    padding-left: 0;
+    padding-inline-start: 0; // RTL: flips to right
 
     li {
       padding: $spacing-sm $spacing-base;
@@ -51,7 +51,7 @@
 
   &--striped {
     list-style: none;
-    padding-left: 0;
+    padding-inline-start: 0; // RTL: flips to right
 
     li {
       padding: $spacing-sm $spacing-base;
@@ -64,7 +64,7 @@
 
   &--icon {
     list-style: none;
-    padding-left: 0;
+    padding-inline-start: 0; // RTL: flips to right
 
     li {
       display: flex;
@@ -98,12 +98,12 @@
 
 .pa-list-ordered {
   margin: 0;
-  padding-left: $spacing-lg;
+  padding-inline-start: $spacing-lg; // RTL: flips to right
 
   li {
     margin-bottom: $spacing-sm;
     line-height: 1.6;
-    padding-left: $spacing-xs;
+    padding-inline-start: $spacing-xs; // RTL: flips to right
   }
 
   &--roman {
@@ -130,7 +130,7 @@
   }
 
   dd {
-    margin-left: $spacing-lg;
+    margin-inline-start: $spacing-lg; // RTL: flips to right
     margin-bottom: $spacing-sm;
     color: var(--pa-text-color-2);
     line-height: 1.6;
@@ -139,7 +139,7 @@
   &--inline {
     dt {
       display: inline;
-      margin-right: $spacing-xs;
+      margin-inline-end: $spacing-xs; // RTL: flips to left
 
       &::after {
         content: ':';
@@ -148,8 +148,8 @@
 
     dd {
       display: inline;
-      margin-left: 0;
-      margin-right: $spacing-base;
+      margin-inline-start: 0; // RTL: flips to right
+      margin-inline-end: $spacing-base; // RTL: flips to left
 
       &::after {
         content: '';

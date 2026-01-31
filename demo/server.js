@@ -316,6 +316,10 @@ app.get('/data-display', (req, res) => {
     renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
 });
 
+app.get('/rtl-test', (req, res) => {
+    renderWithLayout(res, 'rtl-test', { pageTitle: 'RTL Test', currentPage: 'rtl-test', isRtlTest: true });
+});
+
 // Serve static files with cache headers (after routes so EJS takes precedence)
 
 // Theme CSS files from separate theme packages

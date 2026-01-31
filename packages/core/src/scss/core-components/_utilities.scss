@@ -5,45 +5,24 @@
 @use '../variables' as *;
 
 // Font size classes - Apply to <html> element for proportional scaling of all rem units
+// These use absolute px values because rem would be calculated against browser default (16px),
+// not the framework's 10px base. Scaling the html font-size scales all rem values proportionally.
 // Example: document.documentElement.classList.add('font-size-large');
-html.font-size-2xs {
-  font-size: $font-size-2xs;
-}
-
-html.font-size-xs {
-  font-size: $font-size-xs;
-}
 
 html.font-size-small {
-  font-size: $font-size-sm;
-}
-
-html.font-size-medium {
-  font-size: $font-size-md;
+  font-size: 9px;   // ~14px body text (9 * 1.6 = 14.4px)
 }
 
 html.font-size-default {
-  font-size: $font-size-base;
+  font-size: 10px;  // 16px body text (default, same as html base)
 }
 
 html.font-size-large {
-  font-size: $font-size-lg;
+  font-size: 11px;  // ~18px body text (11 * 1.6 = 17.6px)
 }
 
 html.font-size-xlarge {
-  font-size: $font-size-xl;
-}
-
-html.font-size-2xl {
-  font-size: $font-size-2xl;
-}
-
-html.font-size-3xl {
-  font-size: $font-size-3xl;
-}
-
-html.font-size-4xl {
-  font-size: $font-size-4xl;
+  font-size: 12px;  // ~19px body text (12 * 1.6 = 19.2px)
 }
 
 // Font family utilities
@@ -186,17 +165,26 @@ html.font-size-4xl {
     color: var(--pa-text-color-2);
   }
 
-  // Alignment modifiers
-  &--left {
-    text-align: left;
+  // Alignment modifiers (logical properties for RTL support)
+  &--start {
+    text-align: start; // RTL: flips to right
   }
 
   &--center {
     text-align: center;
   }
 
+  &--end {
+    text-align: end; // RTL: flips to left
+  }
+
+  // Legacy aliases for backward compatibility
+  &--left {
+    text-align: start;
+  }
+
   &--right {
-    text-align: right;
+    text-align: end;
   }
 
   // Semantic variants (compound styles)
@@ -321,4 +309,41 @@ html.font-size-4xl {
   .pa-text-color-#{$i} { color: var(--pa-color-#{$i}); }
   .pa-border-color-#{$i} { border-color: var(--pa-color-#{$i}); }
 }
+
+// ========================================
+// Logical Spacing Utilities (RTL-aware)
+// ms = margin-inline-start, me = margin-inline-end
+// ps = padding-inline-start, pe = padding-inline-end
+// ========================================
+
+// Margin inline-start (ms-*) - RTL: flips to margin-right
+@each $name, $value in $semantic-spacers {
+  .ms-#{$name} { margin-inline-start: #{$value}; }
+}
+.ms-auto { margin-inline-start: auto; }
+
+// Margin inline-end (me-*) - RTL: flips to margin-left
+@each $name, $value in $semantic-spacers {
+  .me-#{$name} { margin-inline-end: #{$value}; }
+}
+.me-auto { margin-inline-end: auto; }
+
+// Padding inline-start (ps-*) - RTL: flips to padding-right
+@each $name, $value in $semantic-spacers {
+  .ps-#{$name} { padding-inline-start: #{$value}; }
+}
+
+// Padding inline-end (pe-*) - RTL: flips to padding-left
+@each $name, $value in $semantic-spacers {
+  .pe-#{$name} { padding-inline-end: #{$value}; }
+}
+
+// Text alignment utilities (RTL-aware)
+.text-start { text-align: start; } // RTL: flips to right
+.text-center { text-align: center; }
+.text-end { text-align: end; } // RTL: flips to left
+
+// Legacy text alignment (maps to logical properties)
+.text-left { text-align: start; }
+.text-right { text-align: end; }
 

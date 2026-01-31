@@ -13,11 +13,11 @@
     position: relative;
   }
 
-  // Variant 1: Simple left-aligned timeline (like Timeline #1)
+  // Variant 1: Simple start-aligned timeline (like Timeline #1)
   &--simple {
-    border-left: $timeline-simple-line-width solid var(--pa-border-color);
-    margin-left: $timeline-simple-margin-left;
-    padding-left: $timeline-simple-padding-left;
+    border-inline-start: $timeline-simple-line-width solid var(--pa-border-color); // RTL: flips to right
+    margin-inline-start: $timeline-simple-margin-left; // RTL: flips to right
+    padding-inline-start: $timeline-simple-padding-left; // RTL: flips to right
 
     .pa-timeline__item {
       padding-bottom: $spacing-lg;
@@ -32,7 +32,7 @@
       &::before {
         content: '';
         position: absolute;
-        left: $timeline-simple-dot-offset;
+        inset-inline-start: $timeline-simple-dot-offset; // RTL: flips to right
         top: 0;
         width: $timeline-simple-dot-size;
         height: $timeline-simple-dot-size;

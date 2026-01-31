@@ -295,17 +295,17 @@
   }
 
   &__icon {
-    margin-right: $btn-icon-margin;
+    margin-inline-end: $btn-icon-margin; // RTL: flips to margin-left
 
     &:last-child {
-      margin-right: 0;
-      margin-left: $btn-icon-margin;
+      margin-inline-end: 0;
+      margin-inline-start: $btn-icon-margin; // RTL: flips to margin-right
     }
   }
 
-  // Buttons with icons align left like sidebar menu items
+  // Buttons with icons align to start like sidebar menu items
   &:has(.pa-btn__icon) {
-    text-align: left;
+    text-align: start; // RTL: flips to right
     display: inline-flex;
     align-items: center;
     gap: $spacing-sm;
@@ -334,7 +334,7 @@
     justify-content: flex-start;
 
     .pa-btn__icon {
-      padding-left: 0;
+      padding-inline-start: 0; // RTL: flips to padding-right
     }
   }
 
@@ -342,7 +342,7 @@
     justify-content: flex-end;
 
     .pa-btn__icon {
-      padding-right: 0;
+      padding-inline-end: 0; // RTL: flips to padding-left
     }
   }
 
@@ -354,12 +354,12 @@
     justify-content: space-between;
 
     .pa-btn__icon:first-child {
-      padding-left: 0;
+      padding-inline-start: 0; // RTL: flips to padding-right
     }
 
     // Remove padding from last element (text or icon)
     > *:last-child {
-      padding-right: 0;
+      padding-inline-end: 0; // RTL: flips to padding-left
     }
   }
 }

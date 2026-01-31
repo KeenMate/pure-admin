@@ -1,6 +1,7 @@
 /* ========================================
    Input Groups
    Input groups with prepend/append addons and buttons
+   RTL-aware using CSS logical properties
    ======================================== */
 @use '../../variables' as *;
 
@@ -13,21 +14,21 @@
     flex: 1;
 
     &:first-child {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
+      border-start-start-radius: $border-radius; // RTL: top-right in RTL
+      border-end-start-radius: $border-radius;   // RTL: bottom-right in RTL
     }
 
     &:last-child {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
+      border-start-end-radius: $border-radius; // RTL: top-left in RTL
+      border-end-end-radius: $border-radius;   // RTL: bottom-left in RTL
     }
 
     &:not(:first-child) {
-      border-left: none;
+      border-inline-start: none; // RTL: flips to border-right
     }
 
     &:not(:last-child) {
-      border-right: none;
+      border-inline-end: none; // RTL: flips to border-left
     }
   }
 
@@ -48,11 +49,11 @@
     background-color: var(--pa-input-group-prepend-bg);
     color: var(--pa-input-group-prepend-text);
     border-color: var(--pa-input-group-prepend-bg);
-    border-right: none;
+    border-inline-end: none; // RTL: flips to border-left
 
     &:first-child {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
+      border-start-start-radius: $border-radius; // RTL: top-right in RTL
+      border-end-start-radius: $border-radius;   // RTL: bottom-right in RTL
     }
   }
 
@@ -60,43 +61,43 @@
     background-color: var(--pa-input-group-append-bg);
     color: var(--pa-input-group-append-text);
     border-color: var(--pa-input-group-append-bg);
-    border-left: none;
+    border-inline-start: none; // RTL: flips to border-right
 
     &:last-child {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
+      border-start-end-radius: $border-radius; // RTL: top-left in RTL
+      border-end-end-radius: $border-radius;   // RTL: bottom-left in RTL
     }
   }
 
   // Adjacent prepends/appends need borders between them
   &__prepend + &__prepend {
-    border-left: $border-width-base solid var(--pa-input-group-prepend-bg);
+    border-inline-start: $border-width-base solid var(--pa-input-group-prepend-bg); // RTL: flips
   }
 
   &__append + &__append {
-    border-left: $border-width-base solid var(--pa-input-group-append-bg);
+    border-inline-start: $border-width-base solid var(--pa-input-group-append-bg); // RTL: flips
   }
 
   // When input is focused, show focus border on adjacent prepend/append
   &:has(.pa-input:focus) {
     // Last prepend (one before input) gets focus border
     .pa-input-group__prepend {
-      border-right: $border-width-base solid var(--pa-input-focus-border-color);
+      border-inline-end: $border-width-base solid var(--pa-input-focus-border-color); // RTL: flips
     }
 
     // But prepends followed by another prepend keep normal border
     .pa-input-group__prepend:has(+ .pa-input-group__prepend) {
-      border-right: none;
+      border-inline-end: none; // RTL: flips
     }
 
     // First append (one after input) gets focus border
     .pa-input-group__append {
-      border-left: $border-width-base solid var(--pa-input-focus-border-color);
+      border-inline-start: $border-width-base solid var(--pa-input-focus-border-color); // RTL: flips
     }
 
     // But appends following another append keep normal border
     .pa-input-group__append + .pa-input-group__append {
-      border-left: $border-width-base solid var(--pa-border-color);
+      border-inline-start: $border-width-base solid var(--pa-border-color); // RTL: flips
     }
   }
 
@@ -104,13 +105,13 @@
     border-radius: 0;
 
     &:first-child {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
+      border-start-start-radius: $border-radius; // RTL: top-right in RTL
+      border-end-start-radius: $border-radius;   // RTL: bottom-right in RTL
     }
 
     &:last-child {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
+      border-start-end-radius: $border-radius; // RTL: top-left in RTL
+      border-end-end-radius: $border-radius;   // RTL: bottom-left in RTL
     }
   }
 

@@ -10,7 +10,7 @@
   position: relative;
   padding: $card-footer-padding-v $card-footer-padding-h;
   margin-bottom: $spacing-base;
-  border-left: $callout-border-width solid var(--pa-border-color);
+  border-inline-start: $callout-border-width solid var(--pa-border-color); // RTL: flips to right
   border-radius: $border-radius;
   font-size: $font-size-sm;
   background-color: var(--pa-card-bg);
@@ -25,32 +25,32 @@
 
   // Callout variants
   &--primary {
-    border-left-color: var(--pa-accent);
+    border-inline-start-color: var(--pa-accent);
     background-color: rgba($accent-color, $opacity-subtle);
   }
 
   &--secondary {
-    border-left-color: var(--pa-text-color-2);
+    border-inline-start-color: var(--pa-text-color-2);
     background-color: color-mix(in srgb, var(--pa-text-color-2) 5%, transparent);
   }
 
   &--success {
-    border-left-color: var(--pa-success-bg);
+    border-inline-start-color: var(--pa-success-bg);
     background-color: var(--pa-success-bg-subtle);
   }
 
   &--danger {
-    border-left-color: var(--pa-danger-bg);
+    border-inline-start-color: var(--pa-danger-bg);
     background-color: var(--pa-danger-bg-subtle);
   }
 
   &--warning {
-    border-left-color: var(--pa-warning-bg);
+    border-inline-start-color: var(--pa-warning-bg);
     background-color: var(--pa-warning-bg-subtle);
   }
 
   &--info {
-    border-left-color: var(--pa-info-bg);
+    border-inline-start-color: var(--pa-info-bg);
     background-color: var(--pa-info-bg-subtle);
   }
 
@@ -68,7 +68,12 @@
   // Callout components
   &__icon {
     float: left;
-    margin-right: $spacing-sm;
+    margin-inline-end: $spacing-sm; // RTL: flips to margin-left
+
+    [dir="rtl"] & {
+      float: right;
+    }
+
     font-size: $font-size-lg;
     line-height: 1;
   }
@@ -105,7 +110,7 @@
   // Lists inside callouts
   ul, ol {
     margin: $spacing-sm 0;
-    padding-left: $spacing-lg;
+    padding-inline-start: $spacing-lg; // RTL: flips to right
 
     &:last-child {
       margin-bottom: 0;

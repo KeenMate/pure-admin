@@ -18,12 +18,12 @@
   .pa-virtual-textbox {
     flex: 1;
     min-width: 0; // Allow inputs to shrink below their content size
-    padding-right: 4rem; // Make room for clear button
+    padding-inline-end: 4rem; // RTL: flips to padding-left, make room for clear button
   }
 
   &__clear {
     position: absolute;
-    right: $spacing-xs;
+    inset-inline-end: $spacing-xs; // RTL: flips to left
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
@@ -72,7 +72,7 @@
 }
 
 .pa-search-token-remove {
-  margin-left: $spacing-xs;
+  margin-inline-start: $spacing-xs; // RTL: flips to margin-right
   padding: 0 $spacing-xs;
   border: none;
   background: transparent;

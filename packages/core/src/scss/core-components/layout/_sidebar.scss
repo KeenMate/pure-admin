@@ -18,7 +18,7 @@
 
 .pa-layout__sidebar {
   background-color: var(--pa-sidebar-bg);
-  border-right: $border-width-base solid var(--pa-border-color);
+  border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
   flex-shrink: 0;
   position: relative;
 }
@@ -27,7 +27,7 @@
 .pa-sidebar-resize {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0; // RTL: flips to left
   width: 6px;
   height: 100%;
   cursor: ew-resize;
@@ -38,7 +38,7 @@
     content: '';
     position: absolute;
     top: 0;
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
     width: 2px;
     height: 100%;
@@ -66,7 +66,7 @@ body.pa-sidebar-resizing {
 body.pa-layout--sticky .pa-layout__sidebar {
   overflow-y: auto;
   overflow-y: overlay; // Chromium: scrollbar overlays content, doesn't reduce width
-  overflow-x: visible; // Allow tooltips to escape right
+  overflow-x: visible; // Allow tooltips to escape (right in LTR, left in RTL)
 }
 
 // Sidebar component (separate BEM block)
@@ -93,7 +93,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     color: var(--pa-sidebar-text-secondary);
     text-decoration: none;
     font-weight: $font-weight-medium;
-    border-right: $border-width-thick solid transparent; // Reserve space to prevent shift on active
+    border-inline-end: $border-width-thick solid transparent; // RTL: flips to border-left
 
     body.loaded & {
       transition: all $transition-fast $easing-snappy;
@@ -107,8 +107,8 @@ body.pa-layout--sticky .pa-layout__sidebar {
     &--active {
       color: var(--pa-sidebar-text);
       background-color: var(--pa-accent-hover);
-      border-right-color: var(--pa-accent); // Only change color, not width
-      font-weight: $font-weight-semibold; // Make active item bolder
+      border-inline-end-color: var(--pa-accent); // RTL: flips to border-left-color
+      font-weight: $font-weight-semibold;
     }
   }
 
@@ -122,7 +122,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     background: none;
     border: none;
     width: 100%;
-    text-align: left;
+    text-align: start; // RTL: flips to right
     font-weight: $font-weight-medium;
     cursor: pointer;
 
@@ -181,9 +181,9 @@ body.pa-layout--sticky .pa-layout__sidebar {
 
   // Level 2 submenu links
   &__submenu > &__item > &__link {
-    padding-left: $sidebar-submenu-indent;
+    padding-inline-start: $sidebar-submenu-indent; // RTL: flips to padding-right
     font-size: $font-size-md;
-    border-right: $border-width-medium solid transparent; // Reserve space to prevent shift on active
+    border-inline-end: $border-width-medium solid transparent; // RTL: flips to border-left
 
     &:hover {
       background-color: var(--pa-sidebar-submenu-hover-bg);
@@ -191,38 +191,44 @@ body.pa-layout--sticky .pa-layout__sidebar {
 
     &--active {
       background-color: var(--pa-sidebar-submenu-active-bg);
-      border-right-color: var(--pa-accent); // Only change color, not width
+      border-inline-end-color: var(--pa-accent); // RTL: flips to border-left-color
     }
   }
 
   // Level 2 submenu toggles (for third level)
   &__submenu > &__item > &__toggle {
-    padding-left: $sidebar-submenu-indent;
+    padding-inline-start: $sidebar-submenu-indent; // RTL: flips to padding-right
     font-size: $font-size-md;
   }
 
   // Level 3 submenu links
   &__submenu &__submenu > &__item > &__link {
-    padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
+    padding-inline-start: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier); // RTL: flips
     font-size: $font-size-sm;
-    border-right: $border-width-base solid transparent; // Reserve space to prevent shift on active
+    border-inline-end: $border-width-base solid transparent; // RTL: flips to border-left
 
     &--active {
-      border-right-color: var(--pa-accent); // Only change color, not width
+      border-inline-end-color: var(--pa-accent); // RTL: flips to border-left-color
     }
   }
 
   // Chevron icon for toggle buttons
   &__chevron {
-    margin-left: auto;
+    margin-inline-start: auto; // RTL: flips to margin-right: auto
     font-size: $font-size-xs;
 
     body.loaded & {
       transition: transform $transition-fast $easing-snappy;
     }
 
+    // Chevron points right (›) in LTR, left (‹) in RTL
+    // When open, rotates 90deg clockwise in LTR, -90deg (counter-clockwise) in RTL
     .pa-sidebar__item--open & {
       transform: rotate(90deg);
+    }
+
+    [dir="rtl"] .pa-sidebar__item--open & {
+      transform: rotate(-90deg);
     }
   }
 }

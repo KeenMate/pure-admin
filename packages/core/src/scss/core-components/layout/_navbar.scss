@@ -8,8 +8,7 @@
 .pa-navbar {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0; // RTL: works for both LTR and RTL
   height: $header-height;
   background-color: var(--pa-header-bg);
   border-bottom: $border-width-base solid var(--pa-header-border-color);
@@ -23,42 +22,32 @@
 // Body class is just a marker, no width styles on body itself
 body.pa-container-sm .pa-navbar {
   max-width: $layout-container-sm;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  inset-inline: 0; // RTL: works for both LTR and RTL
+  margin-inline: auto; // RTL: centers in both directions
 }
 
 body.pa-container-md .pa-navbar {
   max-width: $layout-container-md;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  inset-inline: 0;
+  margin-inline: auto;
 }
 
 body.pa-container-lg .pa-navbar {
   max-width: $layout-container-lg;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  inset-inline: 0;
+  margin-inline: auto;
 }
 
 body.pa-container-xl .pa-navbar {
   max-width: $layout-container-xl;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  inset-inline: 0;
+  margin-inline: auto;
 }
 
 body.pa-container-2xl .pa-navbar {
   max-width: $layout-container-2xl;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  inset-inline: 0;
+  margin-inline: auto;
 }
 
 // Navbar inner content

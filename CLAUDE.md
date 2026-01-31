@@ -209,15 +209,17 @@ $spacing-xl:   2rem;     // 32px
 $spacing-2xl:  3rem;     // 48px
 ```
 
-### Typography Scale
+### Typography Scale (10px rem base)
 ```scss
-$font-size-2xs:  0.625rem;  // 10px
-$font-size-xs:   0.75rem;   // 12px
-$font-size-sm:   0.875rem;  // 14px
-$font-size-base: 1rem;      // 16px
-$font-size-lg:   1.125rem;  // 18px
-$font-size-xl:   1.25rem;   // 20px
-$font-size-2xl:  1.5rem;    // 24px
+// html { font-size: 10px } makes rem calculations simple: 1.6rem = 16px
+$font-size-2xs:  1rem;      // 10px
+$font-size-xs:   1.2rem;    // 12px
+$font-size-sm:   1.4rem;    // 14px
+$font-size-md:   1.5rem;    // 15px
+$font-size-base: 1.6rem;    // 16px (body default)
+$font-size-lg:   1.8rem;    // 18px
+$font-size-xl:   2rem;      // 20px
+$font-size-2xl:  2.4rem;    // 24px
 ```
 
 ### Native Grid System (pa-col-*)
@@ -266,6 +268,23 @@ Pure Admin exports `--base-*` CSS custom properties for web component theming.
 
 ---
 
-**Last Updated:** 2025-12-20
-**Framework Version:** 1.0.0
+## RTL (Right-to-Left) Support
+
+Full RTL support using CSS Logical Properties. Add `dir="rtl"` to your HTML element:
+
+```html
+<html dir="rtl" lang="he">
+```
+
+All components automatically mirror. Use logical utilities for RTL-aware spacing:
+- `.ms-*` / `.me-*` — margin-inline-start/end
+- `.ps-*` / `.pe-*` — padding-inline-start/end
+- `.text-start` / `.text-end` — logical text alignment
+
+Toast positions use logical names: `top-start`, `top-end`, `bottom-start`, `bottom-end`, `top-center`, `bottom-center`
+
+---
+
+**Last Updated:** 2026-01-31
+**Framework Version:** 1.4.0
 **Default Theme:** Corporate

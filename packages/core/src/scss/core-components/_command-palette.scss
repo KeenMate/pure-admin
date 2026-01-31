@@ -6,10 +6,7 @@
 
 .pa-command-palette {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0; // RTL: full screen works in both directions
   z-index: $z-index-command-palette;
   display: none;
   align-items: flex-start;
@@ -23,10 +20,7 @@
   // Backdrop overlay
   &__backdrop {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0; // RTL: full screen works in both directions
     background-color: var(--pa-command-palette-backdrop-bg);
     backdrop-filter: blur($command-palette-backdrop-blur);
     animation: fadeIn $transition-normal $easing-smooth;
@@ -65,7 +59,7 @@
 
       // Remove button inside badge
       &__remove {
-        margin-left: $spacing-xs;
+        margin-inline-start: $spacing-xs; // RTL: flips to margin-right
         padding: 0 $spacing-xs;
         border: none;
         background: transparent;
@@ -109,7 +103,7 @@
   // Context label (e.g., "Searching in Products")
   &__context {
     position: absolute;
-    right: calc(#{$spacing-sm} + #{$command-palette-input-padding-h});
+    inset-inline-end: calc(#{$spacing-sm} + #{$command-palette-input-padding-h}); // RTL: flips to left
     top: 50%;
     transform: translateY(-50%);
     font-size: $font-size-xs;
@@ -138,10 +132,7 @@
       &::after {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0; // RTL: full overlay works in both directions
         background-color: rgba($modal-content-bg, 0.7);
         pointer-events: none;
         z-index: 1;

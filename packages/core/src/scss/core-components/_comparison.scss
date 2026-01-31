@@ -12,7 +12,7 @@
   thead th {
     background-color: var(--pa-table-header-bg);
     font-weight: $font-weight-semibold;
-    text-align: left;
+    text-align: start; // RTL: flips to right
     padding: $spacing-sm $spacing-base;
     border-bottom: $border-width-medium solid var(--pa-border-color);
   }
@@ -73,7 +73,7 @@
     &::before {
       content: '';
       position: absolute;
-      left: 0;
+      inset-inline-start: 0; // RTL: flips to right
       top: 0;
       bottom: 0;
       width: $border-width-medium;
@@ -146,7 +146,7 @@
       &::before {
         content: attr(data-label);
         font-weight: $font-weight-semibold;
-        margin-right: $spacing-sm;
+        margin-inline-end: $spacing-sm; // RTL: flips to left
         min-width: 120px;
       }
     }

@@ -113,6 +113,30 @@ document.body.dataset.theme = 'dark'; // or 'light'
 ```
 This enables dark mode support for web components like `@keenmate/web-grid` that look for `data-theme` attribute.
 
+### RTL (Right-to-Left) Support
+
+Pure Admin fully supports RTL languages (Arabic, Hebrew, Persian, etc.) using CSS Logical Properties. Simply add `dir="rtl"` to your HTML element:
+
+```html
+<html dir="rtl" lang="he">
+```
+
+All components automatically mirror:
+- Sidebar appears on the right
+- Text aligns to the right
+- Margins/paddings flip appropriately
+- Animations slide from the correct direction
+
+**Logical spacing utilities** for RTL-aware layouts:
+- `.ms-{size}` — margin-inline-start (left in LTR, right in RTL)
+- `.me-{size}` — margin-inline-end (right in LTR, left in RTL)
+- `.ps-{size}` — padding-inline-start
+- `.pe-{size}` — padding-inline-end
+- `.text-start` — aligns to start (left in LTR, right in RTL)
+- `.text-end` — aligns to end (right in LTR, left in RTL)
+
+Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
+
 ## Component Classes
 
 ### Grid System
@@ -245,7 +269,7 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 ### Toasts
 - `.pa-toast` - Base toast
 - `.pa-toast--primary/success/danger/warning/info` - Variants
-- Positions: `top-right`, `top-center`, `top-left`, `bottom-right`, `bottom-center`, `bottom-left`
+- Positions (RTL-aware): `top-end`, `top-center`, `top-start`, `bottom-end`, `bottom-center`, `bottom-start`
 
 ### Tooltips & Popovers
 - `.pa-tooltip` - Base tooltip (pure CSS, no JS required)

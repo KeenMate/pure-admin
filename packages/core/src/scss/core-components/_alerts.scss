@@ -119,7 +119,7 @@
 
   // Dismissible alerts
   &--dismissible {
-    padding-right: $alert-dismissible-padding-right;
+    padding-inline-end: $alert-dismissible-padding-right; // RTL: flips to padding-left
   }
 
   // Alert components
@@ -142,7 +142,7 @@
 
   &__list {
     margin: $spacing-sm 0;
-    padding-left: $alert-list-padding-left;
+    padding-inline-start: $alert-list-padding-left; // RTL: flips to padding-right
   }
 
   &__actions {
@@ -154,7 +154,7 @@
   &__close {
     position: absolute;
     top: 0;
-    right: 0;
+    inset-inline-end: 0; // RTL: flips to left
     z-index: $focus-outline-width;
     padding: $card-footer-padding-v $card-footer-padding-h;
     background: none;

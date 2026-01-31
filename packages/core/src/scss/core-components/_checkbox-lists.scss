@@ -41,7 +41,7 @@
 
     // When using .pa-checkbox component inside label
     .pa-checkbox {
-      margin-right: $spacing-md;
+      margin-inline-end: $spacing-md; // RTL: flips to left
 
       // Reset gap since label already provides spacing
       gap: 0;
@@ -52,7 +52,7 @@
   // New pattern uses .pa-checkbox component inside .pa-checkbox-list__label
   &__checkbox {
     margin: 0;
-    margin-right: $spacing-md;
+    margin-inline-end: $spacing-md; // RTL: flips to left
     width: $spinner-size;
     height: $spinner-size;
     cursor: pointer;
@@ -75,7 +75,7 @@
   // Optional action buttons (outside label, positioned absolutely)
   &__actions {
     position: absolute;
-    right: $spacing-md;
+    inset-inline-end: $spacing-md; // RTL: flips to left
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -93,7 +93,7 @@
 
   // When item has actions, add padding to label to prevent text overlap
   &__item:has(.pa-checkbox-list__actions) &__label {
-    padding-right: 6rem; // Adjust based on number of action buttons
+    padding-inline-end: 6rem; // RTL: flips to left - Adjust based on number of action buttons
   }
 }
 
@@ -229,7 +229,7 @@
 
   .pa-checkbox-list__item {
     &:nth-child(odd) {
-      border-right: $border-width-base solid var(--pa-border-color);
+      border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to left
     }
   }
 }
@@ -242,7 +242,7 @@
 
   .pa-checkbox-list__item {
     &:not(:nth-child(3n)) {
-      border-right: $border-width-base solid var(--pa-border-color);
+      border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to left
     }
   }
 }

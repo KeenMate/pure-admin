@@ -48,7 +48,7 @@
   // Multiline tooltip variant
   &--multiline::before {
     white-space: normal;
-    text-align: left;
+    text-align: start; // RTL: flips to right
     width: $tooltip-multiline-width;
     max-width: $tooltip-multiline-width;
     line-height: $line-height-base;
@@ -414,7 +414,7 @@
     font-size: $font-size-sm;
     line-height: $line-height-base;
     color: var(--pa-text-color-1);
-    text-align: left; // Reset inherited alignment for rich content
+    text-align: start; // RTL: flips to right
 
     p {
       margin: 0 0 $spacing-sm 0;
@@ -435,7 +435,7 @@
 
     ul, ol {
       margin: $spacing-sm 0;
-      padding-left: $spacing-lg;
+      padding-inline-start: $spacing-lg; // RTL: flips to padding-right
     }
 
     code {
@@ -485,9 +485,14 @@
     text-align: center;
   }
 
-  &--right &__body {
-    text-align: right;
+  &--end &__body {
+    text-align: end; // RTL: flips to left
   }
+}
+
+// Legacy class for backward compatibility
+.pa-popover--right .pa-popover__body {
+  text-align: end;
 }
 
 // ========================================
@@ -510,7 +515,7 @@
   // Multiline variant
   &.pa-tooltip--multiline {
     white-space: normal;
-    text-align: left;
+    text-align: start; // RTL: flips to right
     max-width: $tooltip-multiline-max-width;
   }
 

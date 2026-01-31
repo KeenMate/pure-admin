@@ -15,38 +15,47 @@
   flex-direction: column;
   gap: $spacing-md;
 
-  // Position variations
-  &--top-right {
+  // Position variations - using logical properties for RTL support
+  &--top-end {
     top: $spacing-lg;
-    right: $spacing-lg;
+    inset-inline-end: $spacing-lg; // RTL: flips to left
   }
 
-  &--top-left {
+  &--top-start {
     top: $spacing-lg;
-    left: $spacing-lg;
+    inset-inline-start: $spacing-lg; // RTL: flips to right
   }
 
-  &--bottom-right {
+  &--bottom-end {
     bottom: $spacing-lg;
-    right: $spacing-lg;
+    inset-inline-end: $spacing-lg; // RTL: flips to left
   }
 
-  &--bottom-left {
+  &--bottom-start {
     bottom: $spacing-lg;
-    left: $spacing-lg;
+    inset-inline-start: $spacing-lg; // RTL: flips to right
   }
 
   &--top-center {
     top: $spacing-lg;
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
+
+    [dir="rtl"] & {
+      transform: translateX(50%);
+    }
   }
 
   &--bottom-center {
     bottom: $spacing-lg;
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
+
+    [dir="rtl"] & {
+      transform: translateX(50%);
+    }
   }
+
 }
 
 // ===== TOAST ITEM =====
@@ -81,9 +90,37 @@
     transform: translateX(100%);
   }
 
-  // Left position animations
-  .pa-toast-container--top-left &,
-  .pa-toast-container--bottom-left & {
+  // Start position animations (left in LTR, right in RTL)
+  .pa-toast-container--top-start &,
+  .pa-toast-container--bottom-start & {
+    transform: translateX(-100%);
+
+    &.pa-toast--show {
+      transform: translateX(0);
+    }
+
+    &.pa-toast--hide {
+      transform: translateX(-100%);
+    }
+  }
+
+  // RTL: reverse animation direction for start positions
+  [dir="rtl"] .pa-toast-container--top-start &,
+  [dir="rtl"] .pa-toast-container--bottom-start & {
+    transform: translateX(100%);
+
+    &.pa-toast--show {
+      transform: translateX(0);
+    }
+
+    &.pa-toast--hide {
+      transform: translateX(100%);
+    }
+  }
+
+  // RTL: reverse animation direction for end positions
+  [dir="rtl"] .pa-toast-container--top-end &,
+  [dir="rtl"] .pa-toast-container--bottom-end & {
     transform: translateX(-100%);
 
     &.pa-toast--show {
@@ -175,7 +212,7 @@
 .pa-toast__progress {
   position: absolute;
   bottom: 0;
-  left: 0;
+  inset-inline-start: 0; // RTL: flips to right
   height: $toast-progress-height;
   background-color: currentColor;
   opacity: 0.3;
@@ -258,18 +295,17 @@
 
 @media (max-width: $mobile-breakpoint) {
   .pa-toast-container {
-    left: $spacing-md !important;
-    right: $spacing-md !important;
+    inset-inline: $spacing-md !important; // RTL: full width on mobile
     transform: none !important;
 
-    &--top-right,
-    &--top-left,
+    &--top-end,
+    &--top-start,
     &--top-center {
       top: $spacing-md;
     }
 
-    &--bottom-right,
-    &--bottom-left,
+    &--bottom-end,
+    &--bottom-start,
     &--bottom-center {
       bottom: $spacing-md;
     }

@@ -5,6 +5,65 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-01-31
+
+**Theme packages also updated to v1.3.0:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`
+
+### Added
+
+#### RTL (Right-to-Left) Support
+- **Full RTL support** using CSS Logical Properties — automatically mirrors layout when `dir="rtl"` is set on HTML element
+- **Components updated for RTL**:
+  - **Alerts**: Close button positioning, list padding, dismissible padding
+  - **Base styles**: Blockquote padding, list (ul/ol) padding
+  - **Callouts**: Border, icon float, list padding
+  - **Checkbox Lists**: Checkbox margin, action buttons, multi-column borders
+  - **Code blocks**: Line numbers, language accent borders
+  - **Command Palette**: Overlay positioning, context labels, badge remove buttons
+  - **Comparison tables**: Header alignment, change indicator borders
+  - **Data Display**: Fields border/padding, copy button margin
+  - **Detail Panel**: Panel border, resize handle, overlays, overlay positioning (slide-in from end side), mobile overlay
+  - **File Selector**: Icon margin, table header alignment
+  - **Input Groups**: Prepend/append positioning, border radius, focus borders
+  - **Input Wrapper**: Clear button positioning, search token spacing
+  - **Layout Responsive**: Mobile sidebar positioning, backdrop overlay
+  - **Lists**: All list component padding and margins
+  - **Modals**: Full-screen overlay positioning
+  - **Navbar**: Fixed positioning, burger margin, brand padding, dropdown positioning
+  - **Pagers**: Count margin
+  - **Query Editor**: Type label margin
+  - **Tabs**: Vertical tabs border, scroll buttons, overflow menu
+  - **Timeline**: Simple timeline line, margin, padding, dot positioning
+  - **Toasts**: Container positions, progress bar, animations
+  - **Tooltips**: Text alignment, popover list padding
+- **New logical spacing utilities**:
+  - `.ms-{size}` — margin-inline-start (replaces margin-left in RTL-aware contexts)
+  - `.me-{size}` — margin-inline-end (replaces margin-right in RTL-aware contexts)
+  - `.ps-{size}` — padding-inline-start
+  - `.pe-{size}` — padding-inline-end
+  - Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
+- **New logical text alignment utilities**:
+  - `.text-start` — aligns to start (right in RTL)
+  - `.text-end` — aligns to end (left in RTL)
+- **RTL test page**: `/rtl-test` demo page in Hebrew for testing all RTL-aware components
+
+### Changed
+
+#### Toast Position Classes (Breaking Change)
+- **Removed** legacy position classes: `--top-right`, `--top-left`, `--bottom-right`, `--bottom-left`
+- **Use instead** logical position classes:
+  - `--top-end` (was `--top-right`)
+  - `--top-start` (was `--top-left`)
+  - `--bottom-end` (was `--bottom-right`)
+  - `--bottom-start` (was `--bottom-left`)
+- These logical classes automatically flip in RTL mode
+
+### Fixed
+
+- **Font size scaling classes**: Fixed `html.font-size-small`, `font-size-large`, etc. using incorrect rem values that caused text to become enormous. Now uses absolute px values to properly scale the 10px rem base (e.g., `font-size-small` sets html to 9px for ~14px body text)
+
+---
+
 ## [1.3.0] - 2026-01-30
 
 **Theme packages also updated to v1.2.0:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`

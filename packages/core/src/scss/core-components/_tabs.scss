@@ -119,19 +119,22 @@
   &--vertical {
     flex-direction: column;
     border-bottom: none;
-    border-right: $border-width-base solid var(--pa-border-color);
+    border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
     gap: 0;
     margin-bottom: 0;
-    padding-right: 0;
+    padding-inline-end: 0; // RTL: flips to padding-left
     width: fit-content;
     min-width: max-content;
 
     .pa-tabs__item {
       justify-content: flex-start;
       border-bottom: none;
-      border-right: $border-width-medium solid transparent;
+      border-inline-end: $border-width-medium solid transparent; // RTL: flips to border-left
       padding: $spacing-sm;
-      border-radius: $border-radius 0 0 $border-radius;
+      border-start-start-radius: $border-radius; // RTL: top-right in RTL
+      border-end-start-radius: $border-radius;   // RTL: bottom-right in RTL
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
       gap: $tabs-vertical-item-gap;
       white-space: nowrap;
       min-height: 4rem; // Default height for vertical tabs
@@ -141,7 +144,7 @@
       }
 
       &--active {
-        border-right-color: $accent-color;
+        border-inline-end-color: $accent-color; // RTL: flips to border-left-color
         background-color: rgba($accent-color, $tabs-vertical-active-opacity);
       }
 
@@ -224,14 +227,24 @@
         background: linear-gradient(to right, var(--pa-main-bg), color-mix(in srgb, var(--pa-main-bg) 80%, transparent));
       }
 
-      &--left {
-        left: 0;
+      &--left,
+      &--start {
+        inset-inline-start: 0; // RTL: flips to right
         background: linear-gradient(to right, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+
+        [dir="rtl"] & {
+          background: linear-gradient(to left, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+        }
       }
 
-      &--right {
-        right: 0;
+      &--right,
+      &--end {
+        inset-inline-end: 0; // RTL: flips to left
         background: linear-gradient(to left, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+
+        [dir="rtl"] & {
+          background: linear-gradient(to right, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+        }
       }
 
       &--visible {
@@ -373,7 +386,7 @@
       // Overflow toggle for tabs that don't fit
       .pa-tabs__overflow {
         position: relative;
-        margin-left: auto;
+        margin-inline-start: auto; // RTL: flips to margin-right
         flex-shrink: 0;
       }
 
@@ -390,7 +403,7 @@
         color: var(--pa-text-color-2);
         cursor: pointer;
         transition: all $transition-fast $easing-snappy;
-        border-left: $border-width-base solid var(--pa-border-color);
+        border-inline-start: $border-width-base solid var(--pa-border-color); // RTL: flips to border-right
         margin: (-$card-header-padding-v) (-$card-header-padding-h) (-$card-header-padding-v) 0;
         box-sizing: content-box;
         height: $card-header-min-height;
@@ -423,7 +436,7 @@
       .pa-tabs__overflow-menu {
         position: absolute;
         top: $card-header-min-height;
-        right: 0;
+        inset-inline-end: 0; // RTL: flips to left
         min-width: 15rem;
         background: var(--pa-card-bg);
         border: $card-border-width solid var(--pa-border-color);
@@ -443,7 +456,7 @@
           border: none;
           border-bottom: none;
           border-radius: 0;
-          text-align: left;
+          text-align: start; // RTL: flips to right
           white-space: nowrap;
 
           &:hover {
@@ -480,7 +493,7 @@
 
       // Add divider between tabs and content (gap already provides spacing)
       .pa-tabs--vertical {
-        border-right: $border-width-base solid var(--pa-border-color);
+        border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
 
         // Make tab items full width so active border reaches divider
         .pa-tabs__item {

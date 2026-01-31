@@ -10,7 +10,7 @@
     width: 0;
     opacity: 0;
     overflow: hidden;
-    border-right: none;
+    border-inline-end: none; // RTL: flips to border-left
   }
 
   // Icon-collapse mode: show narrow icon-only bar when hidden
@@ -19,7 +19,7 @@
     opacity: 1; // Override parent opacity: 0 to make icons visible
     overflow: visible !important; // Allow flyout to show outside sidebar
     z-index: 1050; // Higher than content area (950) for flyouts
-    border-right: $border-width-base solid $border-color; // Restore border
+    border-inline-end: $border-width-base solid $border-color; // RTL: flips to border-left
 
     // Enable positioning for flyouts
     .pa-sidebar__item {
@@ -64,14 +64,17 @@
         width: auto;
         overflow: visible; // Remove overflow hidden
         position: absolute;
-        left: 100%;
+        inset-inline-start: 100%; // RTL: flips to right: 100%
         top: 0;
         bottom: 0;
         padding: $spacing-sm $spacing-base;
         background-color: var(--pa-sidebar-bg);
         border: $border-width-base solid var(--pa-border-color);
-        border-left: none;
-        border-radius: 0 $border-radius $border-radius 0;
+        border-inline-start: none; // RTL: flips to border-right: none
+        border-start-start-radius: 0;
+        border-start-end-radius: $border-radius;
+        border-end-end-radius: $border-radius;
+        border-end-start-radius: 0;
         box-shadow: $shadow-md;
         white-space: nowrap;
         z-index: 10; // Relative to parent
@@ -87,7 +90,7 @@
       max-height: none !important;
       overflow: visible !important;
       position: absolute;
-      left: 100%;
+      inset-inline-start: 100%; // RTL: flips to right: 100%
       top: 0;
       min-width: 12rem;
       margin: 0;
@@ -95,8 +98,11 @@
       list-style: none;
       background-color: var(--pa-sidebar-submenu-bg);
       border: $border-width-base solid var(--pa-border-color);
-      border-left: none;
-      border-radius: 0 $border-radius $border-radius 0;
+      border-inline-start: none; // RTL: flips to border-right: none
+      border-start-start-radius: 0;
+      border-start-end-radius: $border-radius;
+      border-end-end-radius: $border-radius;
+      border-end-start-radius: 0;
       box-shadow: $shadow-md;
       z-index: 1001; // Higher than parent
 
@@ -140,8 +146,8 @@
 
       .pa-sidebar__chevron {
         display: inline;
-        margin-left: auto;
-        transform: none !important; // Always point right in flyout menus (never rotate down)
+        margin-inline-start: auto; // RTL: flips to margin-right: auto
+        transform: none !important; // Always point end direction in flyout menus
       }
 
       // Nested submenu flyout (level 3)
@@ -155,7 +161,7 @@
         max-height: none !important;
         overflow: visible !important;
         position: absolute;
-        left: 100%;
+        inset-inline-start: 100%; // RTL: flips to right: 100%
         top: 0;
         min-width: 19.2rem;
         margin: 0;
@@ -163,8 +169,11 @@
         list-style: none;
         background-color: var(--pa-sidebar-submenu-bg);
         border: $border-width-base solid var(--pa-border-color);
-        border-left: none;
-        border-radius: 0 $border-radius $border-radius 0;
+        border-inline-start: none; // RTL: flips to border-right: none
+        border-start-start-radius: 0;
+        border-start-end-radius: $border-radius;
+        border-end-end-radius: $border-radius;
+        border-end-start-radius: 0;
         box-shadow: $shadow-md;
         z-index: 1002; // Higher than parent submenu
 
@@ -174,7 +183,7 @@
         }
 
         .pa-sidebar__chevron {
-          transform: none !important; // Always point right in nested flyout menus
+          transform: none !important; // Always point end direction in nested flyout menus
         }
       }
     }
@@ -210,13 +219,13 @@ body:not(.sidebar-hidden) {
     // Restore submenu indentation for level 2
     .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
     .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
-      padding-left: $sidebar-submenu-indent;
+      padding-inline-start: $sidebar-submenu-indent; // RTL: flips to padding-right
     }
 
     // Restore submenu indentation for level 3
     .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__link,
     .pa-sidebar__submenu .pa-sidebar__submenu > .pa-sidebar__item > .pa-sidebar__toggle {
-      padding-left: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier);
+      padding-inline-start: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier); // RTL: flips
     }
 
     // Icon maintains same position in both states

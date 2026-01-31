@@ -29,18 +29,18 @@ code {
   // With line numbers
   &--numbered {
     counter-reset: line;
-    padding-left: 5.6rem;
+    padding-inline-start: 5.6rem; // RTL: flips to right
     position: relative;
 
     &::before {
       content: '';
       position: absolute;
-      left: 0;
+      inset-inline-start: 0; // RTL: flips to right
       top: 0;
       bottom: 0;
       width: 4.4rem;
       background-color: rgba(0, 0, 0, 0.05);
-      border-right: $border-width-base solid var(--pa-border-color);
+      border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to left
     }
   }
 
@@ -52,31 +52,31 @@ code {
 
   // Language variants with colored accents
   &--json {
-    border-left: $border-width-medium solid $code-language-json;
+    border-inline-start: $border-width-medium solid $code-language-json; // RTL: flips to right
   }
 
   &--javascript {
-    border-left: $border-width-medium solid $code-language-javascript;
+    border-inline-start: $border-width-medium solid $code-language-javascript; // RTL: flips to right
   }
 
   &--html {
-    border-left: $border-width-medium solid $code-language-html;
+    border-inline-start: $border-width-medium solid $code-language-html; // RTL: flips to right
   }
 
   &--css {
-    border-left: $border-width-medium solid $code-language-css;
+    border-inline-start: $border-width-medium solid $code-language-css; // RTL: flips to right
   }
 
   &--bash {
-    border-left: $border-width-medium solid $code-language-bash;
+    border-inline-start: $border-width-medium solid $code-language-bash; // RTL: flips to right
   }
 
   &--sql {
-    border-left: $border-width-medium solid $code-language-sql;
+    border-inline-start: $border-width-medium solid $code-language-sql; // RTL: flips to right
   }
 
   &--python {
-    border-left: $border-width-medium solid $code-language-python;
+    border-inline-start: $border-width-medium solid $code-language-python; // RTL: flips to right
   }
 }
 

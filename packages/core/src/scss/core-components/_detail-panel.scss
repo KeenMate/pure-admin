@@ -33,20 +33,20 @@
     overflow: auto;
   }
 
-  // Right side: detail panel (hidden by default)
+  // End side: detail panel (hidden by default, right in LTR, left in RTL)
   &__panel {
     width: 0;
     min-width: 0;
     overflow: hidden;
     flex-shrink: 0;
-    border-left: 0 solid var(--pa-border-color);
+    border-inline-start: 0 solid var(--pa-border-color); // RTL: flips to right
 
     // Open state: show panel with configured width
     &--open {
       width: var(--pa-local-detail-panel-width);
       min-width: $detail-panel-min-width;
       max-width: var(--pa-local-detail-panel-max-width);
-      border-left-width: $border-width-base;
+      border-inline-start-width: $border-width-base; // RTL: flips to right
       overflow: visible;
     }
   }
@@ -64,7 +64,7 @@
   .pa-detail-view__panel {
     position: absolute;
     top: 0;
-    right: 0;
+    inset-inline-end: 0; // RTL: flips to left
     height: 100%;
     z-index: 2;
   }
@@ -73,10 +73,7 @@
 // Backdrop for card overlay mode
 .pa-detail-view__overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0; // Covers full container
   background-color: var(--pa-detail-panel-overlay-bg);
   z-index: 1;
   opacity: 0;
@@ -96,9 +93,7 @@
 
 .pa-detail-panel--overlay {
   position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
+  inset: 0; // Cover full viewport for backdrop
   z-index: var(--pa-detail-panel-z-index);
   pointer-events: none;
   opacity: 0;
@@ -127,26 +122,36 @@
   background-color: var(--pa-card-bg);
   position: relative;
 
-  // In overlay mode: slide-in from right
+  // In overlay mode: slide-in from end side (right in LTR, left in RTL)
   .pa-detail-panel--overlay & {
     position: absolute;
     top: 0;
     right: 0;
+    left: auto;
     height: 100vh;
     width: var(--pa-local-detail-panel-width);
     max-width: var(--pa-local-detail-panel-max-width);
     box-shadow: $detail-panel-shadow;
     transform: translateX(100%);
   }
+
+  // RTL: position on left and slide from left
+  [dir="rtl"] .pa-detail-panel--overlay & {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+  }
+
+  // RTL open state
+  [dir="rtl"] .pa-detail-panel--overlay.pa-detail-panel--open & {
+    transform: translateX(0);
+  }
 }
 
 // Backdrop overlay (overlay mode only)
 .pa-detail-panel__overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0; // Covers full viewport
   background-color: var(--pa-detail-panel-overlay-bg);
   cursor: pointer;
 }
@@ -248,7 +253,7 @@
 .pa-detail-panel-resize {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0; // RTL: flips to right
   width: $detail-panel-resize-handle-width;
   height: 100%;
   cursor: col-resize;
@@ -293,9 +298,7 @@
   .pa-detail-panel--mobile-overlay {
     display: block;
     position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
+    inset: 0; // Cover full viewport for backdrop
     z-index: var(--pa-detail-panel-z-index);
     pointer-events: none;
     opacity: 0;
@@ -315,6 +318,7 @@
       position: absolute;
       top: 0;
       right: 0;
+      left: auto;
       height: 100vh;
       width: $detail-panel-mobile-width;
       max-width: none;
@@ -322,12 +326,20 @@
       transform: translateX(100%);
     }
 
+    // RTL: position on left and slide from left
+    [dir="rtl"] & .pa-detail-panel__content {
+      right: auto;
+      left: 0;
+      transform: translateX(-100%);
+    }
+
+    [dir="rtl"] &.pa-detail-panel--open .pa-detail-panel__content {
+      transform: translateX(0);
+    }
+
     .pa-detail-panel__overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      inset: 0; // Covers full viewport
       background-color: var(--pa-detail-panel-overlay-bg);
       cursor: pointer;
     }

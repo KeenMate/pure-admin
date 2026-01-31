@@ -179,7 +179,10 @@
             const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
             const isMobile = window.innerWidth <= 768;
 
-            if (!isMobile && sidebarHidden) {
+            // Desktop only: set burger state based on sidebar visibility
+            // sidebarHidden = true → show hamburger (no active)
+            // sidebarHidden = false → show X (active) because sidebar is visible
+            if (!isMobile && !sidebarHidden) {
                 const burgerMenu = document.querySelector('.burger-menu');
                 if (burgerMenu) {
                     burgerMenu.classList.add('active');
@@ -411,12 +414,12 @@
     </div>
 
     <!-- Toast Containers (Global - one for each position) -->
-    <div id="toast-container-top-right" class="pa-toast-container pa-toast-container--top-right"></div>
+    <div id="toast-container-top-end" class="pa-toast-container pa-toast-container--top-end"></div>
     <div id="toast-container-top-center" class="pa-toast-container pa-toast-container--top-center"></div>
-    <div id="toast-container-top-left" class="pa-toast-container pa-toast-container--top-left"></div>
-    <div id="toast-container-bottom-right" class="pa-toast-container pa-toast-container--bottom-right"></div>
+    <div id="toast-container-top-start" class="pa-toast-container pa-toast-container--top-start"></div>
+    <div id="toast-container-bottom-end" class="pa-toast-container pa-toast-container--bottom-end"></div>
     <div id="toast-container-bottom-center" class="pa-toast-container pa-toast-container--bottom-center"></div>
-    <div id="toast-container-bottom-left" class="pa-toast-container pa-toast-container--bottom-left"></div>
+    <div id="toast-container-bottom-start" class="pa-toast-container pa-toast-container--bottom-start"></div>
 
     <script>
         function switchTheme(theme) {

@@ -149,12 +149,12 @@
       // Align first/last column with card header/footer padding
       th:first-child,
       td:first-child {
-        padding-left: $card-header-padding-h;
+        padding-inline-start: $card-header-padding-h; // RTL: flips to padding-right
       }
 
       th:last-child,
       td:last-child {
-        padding-right: $card-header-padding-h;
+        padding-inline-end: $card-header-padding-h; // RTL: flips to padding-left
       }
 
       // Remove bottom border from last row (card border handles it)
@@ -167,8 +167,8 @@
   &__footer {
     padding: $card-footer-padding-v $card-footer-padding-h;
     border-top: $border-width-base solid var(--pa-border-color);
-    border-bottom-left-radius: $card-border-radius;
-    border-bottom-right-radius: $card-border-radius;
+    border-end-start-radius: $card-border-radius; // RTL: bottom-right in RTL
+    border-end-end-radius: $card-border-radius;   // RTL: bottom-left in RTL
     background: var(--pa-card-footer-bg);
     display: flex;
     justify-content: space-between;
@@ -260,8 +260,7 @@
       background: transparent;
       border-bottom: none;
       border-radius: 0;
-      padding-left: 0;
-      padding-right: 0;
+      padding-inline: 0;
     }
 
     // Footer in plain mode
@@ -269,8 +268,7 @@
       background: transparent;
       border-top: none;
       border-radius: 0;
-      padding-left: 0;
-      padding-right: 0;
+      padding-inline: 0;
     }
   }
 }
@@ -284,7 +282,7 @@
   th,
   td {
     padding: $table-padding-base-v $table-padding-base-h;
-    text-align: left;
+    text-align: start; // RTL: flips to right
     border-bottom: $border-width-base solid var(--pa-border-color);
     vertical-align: middle;
     line-height: $line-height-tight;
@@ -379,13 +377,13 @@
 
   // Hover effects
   @if $table-hover-accent-width > 0 {
-    // Header alignment - add padding-left instead of border
+    // Header alignment - add padding to match hover accent border
     th:first-child {
-      padding-left: $table-hover-accent-width + $table-padding-base-h;
+      padding-inline-start: $table-hover-accent-width + $table-padding-base-h; // RTL: flips to padding-right
     }
 
     tbody tr {
-      border-#{$table-hover-accent-position}: #{$table-hover-accent-width} solid transparent;
+      border-inline-start: #{$table-hover-accent-width} solid transparent; // RTL: flips to border-right
       transition: border-color $transition-normal $easing-smooth;
     }
   }
@@ -395,7 +393,7 @@
 
     // Apply hover accent if enabled
     @if $table-hover-accent-width > 0 {
-      border-#{$table-hover-accent-position}-color: var(--pa-table-hover-accent-color);
+      border-inline-start-color: var(--pa-table-hover-accent-color); // RTL: flips to border-right-color
     }
   }
 
@@ -547,7 +545,7 @@
   &__count {
     color: var(--pa-text-color-2);
     font-size: $font-size-xs;
-    margin-left: $spacing-xs;
+    margin-inline-start: $spacing-xs; // RTL: flips to margin-right
   }
 }
 
@@ -575,13 +573,13 @@
 .pa-virtual-table__header-cell {
   padding: $virtual-table-cell-padding-v $virtual-table-cell-padding-h;
   font-weight: $font-weight-semibold;
-  border-right: $border-width-base solid var(--pa-border-color);
+  border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
   background: var(--pa-table-header-bg);
   color: var(--pa-text-color-1);
 }
 
 .pa-virtual-table__header-cell:last-child {
-  border-right: none;
+  border-inline-end: none;
 }
 
 .pa-virtual-table__body {
@@ -596,7 +594,7 @@
 
   // Setup for hover accent border (same as pa-table)
   @if $table-hover-accent-width > 0 {
-    border-#{$table-hover-accent-position}: #{$table-hover-accent-width} solid transparent;
+    border-inline-start: #{$table-hover-accent-width} solid transparent; // RTL: flips to border-right
     transition: border-color $transition-normal $easing-smooth;
   }
 }
@@ -610,13 +608,13 @@
 
   // Apply hover accent if enabled (same as pa-table)
   @if $table-hover-accent-width > 0 {
-    border-#{$table-hover-accent-position}-color: var(--pa-table-hover-accent-color);
+    border-inline-start-color: var(--pa-table-hover-accent-color); // RTL: flips to border-right-color
   }
 }
 
 .pa-virtual-table__cell {
   padding: $virtual-table-cell-padding-v $virtual-table-cell-padding-h;
-  border-right: $border-width-base solid var(--pa-border-color);
+  border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -625,7 +623,7 @@
 }
 
 .pa-virtual-table__cell:last-child {
-  border-right: none;
+  border-inline-end: none;
 }
 
 // Responsive Tables - Stackable Layout
@@ -637,8 +635,7 @@
     -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
 
     // Show subtle scroll hint with border
-    border-left: $border-width-base solid var(--pa-border-color);
-    border-right: $border-width-base solid var(--pa-border-color);
+    border-inline: $border-width-base solid var(--pa-border-color); // RTL: no change needed (symmetric)
   }
 
   // Mobile: Stack into cards
@@ -658,7 +655,7 @@
 
       // Reset hover accent border for mobile
       @if $table-hover-accent-width > 0 {
-        border-#{$table-hover-accent-position}: $border-width-base solid var(--pa-border-color) !important;
+        border-inline-start: $border-width-base solid var(--pa-border-color) !important; // RTL: flips
       }
 
       &:last-child {
@@ -669,7 +666,7 @@
     // Make each cell a row within the card
     tbody td {
       display: block;
-      text-align: right;
+      text-align: end; // RTL: flips to left (value on end side)
       padding: $table-responsive-card-padding;
       position: relative;
       border-bottom: $border-width-base solid var(--pa-border-color);
@@ -683,15 +680,15 @@
       &::before {
         content: attr(data-label);
         position: absolute;
-        left: $table-responsive-card-padding;
+        inset-inline-start: $table-responsive-card-padding; // RTL: flips to right
         top: $table-responsive-card-padding;
         font-weight: $table-responsive-label-font-weight;
-        text-align: left;
+        text-align: start; // RTL: flips to right
         width: $table-responsive-label-width;
       }
 
-      // Value aligned to the right
-      padding-left: calc($table-responsive-label-width + $table-responsive-card-padding * 2);
+      // Value aligned to the end (leave space for label on start side)
+      padding-inline-start: calc($table-responsive-label-width + $table-responsive-card-padding * 2); // RTL: flips
     }
 
     // Disable col-auto effect in responsive view
@@ -730,8 +727,7 @@
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border-left: $border-width-base solid var(--pa-border-color);
-    border-right: $border-width-base solid var(--pa-border-color);
+    border-inline: $border-width-base solid var(--pa-border-color); // RTL: no change needed (symmetric)
   }
 
   // Mobile: CSS Grid layout

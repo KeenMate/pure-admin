@@ -4,7 +4,7 @@
  *
  * Usage:
  *   PureAdmin.toast.success('Operation completed!');
- *   PureAdmin.toast.error('Something went wrong', { position: 'top-center' });
+ *   PureAdmin.toast.error('Something went wrong', { position: 'top-end' });
  *   PureAdmin.toast.show({ variant: 'warning', title: 'Warning', message: '...', persistent: true });
  *   PureAdmin.toast.dismiss(toastId);
  */
@@ -21,7 +21,7 @@
 
   // Default configuration
   const defaults = {
-    position: 'top-right',
+    position: 'top-end',
     duration: 5000,
     showProgress: false,
     persistent: false,
@@ -289,7 +289,7 @@
 
     /**
      * Dismiss all toasts (optionally filtered by position)
-     * @param {string} position - Optional position filter (e.g., 'top-right')
+     * @param {string} position - Optional position filter (e.g., 'top-end')
      */
     dismissAll: function(position = null) {
       dismissAll(position);

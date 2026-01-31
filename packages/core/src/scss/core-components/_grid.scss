@@ -47,24 +47,20 @@ $grid-columns-fractions: (
 .pa-row {
   display: flex;
   flex-wrap: wrap;
-  margin-left: -$grid-gutter;
-  margin-right: -$grid-gutter;
+  margin-inline: -$grid-gutter; // RTL: flips automatically
 
   // Nested rows reset margins
   .pa-row {
-    margin-left: 0;
-    margin-right: 0;
+    margin-inline: 0;
   }
 }
 
 // Row modifiers
 .pa-row--no-gutter {
-  margin-left: 0;
-  margin-right: 0;
+  margin-inline: 0;
 
   > [class*="pa-col"] {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline: 0;
   }
 }
 
@@ -113,8 +109,7 @@ $grid-columns-fractions: (
 // ============================================================================
 .pa-col {
   flex: 1;
-  padding-left: $grid-gutter;
-  padding-right: $grid-gutter;
+  padding-inline: $grid-gutter; // RTL: flips automatically
   min-width: 0; // Prevent content overflow
 }
 
@@ -122,8 +117,7 @@ $grid-columns-fractions: (
 .pa-col-auto {
   flex: 0 0 auto;
   width: auto;
-  padding-left: $grid-gutter;
-  padding-right: $grid-gutter;
+  padding-inline: $grid-gutter;
 }
 
 // ============================================================================
@@ -133,8 +127,7 @@ $grid-columns-fractions: (
   .pa-col-#{$size} {
     flex: 0 0 math.percentage(math.div($size, 100));
     max-width: math.percentage(math.div($size, 100));
-    padding-left: $grid-gutter;
-    padding-right: $grid-gutter;
+    padding-inline: $grid-gutter; // RTL: flips automatically
     min-width: 0; // Prevent content overflow
   }
 }
@@ -146,8 +139,7 @@ $grid-columns-fractions: (
   .pa-col-#{$name} {
     flex: 0 0 $width;
     max-width: $width;
-    padding-left: $grid-gutter;
-    padding-right: $grid-gutter;
+    padding-inline: $grid-gutter; // RTL: flips automatically
     min-width: 0; // Prevent content overflow
   }
 }
@@ -158,7 +150,7 @@ $grid-columns-fractions: (
 @each $size in $grid-columns-5 {
   @if $size < 100 {
     .pa-offset-#{$size} {
-      margin-left: math.percentage(math.div($size, 100));
+      margin-inline-start: math.percentage(math.div($size, 100)); // RTL: flips to margin-right
     }
   }
 }
@@ -173,8 +165,7 @@ $grid-columns-fractions: (
       .pa-col-#{$bp}-#{$size} {
         flex: 0 0 math.percentage(math.div($size, 100));
         max-width: math.percentage(math.div($size, 100));
-        padding-left: $grid-gutter;
-        padding-right: $grid-gutter;
+        padding-inline: $grid-gutter; // RTL: flips automatically
         min-width: 0; // Prevent content overflow
       }
     }
@@ -184,8 +175,7 @@ $grid-columns-fractions: (
       .pa-col-#{$bp}-#{$name} {
         flex: 0 0 $width;
         max-width: $width;
-        padding-left: $grid-gutter;
-        padding-right: $grid-gutter;
+        padding-inline: $grid-gutter; // RTL: flips automatically
         min-width: 0; // Prevent content overflow
       }
     }
@@ -194,7 +184,7 @@ $grid-columns-fractions: (
     @each $size in $grid-columns-5 {
       @if $size < 100 {
         .pa-offset-#{$bp}-#{$size} {
-          margin-left: math.percentage(math.div($size, 100));
+          margin-inline-start: math.percentage(math.div($size, 100)); // RTL: flips to margin-right
         }
       }
     }
@@ -211,8 +201,7 @@ $grid-columns-fractions: (
 // COLUMN MODIFIERS
 // ============================================================================
 .pa-col--no-padding {
-  padding-left: 0;
-  padding-right: 0;
+  padding-inline: 0;
 }
 
 .pa-col--grow {

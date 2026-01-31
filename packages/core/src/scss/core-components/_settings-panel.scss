@@ -6,22 +6,25 @@
 
 .pa-settings-panel {
   position: fixed;
-  right: -$profile-panel-width-fixed; // Panel hidden by default
+  inset-inline-end: -$profile-panel-width-fixed; // RTL: flips to left, panel hidden by default
   top: $settings-panel-top; // Position higher up for larger panel
   z-index: 10000;
   width: $profile-panel-width-fixed;
-  transition: right $settings-panel-transition-duration $settings-panel-transition-easing;
+  transition: inset-inline-end $settings-panel-transition-duration $settings-panel-transition-easing;
 
   &__toggle {
     position: absolute;
-    right: $profile-panel-width-fixed; // Position button at the right edge
+    inset-inline-end: $profile-panel-width-fixed; // RTL: flips to left
     top: 0;
     width: $profile-panel-toggle-size;
     height: $profile-panel-toggle-size;
     background: $accent-color;
     color: white;
     border: none;
-    border-radius: $border-radius 0 0 $border-radius;
+    border-start-start-radius: $border-radius; // RTL: top-right in RTL
+    border-end-start-radius: $border-radius;   // RTL: bottom-right in RTL
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
     cursor: pointer;
     font-size: $font-size-xl;
     display: flex;
@@ -33,15 +36,18 @@
     &:hover {
       background: $accent-hover;
       width: $profile-panel-toggle-size-open;
-      right: calc($profile-panel-width-fixed + $settings-panel-hover-offset);
+      inset-inline-end: calc($profile-panel-width-fixed + $settings-panel-hover-offset);
     }
   }
 
   &__content {
     background: var(--pa-subtle-bg);
     border: $border-width-base solid var(--pa-border-color);
-    border-right: none;
-    border-radius: $border-radius 0 0 $border-radius;
+    border-inline-end: none; // RTL: flips to border-left: none
+    border-start-start-radius: $border-radius; // RTL: top-right in RTL
+    border-end-start-radius: $border-radius;   // RTL: bottom-right in RTL
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
     box-shadow: $shadow-sidebar-open;
     padding: $spacing-lg;
     width: 100%;
@@ -93,6 +99,13 @@
     }
   }
 
+  &__hint {
+    display: block;
+    margin-top: $spacing-xs;
+    color: var(--pa-text-color-3);
+    font-size: $font-size-xs;
+  }
+
   &__checkbox-group {
     display: flex;
     flex-direction: column;
@@ -107,7 +120,7 @@
     font-size: $font-size-sm;
 
     input[type="checkbox"] {
-      margin-right: $btn-icon-margin;
+      margin-inline-end: $btn-icon-margin; // RTL: flips to margin-left
       cursor: pointer;
     }
 
@@ -118,7 +131,7 @@
 
   // Panel states
   &--open {
-    right: 0; // Slide panel into view
+    inset-inline-end: 0; // RTL: flips to left: 0, slide panel into view
 
     .pa-settings-panel__toggle {
       background: $accent-hover;

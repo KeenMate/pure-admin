@@ -30,7 +30,8 @@ p {
 // Lists - styled lists (default browser styling)
 ul, ol {
   margin: $list-margin-top 0 $list-margin-bottom 0;
-  padding: 0 0 0 $list-padding-left;
+  padding: 0;
+  padding-inline-start: $list-padding-left; // RTL: flips to right
 
   li {
     margin-bottom: $list-item-margin-bottom;
@@ -40,7 +41,7 @@ ul, ol {
 // Lists - unstyled (for navigation, etc.)
 ul.unstyled, ol.unstyled {
   list-style: none;
-  padding-left: 0;
+  padding-inline-start: 0; // RTL: flips to right
 
   li {
     margin-bottom: 0;
@@ -61,7 +62,7 @@ dd {
 // Blockquote
 blockquote {
   margin: $blockquote-margin-top 0 $blockquote-margin-bottom 0;
-  padding: 0 0 0 $blockquote-padding-left;
+  padding-inline-start: $blockquote-padding-left; // RTL: flips to right
 }
 
 // Pre/Code blocks

@@ -79,7 +79,7 @@
         content: 'Click to copy';
         font-size: $font-size-2xs;
         opacity: 0;
-        margin-left: $spacing-sm;
+        margin-inline-start: $spacing-sm; // RTL: flips to right
         transition: opacity 0.15s;
       }
 
@@ -167,8 +167,8 @@
   display: flex;
   flex-direction: column;
   gap: $fields-gap;
-  border-left: $fields-border-left;
-  padding-left: $fields-padding-left;
+  border-inline-start: $fields-border-left; // RTL: flips to right
+  padding-inline-start: $fields-padding-left; // RTL: flips to right
 
   // ------------------------------------------------------------------
   // GRID COLUMNS: multi-column layouts using CSS grid
@@ -338,10 +338,10 @@
   }
 
   // ------------------------------------------------------------------
-  // NO BORDER: remove left border
+  // NO BORDER: remove start border
   // ------------------------------------------------------------------
   &--no-border {
-    border-left: none;
-    padding-left: 0;
+    border-inline-start: none; // RTL: flips to right
+    padding-inline-start: 0; // RTL: flips to right
   }
 }

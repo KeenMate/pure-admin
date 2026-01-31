@@ -34,6 +34,7 @@
         const sidebarBehaviorSelector = document.getElementById('sidebarBehaviorSelector');
         const sidebarModeSelector = document.getElementById('sidebarModeSelector');
         const compactMode = document.getElementById('compactMode');
+        const rtlMode = document.getElementById('rtlMode');
         const profileNoAvatar = document.getElementById('profileNoAvatar');
         const profileIconOnlyTabs = document.getElementById('profileIconOnlyTabs');
         const containerWidthSelector = document.getElementById('containerWidthSelector');
@@ -258,6 +259,15 @@
                 body.classList.add('compact-mode');
             }
 
+            // RTL mode
+            const isRtlMode = localStorage.getItem('rtl-mode') === 'true';
+            rtlMode.checked = isRtlMode;
+            if (isRtlMode) {
+                document.documentElement.setAttribute('dir', 'rtl');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+            }
+
             // Profile panel - no avatar mode
             const isNoAvatar = localStorage.getItem('profile-no-avatar') === 'true';
             profileNoAvatar.checked = isNoAvatar;
@@ -383,6 +393,17 @@
             }
         });
 
+        // RTL mode toggle
+        rtlMode.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('dir', 'rtl');
+                localStorage.setItem('rtl-mode', 'true');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                localStorage.setItem('rtl-mode', 'false');
+            }
+        });
+
         // Profile panel no-avatar toggle
         profileNoAvatar.addEventListener('change', (e) => {
             const profileHeader = document.getElementById('profilePanelHeader');
@@ -462,6 +483,7 @@
             localStorage.removeItem('sidebar-resizable');
             localStorage.removeItem('sidebar-width');
             localStorage.removeItem('compact-mode');
+            localStorage.removeItem('rtl-mode');
             localStorage.removeItem('profile-no-avatar');
             localStorage.removeItem('theme-mode');
             localStorage.removeItem('color-variant');
