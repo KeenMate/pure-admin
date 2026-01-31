@@ -1,0 +1,161 @@
+// ============================================================================
+// RTL (Right-to-Left) Helper Mixins
+// ============================================================================
+//
+// These mixins help with cases where CSS logical properties don't fully apply,
+// such as transforms, rotations, and complex positioning.
+//
+// RTL is activated by setting dir="rtl" on the <html> element:
+//   <html lang="ar" dir="rtl">
+//
+// Most directional CSS should use logical properties directly:
+//   margin-inline-start, padding-inline-end, inset-inline-start, etc.
+//
+// Use these mixins only for special cases like transforms and rotations.
+// ============================================================================
+
+/// Apply different transforms for LTR and RTL
+/// @param {String} $ltr-value - Transform value for LTR
+/// @param {String} $rtl-value - Transform value for RTL
+@mixin rtl-transform($ltr-value, $rtl-value) {
+  transform: $ltr-value;
+
+  [dir="rtl"] & {
+    transform: $rtl-value;
+  }
+}
+
+/// Apply different values for any property in LTR vs RTL
+/// @param {String} $property - CSS property name
+/// @param {*} $ltr-value - Value for LTR
+/// @param {*} $rtl-value - Value for RTL
+@mixin rtl-value($property, $ltr-value, $rtl-value) {
+  #{$property}: $ltr-value;
+
+  [dir="rtl"] & {
+    #{$property}: $rtl-value;
+  }
+}
+
+/// Rotation that flips in RTL (for chevrons, arrows, etc.)
+/// @param {Number} $ltr-deg - Rotation degrees for LTR
+/// @param {Number} $rtl-deg [null] - Rotation degrees for RTL (defaults to negated $ltr-deg if null)
+@mixin rtl-rotate($ltr-deg, $rtl-deg: null) {
+  transform: rotate($ltr-deg);
+
+  [dir="rtl"] & {
+    @if $rtl-deg != null {
+      transform: rotate($rtl-deg);
+    } @else {
+      transform: rotate(-1 * $ltr-deg);
+    }
+  }
+}
+
+/// Horizontal flip for icons that should mirror in RTL
+@mixin rtl-flip-horizontal {
+  [dir="rtl"] & {
+    transform: scaleX(-1);
+  }
+}
+
+/// RTL-only styles (only applied when dir="rtl")
+@mixin rtl-only {
+  [dir="rtl"] & {
+    @content;
+  }
+}
+
+/// LTR-only styles (only applied when dir="ltr" or no dir attribute)
+@mixin ltr-only {
+  &:not([dir="rtl"] *) {
+    @content;
+  }
+
+  [dir="ltr"] & {
+    @content;
+  }
+}
+
+/// Translate that flips X direction in RTL
+/// @param {Length} $x - X translation (positive = right in LTR, left in RTL)
+/// @param {Length} $y [0] - Y translation
+@mixin rtl-translate($x, $y: 0) {
+  transform: translate($x, $y);
+
+  [dir="rtl"] & {
+    transform: translate(-$x, $y);
+  }
+}
+
+/// TranslateX that flips in RTL
+/// @param {Length} $x - X translation
+@mixin rtl-translateX($x) {
+  transform: translateX($x);
+
+  [dir="rtl"] & {
+    transform: translateX(-$x);
+  }
+}
+
+/// Combined rotation and other transforms for RTL
+/// Use when you need rotation + other transforms
+/// @param {String} $ltr-transform - Full transform string for LTR
+/// @param {String} $rtl-transform - Full transform string for RTL
+@mixin rtl-transform-complex($ltr-transform, $rtl-transform) {
+  transform: $ltr-transform;
+
+  [dir="rtl"] & {
+    transform: $rtl-transform;
+  }
+}
+
+// ============================================================================
+// Directional Border Radius Helper
+// ============================================================================
+// Use when you need different radius values for different corners
+// For uniform radius, just use border-radius: $value (no direction needed)
+
+/// Apply border radius with logical corner names
+/// @param {Length} $start-start - Top-left in LTR, Top-right in RTL
+/// @param {Length} $start-end - Top-right in LTR, Top-left in RTL
+/// @param {Length} $end-end - Bottom-right in LTR, Bottom-left in RTL
+/// @param {Length} $end-start - Bottom-left in LTR, Bottom-right in RTL
+@mixin border-radius-logical($start-start, $start-end: $start-start, $end-end: $start-start, $end-start: $start-start) {
+  border-start-start-radius: $start-start;
+  border-start-end-radius: $start-end;
+  border-end-end-radius: $end-end;
+  border-end-start-radius: $end-start;
+}
+
+/// Top corners only (start edge)
+@mixin border-radius-top($radius) {
+  border-start-start-radius: $radius;
+  border-start-end-radius: $radius;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+/// Bottom corners only (end edge)
+@mixin border-radius-bottom($radius) {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+  border-end-start-radius: $radius;
+  border-end-end-radius: $radius;
+}
+
+/// Start side corners only (left in LTR, right in RTL)
+@mixin border-radius-start($radius) {
+  border-start-start-radius: $radius;
+  border-end-start-radius: $radius;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+/// End side corners only (right in LTR, left in RTL)
+@mixin border-radius-end($radius) {
+  border-start-end-radius: $radius;
+  border-end-end-radius: $radius;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
