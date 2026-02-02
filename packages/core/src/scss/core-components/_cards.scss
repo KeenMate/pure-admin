@@ -29,6 +29,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: $spacing-base; // Gap between header elements (title, description, actions)
     min-width: 0; // Enable text truncation
 
     // Reset margins/paddings for all native elements
@@ -61,10 +62,50 @@
       font-size: $font-size-base;
     }
 
+    // Direct heading children - don't shrink (for three-part layout)
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6 {
+      flex-shrink: 0;
+    }
+
+    // Description paragraphs - flexible middle, truncate with ellipsis
+    > p {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--pa-text-color-2);
+      font-size: $font-size-sm;
+    }
+
+    // Actions container - fixed, doesn't shrink
+    .pa-card__actions,
+    .pa-btn-group {
+      flex-shrink: 0;
+    }
+
     // Buttons in card headers - negative margin to prevent header height growth
     .pa-btn {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem;
+      flex-shrink: 0;
+    }
+
+    // Wrap modifier - allow description to wrap (for mobile or long descriptions)
+    &--wrap {
+      flex-wrap: wrap;
+
+      > p {
+        white-space: normal;
+        flex-basis: 100%;
+        order: 1;
+        margin-top: $spacing-xs;
+      }
     }
   }
 

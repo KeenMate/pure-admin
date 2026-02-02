@@ -66,7 +66,12 @@
     top: 0;
     inset-inline-end: 0; // RTL: flips to left
     height: 100%;
-    z-index: 2;
+    z-index: $z-index-detail-panel-card + 1; // 3501 - Below header (4000)
+
+    // In card overlay mode, constrain panel width to container
+    &--open {
+      max-width: 100%; // Don't exceed container width
+    }
   }
 }
 
@@ -75,7 +80,7 @@
   position: absolute;
   inset: 0; // Covers full container
   background-color: var(--pa-detail-panel-overlay-bg);
-  z-index: 1;
+  z-index: $z-index-detail-panel-card; // 3500 - Below panel and header
   opacity: 0;
   visibility: hidden;
   cursor: pointer;

@@ -184,6 +184,10 @@ app.get('/cards', (req, res) => {
     renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
 });
 
+app.get('/sizing', (req, res) => {
+    renderWithLayout(res, 'sizing', { pageTitle: 'Sizing & Layout', currentPage: 'sizing', isSizing: true });
+});
+
 app.get('/grid', (req, res) => {
     renderWithLayout(res, 'grid', { pageTitle: 'Grid System', currentPage: 'grid', isGrid: true });
 });

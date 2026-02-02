@@ -5,6 +5,26 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-02-02
+
+**Theme packages also updated to v1.4.0:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`
+
+### Added
+
+- **Table card + detail view support**: `.pa-table-card` now works with `.pa-detail-view` for inline split-view and overlay modes with web-grid or pa-table
+- **Scroll lock utility**: Added `.pa-scroll-lock` class to disable body scrolling when overlays are open (detail panel overlay, card overlay, profile panel)
+- **Card header three-part layout**: Card headers now support a flexible three-part structure: `[Title (h1-h6)]` — `[Description (p)]` — `[Actions]`. Title and actions stay fixed width, description fills available space and truncates with ellipsis. Elements are separated by automatic gaps (`$spacing-base`). Added `--wrap` modifier (`.pa-card__header--wrap`) for allowing description to wrap to its own line. Use `.pa-tooltip--multiline` on truncated text to show full content on hover
+- **Height and flex utilities**: Added percentage-based height utilities (`.h-full`, `.h-screen`, `.min-h-full`, `.min-h-screen`, `.max-h-full`, `.max-h-screen`) and flex utilities (`.flex-1`, `.flex-auto`, `.flex-grow`, `.flex-shrink-0`, etc.) for filling available space in layouts
+- **Sizing & Layout demo page**: New `/sizing` demo page showing height and flex utilities with practical examples for expandable table cards
+
+### Fixed
+
+- **Detail panel z-index**: Card overlay mode (`.pa-detail-view--overlay`) now uses z-index 3500/3501, which is below the header (4000). This ensures the panel stays contained within its card and doesn't overlap the header when scrolling. Full-screen overlay mode remains at 4500 (above header)
+- **Card title truncation**: Fixed `.pa-card__title-text` not truncating properly. The `flex-shrink: 0` rule now only applies to direct heading children of `.pa-card__header`, allowing nested titles (inside `.pa-card__title`) to truncate correctly
+- **Demo fixes**: Fixed non-existent CSS classes in demo pages — `pa-card__header-actions` → `pa-card__tools` (forms), removed `pa-card--bordered` and `pa-card__header--{color}` modifiers (validations)
+
+---
+
 ## [1.4.0] - 2026-01-31
 
 **Theme packages also updated to v1.3.0:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`

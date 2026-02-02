@@ -564,6 +564,9 @@
             const profilePanel = document.getElementById('profilePanel');
             profilePanel.classList.toggle('pa-profile-panel--open');
 
+            // Toggle scroll lock based on panel state
+            document.body.classList.toggle('pa-scroll-lock', profilePanel.classList.contains('pa-profile-panel--open'));
+
             // Close notifications if open
             const notificationsPanel = document.getElementById('notificationsPanel');
             if (notificationsPanel.classList.contains('is-open')) {
@@ -574,6 +577,7 @@
         function closeProfilePanel() {
             const profilePanel = document.getElementById('profilePanel');
             profilePanel.classList.remove('pa-profile-panel--open');
+            document.body.classList.remove('pa-scroll-lock');
         }
 
         // Profile panel tab switching

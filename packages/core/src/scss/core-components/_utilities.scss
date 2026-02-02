@@ -94,6 +94,24 @@ html.font-size-xlarge {
 .max-h-40x { max-height: 40rem; } // 640px
 .max-h-50x { max-height: 50rem; } // 800px
 
+// Percentage-based height utilities - for filling available space
+.h-full { height: 100%; }
+.h-screen { height: 100vh; }
+.min-h-full { min-height: 100%; }
+.min-h-screen { min-height: 100vh; }
+.max-h-full { max-height: 100%; }
+.max-h-screen { max-height: 100vh; }
+
+// Flex utilities - for filling available space in flex containers
+.flex-1 { flex: 1 1 0%; }           // Grow and shrink equally, ignore content size
+.flex-auto { flex: 1 1 auto; }      // Grow and shrink, based on content size
+.flex-initial { flex: 0 1 auto; }   // Shrink but don't grow (default)
+.flex-none { flex: none; }          // Don't grow or shrink
+.flex-grow { flex-grow: 1; }        // Grow to fill space
+.flex-grow-0 { flex-grow: 0; }      // Don't grow
+.flex-shrink { flex-shrink: 1; }    // Allow shrinking
+.flex-shrink-0 { flex-shrink: 0; }  // Don't shrink
+
 // Overflow utilities - pair with height/max-height for scrollable content
 .overflow-auto { overflow: auto; }
 .overflow-y-auto { overflow-y: auto; }
@@ -116,6 +134,12 @@ html.font-size-xlarge {
 .overflow-x-overlay {
   overflow-x: auto;
   overflow-x: overlay;
+}
+
+// Scroll lock - prevents body scrolling when overlays are open
+// Apply to <body> element via JavaScript
+.pa-scroll-lock {
+  overflow: hidden !important;
 }
 
 // Cursor utilities

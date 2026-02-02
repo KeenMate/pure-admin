@@ -76,6 +76,9 @@
         // Show panel
         panel.classList.add('pa-detail-panel--open');
 
+        // Lock body scroll
+        document.body.classList.add('pa-scroll-lock');
+
         // Update row selection
         updateRowSelection('overlayTable', id);
     }
@@ -85,6 +88,9 @@
         if (!panel) return;
 
         panel.classList.remove('pa-detail-panel--open');
+
+        // Unlock body scroll
+        document.body.classList.remove('pa-scroll-lock');
 
         // Clear row selection
         clearRowSelection('overlayTable');
@@ -115,6 +121,9 @@
         panel.classList.add('pa-detail-view__panel--open');
         if (overlay) overlay.classList.add('pa-detail-view__overlay--visible');
 
+        // Lock body scroll
+        document.body.classList.add('pa-scroll-lock');
+
         // Update row selection
         updateRowSelection('cardOverlayTable', id);
     }
@@ -128,6 +137,9 @@
 
         panel.classList.remove('pa-detail-view__panel--open');
         if (overlay) overlay.classList.remove('pa-detail-view__overlay--visible');
+
+        // Unlock body scroll
+        document.body.classList.remove('pa-scroll-lock');
 
         // Clear row selection
         clearRowSelection('cardOverlayTable');

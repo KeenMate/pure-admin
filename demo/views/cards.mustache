@@ -103,6 +103,179 @@
                 </div>
             </div>
 
+            <!-- Card Header Layout -->
+            <div class="pa-section">
+                <h3>Card Header Three-Part Layout</h3>
+                <p>Card headers support a flexible three-part layout: <strong>Title</strong> (fixed), <strong>Description</strong> (flexible, truncates), and <strong>Actions</strong> (fixed). Elements are separated by automatic gaps.</p>
+
+                <div class="pa-row">
+                    <!-- Full three-part layout -->
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>User Management</h4>
+                                <p>Manage user accounts, permissions, and access controls for your organization</p>
+                                <button class="pa-btn pa-btn--primary pa-btn--sm">Add User</button>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Full three-part layout: title stays fixed, description fills available space and truncates with ellipsis, action button stays fixed on the right.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Multiple action buttons -->
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>Reports</h4>
+                                <p>Generate and download analytics reports for your dashboard metrics</p>
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Export</button>
+                                    <button class="pa-btn pa-btn--primary pa-btn--sm">Generate</button>
+                                </div>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Multiple buttons can be grouped with <code>.pa-btn-group</code>. The group stays fixed and won't shrink.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Title + Description only -->
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>Settings</h4>
+                                <p>Configure application preferences and system settings</p>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Title + description without actions. The description expands to fill the remaining space.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Title + Actions only -->
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>Notifications</h4>
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Mark All Read</button>
+                                    <button class="pa-btn pa-btn--outline-danger pa-btn--sm">Clear</button>
+                                </div>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Title + actions without description. The gap keeps them separated, and <code>justify-content: space-between</code> pushes actions to the right.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mt-4">Long Description Truncation</h4>
+                <p>When descriptions are too long, they automatically truncate with ellipsis (...) to maintain a single-line header.</p>
+
+                <div class="pa-row">
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>Analytics</h4>
+                                <p>This is a very long description that explains the analytics dashboard features including real-time metrics, historical data analysis, custom reports, and export functionality for enterprise users</p>
+                                <button class="pa-btn pa-btn--primary pa-btn--sm">View</button>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>The description truncates with ellipsis when it exceeds the available space. Hover or resize to see the effect.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>Inventory</h4>
+                                <p>Track stock levels, manage suppliers, process purchase orders, and monitor warehouse capacity across multiple locations</p>
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Import</button>
+                                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Export</button>
+                                    <button class="pa-btn pa-btn--primary pa-btn--sm">Add Item</button>
+                                </div>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Even with multiple action buttons, the description gracefully truncates to prevent overflow.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mt-4">With Tooltip for Full Description</h4>
+                <p>Add <code>.pa-tooltip .pa-tooltip--multiline</code> to the description paragraph to show the full text on hover.</p>
+
+                <div class="pa-row">
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>Dashboard</h4>
+                                <p class="pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
+                                   data-tooltip="View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts.">View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts.</p>
+                                <button class="pa-btn pa-btn--primary pa-btn--sm">Open</button>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>Hover over the truncated description to see the full text in a multiline tooltip.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header">
+                                <h4>Audit Log</h4>
+                                <p class="pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
+                                   data-tooltip="Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting.">Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting.</p>
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Export</button>
+                                    <button class="pa-btn pa-btn--primary pa-btn--sm">View</button>
+                                </div>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>The tooltip provides full context while keeping the header compact and consistent.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mt-4">Wrap Modifier</h4>
+                <p>Use <code>.pa-card__header--wrap</code> when you need the description to wrap onto its own line (useful for mobile or when full description visibility is important).</p>
+
+                <div class="pa-row">
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header pa-card__header--wrap">
+                                <h4>Project Overview</h4>
+                                <p>This card uses the wrap modifier so the description appears on its own line below the title and actions. This is useful when the full description text needs to be visible.</p>
+                                <div class="pa-btn-group">
+                                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Edit</button>
+                                    <button class="pa-btn pa-btn--primary pa-btn--sm">View</button>
+                                </div>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>With <code>--wrap</code>, the description moves to a new line (via <code>flex-basis: 100%</code> and <code>order: 1</code>) and can display multiple lines.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pa-col-100 pa-col-lg-50">
+                        <div class="pa-card">
+                            <div class="pa-card__header pa-card__header--wrap">
+                                <h4>Documentation</h4>
+                                <p>Complete API reference and integration guides for developers. Includes code samples, authentication flows, and best practices for building with our platform.</p>
+                                <button class="pa-btn pa-btn--primary pa-btn--sm">Open Docs</button>
+                            </div>
+                            <div class="pa-card__body">
+                                <p>The wrap modifier is ideal for mobile layouts or when description content is essential to display in full.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Colored Cards -->
             <div class="pa-section">
                 <h3>Colored Cards</h3>
@@ -337,13 +510,14 @@
                         </div>
                     </div>
 
-                    <!-- Card with Very Long Title -->
+                    <!-- Card with Very Long Title + Tooltip -->
                     <div class="pa-col-100 pa-col-md-50">
                         <div class="pa-card">
                             <div class="pa-card__header">
                                 <div class="pa-card__title">
                                     <span class="pa-card__title-icon">🔒</span>
-                                    <h4 class="pa-card__title-text">This is a Very Long Card Title That Should Be Truncated With Ellipsis When It Exceeds Available Space</h4>
+                                    <h4 class="pa-card__title-text pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
+                                        data-tooltip="This is a Very Long Card Title That Should Be Truncated With Ellipsis When It Exceeds Available Space">This is a Very Long Card Title That Should Be Truncated With Ellipsis When It Exceeds Available Space</h4>
                                 </div>
                                 <div class="pa-card__tools">
                                     <button class="pa-btn pa-btn--secondary pa-btn--xs" title="Edit">✏️</button>
@@ -353,7 +527,7 @@
                                 </div>
                             </div>
                             <div class="pa-card__body">
-                                <p>Notice how the title truncates with ellipsis (...) when there's not enough space due to the tool buttons.</p>
+                                <p>Hover over the truncated title to see the full text in a multiline tooltip. Uses <code>.pa-tooltip--multiline</code> on <code>.pa-card__title-text</code>.</p>
                             </div>
                         </div>
                     </div>
@@ -501,10 +675,16 @@
 
         <h4 class="mt-4">Header Elements</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-card__header</code> - Flexbox header with gap between children</li>
+            <li><code>pa-card__header--wrap</code> - Allow description to wrap to new line</li>
+            <li><code>h1-h6</code> (direct child) - Title, fixed width, won't shrink</li>
+            <li><code>p</code> (direct child) - Description, flexible, truncates with ellipsis</li>
             <li><code>pa-card__title</code> - Title container with icon support</li>
             <li><code>pa-card__title-icon</code> - Icon before title</li>
             <li><code>pa-card__title-text</code> - Title text (auto-truncates)</li>
             <li><code>pa-card__tools</code> - Tool buttons container (right side)</li>
+            <li><code>pa-card__actions</code> - Actions container, fixed width</li>
+            <li><code>pa-btn-group</code> - Button group in header, fixed width</li>
         </ul>
 
         <h4 class="mt-4">Footer Elements</h4>

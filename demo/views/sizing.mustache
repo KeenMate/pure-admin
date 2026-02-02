@@ -1,0 +1,461 @@
+<style>
+    .demo-box {
+        background: var(--pa-accent-light, rgba(59, 130, 246, 0.1));
+        border: 1px solid var(--pa-accent, #3b82f6);
+        border-radius: 4px;
+    }
+    .demo-box-alt {
+        background: var(--pa-card-bg);
+        border: 1px solid var(--pa-border-color);
+        border-radius: 4px;
+    }
+</style>
+
+<p>Utilities for controlling element dimensions and flex behavior. Use these to create layouts that fill available space.</p>
+
+<!-- Height Utilities -->
+<div class="pa-section">
+    <h3>Height Utilities</h3>
+    <p>Fixed rem-based heights, percentage heights, and viewport heights.</p>
+
+    <div class="pa-row">
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>Fixed Heights (rem-based)</h4>
+                    <p>Use .h-{size}x for fixed heights based on rem units</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="d-flex gap-sm" style="align-items: flex-end;">
+                        <div class="h-5x demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.h-5x</code><br><small>5rem</small>
+                        </div>
+                        <div class="h-8x demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.h-8x</code><br><small>8rem</small>
+                        </div>
+                        <div class="h-10x demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.h-10x</code><br><small>10rem</small>
+                        </div>
+                        <div class="h-15x demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.h-15x</code><br><small>15rem</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>Min-Height (rem-based)</h4>
+                    <p>Use .min-h-{size}x for minimum heights</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="d-flex gap-sm" style="align-items: flex-start;">
+                        <div class="min-h-10x demo-box p-sm text-center" style="width: 8rem;">
+                            <code>.min-h-10x</code><br><small>Content can grow</small>
+                        </div>
+                        <div class="min-h-15x demo-box p-sm text-center" style="width: 8rem;">
+                            <code>.min-h-15x</code><br><small>Minimum 15rem</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-row">
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>Percentage Heights</h4>
+                    <p>Fill parent container with .h-full or viewport with .h-screen</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="h-20x demo-box-alt p-sm">
+                        <div class="h-full demo-box d-flex align-items-center justify-content-center">
+                            <code>.h-full</code> fills parent (100%)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>Max-Height with Overflow</h4>
+                    <p>Combine .max-h-{size}x with .overflow-y-auto for scrollable areas</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="max-h-15x overflow-y-auto demo-box-alt p-sm">
+                        <p>This container has a max height of 15rem.</p>
+                        <p>When content exceeds this height, it becomes scrollable.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate.</p>
+                        <p>Excepteur sint occaecat cupidatat non proident.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Flex Utilities -->
+<div class="pa-section">
+    <h3>Flex Utilities</h3>
+    <p>Control how flex items grow and shrink to fill available space.</p>
+
+    <div class="pa-row">
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>.flex-1</h4>
+                    <p>Items grow equally to fill space, ignoring content size</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="d-flex gap-sm h-10x">
+                        <div class="flex-1 demo-box p-sm d-flex align-items-center justify-content-center">
+                            <code>.flex-1</code>
+                        </div>
+                        <div class="flex-1 demo-box p-sm d-flex align-items-center justify-content-center">
+                            <code>.flex-1</code>
+                        </div>
+                        <div class="flex-1 demo-box p-sm d-flex align-items-center justify-content-center">
+                            <code>.flex-1</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>.flex-auto</h4>
+                    <p>Items grow based on content size</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="d-flex gap-sm h-10x">
+                        <div class="flex-auto demo-box p-sm d-flex align-items-center justify-content-center">
+                            Short
+                        </div>
+                        <div class="flex-auto demo-box p-sm d-flex align-items-center justify-content-center">
+                            Medium content here
+                        </div>
+                        <div class="flex-auto demo-box p-sm d-flex align-items-center justify-content-center">
+                            Longer content takes more space
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-row">
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>.flex-grow / .flex-shrink-0</h4>
+                    <p>Mixed: one item grows, others stay fixed</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="d-flex gap-sm h-10x">
+                        <div class="flex-shrink-0 demo-box-alt p-sm d-flex align-items-center" style="width: 8rem;">
+                            Fixed width
+                        </div>
+                        <div class="flex-grow demo-box p-sm d-flex align-items-center justify-content-center">
+                            <code>.flex-grow</code> fills remaining space
+                        </div>
+                        <div class="flex-shrink-0 demo-box-alt p-sm d-flex align-items-center" style="width: 8rem;">
+                            Fixed width
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>.flex-none</h4>
+                    <p>Item doesn't grow or shrink</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="d-flex gap-sm h-10x">
+                        <div class="flex-1 demo-box p-sm d-flex align-items-center justify-content-center">
+                            <code>.flex-1</code>
+                        </div>
+                        <div class="flex-none demo-box-alt p-sm d-flex align-items-center justify-content-center" style="width: 12rem;">
+                            <code>.flex-none</code>
+                        </div>
+                        <div class="flex-1 demo-box p-sm d-flex align-items-center justify-content-center">
+                            <code>.flex-1</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Practical Example: Table Card with Detail Panel -->
+<div class="pa-section">
+    <h3>Practical Example: Expandable Table Card</h3>
+    <p>Use <code>.flex-1</code> or <code>.min-h-{size}x</code> to ensure table cards have enough height for detail panels, even with few rows.</p>
+
+    <div class="pa-row">
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>Without min-height</h4>
+                    <p>Table card shrinks to content - detail panel would be tiny</p>
+                </div>
+                <div class="pa-card__body p-0">
+                    <div class="pa-table-card" style="margin: 0; box-shadow: none;">
+                        <div class="pa-table-card__body">
+                            <table class="pa-table pa-table--hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Item 1</td><td><span class="pa-badge pa-badge--success">Active</span></td></tr>
+                                    <tr><td>Item 2</td><td><span class="pa-badge pa-badge--warning">Pending</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-col-100 pa-col-lg-50">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4>With .min-h-30x</h4>
+                    <p>Table card maintains minimum height for detail panel</p>
+                </div>
+                <div class="pa-card__body p-0">
+                    <div class="pa-table-card min-h-30x" style="margin: 0; box-shadow: none;">
+                        <div class="pa-table-card__body">
+                            <table class="pa-table pa-table--hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Item 1</td><td><span class="pa-badge pa-badge--success">Active</span></td></tr>
+                                    <tr><td>Item 2</td><td><span class="pa-badge pa-badge--warning">Pending</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-card mt-base">
+        <div class="pa-card__header">
+            <h4>Full-Height Layout Pattern</h4>
+            <p>Filters + table card that fills remaining viewport height using flex</p>
+        </div>
+        <div class="pa-card__body">
+            <pre class="pa-code"><code>&lt;!-- Container with flex column, full viewport height --&gt;
+&lt;div class="d-flex flex-column h-screen"&gt;
+    &lt;!-- Header (fixed height) --&gt;
+    &lt;header class="pa-header"&gt;...&lt;/header&gt;
+
+    &lt;!-- Main content area --&gt;
+    &lt;main class="flex-1 d-flex flex-column p-base"&gt;
+        &lt;!-- Filters (shrink to content) --&gt;
+        &lt;div class="pa-card mb-base flex-shrink-0"&gt;
+            &lt;!-- filter inputs --&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Table card fills remaining space --&gt;
+        &lt;div class="pa-table-card flex-1 min-h-30x"&gt;
+            &lt;div class="pa-table-card__body h-full"&gt;
+                &lt;div class="pa-detail-view h-full"&gt;
+                    &lt;!-- table + detail panel --&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+    </div>
+
+    <!-- Live Demo -->
+    <div class="pa-card mt-base">
+        <div class="pa-card__header">
+            <h4>Live Demo</h4>
+            <p>Filters + table card with detail panel in a fixed-height container (simulating viewport)</p>
+        </div>
+        <div class="pa-card__body p-0">
+            <!-- Simulated viewport container -->
+            <div class="h-50x d-flex flex-column" style="border: 2px dashed var(--pa-border-color);">
+                <!-- Filters (fixed height, doesn't grow) -->
+                <div class="flex-shrink-0 p-sm" style="background: var(--pa-card-header-bg); border-bottom: 1px solid var(--pa-border-color);">
+                    <div class="d-flex gap-sm align-items-center">
+                        <input type="text" class="pa-input pa-input--sm" placeholder="Search..." style="width: 20rem;">
+                        <select class="pa-input pa-input--sm" style="width: 12rem;">
+                            <option>All Status</option>
+                            <option>Active</option>
+                            <option>Pending</option>
+                        </select>
+                        <button class="pa-btn pa-btn--primary pa-btn--sm">Filter</button>
+                        <span class="text-secondary text-sm ms-auto">3 results (filtered)</span>
+                    </div>
+                </div>
+
+                <!-- Table card fills remaining space -->
+                <div class="flex-1 d-flex flex-column min-h-0">
+                    <div class="pa-detail-view pa-detail-view--overlay h-full">
+                        <!-- Table area -->
+                        <div class="pa-detail-view__main overflow-y-auto">
+                            <table class="pa-table pa-table--hover pa-table--striped" id="sizingDemoTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="openSizingPanel(1)" style="cursor: pointer;">
+                                        <td>Alice Johnson</td>
+                                        <td>alice@example.com</td>
+                                        <td><span class="pa-badge pa-badge--success">Active</span></td>
+                                    </tr>
+                                    <tr onclick="openSizingPanel(2)" style="cursor: pointer;">
+                                        <td>Bob Smith</td>
+                                        <td>bob@example.com</td>
+                                        <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                                    </tr>
+                                    <tr onclick="openSizingPanel(3)" style="cursor: pointer;">
+                                        <td>Carol Williams</td>
+                                        <td>carol@example.com</td>
+                                        <td><span class="pa-badge pa-badge--success">Active</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Detail panel -->
+                        <div class="pa-detail-view__panel" id="sizingDetailPanel">
+                            <div class="pa-detail-panel__content">
+                                <div class="pa-detail-panel__header">
+                                    <h4 class="pa-detail-panel__title" id="sizingDetailTitle">Select a row</h4>
+                                    <button class="pa-detail-panel__close" onclick="closeSizingPanel()">&times;</button>
+                                </div>
+                                <div class="pa-detail-panel__body" id="sizingDetailBody">
+                                    <p class="text-secondary">Click a table row to view details.</p>
+                                    <p class="text-secondary mt-base">Notice how the detail panel has plenty of vertical space because the table card fills the container using <code>.flex-1</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const sizingUsers = [
+    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', status: 'Active', role: 'Administrator', department: 'Engineering' },
+    { id: 2, name: 'Bob Smith', email: 'bob@example.com', status: 'Pending', role: 'Editor', department: 'Marketing' },
+    { id: 3, name: 'Carol Williams', email: 'carol@example.com', status: 'Active', role: 'Viewer', department: 'Sales' }
+];
+
+function openSizingPanel(id) {
+    const user = sizingUsers.find(u => u.id === id);
+    if (!user) return;
+
+    document.getElementById('sizingDetailTitle').textContent = user.name;
+    document.getElementById('sizingDetailBody').innerHTML = `
+        <div class="pa-fields">
+            <div class="pa-field">
+                <span class="pa-field__label">Email</span>
+                <span class="pa-field__value">${user.email}</span>
+            </div>
+            <div class="pa-field">
+                <span class="pa-field__label">Role</span>
+                <span class="pa-field__value">${user.role}</span>
+            </div>
+            <div class="pa-field">
+                <span class="pa-field__label">Department</span>
+                <span class="pa-field__value">${user.department}</span>
+            </div>
+            <div class="pa-field">
+                <span class="pa-field__label">Status</span>
+                <span class="pa-field__value"><span class="pa-badge pa-badge--${user.status === 'Active' ? 'success' : 'warning'}">${user.status}</span></span>
+            </div>
+        </div>
+        <p class="text-secondary mt-base text-sm">The detail panel fills the available height thanks to <code>.flex-1</code> and <code>.h-full</code> on the container.</p>
+    `;
+    document.getElementById('sizingDetailPanel').classList.add('pa-detail-view__panel--open');
+
+    // Highlight selected row
+    document.querySelectorAll('#sizingDemoTable tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+    document.querySelector(`#sizingDemoTable tbody tr:nth-child(${id})`).classList.add('is-selected');
+}
+
+function closeSizingPanel() {
+    document.getElementById('sizingDetailPanel').classList.remove('pa-detail-view__panel--open');
+    document.querySelectorAll('#sizingDemoTable tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+}
+</script>
+
+<!-- CSS Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Fixed Height (rem-based)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>.h-2x</code> through <code>.h-50x</code> - Fixed heights (2rem to 50rem)</li>
+            <li><code>.min-h-2x</code> through <code>.min-h-30x</code> - Minimum heights</li>
+            <li><code>.max-h-5x</code> through <code>.max-h-50x</code> - Maximum heights</li>
+        </ul>
+
+        <h4 class="mt-4">Percentage / Viewport Height</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>.h-full</code> - <code>height: 100%</code></li>
+            <li><code>.h-screen</code> - <code>height: 100vh</code></li>
+            <li><code>.min-h-full</code> - <code>min-height: 100%</code></li>
+            <li><code>.min-h-screen</code> - <code>min-height: 100vh</code></li>
+            <li><code>.max-h-full</code> - <code>max-height: 100%</code></li>
+            <li><code>.max-h-screen</code> - <code>max-height: 100vh</code></li>
+        </ul>
+
+        <h4 class="mt-4">Flex Utilities</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>.flex-1</code> - <code>flex: 1 1 0%</code> (grow/shrink equally, ignore content)</li>
+            <li><code>.flex-auto</code> - <code>flex: 1 1 auto</code> (grow/shrink based on content)</li>
+            <li><code>.flex-initial</code> - <code>flex: 0 1 auto</code> (shrink only, default)</li>
+            <li><code>.flex-none</code> - <code>flex: none</code> (don't grow or shrink)</li>
+            <li><code>.flex-grow</code> - <code>flex-grow: 1</code></li>
+            <li><code>.flex-grow-0</code> - <code>flex-grow: 0</code></li>
+            <li><code>.flex-shrink</code> - <code>flex-shrink: 1</code></li>
+            <li><code>.flex-shrink-0</code> - <code>flex-shrink: 0</code></li>
+        </ul>
+
+        <h4 class="mt-4">Overflow (pair with height)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>.overflow-auto</code> - Scroll when needed</li>
+            <li><code>.overflow-y-auto</code> - Vertical scroll when needed</li>
+            <li><code>.overflow-hidden</code> - Hide overflow</li>
+            <li><code>.overflow-y-overlay</code> - Overlay scrollbar (Chromium)</li>
+        </ul>
+    </div>
+</div>

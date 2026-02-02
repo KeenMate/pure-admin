@@ -125,7 +125,7 @@
 <div class="pa-card">
     <div class="pa-card__header">
         <h3>Card Overlay</h3>
-        <p>Panel overlays the table within the card instead of pushing it aside. Combines inline sizing with overlay behavior.</p>
+        <p>Panel overlays the table within the card. Body scroll disabled via .pa-scroll-lock on &lt;body&gt;.</p>
     </div>
     <div class="pa-card__body p-0">
         <div class="pa-detail-view pa-detail-view--overlay">
@@ -799,13 +799,263 @@ customElements.whenDefined('web-grid').then(() => {
 
 
 <!-- ============================================================
+     Section 6b: Table Card with Web-Grid
+     ============================================================ -->
+
+<div class="pa-table-card">
+    <div class="pa-table-card__header">
+        <h3>Table Card + Web-Grid</h3>
+        <div class="pa-table-card__actions">
+            <button class="pa-btn pa-btn--primary pa-btn--sm">Add New</button>
+        </div>
+    </div>
+    <div class="pa-table-card__body">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <!-- Left: Web-Grid -->
+            <div class="pa-detail-view__main">
+                <web-grid id="tablecard-grid"></web-grid>
+            </div>
+
+            <!-- Right: Detail Panel -->
+            <div class="pa-detail-view__panel" id="tablecardDetailPanel">
+                <div class="pa-detail-panel__content">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="tablecardDetailTitle">Select a row</h4>
+                        <button class="pa-detail-panel__close" id="tablecardDetailClose" title="Close">&times;</button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="tablecardDetailBody">
+                        <p class="text-secondary">Click a grid row to view details here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-table-card__footer">
+        <span class="text-secondary text-sm">Using <code>pa-table-card</code> with <code>pa-detail-view</code></span>
+    </div>
+</div>
+
+<script type="module">
+customElements.whenDefined('web-grid').then(() => {
+    const grid = document.getElementById('tablecard-grid')
+    const panel = document.getElementById('tablecardDetailPanel')
+    const title = document.getElementById('tablecardDetailTitle')
+    const body = document.getElementById('tablecardDetailBody')
+    const closeBtn = document.getElementById('tablecardDetailClose')
+
+    if (!grid || !panel) return
+
+    const columns = [
+        { field: 'id', title: 'ID', width: '70px', horizontalAlign: 'center' },
+        { field: 'name', title: 'Name', width: '160px' },
+        { field: 'department', title: 'Department', width: '120px' },
+        { field: 'status', title: 'Status', width: '100px' }
+    ]
+
+    const gridData = [
+        { id: 101, name: 'Sarah Connor', department: 'Security', status: 'Active' },
+        { id: 102, name: 'John Wick', department: 'Operations', status: 'Active' },
+        { id: 103, name: 'Ellen Ripley', department: 'Engineering', status: 'Inactive' },
+        { id: 104, name: 'Neo Anderson', department: 'IT', status: 'Active' },
+        { id: 105, name: 'Diana Prince', department: 'HR', status: 'Active' }
+    ]
+
+    grid.columns = columns
+    grid.items = [...gridData]
+    grid.isHoverable = true
+    grid.isRowNumbersVisible = true
+
+    function openPanel(row) {
+        panel.classList.add('pa-detail-view__panel--open')
+        title.textContent = row.name
+        body.innerHTML = `
+            <div class="pa-fields">
+                <div class="pa-fields__item">
+                    <span class="pa-fields__label">ID</span>
+                    <span class="pa-fields__value">${row.id}</span>
+                </div>
+                <div class="pa-fields__item">
+                    <span class="pa-fields__label">Department</span>
+                    <span class="pa-fields__value">${row.department}</span>
+                </div>
+                <div class="pa-fields__item">
+                    <span class="pa-fields__label">Status</span>
+                    <span class="pa-fields__value"><span class="pa-badge ${row.status === 'Active' ? 'pa-badge--success' : 'pa-badge--secondary'}">${row.status}</span></span>
+                </div>
+            </div>
+        `
+    }
+
+    function closePanel() {
+        panel.classList.remove('pa-detail-view__panel--open')
+    }
+
+    grid.onrowfocus = ({ row }) => openPanel(row)
+    closeBtn.addEventListener('click', closePanel)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel.classList.contains('pa-detail-view__panel--open')) {
+            closePanel()
+        }
+    })
+})
+</script>
+
+
+<!-- ============================================================
+     Section 6c: Plain Table Card with Detail Panel
+     ============================================================ -->
+
+<div class="pa-row">
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3>Products</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <div class="pa-detail-view pa-detail-view--overlay">
+                    <div class="pa-detail-view__main">
+                        <web-grid id="plain-grid-1"></web-grid>
+                    </div>
+                    <div class="pa-detail-view__panel" id="plainDetailPanel1">
+                        <div class="pa-detail-panel__content">
+                            <div class="pa-detail-panel__header">
+                                <h4 class="pa-detail-panel__title" id="plainDetailTitle1">Select a product</h4>
+                                <button class="pa-detail-panel__close" id="plainDetailClose1" aria-label="Close panel">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="pa-detail-panel__body" id="plainDetailBody1">
+                                <p class="text-secondary">Click a row to view details.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-md-50">
+        <div class="pa-table-card pa-table-card--plain">
+            <div class="pa-table-card__header">
+                <h3>Orders</h3>
+            </div>
+            <div class="pa-table-card__body">
+                <div class="pa-detail-view pa-detail-view--overlay">
+                    <div class="pa-detail-view__main">
+                        <web-grid id="plain-grid-2"></web-grid>
+                    </div>
+                    <div class="pa-detail-view__panel" id="plainDetailPanel2">
+                        <div class="pa-detail-panel__content">
+                            <div class="pa-detail-panel__header">
+                                <h4 class="pa-detail-panel__title" id="plainDetailTitle2">Select an order</h4>
+                                <button class="pa-detail-panel__close" id="plainDetailClose2" aria-label="Close panel">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="pa-detail-panel__body" id="plainDetailBody2">
+                                <p class="text-secondary">Click a row to view details.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+customElements.whenDefined('web-grid').then(() => {
+    // Grid 1: Products
+    const grid1 = document.getElementById('plain-grid-1')
+    const panel1 = document.getElementById('plainDetailPanel1')
+    const title1 = document.getElementById('plainDetailTitle1')
+    const body1 = document.getElementById('plainDetailBody1')
+    const close1 = document.getElementById('plainDetailClose1')
+
+    if (grid1 && panel1) {
+        grid1.columns = [
+            { field: 'sku', title: 'SKU', width: '80px' },
+            { field: 'name', title: 'Product', width: '140px' },
+            { field: 'price', title: 'Price', width: '80px', horizontalAlign: 'right' }
+        ]
+        grid1.items = [
+            { sku: 'A001', name: 'Widget Pro', price: '$29.99' },
+            { sku: 'A002', name: 'Gadget Plus', price: '$49.99' },
+            { sku: 'A003', name: 'Tool Basic', price: '$19.99' },
+            { sku: 'A004', name: 'Device Max', price: '$99.99' }
+        ]
+        grid1.isHoverable = true
+
+        function openPanel1(row) {
+            panel1.classList.add('pa-detail-view__panel--open')
+            title1.textContent = row.name
+            body1.innerHTML = `
+                <div class="pa-fields">
+                    <div class="pa-fields__item"><span class="pa-fields__label">SKU</span><span class="pa-fields__value">${row.sku}</span></div>
+                    <div class="pa-fields__item"><span class="pa-fields__label">Price</span><span class="pa-fields__value">${row.price}</span></div>
+                </div>`
+        }
+        grid1.onrowfocus = ({ row }) => openPanel1(row)
+        grid1.onrowclick = ({ row }) => openPanel1(row)
+        close1.addEventListener('click', () => panel1.classList.remove('pa-detail-view__panel--open'))
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && panel1.classList.contains('pa-detail-view__panel--open')) {
+                panel1.classList.remove('pa-detail-view__panel--open')
+            }
+        })
+    }
+
+    // Grid 2: Orders
+    const grid2 = document.getElementById('plain-grid-2')
+    const panel2 = document.getElementById('plainDetailPanel2')
+    const title2 = document.getElementById('plainDetailTitle2')
+    const body2 = document.getElementById('plainDetailBody2')
+    const close2 = document.getElementById('plainDetailClose2')
+
+    if (grid2 && panel2) {
+        grid2.columns = [
+            { field: 'id', title: 'Order #', width: '80px' },
+            { field: 'customer', title: 'Customer', width: '120px' },
+            { field: 'total', title: 'Total', width: '80px', horizontalAlign: 'right' }
+        ]
+        grid2.items = [
+            { id: '#1001', customer: 'Acme Corp', total: '$1,250' },
+            { id: '#1002', customer: 'Globex Inc', total: '$890' },
+            { id: '#1003', customer: 'Initech', total: '$2,100' },
+            { id: '#1004', customer: 'Umbrella Co', total: '$450' }
+        ]
+        grid2.isHoverable = true
+
+        function openPanel2(row) {
+            panel2.classList.add('pa-detail-view__panel--open')
+            title2.textContent = row.id
+            body2.innerHTML = `
+                <div class="pa-fields">
+                    <div class="pa-fields__item"><span class="pa-fields__label">Customer</span><span class="pa-fields__value">${row.customer}</span></div>
+                    <div class="pa-fields__item"><span class="pa-fields__label">Total</span><span class="pa-fields__value">${row.total}</span></div>
+                </div>`
+        }
+        grid2.onrowfocus = ({ row }) => openPanel2(row)
+        grid2.onrowclick = ({ row }) => openPanel2(row)
+        close2.addEventListener('click', () => panel2.classList.remove('pa-detail-view__panel--open'))
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && panel2.classList.contains('pa-detail-view__panel--open')) {
+                panel2.classList.remove('pa-detail-view__panel--open')
+            }
+        })
+    }
+})
+</script>
+
+
+<!-- ============================================================
      Section 7: Overlay Mode
      ============================================================ -->
 
 <div class="pa-card">
     <div class="pa-card__header">
         <h3>Overlay Mode</h3>
-        <p>Click a row to open an overlay panel that slides in from the right, like the profile panel.</p>
+        <p>Click a row to open an overlay panel that slides in from the right. Body scroll disabled via .pa-scroll-lock.</p>
     </div>
     <div class="pa-card__body">
         <table class="pa-table pa-table--hover pa-table--striped" id="overlayTable">

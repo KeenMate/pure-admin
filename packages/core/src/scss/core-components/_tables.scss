@@ -79,6 +79,14 @@
     box-shadow: $shadow-lg;
   }
 
+  // When containing a detail view, allow body to establish positioning context
+  &:has(.pa-detail-view) {
+    .pa-table-card__body {
+      position: relative;
+      overflow: hidden; // Clip detail panel to card boundaries
+    }
+  }
+
   &__header {
     padding: $card-header-padding-v $card-header-padding-h;
     min-height: $card-header-min-height;
@@ -160,6 +168,39 @@
       // Remove bottom border from last row (card border handles it)
       tbody tr:last-child td {
         border-bottom: none;
+      }
+    }
+
+    // Detail view inside table card body
+    // Supports both inline split-view and overlay modes
+    .pa-detail-view {
+      height: 100%;
+
+      // Table inside detail view main area
+      .pa-detail-view__main {
+        .pa-table {
+          border-radius: 0;
+
+          th:first-child,
+          td:first-child {
+            padding-inline-start: $card-header-padding-h;
+          }
+
+          th:last-child,
+          td:last-child {
+            padding-inline-end: $card-header-padding-h;
+          }
+
+          tbody tr:last-child td {
+            border-bottom: none;
+          }
+        }
+
+        // web-grid inside detail view
+        web-grid {
+          --wg-cell-padding-left: #{$card-header-padding-h};
+          --wg-cell-padding-right: #{$card-header-padding-h};
+        }
       }
     }
   }
@@ -261,6 +302,15 @@
       border-bottom: none;
       border-radius: 0;
       padding-inline: 0;
+    }
+
+    // Body in plain mode with detail view - ensure proper containment
+    .pa-table-card__body {
+      // When containing overlay detail view, establish positioning context
+      &:has(.pa-detail-view--overlay) {
+        position: relative;
+        overflow: hidden;
+      }
     }
 
     // Footer in plain mode
