@@ -194,23 +194,23 @@ Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
 - `.pa-navbar` - Fixed navbar container
 - `.pa-navbar__inner` - Inner content wrapper
 - **Three-section layout:**
-  - `.pa-header__left` - Left section (burger, brand, nav) - stays anchored left
+  - `.pa-header__start` - Start section (burger, brand, nav) - stays anchored to start
   - `.pa-header__center` - Center section (page title) - flexible
-  - `.pa-header__right` - Right section (notifications, profile) - stays anchored right
+  - `.pa-header__end` - End section (notifications, profile) - stays anchored to end
 - `.pa-header__burger` - Hamburger menu button
 - `.pa-header__brand` - Brand/logo container
 - `.pa-header__nav` - Navigation links container
-- `.pa-header__nav--left/--right` - Navigation position
+- `.pa-header__nav--start/--end` - Navigation position
 - `.pa-header__title` - Page title
 - `.pa-header__profile-btn` - Profile button
 
 ### Footer
 - `.pa-layout__footer` - Footer container (uses `min-height`, can expand)
 - **Three-section layout:**
-  - `.pa-footer__left` - Left section (copyright) - stays anchored left
+  - `.pa-footer__start` - Start section (copyright) - stays anchored to start
   - `.pa-footer__center` - Center section (optional) - flexible
-  - `.pa-footer__right` - Right section (version info, links) - stays anchored right
-  - `.pa-footer__right--vertical` - Stack items vertically with right-aligned text
+  - `.pa-footer__end` - End section (version info, links) - stays anchored to end
+  - `.pa-footer__end--vertical` - Stack items vertically
 
 ### Forms
 - `.pa-input` - Text inputs
@@ -311,7 +311,7 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 - `.pa-pager__info` - Page info display
 - `.pa-pager__input` - Page number input
 - `.pa-pager__text` - Text labels
-- `.pa-pager--left/center/right` - Alignment modifiers
+- `.pa-pager--start/center/end` - Alignment modifiers
 
 ### Load More
 - `.pa-load-more` - Load more container
@@ -320,7 +320,7 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 - `.pa-load-more__spinner` - Loading spinner
 - `.pa-load-more__text` - Button text
 - `.pa-load-more__count` - Item count display
-- `.pa-load-more--left/center/right` - Alignment modifiers
+- `.pa-load-more--start/center/end` - Alignment modifiers
 
 ### Statistics
 - `.pa-stat` - Base statistics component

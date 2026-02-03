@@ -105,8 +105,8 @@ body.pa-layout--sticky .pa-layout__inner {
   gap: $spacing-base;
 }
 
-// Footer sections - Left/Center/Right layout (mirrors navbar structure)
-.pa-footer__left {
+// Footer sections - Start/Center/End layout (mirrors navbar structure)
+.pa-footer__start {
   display: flex;
   align-items: center;
   gap: $spacing-base;
@@ -121,7 +121,7 @@ body.pa-layout--sticky .pa-layout__inner {
   justify-content: center;
 }
 
-.pa-footer__right {
+.pa-footer__end {
   display: flex;
   align-items: center;
   gap: $spacing-base;
@@ -142,14 +142,14 @@ body.pa-layout--sticky .pa-layout__inner {
     padding: $spacing-sm $spacing-base;
   }
 
-  .pa-footer__left,
+  .pa-footer__start,
   .pa-footer__center,
-  .pa-footer__right {
+  .pa-footer__end {
     flex-shrink: 1;
     min-width: 0;
   }
 
-  .pa-footer__left {
+  .pa-footer__start {
     flex: 1 1 auto;
   }
 
@@ -157,7 +157,7 @@ body.pa-layout--sticky .pa-layout__inner {
     display: none; // Hide empty center on mobile
   }
 
-  .pa-footer__right {
+  .pa-footer__end {
     flex: 0 1 auto;
 
     &--vertical {

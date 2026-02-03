@@ -45,7 +45,7 @@
     <!-- Three-section layout: Left / Center / Right -->
     <footer class="pa-layout__footer">
         <!-- Left Section (stays anchored left) -->
-        <div class="pa-footer__left">
+        <div class="pa-footer__start">
             <p>&copy; 2024 Pure Admin Framework</p>
         </div>
 
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Right Section (stays anchored right) -->
-        <div class="pa-footer__right">
+        <div class="pa-footer__end">
             <span>App version: 1.2.1</span>
             <span>Database version: 2.3.1</span>
             <a href="#">Open Source Licenses</a>
@@ -435,7 +435,7 @@ NOTE: Fixed width (.wr-*) overrides both default and resizable width.
 <nav class="pa-navbar">
     <div class="pa-navbar__inner">
         <!-- Left Section: Burger, Brand, Left Nav (stays anchored left) -->
-        <div class="pa-header__left">
+        <div class="pa-header__start">
             <!-- Hamburger Menu (burger) -->
             <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
                 <span></span>
@@ -449,7 +449,7 @@ NOTE: Fixed width (.wr-*) overrides both default and resizable width.
             </div>
 
             <!-- Left Navigation Links -->
-            <nav class="pa-header__nav pa-header__nav--left">
+            <nav class="pa-header__nav pa-header__nav--start">
                 <ul>
                     <li><a href="/">Dashboard</a></li>
                     <li><a href="/components">Components</a></li>
@@ -466,9 +466,9 @@ NOTE: Fixed width (.wr-*) overrides both default and resizable width.
         </div>
 
         <!-- Right Section: Right Nav, Notifications, Profile (stays anchored right) -->
-        <div class="pa-header__right">
+        <div class="pa-header__end">
             <!-- Right Navigation Links -->
-            <nav class="pa-header__nav pa-header__nav--right">
+            <nav class="pa-header__nav pa-header__nav--end">
                 <ul>
                     <li><a href="/alerts">Alerts</a></li>
                     <li><a href="/tables">Tables</a></li>
@@ -596,16 +596,16 @@ NAVBAR CLASSES:
 - .pa-navbar__inner - Navbar inner container
 
 HEADER SECTION CONTAINERS (inside pa-navbar__inner):
-- .pa-header__left - Left section (burger, brand, nav--left) - stays anchored left
+- .pa-header__start - Start section (burger, brand, nav--start) - stays anchored to start
 - .pa-header__center - Center section (title) - flexible, fills space
-- .pa-header__right - Right section (nav--right, notifications, profile) - stays anchored right
+- .pa-header__end - End section (nav--end, notifications, profile) - stays anchored to end
 
 HEADER/NAVBAR ELEMENT CLASSES (inside section containers):
 - .pa-header__burger - Burger menu button
 - .burger-menu - Burger menu class (same as __burger)
 - .pa-header__brand - Brand/logo area
 - .pa-header__nav - Navigation container
-- .pa-header__nav--left/right - Navigation alignment
+- .pa-header__nav--start/right - Navigation alignment
 - .pa-header__title - Page title area (flexible, with ellipsis)
 - .pa-notifications - Notification bell container
 - .pa-header__profile-btn - Profile button
@@ -621,9 +621,9 @@ LAYOUT CLASSES:
 - .pa-layout__footer - Footer container
 
 FOOTER SECTION CONTAINERS (inside pa-layout__footer):
-- .pa-footer__left - Left section (copyright, etc.) - stays anchored left
+- .pa-footer__start - Start section (copyright, etc.) - stays anchored to start
 - .pa-footer__center - Center section (optional) - flexible, fills space
-- .pa-footer__right - Right section (version info, links) - stays anchored right
+- .pa-footer__end - End section (version info, links) - stays anchored to end
 
 LAYOUT WIDTH VARIANTS (applied to body tag):
 - No class - Fluid layout (full width)

@@ -994,7 +994,7 @@
                         </div>
                         <div class="pa-card__body">
                             <div class="pa-tabs pa-tabs--scrollable" data-tabs-scroll>
-                                <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+                                <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--start" onclick="scrollTabs(this, 'left')">
                                     <i class="fa-solid fa-chevron-left"></i>
                                 </button>
                                 <div class="pa-tabs__scroll-container">
@@ -1003,7 +1003,7 @@
                                     <button class="pa-tabs__item" onclick="switchTab(this, 'long-boxed-3')">Reports & Analytics</button>
                                     <button class="pa-tabs__item" onclick="switchTab(this, 'long-boxed-4')">Settings & Configuration</button>
                                 </div>
-                                <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+                                <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--end" onclick="scrollTabs(this, 'right')">
                                     <i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -1034,7 +1034,7 @@
                 </div>
                 <div class="pa-card__body">
                     <div class="pa-tabs pa-tabs--pills pa-tabs--scrollable" data-tabs-scroll>
-                        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+                        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--start" onclick="scrollTabs(this, 'left')">
                             <i class="fa-solid fa-chevron-left"></i>
                         </button>
                         <div class="pa-tabs__scroll-container">
@@ -1046,7 +1046,7 @@
                             <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-6')">Security & Permissions</button>
                             <button class="pa-tabs__item" onclick="switchTab(this, 'scroll-pills-7')">Audit Logs</button>
                         </div>
-                        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+                        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--end" onclick="scrollTabs(this, 'right')">
                             <i class="fa-solid fa-chevron-right"></i>
                         </button>
                     </div>
@@ -1115,7 +1115,7 @@
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-tabs__scroll-container</code> - Scrollable inner container</li>
             <li><code>pa-tabs__scroll-btn</code> - Scroll arrow button</li>
-            <li><code>pa-tabs__scroll-btn--left/--right</code> - Arrow direction</li>
+            <li><code>pa-tabs__scroll-btn--start/--end</code> - Arrow direction</li>
             <li><code>pa-tabs__scroll-btn--visible</code> - Show arrow</li>
         </ul>
 
@@ -1157,8 +1157,8 @@
 
             function updateScrollArrows(tabsContainer) {
                 const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
-                const leftBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--left');
-                const rightBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--right');
+                const leftBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--start');
+                const rightBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--end');
 
                 if (!scrollContainer || !leftBtn || !rightBtn) return;
 

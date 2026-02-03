@@ -454,7 +454,7 @@
 
 <!-- Scrollable Tabs - Underline Style -->
 <div class="pa-tabs pa-tabs--scrollable" data-tabs-scroll>
-  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--start" onclick="scrollTabs(this, 'left')">
     <i class="fa-solid fa-chevron-left"></i>
   </button>
   <div class="pa-tabs__scroll-container">
@@ -464,7 +464,7 @@
     <button class="pa-tabs__item">Reports & Analytics</button>
     <button class="pa-tabs__item">Settings & Configuration</button>
   </div>
-  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--end" onclick="scrollTabs(this, 'right')">
     <i class="fa-solid fa-chevron-right"></i>
   </button>
 </div>
@@ -480,7 +480,7 @@
 
 <!-- Scrollable Pills -->
 <div class="pa-tabs pa-tabs--pills pa-tabs--scrollable" data-tabs-scroll>
-  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--left" onclick="scrollTabs(this, 'left')">
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--start" onclick="scrollTabs(this, 'left')">
     <i class="fa-solid fa-chevron-left"></i>
   </button>
   <div class="pa-tabs__scroll-container">
@@ -488,7 +488,7 @@
     <button class="pa-tabs__item">User Management System</button>
     <button class="pa-tabs__item">Reports & Analytics</button>
   </div>
-  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--right" onclick="scrollTabs(this, 'right')">
+  <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--end" onclick="scrollTabs(this, 'right')">
     <i class="fa-solid fa-chevron-right"></i>
   </button>
 </div>
@@ -790,8 +790,8 @@ function scrollTabs(button, direction) {
 
 function updateScrollArrows(tabsContainer) {
   const scrollContainer = tabsContainer.querySelector('.pa-tabs__scroll-container');
-  const leftBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--left');
-  const rightBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--right');
+  const leftBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--start');
+  const rightBtn = tabsContainer.querySelector('.pa-tabs__scroll-btn--end');
 
   if (!scrollContainer || !leftBtn || !rightBtn) return;
 

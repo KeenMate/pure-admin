@@ -5,6 +5,28 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-02-03 ✅ Published
+
+**Theme packages also updated to v1.5.0:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`
+
+### Changed
+
+- **Left/right classes renamed to logical start/end (Breaking)**: All directional class names now use logical `start`/`end` naming for RTL consistency. No backward compatibility aliases — update your markup:
+  - **Buttons**: `pa-btn--align-left` → `pa-btn--align-start`, `pa-btn--align-right` → `pa-btn--align-end`
+  - **Pagers**: `pa-pager--left` → `pa-pager--start`, `pa-pager--right` → `pa-pager--end`
+  - **Load More**: `pa-load-more--left` → `pa-load-more--start`, `pa-load-more--right` → `pa-load-more--end`
+  - **Tabs scroll**: `pa-tabs__scroll-btn--left` → `pa-tabs__scroll-btn--start`, `pa-tabs__scroll-btn--right` → `pa-tabs__scroll-btn--end`
+  - **Timeline**: `pa-timeline--left` → `pa-timeline--start`, `pa-timeline--right` → `pa-timeline--end`
+  - **Header sections**: `pa-header__left` → `pa-header__start`, `pa-header__right` → `pa-header__end`
+  - **Header nav**: `pa-header__nav--left` → `pa-header__nav--start`, `pa-header__nav--right` → `pa-header__nav--end`
+  - **Footer sections**: `pa-footer__left` → `pa-footer__start`, `pa-footer__right` → `pa-footer__end`
+  - **Popover**: `pa-popover--right` → `pa-popover--end`
+  - **Text utilities**: Removed `pa-text--left`/`pa-text--right` (use `pa-text--start`/`pa-text--end`), removed `text-left`/`text-right` (use `text-start`/`text-end`)
+  - **Kept as physical**: `pa-tooltip--left`/`--right`, `pa-popconfirm--left`/`--right` (physical arrow positioning)
+- **Button alignment demos improved**: Wider buttons with varied text lengths to clearly show alignment differences
+
+---
+
 ## [1.4.1] - 2026-02-02
 
 **Theme packages also updated to v1.4.0:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`
