@@ -324,6 +324,18 @@ app.get('/rtl-test', (req, res) => {
     renderWithLayout(res, 'rtl-test', { pageTitle: 'RTL Test', currentPage: 'rtl-test', isRtlTest: true });
 });
 
+app.get('/movies', (req, res) => {
+    renderWithLayout(res, 'movies', { pageTitle: 'Movies', currentPage: 'movies', isMovies: true });
+});
+
+app.get('/movies/detail', (req, res) => {
+    renderWithLayout(res, 'movie-detail', { pageTitle: 'Movie Detail', currentPage: 'movie-detail', isMovieDetail: true });
+});
+
+app.get('/movies-panel', (req, res) => {
+    renderWithLayout(res, 'movies-panel', { pageTitle: 'Movies + Panel', currentPage: 'movies-panel', isMoviesPanel: true });
+});
+
 // Serve static files with cache headers (after routes so EJS takes precedence)
 
 // Theme CSS files from separate theme packages

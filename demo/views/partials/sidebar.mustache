@@ -243,6 +243,29 @@
                 </ul>
             </li>
 
+            <!-- Practical Examples -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">🎬</span>
+                    <span class="pa-sidebar__label">Practical Examples</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item"><a href="/movies" class="pa-sidebar__link {{#isMovies}}pa-sidebar__link--active{{/isMovies}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Movies</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/movies/detail?id=1" class="pa-sidebar__link {{#isMovieDetail}}pa-sidebar__link--active{{/isMovieDetail}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Movie Detail</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/movies-panel" class="pa-sidebar__link {{#isMoviesPanel}}pa-sidebar__link--active{{/isMoviesPanel}}">
+                        <span class="pa-sidebar__icon">•</span>
+                        <span class="pa-sidebar__label">Movies + Panel</span>
+                    </a></li>
+                </ul>
+            </li>
+
             <!-- Test: Mixed Icons (some with, some without) -->
             <li class="pa-sidebar__item">
                 <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">

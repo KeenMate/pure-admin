@@ -1,0 +1,109 @@
+<p>Browse a database of classic movies. Filter by title, genre, year, or rating. Click any row to view full details.</p>
+
+<!-- Filter Card -->
+<div class="pa-card">
+    <div class="pa-card__body">
+        <div class="pa-row gap-sm" style="align-items: flex-end;">
+            <div class="pa-col-md-25">
+                <label class="pa-form-label">Search</label>
+                <div class="pa-input-wrapper">
+                    <input type="text" id="movieSearch" class="pa-input" placeholder="Title or director...">
+                    <button type="button" id="movieSearchClear" class="pa-input-wrapper__clear" style="display: none;">&times;</button>
+                </div>
+            </div>
+            <div class="pa-col-md-15">
+                <label class="pa-form-label">Genre</label>
+                <select id="movieGenre" class="pa-input">
+                    <option value="">All Genres</option>
+                    <option value="Action">Action</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Crime">Crime</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                </select>
+            </div>
+            <div class="pa-col-md-15">
+                <label class="pa-form-label">Year From</label>
+                <select id="movieYearFrom" class="pa-input">
+                    <option value="">Any</option>
+                    <option value="1970">1970</option>
+                    <option value="1980">1980</option>
+                    <option value="1990">1990</option>
+                    <option value="2000">2000</option>
+                    <option value="2010">2010</option>
+                </select>
+            </div>
+            <div class="pa-col-md-15">
+                <label class="pa-form-label">Year To</label>
+                <select id="movieYearTo" class="pa-input">
+                    <option value="">Any</option>
+                    <option value="1979">1979</option>
+                    <option value="1989">1989</option>
+                    <option value="1999">1999</option>
+                    <option value="2009">2009</option>
+                    <option value="2020">2020</option>
+                </select>
+            </div>
+            <div class="pa-col-md-15">
+                <label class="pa-form-label">Min Rating</label>
+                <select id="movieRating" class="pa-input">
+                    <option value="">Any</option>
+                    <option value="8.0">8.0+</option>
+                    <option value="8.5">8.5+</option>
+                    <option value="9.0">9.0+</option>
+                </select>
+            </div>
+            <div class="pa-col-auto">
+                <button id="movieClearFilters" class="pa-btn pa-btn--secondary pa-btn--sm">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table Card -->
+<div class="pa-table-card">
+    <div class="pa-table-card__header">
+        <h3>Movies Database</h3>
+        <div class="pa-table-card__actions">
+            <span class="text-secondary text-sm" id="movieTableCount"></span>
+        </div>
+    </div>
+    <div class="pa-table-card__body">
+        <table class="pa-table pa-table--hover pa-table--striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Director</th>
+                    <th>Genre</th>
+                    <th>Rating</th>
+                    <th style="width: 100%;"></th>
+                </tr>
+            </thead>
+            <tbody id="moviesTableBody">
+                <!-- Rendered by JS -->
+            </tbody>
+        </table>
+    </div>
+    <div class="pa-table-card__footer">
+        <div class="pa-pager">
+            <div class="pa-pager__container">
+                <span class="pa-pager__text" id="movieItemCount"></span>
+                <div class="pa-pager__controls">
+                    <button id="moviePrevPage" class="pa-btn pa-btn--secondary pa-btn--sm" disabled>Previous</button>
+                </div>
+                <div class="pa-pager__info">
+                    <span class="pa-pager__text">Page</span>
+                    <input type="number" id="moviePageInput" class="pa-input pa-input--sm pa-pager__input" value="1" min="1">
+                    <span class="pa-pager__text" id="movieTotalPages">of 1</span>
+                </div>
+                <div class="pa-pager__controls">
+                    <button id="movieNextPage" class="pa-btn pa-btn--secondary pa-btn--sm">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/src/js/movies.js"></script>

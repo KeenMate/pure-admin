@@ -1,0 +1,108 @@
+<p>Movies list with inline detail panel. Uses <code>minhr-25</code> for minimum height and <code>pa-detail-panel__content--bordered</code> for top/bottom borders. Click a row to view movie details in the panel.</p>
+
+<!-- Filter Card -->
+<div class="pa-card">
+    <div class="pa-card__body">
+        <div class="pa-row gap-sm" style="align-items: flex-end;">
+            <div class="pa-col-md-30">
+                <label class="pa-form-label">Search</label>
+                <div class="pa-input-wrapper">
+                    <input type="text" id="movieSearch" class="pa-input" placeholder="Title or director...">
+                    <button type="button" id="movieSearchClear" class="pa-input-wrapper__clear" style="display: none;">&times;</button>
+                </div>
+            </div>
+            <div class="pa-col-md-20">
+                <label class="pa-form-label">Genre</label>
+                <select id="movieGenre" class="pa-input">
+                    <option value="">All Genres</option>
+                    <option value="Action">Action</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Crime">Crime</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                </select>
+            </div>
+            <div class="pa-col-md-20">
+                <label class="pa-form-label">Min Rating</label>
+                <select id="movieRating" class="pa-input">
+                    <option value="">Any</option>
+                    <option value="8.0">8.0+</option>
+                    <option value="8.5">8.5+</option>
+                    <option value="9.0">9.0+</option>
+                </select>
+            </div>
+            <div class="pa-col-auto">
+                <button id="movieClearFilters" class="pa-btn pa-btn--secondary">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table Card with Detail Panel -->
+<div class="pa-table-card pa-table-card--plain minhr-100">
+    <div class="pa-table-card__header">
+        <h3>Movies Database</h3>
+        <div class="pa-table-card__actions">
+            <span class="text-secondary text-sm" id="movieTableCount"></span>
+        </div>
+    </div>
+    <div class="pa-table-card__body">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <!-- Left: Table -->
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="moviesTable">
+                    <thead>
+                        <tr>
+                            <th class="text-nowrap">Title</th>
+                            <th class="text-nowrap">Year</th>
+                            <th class="text-nowrap">Director</th>
+                            <th class="text-nowrap">Genre</th>
+                            <th class="text-nowrap">Rating</th>
+                            <th style="width: 100%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="moviesTableBody">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right: Detail Panel -->
+            <div class="pa-detail-view__panel" id="movieDetailPanel">
+                <div class="pa-detail-panel__content pa-detail-panel__content--bordered">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="moviePanelTitle">Select a movie</h4>
+                        <button class="pa-detail-panel__close" onclick="closeMoviePanel()" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="moviePanelBody">
+                        <p class="text-secondary">Click a movie row to view details here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-table-card__footer">
+        <div class="pa-pager">
+            <div class="pa-pager__container">
+                <span class="pa-pager__text" id="movieItemCount"></span>
+                <div class="pa-pager__controls">
+                    <button id="moviePrevPage" class="pa-btn pa-btn--secondary pa-btn--sm" disabled>Previous</button>
+                </div>
+                <div class="pa-pager__info">
+                    <span class="pa-pager__text">Page</span>
+                    <input type="number" id="moviePageInput" class="pa-input pa-input--sm pa-pager__input" value="1" min="1">
+                    <span class="pa-pager__text" id="movieTotalPages">of 1</span>
+                </div>
+                <div class="pa-pager__controls">
+                    <button id="movieNextPage" class="pa-btn pa-btn--secondary pa-btn--sm">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/src/js/movies.js"></script>
+<script src="/src/js/movies-panel.js"></script>

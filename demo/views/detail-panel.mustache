@@ -4,6 +4,124 @@
 <script src="/src/js/detail-panel.js"></script>
 
 <!-- ============================================================
+     Section 0: Min-Height with Single Row
+     ============================================================ -->
+
+<div class="pa-table-card pa-table-card--plain minhr-25">
+    <div class="pa-table-card__header">
+        <h3>Min-Height Card with Single Row</h3>
+        <p>Card has <code>minhr-25</code> so the detail panel fills the available height even with minimal table content.</p>
+    </div>
+    <div class="pa-table-card__body">
+        <div class="pa-detail-view pa-detail-view--overlay">
+            <div class="pa-detail-view__main">
+                <table class="pa-table pa-table--hover pa-table--striped" id="minHeightTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-id="1" onclick="openMinHeightPanel(1)" style="cursor: pointer;">
+                            <td>Main Configuration</td>
+                            <td class="font-family-mono">main</td>
+                            <td><span class="pa-badge pa-badge--success">Active</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pa-detail-view__panel" id="minHeightPanel">
+                <div class="pa-detail-panel__content pa-detail-panel__content--bordered">
+                    <div class="pa-detail-panel-resize"></div>
+                    <div class="pa-detail-panel__header">
+                        <h4 class="pa-detail-panel__title" id="minHeightTitle">Select a row</h4>
+                        <button class="pa-detail-panel__close" onclick="closeMinHeightPanel()" aria-label="Close panel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="pa-detail-panel__body" id="minHeightBody">
+                        <p class="text-secondary">Click the row to view details here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openMinHeightPanel(id) {
+    const panel = document.getElementById('minHeightPanel');
+    const title = document.getElementById('minHeightTitle');
+    const body = document.getElementById('minHeightBody');
+    const table = document.getElementById('minHeightTable');
+
+    panel.classList.add('pa-detail-view__panel--open');
+    table.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+    table.querySelector(`tr[data-id="${id}"]`).classList.add('is-selected');
+
+    title.textContent = 'Main Configuration';
+    body.innerHTML = `
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Configuration Info</div>
+            <div class="pa-fields pa-fields--cols-2">
+                <div class="pa-field">
+                    <span class="pa-field__label">Name</span>
+                    <span class="pa-field__value">Main Configuration</span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Code</span>
+                    <span class="pa-field__value"><code>main</code></span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Status</span>
+                    <span class="pa-field__value"><span class="pa-badge pa-badge--success">Active</span></span>
+                </div>
+                <div class="pa-field">
+                    <span class="pa-field__label">Created</span>
+                    <span class="pa-field__value">2026-01-15</span>
+                </div>
+            </div>
+        </div>
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Description</div>
+            <div class="pa-fields">
+                <div class="pa-field">
+                    <span class="pa-field__value">This is the main configuration entry. The panel should fill the available height defined by <code>minhr-25</code> on the card, even though the table only has one row.</span>
+                </div>
+            </div>
+        </div>
+        <div class="pa-field-group">
+            <div class="pa-field-group__title">Actions</div>
+            <div class="pa-btn-group">
+                <button class="pa-btn pa-btn--warning pa-btn--sm"><i class="fas fa-flask"></i> Simulate</button>
+                <button class="pa-btn pa-btn--success pa-btn--sm"><i class="fas fa-rocket"></i> Deploy</button>
+            </div>
+        </div>
+    `;
+}
+
+function closeMinHeightPanel() {
+    const panel = document.getElementById('minHeightPanel');
+    const table = document.getElementById('minHeightTable');
+    panel.classList.remove('pa-detail-view__panel--open');
+    table.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('is-selected'));
+}
+
+// Escape key handler for min-height panel
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const panel = document.getElementById('minHeightPanel');
+        if (panel && panel.classList.contains('pa-detail-view__panel--open')) {
+            closeMinHeightPanel();
+        }
+    }
+});
+</script>
+
+<!-- ============================================================
      Section 1: Inline Split-View
      ============================================================ -->
 

@@ -127,6 +127,11 @@
   background-color: var(--pa-card-bg);
   position: relative;
 
+  // Bordered modifier: adds top and bottom borders
+  &--bordered {
+    border-block: $border-width-base solid var(--pa-border-color);
+  }
+
   // In overlay mode: slide-in from end side (right in LTR, left in RTL)
   .pa-detail-panel--overlay & {
     position: absolute;
@@ -237,6 +242,7 @@
 .pa-detail-panel__body {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior: contain; // Prevent scroll chaining to parent
   padding: $detail-panel-body-padding-v $detail-panel-body-padding-h;
 }
 
