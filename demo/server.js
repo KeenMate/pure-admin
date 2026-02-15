@@ -320,6 +320,10 @@ app.get('/data-display', (req, res) => {
     renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
 });
 
+app.get('/data-display-2', (req, res) => {
+    renderWithLayout(res, 'data-display-2', { pageTitle: 'Data Display v2', currentPage: 'data-display-2', isDataDisplay2: true });
+});
+
 app.get('/rtl-test', (req, res) => {
     renderWithLayout(res, 'rtl-test', { pageTitle: 'RTL Test', currentPage: 'rtl-test', isRtlTest: true });
 });

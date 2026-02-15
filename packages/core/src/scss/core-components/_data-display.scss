@@ -21,7 +21,7 @@
     opacity: $field-label-opacity;
     line-height: $line-height-tight;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: $field-label-letter-spacing;
   }
 
   &__value {
@@ -50,17 +50,17 @@
 
     .pa-field__copy {
       flex-shrink: 0;
-      padding: 0.4rem;
+      padding: $field-copy-padding;
       background: transparent;
       border: none;
       border-radius: $border-radius;
       cursor: pointer;
-      opacity: 0.5;
-      transition: opacity 0.15s, background 0.15s;
+      opacity: $field-copy-opacity;
+      transition: opacity $field-copy-transition, background $field-copy-transition;
 
       &:hover {
-        opacity: 1;
-        background: rgba(128, 128, 128, 0.1);
+        opacity: $field-copy-hover-opacity;
+        background: $field-copy-hover-bg;
       }
     }
   }
@@ -69,10 +69,10 @@
   &--copy-click {
     .pa-field__value {
       cursor: pointer;
-      transition: opacity 0.15s;
+      transition: opacity $field-copy-transition;
 
       &:hover {
-        opacity: 0.7;
+        opacity: $field-copy-click-hover-opacity;
       }
 
       &::after {
@@ -80,11 +80,11 @@
         font-size: $font-size-2xs;
         opacity: 0;
         margin-inline-start: $spacing-sm; // RTL: flips to right
-        transition: opacity 0.15s;
+        transition: opacity $field-copy-transition;
       }
 
       &:hover::after {
-        opacity: 0.6;
+        opacity: $field-copy-hint-opacity;
       }
     }
   }
@@ -99,21 +99,21 @@
 
     .pa-field__copy {
       flex-shrink: 0;
-      padding: 0.4rem;
+      padding: $field-copy-padding;
       background: transparent;
       border: none;
       border-radius: $border-radius;
       cursor: pointer;
       opacity: 0;
-      transition: opacity 0.15s, background 0.15s;
+      transition: opacity $field-copy-transition, background $field-copy-transition;
     }
 
     &:hover .pa-field__copy {
-      opacity: 0.5;
+      opacity: $field-copy-opacity;
 
       &:hover {
-        opacity: 1;
-        background: rgba(128, 128, 128, 0.1);
+        opacity: $field-copy-hover-opacity;
+        background: $field-copy-hover-bg;
       }
     }
   }
@@ -159,6 +159,14 @@
 }
 
 // ============================================================================
+// Container wrapper for responsive fields
+// ============================================================================
+
+.pa-fields-container {
+  container-type: inline-size;
+}
+
+// ============================================================================
 // FIELD CONTAINER (.pa-fields)
 // Container for multiple .pa-field items
 // ============================================================================
@@ -184,6 +192,14 @@
   &--cols-3 { grid-template-columns: repeat(3, 1fr); }
   &--cols-4 { grid-template-columns: repeat(4, 1fr); }
 
+  @container (max-width: #{$mobile-breakpoint}) {
+    &--cols-2,
+    &--cols-3,
+    &--cols-4 {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media (max-width: $mobile-breakpoint) {
     &--cols-2,
     &--cols-3,
@@ -204,8 +220,8 @@
 
     .pa-field__label {
       flex: 0 0 auto;
-      min-width: 8rem;
-      max-width: 40%;
+      min-width: $field-horizontal-label-min-width;
+      max-width: $field-horizontal-label-max-width;
     }
 
     .pa-field__value {
@@ -226,8 +242,8 @@
 
     .pa-field__label {
       flex: 0 0 auto;
-      min-width: 8rem;
-      max-width: 40%;
+      min-width: $field-horizontal-label-min-width;
+      max-width: $field-horizontal-label-max-width;
     }
 
     .pa-field__value {
@@ -308,6 +324,10 @@
       min-width: 0;
     }
 
+    @container (max-width: #{$mobile-breakpoint}) {
+      flex-direction: column;
+    }
+
     @media (max-width: $mobile-breakpoint) {
       flex-direction: column;
     }
@@ -343,5 +363,480 @@
   &--no-border {
     border-inline-start: none; // RTL: flips to right
     padding-inline-start: 0; // RTL: flips to right
+  }
+
+  // ------------------------------------------------------------------
+  // LINEAR: ultra-clean side-by-side, weight + color contrast only
+  // ------------------------------------------------------------------
+  &--linear {
+    gap: $fields-linear-gap;
+    border-inline-start: none;
+    padding-inline-start: 0;
+
+    .pa-field {
+      flex-direction: row;
+      align-items: center;
+      gap: $fields-linear-field-gap;
+      font-size: $fields-linear-font-size;
+      line-height: $line-height-base;
+      min-height: $fields-linear-min-height;
+    }
+
+    .pa-field__label {
+      flex: 0 0 $fields-linear-label-width;
+      font-size: $fields-linear-font-size;
+      text-transform: none;
+      letter-spacing: normal;
+      opacity: 1;
+      font-weight: $font-weight-normal;
+      color: var(--pa-text-color-2);
+    }
+
+    .pa-field__value {
+      flex: 1;
+      min-width: 0;
+      font-size: $fields-linear-font-size;
+      font-weight: $font-weight-medium;
+      color: var(--pa-text-color-1);
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // CHIPS: inline flow, values displayed as pills/chips
+  // ------------------------------------------------------------------
+  &--chips {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $fields-chips-gap-v $fields-chips-gap-h;
+    padding: $fields-chips-padding-v 0;
+    border-inline-start: none;
+    padding-inline-start: 0;
+
+    .pa-field {
+      flex-direction: row;
+      align-items: center;
+      gap: $fields-chips-field-gap;
+      font-size: $fields-chips-font-size;
+    }
+
+    .pa-field__label {
+      font-size: $fields-chips-font-size;
+      text-transform: none;
+      letter-spacing: normal;
+      opacity: 1;
+      font-weight: $font-weight-normal;
+      color: var(--pa-text-color-2);
+    }
+
+    .pa-field__value {
+      background: $fields-chips-value-bg;
+      color: var(--pa-text-color-1);
+      font-weight: $fields-chips-value-font-weight;
+      padding: $fields-chips-value-padding-v $fields-chips-value-padding-h;
+      border-radius: $fields-chips-value-border-radius;
+      font-size: $fields-chips-value-font-size;
+
+      &--success {
+        background: var(--pa-success-bg-light, rgba(0, 200, 80, 0.12));
+        color: var(--pa-success-color, #28a745);
+      }
+
+      &--warning {
+        background: var(--pa-warning-bg-light, rgba(255, 165, 0, 0.12));
+        color: var(--pa-warning-color, #e68a00);
+      }
+
+      &--danger {
+        background: var(--pa-danger-bg-light, rgba(255, 0, 0, 0.12));
+        color: var(--pa-danger-color, #dc3545);
+      }
+    }
+  }
+}
+
+// ============================================================================
+// Container wrapper for responsive desc-tables
+// Add to a parent element (e.g. card body) so desc-tables collapse in narrow spaces
+// ============================================================================
+
+.pa-desc-container {
+  container-type: inline-size;
+}
+
+// ============================================================================
+// DESCRIPTIONS TABLE (.pa-desc-table)
+// Ant Design style — flat grid with label/value cells, label cells get tint
+// ============================================================================
+
+.pa-desc-table {
+  display: grid;
+  grid-template-columns: repeat($desc-table-cols, auto 1fr);
+  border: $border-width-thin solid var(--pa-border-color);
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &--cols-2 {
+    grid-template-columns: repeat(2, auto 1fr);
+  }
+
+  // Fixed label width: uses --label-width custom property (default from SCSS var)
+  // Override per-instance: style="--label-width: 20rem"
+  // Uses minmax(0, ...) so label columns shrink gracefully when container is narrow
+  &--fixed {
+    grid-template-columns: repeat($desc-table-cols, minmax(0, var(--label-width, #{$desc-table-label-fixed-width})) minmax(0, 1fr));
+
+    &.pa-desc-table--cols-2 {
+      grid-template-columns: repeat(2, minmax(0, var(--label-width, #{$desc-table-label-fixed-width})) minmax(0, 1fr));
+    }
+  }
+
+  &__label,
+  &__value {
+    padding: $desc-table-cell-padding-v $desc-table-cell-padding-h;
+    border-bottom: $border-width-thin solid var(--pa-border-color);
+    font-size: $desc-table-font-size;
+    line-height: $line-height-base;
+  }
+
+  &__label {
+    background: $desc-table-label-bg;
+    color: var(--pa-text-color-2);
+    font-weight: $font-weight-normal;
+    white-space: nowrap;
+    border-inline-end: $border-width-thin solid var(--pa-border-color);
+
+    &::after {
+      content: ':';
+      margin-inline-start: $desc-table-label-colon-spacing;
+    }
+  }
+
+  &__value {
+    color: var(--pa-text-color-1);
+    font-weight: $desc-table-value-font-weight;
+    border-inline-end: $border-width-thin solid var(--pa-border-color);
+    min-width: 0;
+
+    &--full {
+      grid-column: 2 / -1;
+    }
+  }
+
+  // Middle: cells stretch to fill the grid row, content centered inside
+  &--middle &__label,
+  &--middle &__value {
+    display: flex;
+    align-items: center;
+  }
+
+  // Label horizontal alignment
+  &--label-end &__label {
+    text-align: end;
+    justify-content: flex-end; // when --middle makes it flex
+  }
+
+  &--label-center &__label {
+    text-align: center;
+    justify-content: center; // when --middle makes it flex
+  }
+
+  // Truncate: single-line ellipsis on labels and values
+  &--truncate &__label,
+  &--truncate &__value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Responsive: collapse to single label-value pair per row
+  // Selectors must match compound specificity of &--fixed#{&}--cols-2 (0,2,0)
+  // Container query (responds to parent container width, e.g. card body)
+  @container (max-width: #{$mobile-breakpoint}) {
+    &, &--cols-2 {
+      grid-template-columns: auto 1fr;
+    }
+
+    &--fixed, &--fixed#{&}--cols-2 {
+      grid-template-columns: minmax(0, var(--label-width, #{$desc-table-label-fixed-width})) minmax(0, 1fr);
+    }
+
+    .pa-desc-table__value--full {
+      grid-column: 2;
+    }
+  }
+
+  // Media fallback (for desc-tables outside a container context)
+  @media (max-width: $mobile-breakpoint) {
+    &, &--cols-2 {
+      grid-template-columns: auto 1fr;
+    }
+
+    &--fixed, &--fixed#{&}--cols-2 {
+      grid-template-columns: minmax(0, var(--label-width, #{$desc-table-label-fixed-width})) minmax(0, 1fr);
+    }
+
+    .pa-desc-table__value--full {
+      grid-column: 2;
+    }
+  }
+}
+
+// ============================================================================
+// DOT LEADERS (.pa-dot-leaders)
+// Restaurant menu / invoice style — dotted line connects label to value
+// ============================================================================
+
+.pa-dot-leaders {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  &__item {
+    display: flex;
+    align-items: baseline;
+    padding: $dot-leaders-item-padding-v 0;
+
+    &--total {
+      margin-top: $dot-leaders-total-margin-top;
+      padding-top: $dot-leaders-total-padding-top;
+      border-top: $dot-leaders-total-border-width solid var(--pa-text-color-1);
+    }
+  }
+
+  &__label {
+    font-size: $dot-leaders-font-size;
+    font-weight: $dot-leaders-label-font-weight;
+    color: var(--pa-text-color-2);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  &__leader {
+    flex: 1;
+    border-bottom: $dot-leaders-leader-width dotted var(--pa-border-color);
+    margin: 0 $dot-leaders-leader-margin;
+    margin-bottom: 0.25em;
+    min-width: $dot-leaders-leader-min-width;
+  }
+
+  &__value {
+    font-size: $dot-leaders-font-size;
+    font-weight: $dot-leaders-value-font-weight;
+    color: var(--pa-text-color-1);
+    white-space: nowrap;
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__item--total &__label {
+    font-weight: $dot-leaders-total-font-weight;
+    color: var(--pa-text-color-1);
+  }
+
+  &__item--total &__value {
+    font-size: $dot-leaders-total-font-size;
+    font-weight: $dot-leaders-total-font-weight;
+  }
+}
+
+// ============================================================================
+// PROPERTY CARD (.pa-prop-card)
+// Bordered card with header + rows, thin dividers between rows
+// ============================================================================
+
+.pa-prop-card {
+  border: $border-width-thin solid var(--pa-border-color);
+  border-radius: $prop-card-border-radius;
+  overflow: hidden;
+
+  &__header {
+    padding: $prop-card-header-padding-v $prop-card-header-padding-h;
+    font-weight: $prop-card-header-font-weight;
+    font-size: $prop-card-header-font-size;
+    text-transform: uppercase;
+    letter-spacing: $prop-card-header-letter-spacing;
+    color: var(--pa-text-color-2);
+    background: $prop-card-header-bg;
+    border-bottom: $border-width-thin solid var(--pa-border-color);
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $prop-card-row-padding-v $prop-card-row-padding-h;
+    border-bottom: $border-width-thin solid $prop-card-row-divider-color;
+    font-size: $prop-card-row-font-size;
+    gap: $prop-card-row-gap;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__label {
+    color: var(--pa-text-color-2);
+    font-weight: $font-weight-normal;
+    flex-shrink: 0;
+  }
+
+  &__value {
+    color: var(--pa-text-color-1);
+    font-weight: $font-weight-medium;
+    text-align: end;
+    overflow-wrap: anywhere;
+
+    &--bold {
+      font-weight: $font-weight-bold;
+    }
+  }
+}
+
+// ============================================================================
+// Container wrapper for responsive banded rows
+// ============================================================================
+
+.pa-banded-container {
+  container-type: inline-size;
+}
+
+// ============================================================================
+// BANDED ROWS (.pa-banded)
+// Full-width rows with fixed-width tinted label column
+// ============================================================================
+
+.pa-banded {
+  border: $border-width-thin solid var(--pa-border-color);
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &__row {
+    display: flex;
+    border-bottom: $border-width-thin solid var(--pa-border-color);
+    font-size: $banded-font-size;
+    align-items: stretch;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__label {
+    flex: 0 0 auto;
+    width: $banded-label-width;
+    padding: $banded-label-padding-v $banded-label-padding-h;
+    background: $banded-label-bg;
+    color: var(--pa-text-color-2);
+    font-weight: $banded-label-font-weight;
+    border-inline-end: $border-width-thin solid var(--pa-border-color);
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__value {
+    flex: 1;
+    padding: $banded-value-padding-v $banded-value-padding-h;
+    color: var(--pa-text-color-1);
+    font-weight: $font-weight-normal;
+    display: flex;
+    align-items: flex-start;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+
+  // Width variants
+  &--narrow &__label { width: $banded-label-width-narrow; }
+  &--wide &__label { width: $banded-label-width-wide; }
+
+  // Middle: vertically center labels and values
+  &--middle &__label,
+  &--middle &__value {
+    align-items: center;
+  }
+
+  // Label horizontal alignment
+  &--label-end &__label { justify-content: flex-end; }
+  &--label-center &__label { justify-content: center; }
+
+  // Truncate: single-line ellipsis on both labels and values
+  &--truncate &__label,
+  &--truncate &__value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Responsive: stack label above value in narrow containers
+  // Uses & &__label (0,2,0) + !important to beat wr-* utilities (0,1,0 + !important)
+  @container (max-width: #{$mobile-breakpoint}) {
+    &__row {
+      flex-direction: column;
+    }
+
+    & &__label {
+      width: auto !important;
+      border-inline-end: none;
+      border-bottom: $border-width-thin solid var(--pa-border-color);
+    }
+
+    & &__label,
+    & &__value {
+      display: block; // override flex so text-overflow: ellipsis works
+    }
+  }
+
+  @media (max-width: $mobile-breakpoint) {
+    &__row {
+      flex-direction: column;
+    }
+
+    & &__label {
+      width: auto !important;
+      border-inline-end: none;
+      border-bottom: $border-width-thin solid var(--pa-border-color);
+    }
+
+    & &__label,
+    & &__value {
+      display: block;
+    }
+  }
+}
+
+// ============================================================================
+// ACCENT GRID (.pa-accent-grid)
+// Grid of items with color-coded left borders
+// ============================================================================
+
+.pa-accent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($accent-grid-min-col, 1fr));
+  gap: $accent-grid-gap;
+
+  &__item {
+    padding: $accent-grid-item-padding-v $accent-grid-item-padding-h;
+    padding-inline-start: $accent-grid-item-padding-start;
+    border-inline-start: $accent-grid-border-width solid var(--pa-accent, #3b82f6);
+
+    &--success { border-inline-start-color: var(--pa-success-color, #28a745); }
+    &--warning { border-inline-start-color: var(--pa-warning-color, #e68a00); }
+    &--danger  { border-inline-start-color: var(--pa-danger-color, #dc3545); }
+    &--info    { border-inline-start-color: var(--pa-info-color, #17a2b8); }
+  }
+
+  &__label {
+    font-size: $accent-grid-label-font-size;
+    font-weight: $accent-grid-label-font-weight;
+    color: var(--pa-text-color-2);
+    margin-bottom: $accent-grid-label-margin-bottom;
+    text-transform: uppercase;
+    letter-spacing: $accent-grid-label-letter-spacing;
+  }
+
+  &__value {
+    font-size: $accent-grid-value-font-size;
+    font-weight: $accent-grid-value-font-weight;
+    color: var(--pa-text-color-1);
+    line-height: $accent-grid-value-line-height;
   }
 }

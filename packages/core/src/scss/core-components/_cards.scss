@@ -254,6 +254,27 @@
     }
   }
 
+  // Ghost card - invisible container, same spacing/sizing behavior
+  &--ghost {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
+    &:hover {
+      box-shadow: none;
+    }
+
+    .pa-card__header {
+      background: transparent;
+      border-bottom: none;
+    }
+
+    .pa-card__footer {
+      background: transparent;
+      border-top: none;
+    }
+  }
+
   // Theme color variants (color-1 through color-9)
   // These use theme-customizable colors from --pa-color-* CSS variables
   @for $i from 1 through 9 {
