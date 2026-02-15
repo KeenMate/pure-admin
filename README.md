@@ -76,7 +76,7 @@ Pure Admin includes a comprehensive set of components:
 - **Content** - Cards, tables, lists, alerts, callouts
 - **Forms** - Inputs, selects, checkboxes, validation states
 - **Feedback** - Modals, toasts, tooltips, loaders
-- **Data** - Statistics, badges, labels, timeline
+- **Data** - Statistics, badges, labels, timeline, data display patterns (fields, desc tables, banded rows, dot leaders, accent grids)
 - **Interactive** - Command palette, detail panels, profile panel
 
 ### Component Example

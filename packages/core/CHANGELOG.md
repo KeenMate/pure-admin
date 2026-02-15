@@ -7,13 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.5.1] - 2026-02-15 ✅ Published
+
+**Theme packages also updated to v1.5.1:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`
+
 ### Added
 
-- **Detail panel bordered modifier**: Added `.pa-detail-panel__content--bordered` modifier to add top and bottom borders to detail panels
-- **Detail panel scroll containment**: Added `overscroll-behavior: contain` to `.pa-detail-panel__body` to prevent scroll chaining to parent page
-- **Detail view min-height support**: `.pa-table-card` with `.pa-detail-view` now properly fills available height when using min-height utilities (e.g., `minhr-25`)
-- **Extended min-height utilities**: Added `minhr-60`, `minhr-70`, `minhr-80`, `minhr-90`, `minhr-100` (in 10rem steps)
-- **Practical Examples demo pages**: Added `/movies` (list with filters, table, pagination), `/movies/detail` (master-detail with actor panel), and `/movies-panel` (list with inline detail panel) as real-world usage examples
+- **7 data display patterns**: New read-only label-value components for structured data:
+  - `pa-fields--linear` — Underline-style fields (label above, value with bottom border)
+  - `pa-fields--chips` — Chip/tag style values with semantic color variants (`--success`, `--warning`, `--danger`)
+  - `pa-desc-table` — CSS Grid description list with auto/fixed label widths, column variants, and alignment modifiers
+  - `pa-dot-leaders` — Receipt/invoice style with dotted fill between label and value
+  - `pa-prop-card` — Self-contained card with colored header + key-value rows
+  - `pa-banded` — Label column with tinted background band, narrow/wide width variants
+  - `pa-accent-grid` — Grid of items with color-coded left borders
+- **CSS Container Query support**: Data display components respond to container width instead of viewport:
+  - `pa-fields-container` — Collapses multi-column fields to single column
+  - `pa-desc-container` — Collapses desc-table to narrower layout
+  - `pa-banded-container` — Stacks banded label above value
+  - `pa-cq` — General-purpose container query utility
+- **Ghost card**: `pa-card--ghost` — Invisible container (no background, border, or shadow) for layout-only card wrappers
+- **Detail panel bordered modifier**: `.pa-detail-panel__content--bordered` modifier for top/bottom borders
+- **Detail panel scroll containment**: `overscroll-behavior: contain` on `.pa-detail-panel__body`
+- **Detail view min-height support**: `.pa-table-card` with `.pa-detail-view` fills available height with min-height utilities
+- **Extended min-height utilities**: `minhr-60` through `minhr-100` (in 10rem steps)
+- **Practical Examples demo pages**: `/movies`, `/movies/detail`, `/movies-panel`
+- **Data Display demo page**: `/data-display-2` with all 7 patterns and CSS Reference table
+
+### Fixed
+
+- **Ghost card shadow in dark themes**: Ghost card now uses `!important` to beat dark-mode scoped `.pa-card` shadow overrides
 
 ---
 

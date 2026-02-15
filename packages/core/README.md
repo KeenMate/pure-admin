@@ -180,6 +180,13 @@ Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
 - **Theme color variants:** `.pa-card--color-1` through `.pa-card--color-9`
   - Uses `--pa-color-N` for header background and border
   - Text color automatically adjusts via `--pa-color-N-text` for readability
+- `.pa-card--ghost` - Invisible container (no background, border, or shadow) — layout wrapper only
+- `.pa-card--stat` - Compact padding for stat cards
+- **Card tabs:**
+  - `.pa-card__tabs` - Tab navigation below header
+  - `.pa-card__tab` / `.pa-card__tab--active` - Tab buttons
+  - `.pa-card__tab-content` / `.pa-card__tab-content--active` - Tab panels
+  - `.pa-card__tabs--inline` - Pill-style tabs inside header
 
 ### Layout & Sidebar
 - `.pa-layout` - Main layout container
@@ -379,6 +386,88 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 - `.pa-profile-panel__nav-item` - Navigation link
 - `.pa-profile-panel__favorite-item` - Favorite link (with remove button)
 - `.pa-profile-panel__actions` - Action buttons (Sign Out, etc.)
+
+### Data Display
+
+Read-only label-value patterns for displaying structured data. All patterns support RTL via CSS logical properties and respond to container width via CSS Container Queries.
+
+#### Fields (label-value pairs)
+- `.pa-field` - Single label-value pair
+- `.pa-field__label` - Label element
+- `.pa-field__value` - Value element
+- `.pa-fields` - Container for multiple fields (stacked list)
+- `.pa-fields--cols-2/3/4` - Multi-column grid layout
+- `.pa-fields--horizontal` - Side-by-side label/value layout
+- `.pa-fields--table` - Table-like alignment with fixed label width
+- `.pa-fields--bordered` - Bottom borders between fields
+- `.pa-fields--striped` - Alternating row backgrounds
+- `.pa-fields--compact` - Reduced spacing
+- `.pa-fields--inline` - Inline horizontal flow
+- `.pa-fields--relaxed` - Extra spacing
+- `.pa-fields--row` - Horizontal row with wrapping
+- `.pa-fields--filled` - Tinted label backgrounds
+- `.pa-fields--no-border` - Remove all borders
+- `.pa-fields--linear` - Underline-style fields (label above, value with bottom border)
+- `.pa-fields--chips` - Chip/tag style values with color variants
+- `.pa-fields--color-1` through `--color-9` - Theme color accents
+- `.pa-field--full` - Full-width field spanning all columns
+- `.pa-field--copy-btn/--copy-click/--copy-hover` - Copy-to-clipboard patterns
+- `.pa-field-group` - Group fields under a titled section
+- `.pa-field__value--success/warning/danger` - Semantic chip color variants (with `--chips`)
+
+#### Desc Table (CSS Grid description list)
+- `.pa-desc-table` - Grid-based label-value table (auto label width)
+- `.pa-desc-table--cols-2` - Two-column layout
+- `.pa-desc-table--fixed` - Fixed label width (configurable via `--label-width`)
+- `.pa-desc-table--middle` - Vertically center labels and values
+- `.pa-desc-table--label-end` - Right-align labels
+- `.pa-desc-table--label-center` - Center-align labels
+- `.pa-desc-table--truncate` - Truncate overflow with ellipsis
+- `.pa-desc-table__label` - Label cell
+- `.pa-desc-table__value` - Value cell
+- `.pa-desc-table__value--full` - Value spanning full row width
+
+#### Dot Leaders (receipt/invoice style)
+- `.pa-dot-leaders` - Container for dot-leader items
+- `.pa-dot-leaders__item` - Single row
+- `.pa-dot-leaders__item--total` - Bold total row with top border
+- `.pa-dot-leaders__label` - Label text
+- `.pa-dot-leaders__leader` - Dotted fill between label and value
+- `.pa-dot-leaders__value` - Right-aligned value
+
+#### Property Card (grouped key-value card)
+- `.pa-prop-card` - Self-contained card with header + rows
+- `.pa-prop-card__header` - Colored header bar
+- `.pa-prop-card__row` - Key-value row with bottom border
+- `.pa-prop-card__label` - Row label
+- `.pa-prop-card__value` - Row value
+- `.pa-prop-card__value--bold` - Bold value text
+
+#### Banded (label column with tinted background)
+- `.pa-banded` - Container for banded rows
+- `.pa-banded__row` - Horizontal label-value row
+- `.pa-banded__label` - Label with tinted background band
+- `.pa-banded__value` - Value cell
+- `.pa-banded--narrow` - Narrower label column
+- `.pa-banded--wide` - Wider label column
+- `.pa-banded--middle` - Vertically center content
+- `.pa-banded--label-end` - Right-align labels
+- `.pa-banded--label-center` - Center-align labels
+- `.pa-banded--truncate` - Truncate overflow with ellipsis
+
+#### Accent Grid (color-coded items)
+- `.pa-accent-grid` - Grid container with color-coded left borders
+- `.pa-accent-grid__item` - Grid item with accent border
+- `.pa-accent-grid__item--success/warning/danger/info` - Semantic color variants
+- `.pa-accent-grid__label` - Item label
+- `.pa-accent-grid__value` - Item value
+
+#### Container Query Wrappers
+Wrap data display components in these containers to enable responsive behavior based on the container width (not viewport):
+- `.pa-fields-container` - Container for `.pa-fields` (collapses multi-column to single column)
+- `.pa-desc-container` - Container for `.pa-desc-table` (collapses to narrower layout)
+- `.pa-banded-container` - Container for `.pa-banded` (stacks label above value)
+- `.pa-cq` - General-purpose container query utility (`container-type: inline-size`)
 
 ## Utility Classes
 
