@@ -255,23 +255,25 @@
   }
 
   // Ghost card - invisible container, same spacing/sizing behavior
+  // Uses !important to beat dark-mode scoped overrides like
+  // `.pa-mode-dark .pa-card { box-shadow: ... }` which have (0,2,0) specificity
   &--ghost {
-    background: transparent;
-    border: none;
-    box-shadow: none;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 
     &:hover {
-      box-shadow: none;
+      box-shadow: none !important;
     }
 
     .pa-card__header {
-      background: transparent;
-      border-bottom: none;
+      background: transparent !important;
+      border-bottom: none !important;
     }
 
     .pa-card__footer {
-      background: transparent;
-      border-top: none;
+      background: transparent !important;
+      border-top: none !important;
     }
   }
 
