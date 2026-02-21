@@ -4,7 +4,7 @@
   "title": "Pure Admin Theme Manifest",
   "description": "Configuration manifest for Pure Admin CSS themes",
   "type": "object",
-  "required": ["name", "version", "modes", "exports"],
+  "required": ["name", "id", "version", "modes", "exports"],
   "properties": {
     "$schema": {
       "type": "string",
@@ -296,6 +296,20 @@
           "description": "Paths to screenshot images"
         }
       }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Searchable tags (e.g. 'dark', 'industrial', 'restaurant', 'warm')"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to theme's homepage or repository"
+    },
+    "coreVersion": {
+      "type": "string",
+      "description": "Required pure-admin-core version range (e.g. '>=1.5.0')"
     },
     "dependencies": {
       "type": "object",

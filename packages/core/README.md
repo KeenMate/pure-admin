@@ -150,7 +150,8 @@ Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
   - `.pa-col-1-5` (20%), `.pa-col-2-5` (40%), `.pa-col-3-5` (60%), `.pa-col-4-5` (80%)
   - `.pa-col-1-6` (16.7%), `.pa-col-5-6` (83.3%)
   - `.pa-col-1-12` (8.3%), `.pa-col-5-12` (41.7%), `.pa-col-7-12` (58.3%), `.pa-col-11-12` (91.7%)
-- **Responsive breakpoints:** `.pa-col-sm-*`, `.pa-col-md-*`, `.pa-col-lg-*`, `.pa-col-xl-*`
+- **Responsive breakpoints (container-query based):** `.pa-col-sm-*`, `.pa-col-md-*`, `.pa-col-lg-*`, `.pa-col-xl-*`
+  - These respond to the **container width**, not the viewport. Requires a containment context ancestor: `.pa-layout__main` (automatic) or `.pa-cq`
 - **Offsets:** `.pa-offset-5`, `.pa-offset-10`, ... `.pa-offset-95`
 - **Row modifiers:**
   - `.pa-row--no-gutter` - Remove column gutters
@@ -182,6 +183,11 @@ Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
   - Text color automatically adjusts via `--pa-color-N-text` for readability
 - `.pa-card--ghost` - Invisible container (no background, border, or shadow) — layout wrapper only
 - `.pa-card--stat` - Compact padding for stat cards
+- **Live-data states** (persistent tinted background for real-time dashboards):
+  - `.pa-card--live-up` - Green tint (value increased)
+  - `.pa-card--live-down` - Red tint (value decreased)
+  - `.pa-card--live-neutral` - Returns to default card background
+  - Smooth 0.3s transition between states; JS swaps the class on each data update
 - **Card tabs:**
   - `.pa-card__tabs` - Tab navigation below header
   - `.pa-card__tab` / `.pa-card__tab--active` - Tab buttons
@@ -335,9 +341,10 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 - `.pa-stat__content` - Content wrapper
 - `.pa-stat__number` - Large number display
 - `.pa-stat__label` - Label text
-- **Hero variant:** `.pa-stat--hero` - Large centered stat with value and change indicator
+- **Hero variant:** `.pa-stat--hero` - Compact centered stat with large number (~45px), tight padding, and change indicator
   - `.pa-stat__value` - Hero number
   - `.pa-stat__change` - Change indicator (`--positive/negative/neutral`)
+  - `.pa-stat--hero-compact` - Alias (identical to `--hero`)
 - **Square variant:** `.pa-stat--square` - Colored square KPI card
   - `.pa-stat__symbol` - Background symbol
   - Color modifiers: `.pa-stat--primary/success/info/warning/danger/secondary`
@@ -461,6 +468,16 @@ Read-only label-value patterns for displaying structured data. All patterns supp
 - `.pa-accent-grid__item--success/warning/danger/info` - Semantic color variants
 - `.pa-accent-grid__label` - Item label
 - `.pa-accent-grid__value` - Item value
+
+#### Bar List (horizontal bar chart)
+- `.pa-bar-list` - Container for labeled horizontal bar chart items
+- `.pa-bar-list__item` - Single row (header + bar)
+- `.pa-bar-list__header` - Flex row with label and value
+- `.pa-bar-list__label` - Left-aligned label text
+- `.pa-bar-list__value` - Right-aligned value text
+- `.pa-bar-list__bar` - Proportional bar (set width via `style="--value: 75%"`)
+- `.pa-bar-list--compact` - Tighter spacing and smaller text
+- Color variants: `.pa-bar-list--success/warning/danger/info`
 
 #### Container Query Wrappers
 Wrap data display components in these containers to enable responsive behavior based on the container width (not viewport):

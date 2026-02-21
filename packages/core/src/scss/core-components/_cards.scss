@@ -277,6 +277,23 @@
     }
   }
 
+  // Live-data state — persistent tinted background reflecting latest change
+  // JS swaps the class on each data update; color stays until next update
+  &--live-up {
+    background-color: rgba($success-bg, 0.10);
+    transition: background-color 0.3s ease;
+  }
+
+  &--live-down {
+    background-color: rgba($danger-bg, 0.10);
+    transition: background-color 0.3s ease;
+  }
+
+  &--live-neutral {
+    background-color: $card-bg;
+    transition: background-color 0.3s ease;
+  }
+
   // Theme color variants (color-1 through color-9)
   // These use theme-customizable colors from --pa-color-* CSS variables
   @for $i from 1 through 9 {

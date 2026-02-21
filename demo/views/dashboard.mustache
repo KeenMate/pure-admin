@@ -165,29 +165,16 @@
             <div class="pa-card__header">
                 <h4>Traffic Sources</h4>
             </div>
-            <div class="pa-card__body">
-                <div class="pa-metric-list">
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Organic Search</div>
-                        <div class="pa-metric-list__value">42.3%</div>
-                    </div>
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Direct</div>
-                        <div class="pa-metric-list__value">28.7%</div>
-                    </div>
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Social Media</div>
-                        <div class="pa-metric-list__value">15.8%</div>
-                    </div>
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Referral</div>
-                        <div class="pa-metric-list__value">9.4%</div>
-                    </div>
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Email</div>
-                        <div class="pa-metric-list__value">3.8%</div>
-                    </div>
-                </div>
+            <div class="pa-card__body pa-card__body--no-padding">
+                <table class="pa-table pa-table--compact">
+                    <tbody>
+                        <tr><td>Organic Search</td><td class="text-end"><strong>42.3%</strong></td></tr>
+                        <tr><td>Direct</td><td class="text-end"><strong>28.7%</strong></td></tr>
+                        <tr><td>Social Media</td><td class="text-end"><strong>15.8%</strong></td></tr>
+                        <tr><td>Referral</td><td class="text-end"><strong>9.4%</strong></td></tr>
+                        <tr><td>Email</td><td class="text-end"><strong>3.8%</strong></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -201,43 +188,28 @@
                 <h4>Recent Activity</h4>
             </div>
             <div class="pa-card__body">
-                <div class="pa-activity-feed">
-                    <div class="pa-activity-feed__item">
-                        <div class="pa-activity-feed__icon">👤</div>
-                        <div class="pa-activity-feed__content">
-                            <div class="pa-activity-feed__text">New user registration: <strong>john.smith@example.com</strong></div>
-                            <div class="pa-activity-feed__time">2 minutes ago</div>
-                        </div>
-                    </div>
-                    <div class="pa-activity-feed__item">
-                        <div class="pa-activity-feed__icon">🛒</div>
-                        <div class="pa-activity-feed__content">
-                            <div class="pa-activity-feed__text">Order #4892 completed - <strong>$234.50</strong></div>
-                            <div class="pa-activity-feed__time">8 minutes ago</div>
-                        </div>
-                    </div>
-                    <div class="pa-activity-feed__item">
-                        <div class="pa-activity-feed__icon">⚠</div>
-                        <div class="pa-activity-feed__content">
-                            <div class="pa-activity-feed__text">Low stock alert: <strong>Product A-123</strong></div>
-                            <div class="pa-activity-feed__time">15 minutes ago</div>
-                        </div>
-                    </div>
-                    <div class="pa-activity-feed__item">
-                        <div class="pa-activity-feed__icon">💳</div>
-                        <div class="pa-activity-feed__content">
-                            <div class="pa-activity-feed__text">Payment received: <strong>Invoice #2847</strong></div>
-                            <div class="pa-activity-feed__time">23 minutes ago</div>
-                        </div>
-                    </div>
-                    <div class="pa-activity-feed__item">
-                        <div class="pa-activity-feed__icon">📊</div>
-                        <div class="pa-activity-feed__content">
-                            <div class="pa-activity-feed__text">Monthly report generated</div>
-                            <div class="pa-activity-feed__time">1 hour ago</div>
-                        </div>
-                    </div>
-                </div>
+                <ul class="pa-timeline pa-timeline--simple">
+                    <li class="pa-timeline__item pa-timeline__item--primary">
+                        <div class="pa-timeline__time">2 min ago</div>
+                        <div class="pa-timeline__content">New user registration: <strong>john.smith@example.com</strong></div>
+                    </li>
+                    <li class="pa-timeline__item pa-timeline__item--success">
+                        <div class="pa-timeline__time">8 min ago</div>
+                        <div class="pa-timeline__content">Order #4892 completed - <strong>$234.50</strong></div>
+                    </li>
+                    <li class="pa-timeline__item pa-timeline__item--warning">
+                        <div class="pa-timeline__time">15 min ago</div>
+                        <div class="pa-timeline__content">Low stock alert: <strong>Product A-123</strong></div>
+                    </li>
+                    <li class="pa-timeline__item pa-timeline__item--success">
+                        <div class="pa-timeline__time">23 min ago</div>
+                        <div class="pa-timeline__content">Payment received: <strong>Invoice #2847</strong></div>
+                    </li>
+                    <li class="pa-timeline__item pa-timeline__item--info">
+                        <div class="pa-timeline__time">1 hr ago</div>
+                        <div class="pa-timeline__content">Monthly report generated</div>
+                    </li>
+                </ul>
             </div>
             <div class="pa-card__footer">
                 <a href="#" class="pa-btn pa-btn--sm pa-btn--secondary">View All Activity</a>
@@ -307,25 +279,15 @@
             <div class="pa-card__header">
                 <h4>Top Products</h4>
             </div>
-            <div class="pa-card__body">
-                <div class="pa-metric-list">
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Product Alpha</div>
-                        <div class="pa-metric-list__value">$24,532</div>
-                    </div>
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Product Beta</div>
-                        <div class="pa-metric-list__value">$18,940</div>
-                    </div>
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Product Gamma</div>
-                        <div class="pa-metric-list__value">$15,677</div>
-                    </div>
-                    <div class="pa-metric-list__item">
-                        <div class="pa-metric-list__label">Product Delta</div>
-                        <div class="pa-metric-list__value">$12,234</div>
-                    </div>
-                </div>
+            <div class="pa-card__body pa-card__body--no-padding">
+                <table class="pa-table pa-table--compact">
+                    <tbody>
+                        <tr><td>Product Alpha</td><td class="text-end"><strong>$24,532</strong></td></tr>
+                        <tr><td>Product Beta</td><td class="text-end"><strong>$18,940</strong></td></tr>
+                        <tr><td>Product Gamma</td><td class="text-end"><strong>$15,677</strong></td></tr>
+                        <tr><td>Product Delta</td><td class="text-end"><strong>$12,234</strong></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -334,27 +296,31 @@
             <div class="pa-card__header">
                 <h4>System Status</h4>
             </div>
-            <div class="pa-card__body">
-                <div class="pa-status-list">
-                    <div class="pa-status-list__item">
-                        <div class="pa-status-list__indicator pa-status-list__indicator--success"></div>
-                        <div class="pa-status-list__label">API Services</div>
-                        <div class="pa-status-list__value">Operational</div>
+            <div class="pa-card__body pa-card__body--no-padding">
+                <div class="pa-list">
+                    <div class="pa-list__item">
+                        <div class="pa-list__content">
+                            <div class="pa-list__title">API Services</div>
+                        </div>
+                        <span class="pa-badge pa-badge--success">Operational</span>
                     </div>
-                    <div class="pa-status-list__item">
-                        <div class="pa-status-list__indicator pa-status-list__indicator--success"></div>
-                        <div class="pa-status-list__label">Database</div>
-                        <div class="pa-status-list__value">Operational</div>
+                    <div class="pa-list__item">
+                        <div class="pa-list__content">
+                            <div class="pa-list__title">Database</div>
+                        </div>
+                        <span class="pa-badge pa-badge--success">Operational</span>
                     </div>
-                    <div class="pa-status-list__item">
-                        <div class="pa-status-list__indicator pa-status-list__indicator--warning"></div>
-                        <div class="pa-status-list__label">Payment Gateway</div>
-                        <div class="pa-status-list__value">Degraded</div>
+                    <div class="pa-list__item">
+                        <div class="pa-list__content">
+                            <div class="pa-list__title">Payment Gateway</div>
+                        </div>
+                        <span class="pa-badge pa-badge--warning">Degraded</span>
                     </div>
-                    <div class="pa-status-list__item">
-                        <div class="pa-status-list__indicator pa-status-list__indicator--success"></div>
-                        <div class="pa-status-list__label">Email Service</div>
-                        <div class="pa-status-list__value">Operational</div>
+                    <div class="pa-list__item">
+                        <div class="pa-list__content">
+                            <div class="pa-list__title">Email Service</div>
+                        </div>
+                        <span class="pa-badge pa-badge--success">Operational</span>
                     </div>
                 </div>
             </div>
@@ -366,7 +332,7 @@
                 <h4>Quick Actions</h4>
             </div>
             <div class="pa-card__body">
-                <div class="pa-quick-actions">
+                <div class="pa-btn-group pa-btn-group--vertical">
                     <button class="pa-btn pa-btn--primary pa-btn--block">New Order</button>
                     <button class="pa-btn pa-btn--secondary pa-btn--block">Add Customer</button>
                     <button class="pa-btn pa-btn--secondary pa-btn--block">Generate Report</button>

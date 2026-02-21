@@ -1,0 +1,608 @@
+/* ========================================
+   Data Visualization Components
+   Progress bars, rings, gauges, heatmaps, sparklines
+   ======================================== */
+@use '../variables' as *;
+
+// ============================================================================
+// 1. PROGRESS BAR (pa-progress)
+// ============================================================================
+
+.pa-progress {
+  width: 100%;
+  height: $progress-height;
+  background: $progress-bg;
+  border-radius: $progress-border-radius;
+  overflow: hidden;
+  position: relative;
+
+  // Fill bar
+  &__fill {
+    height: 100%;
+    width: var(--value, 0%);
+    background: $accent-color;
+    border-radius: inherit;
+    transition: width $transition-medium $easing-smooth;
+  }
+
+  // Label (outside, above the bar)
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spacing-xs;
+    font-size: $progress-label-font-size;
+    font-weight: $progress-label-font-weight;
+    color: var(--pa-text-color-1);
+  }
+
+  &__label-value {
+    color: var(--pa-text-color-2);
+  }
+
+  // Size variants
+  &--xs {
+    height: $progress-height-xs;
+  }
+
+  &--sm {
+    height: $progress-height-sm;
+  }
+
+  &--lg {
+    height: $progress-height-lg;
+  }
+
+  // Color variants
+  &--success > .pa-progress__fill { background: $success-bg; }
+  &--warning > .pa-progress__fill { background: $warning-bg; }
+  &--danger > .pa-progress__fill  { background: $danger-bg; }
+  &--info > .pa-progress__fill    { background: $info-bg; }
+
+  // Rounded (pill shape)
+  &--rounded {
+    border-radius: 50rem;
+  }
+
+  // Striped
+  &--striped > .pa-progress__fill {
+    background-image: repeating-linear-gradient(
+      $progress-stripe-angle,
+      rgba(255, 255, 255, 0.2) 0,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%
+    );
+    background-size: $progress-stripe-size $progress-stripe-size;
+  }
+
+  // Animated (moving stripes)
+  &--animated > .pa-progress__fill {
+    animation: pa-progress-stripe $progress-animation-duration linear infinite;
+  }
+}
+
+@keyframes pa-progress-stripe {
+  0% {
+    background-position: $progress-stripe-size 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+// Wrapper for label + bar combo
+.pa-progress-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+
+// ============================================================================
+// 2. STACKED BAR (pa-stacked-bar)
+// ============================================================================
+
+.pa-stacked-bar {
+  display: flex;
+  width: 100%;
+  height: $stacked-bar-height;
+  border-radius: $stacked-bar-border-radius;
+  overflow: hidden;
+  background: $progress-bg;
+
+  &__segment {
+    height: 100%;
+    width: var(--value, 0%);
+    transition: width $transition-medium $easing-smooth;
+
+    // Default color
+    background: $accent-color;
+
+    &--success { background: $success-bg; }
+    &--warning { background: $warning-bg; }
+    &--danger  { background: $danger-bg; }
+    &--info    { background: $info-bg; }
+    &--secondary { background: $btn-secondary-bg; }
+  }
+
+  // Legend
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $stacked-bar-legend-gap;
+    margin-top: $spacing-sm;
+  }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $stacked-bar-legend-font-size;
+    color: var(--pa-text-color-2);
+  }
+
+  &__legend-swatch {
+    width: $stacked-bar-legend-swatch-size;
+    height: $stacked-bar-legend-swatch-size;
+    border-radius: $border-radius-sm;
+    flex-shrink: 0;
+
+    &--primary   { background: $accent-color; }
+    &--success   { background: $success-bg; }
+    &--warning   { background: $warning-bg; }
+    &--danger    { background: $danger-bg; }
+    &--info      { background: $info-bg; }
+    &--secondary { background: $btn-secondary-bg; }
+  }
+
+  // Size variants
+  &--sm { height: $progress-height-sm; }
+  &--lg { height: $progress-height-lg; }
+
+  // Rounded
+  &--rounded { border-radius: 50rem; }
+}
+
+
+// ============================================================================
+// 3. PROGRESS RING (pa-progress-ring)
+// ============================================================================
+
+.pa-progress-ring {
+  width: $progress-ring-size;
+  height: $progress-ring-size;
+  border-radius: 50%;
+  background: conic-gradient(
+    $accent-color calc(var(--value, 0) * 3.6deg),
+    $progress-ring-track-color 0deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &__inner {
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background: $card-bg;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__value {
+    font-size: $progress-ring-value-font-size;
+    font-weight: $progress-ring-value-font-weight;
+    line-height: 1;
+    color: var(--pa-text-color-1);
+  }
+
+  &__label {
+    font-size: $progress-ring-label-font-size;
+    color: var(--pa-text-color-2);
+    margin-top: $spacing-xs;
+  }
+
+  // Size variants
+  &--sm {
+    width: $progress-ring-size-sm;
+    height: $progress-ring-size-sm;
+
+    .pa-progress-ring__value {
+      font-size: $font-size-base;
+    }
+
+    .pa-progress-ring__label {
+      font-size: $font-size-2xs;
+    }
+  }
+
+  &--lg {
+    width: $progress-ring-size-lg;
+    height: $progress-ring-size-lg;
+
+    .pa-progress-ring__value {
+      font-size: $font-size-2xl;
+    }
+
+    .pa-progress-ring__label {
+      font-size: $font-size-xs;
+    }
+  }
+
+  // Color variants
+  &--success {
+    background: conic-gradient(
+      $success-bg calc(var(--value, 0) * 3.6deg),
+      $progress-ring-track-color 0deg
+    );
+  }
+
+  &--warning {
+    background: conic-gradient(
+      $warning-bg calc(var(--value, 0) * 3.6deg),
+      $progress-ring-track-color 0deg
+    );
+  }
+
+  &--danger {
+    background: conic-gradient(
+      $danger-bg calc(var(--value, 0) * 3.6deg),
+      $progress-ring-track-color 0deg
+    );
+  }
+
+  &--info {
+    background: conic-gradient(
+      $info-bg calc(var(--value, 0) * 3.6deg),
+      $progress-ring-track-color 0deg
+    );
+  }
+}
+
+
+// ============================================================================
+// 4. DASHBOARD GAUGE (pa-gauge)
+// ============================================================================
+
+.pa-gauge {
+  width: $gauge-size;
+  height: calc(#{$gauge-size} / 2);
+  border-radius: #{$gauge-size} #{$gauge-size} 0 0;
+  overflow: hidden;
+  background: conic-gradient(
+    from 0.75turn,
+    $accent-color calc(var(--value, 0) * 1.8deg),
+    $gauge-track-color 0deg
+  );
+  position: relative;
+  flex-shrink: 0;
+
+  // Inner mask (creates the donut shape)
+  &__inner {
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 70%;
+    border-radius: #{$gauge-size} #{$gauge-size} 0 0;
+    background: $card-bg;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: $spacing-xs;
+  }
+
+  &__value {
+    font-size: $gauge-value-font-size;
+    font-weight: $gauge-value-font-weight;
+    line-height: 1;
+    color: var(--pa-text-color-1);
+  }
+
+  &__label {
+    font-size: $gauge-label-font-size;
+    color: var(--pa-text-color-2);
+    margin-top: $spacing-xs;
+  }
+
+  // Min/max labels at arc endpoints
+  &__min,
+  &__max {
+    position: absolute;
+    bottom: 0;
+    font-size: $font-size-2xs;
+    color: var(--pa-text-color-2);
+  }
+
+  &__min { left: 0; }
+  &__max { right: 0; }
+
+  // Color variants
+  &--success {
+    background: conic-gradient(
+      from 0.75turn,
+      $success-bg calc(var(--value, 0) * 1.8deg),
+      $gauge-track-color 0deg
+    );
+  }
+
+  &--warning {
+    background: conic-gradient(
+      from 0.75turn,
+      $warning-bg calc(var(--value, 0) * 1.8deg),
+      $gauge-track-color 0deg
+    );
+  }
+
+  &--danger {
+    background: conic-gradient(
+      from 0.75turn,
+      $danger-bg calc(var(--value, 0) * 1.8deg),
+      $gauge-track-color 0deg
+    );
+  }
+
+  &--info {
+    background: conic-gradient(
+      from 0.75turn,
+      $info-bg calc(var(--value, 0) * 1.8deg),
+      $gauge-track-color 0deg
+    );
+  }
+
+  // Multi-zone gauge (green/yellow/red)
+  &--zones {
+    background: conic-gradient(
+      from 0.75turn,
+      $success-bg 0deg,
+      $success-bg 90deg,
+      $warning-bg 90deg,
+      $warning-bg 135deg,
+      $danger-bg 135deg,
+      $danger-bg 180deg,
+      $gauge-track-color 180deg
+    );
+  }
+}
+
+
+// ============================================================================
+// 5. DATA BAR (pa-data-bar) - inline bar for table cells
+// ============================================================================
+
+.pa-data-bar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  min-width: 6rem;
+
+  &__value {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--pa-text-color-1);
+    line-height: 1;
+  }
+
+  &__track {
+    width: 100%;
+    height: $data-bar-height;
+    background: $data-bar-bg;
+    border-radius: $data-bar-border-radius;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    width: var(--value, 0%);
+    background: $accent-color;
+    border-radius: inherit;
+    transition: width $transition-medium $easing-smooth;
+  }
+
+  // Color variants
+  &--success .pa-data-bar__fill { background: $success-bg; }
+  &--warning .pa-data-bar__fill { background: $warning-bg; }
+  &--danger .pa-data-bar__fill  { background: $danger-bg; }
+  &--info .pa-data-bar__fill    { background: $info-bg; }
+
+  // Negative variant (red, right-aligned)
+  &--negative .pa-data-bar__fill {
+    background: $danger-bg;
+    margin-inline-start: auto;
+  }
+}
+
+
+// ============================================================================
+// 6. HEATMAP GRID (pa-heatmap)
+// ============================================================================
+
+.pa-heatmap {
+  display: inline-grid;
+  grid-template-columns: repeat(53, $heatmap-cell-size);
+  grid-auto-rows: $heatmap-cell-size;
+  gap: $heatmap-gap;
+
+  &__cell {
+    border-radius: $heatmap-border-radius;
+    background: $progress-bg;
+
+    &[data-level="1"] { background: rgba($accent-color, 0.2); }
+    &[data-level="2"] { background: rgba($accent-color, 0.4); }
+    &[data-level="3"] { background: rgba($accent-color, 0.65); }
+    &[data-level="4"] { background: $accent-color; }
+  }
+
+  // Color variants
+  &--success .pa-heatmap__cell {
+    &[data-level="1"] { background: rgba($success-bg, 0.2); }
+    &[data-level="2"] { background: rgba($success-bg, 0.4); }
+    &[data-level="3"] { background: rgba($success-bg, 0.65); }
+    &[data-level="4"] { background: $success-bg; }
+  }
+
+  &--danger .pa-heatmap__cell {
+    &[data-level="1"] { background: rgba($danger-bg, 0.2); }
+    &[data-level="2"] { background: rgba($danger-bg, 0.4); }
+    &[data-level="3"] { background: rgba($danger-bg, 0.65); }
+    &[data-level="4"] { background: $danger-bg; }
+  }
+
+  // Legend
+  &__legend {
+    display: flex;
+    align-items: center;
+    gap: $heatmap-legend-gap;
+    margin-top: $spacing-sm;
+    font-size: $heatmap-legend-font-size;
+    color: var(--pa-text-color-2);
+  }
+
+  &__legend-cell {
+    width: $heatmap-cell-size;
+    height: $heatmap-cell-size;
+    border-radius: $heatmap-border-radius;
+    background: $progress-bg;
+
+    &[data-level="1"] { background: rgba($accent-color, 0.2); }
+    &[data-level="2"] { background: rgba($accent-color, 0.4); }
+    &[data-level="3"] { background: rgba($accent-color, 0.65); }
+    &[data-level="4"] { background: $accent-color; }
+  }
+
+  // Compact variant (smaller cells, for inline use)
+  &--compact {
+    grid-template-columns: repeat(53, 1rem);
+    grid-auto-rows: 1rem;
+    gap: 0.1rem;
+
+    .pa-heatmap__cell {
+      border-radius: 1px;
+    }
+  }
+}
+
+
+// ============================================================================
+// 7. SPARKLINE BARS (pa-sparkline)
+// ============================================================================
+
+.pa-sparkline {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: $sparkline-gap;
+  height: $sparkline-height;
+
+  &__bar {
+    width: $sparkline-bar-width;
+    height: var(--value, 50%);
+    background: $accent-color;
+    border-radius: $sparkline-border-radius $sparkline-border-radius 0 0;
+    transition: height $transition-medium $easing-smooth;
+    min-height: 1px;
+  }
+
+  // Color variants
+  &--success .pa-sparkline__bar { background: $success-bg; }
+  &--warning .pa-sparkline__bar { background: $warning-bg; }
+  &--danger .pa-sparkline__bar  { background: $danger-bg; }
+  &--info .pa-sparkline__bar    { background: $info-bg; }
+
+  // Size variants
+  &--sm {
+    height: 2rem;
+  }
+
+  &--lg {
+    height: 4.8rem;
+    .pa-sparkline__bar {
+      width: 0.4rem;
+    }
+  }
+}
+
+
+// ============================================================================
+// 8. BAR LIST (pa-bar-list) - labeled horizontal bar chart
+// ============================================================================
+
+.pa-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: $bar-list-gap;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: $spacing-sm;
+  }
+
+  &__label {
+    font-size: $bar-list-label-font-size;
+    color: var(--pa-text-color-1);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__value {
+    font-size: $bar-list-value-font-size;
+    font-weight: $bar-list-value-font-weight;
+    color: var(--pa-text-color-1);
+    flex-shrink: 0;
+  }
+
+  &__bar {
+    width: 100%;
+    height: $bar-list-bar-height;
+    background: $bar-list-bar-bg;
+    border-radius: $bar-list-bar-border-radius;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 100%;
+      width: var(--value, 0%);
+      background: $accent-color;
+      border-radius: inherit;
+      transition: width $transition-medium $easing-smooth;
+    }
+  }
+
+  // Color variants
+  &--success .pa-bar-list__bar::after { background: $success-bg; }
+  &--warning .pa-bar-list__bar::after { background: $warning-bg; }
+  &--danger .pa-bar-list__bar::after  { background: $danger-bg; }
+  &--info .pa-bar-list__bar::after    { background: $info-bg; }
+
+  // Compact modifier (tighter spacing)
+  &--compact {
+    gap: $spacing-sm;
+
+    .pa-bar-list__item {
+      gap: 0.2rem;
+    }
+
+    .pa-bar-list__label,
+    .pa-bar-list__value {
+      font-size: $font-size-xs;
+    }
+
+    .pa-bar-list__bar {
+      height: 0.3rem;
+    }
+  }
+}

@@ -156,10 +156,11 @@ $grid-columns-fractions: (
 }
 
 // ============================================================================
-// RESPONSIVE COLUMNS & OFFSETS
+// RESPONSIVE COLUMNS & OFFSETS (Container-query based)
+// Requires a containment context ancestor: .pa-layout__main (automatic) or .pa-cq
 // ============================================================================
 @each $bp, $min-width in $grid-breakpoints {
-  @media (min-width: $min-width) {
+  @container (min-width: #{$min-width}) {
     // Responsive percentage columns (5% increments)
     @each $size in $grid-columns-5 {
       .pa-col-#{$bp}-#{$size} {

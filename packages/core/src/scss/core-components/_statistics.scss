@@ -56,32 +56,33 @@
     font-size: $font-size-sm;
   }
 
-  // Hero variant - big focus on the number
-  &--hero {
+  // Hero variant - big focus on the number, compact padding
+  &--hero,
+  &--hero-compact {
     display: block;
     text-align: center;
-    padding: $spacing-lg;
+    padding: $spacing-sm $spacing-sm $spacing-md;
 
     .pa-stat__label {
-      font-size: $font-size-sm;
+      font-size: $font-size-xs;
       text-transform: uppercase;
       letter-spacing: $stat-label-letter-spacing;
-      font-weight: $font-weight-medium;
+      font-weight: $font-weight-semibold;
       color: var(--pa-text-color-2);
-      margin-bottom: $spacing-sm;
+      margin-bottom: $spacing-xs;
     }
 
     .pa-stat__value {
-      font-size: $font-size-4xl;
+      font-size: $font-size-4xl * 1.4;
       font-weight: $font-weight-bold;
       color: var(--pa-text-color-1);
-      line-height: 1.1;
-      margin-bottom: $spacing-sm;
+      line-height: 1;
+      margin-bottom: $spacing-xs;
     }
 
     .pa-stat__change {
       font-size: $font-size-xs;
-      font-weight: $font-weight-medium;
+      font-weight: $font-weight-semibold;
 
       &--positive {
         color: $success-bg;

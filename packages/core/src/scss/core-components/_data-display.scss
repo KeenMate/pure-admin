@@ -4,6 +4,22 @@
    ======================================== */
 @use '../variables' as *;
 
+// Copy button base styles (shared across data display patterns)
+@mixin _copy-btn-base {
+  flex-shrink: 0;
+  padding: $field-copy-padding;
+  background: transparent;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: opacity $field-copy-transition, background $field-copy-transition;
+
+  &:hover {
+    opacity: $field-copy-hover-opacity;
+    background: $field-copy-hover-bg;
+  }
+}
+
 // ============================================================================
 // SINGLE FIELD (.pa-field)
 // Default: stacked (label on top, value below)
@@ -579,6 +595,65 @@
       grid-column: 2;
     }
   }
+
+  // ------------------------------------------------------------------
+  // COPYABLE
+  // ------------------------------------------------------------------
+
+  &__copy {
+    @include _copy-btn-base;
+  }
+
+  &__value--copy-btn,
+  &__value--copy-hover {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__value--copy-btn .pa-desc-table__copy {
+    opacity: $field-copy-opacity;
+  }
+
+  &__value--copy-hover .pa-desc-table__copy {
+    opacity: 0;
+  }
+
+  &__value--copy-hover:hover .pa-desc-table__copy {
+    opacity: $field-copy-opacity;
+
+    &:hover {
+      opacity: $field-copy-hover-opacity;
+      background: $field-copy-hover-bg;
+    }
+  }
+
+  &__value--copy-click {
+    cursor: pointer;
+    transition: opacity $field-copy-transition;
+
+    &:hover {
+      opacity: $field-copy-click-hover-opacity;
+    }
+
+    &::after {
+      content: 'Click to copy';
+      font-size: $font-size-2xs;
+      opacity: 0;
+      margin-inline-start: $spacing-sm;
+      transition: opacity $field-copy-transition;
+    }
+
+    &:hover::after {
+      opacity: $field-copy-hint-opacity;
+    }
+  }
+
+  &__value--copied::after {
+    content: 'Copied!' !important;
+    opacity: 1 !important;
+    color: var(--pa-color-4, #28a745);
+  }
 }
 
 // ============================================================================
@@ -688,6 +763,52 @@
 
     &--bold {
       font-weight: $font-weight-bold;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // COPYABLE
+  // ------------------------------------------------------------------
+
+  &__copy {
+    @include _copy-btn-base;
+  }
+
+  &__row--copy-btn &__value,
+  &__row--copy-hover &__value {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__row--copy-btn .pa-prop-card__copy,
+  &__row--copy-hover .pa-prop-card__copy {
+    order: -1;
+  }
+
+  &__row--copy-btn .pa-prop-card__copy {
+    opacity: $field-copy-opacity;
+  }
+
+  &__row--copy-hover .pa-prop-card__copy {
+    opacity: 0;
+  }
+
+  &__row--copy-hover:hover .pa-prop-card__copy {
+    opacity: $field-copy-opacity;
+
+    &:hover {
+      opacity: $field-copy-hover-opacity;
+      background: $field-copy-hover-bg;
+    }
+  }
+
+  &__row--copy-click &__value {
+    cursor: pointer;
+    transition: opacity $field-copy-transition;
+
+    &:hover {
+      opacity: $field-copy-click-hover-opacity;
     }
   }
 }
@@ -801,6 +922,63 @@
       display: block;
     }
   }
+
+  // ------------------------------------------------------------------
+  // COPYABLE
+  // ------------------------------------------------------------------
+
+  &__copy {
+    @include _copy-btn-base;
+  }
+
+  &__row--copy-btn &__value,
+  &__row--copy-hover &__value {
+    gap: $spacing-sm;
+  }
+
+  &__row--copy-btn .pa-banded__copy {
+    opacity: $field-copy-opacity;
+  }
+
+  &__row--copy-hover .pa-banded__copy {
+    opacity: 0;
+  }
+
+  &__row--copy-hover:hover .pa-banded__copy {
+    opacity: $field-copy-opacity;
+
+    &:hover {
+      opacity: $field-copy-hover-opacity;
+      background: $field-copy-hover-bg;
+    }
+  }
+
+  &__row--copy-click &__value {
+    cursor: pointer;
+    transition: opacity $field-copy-transition;
+
+    &:hover {
+      opacity: $field-copy-click-hover-opacity;
+    }
+
+    &::after {
+      content: 'Click to copy';
+      font-size: $font-size-2xs;
+      opacity: 0;
+      margin-inline-start: $spacing-sm;
+      transition: opacity $field-copy-transition;
+    }
+
+    &:hover::after {
+      opacity: $field-copy-hint-opacity;
+    }
+  }
+
+  &__row--copied &__value::after {
+    content: 'Copied!' !important;
+    opacity: 1 !important;
+    color: var(--pa-color-4, #28a745);
+  }
 }
 
 // ============================================================================
@@ -838,5 +1016,64 @@
     font-weight: $accent-grid-value-font-weight;
     color: var(--pa-text-color-1);
     line-height: $accent-grid-value-line-height;
+  }
+
+  // ------------------------------------------------------------------
+  // COPYABLE
+  // ------------------------------------------------------------------
+
+  &__copy {
+    @include _copy-btn-base;
+  }
+
+  &__item--copy-btn &__value,
+  &__item--copy-hover &__value {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__item--copy-btn .pa-accent-grid__copy {
+    opacity: $field-copy-opacity;
+  }
+
+  &__item--copy-hover .pa-accent-grid__copy {
+    opacity: 0;
+  }
+
+  &__item--copy-hover:hover .pa-accent-grid__copy {
+    opacity: $field-copy-opacity;
+
+    &:hover {
+      opacity: $field-copy-hover-opacity;
+      background: $field-copy-hover-bg;
+    }
+  }
+
+  &__item--copy-click &__value {
+    cursor: pointer;
+    transition: opacity $field-copy-transition;
+
+    &:hover {
+      opacity: $field-copy-click-hover-opacity;
+    }
+
+    &::after {
+      content: 'Click to copy';
+      font-size: $font-size-2xs;
+      opacity: 0;
+      margin-inline-start: $spacing-sm;
+      transition: opacity $field-copy-transition;
+    }
+
+    &:hover::after {
+      opacity: $field-copy-hint-opacity;
+    }
+  }
+
+  &__item--copied &__value::after {
+    content: 'Copied!' !important;
+    opacity: 1 !important;
+    color: var(--pa-color-4, #28a745);
   }
 }

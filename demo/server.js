@@ -17,7 +17,8 @@ const themePackages = {
     'dark': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
     'corporate': path.join(__dirname, '..', 'packages', 'theme-corporate', 'dist'),
     'express': path.join(__dirname, '..', 'packages', 'theme-express', 'dist'),
-    'minimal': path.join(__dirname, '..', 'packages', 'theme-minimal', 'dist')
+    'minimal': path.join(__dirname, '..', 'packages', 'theme-minimal', 'dist'),
+    'cafeindustrial': path.join(__dirname, '..', '..', 'pure-admin-cafeindustrial-theme', 'dist')
 };
 
 // Set Mustache as template engine
@@ -324,8 +325,16 @@ app.get('/data-display-2', (req, res) => {
     renderWithLayout(res, 'data-display-2', { pageTitle: 'Data Display v2', currentPage: 'data-display-2', isDataDisplay2: true });
 });
 
+app.get('/data-visualization', (req, res) => {
+    renderWithLayout(res, 'data-visualization', { pageTitle: 'Data Visualization', currentPage: 'data-visualization', isDataVisualization: true });
+});
+
 app.get('/rtl-test', (req, res) => {
     renderWithLayout(res, 'rtl-test', { pageTitle: 'RTL Test', currentPage: 'rtl-test', isRtlTest: true });
+});
+
+app.get('/kpi-dashboard', (req, res) => {
+    renderWithLayout(res, 'kpi-dashboard', { pageTitle: 'KPI Dashboard', currentPage: 'kpi-dashboard', isKpiDashboard: true });
 });
 
 app.get('/movies', (req, res) => {
@@ -404,6 +413,11 @@ app.get('/api/themes/manifests', (req, res) => {
     res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
     res.json(manifests);
 });
+
+// JSON schemas from core package (served at /schemas for public access)
+app.use('/schemas', express.static(path.join(corePackagePath, 'schemas'), {
+    maxAge: 120000 // 2 minutes
+}));
 
 // Fonts from core package
 app.use('/fonts', express.static(path.join(corePackagePath, 'dist', 'fonts'), {

@@ -9,6 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.0] - 2026-02-21
+
+**Theme packages also updated to v2.0.0:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`
+
+### Breaking
+
+- **Responsive grid columns now use container queries**: `pa-col-{bp}-*` classes use `@container` instead of `@media` queries, so columns respond to the content area width rather than the viewport. `.pa-layout__main` automatically establishes a containment context. Columns now require a containment context ancestor. Visibility helpers (`pa-hide-{bp}`, `pa-show-{bp}`) and mobile auto-stack remain viewport-based
+
+### Added
+
+- **Bar list component** (`pa-bar-list`): Labeled horizontal bar chart displayed as a list. Each row shows label, value, and a proportional bar. Supports color variants (`--success`, `--warning`, `--danger`, `--info`) and a `--compact` modifier for tighter spacing
+- **Live-data card states** (`pa-card--live-up`, `pa-card--live-down`, `pa-card--live-neutral`): Persistent tinted card backgrounds for real-time data dashboards. Green/red tint stays until the next data update swaps the class, with smooth 0.3s transition between states
+- **KPI Dashboard demo page** (`/kpi-dashboard`): Geckoboard-style CMO dashboard showcasing bar lists, hero stats, gauges, sparklines, progress bars, dot leaders, stacked bars, progress rings, and compact tables — with simulated live-data updates
+- **Copyable fields for new data display patterns**: Copy-to-clipboard support (copy-btn, copy-hover, copy-click) extended to all new data display components:
+  - `pa-banded__row--copy-btn / --copy-hover / --copy-click` — Banded rows
+  - `pa-prop-card__row--copy-btn / --copy-hover / --copy-click` — Property card rows
+  - `pa-desc-table__value--copy-btn / --copy-hover / --copy-click` — Description table values
+  - `pa-accent-grid__item--copy-btn / --copy-hover / --copy-click` — Accent grid items
+- **Shared `_copy-btn-base` mixin** in `_data-display.scss` for DRY copy button styling across patterns
+- **Data Display 2 demo**: Copyable Fields section with interactive examples of all three copy styles across banded rows, property card, description table, and accent grid
+
+### Changed
+
+- **`pa-stat--hero` is now compact by default**: Tighter padding (`$spacing-sm` top, `$spacing-md` bottom), larger number (~45px via `$font-size-4xl * 1.4`), bolder labels (`font-weight-semibold`), and reduced gaps. The previous spacious version is replaced. `pa-stat--hero-compact` kept as alias for backwards compatibility
+
+---
+
 ## [1.5.1] - 2026-02-15 ✅ Published
 
 **Theme packages also updated to v1.5.1:** `@keenmate/pure-admin-theme-audi`, `theme-corporate`, `theme-dark`, `theme-express`, `theme-minimal`
