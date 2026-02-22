@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Card header underline modifier**: `pa-card__header--underlined` adds an accent-colored border under the heading. Color variants: `--underline-success`, `--underline-warning`, `--underline-danger`, `--underline-info`, and theme slots `--underline-color-1` through `--underline-color-9`
+
+### Fixed
+
+- **Loading button spinner now handled entirely by CSS**: `pa-btn--loading` hides button text via `-webkit-text-fill-color: transparent`, preserving button dimensions and `currentColor` for the spinner. Works correctly with all button variants including light/outline buttons. JS only needs to toggle the class and add a `<span class="pa-btn__spinner"></span>`
+- **Card header heading border bleed**: `.pa-section h3` border-bottom was bleeding into card headers (visible on ghost and bordered cards using `<h3>`). Changed to `.pa-section > h3` (direct child only) and added defensive `border-bottom: none` reset in card header
+
 ---
 
 ## [2.0.0] - 2026-02-21

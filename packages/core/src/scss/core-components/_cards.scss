@@ -32,7 +32,8 @@
     gap: $spacing-base; // Gap between header elements (title, description, actions)
     min-width: 0; // Enable text truncation
 
-    // Reset margins/paddings for all native elements
+    // Reset margins/paddings/borders for all native elements
+    // (border-bottom reset prevents .pa-section h3 rule from bleeding in)
     h1,
     h2,
     h3,
@@ -49,6 +50,7 @@
     fieldset {
       margin: 0;
       padding: 0;
+      border-bottom: none;
     }
 
     // Specific heading styles
@@ -94,6 +96,63 @@
       margin-top: -0.25rem;
       margin-bottom: -0.25rem;
       flex-shrink: 0;
+    }
+
+    // Underline modifier - accent border under heading inside card header
+    &--underlined {
+      h1, h2, h3, h4, h5, h6 {
+        border-bottom: $border-width-medium solid var(--pa-accent);
+        padding-bottom: $spacing-sm;
+      }
+
+      // Semantic color variants
+      &.pa-card__header--underline-success h1,
+      &.pa-card__header--underline-success h2,
+      &.pa-card__header--underline-success h3,
+      &.pa-card__header--underline-success h4,
+      &.pa-card__header--underline-success h5,
+      &.pa-card__header--underline-success h6 {
+        border-bottom-color: var(--pa-success-bg);
+      }
+
+      &.pa-card__header--underline-warning h1,
+      &.pa-card__header--underline-warning h2,
+      &.pa-card__header--underline-warning h3,
+      &.pa-card__header--underline-warning h4,
+      &.pa-card__header--underline-warning h5,
+      &.pa-card__header--underline-warning h6 {
+        border-bottom-color: var(--pa-warning-bg);
+      }
+
+      &.pa-card__header--underline-danger h1,
+      &.pa-card__header--underline-danger h2,
+      &.pa-card__header--underline-danger h3,
+      &.pa-card__header--underline-danger h4,
+      &.pa-card__header--underline-danger h5,
+      &.pa-card__header--underline-danger h6 {
+        border-bottom-color: var(--pa-danger-bg);
+      }
+
+      &.pa-card__header--underline-info h1,
+      &.pa-card__header--underline-info h2,
+      &.pa-card__header--underline-info h3,
+      &.pa-card__header--underline-info h4,
+      &.pa-card__header--underline-info h5,
+      &.pa-card__header--underline-info h6 {
+        border-bottom-color: var(--pa-info-bg);
+      }
+
+      // Theme color slots (1-9)
+      @for $i from 1 through 9 {
+        &.pa-card__header--underline-color-#{$i} h1,
+        &.pa-card__header--underline-color-#{$i} h2,
+        &.pa-card__header--underline-color-#{$i} h3,
+        &.pa-card__header--underline-color-#{$i} h4,
+        &.pa-card__header--underline-color-#{$i} h5,
+        &.pa-card__header--underline-color-#{$i} h6 {
+          border-bottom-color: var(--pa-color-#{$i});
+        }
+      }
     }
 
     // Wrap modifier - allow description to wrap (for mobile or long descriptions)
@@ -407,7 +466,7 @@ a.pa-card {
 .pa-section {
   margin-bottom: $section-margin-v;
 
-  h3 {
+  > h3 {
     color: var(--pa-text-color-1);
     margin-bottom: $spacing-base;
     border-bottom: $border-width-medium solid var(--pa-accent);

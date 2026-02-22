@@ -666,17 +666,10 @@
                     button.addEventListener('click', function() {
                         if (this.classList.contains('pa-btn--loading')) return;
 
-                        // Capture current state at click time (not page load)
-                        const originalHTML = this.innerHTML;
-                        const originalWidth = this.offsetWidth;
-                        const originalHeight = this.offsetHeight;
-
-                        // Lock dimensions to prevent layout shift
-                        this.style.width = originalWidth + 'px';
-                        this.style.minHeight = originalHeight + 'px';
-
-                        // Replace content with spinner
-                        this.innerHTML = `<span class="pa-btn__spinner"></span>`;
+                        // Add spinner and toggle loading class — CSS handles text hiding via font-size: 0
+                        const spinner = document.createElement('span');
+                        spinner.className = 'pa-btn__spinner';
+                        this.appendChild(spinner);
                         this.classList.add('pa-btn--loading');
                         this.disabled = true;
 
@@ -685,10 +678,8 @@
 
                         setTimeout(() => {
                             this.classList.remove('pa-btn--loading');
-                            this.innerHTML = originalHTML;
+                            spinner.remove();
                             this.disabled = false;
-                            this.style.removeProperty('width');
-                            this.style.removeProperty('min-height');
                         }, loadingTime);
                     });
                 }
