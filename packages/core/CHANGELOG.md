@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [2.0.2] - 2026-02-24
+
+### Fixed
+
+- **Grid offsets overflow at mobile viewport**: Base offsets (`.pa-offset-5` through `.pa-offset-95`) were not reset when columns auto-stack at mobile breakpoint, causing columns to exceed 100% width and spill out of containers. Now reset to `margin-inline-start: 0` alongside the column stacking rules
+
+---
+
+## [2.0.1] - 2026-02-23
+
 ### Added
 
 - **Card header underline modifier**: `pa-card__header--underlined` adds an accent-colored border under the heading. Color variants: `--underline-success`, `--underline-warning`, `--underline-danger`, `--underline-info`, and theme slots `--underline-color-1` through `--underline-color-9`
@@ -15,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Loading button spinner now handled entirely by CSS**: `pa-btn--loading` hides button text via `-webkit-text-fill-color: transparent`, preserving button dimensions and `currentColor` for the spinner. Works correctly with all button variants including light/outline buttons. JS only needs to toggle the class and add a `<span class="pa-btn__spinner"></span>`
 - **Card header heading border bleed**: `.pa-section h3` border-bottom was bleeding into card headers (visible on ghost and bordered cards using `<h3>`). Changed to `.pa-section > h3` (direct child only) and added defensive `border-bottom: none` reset in card header
+- **Grid vertical gap on wrap**: `.pa-row` now has `row-gap: 0.8rem` so columns that wrap (e.g. on mobile) have vertical spacing. Use `.row-gap-0` to opt out
 
 ---
 

@@ -48,6 +48,7 @@ $grid-columns-fractions: (
   display: flex;
   flex-wrap: wrap;
   margin-inline: -$grid-gutter; // RTL: flips automatically
+  row-gap: $grid-gutter; // Vertical gap when columns wrap (half the horizontal gutter total)
 
   // Nested rows reset margins
   .pa-row {
@@ -277,6 +278,15 @@ $grid-columns-fractions: (
     .pa-col-#{$name} {
       flex: 0 0 100%;
       max-width: 100%;
+    }
+  }
+
+  // Reset base offsets when stacking
+  @each $size in $grid-columns-5 {
+    @if $size < 100 {
+      .pa-offset-#{$size} {
+        margin-inline-start: 0;
+      }
     }
   }
 }

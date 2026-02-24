@@ -76,7 +76,11 @@
       "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:/Git/KM/pure-theme-park/priv/themes/create-test-zip.ps1\")",
       "Bash(python3:*)",
       "WebFetch(domain:localhost)",
-      "Bash(npm pack:*)"
+      "Bash(npm pack:*)",
+      "Bash(dir:*)",
+      "Bash(powershell -c \"Get-ChildItem ''C:\\\\Git\\\\KM\\\\pure-admin\\\\packages\\\\core\\\\src\\\\scss\\\\variables'' -ErrorAction SilentlyContinue | Select-Object Name\")",
+      "Bash(powershell -c \"Select-String -Path ''C:\\\\Git\\\\KM\\\\pure-admin\\\\packages\\\\core\\\\dist\\\\css\\\\main.css'' -Pattern ''pa-offset-25|pa-offset-33|pa-offset-10'' | Select-Object -First 20 | ForEach-Object { $_Line.Substring\\(0, [Math]::Min\\(200, $_Line.Length\\)\\) }\")",
+      "Bash(powershell -c:*)"
     ],
     "deny": [],
     "ask": []

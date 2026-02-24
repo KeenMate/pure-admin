@@ -285,6 +285,6 @@ Toast positions use logical names: `top-start`, `top-end`, `bottom-start`, `bott
 
 ---
 
-**Last Updated:** 2026-02-15
-**Framework Version:** 2.0.0
+**Last Updated:** 2026-02-24
+**Framework Version:** 2.0.2
 **Default Theme:** Corporate

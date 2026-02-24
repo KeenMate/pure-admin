@@ -2,6 +2,18 @@
 
 All notable changes to @keenmate/pure-admin-theme-minimal will be documented in this file.
 
+## [2.0.2] - 2026-02-24
+
+Rebuilt with `@keenmate/pure-admin-core@2.0.2` — grid offset overflow fix at mobile viewport.
+
+---
+
+## [2.0.1] - 2026-02-23
+
+Rebuilt with `@keenmate/pure-admin-core@2.0.1` — card header underline modifier, loading button CSS fix, grid vertical gap on wrap.
+
+---
+
 ## [2.0.0] - 2026-02-21
 
 Rebuilt with `@keenmate/pure-admin-core@2.0.0` — responsive grid columns now use container queries.
