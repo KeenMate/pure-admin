@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Theme packages removed from this repo**: Local `packages/theme-*` directories deleted — themes now live in the separate `pure-admin-themes` repo. Demo server discovers themes via `themes.json` (checked in) and `.themes.json` (gitignored, user overrides), validating that paths exist on disk and warning about missing ones
+
 ---
 
 ## [2.0.2] - 2026-02-24

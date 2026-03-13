@@ -58,9 +58,6 @@ npm install
 # Build CSS
 npm run build -w @keenmate/pure-admin-core
 
-# Build all themes
-npm run build:themes -w @keenmate/pure-admin-core
-
 # Run demo server
 npm run start -w demo
 # → http://localhost:3000
@@ -70,9 +67,7 @@ npm run start -w demo
 
 ```bash
 make install      # Install all workspace dependencies
-make build        # Build main CSS
-make build-themes # Build all theme CSS files
-make build-all    # Build main CSS + all themes
+make build        # Build core CSS
 make watch        # Watch SCSS files for changes
 make demo         # Run demo server only
 make dev          # Development mode
@@ -81,6 +76,8 @@ make package      # Create npm tarball
 make verify       # Clean, build, and verify package
 make publish      # Publish to npm
 ```
+
+**Note:** Theme packages have moved to the separate `pure-admin-themes` repo.
 
 ---
 
@@ -113,16 +110,12 @@ $btn-primary-bg: #your-button-color;
 ```
 
 ### Available Themes
-- `main.css` - Default (Corporate)
-- `themes/audi.css` - Audi red with Fira Sans Condensed
-- `themes/audi-light.css` - Light Audi variant
-- `themes/corporate.css` - Professional blue/gray
-- `themes/express.css` - Bold yellow/red logistics
-- `themes/dark.css` - Dark mode base
-- `themes/dark-blue.css` - Dark with blue accent
-- `themes/dark-green.css` - Dark with green accent
-- `themes/dark-red.css` - Dark with red accent
-- `themes/minimal.css` - Clean minimal
+Themes are maintained in the separate `pure-admin-themes` repo:
+- `corporate` - Professional blue/gray
+- `audi` - Audi red with Fira Sans Condensed
+- `dark` - Dark mode with color variants (blue, green, red)
+- `express` - Bold yellow/red logistics
+- `minimal` - Clean minimal
 
 ---
 
@@ -263,7 +256,7 @@ Pure Admin exports `--base-*` CSS custom properties for web component theming.
 
 - **Detailed Documentation:** `demo/views/` (component demos)
 - **Snippets Reference:** `packages/core/snippets/*.html`
-- **Theme Examples:** `packages/core/src/scss/themes/*.scss`
+- **Theme Examples:** See `pure-admin-themes` repo
 - **Legacy Docs:** `pure-admin-visual/CLAUDE.md`
 
 ---

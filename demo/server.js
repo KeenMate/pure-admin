@@ -11,15 +11,42 @@ const port = process.env.PORT || 3000;
 // Path to the core package in workspace
 const corePackagePath = path.join(__dirname, '..', 'packages', 'core');
 
-// Theme packages paths
-const themePackages = {
-    'audi': path.join(__dirname, '..', 'packages', 'theme-audi', 'dist'),
-    'dark': path.join(__dirname, '..', 'packages', 'theme-dark', 'dist'),
-    'corporate': path.join(__dirname, '..', 'packages', 'theme-corporate', 'dist'),
-    'express': path.join(__dirname, '..', 'packages', 'theme-express', 'dist'),
-    'minimal': path.join(__dirname, '..', 'packages', 'theme-minimal', 'dist'),
-    'cafeindustrial': path.join(__dirname, '..', '..', 'pure-admin-cafeindustrial-theme', 'dist')
-};
+// Load theme config from themes.json + .themes.json
+const repoRoot = path.join(__dirname, '..');
+
+function loadThemes() {
+    let themes = {};
+
+    // Load standard themes (checked in)
+    const standardPath = path.join(repoRoot, 'themes.json');
+    if (fs.existsSync(standardPath)) {
+        const standard = JSON.parse(fs.readFileSync(standardPath, 'utf-8'));
+        themes = { ...themes, ...standard.themes };
+    }
+
+    // Merge user's private themes (gitignored)
+    const localPath = path.join(repoRoot, '.themes.json');
+    if (fs.existsSync(localPath)) {
+        const local = JSON.parse(fs.readFileSync(localPath, 'utf-8'));
+        themes = { ...themes, ...local.themes };
+    }
+
+    // Resolve paths and validate
+    const resolved = {};
+    for (const [name, themePath] of Object.entries(themes)) {
+        const absPath = path.resolve(repoRoot, themePath);
+        const distPath = path.join(absPath, 'dist');
+        if (fs.existsSync(distPath)) {
+            resolved[name] = distPath;
+        } else {
+            console.warn(`Theme "${name}" not found at ${absPath}, skipping`);
+        }
+    }
+
+    return resolved;
+}
+
+const themePackages = loadThemes();
 
 // Set Mustache as template engine
 app.engine('mustache', mustacheExpress());

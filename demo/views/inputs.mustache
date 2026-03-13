@@ -163,6 +163,42 @@
                 </div>
             </div>
 
+            <!-- Toggle Mode Button Prepend + Append -->
+            <div class="pa-col-100 pa-col-md-50">
+                <div class="pa-form-group">
+                    <label>Toggle Mode Button (Filter / Search) + Go</label>
+                    <div class="pa-input-group">
+                        <button class="pa-input-group__button pa-btn pa-btn--primary" id="mode-toggle-btn" title="Filter mode — click to switch to Search" onclick="toggleInputMode()">
+                            <i class="fa-solid fa-filter" id="mode-toggle-icon"></i>
+                        </button>
+                        <input type="text" class="pa-input" placeholder="Filter..." id="mode-toggle-input">
+                        <button class="pa-input-group__button pa-btn pa-btn--primary">Go</button>
+                    </div>
+                    <small class="pa-form-help">Click the icon button to switch between Filter and Search modes</small>
+                </div>
+            </div>
+
+            <script>
+                function toggleInputMode() {
+                    var btn = document.getElementById('mode-toggle-btn');
+                    var icon = document.getElementById('mode-toggle-icon');
+                    var input = document.getElementById('mode-toggle-input');
+                    var isFilter = icon.classList.contains('fa-filter');
+
+                    if (isFilter) {
+                        icon.classList.remove('fa-filter');
+                        icon.classList.add('fa-magnifying-glass');
+                        input.placeholder = 'Search...';
+                        btn.title = 'Search mode — click to switch to Filter';
+                    } else {
+                        icon.classList.remove('fa-magnifying-glass');
+                        icon.classList.add('fa-filter');
+                        input.placeholder = 'Filter...';
+                        btn.title = 'Filter mode — click to switch to Search';
+                    }
+                }
+            </script>
+
             <!-- Multiple Prepends/Appends -->
             <div class="pa-col-100">
                 <div class="pa-form-group">
