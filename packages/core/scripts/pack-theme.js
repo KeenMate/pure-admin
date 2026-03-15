@@ -311,8 +311,8 @@ ${theme.modes && theme.modes.supported && theme.modes.supported.length > 1
 
 ## More Information
 
-- Pure Admin documentation: https://pure-admin.keenmate.dev
-- Theme gallery: https://pure-theme-park.keenmate.dev
+- Pure Admin documentation: https://demo.pureadmin.io
+- Theme gallery: https://pureadmin.io
 ${theme.homepage ? `- Theme homepage: ${theme.homepage}` : ''}
 
 ---
