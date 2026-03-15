@@ -378,6 +378,19 @@ app.get('/movies-panel', (req, res) => {
 
 // Serve static files with cache headers (after routes so EJS takes precedence)
 
+// Theme font/asset files (CSS references ../assets/fonts/ relative to dist/)
+app.use('/dist/css/assets', (req, res, next) => {
+    // Try each theme's assets directory
+    for (const [themeName, themeDistPath] of Object.entries(themePackages)) {
+        const themeRoot = path.join(themeDistPath, '..');
+        const assetPath = path.join(themeRoot, 'assets', req.path);
+        if (fs.existsSync(assetPath)) {
+            return res.sendFile(assetPath);
+        }
+    }
+    next();
+});
+
 // Theme CSS files from separate theme packages
 app.get('/dist/css/themes/:theme.css', (req, res) => {
     const themeName = req.params.theme;
