@@ -7,9 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`pa-tooltip--keyword` modifier**: Dotted underline + help cursor for inline term explanations (replaces inline `style` attributes)
+- **Theme font asset serving**: Demo server now serves theme font files at `/dist/css/assets/` so CSS relative `url()` paths resolve correctly
+- **Dockerfile downloads themes from pureadmin.io**: Build fetches theme bundle via `GET /api/bundle`, no local theme packages needed. Configurable via `THEMES_URL` build arg
+- **`.themes.json.example`**: Template for local dev theme paths
+
 ### Changed
 
-- **Theme packages removed from this repo**: Local `packages/theme-*` directories deleted — themes now live in the separate `pure-admin-themes` repo. Demo server discovers themes via `themes.json` (checked in) and `.themes.json` (gitignored, user overrides), validating that paths exist on disk and warning about missing ones
+- **Theme packages removed from this repo**: Local `packages/theme-*` directories deleted — themes now live in the separate `pure-admin-themes` repo. Demo server discovers themes via `.themes.json` (gitignored, local dev paths)
+- **`themes.json` is now gitignored**: Generated at Docker build time from pureadmin.io bundle, not committed
+- **Plausible analytics domain**: Updated from `pure-admin.keenmate.dev` to `demo.pureadmin.io`
+- **Pack script URLs**: Updated to `demo.pureadmin.io` and `pureadmin.io`
+- **RTL test page**: Added English warning banner with toggle button explaining how RTL mode works
 
 ---
 

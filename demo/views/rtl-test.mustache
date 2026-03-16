@@ -1,23 +1,28 @@
-            <p>דף בדיקה לתמיכה בשפות מימין לשמאל (RTL). השתמש במתג מצב RTL בלוח ההגדרות כדי לעבור בין LTR ל-RTL.</p>
+            <!-- RTL Warning Banner -->
+            <div class="pa-alert pa-alert--warning mb-base">
+                <strong>Note:</strong> This page demonstrates RTL (Right-to-Left) layout support.
+                To properly view RTL mode, either enable it via the <strong>Settings panel</strong> (gear icon in the sidebar)
+                or use the toggle button below. The toggle sets <code>dir="rtl"</code> on the HTML element —
+                all components using CSS logical properties will mirror automatically.
+            </div>
 
             <!-- RTL Toggle Control -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>מתג RTL</h3>
+                    <h3>RTL Toggle / מתג RTL</h3>
                 </div>
                 <div class="pa-card__body">
                     <div class="pa-row">
                         <div class="pa-col-md-50">
-                            <p>לחץ על הכפתור למטה או השתמש בלוח ההגדרות כדי להפעיל מצב RTL:</p>
                             <button class="pa-btn pa-btn--primary" id="rtlToggleBtn">
                                 <span class="pa-btn__icon"><i class="ti ti-switch-horizontal"></i></span>
-                                הפעל/כבה מצב RTL
+                                <span id="rtlBtnLabel">Switch to RTL</span>
                             </button>
-                            <span class="ms-base" id="rtlStatus">מצב נוכחי: <strong>LTR</strong></span>
+                            <span class="ms-base" id="rtlStatus">Current mode: <strong>LTR</strong></span>
                         </div>
                         <div class="pa-col-md-50">
                             <div class="pa-alert pa-alert--info">
-                                <strong>הערה:</strong> מצב RTL מגדיר <code>dir="rtl"</code> על אלמנט ה-HTML. כל הרכיבים המשתמשים ב-CSS logical properties יתהפכו אוטומטית.
+                                <strong>How it works:</strong> Setting <code>dir="rtl"</code> on the HTML element flips all components that use CSS logical properties (<code>margin-inline-start</code>, <code>padding-inline-end</code>, etc.). No extra CSS needed.
                             </div>
                         </div>
                     </div>
@@ -453,12 +458,17 @@
 
             <script>
                 // RTL Toggle
+                function updateRtlUI(isRtl) {
+                    document.getElementById('rtlStatus').innerHTML = 'Current mode: <strong>' + (isRtl ? 'RTL' : 'LTR') + '</strong>';
+                    document.getElementById('rtlBtnLabel').textContent = isRtl ? 'Switch to LTR' : 'Switch to RTL';
+                }
+
                 document.getElementById('rtlToggleBtn').addEventListener('click', function() {
                     const html = document.documentElement;
                     const isRtl = html.getAttribute('dir') === 'rtl';
                     html.setAttribute('dir', isRtl ? 'ltr' : 'rtl');
                     localStorage.setItem('rtl-mode', !isRtl);
-                    document.getElementById('rtlStatus').innerHTML = 'מצב נוכחי: <strong>' + (isRtl ? 'LTR' : 'RTL') + '</strong>';
+                    updateRtlUI(!isRtl);
 
                     // Sync with settings panel checkbox if exists
                     const rtlCheckbox = document.getElementById('rtlMode');
@@ -470,7 +480,7 @@
                 // Update status on load
                 document.addEventListener('DOMContentLoaded', function() {
                     const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
-                    document.getElementById('rtlStatus').innerHTML = 'מצב נוכחי: <strong>' + (isRtl ? 'RTL' : 'LTR') + '</strong>';
+                    updateRtlUI(isRtl);
                 });
 
                 // Simple tab switching for demo
