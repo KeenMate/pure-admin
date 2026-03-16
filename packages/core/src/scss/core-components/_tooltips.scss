@@ -97,25 +97,38 @@
     transform: translateX(-50%) translateY(0);
   }
 
-  // Right position
-  &--right::before {
+  // End position (inline-end: right in LTR, left in RTL)
+  &--end::before {
     bottom: auto;
-    left: calc(100% + $tooltip-distance);
+    left: auto;
+    inset-inline-start: calc(100% + $tooltip-distance);
     top: 50%;
     transform: translateX(-$tooltip-offset) translateY(-50%);
   }
 
-  &--right::after {
+  &--end::after {
     bottom: auto;
-    left: calc(100% + ($tooltip-arrow-size - 2px));
+    left: auto;
+    inset-inline-start: calc(100% + ($tooltip-arrow-size - 2px));
     top: 50%;
     transform: translateX(-$tooltip-offset) translateY(-50%);
     border-top-color: transparent;
-    border-right-color: var(--pa-tooltip-bg);
+    border-inline-end-color: var(--pa-tooltip-bg);
   }
 
-  &--right:hover::before,
-  &--right:hover::after {
+  &--end:hover::before,
+  &--end:hover::after {
+    transform: translateX(0) translateY(-50%);
+  }
+
+  // RTL: reverse slide direction for end position
+  [dir="rtl"] &--end::before,
+  [dir="rtl"] &--end::after {
+    transform: translateX($tooltip-offset) translateY(-50%);
+  }
+
+  [dir="rtl"] &--end:hover::before,
+  [dir="rtl"] &--end:hover::after {
     transform: translateX(0) translateY(-50%);
   }
 
@@ -141,27 +154,38 @@
     transform: translateX(-50%) translateY(0);
   }
 
-  // Left position
-  &--left::before {
+  // Start position (inline-start: left in LTR, right in RTL)
+  &--start::before {
     bottom: auto;
     left: auto;
-    right: calc(100% + $tooltip-distance);
+    inset-inline-end: calc(100% + $tooltip-distance);
     top: 50%;
     transform: translateX($tooltip-offset) translateY(-50%);
   }
 
-  &--left::after {
+  &--start::after {
     bottom: auto;
     left: auto;
-    right: calc(100% + ($tooltip-arrow-size - 2px));
+    inset-inline-end: calc(100% + ($tooltip-arrow-size - 2px));
     top: 50%;
     transform: translateX($tooltip-offset) translateY(-50%);
     border-top-color: transparent;
-    border-left-color: var(--pa-tooltip-bg);
+    border-inline-start-color: var(--pa-tooltip-bg);
   }
 
-  &--left:hover::before,
-  &--left:hover::after {
+  &--start:hover::before,
+  &--start:hover::after {
+    transform: translateX(0) translateY(-50%);
+  }
+
+  // RTL: reverse slide direction for start position
+  [dir="rtl"] &--start::before,
+  [dir="rtl"] &--start::after {
+    transform: translateX(-$tooltip-offset) translateY(-50%);
+  }
+
+  [dir="rtl"] &--start:hover::before,
+  [dir="rtl"] &--start:hover::after {
     transform: translateX(0) translateY(-50%);
   }
 
@@ -172,17 +196,17 @@
   &--primary::after {
     border-top-color: var(--pa-btn-primary-bg);
   }
-  &--primary.pa-tooltip--right::after {
+  &--primary.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-right-color: var(--pa-btn-primary-bg);
+    border-inline-end-color: var(--pa-btn-primary-bg);
   }
   &--primary.pa-tooltip--bottom::after {
     border-top-color: transparent;
     border-bottom-color: var(--pa-btn-primary-bg);
   }
-  &--primary.pa-tooltip--left::after {
+  &--primary.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-left-color: var(--pa-btn-primary-bg);
+    border-inline-start-color: var(--pa-btn-primary-bg);
   }
 
   &--success::before {
@@ -191,17 +215,17 @@
   &--success::after {
     border-top-color: var(--pa-btn-success-bg);
   }
-  &--success.pa-tooltip--right::after {
+  &--success.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-right-color: var(--pa-btn-success-bg);
+    border-inline-end-color: var(--pa-btn-success-bg);
   }
   &--success.pa-tooltip--bottom::after {
     border-top-color: transparent;
     border-bottom-color: var(--pa-btn-success-bg);
   }
-  &--success.pa-tooltip--left::after {
+  &--success.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-left-color: var(--pa-btn-success-bg);
+    border-inline-start-color: var(--pa-btn-success-bg);
   }
 
   &--warning::before {
@@ -211,17 +235,17 @@
   &--warning::after {
     border-top-color: var(--pa-btn-warning-bg);
   }
-  &--warning.pa-tooltip--right::after {
+  &--warning.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-right-color: var(--pa-btn-warning-bg);
+    border-inline-end-color: var(--pa-btn-warning-bg);
   }
   &--warning.pa-tooltip--bottom::after {
     border-top-color: transparent;
     border-bottom-color: var(--pa-btn-warning-bg);
   }
-  &--warning.pa-tooltip--left::after {
+  &--warning.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-left-color: var(--pa-btn-warning-bg);
+    border-inline-start-color: var(--pa-btn-warning-bg);
   }
 
   &--danger::before {
@@ -230,17 +254,17 @@
   &--danger::after {
     border-top-color: var(--pa-btn-danger-bg);
   }
-  &--danger.pa-tooltip--right::after {
+  &--danger.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-right-color: var(--pa-btn-danger-bg);
+    border-inline-end-color: var(--pa-btn-danger-bg);
   }
   &--danger.pa-tooltip--bottom::after {
     border-top-color: transparent;
     border-bottom-color: var(--pa-btn-danger-bg);
   }
-  &--danger.pa-tooltip--left::after {
+  &--danger.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-left-color: var(--pa-btn-danger-bg);
+    border-inline-start-color: var(--pa-btn-danger-bg);
   }
 
   // Numbered color variants (color-1 through color-9)
@@ -253,17 +277,17 @@
     &--color-#{$i}::after {
       border-top-color: var(--pa-color-#{$i});
     }
-    &--color-#{$i}.pa-tooltip--right::after {
+    &--color-#{$i}.pa-tooltip--end::after {
       border-top-color: transparent;
-      border-right-color: var(--pa-color-#{$i});
+      border-inline-end-color: var(--pa-color-#{$i});
     }
     &--color-#{$i}.pa-tooltip--bottom::after {
       border-top-color: transparent;
       border-bottom-color: var(--pa-color-#{$i});
     }
-    &--color-#{$i}.pa-tooltip--left::after {
+    &--color-#{$i}.pa-tooltip--start::after {
       border-top-color: transparent;
-      border-left-color: var(--pa-color-#{$i});
+      border-inline-start-color: var(--pa-color-#{$i});
     }
   }
 
@@ -310,43 +334,69 @@
     transform: translateX(-50%) translateY(0) !important;
   }
 
-  // Auto-flip from left to right
-  &--auto-flip-right::before {
-    left: calc(100% + $tooltip-distance) !important;
+  // Auto-flip from start to end
+  &--auto-flip-end::before {
+    left: auto !important;
     right: auto !important;
+    inset-inline-start: calc(100% + $tooltip-distance) !important;
     transform: translateX(-$tooltip-offset) translateY(-50%) !important;
   }
 
-  &--auto-flip-right::after {
-    left: calc(100% + ($tooltip-arrow-size - 2px)) !important;
+  &--auto-flip-end::after {
+    left: auto !important;
     right: auto !important;
+    inset-inline-start: calc(100% + ($tooltip-arrow-size - 2px)) !important;
     transform: translateX(-$tooltip-offset) translateY(-50%) !important;
-    border-left-color: transparent !important;
-    border-right-color: var(--pa-tooltip-bg) !important;
+    border-inline-start-color: transparent !important;
+    border-inline-end-color: var(--pa-tooltip-bg) !important;
   }
 
-  &--auto-flip-right:hover::before,
-  &--auto-flip-right:hover::after {
+  &--auto-flip-end:hover::before,
+  &--auto-flip-end:hover::after {
     transform: translateX(0) translateY(-50%) !important;
   }
 
-  // Auto-flip from right to left
-  &--auto-flip-left::before {
-    right: calc(100% + $tooltip-distance) !important;
-    left: auto !important;
+  // RTL: reverse slide direction for auto-flip-end
+  [dir="rtl"] &--auto-flip-end::before,
+  [dir="rtl"] &--auto-flip-end::after {
     transform: translateX($tooltip-offset) translateY(-50%) !important;
   }
 
-  &--auto-flip-left::after {
-    right: calc(100% + ($tooltip-arrow-size - 2px)) !important;
-    left: auto !important;
-    transform: translateX($tooltip-offset) translateY(-50%) !important;
-    border-right-color: transparent !important;
-    border-left-color: var(--pa-tooltip-bg) !important;
+  [dir="rtl"] &--auto-flip-end:hover::before,
+  [dir="rtl"] &--auto-flip-end:hover::after {
+    transform: translateX(0) translateY(-50%) !important;
   }
 
-  &--auto-flip-left:hover::before,
-  &--auto-flip-left:hover::after {
+  // Auto-flip from end to start
+  &--auto-flip-start::before {
+    left: auto !important;
+    right: auto !important;
+    inset-inline-end: calc(100% + $tooltip-distance) !important;
+    transform: translateX($tooltip-offset) translateY(-50%) !important;
+  }
+
+  &--auto-flip-start::after {
+    left: auto !important;
+    right: auto !important;
+    inset-inline-end: calc(100% + ($tooltip-arrow-size - 2px)) !important;
+    transform: translateX($tooltip-offset) translateY(-50%) !important;
+    border-inline-end-color: transparent !important;
+    border-inline-start-color: var(--pa-tooltip-bg) !important;
+  }
+
+  &--auto-flip-start:hover::before,
+  &--auto-flip-start:hover::after {
+    transform: translateX(0) translateY(-50%) !important;
+  }
+
+  // RTL: reverse slide direction for auto-flip-start
+  [dir="rtl"] &--auto-flip-start::before,
+  [dir="rtl"] &--auto-flip-start::after {
+    transform: translateX(-$tooltip-offset) translateY(-50%) !important;
+  }
+
+  [dir="rtl"] &--auto-flip-start:hover::before,
+  [dir="rtl"] &--auto-flip-start:hover::after {
     transform: translateX(0) translateY(-50%) !important;
   }
 }

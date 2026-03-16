@@ -19,14 +19,14 @@
 <!-- Tooltip Top (default) -->
 <span class="pa-tooltip" data-tooltip="This is a tooltip">Hover me</span>
 
-<!-- Tooltip Right -->
-<span class="pa-tooltip pa-tooltip--right" data-tooltip="Tooltip on the right">Hover me</span>
+<!-- Tooltip End -->
+<span class="pa-tooltip pa-tooltip--end" data-tooltip="Tooltip on the end">Hover me</span>
 
 <!-- Tooltip Bottom -->
 <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Tooltip on the bottom">Hover me</span>
 
-<!-- Tooltip Left -->
-<span class="pa-tooltip pa-tooltip--left" data-tooltip="Tooltip on the left">Hover me</span>
+<!-- Tooltip Start -->
+<span class="pa-tooltip pa-tooltip--start" data-tooltip="Tooltip on the start">Hover me</span>
 
 
 <!-- TOOLTIP POSITIONS (All 4 directions) -->
@@ -36,9 +36,9 @@
   Top
 </button>
 
-<!-- Right Tooltip -->
-<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--right" data-tooltip="Right tooltip">
-  Right
+<!-- End Tooltip -->
+<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--end" data-tooltip="End tooltip">
+  End
 </button>
 
 <!-- Bottom Tooltip -->
@@ -46,9 +46,9 @@
   Bottom
 </button>
 
-<!-- Left Tooltip -->
-<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--left" data-tooltip="Left tooltip">
-  Left
+<!-- Start Tooltip -->
+<button class="pa-btn pa-btn--primary pa-tooltip pa-tooltip--start" data-tooltip="Start tooltip">
+  Start
 </button>
 
 
@@ -109,14 +109,14 @@
   Primary Bottom
 </button>
 
-<!-- Success Right Tooltip -->
-<button class="pa-btn pa-btn--success pa-tooltip pa-tooltip--success pa-tooltip--right" data-tooltip="Operation successful!">
-  Success Right
+<!-- Success End Tooltip -->
+<button class="pa-btn pa-btn--success pa-tooltip pa-tooltip--success pa-tooltip--end" data-tooltip="Operation successful!">
+  Success End
 </button>
 
-<!-- Danger Left Tooltip -->
-<button class="pa-btn pa-btn--danger pa-tooltip pa-tooltip--danger pa-tooltip--left" data-tooltip="Critical warning!">
-  Danger Left
+<!-- Danger Start Tooltip -->
+<button class="pa-btn pa-btn--danger pa-tooltip pa-tooltip--danger pa-tooltip--start" data-tooltip="Critical warning!">
+  Danger Start
 </button>
 
 
@@ -176,7 +176,7 @@
 
 <!-- Popovers are click-triggered rich content overlays
      - Use Floating UI for positioning (like tooltips)
-     - Support all 4 positions (top, right, bottom, left) via data-placement attribute
+     - Support all 4 positions (top, end, bottom, start) via data-placement attribute
      - Auto collision detection and flipping
      - Close with X button or clicking outside
 -->
@@ -195,8 +195,8 @@
   </div>
 </div>
 
-<!-- Popover Right -->
-<div class="pa-popover" data-placement="right">
+<!-- Popover End -->
+<div class="pa-popover" data-placement="end">
   <button class="pa-popover__trigger">i</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
@@ -204,7 +204,7 @@
       <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
-      <p>Popover positioned to the right.</p>
+      <p>Popover positioned at the inline-end.</p>
     </div>
   </div>
 </div>
@@ -223,8 +223,8 @@
   </div>
 </div>
 
-<!-- Popover Left -->
-<div class="pa-popover" data-placement="left">
+<!-- Popover Start -->
+<div class="pa-popover" data-placement="start">
   <button class="pa-popover__trigger">!</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
@@ -232,7 +232,7 @@
       <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
-      <p>Popover positioned to the left.</p>
+      <p>Popover positioned at the inline-start.</p>
     </div>
   </div>
 </div>
@@ -286,16 +286,16 @@
 
 <!-- POPOVER ALIGNMENT -->
 
-<!-- Left Aligned (default) -->
+<!-- Start Aligned (default) -->
 <div class="pa-popover" data-placement="bottom">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
-      <h4>Left Aligned</h4>
+      <h4>Start Aligned</h4>
       <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
-      <p>Default alignment is left.</p>
+      <p>Default alignment is start.</p>
       <ul>
         <li>Lists look natural</li>
         <li>Easy to read</li>
@@ -318,16 +318,16 @@
   </div>
 </div>
 
-<!-- Right Aligned -->
+<!-- End Aligned -->
 <div class="pa-popover pa-popover--end" data-placement="bottom">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
-      <h4>Right Aligned</h4>
+      <h4>End Aligned</h4>
       <button class="pa-popover__close">×</button>
     </div>
     <div class="pa-popover__body">
-      <p>Use --right modifier for RTL layouts.</p>
+      <p>Use --end modifier for end-aligned text.</p>
     </div>
   </div>
 </div>
@@ -357,7 +357,7 @@
 </div>
 
 <!-- Popover with Code -->
-<div class="pa-popover pa-popover--lg" data-placement="right">
+<div class="pa-popover pa-popover--lg" data-placement="end">
   <button class="pa-popover__trigger">?</button>
   <div class="pa-popover__content">
     <div class="pa-popover__header">
@@ -399,10 +399,10 @@ document.addEventListener('content-loaded', function() {
 TOOLTIPS:
 - pa-tooltip (base class, top position by default)
 
-POSITIONS:
-- pa-tooltip--right
+POSITIONS (RTL-aware):
+- pa-tooltip--end (inline-end: right in LTR, left in RTL)
 - pa-tooltip--bottom
-- pa-tooltip--left
+- pa-tooltip--start (inline-start: left in LTR, right in RTL)
 
 VARIANTS:
 - pa-tooltip--primary (primary colored background)
@@ -417,11 +417,11 @@ MULTILINE:
 POPOVERS:
 - pa-popover (base container)
 
-POSITIONING (use data-placement attribute):
+POSITIONING (use data-placement attribute, RTL-aware):
 - data-placement="top" (default)
-- data-placement="right"
+- data-placement="end" (inline-end: right in LTR, left in RTL)
 - data-placement="bottom"
-- data-placement="left"
+- data-placement="start" (inline-start: left in LTR, right in RTL)
 
 SIZES:
 - pa-popover--sm (small)

@@ -59,8 +59,12 @@
         // Determine placement from class
         let placement = 'top';
         if (element.classList.contains('pa-tooltip--bottom')) placement = 'bottom';
-        else if (element.classList.contains('pa-tooltip--left')) placement = 'left';
-        else if (element.classList.contains('pa-tooltip--right')) placement = 'right';
+        else if (element.classList.contains('pa-tooltip--start')) {
+            placement = document.documentElement.dir === 'rtl' ? 'right' : 'left';
+        }
+        else if (element.classList.contains('pa-tooltip--end')) {
+            placement = document.documentElement.dir === 'rtl' ? 'left' : 'right';
+        }
 
         // Copy variant classes to floating tooltip
         tooltipEl.className = 'pa-tooltip-floating';
@@ -146,7 +150,11 @@
 
         if (!trigger || !content) return;
 
-        const placement = popoverEl.dataset.placement || 'top';
+        const rawPlacement = popoverEl.dataset.placement || 'top';
+        const isRtl = document.documentElement.dir === 'rtl';
+        const placement = rawPlacement === 'start' ? (isRtl ? 'right' : 'left')
+            : rawPlacement === 'end' ? (isRtl ? 'left' : 'right')
+            : rawPlacement;
         let cleanup = null;
 
         // Show popover

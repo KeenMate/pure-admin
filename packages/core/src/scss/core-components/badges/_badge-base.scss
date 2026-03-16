@@ -13,7 +13,7 @@
   background-color: var(--pa-btn-secondary-bg);
   color: var(--pa-btn-secondary-text);
   font-size: $font-size-xs;
-  font-weight: $font-weight-semibold;
+
   line-height: 1;
   text-align: center;
   white-space: nowrap;
@@ -102,9 +102,20 @@
     border-color: var(--pa-btn-dark-bg);
   }
 
-  // Left-side ellipsis for paths/hierarchies where end is important
-  &--ellipsis-left {
+  // When truncation is needed, switch from inline-flex to inline-block
+  // (text-overflow: ellipsis doesn't work on flex containers)
+  &.text-truncate {
+    display: inline-block;
+  }
+
+  // Start-side ellipsis for paths/hierarchies where end is important
+  &--ellipsis-start {
     direction: rtl;
     text-align: left;
+
+    [dir="rtl"] & {
+      direction: ltr;
+      text-align: right;
+    }
   }
 }

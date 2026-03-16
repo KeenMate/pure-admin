@@ -16,11 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Tooltips/Popovers RTL: `--left`/`--right` renamed to `--start`/`--end`**: Tooltip position classes `pa-tooltip--left` → `pa-tooltip--start`, `pa-tooltip--right` → `pa-tooltip--end`. Popover `data-placement` values `"left"`/`"right"` → `"start"`/`"end"`. SCSS now uses CSS Logical Properties (`inset-inline-start/end`, `border-inline-start/end-color`) with `[dir="rtl"]` overrides for transforms. Auto-flip classes also renamed (`--auto-flip-left` → `--auto-flip-start`, `--auto-flip-right` → `--auto-flip-end`)
 - **Theme packages removed from this repo**: Local `packages/theme-*` directories deleted — themes now live in the separate `pure-admin-themes` repo. Demo server discovers themes via `.themes.json` (gitignored, local dev paths)
 - **`themes.json` is now gitignored**: Generated at Docker build time from pureadmin.io bundle, not committed
 - **Plausible analytics domain**: Updated from `pure-admin.keenmate.dev` to `demo.pureadmin.io`
 - **Pack script URLs**: Updated to `demo.pureadmin.io` and `pureadmin.io`
 - **RTL test page**: Added English warning banner with toggle button explaining how RTL mode works
+- **Timeline feed time RTL**: Converted `text-align: right` → `text-align: end` and `padding-right` → `padding-inline-end` for correct RTL mirroring
+- **Badge `--ellipsis-start` RTL**: Added `[dir="rtl"]` override that reverses the direction hack so left-truncation works correctly on RTL pages
+- **Badge demo**: Replaced non-existent `pa-badge--w-*x` classes with existing `maxwr-*` + `text-truncate` utilities
 
 ---
 

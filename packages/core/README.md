@@ -286,13 +286,14 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 
 ### Tooltips & Popovers
 - `.pa-tooltip` - Base tooltip (pure CSS, no JS required)
-- `.pa-tooltip--top/right/bottom/left` - Positioning
+- `.pa-tooltip--top/end/bottom/start` - Positioning (RTL-aware: end = right in LTR, left in RTL)
 - `.pa-tooltip--primary/success/warning/danger` - Semantic variants
 - `.pa-tooltip--color-1` through `.pa-tooltip--color-9` - Theme color variants
   - Text color automatically adjusts via `--pa-color-N-text` for readability
 - `.pa-tooltip--multiline` - Multiline tooltips
 - `.pa-popover` - Base popover (requires JavaScript)
 - `.pa-popover--sm/md/lg` - Sizes
+- `data-placement="top|end|bottom|start"` - Popover position (RTL-aware)
 - **JavaScript Required**: Popovers require `tooltips-popovers.js` and Floating UI library for positioning
 
 ### Tabs
