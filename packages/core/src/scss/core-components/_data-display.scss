@@ -556,6 +556,15 @@
     justify-content: center; // when --middle makes it flex
   }
 
+  // Value horizontal alignment
+  &--value-end &__value {
+    text-align: end;
+  }
+
+  &--value-center &__value {
+    text-align: center;
+  }
+
   // Truncate: single-line ellipsis on labels and values
   &--truncate &__label,
   &--truncate &__value {
@@ -578,6 +587,26 @@
 
     .pa-desc-table__value--full {
       grid-column: 2;
+    }
+  }
+
+  // Responsive: stack label above value in very narrow containers
+  @container (max-width: 300px) {
+    &, &--cols-2, &--fixed, &--fixed#{&}--cols-2 {
+      grid-template-columns: 1fr;
+    }
+
+    .pa-desc-table__label {
+      border-inline-end: none;
+      border-bottom: none;
+    }
+
+    .pa-desc-table__value {
+      border-inline-end: none;
+    }
+
+    .pa-desc-table__value--full {
+      grid-column: 1;
     }
   }
 
@@ -876,8 +905,12 @@
   }
 
   // Label horizontal alignment
-  &--label-end &__label { justify-content: flex-end; }
-  &--label-center &__label { justify-content: center; }
+  &--label-end &__label { justify-content: flex-end; text-align: end; }
+  &--label-center &__label { justify-content: center; text-align: center; }
+
+  // Value horizontal alignment
+  &--value-end &__value { justify-content: flex-end; text-align: end; }
+  &--value-center &__value { justify-content: center; text-align: center; }
 
   // Truncate: single-line ellipsis on both labels and values
   &--truncate &__label,

@@ -144,13 +144,29 @@
             }
 
             // Apply theme mode immediately to prevent FOUC
-            const savedThemeMode = localStorage.getItem('theme-mode');
+            // URL query param (?mode=dark) takes priority over localStorage
+            const modeOverride = '{{modeOverride}}';
+            const savedThemeMode = modeOverride || localStorage.getItem('theme-mode');
+            if (modeOverride) {
+                localStorage.setItem('theme-mode', modeOverride);
+            }
             if (savedThemeMode === 'dark') {
                 document.body.classList.add('pa-mode-dark');
                 document.body.dataset.theme = 'dark'; // For web components (web-grid, etc.)
             } else if (savedThemeMode === 'light') {
                 document.body.classList.add('pa-mode-light');
                 document.body.dataset.theme = 'light';
+            }
+
+            // Apply color variant immediately to prevent FOUC
+            // URL query param (?colorVariant=red) takes priority over localStorage
+            const colorVariantOverride = '{{colorVariantOverride}}';
+            if (colorVariantOverride) {
+                localStorage.setItem('color-variant', colorVariantOverride);
+            }
+            const savedColorVariant = colorVariantOverride || localStorage.getItem('color-variant');
+            if (savedColorVariant) {
+                document.body.classList.add(`pa-color-${savedColorVariant}`);
             }
 
             // Apply font size immediately to prevent size jump

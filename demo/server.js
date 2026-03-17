@@ -100,6 +100,16 @@ app.use((req, res, next) => {
         res.cookie('sidebarMode', sidebarMode, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
     }
 
+    // Mode override (light/dark)
+    if (req.query.mode) {
+        res.locals.modeOverride = req.query.mode;
+    }
+
+    // Color variant override
+    if (req.query.colorVariant) {
+        res.locals.colorVariantOverride = req.query.colorVariant;
+    }
+
     // Add helper variables for Mustache
     res.locals.isAudiTheme = theme === 'audi';
 

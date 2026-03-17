@@ -65,14 +65,17 @@
       font-size: $font-size-base;
     }
 
-    // Direct heading children - don't shrink (for three-part layout)
+    // Direct heading children - truncate when card is narrow
     > h1,
     > h2,
     > h3,
     > h4,
     > h5,
     > h6 {
-      flex-shrink: 0;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     // Description paragraphs - flexible middle, truncate with ellipsis
@@ -156,9 +159,15 @@
       }
     }
 
-    // Wrap modifier - allow description to wrap (for mobile or long descriptions)
+    // Wrap modifier - allow heading and description to wrap instead of truncating
     &--wrap {
       flex-wrap: wrap;
+
+      > h1, > h2, > h3, > h4, > h5, > h6 {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
 
       > p {
         white-space: normal;

@@ -24,7 +24,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **RTL test page**: Added English warning banner with toggle button explaining how RTL mode works
 - **Timeline feed time RTL**: Converted `text-align: right` → `text-align: end` and `padding-right` → `padding-inline-end` for correct RTL mirroring
 - **Badge `--ellipsis-start` RTL**: Added `[dir="rtl"]` override that reverses the direction hack so left-truncation works correctly on RTL pages
+- **Badge `--ellipsis-left` renamed to `--ellipsis-start`**: RTL-aware naming for start-side text truncation
 - **Badge demo**: Replaced non-existent `pa-badge--w-*x` classes with existing `maxwr-*` + `text-truncate` utilities
+- **Badge**: Removed hardcoded `font-weight: $font-weight-semibold` — badges now inherit font-weight from parent
+- **Badge truncation**: Added `.pa-badge.text-truncate` override switching `display` from `inline-flex` to `inline-block` so `text-overflow: ellipsis` works
+- **Demo URL query params**: Added `?mode=dark` and `?colorVariant=red` support alongside existing `?theme=` parameter
+- **Card header overflow**: Direct heading children now truncate with ellipsis instead of spilling out of narrow cards
+- **Card `--wrap` modifier**: Now also resets heading `white-space`/`overflow` so headings wrap alongside descriptions
+- **Desc table stacked layout**: Added `@container (max-width: 300px)` breakpoint that stacks label above value in very narrow containers
+- **Desc table `--value-end` / `--value-center`**: New modifiers for value horizontal alignment
+- **Banded `--label-end` / `--label-center`**: Added `text-align` so alignment works in both flex and stacked (block) modes
+- **Banded `--value-end` / `--value-center`**: New modifiers for value horizontal alignment
 
 ---
 
