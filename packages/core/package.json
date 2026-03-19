@@ -1,6 +1,6 @@
 {
   "name": "@keenmate/pure-admin-core",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Lightweight, data-focused HTML/CSS admin framework built with PureCSS foundation and comprehensive component system",
   "style": "dist/css/main.css",
   "exports": {
@@ -9,7 +9,6 @@
     "./css/*": "./dist/css/*",
     "./scss": "./src/scss/main.scss",
     "./scss/*": "./src/scss/*",
-    "./fonts/*": "./dist/fonts/*",
     "./snippets/*": "./snippets/*"
   },
   "files": [
@@ -17,6 +16,7 @@
     "src/scss/",
     "schemas/",
     "scripts/pack-theme.js",
+    "scripts/download-themes.js",
     "snippets/",
     "README.md",
     "LICENSE"
@@ -24,8 +24,7 @@
   "scripts": {
     "build:scss": "sass src/scss/main.scss dist/css/main.css --no-source-map --silence-deprecation=import",
     "build:scss:watch": "sass src/scss/main.scss dist/css/main.css --watch --silence-deprecation=import",
-    "build:fonts": "node scripts/copy-fonts.js",
-    "build": "npm run build:scss && npm run build:fonts",
+    "build": "npm run build:scss",
     "watch": "npm run build:scss:watch",
     "generate-hashes": "node scripts/generate-hashes.js",
     "pack-theme": "node scripts/pack-theme.js",
@@ -41,6 +40,9 @@
     "components",
     "ui-kit"
   ],
+  "bin": {
+    "download-themes": "./scripts/download-themes.js"
+  },
   "author": "KeenMate",
   "license": "MIT",
   "peerDependencies": {

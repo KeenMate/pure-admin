@@ -92,9 +92,9 @@
      * Start resize operation
      */
     function startResize(e) {
-        // Don't resize if sidebar is collapsed
+        // Don't resize if sidebar is collapsed or on mobile (overlay mode)
         if (document.body.classList.contains('sidebar-hidden') ||
-            sidebar.classList.contains('pa-layout__sidebar--icon-collapse')) {
+            window.innerWidth <= 768) {
             return;
         }
 

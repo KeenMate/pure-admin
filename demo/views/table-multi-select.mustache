@@ -63,22 +63,20 @@
             <span id="toggle-text">Show Details</span>
         </button>
     </div>
-    <div style="position: relative; display: inline-block;">
-        <div class="pa-btn-group">
-            <button class="pa-btn pa-btn--sm pa-btn--primary" onclick="exportSelected()">
-                <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
-                Export
+    <div class="pa-btn-split">
+        <button class="pa-btn pa-btn--sm pa-btn--primary" onclick="exportSelected()">
+            <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
+            Export
+        </button>
+        <button class="pa-btn pa-btn--sm pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+            <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+        </button>
+        <div class="pa-btn-split__menu">
+            <button class="pa-btn-split__item pa-btn-split__item--danger" onclick="deleteSelected();">
+                <i class="fas fa-trash" style="margin-inline-end: 0.5rem;"></i>Delete Selected
             </button>
-            <button class="pa-btn pa-btn--sm pa-btn--primary" onclick="toggleActionsMenu(event)" style="padding: 0.375rem 0.625rem; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-chevron-down text-2xs"></i>
-            </button>
-        </div>
-        <div id="actions-menu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 0.25rem; background: var(--base-dropdown-background); border: 1px solid var(--base-border-color); border-radius: 4px; box-shadow: var(--base-dropdown-shadow); min-width: 10rem; z-index: 1000;">
-            <button onclick="deleteSelected(); closeActionsMenu();" class="text-sm" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer; color: var(--base-danger-color);" onmouseover="this.style.backgroundColor='var(--base-primary-bg)'" onmouseout="this.style.backgroundColor='transparent'">
-                <i class="fas fa-trash" style="margin-right: 0.5rem;"></i>Delete Selected
-            </button>
-            <button onclick="clearSelection(); closeActionsMenu();" class="text-sm" style="display: block; width: 100%; padding: 0.5rem 1rem; text-align: left; border: none; background: none; cursor: pointer;" onmouseover="this.style.backgroundColor='var(--base-primary-bg)'" onmouseout="this.style.backgroundColor='transparent'">
-                <i class="fas fa-times" style="margin-right: 0.5rem;"></i>Clear All
+            <button class="pa-btn-split__item" onclick="clearSelection();">
+                <i class="fas fa-times" style="margin-inline-end: 0.5rem;"></i>Clear All
             </button>
         </div>
     </div>
@@ -130,7 +128,7 @@
                 <thead>
                     <tr>
                         <th class="col-auto">
-                            <span class="pa-checkbox"><input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this.checked)"><span class="pa-checkbox__box"></span></span>
+                            <label class="pa-checkbox"><input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this.checked)"><span class="pa-checkbox__box"></span></label>
                         </th>
                         <th class="col-auto">Actions</th>
                         <th>Name</th>
@@ -290,7 +288,7 @@ function renderTable(filter) {
         return `
             <tr style="${rowStyle}">
                 <td class="col-auto">
-                    <span class="pa-checkbox"><input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleSelection('${item.id}', this.checked)"><span class="pa-checkbox__box"></span></span>
+                    <label class="pa-checkbox"><input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleSelection('${item.id}', this.checked)"><span class="pa-checkbox__box"></span></label>
                 </td>
                 <td class="col-auto">
                     <div class="pa-btn-group">
@@ -464,24 +462,7 @@ function toggleSelectionDetails() {
 }
 
 // Toggle actions dropdown menu
-function toggleActionsMenu(event) {
-    event.stopPropagation();
-    const menu = document.getElementById('actions-menu');
-    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-}
-
-// Close actions menu
-function closeActionsMenu() {
-    document.getElementById('actions-menu').style.display = 'none';
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    const menu = document.getElementById('actions-menu');
-    if (menu && menu.style.display === 'block') {
-        closeActionsMenu();
-    }
-});
+// Note: Split button toggle/close handled globally by split-button.js
 
 // Clear all selections
 function clearSelection() {

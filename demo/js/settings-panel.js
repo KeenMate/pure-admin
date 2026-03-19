@@ -216,9 +216,15 @@
             sidebarBehaviorSelector.value = sidebarBehavior;
             const sidebar = document.querySelector('.pa-layout__sidebar');
             const burgerMenu = document.querySelector('.burger-menu');
+            const isMobile = window.innerWidth <= 768;
             if (sidebar) {
                 sidebar.classList.remove('pa-layout__sidebar--icon-collapse');
-                if (sidebarBehavior === 'icon-collapse') {
+                if (isMobile) {
+                    // Mobile: sidebar is always hidden initially, burger shows hamburger
+                    if (burgerMenu) {
+                        burgerMenu.classList.remove('active');
+                    }
+                } else if (sidebarBehavior === 'icon-collapse') {
                     sidebar.classList.add('pa-layout__sidebar--icon-collapse');
                     // In icon-collapse mode, check if expanded or collapsed
                     const isExpanded = !body.classList.contains('sidebar-hidden');

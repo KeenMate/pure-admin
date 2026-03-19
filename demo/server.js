@@ -33,7 +33,20 @@ function loadThemes() {
 
     // Resolve paths and validate
     const resolved = {};
-    for (const [name, themePath] of Object.entries(themes)) {
+    for (const [name, config] of Object.entries(themes)) {
+        // Support both formats:
+        //   Old: "audi": "../path/to/audi"
+        //   New: "audi": { "path": "../path/to/audi" } or "audi": {}
+        let themePath;
+        if (typeof config === 'string') {
+            themePath = config;
+        } else if (config && config.path) {
+            themePath = config.path;
+        } else {
+            // No path — check ./themes/{name} (downloaded themes)
+            themePath = path.join('themes', name);
+        }
+
         const absPath = path.resolve(repoRoot, themePath);
         const distPath = path.join(absPath, 'dist');
         if (fs.existsSync(distPath)) {

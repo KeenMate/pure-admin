@@ -2,6 +2,15 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.1.0
+
+- **Split Button** (`pa-btn-split`) — Primary action + dropdown toggle with Floating UI positioning, RTL support, custom icons, upward placement, and size variants
+- **Filter Card** (`pa-filter-card`) — Expandable filter card with inline filters row, actions, and collapsible advanced section
+- **Responsive grid table hover fix** — Card-style tables no longer highlight all cells on hover
+- **Mobile sidebar burger fix** — Sidebar behavior modes no longer show X instead of hamburger on mobile
+- **Sidebar resize fix** — Resize no longer blocked in icon-collapse mode when sidebar is expanded; disabled on mobile
+- **Actions column consistency** — All demo tables now show Actions as the first column
+
 ## Installation
 
 ```bash
@@ -84,15 +93,61 @@ These snippets are the canonical reference for building framework components in 
 
 ## Themes
 
-Themes are available as separate npm packages:
+Themes are maintained in the separate [`pure-admin-themes`](https://github.com/KeenMate/pure-admin-themes) repo and available as a bundle from [pureadmin.io](https://pureadmin.io).
 
-| Theme | Package | Description |
-|-------|---------|-------------|
-| Audi | `@keenmate/pure-admin-theme-audi` | Audi red with Fira Sans Condensed |
-| Corporate | `@keenmate/pure-admin-theme-corporate` | Professional blue/gray |
-| Dark | `@keenmate/pure-admin-theme-dark` | Dark mode with color variants |
-| Express | `@keenmate/pure-admin-theme-express` | Bold yellow/red logistics |
-| Minimal | `@keenmate/pure-admin-theme-minimal` | Clean minimal design |
+| Theme | Description |
+|-------|-------------|
+| Audi | Audi red with Fira Sans Condensed |
+| Corporate | Professional blue/gray (default) |
+| Dark | Dark mode with color variants |
+| Express | Bold yellow/red logistics |
+| Minimal | Clean minimal design |
+
+### Theme Setup
+
+Themes are configured via `themes.json` (base config) and `.themes.json` (local overrides, gitignored). Each entry is a theme name mapped to an options object:
+
+```json
+{
+  "themes": {
+    "audi": {},
+    "corporate": { "path": "../pure-admin-themes/corporate" },
+    "custom": { "url": "https://my-server.com/themes/custom.zip" }
+  }
+}
+```
+
+- **`{}`** — downloaded from pureadmin.io bundle
+- **`{ "path": "..." }`** — use a local directory (must contain `dist/{name}.css`)
+- **`{ "url": "..." }`** — downloaded from a custom URL
+
+Then run:
+
+```bash
+npx download-themes
+```
+
+Or add to your `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "download-themes": "download-themes"
+  }
+}
+```
+
+This fetches all remote themes into `./themes/{name}/` and leaves local paths unchanged. Config files are never modified.
+
+### pureadmin.io Theme API
+
+- `GET /api/theme/{name}` — download a specific theme (e.g. `/api/theme/audi`)
+- `GET /api/bundle` — download all themes as a zip bundle
+- `GET /api/version` — get the current theme bundle version
+
+### Docker / CI
+
+In Docker builds, themes are automatically fetched via `/api/bundle`. No local theme packages needed. The URL is configurable via the `THEMES_URL` build arg.
 
 ### Theme Modes & Variants
 

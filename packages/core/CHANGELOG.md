@@ -5,10 +5,12 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.1.0] - 2026-03-19
 
 ### Added
 
+- **`pa-btn-split` component**: Split button with primary action + dropdown toggle. Includes `__menu` dropdown panel, `__item` menu buttons, and `__item--danger` modifier. Works with all button sizes and variants
+- **`pa-filter-card` component**: Expandable filter card with inline filters row, actions, collapsible advanced section, and loading/disabled states
 - **`pa-tooltip--keyword` modifier**: Dotted underline + help cursor for inline term explanations (replaces inline `style` attributes)
 - **Theme font asset serving**: Demo server now serves theme font files at `/dist/css/assets/` so CSS relative `url()` paths resolve correctly
 - **Dockerfile downloads themes from pureadmin.io**: Build fetches theme bundle via `GET /api/bundle`, no local theme packages needed. Configurable via `THEMES_URL` build arg
@@ -16,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Actions column moved to first position**: All demo tables now show the Actions column as the first column (after checkbox where present) for consistent layout across pages (tables-sizing, checkbox-lists, popconfirm)
 - **Tooltips/Popovers RTL: `--left`/`--right` renamed to `--start`/`--end`**: Tooltip position classes `pa-tooltip--left` → `pa-tooltip--start`, `pa-tooltip--right` → `pa-tooltip--end`. Popover `data-placement` values `"left"`/`"right"` → `"start"`/`"end"`. SCSS now uses CSS Logical Properties (`inset-inline-start/end`, `border-inline-start/end-color`) with `[dir="rtl"]` overrides for transforms. Auto-flip classes also renamed (`--auto-flip-left` → `--auto-flip-start`, `--auto-flip-right` → `--auto-flip-end`)
 - **Theme packages removed from this repo**: Local `packages/theme-*` directories deleted — themes now live in the separate `pure-admin-themes` repo. Demo server discovers themes via `.themes.json` (gitignored, local dev paths)
 - **`themes.json` is now gitignored**: Generated at Docker build time from pureadmin.io bundle, not committed
@@ -35,6 +38,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Desc table `--value-end` / `--value-center`**: New modifiers for value horizontal alignment
 - **Banded `--label-end` / `--label-center`**: Added `text-align` so alignment works in both flex and stacked (block) modes
 - **Banded `--value-end` / `--value-center`**: New modifiers for value horizontal alignment
+
+### Fixed
+
+- **Responsive-grid table hover**: In `pa-table--responsive-grid` mobile view, hovering a row card highlighted all cells with hover background color. Added `td` background reset so only the card-level `box-shadow` hover effect applies
+- **Mobile sidebar burger icon showing X**: Settings panel sidebar behavior modes (`icon-collapse`, `hide`) were setting the burger menu to active (X) on mobile because they checked the desktop-only `sidebar-hidden` class. Added mobile guard so burger always starts as hamburger on mobile
 
 ---
 

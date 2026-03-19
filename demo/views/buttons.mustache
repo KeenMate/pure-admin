@@ -269,6 +269,188 @@
                 </div>
             </div>
 
+            <!-- Split Buttons -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Split Buttons</h3>
+                    <p>Primary action + dropdown toggle combined into a single control</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-btn-group gap-lg">
+                        <!-- Primary -->
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--primary" onclick="alert('Save clicked')">Save</button>
+                            <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Save as Draft</button>
+                                <button class="pa-btn-split__item">Save &amp; Close</button>
+                                <button class="pa-btn-split__item">Save &amp; New</button>
+                            </div>
+                        </div>
+
+                        <!-- Danger -->
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--danger" onclick="alert('Delete clicked')">Delete</button>
+                            <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item pa-btn-split__item--danger">Delete All</button>
+                                <button class="pa-btn-split__item">Archive Instead</button>
+                            </div>
+                        </div>
+
+                        <!-- Secondary -->
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--secondary" onclick="alert('Export clicked')">
+                                <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
+                                Export
+                            </button>
+                            <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Export as CSV</button>
+                                <button class="pa-btn-split__item">Export as Excel</button>
+                                <button class="pa-btn-split__item">Export as PDF</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Sizes</h4>
+                    <div class="pa-btn-group gap-lg align-items-start">
+                        <!-- XS -->
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--xs pa-btn--primary">XS Action</button>
+                            <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Option A</button>
+                                <button class="pa-btn-split__item">Option B</button>
+                            </div>
+                        </div>
+
+                        <!-- SM -->
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--sm pa-btn--primary">SM Action</button>
+                            <button class="pa-btn pa-btn--sm pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Option A</button>
+                                <button class="pa-btn-split__item">Option B</button>
+                            </div>
+                        </div>
+
+                        <!-- Default -->
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--primary">Default</button>
+                            <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Option A</button>
+                                <button class="pa-btn-split__item">Option B</button>
+                            </div>
+                        </div>
+
+                        <!-- LG -->
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--lg pa-btn--primary">LG Action</button>
+                            <button class="pa-btn pa-btn--lg pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Option A</button>
+                                <button class="pa-btn-split__item">Option B</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Upward Placement</h4>
+                    <p class="text-muted mb-1">Use <code>data-placement="top-end"</code> to open the menu upward. Floating UI will auto-flip if there's not enough space.</p>
+                    <div class="pa-btn-group gap-lg">
+                        <div class="pa-btn-split" data-placement="top-end">
+                            <button class="pa-btn pa-btn--primary">Upload</button>
+                            <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-up text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Upload File</button>
+                                <button class="pa-btn-split__item">Upload Folder</button>
+                                <button class="pa-btn-split__item">Import from URL</button>
+                            </div>
+                        </div>
+
+                        <div class="pa-btn-split" data-placement="top-end">
+                            <button class="pa-btn pa-btn--secondary">
+                                <span class="pa-btn__icon"><i class="fas fa-plus"></i></span>
+                                New
+                            </button>
+                            <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-up text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">New Document</button>
+                                <button class="pa-btn-split__item">New Spreadsheet</button>
+                                <button class="pa-btn-split__item">New Presentation</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Custom Icons (no rotation)</h4>
+                    <p class="text-muted mb-1">Omit <code>pa-btn-split__chevron</code> from the icon for static icons that don't rotate on open.</p>
+                    <div class="pa-btn-group gap-lg">
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--primary">
+                                <span class="pa-btn__icon"><i class="fas fa-share"></i></span>
+                                Share
+                            </button>
+                            <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-ellipsis-vertical"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">Share via Email</button>
+                                <button class="pa-btn-split__item">Share via Link</button>
+                                <button class="pa-btn-split__item">Copy to Clipboard</button>
+                            </div>
+                        </div>
+
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--secondary">
+                                <span class="pa-btn__icon"><i class="fas fa-cog"></i></span>
+                                Settings
+                            </button>
+                            <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item">General</button>
+                                <button class="pa-btn-split__item">Advanced</button>
+                                <button class="pa-btn-split__item pa-btn-split__item--danger">Reset All</button>
+                            </div>
+                        </div>
+
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--danger">
+                                <span class="pa-btn__icon"><i class="fas fa-trash"></i></span>
+                                Delete
+                            </button>
+                            <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-caret-down pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <button class="pa-btn-split__item pa-btn-split__item--danger">Delete Permanently</button>
+                                <button class="pa-btn-split__item">Move to Trash</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Text Truncation -->
             <div class="pa-card">
                 <div class="pa-card__header">
@@ -779,6 +961,18 @@
                         <li><code>pa-btn-group--lg-horizontal</code> - Horizontal at 992px+</li>
                         <li><code>pa-btn-group--xl-vertical</code> - Vertical at 1200px+</li>
                         <li><code>pa-btn-group--xl-horizontal</code> - Horizontal at 1200px+</li>
+                    </ul>
+
+                    <h4 class="mt-4">Split Buttons</h4>
+                    <ul class="pa-list-basic pa-list-basic--compact">
+                        <li><code>pa-btn-split</code> - Container for split button</li>
+                        <li><code>pa-btn-split__toggle</code> - Toggle button (fixed square width)</li>
+                        <li><code>pa-btn-split__chevron</code> - On the icon to opt-in to 180deg rotation on open (omit for static icons)</li>
+                        <li><code>pa-btn-split__menu</code> - Dropdown menu panel</li>
+                        <li><code>pa-btn-split__menu--open</code> - Show dropdown menu</li>
+                        <li><code>pa-btn-split__item</code> - Menu item button</li>
+                        <li><code>pa-btn-split__item--danger</code> - Destructive action styling</li>
+                        <li><code>data-placement="top-end"</code> - Open menu upward (on container)</li>
                     </ul>
                 </div>
             </div>

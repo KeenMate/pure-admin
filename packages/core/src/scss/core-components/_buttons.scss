@@ -423,5 +423,102 @@
     position: relative;
     z-index: $z-index-modal;
   }
+
+}
+
+// === Split Button (primary action + dropdown toggle) ===
+.pa-btn-split {
+  position: relative;
+  display: inline-flex;
+
+  // RTL: reverse order so toggle is on inline-start side
+  [dir="rtl"] & {
+    flex-direction: row-reverse;
+  }
+
+  // Joined buttons with no gap
+  .pa-btn {
+    border-radius: 0;
+
+    &:first-child {
+      border-start-start-radius: $border-radius;
+      border-end-start-radius: $border-radius;
+      border-inline-end: none;
+    }
+  }
+
+  // Toggle button (chevron) - fixed square width
+  &__toggle {
+    border-start-end-radius: $border-radius;
+    border-end-end-radius: $border-radius;
+    border-inline-start: $border-width-base solid rgba(255, 255, 255, 0.25);
+    border-inline-end: none;
+    padding-inline: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $btn-height-base;
+    min-width: $btn-height-base;
+
+    &.pa-btn--xs { width: $btn-height-xs; min-width: $btn-height-xs; }
+    &.pa-btn--sm { width: $btn-height-sm; min-width: $btn-height-sm; }
+    &.pa-btn--lg { width: $btn-height-lg; min-width: $btn-height-lg; }
+    &.pa-btn--xl { width: $btn-height-xl; min-width: $btn-height-xl; }
+  }
+
+  // Chevron icon - opt-in rotation on open
+  &__chevron {
+    transition: transform $transition-fast $easing-snappy;
+  }
+
+  &--open &__chevron {
+    transform: rotate(180deg);
+  }
+
+  // Dropdown menu (moved to body and positioned by Floating UI)
+  &__menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: max-content;
+    background: var(--pa-card-bg);
+    border: $border-width-base solid var(--pa-border-color);
+    border-radius: $border-radius;
+    box-shadow: $shadow-2xl;
+    z-index: $z-index-dropdown;
+    padding: $spacing-xs 0;
+
+    &--open {
+      display: block;
+    }
+  }
+
+  // Menu items
+  &__item {
+    display: block;
+    width: 100%;
+    padding: $spacing-sm $spacing-base;
+    border: none;
+    background: none;
+    text-align: start;
+    font-size: $font-size-sm;
+    color: var(--pa-text-color);
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: var(--pa-accent-hover);
+    }
+
+    &--danger {
+      color: var(--pa-btn-danger-bg);
+
+      &:hover {
+        background-color: var(--pa-btn-danger-bg);
+        color: var(--pa-btn-danger-text);
+      }
+    }
+  }
 }
 

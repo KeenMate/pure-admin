@@ -1,0 +1,58 @@
+/* ========================================
+   Filter Card
+   Expandable filter card with inline filters and collapsible advanced section
+   Based on table-filters pattern from pure-admin demos
+   ======================================== */
+
+@use '../variables' as *;
+
+.pa-filter-card__row {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pa-filter-card__filters {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+
+  > * {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+.pa-filter-card__actions {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pa-filter-card__advanced {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: $border-width-base solid var(--pa-border-color);
+}
+
+.pa-filter-card__advanced-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+.pa-filter-card--loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.pa-filter-card--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
