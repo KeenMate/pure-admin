@@ -259,6 +259,89 @@ async function main() {
     }
 
     console.log(`\nDownloaded ${downloaded} theme(s), skipped ${localThemes.length} local path(s)`);
+
+    // Check compatibility with installed core version
+    checkCoreCompatibility();
+}
+
+/**
+ * Check if downloaded themes are compatible with the installed core version
+ */
+function checkCoreCompatibility() {
+    // Find installed core version
+    const corePkgPaths = [
+        path.join(PROJECT_ROOT, 'node_modules', '@keenmate', 'pure-admin-core', 'package.json'),
+        path.join(PROJECT_ROOT, '..', 'packages', 'core', 'package.json') // workspace
+    ];
+
+    let coreVersion = null;
+    for (const p of corePkgPaths) {
+        if (fs.existsSync(p)) {
+            try {
+                const pkg = JSON.parse(fs.readFileSync(p, 'utf-8'));
+                coreVersion = pkg.version;
+                break;
+            } catch (e) {}
+        }
+    }
+
+    if (!coreVersion) return;
+
+    // Check each downloaded theme
+    const warnings = [];
+    const themeDirs = fs.readdirSync(THEMES_DIR, { withFileTypes: true })
+        .filter(d => d.isDirectory())
+        .map(d => d.name);
+
+    for (const name of themeDirs) {
+        const manifestPath = path.join(THEMES_DIR, name, 'theme.json');
+        if (!fs.existsSync(manifestPath)) continue;
+
+        try {
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+            const requiredCore = manifest.dependencies && manifest.dependencies.core;
+            if (!requiredCore) continue;
+
+            if (!satisfiesSemver(coreVersion, requiredCore)) {
+                warnings.push(`  ${name} (v${manifest.version}) requires core ${requiredCore}, installed: ${coreVersion}`);
+            }
+        } catch (e) {}
+    }
+
+    if (warnings.length > 0) {
+        console.log('\n⚠ Compatibility warnings:');
+        warnings.forEach(w => console.log(w));
+        console.log('\nConsider updating @keenmate/pure-admin-core');
+    } else if (themeDirs.length > 0) {
+        console.log(`\nAll themes compatible with core v${coreVersion}`);
+    }
+}
+
+/**
+ * Simple semver satisfaction check for ^major.minor.patch ranges
+ */
+function satisfiesSemver(version, range) {
+    // Parse version
+    const v = version.replace(/^v/, '').split('.').map(Number);
+
+    // Parse range (supports ^x.y.z and x.y.z)
+    const caret = range.startsWith('^');
+    const r = range.replace(/^[\^~]/, '').split('.').map(Number);
+
+    if (caret) {
+        // ^2.0.0 means >=2.0.0 <3.0.0
+        // ^0.2.0 means >=0.2.0 <0.3.0
+        if (r[0] > 0) {
+            return v[0] === r[0] && (v[1] > r[1] || (v[1] === r[1] && v[2] >= r[2]));
+        } else if (r[1] > 0) {
+            return v[0] === 0 && v[1] === r[1] && v[2] >= r[2];
+        } else {
+            return v[0] === 0 && v[1] === 0 && v[2] === r[2];
+        }
+    }
+
+    // Exact match
+    return v[0] === r[0] && v[1] === r[1] && v[2] === r[2];
 }
 
 console.log('Downloading themes...\n');

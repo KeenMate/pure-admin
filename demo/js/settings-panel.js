@@ -82,11 +82,63 @@
         };
 
         // Update mode section based on current theme's manifest
-        const updateModeSectionFromManifest = (manifest) => {
+        // Get modes for a specific variant (by id), or all modes if no variant specified
+        const getModesForVariant = (manifest, variantId) => {
+            if (!manifest) return [];
+            if (Array.isArray(manifest.colorVariants)) {
+                // Find the matching variant (empty string = default)
+                const variant = manifest.colorVariants.find(v => (v.id || '') === (variantId || ''));
+                if (variant && Array.isArray(variant.modes)) {
+                    return variant.modes.map(m => m.id);
+                }
+            }
+            // Old schema: modes.supported
+            if (manifest.modes && manifest.modes.supported) {
+                return manifest.modes.supported;
+            }
+            return [];
+        };
+
+        // Get default mode for a specific variant
+        const getDefaultModeForVariant = (manifest, variantId) => {
+            if (!manifest) return 'dark';
+            if (Array.isArray(manifest.colorVariants)) {
+                const variant = manifest.colorVariants.find(v => (v.id || '') === (variantId || ''));
+                if (variant && Array.isArray(variant.modes)) {
+                    const def = variant.modes.find(m => m.default);
+                    if (def) return def.id;
+                    return variant.modes[0]?.id || 'dark';
+                }
+            }
+            if (manifest.modes && manifest.modes.default) return manifest.modes.default;
+            return 'dark';
+        };
+
+        // Extract color variants from manifest (handles both old and new schema)
+        const getManifestVariants = (manifest) => {
+            if (!manifest) return [];
+            // New schema: colorVariants is an array, filter out the default (empty id)
+            if (Array.isArray(manifest.colorVariants)) {
+                return manifest.colorVariants.filter(v => v.id !== undefined);
+            }
+            // Old schema: colorVariants.supported
+            if (manifest.colorVariants && manifest.colorVariants.supported) {
+                return manifest.colorVariants.supported;
+            }
+            return [];
+        };
+
+        const updateModeSectionFromManifest = (manifest, variantId) => {
             if (!themeModeSection || !themeModeSelector) return;
 
-            if (!manifest || !manifest.modes || manifest.modes.supported.length <= 1) {
+            const currentVariant = variantId !== undefined ? variantId : (colorVariantSelector?.value || '');
+            const modes = getModesForVariant(manifest, currentVariant);
+            if (modes.length <= 1) {
                 themeModeSection.style.display = 'none';
+                // Auto-apply the single mode if there is one
+                if (modes.length === 1) {
+                    applyThemeMode(modes[0], manifest);
+                }
                 return;
             }
 
@@ -95,7 +147,7 @@
 
             // Update mode selector options
             themeModeSelector.innerHTML = '';
-            for (const mode of manifest.modes.supported) {
+            for (const mode of modes) {
                 const option = document.createElement('option');
                 option.value = mode;
                 option.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
@@ -107,7 +159,9 @@
         const updateColorVariantFromManifest = (manifest) => {
             if (!colorVariantSection || !colorVariantSelector) return;
 
-            if (!manifest || !manifest.colorVariants || !manifest.colorVariants.supported) {
+            const variants = getManifestVariants(manifest);
+            // Only show variant selector if there are multiple variants
+            if (variants.length <= 1) {
                 colorVariantSection.style.display = 'none';
                 // Clear color variant when not supported
                 applyColorVariant('', manifest);
@@ -119,7 +173,7 @@
 
             // Update color variant selector options
             colorVariantSelector.innerHTML = '';
-            for (const variant of manifest.colorVariants.supported) {
+            for (const variant of variants) {
                 const option = document.createElement('option');
                 option.value = variant.id;
                 option.textContent = variant.name;
@@ -132,7 +186,7 @@
 
         // Apply theme mode (light/dark) without page reload
         const applyThemeMode = (mode, manifest) => {
-            const cssClassPattern = manifest?.modes?.cssClass || 'pa-mode-{mode}';
+            const cssClassPattern = manifest?.modeCssClass || manifest?.modes?.cssClass || 'pa-mode-{mode}';
 
             // Remove all mode classes
             body.classList.remove('pa-mode-light', 'pa-mode-dark');
@@ -149,10 +203,15 @@
 
         // Apply color variant class
         const applyColorVariant = (variant, manifest) => {
-            const cssClassPattern = manifest?.colorVariants?.cssClass || 'pa-color-{variant}';
+            const cssClassPattern = manifest?.variantCssClass || manifest?.colorVariants?.cssClass || 'pa-color-{variant}';
 
             // Remove all color variant classes
-            body.classList.remove('pa-color-blue', 'pa-color-green', 'pa-color-red');
+            const variants = getManifestVariants(manifest);
+            for (const v of variants) {
+                if (v.id) {
+                    body.classList.remove(cssClassPattern.replace('{variant}', v.id));
+                }
+            }
 
             // Apply new variant class if not empty
             if (variant) {
@@ -171,24 +230,28 @@
 
             const manifest = getCurrentThemeManifest();
 
-            // Update mode section based on manifest
-            updateModeSectionFromManifest(manifest);
-
             // Update color variant section based on manifest
             updateColorVariantFromManifest(manifest);
 
-            // Theme mode (light/dark) - only for themes with multiple modes
-            if (manifest && manifest.modes && manifest.modes.supported.length > 1) {
-                const savedMode = localStorage.getItem('theme-mode') || manifest.modes.default || 'dark';
-                themeModeSelector.value = savedMode;
-                applyThemeMode(savedMode, manifest);
-            }
-
-            // Color variant - only for themes that support it
-            if (manifest && manifest.colorVariants && manifest.colorVariants.supported) {
-                const savedVariant = localStorage.getItem('color-variant') || manifest.colorVariants.default || '';
+            // Color variant
+            const variants = getManifestVariants(manifest);
+            const savedVariant = variants.length > 1
+                ? (localStorage.getItem('color-variant') || '')
+                : '';
+            if (variants.length > 1) {
                 colorVariantSelector.value = savedVariant;
                 applyColorVariant(savedVariant, manifest);
+            }
+
+            // Update mode section based on current variant
+            updateModeSectionFromManifest(manifest, savedVariant);
+
+            // Theme mode - only for variants with multiple modes
+            const modes = getModesForVariant(manifest, savedVariant);
+            if (modes.length > 1) {
+                const savedMode = localStorage.getItem('theme-mode') || getDefaultModeForVariant(manifest, savedVariant);
+                themeModeSelector.value = savedMode;
+                applyThemeMode(savedMode, manifest);
             }
 
             // Font size
@@ -324,8 +387,8 @@
             const manifest = themeManifests[theme];
 
             // Update sections based on new theme's manifest before switching
-            updateModeSectionFromManifest(manifest);
             updateColorVariantFromManifest(manifest);
+            updateModeSectionFromManifest(manifest, '');
 
             switchTheme(theme);
         });
@@ -342,6 +405,9 @@
             const variant = e.target.value;
             const manifest = getCurrentThemeManifest();
             applyColorVariant(variant, manifest);
+
+            // Update mode section — different variants may have different modes
+            updateModeSectionFromManifest(manifest, variant);
         });
 
         // Font size change
