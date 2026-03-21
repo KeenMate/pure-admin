@@ -98,7 +98,13 @@ async function ensureTheme(themeName) {
         execFileSync('unzip', ['-o', zipPath, '-d', themePath], { stdio: 'ignore' });
         fs.unlinkSync(zipPath);
 
+        // Raw theme ZIPs have css/, but demo server expects dist/
+        const cssPath = path.join(themePath, 'css');
         const distPath = path.join(themePath, 'dist');
+        if (fs.existsSync(cssPath) && !fs.existsSync(distPath)) {
+            fs.renameSync(cssPath, distPath);
+        }
+
         if (fs.existsSync(distPath)) {
             themePackages[themeName] = distPath;
             console.log(`Theme "${themeName}" downloaded and registered.`);
