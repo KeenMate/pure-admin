@@ -158,6 +158,17 @@ The Dark theme also supports color accent variants:
 <!-- or pa-color-green, pa-color-red -->
 ```
 
+## Docker Deployment
+
+The demo server runs in Docker with themes baked in at build time. Themes not included in the image are downloaded on-demand from [pureadmin.io](https://pureadmin.io) when a user requests them.
+
+```bash
+make docker-build
+docker compose up -d
+```
+
+Configure which themes are baked in via the `THEMES_URL` build arg in the Dockerfile. Additional themes are fetched lazily at runtime with a 10-minute negative cache for failed lookups.
+
 ## Development
 
 ### Prerequisites
