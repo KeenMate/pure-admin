@@ -106,6 +106,22 @@ async function ensureTheme(themeName) {
         }
 
         if (fs.existsSync(distPath)) {
+            // Fetch full theme metadata from API and overwrite minimal theme.json
+            try {
+                const metaRes = await fetch(`${PUREADMIN_API}/api/themes/${themeName}`);
+                if (metaRes.ok) {
+                    const { theme } = await metaRes.json();
+                    if (theme) {
+                        fs.writeFileSync(
+                            path.join(themePath, 'theme.json'),
+                            JSON.stringify(theme, null, 2)
+                        );
+                    }
+                }
+            } catch (e) {
+                console.warn(`Could not fetch metadata for "${themeName}":`, e.message);
+            }
+
             themePackages[themeName] = distPath;
             console.log(`Theme "${themeName}" downloaded and registered.`);
             return true;
