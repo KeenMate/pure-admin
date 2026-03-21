@@ -4,9 +4,11 @@ const Mustache = require('mustache');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const fs = require('fs');
+const { execFileSync } = require('child_process');
 const { marked } = require('marked');
 const app = express();
 const port = process.env.PORT || 3000;
+const PUREADMIN_API = process.env.PUREADMIN_API || 'https://pureadmin.io';
 
 // Path to the core package in workspace
 const corePackagePath = path.join(__dirname, '..', 'packages', 'core');
@@ -61,6 +63,58 @@ function loadThemes() {
 
 const themePackages = loadThemes();
 
+// Negative cache: slug -> timestamp of last failed attempt
+const failedThemes = new Map();
+const FAILED_THEME_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+// Downloads a theme on demand from pureadmin.io and registers it
+async function ensureTheme(themeName) {
+    if (themePackages[themeName]) return true;
+
+    // Only allow safe slug characters
+    if (!/^[a-z0-9-]+$/.test(themeName)) return false;
+
+    // Check negative cache
+    const failedAt = failedThemes.get(themeName);
+    if (failedAt && Date.now() - failedAt < FAILED_THEME_TTL_MS) return false;
+
+    console.log(`Theme "${themeName}" not found locally, downloading from ${PUREADMIN_API}...`);
+
+    try {
+        const res = await fetch(`${PUREADMIN_API}/api/themes/${themeName}/download`);
+        if (!res.ok) {
+            console.warn(`Download failed for "${themeName}": ${res.status}`);
+            failedThemes.set(themeName, Date.now());
+            return false;
+        }
+
+        const zipPath = path.join('/tmp', `${themeName}.zip`);
+        const themePath = path.join(repoRoot, 'themes', themeName);
+
+        const buffer = Buffer.from(await res.arrayBuffer());
+        fs.writeFileSync(zipPath, buffer);
+
+        fs.mkdirSync(themePath, { recursive: true });
+        execFileSync('unzip', ['-o', zipPath, '-d', themePath], { stdio: 'ignore' });
+        fs.unlinkSync(zipPath);
+
+        const distPath = path.join(themePath, 'dist');
+        if (fs.existsSync(distPath)) {
+            themePackages[themeName] = distPath;
+            console.log(`Theme "${themeName}" downloaded and registered.`);
+            return true;
+        }
+
+        console.warn(`Theme "${themeName}" extracted but no dist/ found.`);
+        failedThemes.set(themeName, Date.now());
+        return false;
+    } catch (e) {
+        console.error(`Failed to download theme "${themeName}":`, e.message);
+        failedThemes.set(themeName, Date.now());
+        return false;
+    }
+}
+
 // Set Mustache as template engine
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
@@ -71,14 +125,29 @@ const loadPartial = (name) => {
     return fs.readFileSync(path.join(__dirname, 'views', 'partials', `${name}.mustache`), 'utf-8');
 };
 
+// Block path traversal and dangerous characters
+const BLOCKED_PATTERNS = ['..', '\\', '%2e', '%2E', '%5c', '%5C', '%00'];
+app.use((req, res, next) => {
+    const url = req.originalUrl;
+    if (BLOCKED_PATTERNS.some(p => url.includes(p))) {
+        return res.status(400).send('Bad request');
+    }
+    next();
+});
+
 // Add cookie parser middleware
 app.use(cookieParser());
 
 // Middleware to determine current theme, container width, and sidebar mode
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     const DEFAULT_THEME = 'audi';
 
     let theme = req.query.theme || req.cookies.selectedTheme || DEFAULT_THEME;
+
+    // Try to download the theme on-demand if not available locally
+    if (!themePackages[theme]) {
+        await ensureTheme(theme);
+    }
 
     // Validate theme exists - if not, clear cookie and use default
     if (!themePackages[theme]) {

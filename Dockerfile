@@ -8,7 +8,7 @@
 FROM node:lts-alpine AS build
 
 # Theme source URL (override with --build-arg)
-ARG THEMES_URL=https://pureadmin.io/api/bundle
+ARG THEMES_URL=https://pureadmin.io/api/bundle?themes=audi,dark,express
 
 WORKDIR /app
 
@@ -44,6 +44,9 @@ RUN apk add --no-cache curl unzip && \
 FROM node:lts-alpine AS runtime
 
 ENV NODE_ENV=production
+
+# unzip needed for on-demand theme downloads at runtime
+RUN apk add --no-cache unzip
 
 WORKDIR /app
 
