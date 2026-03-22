@@ -564,7 +564,7 @@ app.get('/api/themes/manifests', (req, res) => {
     }
 
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
+    res.setHeader('Cache-Control', 'no-cache'); // themes can be added at runtime
     res.json(manifests);
 });
 
