@@ -5,6 +5,20 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-03-22
+
+### Fixed
+
+- **Sidebar active link contrast**: Active sidebar links now use `color: var(--pa-accent)` instead of `var(--pa-sidebar-text)` — fixes low contrast active state on dark themes with tinted accent backgrounds
+
+### Added
+
+- **On-demand theme downloads**: Demo server lazily downloads missing themes from pureadmin.io when requested via `?theme=` parameter (10-min negative cache for failed lookups)
+- **Path traversal protection**: Blocks requests containing `..`, encoded dots/backslashes, and null bytes
+- **Font family settings**: Settings panel dynamically loads Google Fonts on demand and applies via `--base-font-family` CSS variable; skips Google load when theme already bundles the selected font
+
+---
+
 ## [2.1.0] - 2026-03-19
 
 ### Added

@@ -233,12 +233,13 @@
             // Update color variant section based on manifest
             updateColorVariantFromManifest(manifest);
 
-            // Color variant
+            // Color variant — validate saved value against current theme
             const variants = getManifestVariants(manifest);
-            const savedVariant = variants.length > 1
-                ? (localStorage.getItem('color-variant') || '')
-                : '';
+            let savedVariant = '';
             if (variants.length > 1) {
+                const stored = localStorage.getItem('color-variant') || '';
+                const validIds = variants.map(v => v.id);
+                savedVariant = validIds.includes(stored) ? stored : (variants[0]?.id || '');
                 colorVariantSelector.value = savedVariant;
                 applyColorVariant(savedVariant, manifest);
             }
@@ -262,13 +263,15 @@
                 document.documentElement.classList.add(`font-size-${savedFontSize}`);
             }
 
-            // Font family
+            // Font family — show theme's bundled font name in default option
+            const defaultFontOption = fontFamilySelector.querySelector('option[value="default"]');
+            if (defaultFontOption) {
+                const themeFont = manifest?.fonts?.family?.split(',')[0]?.trim();
+                defaultFontOption.textContent = themeFont ? `Theme Default (${themeFont})` : 'Theme Default';
+            }
             const savedFontFamily = localStorage.getItem('font-family') || 'default';
             fontFamilySelector.value = savedFontFamily;
-            body.classList.remove('font-family-serif', 'font-family-mono');
-            if (savedFontFamily !== 'default') {
-                body.classList.add(`font-family-${savedFontFamily}`);
-            }
+            applyFontFamily(savedFontFamily);
 
             // Sidebar collapsed
             const isSidebarCollapsed = localStorage.getItem('sidebar-hidden') === 'true';
@@ -420,14 +423,73 @@
             localStorage.setItem('font-size', size);
         });
 
-        // Font family change
-        fontFamilySelector.addEventListener('change', (e) => {
-            const family = e.target.value;
-            body.classList.remove('font-family-serif', 'font-family-mono');
-            if (family !== 'default') {
-                body.classList.add(`font-family-${family}`);
+        // Font family change — sets --base-font-family CSS variable directly
+        const fontFamilyMap = {
+            'serif': 'Georgia, "Times New Roman", Times, serif',
+            'mono': '"Courier New", Courier, monospace',
+            'cuprum': '"Cuprum", Arial, sans-serif',
+            'fira-sans-condensed': '"Fira Sans Condensed", Arial Narrow, Arial, sans-serif',
+            'manrope': '"Manrope", Arial, sans-serif',
+            'martel': '"Martel", Georgia, serif',
+            'maven-pro': '"Maven Pro", Arial, sans-serif',
+            'monda': '"Monda", Arial, sans-serif',
+            'play': '"Play", Arial, sans-serif',
+            'signika': '"Signika", Arial, sans-serif',
+            'yanone-kaffeesatz': '"Yanone Kaffeesatz", Arial, sans-serif'
+        };
+
+        const googleFonts = {
+            'cuprum': 'Cuprum:wght@400;500;700',
+            'fira-sans-condensed': 'Fira+Sans+Condensed:wght@400;500;600;700',
+            'manrope': 'Manrope:wght@400;500;600;700',
+            'martel': 'Martel:wght@400;700',
+            'maven-pro': 'Maven+Pro:wght@400;500;600;700',
+            'monda': 'Monda:wght@400;700',
+            'play': 'Play:wght@400;700',
+            'signika': 'Signika:wght@400;500;600;700',
+            'yanone-kaffeesatz': 'Yanone+Kaffeesatz:wght@400;500;600;700'
+        };
+
+        const loadedFonts = new Set();
+
+        function loadGoogleFont(family) {
+            if (!googleFonts[family] || loadedFonts.has(family)) return;
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = `https://fonts.googleapis.com/css2?family=${googleFonts[family]}&display=swap`;
+            document.head.appendChild(link);
+            loadedFonts.add(family);
+        }
+
+        // Check if the theme already bundles a given font
+        function themeBundlesFont(family) {
+            const manifest = getCurrentThemeManifest();
+            if (!manifest || !manifest.fonts || !manifest.fonts.family) return false;
+            const themeFont = manifest.fonts.family.toLowerCase();
+            const fontName = (fontFamilyMap[family] || '').split(',')[0].replace(/"/g, '').trim().toLowerCase();
+            return fontName && themeFont.startsWith(fontName);
+        }
+
+        function applyFontFamily(family) {
+            if (family !== 'default' && fontFamilyMap[family]) {
+                if (themeBundlesFont(family)) {
+                    // Theme already bundles this font — just use the theme default
+                    body.style.removeProperty('--base-font-family');
+                    console.log(`Font family "${family}" already bundled by theme, using theme default`);
+                } else {
+                    loadGoogleFont(family);
+                    body.style.setProperty('--base-font-family', fontFamilyMap[family]);
+                    console.log(`Font family applied: ${family} → ${fontFamilyMap[family]}`);
+                }
+            } else {
+                body.style.removeProperty('--base-font-family');
+                console.log('Font family reset to theme default');
             }
             localStorage.setItem('font-family', family);
+        }
+
+        fontFamilySelector.addEventListener('change', (e) => {
+            applyFontFamily(e.target.value);
         });
 
         // Sidebar toggle
