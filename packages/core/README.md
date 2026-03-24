@@ -2,6 +2,11 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.2.0
+
+- **Unified card actions naming** — `pa-card__tools` replaced with `pa-card__actions` across both `pa-card` and `pa-table-card`. Header and footer now use the same element name, disambiguated by context
+- **Font Tuning Tool** (`/font-test`) — Developer utility for finding the right `@font-face` descriptor values (`ascent-override`, `descent-override`, `size-adjust`) when using custom fonts. Loads any Google Font, generates variants for visual comparison, and outputs a copyable CSS snippet
+
 ## What's New in 2.1.0
 
 - **Split Button** (`pa-btn-split`) — Primary action + dropdown toggle with Floating UI positioning, RTL support, custom icons, upward placement, and size variants
