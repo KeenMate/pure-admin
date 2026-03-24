@@ -256,242 +256,239 @@ const renderWithLayout = (res, viewName, data) => {
 };
 
 // Routes
+// Top-level pages
 app.get('/', (req, res) => {
-    renderWithLayout(res, 'dashboard', {
-        pageTitle: 'Dashboard',
-        currentPage: 'dashboard',
-        isDashboard: true
-    });
+    renderWithLayout(res, 'dashboard', { pageTitle: 'Dashboard', currentPage: 'dashboard', isDashboard: true });
 });
 
 app.get('/changelog', (req, res) => {
-    // Read and parse CHANGELOG.md from core package
     const changelogPath = path.join(corePackagePath, 'CHANGELOG.md');
     const changelogMd = fs.readFileSync(changelogPath, 'utf-8');
     const changelogHtml = marked(changelogMd);
-
-    renderWithLayout(res, 'changelog', {
-        pageTitle: 'Changelog',
-        currentPage: 'changelog',
-        isChangelog: true,
-        changelogContent: changelogHtml
-    });
-});
-
-app.get('/theme-variables', (req, res) => {
-    renderWithLayout(res, 'theme-variables', { pageTitle: 'Theme Variables', currentPage: 'theme-variables', isThemeVariables: true });
-});
-
-app.get('/colors', (req, res) => {
-    renderWithLayout(res, 'colors', { pageTitle: 'Colors', currentPage: 'colors', isColors: true });
-});
-
-app.get('/helpers', (req, res) => {
-    renderWithLayout(res, 'helpers', { pageTitle: 'Helpers', currentPage: 'helpers', isHelpers: true });
+    renderWithLayout(res, 'changelog', { pageTitle: 'Changelog', currentPage: 'changelog', isChangelog: true, changelogContent: changelogHtml });
 });
 
 app.get('/forms', (req, res) => {
     renderWithLayout(res, 'forms', { pageTitle: 'Forms', currentPage: 'forms', isForms: true });
 });
 
-app.get('/inputs', (req, res) => {
-    renderWithLayout(res, 'inputs', { pageTitle: 'Inputs', currentPage: 'inputs', isInputs: true });
+// Design
+app.get('/design/theme-variables', (req, res) => {
+    renderWithLayout(res, 'theme-variables', { pageTitle: 'Theme Variables', currentPage: 'theme-variables', isThemeVariables: true });
 });
 
-app.get('/validations', (req, res) => {
-    renderWithLayout(res, 'validations', { pageTitle: 'Form Validations', currentPage: 'validations', isValidations: true });
+app.get('/design/colors', (req, res) => {
+    renderWithLayout(res, 'colors', { pageTitle: 'Colors', currentPage: 'colors', isColors: true });
 });
 
-app.get('/date-picker', (req, res) => {
-    renderWithLayout(res, 'date-picker', { pageTitle: 'Date Picker', currentPage: 'date-picker', isDatePicker: true });
+app.get('/design/helpers', (req, res) => {
+    renderWithLayout(res, 'helpers', { pageTitle: 'Helpers', currentPage: 'helpers', isHelpers: true });
 });
 
-app.get('/multiselect', (req, res) => {
-    renderWithLayout(res, 'multiselect', { pageTitle: 'Multiselect', currentPage: 'multiselect', isMultiselect: true });
-});
-
-app.get('/data-grid', (req, res) => {
-    renderWithLayout(res, 'data-grid', { pageTitle: 'Data Grid', currentPage: 'data-grid', isDataGrid: true });
-});
-
-app.get('/file-selector', (req, res) => {
-    renderWithLayout(res, 'file-selector', { pageTitle: 'File Selector', currentPage: 'file-selector', isFileSelector: true });
-});
-
-app.get('/checkbox-lists', (req, res) => {
-    renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
-});
-
-app.get('/cards', (req, res) => {
-    renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
-});
-
-app.get('/font-test', (req, res) => {
-    renderWithLayout(res, 'font-test', { pageTitle: 'Font Baseline Test', currentPage: 'font-test' });
-});
-
-app.get('/sizing', (req, res) => {
-    renderWithLayout(res, 'sizing', { pageTitle: 'Sizing & Layout', currentPage: 'sizing', isSizing: true });
-});
-
-app.get('/grid', (req, res) => {
-    renderWithLayout(res, 'grid', { pageTitle: 'Grid System', currentPage: 'grid', isGrid: true });
-});
-
-app.get('/buttons', (req, res) => {
-    renderWithLayout(res, 'buttons', { pageTitle: 'Buttons', currentPage: 'buttons', isButtons: true });
-});
-
-app.get('/alerts', (req, res) => {
-    renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts', isAlerts: true });
-});
-
-app.get('/callouts', (req, res) => {
-    renderWithLayout(res, 'callouts', { pageTitle: 'Callouts', currentPage: 'callouts', isCallouts: true });
-});
-
-app.get('/components', (req, res) => {
-    renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components', isComponents: true });
-});
-
-app.get('/tables', (req, res) => {
-    renderWithLayout(res, 'tables', { pageTitle: 'Tables', currentPage: 'tables', isTables: true });
-});
-
-app.get('/tables-sizing', (req, res) => {
-    renderWithLayout(res, 'tables-sizing', { pageTitle: 'Tables - Sizing', currentPage: 'tables-sizing', isTablesSizing: true });
-});
-
-app.get('/tables-responsive', (req, res) => {
-    renderWithLayout(res, 'tables-responsive', { pageTitle: 'Responsive Tables', currentPage: 'tables-responsive', isTablesResponsive: true });
-});
-
-app.get('/table-filters', (req, res) => {
-    renderWithLayout(res, 'table-filters', { pageTitle: 'Table Filters', currentPage: 'table-filters', isTableFilters: true });
-});
-
-app.get('/smart-filters', (req, res) => {
-    renderWithLayout(res, 'smart-filters', { pageTitle: 'Smart Filters', currentPage: 'smart-filters', isSmartFilters: true });
-});
-
-app.get('/table-multi-select', (req, res) => {
-    renderWithLayout(res, 'table-multi-select', { pageTitle: 'Multi-Select Across Filters', currentPage: 'table-multi-select', isTableMultiSelect: true });
-});
-
-app.get('/comparison', (req, res) => {
-    renderWithLayout(res, 'comparison', { pageTitle: 'Comparison Tables', currentPage: 'comparison', isComparison: true });
-});
-
-app.get('/code', (req, res) => {
-    renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code', isCode: true });
-});
-
-app.get('/badges', (req, res) => {
-    renderWithLayout(res, 'badges', { pageTitle: 'Badges & Labels', currentPage: 'badges', isBadges: true });
-});
-
-app.get('/modals', (req, res) => {
-    renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals', isModals: true });
-});
-
-app.get('/modal-dialogs', (req, res) => {
-    renderWithLayout(res, 'modal-dialogs', { pageTitle: 'Modal Dialogs', currentPage: 'modal-dialogs', isModalDialogs: true });
-});
-
-app.get('/popconfirm', (req, res) => {
-    renderWithLayout(res, 'popconfirm', { pageTitle: 'Popconfirm', currentPage: 'popconfirm', isPopconfirm: true });
-});
-
-app.get('/loaders', (req, res) => {
-    renderWithLayout(res, 'loaders', { pageTitle: 'Loaders & Spinners', currentPage: 'loaders', isLoaders: true });
-});
-
-app.get('/tooltips', (req, res) => {
-    renderWithLayout(res, 'tooltips', { pageTitle: 'Tooltips', currentPage: 'tooltips', isTooltips: true });
-});
-
-app.get('/command-palette', (req, res) => {
-    renderWithLayout(res, 'command-palette', { pageTitle: 'Command Palette', currentPage: 'command-palette', isCommandPalette: true });
-});
-
-app.get('/tabs', (req, res) => {
-    renderWithLayout(res, 'tabs', { pageTitle: 'Tabs', currentPage: 'tabs', isTabs: true });
-});
-
-app.get('/toasts', (req, res) => {
-    renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts', isToasts: true });
-});
-
-app.get('/layouts', (req, res) => {
+app.get('/design/layouts', (req, res) => {
     renderWithLayout(res, 'layouts', { pageTitle: 'Layouts', currentPage: 'layouts', isLayouts: true });
 });
 
-app.get('/lists', (req, res) => {
+// Components
+app.get('/components/overview', (req, res) => {
+    renderWithLayout(res, 'components', { pageTitle: 'Components', currentPage: 'components', isComponents: true });
+});
+
+app.get('/components/buttons', (req, res) => {
+    renderWithLayout(res, 'buttons', { pageTitle: 'Buttons', currentPage: 'buttons', isButtons: true });
+});
+
+app.get('/components/inputs', (req, res) => {
+    renderWithLayout(res, 'inputs', { pageTitle: 'Inputs', currentPage: 'inputs', isInputs: true });
+});
+
+app.get('/components/validations', (req, res) => {
+    renderWithLayout(res, 'validations', { pageTitle: 'Form Validations', currentPage: 'validations', isValidations: true });
+});
+
+app.get('/components/date-picker', (req, res) => {
+    renderWithLayout(res, 'date-picker', { pageTitle: 'Date Picker', currentPage: 'date-picker', isDatePicker: true });
+});
+
+app.get('/components/multiselect', (req, res) => {
+    renderWithLayout(res, 'multiselect', { pageTitle: 'Multiselect', currentPage: 'multiselect', isMultiselect: true });
+});
+
+app.get('/components/data-grid', (req, res) => {
+    renderWithLayout(res, 'data-grid', { pageTitle: 'Data Grid', currentPage: 'data-grid', isDataGrid: true });
+});
+
+app.get('/components/file-selector', (req, res) => {
+    renderWithLayout(res, 'file-selector', { pageTitle: 'File Selector', currentPage: 'file-selector', isFileSelector: true });
+});
+
+app.get('/components/checkbox-lists', (req, res) => {
+    renderWithLayout(res, 'checkbox-lists', { pageTitle: 'Checkbox Lists', currentPage: 'checkbox-lists', isCheckboxLists: true });
+});
+
+app.get('/components/cards', (req, res) => {
+    renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
+});
+
+app.get('/components/sizing', (req, res) => {
+    renderWithLayout(res, 'sizing', { pageTitle: 'Sizing & Layout', currentPage: 'sizing', isSizing: true });
+});
+
+app.get('/components/grid', (req, res) => {
+    renderWithLayout(res, 'grid', { pageTitle: 'Grid System', currentPage: 'grid', isGrid: true });
+});
+
+app.get('/components/tabs', (req, res) => {
+    renderWithLayout(res, 'tabs', { pageTitle: 'Tabs', currentPage: 'tabs', isTabs: true });
+});
+
+app.get('/components/badges', (req, res) => {
+    renderWithLayout(res, 'badges', { pageTitle: 'Badges & Labels', currentPage: 'badges', isBadges: true });
+});
+
+app.get('/components/lists', (req, res) => {
     renderWithLayout(res, 'lists', { pageTitle: 'Lists', currentPage: 'lists', isLists: true });
 });
 
-app.get('/timeline', (req, res) => {
-    renderWithLayout(res, 'timeline', { pageTitle: 'Timeline', currentPage: 'timeline', isTimeline: true });
+app.get('/components/code', (req, res) => {
+    renderWithLayout(res, 'code', { pageTitle: 'Code Display', currentPage: 'code', isCode: true });
 });
 
-app.get('/timeline-simple', (req, res) => {
-    renderWithLayout(res, 'timeline-simple', { pageTitle: 'Simple Timeline', currentPage: 'timeline-simple', isTimelineSimple: true });
+app.get('/components/alerts', (req, res) => {
+    renderWithLayout(res, 'alerts', { pageTitle: 'Alerts', currentPage: 'alerts', isAlerts: true });
 });
 
-app.get('/timeline-block', (req, res) => {
-    renderWithLayout(res, 'timeline-block', { pageTitle: 'Timeline Block', currentPage: 'timeline-block', isTimelineBlock: true });
+app.get('/components/callouts', (req, res) => {
+    renderWithLayout(res, 'callouts', { pageTitle: 'Callouts', currentPage: 'callouts', isCallouts: true });
 });
 
-app.get('/virtual-scroll', (req, res) => {
-    renderWithLayout(res, 'virtual-scroll', { pageTitle: 'Virtual Scroll', currentPage: 'virtual-scroll', isVirtualScroll: true });
+app.get('/components/toasts', (req, res) => {
+    renderWithLayout(res, 'toasts', { pageTitle: 'Toast Notifications', currentPage: 'toasts', isToasts: true });
 });
 
-app.get('/virtual-scroll-code', (req, res) => {
-    renderWithLayout(res, 'virtual-scroll-code', { pageTitle: 'Virtual Scroll Code', currentPage: 'virtual-scroll-code', isVirtualScrollCode: true });
+app.get('/components/loaders', (req, res) => {
+    renderWithLayout(res, 'loaders', { pageTitle: 'Loaders & Spinners', currentPage: 'loaders', isLoaders: true });
 });
 
-app.get('/notifications', (req, res) => {
-    renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
-});
-
-app.get('/pagers', (req, res) => {
+app.get('/components/pagers', (req, res) => {
     renderWithLayout(res, 'pagers', { pageTitle: 'Pagers', currentPage: 'pagers', isPagers: true });
 });
 
-app.get('/detail-panel', (req, res) => {
+app.get('/components/tooltips', (req, res) => {
+    renderWithLayout(res, 'tooltips', { pageTitle: 'Tooltips', currentPage: 'tooltips', isTooltips: true });
+});
+
+app.get('/components/modals', (req, res) => {
+    renderWithLayout(res, 'modals', { pageTitle: 'Modal Windows', currentPage: 'modals', isModals: true });
+});
+
+app.get('/components/modal-dialogs', (req, res) => {
+    renderWithLayout(res, 'modal-dialogs', { pageTitle: 'Modal Dialogs', currentPage: 'modal-dialogs', isModalDialogs: true });
+});
+
+app.get('/components/popconfirm', (req, res) => {
+    renderWithLayout(res, 'popconfirm', { pageTitle: 'Popconfirm', currentPage: 'popconfirm', isPopconfirm: true });
+});
+
+app.get('/components/command-palette', (req, res) => {
+    renderWithLayout(res, 'command-palette', { pageTitle: 'Command Palette', currentPage: 'command-palette', isCommandPalette: true });
+});
+
+app.get('/components/detail-panel', (req, res) => {
     renderWithLayout(res, 'detail-panel', { pageTitle: 'Detail Panel', currentPage: 'detail-panel', isDetailPanel: true });
 });
 
-app.get('/data-display', (req, res) => {
+app.get('/components/data-display', (req, res) => {
     renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
 });
 
-app.get('/data-display-2', (req, res) => {
+app.get('/components/data-display-2', (req, res) => {
     renderWithLayout(res, 'data-display-2', { pageTitle: 'Data Display v2', currentPage: 'data-display-2', isDataDisplay2: true });
 });
 
-app.get('/data-visualization', (req, res) => {
+app.get('/components/data-visualization', (req, res) => {
     renderWithLayout(res, 'data-visualization', { pageTitle: 'Data Visualization', currentPage: 'data-visualization', isDataVisualization: true });
 });
 
-app.get('/rtl-test', (req, res) => {
-    renderWithLayout(res, 'rtl-test', { pageTitle: 'RTL Test', currentPage: 'rtl-test', isRtlTest: true });
+app.get('/components/notifications', (req, res) => {
+    renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });
 
-app.get('/kpi-dashboard', (req, res) => {
+// Tables
+app.get('/tables/standard', (req, res) => {
+    renderWithLayout(res, 'tables', { pageTitle: 'Tables', currentPage: 'tables', isTables: true });
+});
+
+app.get('/tables/sizing', (req, res) => {
+    renderWithLayout(res, 'tables-sizing', { pageTitle: 'Tables - Sizing', currentPage: 'tables-sizing', isTablesSizing: true });
+});
+
+app.get('/tables/responsive', (req, res) => {
+    renderWithLayout(res, 'tables-responsive', { pageTitle: 'Responsive Tables', currentPage: 'tables-responsive', isTablesResponsive: true });
+});
+
+app.get('/tables/filters', (req, res) => {
+    renderWithLayout(res, 'table-filters', { pageTitle: 'Table Filters', currentPage: 'table-filters', isTableFilters: true });
+});
+
+app.get('/tables/smart-filters', (req, res) => {
+    renderWithLayout(res, 'smart-filters', { pageTitle: 'Smart Filters', currentPage: 'smart-filters', isSmartFilters: true });
+});
+
+app.get('/tables/multi-select', (req, res) => {
+    renderWithLayout(res, 'table-multi-select', { pageTitle: 'Multi-Select Across Filters', currentPage: 'table-multi-select', isTableMultiSelect: true });
+});
+
+app.get('/tables/comparison', (req, res) => {
+    renderWithLayout(res, 'comparison', { pageTitle: 'Comparison Tables', currentPage: 'comparison', isComparison: true });
+});
+
+// Timeline
+app.get('/timeline/simple', (req, res) => {
+    renderWithLayout(res, 'timeline-simple', { pageTitle: 'Simple Timeline', currentPage: 'timeline-simple', isTimelineSimple: true });
+});
+
+app.get('/timeline/block', (req, res) => {
+    renderWithLayout(res, 'timeline-block', { pageTitle: 'Timeline Block', currentPage: 'timeline-block', isTimelineBlock: true });
+});
+
+app.get('/timeline/advanced', (req, res) => {
+    renderWithLayout(res, 'timeline', { pageTitle: 'Timeline', currentPage: 'timeline', isTimeline: true });
+});
+
+// Virtual Scroll
+app.get('/virtual-scroll/demo', (req, res) => {
+    renderWithLayout(res, 'virtual-scroll', { pageTitle: 'Virtual Scroll', currentPage: 'virtual-scroll', isVirtualScroll: true });
+});
+
+app.get('/virtual-scroll/code', (req, res) => {
+    renderWithLayout(res, 'virtual-scroll-code', { pageTitle: 'Virtual Scroll Code', currentPage: 'virtual-scroll-code', isVirtualScrollCode: true });
+});
+
+// Showcases
+app.get('/showcases/kpi-dashboard', (req, res) => {
     renderWithLayout(res, 'kpi-dashboard', { pageTitle: 'KPI Dashboard', currentPage: 'kpi-dashboard', isKpiDashboard: true });
 });
 
-app.get('/movies', (req, res) => {
+app.get('/showcases/movies', (req, res) => {
     renderWithLayout(res, 'movies', { pageTitle: 'Movies', currentPage: 'movies', isMovies: true });
 });
 
-app.get('/movies/detail', (req, res) => {
+app.get('/showcases/movies/detail', (req, res) => {
     renderWithLayout(res, 'movie-detail', { pageTitle: 'Movie Detail', currentPage: 'movie-detail', isMovieDetail: true });
 });
 
-app.get('/movies-panel', (req, res) => {
+app.get('/showcases/movies-panel', (req, res) => {
     renderWithLayout(res, 'movies-panel', { pageTitle: 'Movies + Panel', currentPage: 'movies-panel', isMoviesPanel: true });
+});
+
+// Tools
+app.get('/tools/rtl-test', (req, res) => {
+    renderWithLayout(res, 'rtl-test', { pageTitle: 'RTL Test', currentPage: 'rtl-test', isRtlTest: true });
+});
+
+app.get('/tools/font-test', (req, res) => {
+    renderWithLayout(res, 'font-test', { pageTitle: 'Font Tuning Tool', currentPage: 'font-test' });
 });
 
 // Serve static files with cache headers (after routes so EJS takes precedence)

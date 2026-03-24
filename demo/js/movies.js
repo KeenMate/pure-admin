@@ -293,8 +293,8 @@ window.MOVIE_DATA = [
             html = '<tr><td colspan="7" style="text-align: center; padding: 3rem;">No movies found matching your filters.</td></tr>';
         } else {
             pageMovies.forEach(function (m) {
-                html += '<tr onclick="window.location.href=\'/movies/detail?id=' + m.id + '\'" style="cursor: pointer;">';
-                html += '<td><a href="/movies/detail?id=' + m.id + '" class="pa-btn pa-btn--outline-primary pa-btn--xs" onclick="event.stopPropagation()">View</a></td>';
+                html += '<tr onclick="window.location.href=\'/showcases/movies/detail?id=' + m.id + '\'" style="cursor: pointer;">';
+                html += '<td><a href="/showcases/movies/detail?id=' + m.id + '" class="pa-btn pa-btn--outline-primary pa-btn--xs" onclick="event.stopPropagation()">View</a></td>';
                 html += '<td><strong>' + m.title + '</strong></td>';
                 html += '<td>' + m.year + '</td>';
                 html += '<td>' + m.director + '</td>';

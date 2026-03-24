@@ -189,7 +189,7 @@
         '<div class="pa-field-group">' +
             '<div class="pa-field-group__title">Actions</div>' +
             '<div class="pa-btn-group">' +
-                '<a href="/movies/detail?id=' + movie.id + '" class="pa-btn pa-btn--primary pa-btn--sm"><i class="fas fa-external-link-alt"></i> Full Details</a>' +
+                '<a href="/showcases/movies/detail?id=' + movie.id + '" class="pa-btn pa-btn--primary pa-btn--sm"><i class="fas fa-external-link-alt"></i> Full Details</a>' +
             '</div>' +
         '</div>';
     }

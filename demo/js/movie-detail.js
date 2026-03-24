@@ -21,7 +21,7 @@
     }
 
     if (!movie) {
-        basicInfoEl.innerHTML = '<p>Movie not found. <a href="/movies">Back to Movies</a></p>';
+        basicInfoEl.innerHTML = '<p>Movie not found. <a href="/showcases/movies">Back to Movies</a></p>';
         return;
     }
 
