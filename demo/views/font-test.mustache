@@ -1,0 +1,647 @@
+<!-- Font Tuning Tool -->
+<!-- Helps theme authors find the right @font-face descriptor values for custom fonts -->
+
+<style>
+    .font-test-btn { min-width: 12rem; }
+    .font-test-btn.active { outline: 2px solid var(--pa-accent); outline-offset: 2px; }
+    .font-test-active { padding: 0.5rem 1rem; border-radius: 4px; background: var(--pa-accent); color: #fff; display: inline-block; }
+    #fontTestStatus { font-style: italic; color: var(--pa-text-color-2); }
+    .font-test-snippet {
+        background: var(--pa-card-bg);
+        border: 1px solid var(--pa-border-color);
+        padding: 1.2rem;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 1.2rem;
+        white-space: pre-wrap;
+        word-break: break-all;
+        position: relative;
+        max-height: 30rem;
+        overflow-y: auto;
+    }
+    .font-test-copy {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+    }
+    .font-input-row {
+        display: flex;
+        gap: 0.8rem;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+    .font-input-row .pa-form-group { flex: 1; min-width: 20rem; margin-bottom: 0; }
+    .font-tune-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        gap: 0.8rem;
+    }
+</style>
+
+<div class="pa-section">
+    <h3>Font Tuning Tool</h3>
+    <p>Find the right <code>@font-face</code> descriptor values (<code>ascent-override</code>, <code>descent-override</code>, <code>size-adjust</code>) for any Google Font. Compare against your theme's default font to match vertical positioning.</p>
+</div>
+
+<!-- Font Input -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h4>Load Font</h4>
+    </div>
+    <div class="pa-card__body">
+        <div class="font-input-row">
+            <div class="pa-form-group">
+                <label class="pa-form-label">Google Font Name</label>
+                <input type="text" class="pa-input" id="fontNameInput" placeholder="e.g. Monda, Roboto, Inter..." value="Monda">
+            </div>
+            <div class="pa-form-group" style="flex: 0 0 auto;">
+                <label class="pa-form-label">Weights</label>
+                <input type="text" class="pa-input" id="fontWeightsInput" placeholder="400;700" value="400;700" style="width: 12rem;">
+            </div>
+            <button class="pa-btn pa-btn--primary" id="loadFontBtn">Load &amp; Generate Variants</button>
+        </div>
+        <p class="mt-4" id="fontTestStatus"></p>
+    </div>
+</div>
+
+<!-- Font Switcher Buttons -->
+<div class="pa-card" id="variantPanel" style="display: none;">
+    <div class="pa-card__header">
+        <h4>Font Variants</h4>
+        <div class="pa-card__actions">
+            <span class="font-test-active" id="activeFont">Theme Default</span>
+        </div>
+    </div>
+    <div class="pa-card__body">
+
+        <h5 class="mb-4">Reference</h5>
+        <div class="font-tune-grid mb-8">
+            <button class="pa-btn pa-btn--secondary font-test-btn active" data-font="" data-label="Theme Default">Theme Default</button>
+            <button class="pa-btn pa-btn--secondary font-test-btn" data-font="normal" data-label="Normal (no overrides)">Normal (no overrides)</button>
+        </div>
+
+        <h5 class="mb-4">ascent-override</h5>
+        <p class="mb-4 text-secondary text-sm">Controls where glyphs sit vertically in the line box. Higher = glyphs move up.</p>
+        <div class="font-tune-grid mb-8" id="ascentButtons"></div>
+
+        <h5 class="mb-4">descent-override</h5>
+        <p class="mb-4 text-secondary text-sm">Controls space below the baseline. Lower = less descender space, text appears higher.</p>
+        <div class="font-tune-grid mb-8" id="descentButtons"></div>
+
+        <h5 class="mb-4">size-adjust</h5>
+        <p class="mb-4 text-secondary text-sm">Scales the font without changing font-size. Affects both horizontal and vertical.</p>
+        <div class="font-tune-grid mb-8" id="sizeButtons"></div>
+
+        <h5 class="mb-4">Combinations</h5>
+        <p class="mb-4 text-secondary text-sm">Fine-tune with multiple descriptors. Click any variant above first, then adjust here.</p>
+        <div class="pa-row" style="gap: 0.8rem; align-items: flex-end; flex-wrap: wrap;">
+            <div class="pa-form-group" style="margin-bottom: 0; min-width: 12rem;">
+                <label class="pa-form-label">ascent-override %</label>
+                <input type="number" class="pa-input" id="customAscent" value="" placeholder="e.g. 110" step="1">
+            </div>
+            <div class="pa-form-group" style="margin-bottom: 0; min-width: 12rem;">
+                <label class="pa-form-label">descent-override %</label>
+                <input type="number" class="pa-input" id="customDescent" value="" placeholder="e.g. 20" step="1">
+            </div>
+            <div class="pa-form-group" style="margin-bottom: 0; min-width: 12rem;">
+                <label class="pa-form-label">size-adjust %</label>
+                <input type="number" class="pa-input" id="customSize" value="" placeholder="e.g. 102" step="1">
+            </div>
+            <button class="pa-btn pa-btn--primary" id="applyCustomBtn">Apply Custom</button>
+        </div>
+    </div>
+</div>
+
+<!-- CSS Snippet Output -->
+<div class="pa-card" id="snippetPanel" style="display: none;">
+    <div class="pa-card__header">
+        <h4>CSS Snippet</h4>
+        <div class="pa-card__actions">
+            <button class="pa-btn pa-btn--secondary pa-btn--sm" id="copySnippetBtn">Copy</button>
+        </div>
+    </div>
+    <div class="pa-card__body pa-card__body--no-padding">
+        <div class="font-test-snippet" id="snippetOutput"></div>
+    </div>
+</div>
+
+<!-- Test Components -->
+<div class="pa-section">
+    <h3>Test Components</h3>
+</div>
+
+<div class="pa-row">
+    <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <h4>Card with Actions</h4>
+                <div class="pa-card__actions">
+                    <button class="pa-btn pa-btn--secondary pa-btn--xs">Settings</button>
+                    <button class="pa-btn pa-btn--primary pa-btn--xs">Add New</button>
+                </div>
+            </div>
+            <div class="pa-card__body">
+                <p>Check vertical alignment between the heading text and buttons in the header above.</p>
+            </div>
+            <div class="pa-card__footer">
+                <span class="pa-card__meta">Updated 2 hours ago</span>
+                <div class="pa-card__actions">
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Cancel</button>
+                    <button class="pa-btn pa-btn--primary pa-btn--sm">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-card">
+            <div class="pa-card__header">
+                <div class="pa-card__title">
+                    <span class="pa-card__title-icon">📊</span>
+                    <h4 class="pa-card__title-text">Analytics Dashboard</h4>
+                </div>
+                <div class="pa-card__actions">
+                    <button class="pa-btn pa-btn--secondary pa-btn--xs">Refresh</button>
+                </div>
+            </div>
+            <div class="pa-card__body">
+                <p>Card with title icon and action button.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-section">
+    <h4>Buttons</h4>
+    <div class="pa-row" style="gap: 0.8rem; flex-wrap: wrap; align-items: center;">
+        <button class="pa-btn pa-btn--primary pa-btn--lg">Large</button>
+        <button class="pa-btn pa-btn--primary">Default</button>
+        <button class="pa-btn pa-btn--primary pa-btn--sm">Small</button>
+        <button class="pa-btn pa-btn--primary pa-btn--xs">Extra Small</button>
+        <button class="pa-btn pa-btn--secondary">Secondary</button>
+        <button class="pa-btn pa-btn--success">Success</button>
+        <button class="pa-btn pa-btn--danger">Danger</button>
+    </div>
+</div>
+
+<div class="pa-section">
+    <h4>Inline text with badges</h4>
+    <p>This is a paragraph with a <span class="pa-badge pa-badge--primary">badge</span> and a <span class="pa-badge pa-badge--success">success badge</span> inline. How do they align?</p>
+</div>
+
+<div class="pa-table-card">
+    <div class="pa-table-card__header">
+        <h4>Sample Table</h4>
+        <div class="pa-table-card__actions">
+            <button class="pa-btn pa-btn--secondary pa-btn--sm">Export</button>
+            <button class="pa-btn pa-btn--primary pa-btn--sm">Add Row</button>
+        </div>
+    </div>
+    <div class="pa-table-card__body">
+        <table class="pa-table pa-table--striped pa-table--hover">
+            <thead>
+                <tr><th>Name</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Smith</td><td>Developer</td>
+                    <td><span class="pa-badge pa-badge--success">Active</span></td>
+                    <td><button class="pa-btn pa-btn--secondary pa-btn--xs">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Jane Doe</td><td>Designer</td>
+                    <td><span class="pa-badge pa-badge--warning">Away</span></td>
+                    <td><button class="pa-btn pa-btn--secondary pa-btn--xs">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Bob Johnson</td><td>Manager</td>
+                    <td><span class="pa-badge pa-badge--danger">Offline</span></td>
+                    <td><button class="pa-btn pa-btn--secondary pa-btn--xs">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pa-table-card__footer">
+        <span>3 records</span>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header"><h4>Form Elements</h4></div>
+    <div class="pa-card__body">
+        <div class="pa-row">
+            <div class="pa-col-100 pa-col-md-50">
+                <div class="pa-form-group">
+                    <label class="pa-form-label">Name</label>
+                    <input type="text" class="pa-input" value="John Smith">
+                </div>
+            </div>
+            <div class="pa-col-100 pa-col-md-50">
+                <div class="pa-form-group">
+                    <label class="pa-form-label">Email</label>
+                    <input type="email" class="pa-input" value="john@example.com">
+                </div>
+            </div>
+        </div>
+        <div class="pa-form-group">
+            <label class="pa-checkbox">
+                <input type="checkbox" checked>
+                <span class="pa-checkbox__box"></span>
+                <span class="pa-checkbox__label">I agree to the terms and conditions</span>
+            </label>
+        </div>
+    </div>
+    <div class="pa-card__footer">
+        <div></div>
+        <div class="pa-card__actions">
+            <button class="pa-btn pa-btn--secondary">Cancel</button>
+            <button class="pa-btn pa-btn--success">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div class="pa-card">
+    <div class="pa-card__header"><h4>Typography</h4></div>
+    <div class="pa-card__body">
+        <h1>Heading 1 — The quick brown fox</h1>
+        <h2>Heading 2 — jumps over the lazy dog</h2>
+        <h3>Heading 3 — Pack my box with five dozen</h3>
+        <h4>Heading 4 — liquor jugs 0123456789</h4>
+        <p>Body text: The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</p>
+        <p><small>Small text: The quick brown fox jumps over the lazy dog.</small></p>
+    </div>
+</div>
+
+<script>
+(function() {
+    // State
+    let fontName = '';
+    let sourceFaces = [];       // parsed @font-face blocks from Google Fonts
+    let variantStyleEl = null;  // <style> for generated variants
+    let customStyleEl = null;   // <style> for custom combo variant
+    let currentOverrides = {};  // { ascent, descent, size } — tracks active values
+
+    // DOM refs
+    const fontNameInput = document.getElementById('fontNameInput');
+    const fontWeightsInput = document.getElementById('fontWeightsInput');
+    const loadFontBtn = document.getElementById('loadFontBtn');
+    const statusEl = document.getElementById('fontTestStatus');
+    const variantPanel = document.getElementById('variantPanel');
+    const snippetPanel = document.getElementById('snippetPanel');
+    const snippetOutput = document.getElementById('snippetOutput');
+    const activeFontEl = document.getElementById('activeFont');
+    const ascentButtons = document.getElementById('ascentButtons');
+    const descentButtons = document.getElementById('descentButtons');
+    const sizeButtons = document.getElementById('sizeButtons');
+    const customAscent = document.getElementById('customAscent');
+    const customDescent = document.getElementById('customDescent');
+    const customSize = document.getElementById('customSize');
+    const applyCustomBtn = document.getElementById('applyCustomBtn');
+    const copySnippetBtn = document.getElementById('copySnippetBtn');
+
+    // Input sanitization
+    // Font names: only letters, numbers, spaces, hyphens (covers all Google Font names)
+    function sanitizeFontName(name) {
+        return name.replace(/[^a-zA-Z0-9\s\-]/g, '').trim().slice(0, 100);
+    }
+
+    // Weights: only digits and semicolons
+    function sanitizeWeights(weights) {
+        return weights.replace(/[^0-9;]/g, '').slice(0, 30);
+    }
+
+    // Numeric override value: clamp to safe range
+    function sanitizeOverride(value, min, max) {
+        const num = parseInt(value, 10);
+        if (isNaN(num)) return null;
+        return Math.max(min, Math.min(max, num));
+    }
+
+    // Variant ranges
+    const ascentValues  = [80, 85, 90, 95, 100, 105, 110, 115, 120];
+    const descentValues = [5, 10, 15, 20, 25, 30, 35, 40];
+    const sizeValues    = [90, 95, 100, 105, 110, 115];
+
+    // Build preset buttons
+    function buildButtons(container, values, prefix, cssProperty, btnClass) {
+        container.innerHTML = '';
+        for (const val of values) {
+            const btn = document.createElement('button');
+            btn.className = `pa-btn ${btnClass} font-test-btn`;
+            btn.textContent = `${prefix}: ${val}%`;
+            btn.dataset.font = `${fontName}-${prefix}${val}`;
+            btn.dataset.label = `${prefix}: ${val}%`;
+            btn.dataset.property = cssProperty;
+            btn.dataset.value = val;
+            btn.addEventListener('click', () => onPresetClick(btn));
+            container.appendChild(btn);
+        }
+    }
+
+    // Fetch and parse Google Fonts CSS
+    async function loadFont() {
+        fontName = sanitizeFontName(fontNameInput.value);
+        if (!fontName) {
+            statusEl.textContent = 'Please enter a font name (letters, numbers, spaces, hyphens only).';
+            return;
+        }
+        fontNameInput.value = fontName; // reflect sanitized value back
+
+        const weights = sanitizeWeights(fontWeightsInput.value) || '400;700';
+        fontWeightsInput.value = weights;
+        const googleParam = fontName.replace(/\s+/g, '+') + ':wght@' + weights;
+        statusEl.textContent = `Fetching ${fontName}...`;
+
+        try {
+            const fetchUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontName.replace(/\s+/g, '+') + ':wght@' + weights)}&display=swap`;
+            const resp = await fetch(fetchUrl);
+            if (!resp.ok) {
+                statusEl.textContent = `Google Fonts returned ${resp.status}. Check the font name.`;
+                return;
+            }
+            const css = await resp.text();
+
+            // Parse @font-face blocks
+            sourceFaces = [];
+            const faceRegex = /@font-face\s*\{([^}]+)\}/g;
+            let match;
+            while ((match = faceRegex.exec(css)) !== null) {
+                const block = match[1];
+                const weightMatch = block.match(/font-weight:\s*(\d+)/);
+                const srcMatch = block.match(/src:\s*([^;]+);/);
+                const rangeMatch = block.match(/unicode-range:\s*([^;]+);/);
+                if (!srcMatch) continue;
+
+                // Validate: only allow URLs from fonts.gstatic.com
+                const srcVal = srcMatch[1].trim();
+                const urlInSrc = srcVal.match(/url\(([^)]+)\)/);
+                if (!urlInSrc || !urlInSrc[1].startsWith('https://fonts.gstatic.com/')) continue;
+
+                // Validate: weight must be a number
+                const weight = weightMatch ? weightMatch[1] : '400';
+                if (!/^\d{3}$/.test(weight)) continue;
+
+                // Validate: unicode-range must only contain safe characters
+                const unicodeRange = rangeMatch ? rangeMatch[1].trim() : '';
+                if (unicodeRange && !/^[U+0-9a-fA-F,\s\-?]+$/.test(unicodeRange)) continue;
+
+                sourceFaces.push({ weight, src: srcVal, unicodeRange });
+            }
+
+            if (sourceFaces.length === 0) {
+                statusEl.textContent = 'Could not parse any @font-face blocks. Check the font name.';
+                return;
+            }
+        } catch(e) {
+            statusEl.textContent = 'Fetch failed: ' + e.message;
+            return;
+        }
+
+        // Inject the original Google Fonts CSS so the base font is available
+        injectBaseFont();
+
+        // Generate all preset variants
+        generatePresetVariants();
+
+        // Build UI buttons
+        buildButtons(ascentButtons, ascentValues, 'asc', 'ascent-override', 'pa-btn--primary');
+        buildButtons(descentButtons, descentValues, 'desc', 'descent-override', 'pa-btn--success');
+        buildButtons(sizeButtons, sizeValues, 'sz', 'size-adjust', 'pa-btn--warning');
+
+        // Show panels, reset state
+        variantPanel.style.display = '';
+        snippetPanel.style.display = 'none';
+        currentOverrides = {};
+        customAscent.value = '';
+        customDescent.value = '';
+        customSize.value = '';
+
+        // Auto-apply the font (no overrides) so user sees it
+        switchToFont(`'${fontName}', sans-serif`, `${fontName} (no overrides)`);
+        // Mark the "Normal" button active
+        document.querySelectorAll('.font-test-btn').forEach(b => b.classList.remove('active'));
+        const normalBtn = document.querySelector('.font-test-btn[data-font="normal"]');
+        if (normalBtn) normalBtn.classList.add('active');
+
+        statusEl.textContent = `Loaded ${fontName} — ${sourceFaces.length} subsets. Click variants to compare.`;
+    }
+
+    // Inject @font-face for the base font (so "Normal" reference works)
+    let baseFontStyleEl = null;
+    function injectBaseFont() {
+        if (baseFontStyleEl) baseFontStyleEl.remove();
+        baseFontStyleEl = document.createElement('style');
+        baseFontStyleEl.id = 'font-test-base';
+
+        let css = '';
+        for (const face of sourceFaces) {
+            css += `@font-face {
+    font-family: '${fontName}';
+    font-weight: ${face.weight};
+    font-display: swap;
+    src: ${face.src};
+    ${face.unicodeRange ? `unicode-range: ${face.unicodeRange};` : ''}
+}\n`;
+        }
+        baseFontStyleEl.textContent = css;
+        document.head.appendChild(baseFontStyleEl);
+    }
+
+    // Generate @font-face CSS for all preset variants
+    function generatePresetVariants() {
+        if (variantStyleEl) variantStyleEl.remove();
+        variantStyleEl = document.createElement('style');
+        variantStyleEl.id = 'font-test-variants';
+
+        let css = '';
+        const allVariants = [
+            ...ascentValues.map(v => ({ name: `${fontName}-asc${v}`, overrides: `ascent-override: ${v}%;` })),
+            ...descentValues.map(v => ({ name: `${fontName}-desc${v}`, overrides: `descent-override: ${v}%;` })),
+            ...sizeValues.map(v => ({ name: `${fontName}-sz${v}`, overrides: `size-adjust: ${v}%;` })),
+        ];
+
+        for (const variant of allVariants) {
+            for (const face of sourceFaces) {
+                css += `@font-face {
+    font-family: '${variant.name}';
+    font-weight: ${face.weight};
+    font-display: swap;
+    src: ${face.src};
+    ${face.unicodeRange ? `unicode-range: ${face.unicodeRange};` : ''}
+    ${variant.overrides}
+}\n`;
+            }
+        }
+
+        variantStyleEl.textContent = css;
+        document.head.appendChild(variantStyleEl);
+    }
+
+    // Generate @font-face for a custom combination
+    function generateCustomVariant(ascent, descent, size) {
+        if (customStyleEl) customStyleEl.remove();
+        customStyleEl = document.createElement('style');
+        customStyleEl.id = 'font-test-custom';
+
+        const customName = `${fontName}-custom`;
+        let overrides = '';
+        if (ascent)  overrides += `ascent-override: ${ascent}%; `;
+        if (descent) overrides += `descent-override: ${descent}%; `;
+        if (size)    overrides += `size-adjust: ${size}%; `;
+
+        let css = '';
+        for (const face of sourceFaces) {
+            css += `@font-face {
+    font-family: '${customName}';
+    font-weight: ${face.weight};
+    font-display: swap;
+    src: ${face.src};
+    ${face.unicodeRange ? `unicode-range: ${face.unicodeRange};` : ''}
+    ${overrides.trim()}
+}\n`;
+        }
+
+        customStyleEl.textContent = css;
+        document.head.appendChild(customStyleEl);
+        return customName;
+    }
+
+    // Switch active font
+    function switchToFont(family, label) {
+        if (family) {
+            document.body.style.setProperty('--base-font-family', family);
+        } else {
+            document.body.style.removeProperty('--base-font-family');
+        }
+        activeFontEl.textContent = label;
+    }
+
+    // Handle preset button click
+    function onPresetClick(btn) {
+        document.querySelectorAll('.font-test-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const variantFamily = btn.dataset.font;
+        const label = btn.dataset.label;
+        switchToFont(`'${variantFamily}', sans-serif`, label);
+
+        // Update custom inputs to reflect this preset
+        const prop = btn.dataset.property;
+        const val = btn.dataset.value;
+        if (prop === 'ascent-override')  { currentOverrides.ascent = val; customAscent.value = val; }
+        if (prop === 'descent-override') { currentOverrides.descent = val; customDescent.value = val; }
+        if (prop === 'size-adjust')      { currentOverrides.size = val; customSize.value = val; }
+
+        updateSnippet();
+    }
+
+    // Handle reference buttons (Theme Default / Normal)
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.font-test-btn[data-font=""], .font-test-btn[data-font="normal"]');
+        if (!btn) return;
+
+        document.querySelectorAll('.font-test-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (btn.dataset.font === '') {
+            switchToFont('', 'Theme Default');
+            currentOverrides = {};
+            customAscent.value = '';
+            customDescent.value = '';
+            customSize.value = '';
+            snippetPanel.style.display = 'none';
+        } else {
+            switchToFont(`'${fontName}', sans-serif`, `${fontName} (no overrides)`);
+            snippetPanel.style.display = 'none';
+        }
+        currentOverrides = {};
+        customAscent.value = '';
+        customDescent.value = '';
+        customSize.value = '';
+    });
+
+    // Apply custom combination
+    applyCustomBtn.addEventListener('click', () => {
+        const ascent = sanitizeOverride(customAscent.value, 50, 200);
+        const descent = sanitizeOverride(customDescent.value, 0, 100);
+        const size = sanitizeOverride(customSize.value, 50, 200);
+
+        // Reflect sanitized values back
+        if (ascent !== null) customAscent.value = ascent;
+        if (descent !== null) customDescent.value = descent;
+        if (size !== null) customSize.value = size;
+
+        if (ascent === null && descent === null && size === null) return;
+
+        currentOverrides = {};
+        if (ascent) currentOverrides.ascent = ascent;
+        if (descent) currentOverrides.descent = descent;
+        if (size) currentOverrides.size = size;
+
+        const customName = generateCustomVariant(ascent, descent, size);
+
+        // Build label
+        const parts = [];
+        if (ascent) parts.push(`asc:${ascent}%`);
+        if (descent) parts.push(`desc:${descent}%`);
+        if (size) parts.push(`sz:${size}%`);
+        const label = `Custom (${parts.join(' + ')})`;
+
+        document.querySelectorAll('.font-test-btn').forEach(b => b.classList.remove('active'));
+        switchToFont(`'${customName}', sans-serif`, label);
+        updateSnippet();
+    });
+
+    // Update the CSS snippet output
+    function updateSnippet() {
+        if (!currentOverrides.ascent && !currentOverrides.descent && !currentOverrides.size) {
+            snippetPanel.style.display = 'none';
+            return;
+        }
+
+        let overrideLines = '';
+        if (currentOverrides.ascent) overrideLines += `    ascent-override: ${currentOverrides.ascent}%;\n`;
+        if (currentOverrides.descent) overrideLines += `    descent-override: ${currentOverrides.descent}%;\n`;
+        if (currentOverrides.size) overrideLines += `    size-adjust: ${currentOverrides.size}%;\n`;
+
+        // Get unique weights from source faces
+        const weights = [...new Set(sourceFaces.map(f => f.weight))];
+
+        let snippet = `/* ${fontName} — baseline-adjusted @font-face */\n`;
+        for (const weight of weights) {
+            snippet += `@font-face {\n`;
+            snippet += `    font-family: '${fontName}';\n`;
+            snippet += `    font-weight: ${weight};\n`;
+            snippet += `    font-display: swap;\n`;
+            snippet += `    src: url('path/to/${fontName.toLowerCase().replace(/\s+/g, '-')}-${weight}.woff2') format('woff2');\n`;
+            snippet += overrideLines;
+            snippet += `}\n\n`;
+        }
+
+        snippet += `/* Usage in theme SCSS */\n`;
+        snippet += `$base-font-family: '${fontName}', sans-serif;\n`;
+
+        snippetOutput.textContent = snippet;
+        snippetPanel.style.display = '';
+    }
+
+    // Copy snippet
+    copySnippetBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(snippetOutput.textContent).then(() => {
+            const orig = copySnippetBtn.textContent;
+            copySnippetBtn.textContent = 'Copied!';
+            setTimeout(() => { copySnippetBtn.textContent = orig; }, 1500);
+        });
+    });
+
+    // Load on button click or Enter
+    loadFontBtn.addEventListener('click', loadFont);
+    fontNameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') loadFont();
+    });
+
+    // Auto-load if input has a value
+    if (fontNameInput.value.trim()) {
+        loadFont();
+    }
+})();
+</script>

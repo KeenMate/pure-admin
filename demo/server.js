@@ -326,6 +326,10 @@ app.get('/cards', (req, res) => {
     renderWithLayout(res, 'cards', { pageTitle: 'Cards', currentPage: 'cards', isCards: true });
 });
 
+app.get('/font-test', (req, res) => {
+    renderWithLayout(res, 'font-test', { pageTitle: 'Font Baseline Test', currentPage: 'font-test' });
+});
+
 app.get('/sizing', (req, res) => {
     renderWithLayout(res, 'sizing', { pageTitle: 'Sizing & Layout', currentPage: 'sizing', isSizing: true });
 });
