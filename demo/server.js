@@ -452,8 +452,8 @@ app.get('/timeline/block', (req, res) => {
     renderWithLayout(res, 'timeline-block', { pageTitle: 'Timeline Block', currentPage: 'timeline-block', isTimelineBlock: true });
 });
 
-app.get('/timeline/advanced', (req, res) => {
-    renderWithLayout(res, 'timeline', { pageTitle: 'Timeline', currentPage: 'timeline', isTimeline: true });
+app.get('/timeline/feed', (req, res) => {
+    renderWithLayout(res, 'timeline', { pageTitle: 'Timeline Feed', currentPage: 'timeline', isTimeline: true });
 });
 
 // Virtual Scroll

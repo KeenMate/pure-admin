@@ -5,6 +5,15 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Demo: remove redundant page headers**: Removed `<h2>` page titles from timeline, grid, and virtual-scroll demo pages — the page title is already shown in the layout
+- **Demo: rename `/timeline/advanced` → `/timeline/feed`**: Route and page title now match the actual content (feed-style timeline)
+
+---
+
 ## [2.1.1] - 2026-03-22
 
 ### Fixed
