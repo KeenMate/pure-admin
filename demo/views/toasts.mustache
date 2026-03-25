@@ -149,6 +149,54 @@
                 </div>
             </div>
 
+            <!-- Filled Toast Variants -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Filled Toast Variants</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-btn-group">
+                        <button class="pa-btn pa-btn--primary" onclick="showFilledToast('primary')">Primary</button>
+                        <button class="pa-btn pa-btn--success" onclick="showFilledToast('success')">Success</button>
+                        <button class="pa-btn pa-btn--danger" onclick="showFilledToast('danger')">Danger</button>
+                        <button class="pa-btn pa-btn--warning" onclick="showFilledToast('warning')">Warning</button>
+                        <button class="pa-btn pa-btn--info" onclick="showFilledToast('info')">Info</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Color Toasts -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Theme Color Toasts</h3>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-btn-group">
+                        <button class="pa-btn pa-btn--color-1" onclick="showThemeColorToast(1)">Color 1</button>
+                        <button class="pa-btn pa-btn--color-2" onclick="showThemeColorToast(2)">Color 2</button>
+                        <button class="pa-btn pa-btn--color-3" onclick="showThemeColorToast(3)">Color 3</button>
+                        <button class="pa-btn pa-btn--color-4" onclick="showThemeColorToast(4)">Color 4</button>
+                        <button class="pa-btn pa-btn--color-5" onclick="showThemeColorToast(5)">Color 5</button>
+                        <button class="pa-btn pa-btn--color-6" onclick="showThemeColorToast(6)">Color 6</button>
+                        <button class="pa-btn pa-btn--color-7" onclick="showThemeColorToast(7)">Color 7</button>
+                        <button class="pa-btn pa-btn--color-8" onclick="showThemeColorToast(8)">Color 8</button>
+                        <button class="pa-btn pa-btn--color-9" onclick="showThemeColorToast(9)">Color 9</button>
+                    </div>
+                    <h4 class="mt-4">Filled</h4>
+                    <div class="pa-btn-group">
+                        <button class="pa-btn pa-btn--color-1" onclick="showFilledThemeColorToast(1)">Color 1</button>
+                        <button class="pa-btn pa-btn--color-2" onclick="showFilledThemeColorToast(2)">Color 2</button>
+                        <button class="pa-btn pa-btn--color-3" onclick="showFilledThemeColorToast(3)">Color 3</button>
+                        <button class="pa-btn pa-btn--color-4" onclick="showFilledThemeColorToast(4)">Color 4</button>
+                        <button class="pa-btn pa-btn--color-5" onclick="showFilledThemeColorToast(5)">Color 5</button>
+                        <button class="pa-btn pa-btn--color-6" onclick="showFilledThemeColorToast(6)">Color 6</button>
+                        <button class="pa-btn pa-btn--color-7" onclick="showFilledThemeColorToast(7)">Color 7</button>
+                        <button class="pa-btn pa-btn--color-8" onclick="showFilledThemeColorToast(8)">Color 8</button>
+                        <button class="pa-btn pa-btn--color-9" onclick="showFilledThemeColorToast(9)">Color 9</button>
+                    </div>
+                </div>
+            </div>
+
 <!-- CSS Classes Reference -->
 <div class="pa-card">
     <div class="pa-card__header">
@@ -186,6 +234,13 @@
             <li><code>pa-toast--danger</code> - Danger/error (red)</li>
             <li><code>pa-toast--warning</code> - Warning (yellow/orange)</li>
             <li><code>pa-toast--info</code> - Information (blue)</li>
+            <li><code>pa-toast--color-{1-9}</code> - Theme color slots</li>
+            <li><code>pa-toast--filled-primary</code> - Filled primary</li>
+            <li><code>pa-toast--filled-success</code> - Filled success</li>
+            <li><code>pa-toast--filled-danger</code> - Filled danger</li>
+            <li><code>pa-toast--filled-warning</code> - Filled warning</li>
+            <li><code>pa-toast--filled-info</code> - Filled info</li>
+            <li><code>pa-toast--filled-color-{1-9}</code> - Filled theme color slots</li>
         </ul>
     </div>
 </div>
@@ -232,6 +287,30 @@ function showMultipleToasts() {
     setTimeout(() => {
         PureAdmin.toast.info('This is the third notification', { title: 'Third Toast' });
     }, 600);
+}
+
+function showFilledToast(variant) {
+    PureAdmin.toast.show({
+        variant: 'filled-' + variant,
+        title: 'Filled ' + variant.charAt(0).toUpperCase() + variant.slice(1),
+        message: toastMessages[variant]
+    });
+}
+
+function showThemeColorToast(n) {
+    PureAdmin.toast.show({
+        variant: 'color-' + n,
+        title: 'Color ' + n,
+        message: 'This is a theme color slot ' + n + ' toast notification.'
+    });
+}
+
+function showFilledThemeColorToast(n) {
+    PureAdmin.toast.show({
+        variant: 'filled-color-' + n,
+        title: 'Filled Color ' + n,
+        message: 'This is a filled theme color slot ' + n + ' toast notification.'
+    });
 }
 
 function showPersistentToast(variant) {

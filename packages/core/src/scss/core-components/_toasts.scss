@@ -291,6 +291,99 @@
   }
 }
 
+// Theme color slot variants (color-1 through color-9)
+@for $i from 1 through 9 {
+  .pa-toast--color-#{$i} {
+    border-color: var(--pa-color-#{$i});
+
+    .pa-toast__icon {
+      background-color: color-mix(in srgb, var(--pa-color-#{$i}) 15%, transparent);
+      color: var(--pa-color-#{$i});
+    }
+
+    .pa-toast__progress {
+      color: var(--pa-color-#{$i});
+    }
+  }
+}
+
+// ===== FILLED TOAST VARIANTS =====
+
+.pa-toast--filled-primary {
+  background-color: var(--pa-btn-primary-bg);
+  border-color: var(--pa-btn-primary-bg);
+  color: var(--pa-btn-primary-text);
+
+  .pa-toast__title,
+  .pa-toast__message { color: inherit; }
+  .pa-toast__icon { background-color: rgba(255, 255, 255, 0.2); color: inherit; }
+  .pa-toast__close { color: inherit; }
+  .pa-toast__progress { color: rgba(255, 255, 255, 0.5); }
+}
+
+.pa-toast--filled-success {
+  background-color: var(--pa-btn-success-bg);
+  border-color: var(--pa-btn-success-bg);
+  color: var(--pa-btn-success-text);
+
+  .pa-toast__title,
+  .pa-toast__message { color: inherit; }
+  .pa-toast__icon { background-color: rgba(255, 255, 255, 0.2); color: inherit; }
+  .pa-toast__close { color: inherit; }
+  .pa-toast__progress { color: rgba(255, 255, 255, 0.5); }
+}
+
+.pa-toast--filled-danger {
+  background-color: var(--pa-btn-danger-bg);
+  border-color: var(--pa-btn-danger-bg);
+  color: var(--pa-btn-danger-text);
+
+  .pa-toast__title,
+  .pa-toast__message { color: inherit; }
+  .pa-toast__icon { background-color: rgba(255, 255, 255, 0.2); color: inherit; }
+  .pa-toast__close { color: inherit; }
+  .pa-toast__progress { color: rgba(255, 255, 255, 0.5); }
+}
+
+.pa-toast--filled-warning {
+  background-color: var(--pa-btn-warning-bg);
+  border-color: var(--pa-btn-warning-bg);
+  color: var(--pa-btn-warning-text);
+
+  .pa-toast__title,
+  .pa-toast__message { color: inherit; }
+  .pa-toast__icon { background-color: rgba(255, 255, 255, 0.2); color: inherit; }
+  .pa-toast__close { color: inherit; }
+  .pa-toast__progress { color: rgba(255, 255, 255, 0.5); }
+}
+
+.pa-toast--filled-info {
+  background-color: var(--pa-btn-info-bg);
+  border-color: var(--pa-btn-info-bg);
+  color: var(--pa-btn-info-text);
+
+  .pa-toast__title,
+  .pa-toast__message { color: inherit; }
+  .pa-toast__icon { background-color: rgba(255, 255, 255, 0.2); color: inherit; }
+  .pa-toast__close { color: inherit; }
+  .pa-toast__progress { color: rgba(255, 255, 255, 0.5); }
+}
+
+// Filled theme color slot variants (color-1 through color-9)
+@for $i from 1 through 9 {
+  .pa-toast--filled-color-#{$i} {
+    background-color: var(--pa-color-#{$i});
+    border-color: var(--pa-color-#{$i});
+    color: var(--pa-color-#{$i}-text);
+
+    .pa-toast__title,
+    .pa-toast__message { color: inherit; }
+    .pa-toast__icon { background-color: rgba(255, 255, 255, 0.2); color: inherit; }
+    .pa-toast__close { color: inherit; }
+    .pa-toast__progress { color: rgba(255, 255, 255, 0.5); }
+  }
+}
+
 // ===== RESPONSIVE =====
 
 @media (max-width: $mobile-breakpoint) {

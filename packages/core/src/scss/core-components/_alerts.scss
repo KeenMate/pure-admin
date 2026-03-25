@@ -106,6 +106,21 @@
     background-color: transparent;
   }
 
+  // Theme color slot variants (color-1 through color-9)
+  @for $i from 1 through 9 {
+    &--color-#{$i} {
+      color: var(--pa-color-#{$i}-text);
+      background-color: var(--pa-color-#{$i});
+      border-color: var(--pa-color-#{$i});
+    }
+
+    &--outline-color-#{$i} {
+      color: var(--pa-color-#{$i});
+      border-color: var(--pa-color-#{$i});
+      background-color: transparent;
+    }
+  }
+
   // Alert sizes (size modifiers only change font-size, padding controlled by theme)
   &--sm {
     padding: $alert-padding-v $alert-padding-h;

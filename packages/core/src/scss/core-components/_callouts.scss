@@ -54,6 +54,14 @@
     background-color: var(--pa-info-bg-subtle);
   }
 
+  // Theme color slot variants (color-1 through color-9)
+  @for $i from 1 through 9 {
+    &--color-#{$i} {
+      border-inline-start-color: var(--pa-color-#{$i});
+      background-color: color-mix(in srgb, var(--pa-color-#{$i}) 10%, transparent);
+    }
+  }
+
   // Callout sizes
   &--sm {
     padding: $spacing-sm $spacing-md;

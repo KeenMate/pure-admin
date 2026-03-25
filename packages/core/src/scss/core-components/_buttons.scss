@@ -204,6 +204,30 @@
     }
   }
 
+  // Theme color slot variants (color-1 through color-9)
+  @for $i from 1 through 9 {
+    &--color-#{$i} {
+      background-color: var(--pa-color-#{$i});
+      border-color: var(--pa-color-#{$i});
+      color: var(--pa-color-#{$i}-text);
+
+      &:hover {
+        filter: brightness($btn-hover-brightness);
+      }
+    }
+
+    &--outline-color-#{$i} {
+      background-color: transparent;
+      border-color: var(--pa-color-#{$i});
+      color: var(--pa-color-#{$i});
+
+      &:hover {
+        background-color: var(--pa-color-#{$i});
+        color: var(--pa-color-#{$i}-text);
+      }
+    }
+  }
+
   // Button states
   &:disabled {
     opacity: $btn-disabled-opacity;

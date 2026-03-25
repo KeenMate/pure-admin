@@ -4,17 +4,15 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 
 ## What's New in 2.2.0
 
-- **Unified card actions naming** — `pa-card__tools` replaced with `pa-card__actions` across both `pa-card` and `pa-table-card`. Header and footer now use the same element name, disambiguated by context
-- **Font Tuning Tool** (`/font-test`) — Developer utility for finding the right `@font-face` descriptor values (`ascent-override`, `descent-override`, `size-adjust`) when using custom fonts. Loads any Google Font, generates variants for visual comparison, and outputs a copyable CSS snippet
+- **Theme color slots (1-9) across components** — Alerts, callouts, toasts, and buttons now support `--color-{1-9}` and `--outline-color-{1-9}` variants using the 9 custom theme color slots. Themes that define `$color-1` through `$color-9` get matching component styles automatically
+- **Filled toast variants** — New `pa-toast--filled-*` variants with full-color backgrounds, contrast text, and semi-transparent progress bars. Available for all standard colors and theme color slots
+- **Unified card actions naming** — `pa-card__tools` replaced with `pa-card__actions` across both `pa-card` and `pa-table-card`
+- **Font Tuning Tool** (`/font-test`) — Developer utility for finding the right `@font-face` descriptor values when using custom fonts
 
 ## What's New in 2.1.0
 
-- **Split Button** (`pa-btn-split`) — Primary action + dropdown toggle with Floating UI positioning, RTL support, custom icons, upward placement, and size variants
-- **Filter Card** (`pa-filter-card`) — Expandable filter card with inline filters row, actions, and collapsible advanced section
-- **Responsive grid table hover fix** — Card-style tables no longer highlight all cells on hover
-- **Mobile sidebar burger fix** — Sidebar behavior modes no longer show X instead of hamburger on mobile
-- **Sidebar resize fix** — Resize no longer blocked in icon-collapse mode when sidebar is expanded; disabled on mobile
-- **Actions column consistency** — All demo tables now show Actions as the first column
+- **Unified card actions naming** — `pa-card__tools` replaced with `pa-card__actions` across both `pa-card` and `pa-table-card`. Header and footer now use the same element name, disambiguated by context
+- **Font Tuning Tool** (`/font-test`) — Developer utility for finding the right `@font-face` descriptor values (`ascent-override`, `descent-override`, `size-adjust`) when using custom fonts. Loads any Google Font, generates variants for visual comparison, and outputs a copyable CSS snippet
 
 ## Installation
 

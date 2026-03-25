@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [2.2.0] - 2026-03-25
+
+### Added
+
+- **Theme color slot variants for Alerts**: New `pa-alert--color-{1-9}` (filled) and `pa-alert--outline-color-{1-9}` (outline) variants that use the 9 custom theme color slots (`$color-1` through `$color-9`). Themes that define these slots now get matching alert styles automatically
+- **Theme color slot variants for Callouts**: New `pa-callout--color-{1-9}` variants with left border accent in the theme color and a 10% tinted background
+- **Theme color slot variants for Toasts**: New `pa-toast--color-{1-9}` (bordered with tinted icon) and `pa-toast--filled-color-{1-9}` (full background with contrast text) variants
+- **Filled toast variants**: New `pa-toast--filled-primary`, `filled-success`, `filled-danger`, `filled-warning`, `filled-info` — full-color background toasts with contrast text, semi-transparent icon backgrounds, and matching progress bars
+- **Theme color slot variants for Buttons**: New `pa-btn--color-{1-9}` (filled) and `pa-btn--outline-color-{1-9}` (outline) button variants. Filled buttons use `brightness()` filter on hover; outline buttons fill with the color on hover
+
 ### Changed
 
 - **Demo: remove redundant page headers**: Removed `<h2>` page titles from timeline, grid, and virtual-scroll demo pages — the page title is already shown in the layout
