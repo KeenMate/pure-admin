@@ -92,7 +92,14 @@
       "Bash(cd:*)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:hackr.io)"
+      "WebFetch(domain:hackr.io)",
+      "Bash(sed -i 's/\"\"version\"\": \"\"2.1.0\"\"/\"\"version\"\": \"\"2.2.0\"\"/g' */theme.json)",
+      "Bash(sed -i 's/\"\"core\"\": \"\"\\\\^2.1.0\"\"/\"\"core\"\": \"\"\\\\^2.2.0\"\"/g' */theme.json)",
+      "Bash(sed -i 's/\"\"version\"\": \"\"2.1.0\"\"/\"\"version\"\": \"\"2.2.0\"\"/' package.json)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's/\"\"version\"\": \"\"2.2.0\"\"/\"\"version\"\": \"\"2.3.0\"\"/' \"$f\")",
+      "Bash(grep '\"\"version\"\"' ../pure-admin-themes/*/theme.json)"
     ],
     "deny": [],
     "ask": []

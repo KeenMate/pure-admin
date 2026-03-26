@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.3.0] - 2026-03-26
+
+### Added
+
+- **Toast action buttons (`pa-toast__actions`):** New BEM element for action buttons inside toasts — renders as a flex row separated from content by a border-top. Filled toast variants get a semi-transparent white separator. Buttons keep their own variant styling
+- **Toast service: `actions` option:** Array of `{ label, variant, onClick }` — renders `pa-btn--xs` buttons in `pa-toast__actions`. Clicking an action fires `onClick(toastId)` then auto-dismisses. Toasts with actions are not click-to-dismiss
+- **Toast service: `maxWidth` option:** Custom max-width per toast (e.g. `'50rem'`, `'500px'`)
+- **Toast service: width ratchet:** Container `min-width` ratchets up to the widest toast shown — shorter toasts don't shrink when a wider one disappears. Resets when container is empty
+
+### Changed
+
+- **Toast progress bar:** Increased height from 3px to 5px and opacity from 0.3 to 0.6 for better visibility
+- **Toast service (demo):** Added `filled` and `progressColor` options to `createToast()` — `filled: true` uses `pa-toast--filled-{variant}` class, `progressColor` overrides the progress bar color via inline style
+- **Toast demo page:** Replaced single progress toast button with preset buttons showing standard, filled, and custom progress color combinations. Replaced fake "Action Toasts" section with real action toast demos (Undo, Retry, Update, Filled + Actions)
+- **Colors demo page:** Added note explaining the light-to-dark ordering convention for theme color slots 1-9
+
+---
+
 ## [2.2.0] - 2026-03-25
 
 ### Added

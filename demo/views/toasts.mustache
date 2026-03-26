@@ -75,10 +75,29 @@
                     <h3>Toast with Progress Bar</h3>
                 </div>
                 <div class="pa-card__body">
-                    <button class="pa-btn pa-btn--primary" onclick="showProgressToast()">
-                        Show Toast with Progress
-                    </button>
-                    <p class="pa-text pa-text--secondary mt-4">
+                    <h4>Standard</h4>
+                    <div class="pa-btn-group mb-4">
+                        <button class="pa-btn pa-btn--primary" onclick="showProgressToast('primary')">Primary</button>
+                        <button class="pa-btn pa-btn--success" onclick="showProgressToast('success')">Success</button>
+                        <button class="pa-btn pa-btn--danger" onclick="showProgressToast('danger')">Danger</button>
+                        <button class="pa-btn pa-btn--warning" onclick="showProgressToast('warning')">Warning</button>
+                        <button class="pa-btn pa-btn--info" onclick="showProgressToast('info')">Info</button>
+                    </div>
+                    <h4>Filled</h4>
+                    <div class="pa-btn-group mb-4">
+                        <button class="pa-btn pa-btn--primary" onclick="showProgressToast('primary', { filled: true })">Primary</button>
+                        <button class="pa-btn pa-btn--success" onclick="showProgressToast('success', { filled: true })">Success</button>
+                        <button class="pa-btn pa-btn--danger" onclick="showProgressToast('danger', { filled: true })">Danger</button>
+                        <button class="pa-btn pa-btn--warning" onclick="showProgressToast('warning', { filled: true })">Warning</button>
+                        <button class="pa-btn pa-btn--info" onclick="showProgressToast('info', { filled: true })">Info</button>
+                    </div>
+                    <h4>Custom progress color</h4>
+                    <div class="pa-btn-group mb-4">
+                        <button class="pa-btn pa-btn--primary" onclick="showProgressToast('primary', { progressColor: '#e74c3c' })">Primary + Red bar</button>
+                        <button class="pa-btn pa-btn--success" onclick="showProgressToast('success', { filled: true, progressColor: '#fff' })">Filled Success + White bar</button>
+                        <button class="pa-btn pa-btn--danger" onclick="showProgressToast('info', { progressColor: '#f39c12' })">Info + Orange bar</button>
+                    </div>
+                    <p class="pa-text pa-text--secondary">
                         Progress bar shows time remaining before auto-dismiss (5 seconds)
                     </p>
                 </div>
@@ -119,17 +138,20 @@
                     <h3>Action Toasts</h3>
                 </div>
                 <div class="pa-card__body">
-                    <div class="pa-row">
-                        <div class="pa-col-100 pa-col-md-50">
-                            <button class="pa-btn pa-btn--success" onclick="showActionToast('File uploaded successfully!', 'success')">
-                                Upload Success
-                            </button>
-                        </div>
-                        <div class="pa-col-100 pa-col-md-50">
-                            <button class="pa-btn pa-btn--danger" onclick="showActionToast('Failed to save changes', 'danger')">
-                                Save Error
-                            </button>
-                        </div>
+                    <p class="pa-text pa-text--secondary mb-4">Toasts with action buttons separated by a horizontal rule. Clicking an action dismisses the toast.</p>
+                    <div class="pa-btn-group">
+                        <button class="pa-btn pa-btn--warning" onclick="showUndoToast()">
+                            Undo Delete
+                        </button>
+                        <button class="pa-btn pa-btn--danger" onclick="showRetryToast()">
+                            Retry Failed
+                        </button>
+                        <button class="pa-btn pa-btn--info" onclick="showUpdateToast()">
+                            Update Available
+                        </button>
+                        <button class="pa-btn pa-btn--success" onclick="showFeedbackToast()">
+                            Filled + Actions
+                        </button>
                     </div>
                 </div>
             </div>
@@ -268,15 +290,65 @@ function showToastVariant(variant) {
     PureAdmin.toast[variant](toastMessages[variant]);
 }
 
-function showProgressToast() {
-    PureAdmin.toast.primary('Your request is being processed...', {
+function showProgressToast(variant, opts = {}) {
+    PureAdmin.toast.show({
+        variant,
         title: 'Processing',
-        showProgress: true
+        message: 'Your request is being processed...',
+        showProgress: true,
+        ...opts
     });
 }
 
-function showActionToast(message, variant) {
-    PureAdmin.toast[variant === 'danger' ? 'error' : variant](message);
+function showUndoToast() {
+    PureAdmin.toast.show({
+        variant: 'warning',
+        title: 'Item Deleted',
+        message: '3 items have been moved to trash.',
+        persistent: true,
+        actions: [
+            { label: 'Undo', variant: 'warning', onClick: () => console.log('Undo clicked') },
+            { label: 'Dismiss', variant: 'secondary' }
+        ]
+    });
+}
+
+function showRetryToast() {
+    PureAdmin.toast.show({
+        variant: 'danger',
+        title: 'Upload Failed',
+        message: 'Could not upload report.pdf — connection timed out.',
+        persistent: true,
+        actions: [
+            { label: 'Retry', variant: 'danger', onClick: () => console.log('Retry clicked') },
+            { label: 'Cancel', variant: 'secondary' }
+        ]
+    });
+}
+
+function showUpdateToast() {
+    PureAdmin.toast.show({
+        variant: 'info',
+        title: 'Update Available',
+        message: 'Version 2.3.0 is ready to install.',
+        persistent: true,
+        actions: [
+            { label: 'Update Now', variant: 'primary', onClick: () => console.log('Update clicked') },
+            { label: 'Later', variant: 'secondary' }
+        ]
+    });
+}
+
+function showFeedbackToast() {
+    PureAdmin.toast.show({
+        variant: 'success',
+        filled: true,
+        title: 'Changes Saved',
+        message: 'Your settings have been updated successfully.',
+        actions: [
+            { label: 'View Changes', variant: 'primary', onClick: () => console.log('View clicked') }
+        ]
+    });
 }
 
 function showMultipleToasts() {
@@ -291,7 +363,8 @@ function showMultipleToasts() {
 
 function showFilledToast(variant) {
     PureAdmin.toast.show({
-        variant: 'filled-' + variant,
+        variant,
+        filled: true,
         title: 'Filled ' + variant.charAt(0).toUpperCase() + variant.slice(1),
         message: toastMessages[variant]
     });
@@ -307,7 +380,8 @@ function showThemeColorToast(n) {
 
 function showFilledThemeColorToast(n) {
     PureAdmin.toast.show({
-        variant: 'filled-color-' + n,
+        variant: 'color-' + n,
+        filled: true,
         title: 'Filled Color ' + n,
         message: 'This is a filled theme color slot ' + n + ' toast notification.'
     });

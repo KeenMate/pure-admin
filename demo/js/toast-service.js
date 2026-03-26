@@ -83,7 +83,11 @@
       position = defaults.position,
       duration = defaults.duration,
       showProgress = defaults.showProgress,
-      persistent = defaults.persistent
+      persistent = defaults.persistent,
+      filled = false,
+      progressColor = null,
+      actions = null, // Array of { label, variant, onClick }
+      maxWidth = null // Custom max-width (e.g. '50rem', '500px')
     } = options;
 
     // Generate unique ID
@@ -94,21 +98,36 @@
 
     // Create toast element
     const toast = document.createElement('div');
-    toast.className = `pa-toast pa-toast--${variant}`;
+    const variantClass = filled ? `pa-toast--filled-${variant}` : `pa-toast--${variant}`;
+    toast.className = `pa-toast ${variantClass}`;
     toast.id = toastId;
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'polite');
+    if (maxWidth) toast.style.maxWidth = maxWidth;
 
     // Build toast HTML
+    const progressStyle = progressColor
+      ? `width: 100%; color: ${progressColor};`
+      : 'width: 100%;';
     const progressHtml = showProgress && !persistent
-      ? '<div class="pa-toast__progress" style="width: 100%;"></div>'
+      ? `<div class="pa-toast__progress" style="${progressStyle}"></div>`
       : '';
+
+    // Build actions HTML
+    let actionsHtml = '';
+    if (actions && actions.length) {
+      const btns = actions.map(a =>
+        `<button class="pa-btn pa-btn--xs pa-btn--${a.variant || 'secondary'}" data-action="${escapeHtml(a.label)}">${escapeHtml(a.label)}</button>`
+      ).join('');
+      actionsHtml = `<div class="pa-toast__actions">${btns}</div>`;
+    }
 
     toast.innerHTML = `
       <div class="pa-toast__icon">${icons[variant] || 'ℹ'}</div>
       <div class="pa-toast__content">
         <div class="pa-toast__title">${escapeHtml(title)}</div>
         <div class="pa-toast__message">${escapeHtml(message)}</div>
+        ${actionsHtml}
       </div>
       <button class="pa-toast__close" aria-label="Close">✕</button>
       ${progressHtml}
@@ -124,13 +143,37 @@
       dismissToast(toastId);
     });
 
-    // Make all toasts clickable to dismiss
-    toast.style.cursor = 'pointer';
-    toast.addEventListener('click', () => dismissToast(toastId));
+    // Attach action button handlers
+    if (actions && actions.length) {
+      const actionBtns = toast.querySelectorAll('.pa-toast__actions .pa-btn');
+      actionBtns.forEach((btn, i) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (actions[i].onClick) actions[i].onClick(toastId);
+          dismissToast(toastId);
+        });
+      });
+    }
 
-    // Show toast with animation
+    // Make toasts without actions clickable to dismiss
+    if (!actions || !actions.length) {
+      toast.style.cursor = 'pointer';
+      toast.addEventListener('click', () => dismissToast(toastId));
+    }
+
+    // Show toast with animation, then ratchet container min-width
     setTimeout(() => {
       toast.classList.add('pa-toast--show');
+
+      // Ratchet: once visible, lock container to its peak width
+      requestAnimationFrame(() => {
+        const currentWidth = container.offsetWidth;
+        const peakWidth = parseInt(container.dataset.peakWidth || '0', 10);
+        if (currentWidth > peakWidth) {
+          container.dataset.peakWidth = currentWidth;
+          container.style.minWidth = currentWidth + 'px';
+        }
+      });
     }, 10);
 
     // Progress bar animation
@@ -166,7 +209,14 @@
 
     setTimeout(() => {
       if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
+        const container = toast.parentNode;
+        container.removeChild(toast);
+
+        // Reset peak width when container is empty
+        if (!container.querySelector('.pa-toast')) {
+          container.style.minWidth = '';
+          container.dataset.peakWidth = '0';
+        }
       }
     }, 300); // Match toast transition time
   }

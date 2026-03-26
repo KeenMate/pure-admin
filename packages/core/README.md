@@ -2,17 +2,16 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.3.0
+
+- **Toast action buttons** — New `pa-toast__actions` element for action buttons inside toasts, separated by a border-top. Toast service supports `actions: [{ label, variant, onClick }]` with auto-dismiss on click
+- **Toast service improvements** — `filled`, `progressColor`, and `maxWidth` options. Container width ratchets up to the widest toast shown, preventing layout jitter when toasts dismiss
+- **Toast progress bar** — More visible: 5px height, 0.6 opacity (was 3px / 0.3)
+
 ## What's New in 2.2.0
 
 - **Theme color slots (1-9) across components** — Alerts, callouts, toasts, and buttons now support `--color-{1-9}` and `--outline-color-{1-9}` variants using the 9 custom theme color slots. Themes that define `$color-1` through `$color-9` get matching component styles automatically
 - **Filled toast variants** — New `pa-toast--filled-*` variants with full-color backgrounds, contrast text, and semi-transparent progress bars. Available for all standard colors and theme color slots
-- **Unified card actions naming** — `pa-card__tools` replaced with `pa-card__actions` across both `pa-card` and `pa-table-card`
-- **Font Tuning Tool** (`/font-test`) — Developer utility for finding the right `@font-face` descriptor values when using custom fonts
-
-## What's New in 2.1.0
-
-- **Unified card actions naming** — `pa-card__tools` replaced with `pa-card__actions` across both `pa-card` and `pa-table-card`. Header and footer now use the same element name, disambiguated by context
-- **Font Tuning Tool** (`/font-test`) — Developer utility for finding the right `@font-face` descriptor values (`ascent-override`, `descent-override`, `size-adjust`) when using custom fonts. Loads any Google Font, generates variants for visual comparison, and outputs a copyable CSS snippet
 
 ## Installation
 
@@ -340,6 +339,10 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 ### Toasts
 - `.pa-toast` - Base toast
 - `.pa-toast--primary/success/danger/warning/info` - Variants
+- `.pa-toast--filled-primary/success/danger/warning/info` - Filled variants (full-color background)
+- `.pa-toast--color-{1-9}` / `.pa-toast--filled-color-{1-9}` - Theme color slot variants
+- `.pa-toast__actions` - Action button row with border-top separator
+- `.pa-toast__progress` - Auto-dismiss progress bar (5px, 0.6 opacity)
 - Positions (RTL-aware): `top-end`, `top-center`, `top-start`, `bottom-end`, `bottom-center`, `bottom-start`
 
 ### Tooltips & Popovers

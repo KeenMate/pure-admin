@@ -179,6 +179,16 @@
   line-height: $line-height-base;
 }
 
+// Toast actions (buttons under a separator)
+.pa-toast__actions {
+  margin-top: $spacing-base;
+  padding-top: $spacing-base;
+  border-top: $border-width-base solid var(--pa-border-color);
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
 // Toast close button
 .pa-toast__close {
   flex-shrink: 0;
@@ -215,7 +225,7 @@
   inset-inline-start: 0; // RTL: flips to right
   height: $toast-progress-height;
   background-color: currentColor;
-  opacity: 0.3;
+  opacity: 0.6;
   transition: width linear;
 }
 
@@ -308,6 +318,11 @@
 }
 
 // ===== FILLED TOAST VARIANTS =====
+
+// Filled toast actions: separator color + reset button colors from toast inheritance
+[class*="pa-toast--filled"] .pa-toast__actions {
+  border-top-color: rgba(255, 255, 255, 0.25);
+}
 
 .pa-toast--filled-primary {
   background-color: var(--pa-btn-primary-bg);

@@ -1,7 +1,7 @@
 # Pure Admin Workspace - Makefile
 # Root workspace commands for development and build
 
-.PHONY: help setup install build watch clean demo dev package publish verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
+.PHONY: help setup install build watch clean demo dev package publish publish-dry verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
 
 # === Configuration ===
 # Docker image settings
@@ -35,6 +35,7 @@ help:
 	@echo "  Package:"
 	@echo "    make package      - Create npm tarball for core"
 	@echo "    make verify       - Clean, build, and verify package"
+	@echo "    make publish-dry  - Dry-run publish (verify what would be published)"
 	@echo "    make publish      - Publish core package to npm"
 	@echo "    make publish TAG=rc  - Publish with --tag rc (for pre-releases)"
 	@echo ""
@@ -86,6 +87,10 @@ package: clean build
 verify: clean build
 	npm pack -w @keenmate/pure-admin-core
 	@echo "Package verified and ready!"
+
+# Dry-run publish (clean + build + verify what would be published)
+publish-dry: clean build
+	npm publish -w @keenmate/pure-admin-core --dry-run $(NPM_TAG)
 
 # Publish core package to npm (clean + build first)
 publish: clean build
