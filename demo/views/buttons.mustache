@@ -329,9 +329,18 @@
                                 <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
                             </button>
                             <div class="pa-btn-split__menu">
-                                <button class="pa-btn-split__item">Save as Draft</button>
-                                <button class="pa-btn-split__item">Save &amp; Close</button>
-                                <button class="pa-btn-split__item">Save &amp; New</button>
+                                <button class="pa-btn-split__item">
+                                    <span class="pa-btn-split__item-icon"><i class="fas fa-file"></i></span>
+                                    Save as Draft
+                                </button>
+                                <button class="pa-btn-split__item">
+                                    <span class="pa-btn-split__item-icon"><i class="fas fa-door-closed"></i></span>
+                                    Save &amp; Close
+                                </button>
+                                <button class="pa-btn-split__item">
+                                    <span class="pa-btn-split__item-icon"><i class="fas fa-plus"></i></span>
+                                    Save &amp; New
+                                </button>
                             </div>
                         </div>
 
@@ -357,9 +366,18 @@
                                 <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
                             </button>
                             <div class="pa-btn-split__menu">
-                                <button class="pa-btn-split__item">Export as CSV</button>
-                                <button class="pa-btn-split__item">Export as Excel</button>
-                                <button class="pa-btn-split__item">Export as PDF</button>
+                                <button class="pa-btn-split__item">
+                                    <span class="pa-btn-split__item-icon"><i class="fas fa-file-csv"></i></span>
+                                    Export as CSV
+                                </button>
+                                <button class="pa-btn-split__item">
+                                    <span class="pa-btn-split__item-icon"><i class="fas fa-file-excel"></i></span>
+                                    Export as Excel
+                                </button>
+                                <button class="pa-btn-split__item">
+                                    <span class="pa-btn-split__item-icon"><i class="fas fa-file-pdf"></i></span>
+                                    Export as PDF
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -492,6 +510,159 @@
                                 <button class="pa-btn-split__item">Move to Trash</button>
                             </div>
                         </div>
+                    </div>
+
+                    <h4 class="mt-4">Items with Actions</h4>
+                    <p class="text-muted mb-1">Menu items can include inline action buttons for quick operations like delete.</p>
+                    <div class="pa-btn-group gap-lg">
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--primary">
+                                <span class="pa-btn__icon"><i class="fas fa-bookmark"></i></span>
+                                Bookmarks
+                            </button>
+                            <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-home"></i></span>
+                                        Dashboard
+                                    </button>
+                                    <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;" onclick="this.closest('div').remove()">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-chart-line"></i></span>
+                                        Analytics
+                                    </button>
+                                    <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;" onclick="this.closest('div').remove()">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-users"></i></span>
+                                        Team Members
+                                    </button>
+                                    <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;" onclick="this.closest('div').remove()">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pa-btn-split">
+                            <button class="pa-btn pa-btn--secondary">
+                                <span class="pa-btn__icon"><i class="fas fa-clock-rotate-left"></i></span>
+                                Recent
+                            </button>
+                            <button class="pa-btn pa-btn--secondary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-file"></i></span>
+                                        Report Q4.pdf
+                                    </button>
+                                    <button class="pa-btn pa-btn--secondary pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;">
+                                        <i class="fas fa-xmark"></i>
+                                    </button>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-file-code"></i></span>
+                                        schema.sql
+                                    </button>
+                                    <button class="pa-btn pa-btn--secondary pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;">
+                                        <i class="fas fa-xmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pa-btn-split" id="members-split">
+                            <button class="pa-btn pa-btn--danger" onclick="addMember()">
+                                <span class="pa-btn__icon"><i class="fas fa-user-plus"></i></span>
+                                Members
+                            </button>
+                            <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                            </button>
+                            <div class="pa-btn-split__menu">
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-user"></i></span>
+                                        Alice Cooper
+                                    </button>
+                                    <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;"
+                                        onclick="togglePopconfirm(event, 'pc-member-1')">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-user"></i></span>
+                                        Bob Dylan
+                                    </button>
+                                    <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;"
+                                        onclick="togglePopconfirm(event, 'pc-member-2')">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-user"></i></span>
+                                        Charlie Parker
+                                    </button>
+                                    <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;"
+                                        onclick="togglePopconfirm(event, 'pc-member-3')">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popconfirm definitions for Members split button -->
+            <div id="pc-member-1" class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+                        <p>Remove Alice Cooper?</p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-member-1', event)">Cancel</button>
+                        <button class="pa-btn pa-btn--danger" onclick="confirmRemoveMember(this, 'pc-member-1')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div id="pc-member-2" class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+                        <p>Remove Bob Dylan?</p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-member-2', event)">Cancel</button>
+                        <button class="pa-btn pa-btn--danger" onclick="confirmRemoveMember(this, 'pc-member-2')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div id="pc-member-3" class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+                        <p>Remove Charlie Parker?</p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-member-3', event)">Cancel</button>
+                        <button class="pa-btn pa-btn--danger" onclick="confirmRemoveMember(this, 'pc-member-3')">Remove</button>
                     </div>
                 </div>
             </div>
@@ -769,15 +940,15 @@
                             <div class="pa-btn-group pa-btn-group--vertical">
                                 <button class="pa-btn pa-btn--primary wr-20 pa-btn--align-center">
                                     <span class="pa-btn__icon"><i class="fa-solid fa-upload"></i></span>
-                                    Upload
+                                    <span class="pa-btn__label">Upload</span>
                                 </button>
                                 <button class="pa-btn pa-btn--success wr-20 pa-btn--align-center">
                                     <span class="pa-btn__icon"><i class="fa-solid fa-plus"></i></span>
-                                    Add New Item
+                                    <span class="pa-btn__label">Add New Item</span>
                                 </button>
                                 <button class="pa-btn pa-btn--info wr-20 pa-btn--align-center">
                                     <span class="pa-btn__icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                    Search Entire Database
+                                    <span class="pa-btn__label">Search Entire Database</span>
                                 </button>
                             </div>
 
@@ -916,6 +1087,124 @@
 
                 // Initialize loading demos
                 document.querySelectorAll('[data-loading-demo]').forEach(addLoadingDemo);
+            });
+            </script>
+
+            <!-- Popconfirm support for split button demo -->
+            <script>
+            let currentPopconfirm = null;
+            let currentTrigger = null;
+
+            function togglePopconfirm(event, popconfirmId) {
+                event.stopPropagation();
+                event.preventDefault();
+                const trigger = event.currentTarget;
+                const popconfirm = document.getElementById(popconfirmId);
+
+                if (currentPopconfirm && currentPopconfirm !== popconfirm) {
+                    currentPopconfirm.classList.remove('is-open');
+                }
+
+                if (popconfirm.classList.contains('is-open')) {
+                    popconfirm.classList.remove('is-open');
+                    currentPopconfirm = null;
+                    currentTrigger = null;
+                } else {
+                    positionPopconfirm(trigger, popconfirm);
+                    popconfirm.classList.add('is-open');
+                    currentPopconfirm = popconfirm;
+                    currentTrigger = trigger;
+                }
+            }
+
+            function closePopconfirm(popconfirmId, event) {
+                if (event) event.stopPropagation();
+                const popconfirm = document.getElementById(popconfirmId);
+                popconfirm.classList.remove('is-open');
+                if (currentPopconfirm === popconfirm) {
+                    currentPopconfirm = null;
+                    currentTrigger = null;
+                }
+            }
+
+            let memberCounter = 3;
+            const memberNames = ['Dave Grohl', 'Eve Torres', 'Frank Zappa', 'Grace Slick', 'Hank Williams', 'Iggy Pop', 'Janis Joplin', 'Kurt Cobain'];
+
+            function addMember() {
+                memberCounter++;
+                const name = memberNames[(memberCounter - 4) % memberNames.length];
+                const pcId = `pc-member-${memberCounter}`;
+
+                // Create menu row
+                const row = document.createElement('div');
+                row.style.cssText = 'display: flex; align-items: center;';
+                row.innerHTML = `
+                    <button class="pa-btn-split__item">
+                        <span class="pa-btn-split__item-icon"><i class="fas fa-user"></i></span>
+                        ${name}
+                    </button>
+                    <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" style="margin-inline-end: 0.5rem;"
+                        onclick="togglePopconfirm(event, '${pcId}')">
+                        <i class="fas fa-trash-can"></i>
+                    </button>`;
+
+                // Create popconfirm
+                const pc = document.createElement('div');
+                pc.id = pcId;
+                pc.className = 'pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact';
+                pc.innerHTML = `
+                    <div class="pa-popconfirm__arrow"></div>
+                    <div class="pa-popconfirm__content">
+                        <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+                            <p>Remove ${name}?</p>
+                        </div>
+                        <div class="pa-popconfirm__actions">
+                            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('${pcId}', event)">Cancel</button>
+                            <button class="pa-btn pa-btn--danger" onclick="confirmRemoveMember(this, '${pcId}')">Remove</button>
+                        </div>
+                    </div>`;
+
+                // Add row to the menu
+                const menu = document.getElementById('members-split').querySelector('.pa-btn-split__menu');
+                menu.appendChild(row);
+
+                // Add popconfirm to body
+                document.body.appendChild(pc);
+            }
+
+            function confirmRemoveMember(btn, popconfirmId) {
+                closePopconfirm(popconfirmId);
+                // Find the delete button inside the split menu that triggers this popconfirm
+                const triggerBtn = document.querySelector(`.pa-btn-split__menu [onclick*="togglePopconfirm"][onclick*="${popconfirmId}"]`);
+                if (triggerBtn) triggerBtn.closest('div[style]').remove();
+                // Remove the popconfirm element
+                const pc = document.getElementById(popconfirmId);
+                if (pc) pc.remove();
+            }
+
+            async function positionPopconfirm(trigger, popconfirm) {
+                const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|left|right)/);
+                const placement = classMatch ? classMatch[1] : 'bottom';
+                const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
+
+                const { x, y, placement: finalPlacement } = await computePosition(trigger, popconfirm, {
+                    placement,
+                    middleware: [offset(8), flip(), shift({ padding: 10 })]
+                });
+
+                popconfirm.className = popconfirm.className
+                    .replace(/pa-popconfirm--(top|bottom|left|right)/g, '').trim()
+                    + ' pa-popconfirm--' + finalPlacement;
+                Object.assign(popconfirm.style, { left: `${x}px`, top: `${y}px` });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (currentPopconfirm && !currentPopconfirm.contains(e.target) &&
+                    e.target !== currentTrigger && !currentTrigger?.contains(e.target)) {
+                    currentPopconfirm.classList.remove('is-open');
+                    currentPopconfirm = null;
+                    currentTrigger = null;
+                }
             });
             </script>
 

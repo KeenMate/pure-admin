@@ -2,16 +2,18 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.3.1
+
+- **Split button fixes** — RTL layout, missing toggle border, menu closing on outside click, and flex menu layout with gap for items with inline action buttons
+- **Split button dropdown icons** — New `pa-btn-split__item-icon` element for icons in menu items
+- **Button label element** — New `pa-btn__label` for proper horizontal centering of icon+text in `pa-btn--align-center` buttons
+- **Select descender fix** — Added `line-height: normal` to `.pa-select` to prevent clipping on native selects
+
 ## What's New in 2.3.0
 
 - **Toast action buttons** — New `pa-toast__actions` element for action buttons inside toasts, separated by a border-top. Toast service supports `actions: [{ label, variant, onClick }]` with auto-dismiss on click
 - **Toast service improvements** — `filled`, `progressColor`, and `maxWidth` options. Container width ratchets up to the widest toast shown, preventing layout jitter when toasts dismiss
 - **Toast progress bar** — More visible: 5px height, 0.6 opacity (was 3px / 0.3)
-
-## What's New in 2.2.0
-
-- **Theme color slots (1-9) across components** — Alerts, callouts, toasts, and buttons now support `--color-{1-9}` and `--outline-color-{1-9}` variants using the 9 custom theme color slots. Themes that define `$color-1` through `$color-9` get matching component styles automatically
-- **Filled toast variants** — New `pa-toast--filled-*` variants with full-color backgrounds, contrast text, and semi-transparent progress bars. Available for all standard colors and theme color slots
 
 ## Installation
 

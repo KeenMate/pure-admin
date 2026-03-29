@@ -12,11 +12,6 @@
                 <span class="pa-sidebar__label">Changelog</span>
             </a></li>
 
-            <li class="pa-sidebar__item"><a href="/forms" class="pa-sidebar__link {{#isForms}}pa-sidebar__link--active{{/isForms}}">
-                <span class="pa-sidebar__icon">📝</span>
-                <span class="pa-sidebar__label">Forms</span>
-            </a></li>
-
             <li class="pa-sidebar__item"><a href="/design/theme-variables" class="pa-sidebar__link {{#isThemeVariables}}pa-sidebar__link--active{{/isThemeVariables}}">
                 <span class="pa-sidebar__icon">🎨</span>
                 <span class="pa-sidebar__label">Theme Variables</span>
@@ -26,6 +21,25 @@
                 <span class="pa-sidebar__icon">🌈</span>
                 <span class="pa-sidebar__label">Colors</span>
             </a></li>
+
+            <!-- Tools -->
+            <li class="pa-sidebar__item">
+                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pa-sidebar__icon">🛠️</span>
+                    <span class="pa-sidebar__label">Tools</span>
+                    <span class="pa-sidebar__chevron">›</span>
+                </button>
+                <ul class="pa-sidebar__submenu">
+                    <li class="pa-sidebar__item"><a href="/tools/rtl-test" class="pa-sidebar__link {{#isRtlTest}}pa-sidebar__link--active{{/isRtlTest}}">
+                        <span class="pa-sidebar__icon">↔️</span>
+                        <span class="pa-sidebar__label">RTL Test</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/tools/font-test" class="pa-sidebar__link">
+                        <span class="pa-sidebar__icon">🔤</span>
+                        <span class="pa-sidebar__label">Font Tuning</span>
+                    </a></li>
+                </ul>
+            </li>
 
             <li class="pa-sidebar__item"><a href="/design/helpers" class="pa-sidebar__link {{#isHelpers}}pa-sidebar__link--active{{/isHelpers}}">
                 <span class="pa-sidebar__icon">🔧</span>
@@ -54,6 +68,10 @@
                     <li class="pa-sidebar__item"><a href="/components/validations" class="pa-sidebar__link {{#isValidations}}pa-sidebar__link--active{{/isValidations}}">
                         <span class="pa-sidebar__icon">✓</span>
                         <span class="pa-sidebar__label">Validations</span>
+                    </a></li>
+                    <li class="pa-sidebar__item"><a href="/forms" class="pa-sidebar__link {{#isForms}}pa-sidebar__link--active{{/isForms}}">
+                        <span class="pa-sidebar__icon">📝</span>
+                        <span class="pa-sidebar__label">Forms</span>
                     </a></li>
                     <li class="pa-sidebar__item"><a href="/components/date-picker" class="pa-sidebar__link {{#isDatePicker}}pa-sidebar__link--active{{/isDatePicker}}">
                         <span class="pa-sidebar__icon">📅</span>
@@ -268,25 +286,6 @@
                     <li class="pa-sidebar__item"><a href="/showcases/movies-panel" class="pa-sidebar__link {{#isMoviesPanel}}pa-sidebar__link--active{{/isMoviesPanel}}">
                         <span class="pa-sidebar__icon">•</span>
                         <span class="pa-sidebar__label">Movies + Panel</span>
-                    </a></li>
-                </ul>
-            </li>
-
-            <!-- Tools -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">🛠️</span>
-                    <span class="pa-sidebar__label">Tools</span>
-                    <span class="pa-sidebar__chevron">›</span>
-                </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/tools/rtl-test" class="pa-sidebar__link {{#isRtlTest}}pa-sidebar__link--active{{/isRtlTest}}">
-                        <span class="pa-sidebar__icon">↔️</span>
-                        <span class="pa-sidebar__label">RTL Test</span>
-                    </a></li>
-                    <li class="pa-sidebar__item"><a href="/tools/font-test" class="pa-sidebar__link">
-                        <span class="pa-sidebar__icon">🔤</span>
-                        <span class="pa-sidebar__label">Font Tuning</span>
                     </a></li>
                 </ul>
             </li>

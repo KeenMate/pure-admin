@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.3.1] - 2026-03-29
+
+### Added
+
+- **Button label element (`pa-btn__label`):** New BEM element for wrapping button text — enables proper horizontal centering of icon+text content in `pa-btn--align-center` buttons. The label gets `flex: 1` and `text-align: center` so multi-line text centers within the space beside the icon
+- **Split button dropdown icons (`pa-btn-split__item-icon`):** New BEM element for icons in split button menu items — fixed-width icon slot with `opacity: 0.7`, aligned via flexbox
+- **Split button menu layout:** `pa-btn-split__menu` now uses flex column with `gap` for proper vertical spacing between items — supports menu rows with inline action buttons (e.g. delete)
+- **Select `line-height: normal`:** Added to `.pa-select` to prevent descender clipping on native select elements
+
+### Fixed
+
+- **Split button toggle missing right border:** Removed erroneous `border-inline-end: none` from `pa-btn-split__toggle` — the toggle now correctly shows its variant border on the outer edge
+- **Split buttons broken in RTL:** Removed `flex-direction: row-reverse` for `[dir="rtl"]` — flexbox already reverses item order via writing direction, the override was double-reversing and conflicting with CSS logical properties
+- **Split button menu not closing on outside click:** Clicking another split button's main action (not toggle) now correctly closes any open dropdown
+
+---
+
 ## [2.3.0] - 2026-03-26
 
 ### Added

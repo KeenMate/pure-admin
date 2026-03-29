@@ -111,11 +111,12 @@
         activeContainer = null;
     }
 
-    // Close menus when clicking outside
+    // Close menus when clicking outside the active menu or on a different split button
     document.addEventListener('click', function(event) {
-        if (activeMenu && !event.target.closest('.pa-btn-split')) {
-            closeSplitMenu();
-        }
+        if (!activeMenu) return;
+        if (activeMenu.contains(event.target)) return;
+        if (activeContainer && activeContainer.contains(event.target)) return;
+        closeSplitMenu();
     });
 
     // Close on Escape
