@@ -62,7 +62,7 @@
             placement: placement,
             strategy: 'fixed',
             middleware: [
-                offset(4),
+                offset(6),
                 flip(),
                 shift({ padding: 8 })
             ]

@@ -42,7 +42,7 @@
     background-color: var(--pa-tooltip-bg);
     color: var(--pa-tooltip-text);
     padding: $spacing-xs $spacing-sm;
-    border-radius: $border-radius;
+    border-radius: var(--pa-border-radius);
     font-size: $font-size-xs;
     white-space: nowrap;
     max-width: $tooltip-max-width;
@@ -438,7 +438,7 @@
     max-width: $popover-max-width;
     background-color: var(--pa-card-bg);
     border: $border-width-base solid var(--pa-border-color);
-    border-radius: $border-radius;
+    border-radius: var(--pa-border-radius);
     box-shadow: $shadow-lg;
     z-index: $popover-z-index;
 
@@ -455,7 +455,7 @@
     padding: $popover-header-padding;
     border-bottom: $popover-header-border;
     background-color: var(--pa-card-header-bg);
-    border-radius: $popover-header-border-radius;
+    border-radius: var(--pa-border-radius) var(--pa-border-radius) 0 0;
 
     h4 {
       margin: 0;
@@ -497,7 +497,7 @@
     code {
       padding: $popover-code-padding-v $popover-code-padding-h;
       background-color: color-mix(in srgb, var(--pa-text-color-2) 15%, transparent);
-      border-radius: $border-radius-sm;
+      border-radius: var(--pa-border-radius-sm);
       font-family: monospace;
       font-size: $popover-code-font-scale;
     }
@@ -516,7 +516,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: $border-radius;
+    border-radius: var(--pa-border-radius);
     transition: all $transition-fast $easing-smooth;
 
     &:hover {
@@ -558,7 +558,7 @@
   background-color: var(--pa-tooltip-bg);
   color: var(--pa-tooltip-text);
   padding: $spacing-xs $spacing-sm;
-  border-radius: $border-radius;
+  border-radius: var(--pa-border-radius);
   font-size: $font-size-xs;
   white-space: nowrap;
   max-width: $tooltip-max-width;

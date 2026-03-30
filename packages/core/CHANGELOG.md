@@ -9,20 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.3.1] - 2026-03-29
+## [2.3.2] - 2026-03-30
 
 ### Added
 
-- **Button label element (`pa-btn__label`):** New BEM element for wrapping button text — enables proper horizontal centering of icon+text content in `pa-btn--align-center` buttons. The label gets `flex: 1` and `text-align: center` so multi-line text centers within the space beside the icon
-- **Split button dropdown icons (`pa-btn-split__item-icon`):** New BEM element for icons in split button menu items — fixed-width icon slot with `opacity: 0.7`, aligned via flexbox
-- **Split button menu layout:** `pa-btn-split__menu` now uses flex column with `gap` for proper vertical spacing between items — supports menu rows with inline action buttons (e.g. delete)
-- **Select `line-height: normal`:** Added to `.pa-select` to prevent descender clipping on native select elements
+- **Border-radius CSS custom properties:** `--pa-border-radius-sm`, `--pa-border-radius`, `--pa-border-radius-lg` — themes can now override border-radius via CSS variables in `:root` (same pattern as colors). All component usages migrated from SCSS `$border-radius` to `var(--pa-border-radius)`
+- **Outline-secondary button color variable:** New `--pa-btn-secondary-outline-color` CSS variable — defaults to `$btn-secondary-text` for readable outline buttons on dark backgrounds
+- **Split button menu inner wrapper (`pa-btn-split__menu-inner`):** New BEM element matching web-multiselect's two-container pattern — outer `__menu` clips with `overflow: hidden` + `border-radius`, inner `__menu-inner` handles flex layout and gap
+- **Split button item row (`pa-btn-split__item-row`):** New BEM element for menu rows with inline action buttons (e.g. delete) — replaces inline styles
+
+### Changed
+
+- **Removed hover lift on buttons:** `translateY(-1px)` on `.pa-btn:hover` removed — caused clipping issues with `overflow: hidden` containers. Also removed from `.pa-stat--square:hover`
+- **Split button container:** Border-radius and `overflow: hidden` moved to `.pa-btn-split` container — individual button corner radius removed for consistent theming
 
 ### Fixed
 
-- **Split button toggle missing right border:** Removed erroneous `border-inline-end: none` from `pa-btn-split__toggle` — the toggle now correctly shows its variant border on the outer edge
-- **Split buttons broken in RTL:** Removed `flex-direction: row-reverse` for `[dir="rtl"]` — flexbox already reverses item order via writing direction, the override was double-reversing and conflicting with CSS logical properties
-- **Split button menu not closing on outside click:** Clicking another split button's main action (not toggle) now correctly closes any open dropdown
+- **Button vertical alignment:** Added `vertical-align: middle` to `.pa-btn` — mixed-size buttons in a row now align their centers instead of baselines
+- **Split button dropdown hover stripes:** Two-container pattern (menu + menu-inner) with `overflow: hidden` clips hover backgrounds cleanly to border-radius
 
 ---
 

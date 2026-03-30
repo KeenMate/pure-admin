@@ -515,17 +515,16 @@
         for (let i = 0; i < presets.length; i++) {
             const preset = presets[i];
             const item = document.createElement('div');
-            item.style.cssText = 'display: flex; align-items: center; gap: 0.4rem;';
+            item.className = 'pa-btn-split__item-row';
 
             const applyBtn = document.createElement('button');
             applyBtn.className = 'pa-btn-split__item';
-            applyBtn.style.cssText = 'flex: 1;';
             applyBtn.textContent = (preset.fontName ? preset.fontName + ' — ' : '') + preset.name;
             applyBtn.addEventListener('click', () => applyPreset(preset));
 
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only';
-            deleteBtn.style.cssText = 'flex-shrink: 0; margin-inline-end: 0.5rem;';
+            deleteBtn.style.cssText = 'flex-shrink: 0;';
             deleteBtn.innerHTML = '<i class="fas fa-trash-can"></i>';
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();

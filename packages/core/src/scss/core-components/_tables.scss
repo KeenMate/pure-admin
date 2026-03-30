@@ -10,14 +10,14 @@
 // Tables
 .pa-table-container {
   overflow-x: auto;
-  border-radius: $border-radius;
+  border-radius: var(--pa-border-radius);
   border: $border-width-base solid var(--pa-border-color);
   background-color: var(--pa-table-bg);
 
   // Panel modifier - card-like visual containment
   &--panel {
     box-shadow: $shadow-sm;
-    border-radius: $card-border-radius;
+    border-radius: var(--pa-border-radius-lg);
     margin-bottom: $spacing-base;
     transition: box-shadow $transition-fast $easing-snappy;
 
@@ -67,7 +67,7 @@
 .pa-table-card {
   background: var(--pa-card-bg);
   border: $card-border-width solid var(--pa-border-color);
-  border-radius: $card-border-radius;
+  border-radius: var(--pa-border-radius-lg);
   margin-bottom: $spacing-base;
   box-shadow: $shadow-sm;
   transition: box-shadow $transition-fast $easing-snappy;
@@ -565,7 +565,7 @@
     padding: $btn-padding-v $btn-padding-h;
     background-color: transparent;
     border: $border-width-base solid var(--pa-border-color);
-    border-radius: $border-radius;
+    border-radius: var(--pa-border-radius);
     color: var(--pa-text-color-1);
     font-size: $font-size-sm;
     cursor: pointer;
@@ -609,7 +609,7 @@
 // Virtual Table Styles
 .pa-virtual-table {
   border: $border-width-base solid var(--pa-border-color);
-  border-radius: $border-radius;
+  border-radius: var(--pa-border-radius);
   height: $chart-height;
   overflow: auto;
   position: relative;
@@ -707,7 +707,7 @@
       display: block;
       margin-bottom: $table-responsive-card-margin;
       border: $border-width-base solid var(--pa-border-color);
-      border-radius: $border-radius;
+      border-radius: var(--pa-border-radius);
       overflow: hidden;
 
       // Reset hover accent border for mobile
@@ -797,7 +797,7 @@
       display: block;
       margin-bottom: $table-responsive-card-margin;
       border: $border-width-base solid var(--pa-border-color);
-      border-radius: $border-radius;
+      border-radius: var(--pa-border-radius);
       overflow: hidden;
 
       &:last-child {

@@ -7,10 +7,11 @@
 // Buttons
 .pa-btn {
   display: inline-block;
+  vertical-align: middle;
   height: $btn-height-base;
   padding: $btn-padding-v $btn-padding-h;
   border: $btn-border-width solid transparent;
-  border-radius: $border-radius;
+  border-radius: var(--pa-border-radius);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   text-align: center;
@@ -20,9 +21,6 @@
   background: none;
   color: var(--pa-text-color-1);
 
-  &:hover {
-    transform: translateY($btn-hover-lift);
-  }
 
   &--primary {
     background-color: var(--pa-accent);
@@ -151,8 +149,8 @@
 
   &--outline-secondary {
     background-color: transparent;
-    border-color: var(--pa-btn-secondary-bg);
-    color: var(--pa-btn-secondary-bg);
+    border-color: var(--pa-btn-secondary-outline-color);
+    color: var(--pa-btn-secondary-outline-color);
 
     &:hover {
       background-color: var(--pa-btn-secondary-bg);
@@ -463,22 +461,20 @@
 .pa-btn-split {
   position: relative;
   display: inline-flex;
+  border-radius: var(--pa-border-radius);
+  overflow: hidden;
 
-// Joined buttons with no gap
+  // All buttons inside: no individual radius — container handles corners
   .pa-btn {
     border-radius: 0;
 
     &:first-child {
-      border-start-start-radius: $border-radius;
-      border-end-start-radius: $border-radius;
       border-inline-end: none;
     }
   }
 
   // Toggle button (chevron) - fixed square width
   &__toggle {
-    border-start-end-radius: $border-radius;
-    border-end-end-radius: $border-radius;
     border-inline-start: $border-width-base solid rgba(255, 255, 255, 0.25);
     padding-inline: 0;
     display: inline-flex;
@@ -505,22 +501,26 @@
   // Dropdown menu (moved to body and positioned by Floating UI)
   &__menu {
     display: none;
-    flex-direction: column;
-    gap: $spacing-xs;
     position: fixed;
     top: 0;
     left: 0;
     width: max-content;
     background: var(--pa-card-bg);
     border: $border-width-base solid var(--pa-border-color);
-    border-radius: $border-radius;
+    border-radius: var(--pa-border-radius);
     box-shadow: $shadow-2xl;
     z-index: $z-index-dropdown;
-    padding: $spacing-xs 0;
+    overflow: hidden;
 
     &--open {
-      display: flex;
+      display: block;
     }
+  }
+
+  &__menu-inner {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
   }
 
   // Menu items
@@ -549,6 +549,21 @@
         background-color: var(--pa-btn-danger-bg);
         color: var(--pa-btn-danger-text);
       }
+    }
+  }
+
+  // Row with item + action button (e.g. delete)
+  &__item-row {
+    display: flex;
+    align-items: center;
+
+    .pa-btn-split__item {
+      flex: 1;
+    }
+
+    > .pa-btn:last-child {
+      flex-shrink: 0;
+      margin-inline-end: $spacing-sm;
     }
   }
 

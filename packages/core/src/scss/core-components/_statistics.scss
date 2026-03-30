@@ -13,7 +13,7 @@
   &__icon {
     width: $stat-icon-size;
     height: $stat-icon-size;
-    border-radius: $border-radius-lg;
+    border-radius: var(--pa-border-radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,14 +107,13 @@
     min-height: $stat-square-min-size;
     min-width: $stat-square-min-size;
     position: relative;
-    border-radius: $border-radius;
+    border-radius: var(--pa-border-radius);
     box-shadow: $shadow-md;
     margin: $spacing-sm;
     transition: transform $transition-fast $easing-snappy, box-shadow $transition-fast $easing-snappy;
     overflow: hidden;
 
     &:hover {
-      transform: translateY($hover-lift-offset);
       box-shadow: $shadow-lg;
     }
 

@@ -12,7 +12,7 @@
   width: 100%;
   height: $progress-height;
   background: $progress-bg;
-  border-radius: $progress-border-radius;
+  border-radius: var(--pa-border-radius);
   overflow: hidden;
   position: relative;
 
@@ -106,7 +106,7 @@
   display: flex;
   width: 100%;
   height: $stacked-bar-height;
-  border-radius: $stacked-bar-border-radius;
+  border-radius: var(--pa-border-radius);
   overflow: hidden;
   background: $progress-bg;
 
@@ -144,7 +144,7 @@
   &__legend-swatch {
     width: $stacked-bar-legend-swatch-size;
     height: $stacked-bar-legend-swatch-size;
-    border-radius: $border-radius-sm;
+    border-radius: var(--pa-border-radius-sm);
     flex-shrink: 0;
 
     &--primary   { background: $accent-color; }
@@ -391,7 +391,7 @@
     width: 100%;
     height: $data-bar-height;
     background: $data-bar-bg;
-    border-radius: $data-bar-border-radius;
+    border-radius: var(--pa-border-radius-sm);
     overflow: hidden;
   }
 
@@ -428,7 +428,7 @@
   gap: $heatmap-gap;
 
   &__cell {
-    border-radius: $heatmap-border-radius;
+    border-radius: var(--pa-border-radius-sm);
     background: $progress-bg;
 
     &[data-level="1"] { background: rgba($accent-color, 0.2); }
@@ -465,7 +465,7 @@
   &__legend-cell {
     width: $heatmap-cell-size;
     height: $heatmap-cell-size;
-    border-radius: $heatmap-border-radius;
+    border-radius: var(--pa-border-radius-sm);
     background: $progress-bg;
 
     &[data-level="1"] { background: rgba($accent-color, 0.2); }
@@ -481,7 +481,7 @@
     gap: 0.1rem;
 
     .pa-heatmap__cell {
-      border-radius: 1px;
+      border-radius: var(--pa-border-radius-sm);
     }
   }
 }
@@ -501,7 +501,7 @@
     width: $sparkline-bar-width;
     height: var(--value, 50%);
     background: $accent-color;
-    border-radius: $sparkline-border-radius $sparkline-border-radius 0 0;
+    border-radius: var(--pa-border-radius-sm) var(--pa-border-radius-sm) 0 0;
     transition: height $transition-medium $easing-smooth;
     min-height: 1px;
   }
@@ -568,7 +568,7 @@
     width: 100%;
     height: $bar-list-bar-height;
     background: $bar-list-bar-bg;
-    border-radius: $bar-list-bar-border-radius;
+    border-radius: var(--pa-border-radius-sm);
     overflow: hidden;
 
     &::after {

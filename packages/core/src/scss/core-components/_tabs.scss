@@ -70,7 +70,7 @@
     gap: $spacing-sm;
 
     .pa-tabs__item {
-      border-radius: $border-radius-lg;
+      border-radius: var(--pa-border-radius-lg);
       border: $border-width-base solid transparent;
       background-color: var(--pa-main-bg);
 
@@ -91,13 +91,13 @@
   // Boxed variant
   &--boxed {
     border: $border-width-base solid var(--pa-border-color);
-    border-radius: $border-radius-lg;
+    border-radius: var(--pa-border-radius-lg);
     padding: $spacing-xs;
     background-color: var(--pa-main-bg);
     gap: $spacing-xs;
 
     .pa-tabs__item {
-      border-radius: $border-radius;
+      border-radius: var(--pa-border-radius);
       border: none;
       border-bottom: none;
       padding: $spacing-sm $spacing-md;
@@ -131,8 +131,8 @@
       border-bottom: none;
       border-inline-end: $border-width-medium solid transparent; // RTL: flips to border-left
       padding: $spacing-sm;
-      border-start-start-radius: $border-radius; // RTL: top-right in RTL
-      border-end-start-radius: $border-radius;   // RTL: bottom-right in RTL
+      border-start-start-radius: var(--pa-border-radius); // RTL: top-right in RTL
+      border-end-start-radius: var(--pa-border-radius);   // RTL: bottom-right in RTL
       border-start-end-radius: 0;
       border-end-end-radius: 0;
       gap: $tabs-vertical-item-gap;
@@ -330,7 +330,7 @@
     // Bordered variant - wraps entire tabs system in card-like border
     &--bordered {
       border: $border-width-base solid var(--pa-border-color);
-      border-radius: $border-radius-lg;
+      border-radius: var(--pa-border-radius-lg);
       padding: $card-body-padding-v $card-body-padding-h;
       background-color: var(--pa-card-bg);
       margin-bottom: $spacing-base; // Match pa-card margin
@@ -353,7 +353,7 @@
     &--card {
       position: relative; // For dropdown positioning
       border: $card-border-width solid var(--pa-border-color);
-      border-radius: $card-border-radius;
+      border-radius: var(--pa-border-radius-lg);
       background-color: var(--pa-card-bg);
       box-shadow: $shadow-sm;
       margin-bottom: $spacing-base; // Match pa-card margin
@@ -438,7 +438,7 @@
         min-width: 15rem;
         background: var(--pa-card-bg);
         border: $card-border-width solid var(--pa-border-color);
-        border-radius: $border-radius;
+        border-radius: var(--pa-border-radius);
         box-shadow: $shadow-lg;
         z-index: $z-index-dropdown;
         display: none;
@@ -484,7 +484,7 @@
     // Bordered variant - wraps entire tabs system in card-like border
     &--bordered {
       border: $border-width-base solid var(--pa-border-color);
-      border-radius: $border-radius-lg;
+      border-radius: var(--pa-border-radius-lg);
       padding: $card-body-padding-v $card-body-padding-h;
       background-color: var(--pa-card-bg);
       margin-bottom: $spacing-base; // Match pa-card margin

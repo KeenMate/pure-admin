@@ -100,7 +100,14 @@
       "Bash(do)",
       "Bash(sed -i 's/\"\"version\"\": \"\"2.2.0\"\"/\"\"version\"\": \"\"2.3.0\"\"/' \"$f\")",
       "Bash(grep '\"\"version\"\"' ../pure-admin-themes/*/theme.json)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(echo '@use \"\"\"\"sass:color\"\"\"\"; $border-radius: 0; $border-radius-sm: 0; $border-radius-lg: 0; @import \"\"\"\"@keenmate/pure-admin-core/src/scss/variables/index\"\"\"\"; .test { br: $border-radius; br-sm: $border-radius-sm; br-lg: $border-radius-lg; }')",
+      "Bash(rm:*)",
+      "Bash(echo '$base-border-radius-sm: 0; $base-border-radius-md: 0; $base-border-radius-lg: 0; @import \"\"\"\"@keenmate/pure-admin-core/src/scss/variables/index\"\"\"\"; .test { br: $border-radius; br-sm: $border-radius-sm; br-lg: $border-radius-lg; }')",
+      "Bash(do sed:*)",
+      "Bash(sed -i \"s/@forward ''badges\\\\/index'';/@import ''badges\\\\/index'';/\" /c/Git/KM/pure-admin/packages/core/src/scss/core-components/_badges.scss)",
+      "Bash(sed -i \"s/@forward ''forms\\\\/index'';/@import ''forms\\\\/index'';/\" /c/Git/KM/pure-admin/packages/core/src/scss/core-components/_forms.scss)",
+      "Bash(sed -i \"s/@forward ''layout\\\\/index'';/@import ''layout\\\\/index'';/\" /c/Git/KM/pure-admin/packages/core/src/scss/core-components/_layout.scss)"
     ],
     "deny": [],
     "ask": []

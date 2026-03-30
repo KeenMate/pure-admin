@@ -2,12 +2,12 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
-## What's New in 2.3.1
+## What's New in 2.3.2
 
-- **Split button fixes** — RTL layout, missing toggle border, menu closing on outside click, and flex menu layout with gap for items with inline action buttons
-- **Split button dropdown icons** — New `pa-btn-split__item-icon` element for icons in menu items
-- **Button label element** — New `pa-btn__label` for proper horizontal centering of icon+text in `pa-btn--align-center` buttons
-- **Select descender fix** — Added `line-height: normal` to `.pa-select` to prevent clipping on native selects
+- **Themeable border-radius via CSS variables** — All components now use `var(--pa-border-radius)`. Themes override in `:root` (same pattern as colors). Fixes long-standing issue where `@use` module isolation prevented theme control of border-radius
+- **Outline-secondary button contrast** — New `--pa-btn-secondary-outline-color` variable, readable on all dark themes
+- **Split button dropdown rework** — Two-container pattern (`__menu` + `__menu-inner`) matching web-multiselect. New `__item-row` element for rows with action buttons. Container handles `overflow: hidden` + `border-radius`
+- **Removed hover lift** — `translateY(-1px)` removed from buttons and stat cards for consistency
 
 ## What's New in 2.3.0
 
