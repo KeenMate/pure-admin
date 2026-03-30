@@ -52,39 +52,39 @@
             { id: 1, title: 'MacBook Pro 16"', meta: 'SKU: MBP-16-001 • $2,499.00', icon: '💻', badge: 'In Stock' },
             { id: 2, title: 'iPhone 15 Pro', meta: 'SKU: IP15P-256 • $999.00', icon: '📱', badge: 'New' },
             { id: 3, title: 'AirPods Pro', meta: 'SKU: APP-GEN2 • $249.00', icon: '🎧', badge: 'Popular' },
-            { id: 4, title: 'iPad Air', meta: 'SKU: IPAD-AIR-5 • $599.00', icon: '📱', badge: 'In Stock' },
-            { id: 5, title: 'Apple Watch Ultra', meta: 'SKU: AW-ULTRA • $799.00', icon: '⌚', badge: 'Limited' },
-            { id: 6, title: 'Magic Keyboard', meta: 'SKU: MK-US • $99.00', icon: '⌨️', badge: 'In Stock' },
-            { id: 7, title: 'Magic Mouse', meta: 'SKU: MM-BLK • $79.00', icon: '🖱️', badge: 'In Stock' },
-            { id: 8, title: 'HomePod mini', meta: 'SKU: HPM-WHT • $99.00', icon: '🔊', badge: 'New' },
-            { id: 9, title: 'Apple TV 4K', meta: 'SKU: ATV-4K-128 • $149.00', icon: '📺', badge: 'In Stock' },
-            { id: 10, title: 'AirTag 4 Pack', meta: 'SKU: AT-4PK • $99.00', icon: '📍', badge: 'Popular' },
-            { id: 11, title: 'Studio Display', meta: 'SKU: SD-27-STD • $1,599.00', icon: '🖥️', badge: 'Premium' },
-            { id: 12, title: 'Mac Studio', meta: 'SKU: MS-M2-MAX • $1,999.00', icon: '💻', badge: 'Pro' }
+            { id: 4, title: 'iPad Air', meta: 'SKU: IPAD-AIR-5 • $599.00', icon: '📱', badge: 'In Stock', badgeVariant: 'success' },
+            { id: 5, title: 'Apple Watch Ultra', meta: 'SKU: AW-ULTRA • $799.00', icon: '⌚', badge: 'Limited', badgeVariant: 'warning' },
+            { id: 6, title: 'Magic Keyboard', meta: 'SKU: MK-US • $99.00', icon: '⌨️', badge: 'In Stock', badgeVariant: 'success' },
+            { id: 7, title: 'Magic Mouse', meta: 'SKU: MM-BLK • $79.00', icon: '🖱️', badge: 'In Stock', badgeVariant: 'success' },
+            { id: 8, title: 'HomePod mini', meta: 'SKU: HPM-WHT • $99.00', icon: '🔊', badge: 'New', badgeVariant: 'info' },
+            { id: 9, title: 'Apple TV 4K', meta: 'SKU: ATV-4K-128 • $149.00', icon: '📺', badge: 'In Stock', badgeVariant: 'success' },
+            { id: 10, title: 'AirTag 4 Pack', meta: 'SKU: AT-4PK • $99.00', icon: '📍', badge: 'Popular', badgeVariant: 'info' },
+            { id: 11, title: 'Studio Display', meta: 'SKU: SD-27-STD • $1,599.00', icon: '🖥️', badge: 'Premium', badgeVariant: 'primary' },
+            { id: 12, title: 'Mac Studio', meta: 'SKU: MS-M2-MAX • $1,999.00', icon: '💻', badge: 'Pro', badgeVariant: 'primary' }
         ],
         orders: [
-            { id: 1001, title: 'Order #1001', meta: 'John Doe • $1,234.56 • 2 items', icon: '📦', badge: 'Shipped' },
-            { id: 1002, title: 'Order #1002', meta: 'Jane Smith • $567.89 • 1 item', icon: '📦', badge: 'Processing' },
-            { id: 1003, title: 'Order #1003', meta: 'Bob Johnson • $2,345.67 • 5 items', icon: '📦', badge: 'Delivered' },
+            { id: 1001, title: 'Order #1001', meta: 'John Doe • $1,234.56 • 2 items', icon: '📦', badge: 'Shipped', badgeVariant: 'info' },
+            { id: 1002, title: 'Order #1002', meta: 'Jane Smith • $567.89 • 1 item', icon: '📦', badge: 'Processing', badgeVariant: 'warning' },
+            { id: 1003, title: 'Order #1003', meta: 'Bob Johnson • $2,345.67 • 5 items', icon: '📦', badge: 'Delivered', badgeVariant: 'success' },
             { id: 1004, title: 'Order #1004', meta: 'Alice Williams • $890.12 • 3 items', icon: '📦', badge: 'Pending' },
-            { id: 1005, title: 'Order #1005', meta: 'Charlie Brown • $456.78 • 2 items', icon: '📦', badge: 'Shipped' },
-            { id: 1006, title: 'Order #1006', meta: 'Diana Prince • $3,456.89 • 7 items', icon: '📦', badge: 'Processing' },
-            { id: 1007, title: 'Order #1007', meta: 'Eve Davis • $123.45 • 1 item', icon: '📦', badge: 'Cancelled' },
-            { id: 1008, title: 'Order #1008', meta: 'Frank Miller • $678.90 • 4 items', icon: '📦', badge: 'Delivered' },
-            { id: 1009, title: 'Order #1009', meta: 'Grace Lee • $1,890.23 • 6 items', icon: '📦', badge: 'Shipped' },
+            { id: 1005, title: 'Order #1005', meta: 'Charlie Brown • $456.78 • 2 items', icon: '📦', badge: 'Shipped', badgeVariant: 'info' },
+            { id: 1006, title: 'Order #1006', meta: 'Diana Prince • $3,456.89 • 7 items', icon: '📦', badge: 'Processing', badgeVariant: 'warning' },
+            { id: 1007, title: 'Order #1007', meta: 'Eve Davis • $123.45 • 1 item', icon: '📦', badge: 'Cancelled', badgeVariant: 'danger' },
+            { id: 1008, title: 'Order #1008', meta: 'Frank Miller • $678.90 • 4 items', icon: '📦', badge: 'Delivered', badgeVariant: 'success' },
+            { id: 1009, title: 'Order #1009', meta: 'Grace Lee • $1,890.23 • 6 items', icon: '📦', badge: 'Shipped', badgeVariant: 'info' },
             { id: 1010, title: 'Order #1010', meta: 'Henry Ford • $234.56 • 2 items', icon: '📦', badge: 'Pending' }
         ],
         users: [
-            { id: 1, title: 'John Doe', meta: 'john.doe@example.com • Customer', icon: '👤', badge: 'Active' },
-            { id: 2, title: 'Jane Smith', meta: 'jane.smith@example.com • Admin', icon: '👤', badge: 'Active' },
-            { id: 3, title: 'Bob Johnson', meta: 'bob.johnson@example.com • Customer', icon: '👤', badge: 'Inactive' },
-            { id: 4, title: 'Alice Williams', meta: 'alice.w@example.com • Manager', icon: '👤', badge: 'Active' },
-            { id: 5, title: 'Charlie Brown', meta: 'charlie.b@example.com • Customer', icon: '👤', badge: 'Active' },
-            { id: 6, title: 'Diana Prince', meta: 'diana.p@example.com • VIP', icon: '👤', badge: 'Premium' },
-            { id: 7, title: 'Eve Davis', meta: 'eve.davis@example.com • Customer', icon: '👤', badge: 'Active' },
-            { id: 8, title: 'Frank Miller', meta: 'frank.m@example.com • Support', icon: '👤', badge: 'Active' },
-            { id: 9, title: 'Grace Lee', meta: 'grace.lee@example.com • Customer', icon: '👤', badge: 'New' },
-            { id: 10, title: 'Henry Ford', meta: 'henry.f@example.com • Customer', icon: '👤', badge: 'Active' }
+            { id: 1, title: 'John Doe', meta: 'john.doe@example.com • Customer', icon: '👤', badge: 'Active', badgeVariant: 'success' },
+            { id: 2, title: 'Jane Smith', meta: 'jane.smith@example.com • Admin', icon: '👤', badge: 'Active', badgeVariant: 'success' },
+            { id: 3, title: 'Bob Johnson', meta: 'bob.johnson@example.com • Customer', icon: '👤', badge: 'Inactive', badgeVariant: 'warning' },
+            { id: 4, title: 'Alice Williams', meta: 'alice.w@example.com • Manager', icon: '👤', badge: 'Active', badgeVariant: 'success' },
+            { id: 5, title: 'Charlie Brown', meta: 'charlie.b@example.com • Customer', icon: '👤', badge: 'Active', badgeVariant: 'success' },
+            { id: 6, title: 'Diana Prince', meta: 'diana.p@example.com • VIP', icon: '👤', badge: 'Premium', badgeVariant: 'primary' },
+            { id: 7, title: 'Eve Davis', meta: 'eve.davis@example.com • Customer', icon: '👤', badge: 'Active', badgeVariant: 'success' },
+            { id: 8, title: 'Frank Miller', meta: 'frank.m@example.com • Support', icon: '👤', badge: 'Active', badgeVariant: 'success' },
+            { id: 9, title: 'Grace Lee', meta: 'grace.lee@example.com • Customer', icon: '👤', badge: 'New', badgeVariant: 'info' },
+            { id: 10, title: 'Henry Ford', meta: 'henry.f@example.com • Customer', icon: '👤', badge: 'Active', badgeVariant: 'success' }
         ],
         invoices: [
             { id: 501, title: 'Invoice #INV-501', meta: 'Order #1001 • $1,234.56 • Due in 5 days', icon: '📄', badge: 'Unpaid' },
@@ -230,7 +230,7 @@
                         <div class="pa-command-palette__item-title">${highlightedTitle}</div>
                         <div class="pa-command-palette__item-meta">${item.meta}</div>
                     </div>
-                    <div class="pa-command-palette__item-badge">${item.badge}</div>
+                    <span class="pa-badge${item.badgeVariant ? ' pa-badge--' + item.badgeVariant : ''}">${item.badge}</span>
                 </div>
             `;
         });
