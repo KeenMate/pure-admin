@@ -337,6 +337,28 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 - `.pa-modal__container--sm/md/lg/xl/xxl` - Sizes
 - `.pa-modal--primary/success/danger/warning` - Themed headers
 
+### Command Palette
+- `.pa-command-palette` - Base container (add `--active` to show)
+- `.pa-command-palette__backdrop` - Overlay backdrop
+- `.pa-command-palette__container` - Modal dialog
+- `.pa-command-palette__search` - Search area (input + tokens + context)
+- `.pa-command-palette__tokens` - Token badges container (for token display mode)
+- `.pa-command-palette__input-wrapper` - Wraps input + context label (positioning anchor)
+- `.pa-command-palette__input` - Search input
+- `.pa-command-palette__context` - Context label (e.g., "Assign to User", "Searching in Products")
+- `.pa-command-palette__results` - Scrollable results area
+- `.pa-command-palette__item` - Result row (`--active` for keyboard-highlighted)
+- `.pa-command-palette__item-icon` - Item icon
+- `.pa-command-palette__item-content` - Title + subtitle wrapper
+- `.pa-command-palette__item-title` - Item title (supports `<mark>` for search highlights)
+- `.pa-command-palette__item-meta` - Subtitle/metadata
+- `.pa-command-palette__preview` - Command step preview text
+- `.pa-command-palette__footer` - Keyboard hints bar
+- `.pa-command-palette__key` - Keyboard shortcut badge
+- `.pa-command-palette__token-prompt` - Step prompt text between token badges
+- **Modes:** `/` commands, `:` context search, plain text global search
+- **Display styles:** Inline (everything in input) or Tokens (selections as badges)
+
 ### Toasts
 - `.pa-toast` - Base toast
 - `.pa-toast--primary/success/danger/warning/info` - Variants
