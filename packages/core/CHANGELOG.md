@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.3.3] - 2026-03-30
+
+### Added
+
+- **Command palette rewrite** — Multi-step command wizards (`/deploy`, `/assign`, `/go`, `/theme`), context search (`:p`, `:u`, `:o`), global search, inline/tokens display modes
+- **`pa-command-palette__input-wrapper`** — New element wrapping input + context label for correct positioning in token mode
+- **`pa-command-palette__token-prompt`** — Step prompt text between token badges
+- **`pa-command-palette__key-bg/key-text` CSS variables** — Themeable keyboard shortcut badges in command palette footer
+- **`pa-command-palette__menu-inner`** — Inner wrapper for split button dropdown (two-container pattern)
+
+### Changed
+
+- **Command palette badges** — Replaced custom `pa-command-palette__item-badge` with standard `pa-badge` (supports color variants)
+- **Command palette loading overlay** — Uses `color-mix()` with `var(--pa-modal-content-bg)` instead of SCSS `rgba()` — fixes white overlay on dark themes
+- **Removed `$secondary-light-bg`** from all command palette components — was stuck on light defaults due to `@use` module isolation
+
+### Fixed
+
+- **Command palette reset** — Palette now fully resets on close (input, placeholder, results, tokens, mode)
+- **Command palette step navigation** — Clearing search in command-step mode no longer resets to idle; stays in current step
+- **Search highlight persistence** — Arrow key navigation preserves search text highlights
+
 ## [2.3.2] - 2026-03-30
 
 ### Added

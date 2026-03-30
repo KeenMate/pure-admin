@@ -20,16 +20,18 @@
     <div class="pa-command-palette__container">
         <!-- Search input -->
         <div class="pa-command-palette__search">
-            <input
-                type="text"
-                class="pa-command-palette__input"
-                id="commandPaletteInput"
-                placeholder="Search products, orders, users... (try /p, /o, /u)"
-                autocomplete="off"
-                spellcheck="false"
-            >
-            <!-- Context label (hidden by default, shown when prefix detected) -->
-            <div class="pa-command-palette__context" id="commandPaletteContext"></div>
+            <div class="pa-command-palette__tokens" id="commandPaletteTokens"></div>
+            <div class="pa-command-palette__input-wrapper">
+                <input
+                    type="text"
+                    class="pa-command-palette__input"
+                    id="commandPaletteInput"
+                    placeholder="Type / for commands, : to search, or just start typing..."
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+                <div class="pa-command-palette__context" id="commandPaletteContext"></div>
+            </div>
         </div>
 
         <!-- Results container -->

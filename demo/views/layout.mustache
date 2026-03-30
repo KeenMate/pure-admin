@@ -277,27 +277,25 @@
         <div class="pa-command-palette__container">
             <div class="pa-command-palette__search">
                 <div class="pa-command-palette__tokens" id="commandPaletteTokens"></div>
-                <input
-                    type="text"
-                    class="pa-command-palette__input"
-                    id="commandPaletteInput"
-                    placeholder="Search products, orders, users... (try /p, /o, /u)"
-                    autocomplete="off"
-                    spellcheck="false"
-                >
-                <div class="pa-command-palette__context" id="commandPaletteContext"></div>
+                <div class="pa-command-palette__input-wrapper">
+                    <input
+                        type="text"
+                        class="pa-command-palette__input"
+                        id="commandPaletteInput"
+                        placeholder="Type / for commands, : to search, or just start typing..."
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <div class="pa-command-palette__context" id="commandPaletteContext"></div>
+                </div>
             </div>
             <div class="pa-command-palette__results" id="commandPaletteResults">
-                <div class="pa-command-palette__empty">Type to search or use /p for products, /o for orders, /u for users, /i for invoices</div>
+                <div class="pa-command-palette__empty">Type / for commands, : to search a category, or just start typing</div>
             </div>
             <div class="pa-command-palette__footer">
                 <div class="pa-command-palette__hint">
                     <span class="pa-command-palette__key">↑↓</span>
                     <span>Navigate</span>
-                </div>
-                <div class="pa-command-palette__hint">
-                    <span class="pa-command-palette__key">←→</span>
-                    <span>Pages</span>
                 </div>
                 <div class="pa-command-palette__hint">
                     <span class="pa-command-palette__key">↵</span>
@@ -306,6 +304,11 @@
                 <div class="pa-command-palette__hint">
                     <span class="pa-command-palette__key">Esc</span>
                     <span>Close</span>
+                </div>
+                <div class="pa-command-palette__hint" style="margin-inline-start: auto;">
+                    <button class="pa-command-palette__key" id="commandPaletteDisplayToggle" title="Toggle display style (inline/tokens)" style="cursor: pointer;">
+                        <span id="commandPaletteDisplayLabel">inline</span>
+                    </button>
                 </div>
             </div>
         </div>

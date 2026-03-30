@@ -51,6 +51,12 @@
     flex-wrap: wrap;
     gap: $spacing-xs;
     align-items: center;
+    margin-bottom: $spacing-sm;
+
+    &:empty {
+      display: none;
+      margin-bottom: 0;
+    }
 
     .pa-badge {
       display: inline-flex;
@@ -77,6 +83,16 @@
     }
   }
 
+  &__token-prompt {
+    font-size: $font-size-xs;
+    color: var(--pa-text-color-2);
+    font-style: italic;
+  }
+
+  &__input-wrapper {
+    position: relative;
+  }
+
   &__input {
     width: 100%;
     height: $command-palette-input-height;
@@ -100,10 +116,10 @@
     }
   }
 
-  // Context label (e.g., "Searching in Products")
+  // Context label (e.g., "Searching in Products") — positioned relative to input-wrapper
   &__context {
     position: absolute;
-    inset-inline-end: calc(#{$spacing-sm} + #{$command-palette-input-padding-h}); // RTL: flips to left
+    inset-inline-end: $command-palette-input-padding-h; // RTL: flips to left
     top: 50%;
     transform: translateY(-50%);
     font-size: $font-size-xs;

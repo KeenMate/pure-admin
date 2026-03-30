@@ -10,6 +10,7 @@
                             <h3>Quick Start</h3>
                         </div>
                         <div class="pa-card__body">
+                            <p class="mb-4">Open the command palette and try the different modes:</p>
                             <div class="mb-4">
                                 <button class="pa-btn pa-btn--primary pa-btn--lg pa-btn--block" onclick="document.getElementById('commandPalette').classList.add('pa-command-palette--active'); document.getElementById('commandPaletteInput').focus();">
                                     <span class="pa-btn__icon">🔍</span>
@@ -17,11 +18,41 @@
                                 </button>
                             </div>
 
-                            <div class="pa-alert pa-alert--primary mb-4">
-                                <strong>Try it now!</strong> Click the button above or press <kbd>Ctrl+K</kbd> (Windows/Linux) or <kbd>Cmd+K</kbd> (Mac) to open the command palette.
+                            <div class="mb-4" style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span>Display style:</span>
+                                <button class="pa-btn pa-btn--sm pa-btn--primary" id="cpDemoInlineBtn" onclick="setCpDisplayStyle('inline')">Inline</button>
+                                <button class="pa-btn pa-btn--sm pa-btn--secondary" id="cpDemoTokensBtn" onclick="setCpDisplayStyle('tokens')">Tokens</button>
                             </div>
 
-                            <h4 class="mb-2">Keyboard Shortcuts</h4>
+                            <h4 class="mb-2">Modes</h4>
+                            <table class="pa-table pa-table--compact">
+                                <thead>
+                                    <tr>
+                                        <th>Prefix</th>
+                                        <th>Mode</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>/</code></td>
+                                        <td>Commands</td>
+                                        <td>Multi-step action wizards</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>:</code></td>
+                                        <td>Search</td>
+                                        <td>Scoped entity search</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>(none)</code></td>
+                                        <td>Global</td>
+                                        <td>Search everything</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h4 class="mt-4 mb-2">Keyboard Shortcuts</h4>
                             <table class="pa-table pa-table--compact">
                                 <thead>
                                     <tr>
@@ -39,12 +70,8 @@
                                         <td>Navigate between results</td>
                                     </tr>
                                     <tr>
-                                        <td><kbd>←</kbd> <kbd>→</kbd></td>
-                                        <td>Navigate between pages</td>
-                                    </tr>
-                                    <tr>
-                                        <td><kbd>Enter</kbd></td>
-                                        <td>Select highlighted result</td>
+                                        <td><kbd>Enter</kbd> / <kbd>Tab</kbd></td>
+                                        <td>Select item or submit free text</td>
                                     </tr>
                                     <tr>
                                         <td><kbd>Esc</kbd></td>
@@ -55,48 +82,90 @@
                         </div>
                     </div>
 
-                    <!-- Context Switching -->
+                    <!-- Commands -->
                     <div class="pa-card mb-4">
                         <div class="pa-card__header">
-                            <h3>Context Switching</h3>
+                            <h3>Commands <code>/</code></h3>
                         </div>
                         <div class="pa-card__body">
-                            <p class="mb-3">Use special prefixes to search within specific contexts:</p>
+                            <p class="mb-3">Type <code>/</code> to see all commands. Multi-step commands guide you through selections:</p>
 
                             <table class="pa-table pa-table--compact">
                                 <thead>
                                     <tr>
-                                        <th>Prefix</th>
+                                        <th>Command</th>
+                                        <th>Aliases</th>
+                                        <th>Description</th>
+                                        <th>Steps</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>/deploy</code></td>
+                                        <td><code>/d</code></td>
+                                        <td>Deploy a branch to an environment</td>
+                                        <td>environment → branch</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>/assign</code></td>
+                                        <td><code>/a</code></td>
+                                        <td>Assign an item to a team member</td>
+                                        <td>item → user</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>/go</code></td>
+                                        <td><code>/g</code> <code>/nav</code></td>
+                                        <td>Navigate to a page</td>
+                                        <td>page (free text)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>/theme</code></td>
+                                        <td><code>/t</code></td>
+                                        <td>Switch the visual theme</td>
+                                        <td>theme</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Context Search -->
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Context Search <code>:</code></h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="mb-3">Type <code>:</code> to see all search contexts. Select one, then type to search within it:</p>
+
+                            <table class="pa-table pa-table--compact">
+                                <thead>
+                                    <tr>
                                         <th>Context</th>
+                                        <th>Aliases</th>
                                         <th>Example</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><code>/p</code></td>
-                                        <td>Products</td>
-                                        <td><code>/p macbook</code></td>
+                                        <td><code>:p</code></td>
+                                        <td><code>:products</code></td>
+                                        <td><code>:p macbook</code></td>
                                     </tr>
                                     <tr>
-                                        <td><code>/o</code></td>
-                                        <td>Orders</td>
-                                        <td><code>/o 1001</code></td>
+                                        <td><code>:u</code></td>
+                                        <td><code>:users</code></td>
+                                        <td><code>:u john</code></td>
                                     </tr>
                                     <tr>
-                                        <td><code>/u</code></td>
-                                        <td>Users</td>
-                                        <td><code>/u john</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>/i</code></td>
-                                        <td>Invoices</td>
-                                        <td><code>/i 501</code></td>
+                                        <td><code>:o</code></td>
+                                        <td><code>:orders</code></td>
+                                        <td><code>:o 1001</code></td>
                                     </tr>
                                 </tbody>
                             </table>
 
                             <div class="pa-alert pa-alert--success mt-3">
-                                <strong>Pro tip:</strong> When you type a context prefix (e.g., <code>/p</code>), a label appears showing "Searching in Products" to confirm the active context.
+                                <strong>Global search:</strong> Just start typing without a prefix to search across all categories (3 results per category).
                             </div>
                         </div>
                     </div>
@@ -121,8 +190,15 @@
                                 <li>
                                     <span class="pa-list__icon">🎯</span>
                                     <div class="pa-list__content">
-                                        <strong>Context-Aware</strong>
-                                        <p>Switch between products, orders, users, and invoices</p>
+                                        <strong>Multi-step Commands</strong>
+                                        <p>Wizard-style commands with <code>/</code> prefix — deploy, assign, navigate</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="pa-list__icon">🔎</span>
+                                    <div class="pa-list__content">
+                                        <strong>Context Search</strong>
+                                        <p>Search within categories with <code>:</code> prefix — products, users, orders</p>
                                     </div>
                                 </li>
                                 <li>
@@ -140,10 +216,10 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <span class="pa-list__icon">📄</span>
+                                    <span class="pa-list__icon">🏷️</span>
                                     <div class="pa-list__content">
-                                        <strong>Pagination</strong>
-                                        <p>Navigate through pages of results with arrow keys</p>
+                                        <strong>Inline / Tokens Display</strong>
+                                        <p>Toggle between inline text and token badges for command steps</p>
                                     </div>
                                 </li>
                                 <li>
@@ -163,65 +239,35 @@
                             <h3>Search Examples</h3>
                         </div>
                         <div class="pa-card__body">
-                            <p class="mb-3">Try these search queries:</p>
+                            <p class="mb-3">Try these — click to open the palette with the query pre-filled:</p>
 
                             <div class="mb-3">
-                                <h4 class="mb-2">Products</h4>
+                                <h4 class="mb-2">Commands</h4>
                                 <div class="pa-btn-group mb-2">
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/p macbook')">
-                                        /p macbook
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/p iphone')">
-                                        /p iphone
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/p airpods')">
-                                        /p airpods
-                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/')">/</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/deploy ')">/deploy</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/assign ')">/assign</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/go ')">/go</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/theme ')">/theme</button>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <h4 class="mb-2">Orders</h4>
+                                <h4 class="mb-2">Context Search</h4>
                                 <div class="pa-btn-group mb-2">
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/o 1001')">
-                                        /o 1001
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/o shipped')">
-                                        /o shipped
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/o pending')">
-                                        /o pending
-                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery(':')">:</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery(':p macbook')">:p macbook</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery(':u john')">:u john</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery(':o 1001')">:o 1001</button>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <h4 class="mb-2">Users</h4>
+                                <h4 class="mb-2">Global Search</h4>
                                 <div class="pa-btn-group mb-2">
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/u john')">
-                                        /u john
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/u active')">
-                                        /u active
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/u admin')">
-                                        /u admin
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <h4 class="mb-2">Invoices</h4>
-                                <div class="pa-btn-group mb-2">
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/i 501')">
-                                        /i 501
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/i unpaid')">
-                                        /i unpaid
-                                    </button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('/i overdue')">
-                                        /i overdue
-                                    </button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('macbook')">macbook</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('john')">john</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="openPaletteWithQuery('1001')">1001</button>
                                 </div>
                             </div>
                         </div>
@@ -252,6 +298,17 @@
         </div>
 
         <script>
+            // Display style toggle
+            function setCpDisplayStyle(style) {
+                if (window.commandPalette) {
+                    window.commandPalette.setDisplayStyle(style);
+                } else {
+                    console.warn('Command palette not initialized yet');
+                }
+                document.getElementById('cpDemoInlineBtn').className = 'pa-btn pa-btn--sm ' + (style === 'inline' ? 'pa-btn--primary' : 'pa-btn--secondary');
+                document.getElementById('cpDemoTokensBtn').className = 'pa-btn pa-btn--sm ' + (style === 'tokens' ? 'pa-btn--primary' : 'pa-btn--secondary');
+            }
+
             // Helper function to open palette with pre-filled query
             function openPaletteWithQuery(query) {
                 const palette = document.getElementById('commandPalette');

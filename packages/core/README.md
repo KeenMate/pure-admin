@@ -2,18 +2,17 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.3.3
+
+- **Command palette rewrite** — Multi-step command wizards (`/deploy`, `/assign`, `/go`, `/theme`), context search (`:p`, `:u`, `:o`), global search, inline/tokens display modes matching keen-pure-admin
+- **Dark theme fixes** — Command palette loading overlay, key badges, and item badges all use CSS variables instead of SCSS defaults stuck on light mode
+
 ## What's New in 2.3.2
 
 - **Themeable border-radius via CSS variables** — All components now use `var(--pa-border-radius)`. Themes override in `:root` (same pattern as colors). Fixes long-standing issue where `@use` module isolation prevented theme control of border-radius
 - **Outline-secondary button contrast** — New `--pa-btn-secondary-outline-color` variable, readable on all dark themes
 - **Split button dropdown rework** — Two-container pattern (`__menu` + `__menu-inner`) matching web-multiselect. New `__item-row` element for rows with action buttons. Container handles `overflow: hidden` + `border-radius`
 - **Removed hover lift** — `translateY(-1px)` removed from buttons and stat cards for consistency
-
-## What's New in 2.3.0
-
-- **Toast action buttons** — New `pa-toast__actions` element for action buttons inside toasts, separated by a border-top. Toast service supports `actions: [{ label, variant, onClick }]` with auto-dismiss on click
-- **Toast service improvements** — `filled`, `progressColor`, and `maxWidth` options. Container width ratchets up to the widest toast shown, preventing layout jitter when toasts dismiss
-- **Toast progress bar** — More visible: 5px height, 0.6 opacity (was 3px / 0.3)
 
 ## Installation
 
