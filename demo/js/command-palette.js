@@ -120,6 +120,7 @@
       {
         shortcut: '/deploy',
         aliases: ['/d'],
+        hotkey: 'Alt+D',
         name: 'Deploy to Environment',
         description: 'Deploy a branch to an environment',
         icon: '🚀',
@@ -160,6 +161,7 @@
       {
         shortcut: '/assign',
         aliases: ['/a'],
+        hotkey: 'Alt+A',
         name: 'Assign to User',
         description: 'Assign an item to a team member',
         icon: '👤',
@@ -196,6 +198,7 @@
       {
         shortcut: '/go',
         aliases: ['/g', '/nav'],
+        hotkey: 'Alt+G',
         name: 'Go to Page',
         description: 'Navigate to a page',
         icon: '🧭',
@@ -222,6 +225,7 @@
       {
         shortcut: '/theme',
         aliases: ['/t'],
+        hotkey: 'Alt+T',
         name: 'Switch Theme',
         description: 'Change the visual theme',
         icon: '🎨',
@@ -377,8 +381,61 @@
 
     // ── Rendering ──
     function renderIdle() {
-      resultsEl.innerHTML =
-        '<div class="pa-command-palette__empty">Type / for commands, : to search a category, or just start typing</div>';
+      let html = '<div class="pa-command-palette__home">';
+
+      // Commands section
+      html += '<div class="pa-command-palette__home-section">';
+      html += '<div class="pa-command-palette__home-heading">Commands</div>';
+      commands.forEach((cmd) => {
+        html += `<div class="pa-command-palette__item" data-home-cmd="${cmd.shortcut}">`;
+        if (cmd.icon) html += `<div class="pa-command-palette__item-icon">${cmd.icon}</div>`;
+        html += `<div class="pa-command-palette__item-content">`;
+        html += `<div class="pa-command-palette__item-title">${escapeHtml(cmd.name)}</div>`;
+        html += `<div class="pa-command-palette__item-meta">${escapeHtml(cmd.description)}</div>`;
+        html += `</div>`;
+        if (cmd.hotkey) {
+          const keys = cmd.hotkey.split('+');
+          html += `<div class="pa-command-palette__shortcut">`;
+          keys.forEach((k, i) => { html += `<span class="pa-command-palette__key">${k}</span>`; if (i < keys.length - 1) html += ' '; });
+          html += `</div>`;
+        } else {
+          html += `<span class="pa-command-palette__key">${escapeHtml(cmd.shortcut)}</span>`;
+        }
+        html += `</div>`;
+      });
+      html += '</div>';
+
+      // Search contexts section
+      html += '<div class="pa-command-palette__home-section">';
+      html += '<div class="pa-command-palette__home-heading">Search</div>';
+      contexts.forEach((ctx) => {
+        html += `<div class="pa-command-palette__item" data-home-ctx="${ctx.shortcut}">`;
+        if (ctx.icon) html += `<div class="pa-command-palette__item-icon">${ctx.icon}</div>`;
+        html += `<div class="pa-command-palette__item-content">`;
+        html += `<div class="pa-command-palette__item-title">${escapeHtml(ctx.name)}</div>`;
+        html += `<div class="pa-command-palette__item-meta">${escapeHtml(ctx.description)}</div>`;
+        html += `</div>`;
+        html += `<span class="pa-command-palette__key">${escapeHtml(ctx.shortcut)}</span>`;
+        html += `</div>`;
+      });
+      html += '</div>';
+
+      html += '</div>';
+      resultsEl.innerHTML = html;
+
+      // Click handlers for home items
+      resultsEl.querySelectorAll('[data-home-cmd]').forEach((el) => {
+        el.addEventListener('click', () => {
+          input.value = el.dataset.homeCmd + ' ';
+          input.dispatchEvent(new Event('input'));
+        });
+      });
+      resultsEl.querySelectorAll('[data-home-ctx]').forEach((el) => {
+        el.addEventListener('click', () => {
+          input.value = el.dataset.homeCtx + ' ';
+          input.dispatchEvent(new Event('input'));
+        });
+      });
     }
 
     function renderEmpty(message) {
@@ -663,9 +720,7 @@
     }
 
     function updatePreview() {
-      if (activeCommand?.getPreview) {
-        preview = activeCommand.getPreview(selections);
-      }
+      preview = null;
     }
 
     // ── Contexts (:) ──
@@ -745,6 +800,28 @@
         const q = query.toLowerCase();
         const results = [];
 
+        // Commands matching query
+        commands
+          .filter((c) => c.name.toLowerCase().includes(q) || c.shortcut.toLowerCase().includes(q) ||
+            (c.aliases || []).some((a) => a.toLowerCase().includes(q)))
+          .forEach((c) => results.push({
+            id: 'cmd-' + c.shortcut, title: c.name,
+            subtitle: c.description, icon: c.icon,
+            badge: c.shortcut, badgeVariant: '',
+            _type: 'command', _command: c,
+          }));
+
+        // Contexts matching query
+        contexts
+          .filter((c) => c.name.toLowerCase().includes(q) || c.shortcut.toLowerCase().includes(q) ||
+            (c.aliases || []).some((a) => a.toLowerCase().includes(q)))
+          .forEach((c) => results.push({
+            id: 'ctx-' + c.shortcut, title: c.name,
+            subtitle: c.description, icon: c.icon,
+            badge: c.shortcut, badgeVariant: '',
+            _type: 'context', _context: c,
+          }));
+
         // Products (max 3)
         products
           .filter((p) => p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q))
@@ -816,8 +893,20 @@
           break;
 
         case 'global-search':
-          alert(`Selected: ${item.title} (${item._type})`);
-          close();
+          if (item._type === 'command') {
+            input.value = item._command.shortcut + ' ';
+            enterCommandMode(item._command, '');
+          } else if (item._type === 'context') {
+            activeContext = item._context;
+            mode = 'context-search';
+            input.value = item._context.shortcut + ' ';
+            updateContextLabel('Searching in ' + item._context.name);
+            displayItems = [];
+            renderEmpty('Type to search ' + item._context.name.toLowerCase());
+          } else {
+            alert(`Selected: ${item.title} (${item._type})`);
+            close();
+          }
           break;
       }
     }
@@ -845,9 +934,28 @@
 
     // ── Event listeners ──
     document.addEventListener('keydown', (e) => {
+      // Ctrl+K — toggle palette
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         isOpen ? close() : open();
+        return;
+      }
+
+      // Global hotkeys — Ctrl+Shift+key opens palette with command
+      if (e.altKey && !e.ctrlKey && !e.metaKey && !isOpen) {
+        const cmd = commands.find((c) => {
+          if (!c.hotkey) return false;
+          const parts = c.hotkey.toLowerCase().split('+');
+          const key = parts[parts.length - 1];
+          return e.key.toLowerCase() === key;
+        });
+        if (cmd) {
+          e.preventDefault();
+          open();
+          input.value = cmd.shortcut + ' ';
+          enterCommandMode(cmd, '');
+          return;
+        }
       }
     });
 

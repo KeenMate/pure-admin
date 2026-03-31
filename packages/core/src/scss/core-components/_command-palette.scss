@@ -156,6 +156,35 @@
     }
   }
 
+  // Home screen (idle state)
+  &__home {
+    padding: $spacing-sm 0;
+  }
+
+  &__home-section {
+    &:not(:first-child) {
+      border-top: $border-width-base solid var(--pa-border-color);
+      margin-top: $spacing-xs;
+      padding-top: $spacing-xs;
+    }
+  }
+
+  &__home-heading {
+    padding: $spacing-xs $command-palette-input-padding-h;
+    font-size: $font-size-2xs;
+    font-weight: $font-weight-semibold;
+    color: var(--pa-text-color-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__shortcut {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    flex-shrink: 0;
+  }
+
   // Empty state
   &__empty {
     padding: $command-palette-empty-padding-v $command-palette-input-padding-h;
