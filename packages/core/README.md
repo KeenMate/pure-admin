@@ -2,12 +2,12 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.3.4
+
+- **Command palette home screen & hotkeys** — Opens with categorized commands and search contexts. Alt+D/A/G/T hotkeys jump directly into commands. Global search finds commands alongside data. Form codes for quick `/go` navigation.
+- **Dropdown z-index fix** — Split button menus no longer go under sidebar/header
+
 ## What's New in 2.3.3
-
-- **Command palette rewrite** — Multi-step command wizards (`/deploy`, `/assign`, `/go`, `/theme`), context search (`:p`, `:u`, `:o`), global search, inline/tokens display modes matching keen-pure-admin
-- **Dark theme fixes** — Command palette loading overlay, key badges, and item badges all use CSS variables instead of SCSS defaults stuck on light mode
-
-## What's New in 2.3.2
 
 - **Themeable border-radius via CSS variables** — All components now use `var(--pa-border-radius)`. Themes override in `:root` (same pattern as colors). Fixes long-standing issue where `@use` module isolation prevented theme control of border-radius
 - **Outline-secondary button contrast** — New `--pa-btn-secondary-outline-color` variable, readable on all dark themes

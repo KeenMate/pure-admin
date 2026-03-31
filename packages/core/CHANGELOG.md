@@ -9,6 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.3.4] - 2026-03-31
+
+### Added
+
+- **Command palette home screen** — Opens with categorized list of commands (with Alt+key hotkey badges) and search contexts. Items are clickable.
+- **Command palette hotkeys** — `Alt+D` Deploy, `Alt+A` Assign, `Alt+G` Go to Page, `Alt+T` Switch Theme. Work globally and inside the palette.
+- **Global search includes commands** — Typing "deploy" on the home screen finds the Deploy command alongside data results.
+- **Form codes for `/go`** — Pages have numeric codes (e.g., `24` for Alerts). `filterOpts` matches on label, description, and exact code.
+- **Command palette key badge CSS variables** — `--pa-command-palette-key-font-size` and `--pa-command-palette-key-font-weight` for themeable keyboard shortcut badges
+- **`pa-command-palette__home`** — Home screen container, `__home-section` with separators, `__home-heading` uppercase labels
+- **`pa-command-palette__shortcut`** — Flex container for multi-key hotkey badge groups
+
+### Changed
+
+- **Dropdown z-index** — Bumped from 1000 to 7500 (above sidebar and header)
+- **Command palette footer** — Removed display style toggle (controlled from demo page only)
+- **Removed preview** — No confirmation step in demo, preview was showing partial/misleading text
+
+### Fixed
+
+- **Command palette reset** — Fully resets on close (placeholder, results, tokens, mode)
+- **Step navigation** — Clearing search in command-step mode stays in step instead of resetting to idle
+- **Search highlights** — Persist during arrow key navigation
+
+---
+
 ## [2.3.3] - 2026-03-30
 
 ### Added
