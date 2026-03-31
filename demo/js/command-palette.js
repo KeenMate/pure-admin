@@ -113,7 +113,11 @@
     const filterOpts = (opts, query) => {
       if (!query) return opts;
       const q = query.toLowerCase();
-      return opts.filter((o) => (o.label || '').toLowerCase().includes(q) || (o.description || '').toLowerCase().includes(q));
+      return opts.filter((o) =>
+        (o.label || '').toLowerCase().includes(q) ||
+        (o.description || '').toLowerCase().includes(q) ||
+        (o.code || '') === q
+      );
     };
 
     const commands = [
@@ -208,12 +212,25 @@
             placeholder: 'Type page name...',
             freeText: true,
             getOptions: (query) => filterOpts([
-              { id: 'dashboard', label: 'Dashboard', icon: '📊', value: '/' },
-              { id: 'products', label: 'Products', icon: '📦', value: '/products' },
-              { id: 'orders', label: 'Orders', icon: '📋', value: '/orders' },
-              { id: 'users', label: 'Users', icon: '👤', value: '/users' },
-              { id: 'settings', label: 'Settings', icon: '⚙️', value: '/settings' },
-              { id: 'changelog', label: 'Changelog', icon: '📋', value: '/changelog' },
+              { id: 'dashboard', label: 'Dashboard', code: '01', icon: '📊', value: '/' },
+              { id: 'changelog', label: 'Changelog', code: '02', icon: '📋', value: '/changelog' },
+              { id: 'forms', label: 'Forms', code: '10', icon: '📝', value: '/forms' },
+              { id: 'theme-vars', label: 'Theme Variables', code: '11', icon: '🎨', value: '/design/theme-variables' },
+              { id: 'colors', label: 'Colors', code: '12', icon: '🌈', value: '/design/colors' },
+              { id: 'helpers', label: 'Helpers', code: '13', icon: '🔧', value: '/design/helpers' },
+              { id: 'buttons', label: 'Buttons', code: '20', icon: '🔘', value: '/components/buttons' },
+              { id: 'inputs', label: 'Inputs', code: '21', icon: '✏️', value: '/components/inputs' },
+              { id: 'cards', label: 'Cards', code: '22', icon: '🃏', value: '/components/cards' },
+              { id: 'tables', label: 'Tables', code: '23', icon: '📊', value: '/tables/standard' },
+              { id: 'alerts', label: 'Alerts', code: '24', icon: '⚠️', value: '/components/alerts' },
+              { id: 'toasts', label: 'Toasts', code: '25', icon: '🔔', value: '/components/toasts' },
+              { id: 'modals', label: 'Modals', code: '26', icon: '🔳', value: '/components/modals' },
+              { id: 'tabs', label: 'Tabs', code: '27', icon: '📑', value: '/components/tabs' },
+              { id: 'badges', label: 'Badges', code: '28', icon: '🏷️', value: '/components/badges' },
+              { id: 'tooltips', label: 'Tooltips', code: '29', icon: '💬', value: '/components/tooltips' },
+              { id: 'command-palette', label: 'Command Palette', code: '30', icon: '🔍', value: '/components/command-palette' },
+              { id: 'font-test', label: 'Font Tuning', code: '90', icon: '🔤', value: '/tools/font-test' },
+              { id: 'rtl-test', label: 'RTL Test', code: '91', icon: '↔️', value: '/tools/rtl-test' },
             ], query),
           },
         ],
@@ -326,7 +343,9 @@
     }
 
     function getSubtitle(item) {
-      return item.subtitle || item.description || '';
+      const sub = item.subtitle || item.description || '';
+      if (item.code) return sub ? `[${item.code}] ${sub}` : `[${item.code}]`;
+      return sub;
     }
 
     function getIcon(item) {
@@ -941,8 +960,8 @@
         return;
       }
 
-      // Global hotkeys — Ctrl+Shift+key opens palette with command
-      if (e.altKey && !e.ctrlKey && !e.metaKey && !isOpen) {
+      // Global hotkeys — Alt+key opens palette with command
+      if (e.altKey && !e.ctrlKey && !e.metaKey && e.key !== 'Alt') {
         const cmd = commands.find((c) => {
           if (!c.hotkey) return false;
           const parts = c.hotkey.toLowerCase().split('+');
@@ -951,7 +970,8 @@
         });
         if (cmd) {
           e.preventDefault();
-          open();
+          if (isOpen) { reset(); }
+          if (!isOpen) { open(); }
           input.value = cmd.shortcut + ' ';
           enterCommandMode(cmd, '');
           return;
@@ -986,6 +1006,22 @@
     input.addEventListener('input', processInput);
 
     input.addEventListener('keydown', (e) => {
+      // Alt+key hotkeys work inside the palette too
+      if (e.altKey && !e.ctrlKey && !e.metaKey && e.key !== 'Alt') {
+        const cmd = commands.find((c) => {
+          if (!c.hotkey) return false;
+          const parts = c.hotkey.toLowerCase().split('+');
+          return e.key.toLowerCase() === parts[parts.length - 1];
+        });
+        if (cmd) {
+          e.preventDefault();
+          reset();
+          input.value = cmd.shortcut + ' ';
+          enterCommandMode(cmd, '');
+          return;
+        }
+      }
+
       switch (e.key) {
         case 'Escape':
           e.preventDefault();

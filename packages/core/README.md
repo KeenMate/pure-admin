@@ -338,26 +338,65 @@ Works with both `pa-table` and `web-grid` component. First/last columns automati
 - `.pa-modal--primary/success/danger/warning` - Themed headers
 
 ### Command Palette
-- `.pa-command-palette` - Base container (add `--active` to show)
+
+macOS Spotlight-style search with multi-step commands, context search, and global search. Opens with `Ctrl+K` / `Cmd+K`.
+
+#### Behavior
+
+**Home Screen** — On open, displays a categorized list of available commands (with hotkey badges) and search contexts. Items are clickable. Typing immediately filters or switches to the appropriate mode.
+
+**Three Input Modes:**
+
+| Prefix | Mode | Behavior |
+|--------|------|----------|
+| `/` | Commands | Shows matching commands. Exact match + space enters the command wizard. |
+| `:` | Context search | Shows matching search contexts. Exact match + space enters scoped search with debounced filtering. |
+| (none) | Global search | Searches across all categories (commands, contexts, and data). Results limited to ~3 per category. |
+
+**Multi-step Commands** — Commands define an array of `steps`. Each step has `getOptions(query, previousSelections)` returning filterable options. Steps can be conditional (`shouldShow(selections)`), support free-text entry (`freeText: true`), and have prompts displayed between selections (e.g., "in", "to", "as"). The command's `onComplete(selections)` fires after all steps.
+
+**Fuzzy Matching** — Commands and contexts match on `shortcut`, `aliases`, and `name`. Matching is bidirectional: typing `/d` finds `/deploy`, and typing `/deploy` finds `/d`.
+
+**Form Codes** — Step options can have a `code` property (e.g., `"24"` for Alerts). The `filterOpts` helper matches on `label`, `description`, and exact `code` — enabling quick navigation by numeric codes common in business applications.
+
+**Display Styles:**
+
+- **Inline** — Everything in one input: `/deploy in Production branch main`. The input shows the full command string with prompts and selected values concatenated.
+- **Tokens** — Selections render as `pa-badge` chips in `__tokens` container above the input. Each badge has a `×` remove button to rewind to that step. The input only contains the current step's query. The command shortcut is the first badge.
+
+**Hotkeys** — Commands can define a `hotkey` (e.g., `"Alt+D"`). These work globally (palette closed) and inside the palette (on the home screen). The hotkey opens the palette and enters the command directly, skipping the command list.
+
+**Context Label** — `__context` element shows the active command name (e.g., "Assign to User") or search context (e.g., "Searching in Products"). Positioned inside `__input-wrapper` relative to the input.
+
+**Search Highlighting** — Matching text in result titles is wrapped in `<mark>` elements, styled with `--pa-command-palette-highlight-bg` and `--pa-command-palette-highlight-text`. Highlights persist during keyboard navigation.
+
+**Keyboard:** `↑↓` navigate, `Enter`/`Tab` select (or submit free text), `Esc` close, `Alt+key` command hotkeys.
+
+#### CSS Classes
+
+- `.pa-command-palette` - Base container (`--active` to show)
 - `.pa-command-palette__backdrop` - Overlay backdrop
 - `.pa-command-palette__container` - Modal dialog
-- `.pa-command-palette__search` - Search area (input + tokens + context)
-- `.pa-command-palette__tokens` - Token badges container (for token display mode)
+- `.pa-command-palette__search` - Search area (tokens + input-wrapper)
+- `.pa-command-palette__tokens` - Token badges container (hidden when empty via `:empty`)
 - `.pa-command-palette__input-wrapper` - Wraps input + context label (positioning anchor)
 - `.pa-command-palette__input` - Search input
-- `.pa-command-palette__context` - Context label (e.g., "Assign to User", "Searching in Products")
-- `.pa-command-palette__results` - Scrollable results area
-- `.pa-command-palette__item` - Result row (`--active` for keyboard-highlighted)
+- `.pa-command-palette__context` - Context label (`--visible` to show)
+- `.pa-command-palette__results` - Scrollable results area (`--loading` for overlay)
+- `.pa-command-palette__home` - Home screen container
+- `.pa-command-palette__home-section` - Section with border-top separator
+- `.pa-command-palette__home-heading` - Uppercase section heading
+- `.pa-command-palette__item` - Result row (`--active` for keyboard highlight)
 - `.pa-command-palette__item-icon` - Item icon
 - `.pa-command-palette__item-content` - Title + subtitle wrapper
-- `.pa-command-palette__item-title` - Item title (supports `<mark>` for search highlights)
-- `.pa-command-palette__item-meta` - Subtitle/metadata
-- `.pa-command-palette__preview` - Command step preview text
-- `.pa-command-palette__footer` - Keyboard hints bar
-- `.pa-command-palette__key` - Keyboard shortcut badge
+- `.pa-command-palette__item-title` - Title (supports `<mark>` for highlights)
+- `.pa-command-palette__item-meta` - Subtitle/metadata (shows `[code]` prefix when present)
+- `.pa-command-palette__shortcut` - Hotkey badge group (flex container)
+- `.pa-command-palette__key` - Keyboard key badge (themeable via `--pa-command-palette-key-bg/key-text`)
 - `.pa-command-palette__token-prompt` - Step prompt text between token badges
-- **Modes:** `/` commands, `:` context search, plain text global search
-- **Display styles:** Inline (everything in input) or Tokens (selections as badges)
+- `.pa-command-palette__footer` - Keyboard hints bar
+- `.pa-command-palette__empty` - Empty state message
+- `.pa-command-palette__loader` - Loading spinner + text
 
 ### Toasts
 - `.pa-toast` - Base toast
