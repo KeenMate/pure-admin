@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.3.5] - 2026-04-01
+
+### Fixed
+
+- **Navbar `__end` alignment** — Added `margin-inline-start: auto` to push `__end` section to the right regardless of whether `__center` exists as a spacer
+- **Scroll-lock layout shift** — Changed `.pa-scroll-lock` from `overflow: hidden` to `overflow-y: scroll` — scrollbar stays visible when ProfilePanel/modals open, preventing content shift
+
+---
+
 ## [2.3.4] - 2026-03-31
 
 ### Added

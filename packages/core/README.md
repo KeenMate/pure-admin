@@ -2,16 +2,15 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.3.5
+
+- **Navbar alignment fix** — `__end` section pushed to right edge via `margin-inline-start: auto`, works without `__center` spacer
+- **Scroll-lock fix** — Panel/modal open no longer hides scrollbar (`overflow-y: scroll` instead of `hidden`)
+
 ## What's New in 2.3.4
 
 - **Command palette home screen & hotkeys** — Opens with categorized commands and search contexts. Alt+D/A/G/T hotkeys jump directly into commands. Global search finds commands alongside data. Form codes for quick `/go` navigation.
 - **Dropdown z-index fix** — Split button menus no longer go under sidebar/header
-
-## What's New in 2.3.3
-
-- **Themeable border-radius via CSS variables** — All components now use `var(--pa-border-radius)`. Themes override in `:root` (same pattern as colors). Fixes long-standing issue where `@use` module isolation prevented theme control of border-radius
-- **Outline-secondary button contrast** — New `--pa-btn-secondary-outline-color` variable, readable on all dark themes
-- **Split button dropdown rework** — Two-container pattern (`__menu` + `__menu-inner`) matching web-multiselect. New `__item-row` element for rows with action buttons. Container handles `overflow: hidden` + `border-radius`
 - **Removed hover lift** — `translateY(-1px)` removed from buttons and stat cards for consistency
 
 ## Installation
