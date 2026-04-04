@@ -261,6 +261,10 @@ app.get('/', (req, res) => {
     renderWithLayout(res, 'dashboard', { pageTitle: 'Dashboard', currentPage: 'dashboard', isDashboard: true });
 });
 
+app.get('/getting-started', (req, res) => {
+    renderWithLayout(res, 'getting-started', { pageTitle: 'Getting Started', currentPage: 'getting-started', isGettingStarted: true });
+});
+
 app.get('/changelog', (req, res) => {
     const changelogPath = path.join(corePackagePath, 'CHANGELOG.md');
     const changelogMd = fs.readFileSync(changelogPath, 'utf-8');

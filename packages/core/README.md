@@ -2,16 +2,15 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.3.6
+
+- **Responsive font sizing** — `pa-font-responsive` class on `<html>` for automatic mobile scaling (10px desktop, 12px mobile). Granular `pa-font-base-*` / `pa-font-mobile-*` classes for full control. No JS, no FOUC.
+- **Getting Started page** — New demo page covering installation, theme management via CLI, responsive sizing, RTL, and BEM reference
+
 ## What's New in 2.3.5
 
 - **Navbar alignment fix** — `__end` section pushed to right edge via `margin-inline-start: auto`, works without `__center` spacer
 - **Scroll-lock fix** — Panel/modal open no longer hides scrollbar (`overflow-y: scroll` instead of `hidden`)
-
-## What's New in 2.3.4
-
-- **Command palette home screen & hotkeys** — Opens with categorized commands and search contexts. Alt+D/A/G/T hotkeys jump directly into commands. Global search finds commands alongside data. Form codes for quick `/go` navigation.
-- **Dropdown z-index fix** — Split button menus no longer go under sidebar/header
-- **Removed hover lift** — `translateY(-1px)` removed from buttons and stat cards for consistency
 
 ## Installation
 
@@ -35,15 +34,18 @@ import '@keenmate/pure-admin-core/dist/css/main.css';
 
 ### Using a Theme
 
-Themes are separate packages. Install and import:
+Download themes via the CLI and link the CSS:
 
 ```bash
-npm install @keenmate/pure-admin-theme-audi
+npm install -g @keenmate/pureadmin
+pureadmin themes audi
 ```
 
 ```html
-<link rel="stylesheet" href="node_modules/@keenmate/pure-admin-theme-audi/dist/audi.css">
+<link rel="stylesheet" href="static/themes/audi/audi.css">
 ```
+
+Browse all themes at [pureadmin.io](https://pureadmin.io). Keep them updated with `pureadmin update`.
 
 ### SCSS Customization
 

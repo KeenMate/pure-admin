@@ -25,6 +25,31 @@ html.font-size-xlarge {
   font-size: 12px;  // ~19px body text (12 * 1.6 = 19.2px)
 }
 
+// Responsive font size classes - Apply to <html> element for automatic mobile scaling
+// Desktop size applies above $mobile-breakpoint, mobile size applies at or below
+// Usage: <html class="pa-font-base-10 pa-font-mobile-12">
+// Shorthand: <html class="pa-font-responsive"> (10px desktop, 12px mobile)
+
+$_font-base-sizes: (9, 10, 11, 12);
+
+@each $size in $_font-base-sizes {
+  html.pa-font-base-#{$size} {
+    font-size: #{$size}px;
+  }
+}
+
+@media (max-width: $mobile-breakpoint) {
+  @each $size in $_font-base-sizes {
+    html.pa-font-mobile-#{$size} {
+      font-size: #{$size}px;
+    }
+  }
+
+  html.pa-font-responsive {
+    font-size: 12px;
+  }
+}
+
 // Font family utilities
 // Only for overriding the theme's default font
 .font-family-serif {

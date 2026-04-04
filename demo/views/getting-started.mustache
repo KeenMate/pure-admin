@@ -1,0 +1,285 @@
+<p>Everything you need to get Pure Admin running in your project.</p>
+
+<!-- Installation -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Installation</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">Install the core package and the CLI:</p>
+
+        <pre class="pa-code"><code>npm install @keenmate/pure-admin-core
+npm install -g @keenmate/pureadmin</code></pre>
+
+        <p class="pa-text mt-4 mb-4">Then download a theme using the CLI:</p>
+
+        <pre class="pa-code"><code># Download one or more themes
+pureadmin themes audi
+pureadmin themes audi dark express</code></pre>
+
+        <p class="pa-text mt-4 mb-4">This downloads the theme CSS into your project (default: <code>static/themes/</code>) and saves the configuration to <code>pureadmin.json</code>. Then link it in your HTML:</p>
+
+        <pre class="pa-code"><code>&lt;link rel="stylesheet" href="static/themes/audi/audi.css"&gt;</code></pre>
+
+        <div class="pa-callout pa-callout--info mt-4">
+            <div class="pa-callout__body">
+                Browse all available themes at <a href="https://pureadmin.io" target="_blank">pureadmin.io</a>.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Basic HTML Setup -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Basic HTML Setup</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">Link the theme CSS (which includes the core) and use the standard layout structure:</p>
+
+        <pre class="pa-code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en" class="pa-font-responsive"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;link rel="stylesheet" href="path/to/theme/audi.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Navbar --&gt;
+    &lt;header class="pa-navbar"&gt;
+        &lt;span class="pa-navbar__brand"&gt;My App&lt;/span&gt;
+    &lt;/header&gt;
+
+    &lt;!-- Layout: sidebar + main --&gt;
+    &lt;div class="pa-layout"&gt;
+        &lt;aside class="pa-layout__sidebar"&gt;
+            &lt;nav class="pa-sidebar__nav"&gt;
+                &lt;ul&gt;
+                    &lt;li class="pa-sidebar__item"&gt;
+                        &lt;a href="/" class="pa-sidebar__link pa-sidebar__link--active"&gt;
+                            &lt;span class="pa-sidebar__label"&gt;Dashboard&lt;/span&gt;
+                        &lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/nav&gt;
+        &lt;/aside&gt;
+
+        &lt;main class="pa-layout__main"&gt;
+            &lt;div class="pa-card"&gt;
+                &lt;div class="pa-card__body"&gt;Hello, Pure Admin!&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/main&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+</div>
+
+<!-- SCSS Customization -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>SCSS Customization</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">Override SCSS variables <strong>before</strong> importing the core to customize the framework:</p>
+
+        <pre class="pa-code"><code>// Override variables first
+$primary-bg: #1a73e8;
+$btn-primary-bg: #1a73e8;
+$body-font-family: 'Inter', sans-serif;
+
+// Then import core (applies your overrides via !default)
+@import '@keenmate/pure-admin-core/src/scss/main';</code></pre>
+
+        <p class="pa-text pa-text--secondary mt-4 mb-0">
+            See <a href="/design/theme-variables">Theme Variables</a> for the full list of customizable variables.
+        </p>
+    </div>
+</div>
+
+<!-- Themes & Updates -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Themes & Updates</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">
+            Themes are standalone CSS files that include the core framework. Browse and preview all available
+            themes at <a href="https://pureadmin.io" target="_blank">pureadmin.io</a>,
+            or use the settings panel (gear icon) on this demo to try them live.
+        </p>
+
+        <h4>Keeping themes up to date</h4>
+        <p class="pa-text mb-2">The CLI tracks installed theme versions in <code>pureadmin.json</code>. To check for updates and re-download only what changed:</p>
+        <pre class="pa-code"><code>pureadmin update</code></pre>
+
+        <h4 class="mt-4">Online vs. Offline mode</h4>
+        <p class="pa-text mb-2">By default, theme files are <strong>not</strong> committed to git — they are downloaded on demand. For air-gapped environments or reproducible builds, use offline mode:</p>
+        <pre class="pa-code"><code># Offline: theme files committed to your repo, no network needed in CI/CD
+pureadmin themes audi --offline
+
+# Online (default): theme files gitignored, downloaded during build
+pureadmin themes audi</code></pre>
+
+        <h4 class="mt-4">CI/CD &amp; Docker</h4>
+        <p class="pa-text mb-2">Use the CLI in your Dockerfile — it reads <code>pureadmin.json</code> and downloads the configured themes:</p>
+        <pre class="pa-code"><code>RUN npm install -g @keenmate/pureadmin &amp;&amp; \
+    pureadmin themes</code></pre>
+
+        <p class="pa-text pa-text--secondary mt-4 mb-0">Or with offline themes already committed to your repo, no download step is needed at all.</p>
+    </div>
+</div>
+
+<!-- Responsive Font Sizing -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Responsive Font Sizing</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">
+            Pure Admin uses a <strong>10px rem base</strong> — the <code>html</code> font-size is 10px, so all rem values
+            scale proportionally. Changing the html font-size scales the entire UI: text, spacing, components.
+        </p>
+
+        <h4>Shorthand (recommended)</h4>
+        <p class="pa-text mb-2">One class for the common case — default on desktop, larger on mobile:</p>
+        <pre class="pa-code"><code>&lt;html class="pa-font-responsive"&gt;
+&lt;!-- Desktop: 10px base (16px body text) --&gt;
+&lt;!-- Mobile (&le;768px): 12px base (~19px body text) --&gt;</code></pre>
+
+        <h4 class="mt-4">Granular Control</h4>
+        <p class="pa-text mb-2">Pick exact sizes for desktop and mobile independently:</p>
+        <pre class="pa-code"><code>&lt;html class="pa-font-base-10 pa-font-mobile-12"&gt;</code></pre>
+
+        <table class="pa-table pa-table--striped pa-table--compact mt-4">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>html font-size</th>
+                    <th>Body text result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>pa-font-base-9</code> / <code>pa-font-mobile-9</code></td>
+                    <td>9px</td>
+                    <td>~14px</td>
+                </tr>
+                <tr>
+                    <td><code>pa-font-base-10</code> / <code>pa-font-mobile-10</code></td>
+                    <td>10px</td>
+                    <td>16px (default)</td>
+                </tr>
+                <tr>
+                    <td><code>pa-font-base-11</code> / <code>pa-font-mobile-11</code></td>
+                    <td>11px</td>
+                    <td>~18px</td>
+                </tr>
+                <tr>
+                    <td><code>pa-font-base-12</code> / <code>pa-font-mobile-12</code></td>
+                    <td>12px</td>
+                    <td>~19px</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pa-callout pa-callout--info mt-4">
+            <div class="pa-callout__body">
+                <strong>No FOUC.</strong> These are CSS classes set directly in your HTML markup — styles apply before
+                first paint, unlike the JS-based settings panel approach.
+            </div>
+        </div>
+
+        <div class="pa-callout pa-callout--warning mt-2">
+            <div class="pa-callout__body">
+                <strong>Custom breakpoint?</strong> If you need a different mobile breakpoint, use a plain media query instead:
+                <pre class="pa-code mt-2 mb-0"><code>@media (max-width: 640px) {
+  html { font-size: 12px; }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RTL Support -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>RTL Support</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">Full right-to-left support via CSS Logical Properties. Just set the <code>dir</code> attribute:</p>
+
+        <pre class="pa-code"><code>&lt;html dir="rtl" lang="he"&gt;</code></pre>
+
+        <p class="pa-text mt-4 mb-2">All components automatically mirror. Use logical utility classes for RTL-aware spacing:</p>
+
+        <table class="pa-table pa-table--striped pa-table--compact">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.ms-*</code> / <code>.me-*</code></td>
+                    <td>Margin inline-start / inline-end</td>
+                </tr>
+                <tr>
+                    <td><code>.ps-*</code> / <code>.pe-*</code></td>
+                    <td>Padding inline-start / inline-end</td>
+                </tr>
+                <tr>
+                    <td><code>.text-start</code> / <code>.text-end</code></td>
+                    <td>Logical text alignment</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- BEM Naming -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Naming Convention</h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">All classes use the <code>pa-</code> prefix with BEM naming:</p>
+
+        <pre class="pa-code"><code>pa-[block]__[element]--[modifier]
+
+Examples:
+  pa-btn                     → block
+  pa-btn__icon               → element
+  pa-btn--primary            → modifier
+  pa-btn--lg                 → size modifier
+  pa-card__header--collapsed → element + modifier</code></pre>
+    </div>
+</div>
+
+<!-- Next Steps -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Next Steps</h3>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-row gap-md">
+            <div class="pa-col pa-col-1-2 pa-col-sm-100">
+                <div class="pa-callout pa-callout--primary">
+                    <div class="pa-callout__body">
+                        <strong>Browse Components</strong>
+                        <p class="mb-0">See all available components with live examples in the <a href="/components/overview">Components Overview</a>.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="pa-col pa-col-1-2 pa-col-sm-100">
+                <div class="pa-callout pa-callout--info">
+                    <div class="pa-callout__body">
+                        <strong>Customize Your Theme</strong>
+                        <p class="mb-0">Learn about all customizable variables in <a href="/design/theme-variables">Theme Variables</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

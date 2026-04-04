@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.3.6] - 2026-04-04
+
+### Added
+
+- **Responsive font sizing classes** — `pa-font-responsive` shorthand (10px desktop, 12px mobile) and granular `pa-font-base-{9-12}` / `pa-font-mobile-{9-12}` classes for declarative, FOUC-free scaling on `<html>`
+- **Getting Started demo page** — Installation, theme management via CLI, responsive font sizing, RTL support, BEM naming reference
+
+### Fixed
+
+- **Theme variables page** — Updated outdated "9 Themes" to "All Themes", fixed stale file paths referencing moved themes repo, fixed Benefits section alert layout
+
+---
+
 ## [2.3.5] - 2026-04-01
 
 ### Fixed
