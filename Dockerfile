@@ -32,10 +32,7 @@ RUN apk add --no-cache curl unzip && \
     curl -fsSL -o /tmp/themes.zip "${THEMES_URL}" && \
     mkdir -p themes && \
     unzip -o /tmp/themes.zip -d themes/ && \
-    rm /tmp/themes.zip && \
-    for d in themes/*/css; do \
-        [ -d "$d" ] && ! [ -d "$(dirname "$d")/dist" ] && mv "$d" "$(dirname "$d")/dist"; \
-    done
+    rm /tmp/themes.zip
 
 #  ██████╗ ██╗   ██╗███╗   ██╗████████╗██╗███╗   ███╗███████╗
 #  ██╔══██╗██║   ██║████╗  ██║╚══██╔══╝██║████╗ ████║██╔════╝
