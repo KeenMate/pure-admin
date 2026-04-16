@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.4.0] - 2026-04-08
+
+### Removed
+
+- **`download-themes` bin** — removed in favor of the [`pureadmin` CLI](https://www.npmjs.com/package/@keenmate/pureadmin). Use `npx pureadmin themes add <id>` to download and register themes, or `npx pureadmin themes update` to refresh changed ones. The legacy `scripts/download-themes.js` is no longer shipped with this package.
+
+### Changed
+
+- **README — Theme Setup** — rewritten to document the `pureadmin` CLI workflow (`themes add`, `themes update`, `themes list --local`) and `pureadmin.json` config file. The legacy `themes.json` / `.themes.json` scheme has been dropped.
+
+---
+
 ## [2.3.6] - 2026-04-04 [PUBLISHED]
 
 ### Added

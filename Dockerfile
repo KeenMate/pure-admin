@@ -58,7 +58,7 @@ COPY --from=build /app/package.json ./
 
 # Copy downloaded themes and their manifest
 COPY --from=build /app/themes/ ./themes/
-COPY --from=build /app/themes/themes.json ./themes.json
+COPY --from=build /app/themes/themes.json ./pureadmin.json
 
 # Expose the demo server port
 EXPOSE 3000

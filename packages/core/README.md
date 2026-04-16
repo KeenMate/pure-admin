@@ -109,39 +109,28 @@ Themes are maintained in the separate [`pure-admin-themes`](https://github.com/K
 
 ### Theme Setup
 
-Themes are configured via `themes.json` (base config) and `.themes.json` (local overrides, gitignored). Each entry is a theme name mapped to an options object:
+Themes are managed via the [`pureadmin` CLI](https://www.npmjs.com/package/@keenmate/pureadmin):
+
+```bash
+npm install -D @keenmate/pureadmin
+
+npx pureadmin themes list                    # browse all themes available on pureadmin.io
+npx pureadmin themes add audi corporate      # download + register themes in this project
+npx pureadmin themes update                  # re-download only themes whose content changed
+npx pureadmin themes list --local            # show themes configured in this project
+```
+
+The CLI extracts theme ZIPs into `static/themes/{name}/` (configurable via `--dir`) and tracks each one in `pureadmin.json` with version + content hash for change detection. See `npx pureadmin help themes` for the full subcommand reference.
+
+For local development against a sibling theme repo, you can hand-edit `.pureadmin.json` (gitignored) and point a slug at a filesystem path:
 
 ```json
 {
   "themes": {
-    "audi": {},
-    "corporate": { "path": "../pure-admin-themes/corporate" },
-    "custom": { "url": "https://my-server.com/themes/custom.zip" }
+    "corporate": "../pure-admin-themes/corporate"
   }
 }
 ```
-
-- **`{}`** — downloaded from pureadmin.io bundle
-- **`{ "path": "..." }`** — use a local directory (must contain `dist/{name}.css`)
-- **`{ "url": "..." }`** — downloaded from a custom URL
-
-Then run:
-
-```bash
-npx download-themes
-```
-
-Or add to your `package.json` scripts:
-
-```json
-{
-  "scripts": {
-    "download-themes": "download-themes"
-  }
-}
-```
-
-This fetches all remote themes into `./themes/{name}/` and leaves local paths unchanged. Config files are never modified.
 
 ### pureadmin.io Theme API
 
