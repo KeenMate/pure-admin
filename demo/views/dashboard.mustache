@@ -344,7 +344,10 @@
 </div>
 
 <script>
-// Horizontal Bar Chart for Top Sales Products using D3.js
+// Horizontal Bar Chart for Top Sales Products using D3.js.
+// Theme-aware: pulls colors and font from Pure Admin CSS custom properties
+// (--pa-accent, --pa-text-color-1/2, --pa-border-color) and inherits the
+// body font so it tracks every theme automatically.
 document.addEventListener('DOMContentLoaded', function() {
     const data = [
         { product: 'Product Alpha', sales: 24532 },
@@ -355,25 +358,31 @@ document.addEventListener('DOMContentLoaded', function() {
         { product: 'Product Zeta', sales: 7543 }
     ];
 
-    // Get the current theme's accent color from CSS
-    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color') || '#e63946';
+    const rootStyle = getComputedStyle(document.documentElement);
+    const cssVar = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
+    const accentColor  = cssVar('--pa-accent',         '#3b82f6');
+    const textPrimary  = cssVar('--pa-text-color-1',   '#1f2937');
+    const textMuted    = cssVar('--pa-text-color-2',   '#6b7280');
+    const borderColor  = cssVar('--pa-border-color',   '#e5e7eb');
+    // SVG doesn't reliably inherit font-family across the SVG boundary in
+    // all engines — read the theme's base font and apply explicitly.
+    const fontFamily   = cssVar('--base-font-family',  'system-ui, sans-serif');
 
-    // Set dimensions
     const margin = { top: 20, right: 30, bottom: 40, left: 120 };
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
-    // Create SVG
     const svg = d3.select('#salesChart')
         .append('svg')
         .attr('width', '100%')
         .attr('height', height + margin.top + margin.bottom)
         .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
         .attr('preserveAspectRatio', 'xMidYMid meet')
+        .style('font-family', fontFamily)
+        .style('font-size', '12px')
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Create scales
     const x = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.sales)])
         .range([0, width]);
@@ -383,27 +392,24 @@ document.addEventListener('DOMContentLoaded', function() {
         .range([0, height])
         .padding(0.2);
 
-    // Add X axis
     svg.append('g')
         .attr('transform', `translate(0,${height})`)
         .call(d3.axisBottom(x).ticks(5).tickFormat(d => '$' + (d / 1000).toFixed(0) + 'k'))
-        .style('color', getComputedStyle(document.body).color)
         .selectAll('text')
-        .style('fill', getComputedStyle(document.body).color);
+        .style('fill', textMuted)
+        .style('font-family', fontFamily)
+        .style('font-size', '11px');
 
-    // Add Y axis
     svg.append('g')
         .call(d3.axisLeft(y))
-        .style('color', getComputedStyle(document.body).color)
         .selectAll('text')
-        .style('fill', getComputedStyle(document.body).color);
+        .style('fill', textPrimary)
+        .style('font-family', fontFamily)
+        .style('font-size', '12px');
 
-    // Style axis lines
     svg.selectAll('.domain, .tick line')
-        .style('stroke', getComputedStyle(document.body).color)
-        .style('opacity', 0.2);
+        .style('stroke', borderColor);
 
-    // Add bars
     svg.selectAll('rect')
         .data(data)
         .enter()
@@ -413,16 +419,11 @@ document.addEventListener('DOMContentLoaded', function() {
         .attr('width', d => x(d.sales))
         .attr('height', y.bandwidth())
         .attr('fill', accentColor)
-        .attr('opacity', 0.8)
+        .attr('opacity', 0.85)
         .attr('rx', 4)
-        .on('mouseover', function() {
-            d3.select(this).attr('opacity', 1);
-        })
-        .on('mouseout', function() {
-            d3.select(this).attr('opacity', 0.8);
-        });
+        .on('mouseover', function() { d3.select(this).attr('opacity', 1); })
+        .on('mouseout',  function() { d3.select(this).attr('opacity', 0.85); });
 
-    // Add value labels on bars
     svg.selectAll('.label')
         .data(data)
         .enter()
@@ -432,7 +433,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .attr('y', d => y(d.product) + y.bandwidth() / 2)
         .attr('dy', '.35em')
         .text(d => '$' + d.sales.toLocaleString())
-        .style('fill', getComputedStyle(document.body).color)
+        .style('fill', textPrimary)
+        .style('font-family', fontFamily)
         .style('font-size', '12px')
         .style('font-weight', '600');
 });

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - 2026-04-16
 
+### Added
+
+- **Theme-aware demo dashboard chart** — The D3 horizontal bar chart on the dashboard (`demo/views/dashboard.mustache`) now sources all its styling from Pure Admin CSS custom properties instead of the hardcoded coral red it had been painting in every theme. Establishes the canonical pattern for making SVG charts track the active theme:
+    - **Colors** — bar fill from `--pa-accent`, label colors from `--pa-text-color-1/2`, axis lines from `--pa-border-color`
+    - **Typography** — pulls `--base-font-family` from the computed `:root` style and applies `font-family` *explicitly on every `<text>` element* (axis ticks and value labels), not on the SVG root. `font-family: inherit` on an SVG wrapper does not reliably propagate to child text nodes across every engine, which was causing Chrome to fall through the font stack to Arial even when the theme font was loaded. Setting the family on each text element forces correct resolution. The same approach should be used for any future SVG chart.
+    - **Previous bug** — the old script read `--accent-color` (not a Pure Admin variable) and fell back to a hardcoded `#e63946`, so every theme produced the same coral bars.
+
 ### Fixed
 
 - **KPI square stats (`pa-stat--square`) theming** — Color variants (`--primary`, `--success`, `--info`, `--warning`, `--danger`) were referencing raw SCSS variables that resolved to core defaults (Bootstrap blue/green/etc.) instead of the active theme's palette. Switched to `var(--pa-accent)`, `var(--pa-success-bg)`, `var(--pa-info-bg)`, `var(--pa-warning-bg)`, `var(--pa-danger-bg)` + corresponding `--pa-btn-*-text` vars so squares pick up theme colors at runtime.
