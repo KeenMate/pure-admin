@@ -5,7 +5,7 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2026-04-16
+## [2.4.0] - 2026-04-16
 
 ### Added
 
@@ -14,17 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - **Typography** — pulls `--base-font-family` from the computed `:root` style and applies `font-family` *explicitly on every `<text>` element* (axis ticks and value labels), not on the SVG root. `font-family: inherit` on an SVG wrapper does not reliably propagate to child text nodes across every engine, which was causing Chrome to fall through the font stack to Arial even when the theme font was loaded. Setting the family on each text element forces correct resolution. The same approach should be used for any future SVG chart.
     - **Previous bug** — the old script read `--accent-color` (not a Pure Admin variable) and fell back to a hardcoded `#e63946`, so every theme produced the same coral bars.
 
-### Fixed
-
-- **KPI square stats (`pa-stat--square`) theming** — Color variants (`--primary`, `--success`, `--info`, `--warning`, `--danger`) were referencing raw SCSS variables that resolved to core defaults (Bootstrap blue/green/etc.) instead of the active theme's palette. Switched to `var(--pa-accent)`, `var(--pa-success-bg)`, `var(--pa-info-bg)`, `var(--pa-warning-bg)`, `var(--pa-danger-bg)` + corresponding `--pa-btn-*-text` vars so squares pick up theme colors at runtime.
-- **Profile panel header readability on colored headers** — `__name` and `__email` were using body text color vars (`--pa-text-color-1/2`), which come out dark in light mode and were unreadable on themes with dark/colored headers (NATO, corporate). Switched to `var(--pa-header-profile-name-color)` (which every theme sets to contrast with `--pa-header-bg`), with `opacity: 0.75` on email for hierarchy.
-- **Profile panel role badge (`__role`)** — Accent-light bg + accent text was invisible on dark headers. Now uses `color-mix(in srgb, var(--pa-header-profile-name-color) 15%, transparent)` for the tint and full name-color for text, so it reads on any header bg. Fallback to `--pa-accent-light` for older browsers.
-- **Profile panel tab icons** — Switched from `--pa-header-text-secondary` (inconsistent across themes with colored headers) to `--pa-header-profile-name-color` with `opacity: 0.6` inactive / `0.85` hover / `1` active. FontAwesome icons inherit via `currentColor`, so they brighten automatically.
-
----
-
-## [2.4.0] - 2026-04-08
-
 ### Removed
 
 - **`download-themes` bin** — removed in favor of the [`pureadmin` CLI](https://www.npmjs.com/package/@keenmate/pureadmin). Use `npx pureadmin themes add <id>` to download and register themes, or `npx pureadmin themes update` to refresh changed ones. The legacy `scripts/download-themes.js` is no longer shipped with this package.
@@ -32,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **README — Theme Setup** — rewritten to document the `pureadmin` CLI workflow (`themes add`, `themes update`, `themes list --local`) and `pureadmin.json` config file. The legacy `themes.json` / `.themes.json` scheme has been dropped.
+
+### Fixed
+
+- **KPI square stats (`pa-stat--square`) theming** — Color variants (`--primary`, `--success`, `--info`, `--warning`, `--danger`) were referencing raw SCSS variables that resolved to core defaults (Bootstrap blue/green/etc.) instead of the active theme's palette. Switched to `var(--pa-accent)`, `var(--pa-success-bg)`, `var(--pa-info-bg)`, `var(--pa-warning-bg)`, `var(--pa-danger-bg)` + corresponding `--pa-btn-*-text` vars so squares pick up theme colors at runtime.
+- **Profile panel header readability on colored headers** — `__name` and `__email` were using body text color vars (`--pa-text-color-1/2`), which come out dark in light mode and were unreadable on themes with dark/colored headers (NATO, corporate). Switched to `var(--pa-header-profile-name-color)` (which every theme sets to contrast with `--pa-header-bg`), with `opacity: 0.75` on email for hierarchy.
+- **Profile panel role badge (`__role`)** — Accent-light bg + accent text was invisible on dark headers. Now uses `color-mix(in srgb, var(--pa-header-profile-name-color) 15%, transparent)` for the tint and full name-color for text, so it reads on any header bg. Fallback to `--pa-accent-light` for older browsers.
+- **Profile panel tab icons** — Switched from `--pa-header-text-secondary` (inconsistent across themes with colored headers) to `--pa-header-profile-name-color` with `opacity: 0.6` inactive / `0.85` hover / `1` active. FontAwesome icons inherit via `currentColor`, so they brighten automatically.
 
 ---
 

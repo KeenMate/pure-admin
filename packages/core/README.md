@@ -2,15 +2,17 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.4.0
+
+- **`download-themes` bin removed** — Theme management now lives in the [`pureadmin` CLI](https://www.npmjs.com/package/@keenmate/pureadmin) (`npx pureadmin themes add/update/list`). README's Theme Setup section rewritten to match.
+- **Theme-aware charts** — Demo dashboard chart rewritten to source colors and fonts from Pure Admin CSS custom properties (`--pa-accent`, `--pa-text-color-*`, `--base-font-family`). Establishes the canonical pattern for SVG charts tracking the active theme.
+- **KPI square stats theme correctly** — `pa-stat--square` color variants now route through `--pa-accent` / `--pa-success-bg` / etc. instead of raw SCSS vars that resolved to Bootstrap defaults in every theme.
+- **Profile panel readable on colored headers** — Name, email, role badge, and tab icons now use `--pa-header-profile-name-color` (guaranteed to contrast with header bg) instead of body text vars, with opacity/color-mix for hierarchy.
+
 ## What's New in 2.3.6
 
 - **Responsive font sizing** — `pa-font-responsive` class on `<html>` for automatic mobile scaling (10px desktop, 12px mobile). Granular `pa-font-base-*` / `pa-font-mobile-*` classes for full control. No JS, no FOUC.
 - **Getting Started page** — New demo page covering installation, theme management via CLI, responsive sizing, RTL, and BEM reference
-
-## What's New in 2.3.5
-
-- **Navbar alignment fix** — `__end` section pushed to right edge via `margin-inline-start: auto`, works without `__center` spacer
-- **Scroll-lock fix** — Panel/modal open no longer hides scrollbar (`overflow-y: scroll` instead of `hidden`)
 
 ## Installation
 
