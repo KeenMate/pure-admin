@@ -5,6 +5,12 @@ Lightweight, data-focused HTML/CSS admin framework built with SCSS and a compreh
 [![npm version](https://img.shields.io/npm/v/@keenmate/pure-admin-core.svg)](https://www.npmjs.com/package/@keenmate/pure-admin-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+## Links
+
+- **Live Demo** — [demo.pureadmin.io](https://demo.pureadmin.io) (try every theme in the browser)
+- **Main Site** — [pureadmin.io](https://pureadmin.io) (themes catalog, CLI docs, project templates)
+- **`pureadmin` CLI** — [npm](https://www.npmjs.com/package/@keenmate/pureadmin) (`npx pureadmin create`, `npx pureadmin themes add`)
+
 ## Features
 
 - **Lightweight** - Minimal footprint, no JavaScript dependencies for styling

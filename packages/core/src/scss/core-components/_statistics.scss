@@ -161,35 +161,35 @@
       white-space: nowrap;
     }
 
-    // Color variants
+    // Color variants — use CSS vars so theme overrides apply at runtime
     &.pa-stat--primary {
-      background-color: $accent-color;
-      color: $modal-content-bg;
+      background-color: var(--pa-accent);
+      color: var(--pa-btn-primary-text);
     }
 
     &.pa-stat--success {
-      background-color: $success-bg;
-      color: $btn-success-text;
+      background-color: var(--pa-success-bg);
+      color: var(--pa-btn-success-text);
     }
 
     &.pa-stat--info {
-      background-color: $info-bg;
-      color: $btn-info-text;
+      background-color: var(--pa-info-bg);
+      color: var(--pa-btn-info-text);
     }
 
     &.pa-stat--warning {
-      background-color: $warning-bg;
-      color: $btn-warning-color;
+      background-color: var(--pa-warning-bg);
+      color: var(--pa-btn-warning-text);
     }
 
     &.pa-stat--danger {
-      background-color: $danger-bg;
-      color: $btn-danger-text;
+      background-color: var(--pa-danger-bg);
+      color: var(--pa-btn-danger-text);
     }
 
     &.pa-stat--secondary {
       background-color: var(--pa-text-color-2);
-      color: $modal-content-bg;
+      color: var(--pa-btn-primary-text);
     }
   }
 }

@@ -5,7 +5,14 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased] - 2026-04-16
+
+### Fixed
+
+- **KPI square stats (`pa-stat--square`) theming** — Color variants (`--primary`, `--success`, `--info`, `--warning`, `--danger`) were referencing raw SCSS variables that resolved to core defaults (Bootstrap blue/green/etc.) instead of the active theme's palette. Switched to `var(--pa-accent)`, `var(--pa-success-bg)`, `var(--pa-info-bg)`, `var(--pa-warning-bg)`, `var(--pa-danger-bg)` + corresponding `--pa-btn-*-text` vars so squares pick up theme colors at runtime.
+- **Profile panel header readability on colored headers** — `__name` and `__email` were using body text color vars (`--pa-text-color-1/2`), which come out dark in light mode and were unreadable on themes with dark/colored headers (NATO, corporate). Switched to `var(--pa-header-profile-name-color)` (which every theme sets to contrast with `--pa-header-bg`), with `opacity: 0.75` on email for hierarchy.
+- **Profile panel role badge (`__role`)** — Accent-light bg + accent text was invisible on dark headers. Now uses `color-mix(in srgb, var(--pa-header-profile-name-color) 15%, transparent)` for the tint and full name-color for text, so it reads on any header bg. Fallback to `--pa-accent-light` for older browsers.
+- **Profile panel tab icons** — Switched from `--pa-header-text-secondary` (inconsistent across themes with colored headers) to `--pa-header-profile-name-color` with `opacity: 0.6` inactive / `0.85` hover / `1` active. FontAwesome icons inherit via `currentColor`, so they brighten automatically.
 
 ---
 

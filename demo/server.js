@@ -106,20 +106,24 @@ async function ensureTheme(themeName) {
         }
 
         if (fs.existsSync(distPath)) {
-            // Fetch full theme metadata from API and overwrite minimal theme.json
-            try {
-                const metaRes = await fetch(`${PUREADMIN_API}/api/themes/${themeName}`);
-                if (metaRes.ok) {
-                    const { theme } = await metaRes.json();
-                    if (theme) {
-                        fs.writeFileSync(
-                            path.join(themePath, 'theme.json'),
-                            JSON.stringify(theme, null, 2)
-                        );
+            // Published ZIPs ship a full theme.json (modes, colorVariants,
+            // features etc.). Only fall back to API metadata if the ZIP
+            // didn't include one — overwriting a complete manifest with
+            // the API's trimmed record was stripping modes/variants and
+            // breaking the settings panel.
+            const manifestPath = path.join(themePath, 'theme.json');
+            if (!fs.existsSync(manifestPath)) {
+                try {
+                    const metaRes = await fetch(`${PUREADMIN_API}/api/themes/${themeName}`);
+                    if (metaRes.ok) {
+                        const { theme } = await metaRes.json();
+                        if (theme) {
+                            fs.writeFileSync(manifestPath, JSON.stringify(theme, null, 2));
+                        }
                     }
+                } catch (e) {
+                    console.warn(`Could not fetch metadata for "${themeName}":`, e.message);
                 }
-            } catch (e) {
-                console.warn(`Could not fetch metadata for "${themeName}":`, e.message);
             }
 
             themePackages[themeName] = distPath;

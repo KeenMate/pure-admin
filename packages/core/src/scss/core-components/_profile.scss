@@ -144,8 +144,9 @@
     margin: 0 0 $spacing-xs 0;
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
-    // Truncate long names
+    // Header bg can be dark/light/colored per theme — use the same var
+    // the header itself uses for the user's name so contrast is guaranteed.
+    color: var(--pa-header-profile-name-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -154,7 +155,8 @@
   &__email {
     margin: 0 0 $spacing-sm 0;
     font-size: $font-size-sm;
-    color: var(--pa-text-color-2);
+    color: var(--pa-header-profile-name-color);
+    opacity: 0.75;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -163,8 +165,11 @@
   &__role {
     display: inline-block;
     padding: $btn-padding-v $btn-padding-h;
+    // Tinted bg derived from the header's name color so it reads on any
+    // header — dark or light. Fallback kept for older browsers.
     background-color: var(--pa-accent-light);
-    color: var(--pa-accent);
+    background-color: color-mix(in srgb, var(--pa-header-profile-name-color) 15%, transparent);
+    color: var(--pa-header-profile-name-color);
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     border-radius: var(--pa-border-radius);
@@ -283,17 +288,22 @@
       margin-bottom: 0;
     }
 
+    // Icons inherit currentColor — use the header's name color (which is
+    // theme-guaranteed to contrast with header-bg) with opacity for the
+    // inactive state instead of --pa-header-text-secondary, which some
+    // themes don't re-tone for colored headers.
     .pa-tabs__item {
-      color: var(--pa-header-text-secondary);
+      color: var(--pa-header-profile-name-color);
+      opacity: 0.6;
       border-bottom-color: transparent;
 
       &:hover {
-        color: var(--pa-header-text);
-        background-color: var(--pa-accent-light);
+        opacity: 0.85;
+        background-color: color-mix(in srgb, var(--pa-header-profile-name-color) 10%, transparent);
       }
 
       &--active {
-        color: var(--pa-header-text);
+        opacity: 1;
         border-bottom-color: var(--pa-accent);
       }
     }
