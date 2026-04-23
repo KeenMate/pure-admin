@@ -1,0 +1,199 @@
+<p>
+    End-to-end example of building a CRUD form with Pure Admin components wired up through
+    vanilla JavaScript. Submissions land in an in-memory store scoped to this browser tab, and
+    the table below renders them with inline editing, a toast-based <em>Undo</em> on delete, and
+    a simulated server failure so you can see how error states are surfaced.
+</p>
+
+<div class="pa-callout pa-callout--info">
+    <strong>Things to try:</strong>
+    <ul class="mt-2 mb-0">
+        <li>Submit valid data — the form resets and a success alert replaces any prior status.</li>
+        <li>Tick <em>Force validation errors</em> before saving — typed values stick and every
+            field shows an inline error via the <code>data-error-for</code> slot under the input.</li>
+        <li>Click the pencil to edit a row inline; the submit button switches to
+            <em>Update Entry</em> and a <em>Cancel</em> button appears.</li>
+        <li>Click × to delete — the entry disappears and a toast with an <em>Undo</em> action
+            gives you a few seconds to bring it back.</li>
+        <li>Save with no network luck — submits have a ~10% chance of a simulated failure, which
+            renders a dismissible danger alert without clearing the form.</li>
+    </ul>
+</div>
+
+<!-- New Entry -->
+<div class="pa-card" id="formDemoEntryCard">
+    <div class="pa-card__header pa-card__header--underlined">
+        <h3>New Entry</h3>
+    </div>
+    <div class="pa-card__body">
+        <!-- Summary alert slot (shown when validation fails or save fails) -->
+        <div id="formDemoAlertSlot"></div>
+
+        <form class="pa-form" id="formDemoForm" novalidate>
+            <div class="pa-row">
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group" data-field="first_name">
+                        <label for="fd-first-name">First Name <span class="text-danger">*</span></label>
+                        <input type="text" id="fd-first-name" name="first_name" class="pa-input" placeholder="Jane" autocomplete="given-name">
+                        <small class="pa-form-help pa-form-help--error" data-error-for="first_name" hidden></small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group" data-field="last_name">
+                        <label for="fd-last-name">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" id="fd-last-name" name="last_name" class="pa-input" placeholder="Doe" autocomplete="family-name">
+                        <small class="pa-form-help pa-form-help--error" data-error-for="last_name" hidden></small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group" data-field="email">
+                        <label for="fd-email">Email <span class="text-danger">*</span></label>
+                        <input type="email" id="fd-email" name="email" class="pa-input" placeholder="jane@example.com" autocomplete="email">
+                        <small class="pa-form-help pa-form-help--error" data-error-for="email" hidden></small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group" data-field="department">
+                        <label for="fd-department">Department</label>
+                        <select id="fd-department" name="department" class="pa-select">
+                            <option value="">Choose a department...</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Support">Support</option>
+                            <option value="Product">Product</option>
+                        </select>
+                        <small class="pa-form-help pa-form-help--error" data-error-for="department" hidden></small>
+                    </div>
+                </div>
+                <div class="pa-col-100 pa-col-md-50">
+                    <div class="pa-form-group" data-field="start_date">
+                        <label for="fd-start-date">Start Date</label>
+                        <input type="date" id="fd-start-date" name="start_date" class="pa-input">
+                        <small class="pa-form-help pa-form-help--error" data-error-for="start_date" hidden></small>
+                    </div>
+                </div>
+                <div class="pa-col-100">
+                    <div class="pa-form-group" data-field="bio">
+                        <label for="fd-bio">Bio</label>
+                        <textarea id="fd-bio" name="bio" class="pa-textarea" rows="3" placeholder="A few words about this person..."></textarea>
+                        <small class="pa-form-help pa-form-help--error" data-error-for="bio" hidden></small>
+                    </div>
+                </div>
+                <div class="pa-col-100">
+                    <div class="pa-form-group">
+                        <label class="pa-checkbox">
+                            <input type="checkbox" id="fd-force-errors" name="force_errors">
+                            <span class="pa-checkbox__box"></span>
+                            <span class="pa-checkbox__label">Force validation errors on every field (for testing that values stick and errors render)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pa-form-actions justify-content-end">
+                <button type="button" class="pa-btn pa-btn--secondary" id="formDemoCancelBtn" hidden>Cancel</button>
+                <button type="reset" class="pa-btn pa-btn--secondary" id="formDemoResetBtn">Reset</button>
+                <button type="submit" class="pa-btn pa-btn--primary" id="formDemoSubmitBtn">
+                    <i class="fa-solid fa-floppy-disk"></i> <span data-submit-label>Save Entry</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Stored Submissions -->
+<div class="pa-card">
+    <div class="pa-card__header pa-card__header--underlined">
+        <h3>Stored Submissions</h3>
+        <div class="pa-card__actions">
+            <span class="pa-badge pa-badge--secondary" id="formDemoCount">0 total</span>
+            <button type="button" class="pa-btn pa-btn--danger pa-btn--sm" id="formDemoClearAll" hidden>
+                <i class="fa-solid fa-trash"></i> Clear All
+            </button>
+        </div>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-callout pa-callout--info" id="formDemoEmptyState">
+            No submissions yet. Fill in the form above and click <strong>Save Entry</strong>.
+        </div>
+
+        <div id="formDemoTableWrapper" hidden>
+            <table class="pa-table pa-table--striped pa-table--hover pa-table--responsive">
+                <thead>
+                    <tr>
+                        <th style="width:88px"></th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Start Date</th>
+                        <th>Bio</th>
+                        <th>Submitted</th>
+                    </tr>
+                </thead>
+                <tbody id="formDemoTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- How it works -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>How it works</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Form binding</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li>
+                Each field lives in a <code>.pa-form-group</code> tagged with
+                <code>data-field="name"</code>. A sibling <code>&lt;small data-error-for="name"&gt;</code>
+                is the slot where inline errors land, so the template stays declarative and the JS
+                only has to flip a class and write text.
+            </li>
+            <li>
+                Validation returns a plain <code>{ field: message }</code> object; the renderer
+                adds <code>pa-form-group--error</code> to the group, <code>pa-input--error</code>
+                (or <code>pa-select--error</code>) to the control, and unhides the help text. The
+                <em>Force validation errors</em> checkbox short-circuits validation to a fixed error
+                map so you can inspect all six states without crafting bad input.
+            </li>
+            <li>
+                A successful submit clears only the inputs — the <em>Force validation errors</em>
+                checkbox keeps its state so you can submit repeatedly while tweaking styles.
+            </li>
+        </ul>
+
+        <h4 class="mt-4">State &amp; UX</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li>
+                Entries are held in a JS array keyed by an incrementing id. The table is re-rendered
+                wholesale on every change — simple, and small enough that diffing isn't worth the
+                complexity.
+            </li>
+            <li>
+                The summary alert above the form uses <strong>replace</strong> semantics: each
+                outcome (validation failure, simulated server error, success, edit-mode entry)
+                overwrites the previous banner so stacking never happens.
+            </li>
+            <li>
+                Delete uses the optimistic <em>toast + undo</em> pattern via
+                <code>PureAdmin.toast.show({ actions: [...] })</code>. The row disappears
+                immediately; an <em>Undo</em> button on the toast restores it at its original
+                position before the toast auto-dismisses.
+            </li>
+            <li>
+                The destructive bulk action (<em>Clear All</em>) falls back to a native confirm
+                because there's no undo affordance — losing the whole set silently would be
+                surprising.
+            </li>
+            <li>
+                Submits are run through a <code>simulateServerSave()</code> promise that resolves
+                with a ~10% failure rate after a short delay, so the success / danger alert paths
+                are both exercisable without tooling.
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="/src/js/form-demo.js"></script>

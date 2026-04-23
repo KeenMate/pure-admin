@@ -490,6 +490,10 @@ app.get('/showcases/movies-panel', (req, res) => {
     renderWithLayout(res, 'movies-panel', { pageTitle: 'Movies + Panel', currentPage: 'movies-panel', isMoviesPanel: true });
 });
 
+app.get('/showcases/form-demo', (req, res) => {
+    renderWithLayout(res, 'form-demo', { pageTitle: 'Form Demo', currentPage: 'form-demo', isFormDemo: true });
+});
+
 // Tools
 app.get('/tools/rtl-test', (req, res) => {
     renderWithLayout(res, 'rtl-test', { pageTitle: 'RTL Test', currentPage: 'rtl-test', isRtlTest: true });

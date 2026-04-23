@@ -5,6 +5,22 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Form Demo showcase page (`/showcases/form-demo`)** — New entry under Practical Examples that mirrors the LiveView form demo from `keen-pure-admin` in pure vanilla JS. Demonstrates the end-to-end CRUD pattern built on Pure Admin form components:
+    - **Inline validation errors** — each field sits in a `.pa-form-group[data-field="…"]` with a `<small data-error-for="…" class="pa-form-help pa-form-help--error">` slot below. The submit handler flips `pa-form-group--error` and `pa-input--error` / `pa-select--error` on the relevant controls and unhides the help text, so the template is declarative and the JS just toggles state.
+    - **Summary alert with replace semantics** — validation failure, simulated server error, edit-mode entry, and success all write through a single `#formDemoAlertSlot` so banners never stack.
+    - **Force validation errors checkbox** — pins a fixed error map on every field so all six error states render without needing bad input. The checkbox keeps its state across submits for fast iteration on styling.
+    - **Edit / Update flow** — pencil button loads the row into the form, swaps the submit label to "Update Entry", hides Reset, and reveals Cancel. Cancel drops changes and exits edit mode; Update writes back to the same row.
+    - **Optimistic delete with toast + Undo** — delete removes the row immediately and calls `PureAdmin.toast.show({ actions: [{ label: 'Undo', … }] })`. Undo restores the row at its original index; the `restored` flag guards against late-click double-restore.
+    - **Simulated server failure** — `simulateServerSave()` resolves with a ~10% failure rate after a short delay so both success and danger alert paths are exercisable without any tooling.
+    - **Stored submissions table** — responsive striped/hover table with count badge and Clear All (native confirm, since there's no undo affordance for the bulk wipe).
+- **Files added:** `demo/views/form-demo.mustache`, `demo/js/form-demo.js`. **Route + sidebar:** new `/showcases/form-demo` route in `demo/server.js` with `isFormDemo` active flag, linked from Practical Examples in `demo/views/partials/sidebar.mustache`.
+
+---
+
 ## [2.4.0] - 2026-04-16
 
 ### Added
