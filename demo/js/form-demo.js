@@ -31,8 +31,51 @@
         email: 'email is required'
     };
 
-    const entries = [];
-    let nextId = 1;
+    // Seed rows — kept in sync with keen-pure-admin's form_demo_live.ex so both
+    // demos show the same initial state. `seconds_ago` drives inserted_at so the
+    // Submitted column shows variance (recent, hours-old, days-old).
+    const SEED = [
+        {
+            first_name: 'Dale',
+            last_name: 'Cooper',
+            email: 'dale.cooper@twinpeaks.example',
+            department: 'Support',
+            start_date: '2024-02-24',
+            bio: 'Damn fine coffee enthusiast. FBI-level attention to detail.',
+            seconds_ago: 90
+        },
+        {
+            first_name: 'Audrey',
+            last_name: 'Horne',
+            email: 'audrey.horne@twinpeaks.example',
+            department: 'Sales',
+            start_date: '2023-09-12',
+            bio: 'Great Northern hospitality brought to enterprise accounts.',
+            seconds_ago: 5 * 3600
+        },
+        {
+            first_name: 'Donna',
+            last_name: 'Hayward',
+            email: 'donna.hayward@twinpeaks.example',
+            department: 'Marketing',
+            start_date: '2025-01-07',
+            bio: '',
+            seconds_ago: 3 * 86400
+        }
+    ];
+
+    const now = Date.now();
+    const entries = SEED.map((e, i) => ({
+        id: i + 1,
+        first_name: e.first_name,
+        last_name: e.last_name,
+        email: e.email,
+        department: e.department,
+        start_date: e.start_date,
+        bio: e.bio,
+        inserted_at: new Date(now - e.seconds_ago * 1000)
+    }));
+    let nextId = entries.length + 1;
     let editingId = null;
 
     function readValues() {
