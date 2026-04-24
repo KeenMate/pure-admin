@@ -1213,8 +1213,15 @@
             }
 
             async function positionPopconfirm(trigger, popconfirm) {
-                const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|left|right)/);
-                const placement = classMatch ? classMatch[1] : 'bottom';
+                // Popconfirm classes use logical sides (start/end); Floating UI
+                // speaks physical (left/right), so translate both ways.
+                const isRtl = document.documentElement.dir === 'rtl';
+                const toPhysical = { top: 'top', bottom: 'bottom', start: isRtl ? 'right' : 'left', end: isRtl ? 'left' : 'right' };
+                const toLogical  = { top: 'top', bottom: 'bottom', left: isRtl ? 'end' : 'start', right: isRtl ? 'start' : 'end' };
+
+                const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|start|end)/);
+                const logical = classMatch ? classMatch[1] : 'bottom';
+                const placement = toPhysical[logical];
                 const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
 
                 const { x, y, placement: finalPlacement } = await computePosition(trigger, popconfirm, {
@@ -1222,9 +1229,10 @@
                     middleware: [offset(8), flip(), shift({ padding: 10 })]
                 });
 
+                const finalLogical = toLogical[finalPlacement.split('-')[0]] || 'bottom';
                 popconfirm.className = popconfirm.className
-                    .replace(/pa-popconfirm--(top|bottom|left|right)/g, '').trim()
-                    + ' pa-popconfirm--' + finalPlacement;
+                    .replace(/pa-popconfirm--(top|bottom|start|end)/g, '').trim()
+                    + ' pa-popconfirm--' + finalLogical;
                 Object.assign(popconfirm.style, { left: `${x}px`, top: `${y}px` });
             }
 

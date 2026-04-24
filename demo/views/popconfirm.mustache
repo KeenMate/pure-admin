@@ -300,9 +300,25 @@ function confirmDelete(popconfirmId) {
 }
 
 async function positionPopconfirm(trigger, popconfirm) {
-    // Get the initial position class (or default to bottom)
-    const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|left|right)/);
-    const placement = classMatch ? classMatch[1] : 'bottom';
+    // The popconfirm's class uses logical sides (start/end). Floating UI only
+    // understands physical sides (left/right), so map both ways around its call.
+    const isRtl = document.documentElement.dir === 'rtl';
+    const toPhysical = {
+        top: 'top',
+        bottom: 'bottom',
+        start: isRtl ? 'right' : 'left',
+        end: isRtl ? 'left' : 'right'
+    };
+    const toLogical = {
+        top: 'top',
+        bottom: 'bottom',
+        left: isRtl ? 'end' : 'start',
+        right: isRtl ? 'start' : 'end'
+    };
+
+    const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|start|end)/);
+    const logical = classMatch ? classMatch[1] : 'bottom';
+    const placement = toPhysical[logical];
 
     // Use Floating UI for automatic positioning with collision detection
     const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
@@ -316,10 +332,12 @@ async function positionPopconfirm(trigger, popconfirm) {
         ]
     });
 
-    // Update position class to match actual placement
+    // Floating UI may have flipped the side — map its physical answer back to
+    // our logical class so RTL stays correct.
+    const finalLogical = toLogical[finalPlacement.split('-')[0]] || 'bottom';
     popconfirm.className = popconfirm.className
-        .replace(/pa-popconfirm--(top|bottom|left|right)/g, '')
-        .trim() + ' pa-popconfirm--' + finalPlacement;
+        .replace(/pa-popconfirm--(top|bottom|start|end)/g, '')
+        .trim() + ' pa-popconfirm--' + finalLogical;
 
     // Apply positioning
     Object.assign(popconfirm.style, {

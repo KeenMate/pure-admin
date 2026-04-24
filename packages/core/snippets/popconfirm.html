@@ -15,11 +15,11 @@ BENEFITS OVER MODALS:
 - Better for quick decisions
 - Ideal for table row actions
 
-POSITION CLASSES:
+POSITION CLASSES (logical — mirror in RTL):
 - pa-popconfirm--bottom: Arrow on top, popconfirm below button (default)
-- pa-popconfirm--top: Arrow on bottom, popconfirm above button
-- pa-popconfirm--right: Arrow on left, popconfirm to the right
-- pa-popconfirm--left: Arrow on right, popconfirm to the left
+- pa-popconfirm--top:    Arrow on bottom, popconfirm above button
+- pa-popconfirm--end:    Popconfirm on inline-end side (right in LTR, left in RTL)
+- pa-popconfirm--start:  Popconfirm on inline-start side (left in LTR, right in RTL)
 
 SIZE VARIANTS:
 - pa-popconfirm--compact: Smaller padding and dimensions
@@ -177,21 +177,21 @@ supports all four sides.
     </div>
 </div>
 
-<!-- Right placement (popconfirm appears to the right of trigger) -->
-<div id="popconfirm-right" class="pa-popconfirm pa-popconfirm--right pa-popconfirm--compact">
+<!-- End placement (popconfirm appears on the trigger's inline-end side: right in LTR, left in RTL) -->
+<div id="popconfirm-end" class="pa-popconfirm pa-popconfirm--end pa-popconfirm--compact">
     <div class="pa-popconfirm__arrow"></div>
     <div class="pa-popconfirm__content">
         <div class="pa-popconfirm__message">
             <p>Remove tag?</p>
         </div>
         <div class="pa-popconfirm__actions">
-            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-right')">No</button>
-            <button class="pa-btn pa-btn--danger" onclick="confirmAction('popconfirm-right')">Yes</button>
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-end')">No</button>
+            <button class="pa-btn pa-btn--danger" onclick="confirmAction('popconfirm-end')">Yes</button>
         </div>
     </div>
 </div>
 
-<!-- Pattern: pa-popconfirm--{top|bottom|left|right} (physical sides; no RTL mirroring) -->
+<!-- Pattern: pa-popconfirm--{top|bottom|start|end} (logical sides; mirror in RTL) -->
 
 
 <!-- TABLE USAGE EXAMPLE -->
@@ -291,32 +291,45 @@ function confirmAction(popconfirmId) {
 }
 
 async function positionPopconfirm(trigger, popconfirm) {
-    // Get the initial position class (or default to bottom)
-    const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|left|right)/);
-    const placement = classMatch ? classMatch[1] : 'bottom';
+    // Popconfirm classes use logical sides (start/end). Floating UI's placement
+    // arg is physical (left/right), so translate going in and coming back out.
+    const isRtl = document.documentElement.dir === 'rtl';
+    const toPhysical = {
+        top: 'top',
+        bottom: 'bottom',
+        start: isRtl ? 'right' : 'left',
+        end: isRtl ? 'left' : 'right'
+    };
+    const toLogical = {
+        top: 'top',
+        bottom: 'bottom',
+        left: isRtl ? 'end' : 'start',
+        right: isRtl ? 'start' : 'end'
+    };
 
-    // Use Floating UI for automatic positioning with collision detection
+    const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|start|end)/);
+    const logical = classMatch ? classMatch[1] : 'bottom';
+    const placement = toPhysical[logical];
+
     const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
 
     const { x, y, placement: finalPlacement } = await computePosition(trigger, popconfirm, {
         placement: placement,
         middleware: [
-            offset(8),        // 8px gap from trigger
-            flip(),           // Flip to opposite side if not enough space
-            shift({ padding: 10 })  // Keep 10px from viewport edges
+            offset(8),
+            flip(),
+            shift({ padding: 10 })
         ]
     });
 
-    // Update position class to match actual placement
+    // Map Floating UI's physical answer back to our logical class for the
+    // post-flip rewrite (`.split('-')[0]` handles compound forms like `top-start`).
+    const finalLogical = toLogical[finalPlacement.split('-')[0]] || 'bottom';
     popconfirm.className = popconfirm.className
-        .replace(/pa-popconfirm--(top|bottom|left|right)/g, '')
-        .trim() + ' pa-popconfirm--' + finalPlacement;
+        .replace(/pa-popconfirm--(top|bottom|start|end)/g, '')
+        .trim() + ' pa-popconfirm--' + finalLogical;
 
-    // Apply positioning
-    Object.assign(popconfirm.style, {
-        left: `${x}px`,
-        top: `${y}px`
-    });
+    Object.assign(popconfirm.style, { left: `${x}px`, top: `${y}px` });
 }
 
 // Close popconfirm when clicking outside
@@ -360,15 +373,22 @@ STRUCTURE (required):
 STATE (note: .is-* class, not a BEM --modifier):
 - .is-open    — set by JS to flip display:none → display:block
 
-POSITION MODIFIERS (physical sides, no RTL mirror — start/end not used here):
+POSITION MODIFIERS (logical — mirror in RTL):
 - .pa-popconfirm--bottom  — popconfirm below trigger, arrow on top     (default)
 - .pa-popconfirm--top     — popconfirm above trigger, arrow on bottom
-- .pa-popconfirm--right   — popconfirm to the right, arrow on left
-- .pa-popconfirm--left    — popconfirm to the left, arrow on right
+- .pa-popconfirm--end     — popconfirm on inline-end side  (right in LTR, left in RTL)
+- .pa-popconfirm--start   — popconfirm on inline-start side (left in LTR, right in RTL)
+
+Under `dir="rtl"`, the inline-axis popconfirms (`--start`/`--end`) use the
+same CSS rule as LTR plus a `scaleX(-1)` on the arrow so the triangle still
+points at the trigger. The block-axis popconfirms (`--top`/`--bottom`)
+invert their `translateX` so the arrow stays centered.
 
 Runtime note: the JS runs Floating UI's flip() middleware on open and
 rewrites the position class to match where the popconfirm actually fits,
-so the initial class is just a *preferred* side.
+so the initial class is just a *preferred* side. Floating UI only speaks
+physical placements internally, so the snippet translates `start`/`end`
+↔ `left`/`right` around the `computePosition` call.
 
 SIZE:
 - .pa-popconfirm--compact — tighter padding; min-width drops from 25.6rem to 19.2rem
@@ -414,6 +434,9 @@ Basic delete confirm:
 
 Compact table-row variant:
 <div class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact"> … </div>
+
+Inline-end popconfirm (right-of-trigger in LTR, left-of-trigger in RTL):
+<div class="pa-popconfirm pa-popconfirm--end"> … </div>
 
 POPCONFIRM vs MODAL:
 - Popconfirm: anchored to trigger, no backdrop, 1-step Yes/No question,

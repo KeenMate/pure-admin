@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Popconfirm position classes renamed to logical start/end (Breaking)** — `pa-popconfirm--right`/`--left` are now `pa-popconfirm--end`/`--start`, and the SCSS uses logical properties (`margin-inline-start/end`, `inset-inline-start/end`) so the popconfirm and its arrow mirror correctly in `dir="rtl"`. The block-axis variants (`--top`/`--bottom`) keep their names but also use logical centering now. This reverses the v1.5.0 "Kept as physical" exception for popconfirm — tooltip has been logical since a later pass, so this brings the two siblings back in line. No backwards-compatibility aliases; update markup directly. The `positionPopconfirm` JS helpers in the demo (`demo/views/popconfirm.mustache`, `demo/views/buttons.mustache`) and the snippet (`packages/core/snippets/popconfirm.html`) gained a small translation layer that maps logical class names to the physical placements Floating UI's `computePosition` expects, then maps the post-flip result back.
+
 ### Added
 
 - **Form Demo showcase page (`/showcases/form-demo`)** — New entry under Practical Examples that mirrors the LiveView form demo from `keen-pure-admin` in pure vanilla JS. Demonstrates the end-to-end CRUD pattern built on Pure Admin form components:

@@ -98,58 +98,80 @@
 }
 
 // ====================
-// Position Variants
+// Position Variants (logical — mirror in RTL)
 // ====================
 
-// Bottom (default) - arrow on top
+// Bottom — popconfirm below trigger, arrow on top (block-axis; no RTL flip)
 .pa-popconfirm--bottom {
   margin-top: $spacing-sm;
 
   .pa-popconfirm__arrow {
     top: -0.64rem;
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%) rotate(45deg);
     border-right: none;
     border-bottom: none;
   }
+
+  // RTL: translateX needs to invert because inset-inline-start flipped sides
+  [dir="rtl"] & .pa-popconfirm__arrow {
+    transform: translateX(50%) rotate(45deg);
+  }
 }
 
-// Top - arrow on bottom
+// Top — popconfirm above trigger, arrow on bottom (block-axis; no RTL flip)
 .pa-popconfirm--top {
   margin-bottom: $spacing-sm;
 
   .pa-popconfirm__arrow {
     bottom: -0.64rem;
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%) rotate(45deg);
     border-left: none;
     border-top: none;
   }
+
+  [dir="rtl"] & .pa-popconfirm__arrow {
+    transform: translateX(50%) rotate(45deg);
+  }
 }
 
-// Right - arrow on left
-.pa-popconfirm--right {
-  margin-left: $spacing-sm;
+// End — popconfirm on the inline-end side of trigger (right in LTR, left in RTL)
+// Arrow sits on the inline-start side of the popconfirm, pointing at the trigger.
+.pa-popconfirm--end {
+  margin-inline-start: $spacing-sm;
 
   .pa-popconfirm__arrow {
-    left: -0.64rem;
+    inset-inline-start: -0.64rem;
     top: 50%;
     transform: translateY(-50%) rotate(45deg);
     border-top: none;
     border-right: none;
   }
+
+  // RTL: mirror the rotated arrow via scaleX(-1) so the hidden borders still
+  // mask the side facing the popconfirm body, and the triangle points the
+  // right way (toward the trigger on the visually-right).
+  [dir="rtl"] & .pa-popconfirm__arrow {
+    transform: translateY(-50%) rotate(45deg) scaleX(-1);
+  }
 }
 
-// Left - arrow on right
-.pa-popconfirm--left {
-  margin-right: $spacing-sm;
+// Start — popconfirm on the inline-start side of trigger (left in LTR, right in RTL)
+// Arrow sits on the inline-end side of the popconfirm, pointing at the trigger.
+.pa-popconfirm--start {
+  margin-inline-end: $spacing-sm;
 
   .pa-popconfirm__arrow {
-    right: -0.64rem;
+    inset-inline-end: -0.64rem;
     top: 50%;
     transform: translateY(-50%) rotate(45deg);
     border-bottom: none;
     border-left: none;
+  }
+
+  [dir="rtl"] & .pa-popconfirm__arrow {
+    transform: translateY(-50%) rotate(45deg) scaleX(-1);
   }
 }
 
