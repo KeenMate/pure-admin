@@ -31,13 +31,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `forms.html` | 2026-04-24 | `core-components/forms/` (all 7 files: _form-layout, _form-inputs, _form-states, _input-groups, _input-wrapper, _checkboxes-radios, _query-editor) | [272f141](../../../commit/272f141) |
 | `layout.html` | 2026-04-24 | `core-components/layout/` (all 6 files: _layout-container, _navbar, _navbar-elements, _sidebar, _sidebar-states, _layout-responsive), `variables/_layout.scss` (container widths) | [9762492](../../../commit/9762492) |
 | `profile.html` | 2026-04-24 | `core-components/_profile.scss` | [2b70e27](../../../commit/2b70e27) |
-| `tabs.html` | 2026-04-24 | `core-components/_tabs.scss` | _(this commit)_ |
+| `tabs.html` | 2026-04-24 | `core-components/_tabs.scss` | [35f5f16](../../../commit/35f5f16) |
+| `timeline.html` | 2026-04-24 | `core-components/_timeline.scss` | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `timeline.html`
 - `checkbox-lists.html`
 - `command-palette.html`
 - `comparison.html`
@@ -76,6 +76,7 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 - ~~**Popconfirm is physical-only; toasts are logical.**~~ Fixed in the popconfirm logical-rename commit: `--left`/`--right` → `--start`/`--end`, SCSS switched to `inset-inline-*` + `margin-inline-*`, arrow gets `scaleX(-1)` under `[dir="rtl"]`. See Unreleased section of CHANGELOG.
 - **Composite badge missing `--btn-danger` variant.** All other button-section colour overrides exist (`--btn-primary`, `--btn-secondary`, `--btn-success`, `--btn-warning`, `--btn-info`, `--btn-light`, `--btn-dark`) but not `--btn-danger`. The base `.pa-composite-badge__button` defaults to danger colours, so adding `--btn-danger` would be a no-op in practice, but the gap is inconsistent with `--label-danger` (which does exist) and makes "what overrides are available" harder to predict. Snippet flags the omission; actual fix is a single block in `_composite-badge-variants.scss`.
 - ~~**Pager/load-more definitions are duplicated** between `_tables.scss` (lines 475-608) and `_pagers.scss`.~~ Fixed: duplicate block removed from `_tables.scss`, and the `var(--pa-accent)` upgrade on the load-more spinner ported into `_pagers.scss` (it was using the raw SCSS `$accent-color` before). See Unreleased CHANGELOG entry.
+- **Timeline `--alternating` uses physical `left`/`right` throughout.** `_timeline.scss` mixes its RTL handling: `--simple` and `--feed` use logical properties (`inset-inline-*`, `margin-inline-*`, `padding-inline-*`, `border-inline-*`) and mirror correctly in RTL. But `--alternating` and its modifiers (`--start`, `--end`, `--keep-layout`, `--single-column`) use physical `left`/`right` positions for the centre line, dots, connector arms, dates, icons, and content offsets. Result: in RTL, the alternating timeline doesn't mirror — items stay on the same physical sides, the dates don't flip to the inline-start of each item, and `--start`/`--end` are locked to physical left/right. Fix would need `inset-inline-start/end` + `border-inline-*` substitutions throughout the alternating block, plus probably a `[dir="rtl"] &` flip for the nth-child offset origin. Framework scope; snippet documents the current physical behaviour accurately.
 
 ## Rehash
 

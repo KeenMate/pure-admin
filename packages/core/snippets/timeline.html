@@ -1,5 +1,18 @@
-<!-- Timeline Component Snippets -->
-<!-- Clean HTML examples for all timeline variants -->
+<!-- ================================
+     TIMELINE SNIPPETS
+     Pure Admin Visual Framework
+
+     Three visual variants, pick one per timeline container:
+       --simple       vertical line + dots on one side (start)
+       --alternating  centered line, items zigzag left/right
+       --feed         activity-feed layout (avatar + text + time)
+
+     The base .pa-timeline class has zero visual styling on its own;
+     each variant adds its own rules. Items can be <li> inside a <ul>
+     (semantic) or <div> inside a <div> (non-semantic) — the SCSS uses
+     :nth-child so either tag works. Use <ul>/<li> when the timeline
+     is a genuine list of events; otherwise <div> is fine.
+     ================================ -->
 
 <!-- ========================================
      Simple Timeline (Start-aligned with dots)
@@ -306,59 +319,113 @@
     </div>
 </div>
 
-<!-- ========================================
-     Complete Component Reference
-     ======================================== -->
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
 <!--
-TIMELINE VARIANTS:
-- pa-timeline--simple: Start-aligned with dots
-- pa-timeline--alternating: Centered zigzag layout
-- pa-timeline--feed: Activity feed with avatars
+BASE:
+- .pa-timeline                  Base container; no visual styling on its
+                                own. Pick ONE variant below.
 
-ALTERNATING LAYOUT MODIFIERS (can be combined):
-- pa-timeline--start: All items on start side (independent of responsive behavior)
-- pa-timeline--end: All items on end side (independent of responsive behavior)
-- pa-timeline--keep-layout: Prevent mobile collapse, maintain desktop layout at all widths
-- pa-timeline--single-column: Force single-column layout (alias for --start)
+VARIANTS (mutually exclusive):
+- .pa-timeline--simple          Start-aligned: vertical line on the
+                                inline-start edge with dot markers.
+                                Uses logical properties — mirrors in RTL.
+- .pa-timeline--alternating     Centered line; items zigzag to the left
+                                and right side via :nth-child(odd/even).
+                                Max-width capped.
+                                (NOTE: uses physical left/right — does
+                                NOT mirror in RTL.)
+- .pa-timeline--feed            Flex-row per item: time / avatar / body.
+                                Optimised for activity feeds & comments.
 
-RESPONSIVE BEHAVIOR:
-- Default: Zigzag on desktop (>767px), auto-collapse to single-column on mobile (≤767px)
-- With --keep-layout: Layout maintained at all screen widths
-- With --start or --end: Aligned layout on desktop, collapses on mobile (unless --keep-layout added)
+SIMPLE ITEM MODIFIERS (dot colour):
+- .pa-timeline__item--primary / --success / --warning / --danger
+                              / --info / --secondary
+- .pa-timeline__item--filled    Solid fill instead of ring. Composes
+                                with a colour modifier to match.
 
-COMBINATION EXAMPLES:
-- pa-timeline--alternating: Zigzag desktop, single-column mobile (auto-responsive)
-- pa-timeline--alternating pa-timeline--start: All start desktop, single-column mobile
-- pa-timeline--alternating pa-timeline--end: All end desktop, single-column mobile
-- pa-timeline--alternating pa-timeline--keep-layout: Zigzag stays zigzag on mobile
-- pa-timeline--alternating pa-timeline--start pa-timeline--keep-layout: Start stays start on mobile
-- pa-timeline--alternating pa-timeline--end pa-timeline--keep-layout: End stays end on mobile
+ALTERNATING LAYOUT MODIFIERS:
+- .pa-timeline--start           All items on start side; line on start.
+- .pa-timeline--end             All items on end side; line on end.
+- .pa-timeline--keep-layout     Don't auto-collapse to single column on
+                                mobile (<= 767px). Desktop zigzag stays.
+- .pa-timeline--single-column   Force single-column layout regardless of
+                                screen width. Visually similar to --start
+                                but uses a different specificity path
+                                (does NOT override left with !important,
+                                so odd/even classes on items still apply).
 
-ITEM MODIFIERS (simple variant):
-- pa-timeline__item--primary: Primary color marker
-- pa-timeline__item--success: Success color marker
-- pa-timeline__item--warning: Warning color marker
-- pa-timeline__item--danger: Danger color marker
-- pa-timeline__item--info: Info color marker
-- pa-timeline__item--secondary: Secondary color marker
-- pa-timeline__item--filled: Solid filled marker
+Responsive behaviour (--alternating only):
+  default             zigzag desktop → single column mobile (≤ 767px)
+  + --keep-layout     zigzag stays at all widths
+  + --start           start-aligned desktop → single column mobile
+  + --end             end-aligned desktop → single column mobile
+  (combine --start/--end with --keep-layout to skip the mobile collapse.)
 
-FEED MODIFIERS:
-- pa-timeline__item--date-header: Date section header
+SIMPLE / FEED SUB-ELEMENTS:
+- .pa-timeline__time             Time label (block in --simple; fixed-
+                                 width column in --feed).
+- .pa-timeline__content          Main body text.
 
-COMPONENTS:
-- pa-timeline__time: Time label
-- pa-timeline__content: Main content area
-- pa-timeline__date: Date label (block variant)
-- pa-timeline__icon: Icon container (block variant)
-- pa-timeline__avatar: Avatar image (feed variant)
-- pa-timeline__comment: Comment bubble (feed variant)
-- pa-timeline__date-icon: Calendar icon (feed date headers)
-- pa-timeline__date-label: Date text (feed date headers)
+ALTERNATING SUB-ELEMENTS:
+- .pa-timeline__date             Accent-coloured date label (uppercase).
+- .pa-timeline__icon             Circular icon badge beside the dot.
+- .pa-timeline__content          Content box (auto-styled h3 + p).
 
-UTILITIES:
-- pa-timeline__scroll-container: Scrollable container
-- pa-timeline__loader: Loading indicator
-- pa-timeline__loader-text: Loading text
-- pa-timeline__load-more-wrapper: Load more button wrapper
+FEED SUB-ELEMENTS:
+- .pa-timeline__avatar           Circular avatar wrapper (inline-block,
+                                 margin-inline-end). Put an <img>
+                                 inside.
+- .pa-timeline__comment          Bordered comment bubble below the
+                                 meta line.
+- .pa-timeline__item--date-header    Section divider (flex row + date
+                                      icon/label, no dot on the line).
+- .pa-timeline__date-icon            Emoji / FA calendar icon.
+- .pa-timeline__date-label           Uppercase date text.
+
+UTILITIES (typically with --simple for interactive log views):
+- .pa-timeline__scroll-container      max-height + overflow-y: auto
+- .pa-timeline__loader                Centred loader wrapper
+- .pa-timeline__loader-text           Muted caption under the spinner
+- .pa-timeline__load-more-wrapper     Centred button wrapper
+
+MARKUP NOTE:
+The SCSS uses :nth-child selectors, so item order comes from DOM order
+regardless of tag. Use <ul>/<li> for semantic lists (preferred for
+event logs / history); <div>/<div> works the same if you don't want
+list semantics.
+
+STRUCTURE PATTERNS:
+
+Simple log (start-aligned, coloured dots):
+<ul class="pa-timeline pa-timeline--simple">
+  <li class="pa-timeline__item pa-timeline__item--success">
+    <div class="pa-timeline__time">14:32</div>
+    <div class="pa-timeline__content">Deploy succeeded</div>
+  </li>
+</ul>
+
+Alternating milestone layout (auto-collapse on mobile):
+<ul class="pa-timeline pa-timeline--alternating">
+  <li class="pa-timeline__item">
+    <div class="pa-timeline__date">Jan 2024</div>
+    <div class="pa-timeline__icon">🚀</div>
+    <div class="pa-timeline__content"><h3>Launch</h3><p>…</p></div>
+  </li>
+</ul>
+
+Activity feed with avatar, comment, and time column:
+<ul class="pa-timeline pa-timeline--feed">
+  <li class="pa-timeline__item">
+    <div class="pa-timeline__time">14:32</div>
+    <div class="pa-timeline__content">
+      <div class="pa-timeline__avatar"><img src="…"></div>
+      <span><a href="#">User</a> commented on <a href="#">Issue #42</a></span>
+      <div class="pa-timeline__comment"><p>Looks good to me.</p></div>
+    </div>
+  </li>
+</ul>
 -->
+
