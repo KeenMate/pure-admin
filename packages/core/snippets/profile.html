@@ -1,41 +1,63 @@
 <!-- ================================
      PROFILE PANEL SNIPPETS
      Pure Admin Visual Framework
+
+     A slide-in side panel anchored to the inline-end edge of the
+     viewport. Toggled via JS by swapping a --open modifier on the
+     container. Width is driven by two CSS custom properties exposed
+     at :root, so utility classes can override without specificity
+     battles.
      ================================ -->
+
 
 <!-- ================================
-     PROFILE BUTTON (NAVBAR)
+     PROFILE BUTTON (in the navbar)
+     Shows the avatar + user name next to the burger/brand; acts as
+     the trigger for the panel. Hidden text on mobile (only icon shows).
      ================================ -->
 
-<!-- Profile Button (goes in header/navbar) -->
 <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon">👤</span>
     <span class="pa-header__profile-name">John Doe</span>
 </button>
 
-<!-- Profile Button with Font Awesome -->
+<!-- With Font Awesome -->
 <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon"><i class="fa-solid fa-user"></i></span>
     <span class="pa-header__profile-name">John Doe</span>
 </button>
 
+<!--
+Responsive: below $mobile-breakpoint (768px), .pa-header__profile-name
+is hidden via `display: none` — the button collapses to just the icon
+to save horizontal space in the navbar.
+-->
+
 
 <!-- ================================
-     PROFILE PANEL - BASIC
+     BASIC PROFILE PANEL
+     Place the panel markup near </body> (outside the layout), because
+     it's position: fixed and shouldn't inherit layout container state.
+     The `id="profilePanel"` is what the example JS below looks up;
+     any id works as long as your toggle/close functions match.
      ================================ -->
 
-<!-- Complete Profile Panel (place before closing </body> tag) -->
-<!-- Note: Use title attributes on name/email for tooltips when text may be truncated -->
 <div class="pa-profile-panel" id="profilePanel">
+    <!-- Click-to-close overlay (fills the viewport behind the content) -->
     <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+
+    <!-- The panel body; width is driven by --pa-local-profile-panel-* vars -->
     <div class="pa-profile-panel__content">
+
+        <!-- Header: avatar + info + close button -->
         <div class="pa-profile-panel__header">
             <div class="pa-profile-panel__avatar">
                 <span class="pa-profile-panel__avatar-icon">👤</span>
             </div>
             <div class="pa-profile-panel__info">
-                <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>
-                <p class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
+                <!-- title= attrs give a tooltip when the text truncates with ellipsis -->
+                <h3 class="pa-profile-panel__name"  title="John Doe">John Doe</h3>
+                <p  class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
                 <span class="pa-profile-panel__role">Administrator</span>
             </div>
             <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
@@ -43,6 +65,7 @@
             </button>
         </div>
 
+        <!-- Body: scrollable; nav items + in-body actions -->
         <div class="pa-profile-panel__body">
             <nav class="pa-profile-panel__nav">
                 <ul>
@@ -64,18 +87,15 @@
                     </a></li>
                     <li><a href="#help" class="pa-profile-panel__nav-item">
                         <span class="pa-profile-panel__nav-icon">❓</span>
-                        Help & Support
+                        Help &amp; Support
                     </a></li>
                 </ul>
             </nav>
 
+            <!-- Actions inside __body: scroll with the nav above them -->
             <div class="pa-profile-panel__actions">
-                <button class="pa-btn pa-btn--secondary pa-btn--block">
-                    Switch Account
-                </button>
-                <button class="pa-btn pa-btn--danger pa-btn--block">
-                    Sign Out
-                </button>
+                <button class="pa-btn pa-btn--secondary pa-btn--block">Switch Account</button>
+                <button class="pa-btn pa-btn--danger    pa-btn--block">Sign Out</button>
             </div>
         </div>
     </div>
@@ -83,76 +103,63 @@
 
 
 <!-- ================================
-     PROFILE PANEL - WITH FIXED FOOTER
-     Actions fixed at bottom, content scrolls above
+     PANEL WITH A FIXED FOOTER
+     Moves the action buttons out of __body into __footer, which sits
+     outside the scroll area and stays pinned to the bottom of the
+     panel regardless of content length.
+
+     Rule of thumb:
+       - Short nav + actions that shouldn't scroll away  → __footer
+       - Long nav + related actions at end of the list    → __actions
      ================================ -->
 
 <div class="pa-profile-panel" id="profilePanel">
     <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
     <div class="pa-profile-panel__content">
+
         <div class="pa-profile-panel__header">
             <div class="pa-profile-panel__avatar">
                 <span class="pa-profile-panel__avatar-icon">👤</span>
             </div>
             <div class="pa-profile-panel__info">
-                <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>
-                <p class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
+                <h3 class="pa-profile-panel__name">John Doe</h3>
+                <p  class="pa-profile-panel__email">john.doe@company.com</p>
                 <span class="pa-profile-panel__role">Administrator</span>
             </div>
-            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
-                ✕
-            </button>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">✕</button>
         </div>
 
+        <!-- Scrolls -->
         <div class="pa-profile-panel__body">
-            <!-- Body content scrolls -->
             <nav class="pa-profile-panel__nav">
                 <ul>
                     <li><a href="#profile" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">👤</span>
-                        Profile Settings
+                        <span class="pa-profile-panel__nav-icon">👤</span> Profile
                     </a></li>
                     <li><a href="#security" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">🔒</span>
-                        Security
+                        <span class="pa-profile-panel__nav-icon">🔒</span> Security
                     </a></li>
-                    <li><a href="#notifications" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">🔔</span>
-                        Notifications
-                    </a></li>
-                    <li><a href="#preferences" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">⚙️</span>
-                        Preferences
-                    </a></li>
-                    <li><a href="#help" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">❓</span>
-                        Help & Support
-                    </a></li>
+                    <!-- … many items … -->
                 </ul>
             </nav>
-            <!-- NO __actions here - they go in __footer -->
         </div>
 
-        <!-- Fixed footer - always visible at bottom -->
+        <!-- Stays pinned to the bottom of the panel -->
         <div class="pa-profile-panel__footer">
-            <button class="pa-btn pa-btn--secondary pa-btn--block">
-                Switch Account
-            </button>
-            <button class="pa-btn pa-btn--danger pa-btn--block">
-                Sign Out
-            </button>
+            <button class="pa-btn pa-btn--secondary pa-btn--block">Switch Account</button>
+            <button class="pa-btn pa-btn--danger    pa-btn--block">Sign Out</button>
         </div>
     </div>
 </div>
 
 
 <!-- ================================
-     PROFILE PANEL - NO AVATAR (CORPORATE)
-     For apps without user photos
+     NO-AVATAR VARIANT (corporate apps)
+     Some apps don't have user photos. Add --no-avatar to __header and
+     the SCSS hides the avatar element entirely. Keep the avatar markup
+     in place so you can re-enable it later by removing the modifier.
      ================================ -->
 
-<!-- Profile Panel without avatar (for corporate apps that don't have user photos) -->
-<!-- Add --no-avatar modifier to header to hide the avatar -->
 <div class="pa-profile-panel" id="profilePanel">
     <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
     <div class="pa-profile-panel__content">
@@ -161,25 +168,20 @@
                 <span class="pa-profile-panel__avatar-icon">👤</span>
             </div>
             <div class="pa-profile-panel__info">
-                <h3 class="pa-profile-panel__name" title="John Doe">John Doe</h3>
-                <p class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
-                <span class="pa-profile-panel__role">Administrator</span>
+                <h3 class="pa-profile-panel__name">Jane Smith</h3>
+                <p  class="pa-profile-panel__email">jane.smith@corp.example</p>
+                <span class="pa-profile-panel__role">Analyst</span>
             </div>
-            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
-                ✕
-            </button>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">✕</button>
         </div>
-
         <div class="pa-profile-panel__body">
             <nav class="pa-profile-panel__nav">
                 <ul>
                     <li><a href="#profile" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">👤</span>
-                        Profile Settings
+                        <span class="pa-profile-panel__nav-icon">👤</span> Profile
                     </a></li>
                     <li><a href="#logout" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">🚪</span>
-                        Sign Out
+                        <span class="pa-profile-panel__nav-icon">🚪</span> Sign Out
                     </a></li>
                 </ul>
             </nav>
@@ -189,27 +191,28 @@
 
 
 <!-- ================================
-     PROFILE PANEL - WITH TABS (PROFILE + FAVORITES)
+     PANEL WITH TABS (Profile + Favorites)
+     Uses the shared .pa-tabs component (see tabs.html for full details).
+     Tab buttons carry `data-profile-tab="foo"`, matching panels carry
+     `data-profile-panel="foo"`. The JS at the bottom wires up the
+     switching by toggling --active on both.
      ================================ -->
 
 <div class="pa-profile-panel" id="profilePanel">
     <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
     <div class="pa-profile-panel__content">
+
         <div class="pa-profile-panel__header">
-            <div class="pa-profile-panel__avatar">
-                <span class="pa-profile-panel__avatar-icon">👤</span>
-            </div>
+            <div class="pa-profile-panel__avatar"><span class="pa-profile-panel__avatar-icon">👤</span></div>
             <div class="pa-profile-panel__info">
                 <h3 class="pa-profile-panel__name">John Doe</h3>
-                <p class="pa-profile-panel__email">john.doe@company.com</p>
+                <p  class="pa-profile-panel__email">john.doe@company.com</p>
                 <span class="pa-profile-panel__role">Administrator</span>
             </div>
-            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
-                ✕
-            </button>
+            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">✕</button>
         </div>
 
-        <!-- Profile Panel Tabs (with text labels) -->
+        <!-- Tab strip — sits between header and body -->
         <div class="pa-profile-panel__tabs">
             <div class="pa-tabs pa-tabs--full">
                 <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile">
@@ -224,47 +227,32 @@
         </div>
 
         <div class="pa-profile-panel__body">
-            <!-- Profile Tab -->
+            <!-- Profile tab -->
             <div class="pa-tabs__panel pa-tabs__panel--active" data-profile-panel="profile">
                 <nav class="pa-profile-panel__nav">
                     <ul>
                         <li><a href="#profile" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">👤</span>
-                            Profile Settings
+                            <span class="pa-profile-panel__nav-icon">👤</span> Profile Settings
                         </a></li>
                         <li><a href="#security" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">🔒</span>
-                            Security
-                        </a></li>
-                        <li><a href="#notifications" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">🔔</span>
-                            Notifications
-                        </a></li>
-                        <li><a href="#preferences" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">⚙️</span>
-                            Preferences
-                        </a></li>
-                        <li><a href="#help" class="pa-profile-panel__nav-item">
-                            <span class="pa-profile-panel__nav-icon">❓</span>
-                            Help & Support
+                            <span class="pa-profile-panel__nav-icon">🔒</span> Security
                         </a></li>
                     </ul>
                 </nav>
-
                 <div class="pa-profile-panel__actions">
-                    <button class="pa-btn pa-btn--secondary pa-btn--block">
-                        Switch Account
-                    </button>
-                    <button class="pa-btn pa-btn--danger pa-btn--block">
-                        Sign Out
-                    </button>
+                    <button class="pa-btn pa-btn--danger pa-btn--block">Sign Out</button>
                 </div>
             </div>
 
-            <!-- Favorites Tab -->
+            <!-- Favorites tab -->
             <div class="pa-tabs__panel" data-profile-panel="favorites">
                 <div class="pa-profile-panel__favorites">
                     <ul>
+                        <!-- __favorite-item is a <div> (not an <a>) because the
+                             whole row is clickable via data-href + JS. The
+                             __favorite-remove button is opacity: 0 until the
+                             row is hovered — it fades in when a user is over
+                             the favorite. -->
                         <li>
                             <div class="pa-profile-panel__favorite-item" data-href="/dashboard">
                                 <span class="pa-profile-panel__favorite-icon">📊</span>
@@ -279,19 +267,10 @@
                                 <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
                             </div>
                         </li>
-                        <li>
-                            <div class="pa-profile-panel__favorite-item" data-href="/settings">
-                                <span class="pa-profile-panel__favorite-icon">⚙️</span>
-                                <span class="pa-profile-panel__favorite-label">Settings</span>
-                                <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">✕</button>
-                            </div>
-                        </li>
                     </ul>
                 </div>
                 <div class="pa-profile-panel__favorites-add">
-                    <button class="pa-btn pa-btn--sm pa-btn--outline-secondary pa-btn--block">
-                        + Add Current Page
-                    </button>
+                    <button class="pa-btn pa-btn--sm pa-btn--outline-secondary pa-btn--block">+ Add Current Page</button>
                 </div>
             </div>
         </div>
@@ -299,214 +278,115 @@
 </div>
 
 
-<!-- ================================
-     PROFILE PANEL - WITH ICON-ONLY TABS
-     Add --icon-only modifier to hide text labels
-     ================================ -->
-
-<div class="pa-profile-panel" id="profilePanel">
-    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
-    <div class="pa-profile-panel__content">
-        <div class="pa-profile-panel__header">
-            <div class="pa-profile-panel__avatar">
-                <span class="pa-profile-panel__avatar-icon"><i class="fa-solid fa-user"></i></span>
-            </div>
-            <div class="pa-profile-panel__info">
-                <h3 class="pa-profile-panel__name">John Doe</h3>
-                <p class="pa-profile-panel__email">john.doe@company.com</p>
-                <span class="pa-profile-panel__role">Administrator</span>
-            </div>
-            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <!-- Profile Panel Tabs (icon-only) - add --icon-only modifier -->
-        <div class="pa-profile-panel__tabs pa-profile-panel__tabs--icon-only">
-            <div class="pa-tabs pa-tabs--full">
-                <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile" title="Profile">
-                    <i class="fa-solid fa-user"></i>
-                    <span class="pa-profile-panel__tab-text">Profile</span>
-                </button>
-                <button class="pa-tabs__item" data-profile-tab="favorites" title="Favorites">
-                    <i class="fa-solid fa-star"></i>
-                    <span class="pa-profile-panel__tab-text">Favorites</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="pa-profile-panel__body">
-            <!-- Content same as regular tabs variant -->
-        </div>
+<!-- Icon-only tab variant — hides the .pa-profile-panel__tab-text via
+     --icon-only on the tabs container. Keep the <span class="__tab-text">
+     markup in place so removing the modifier re-enables labels. -->
+<div class="pa-profile-panel__tabs pa-profile-panel__tabs--icon-only">
+    <div class="pa-tabs pa-tabs--full">
+        <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile" title="Profile">
+            <i class="fa-solid fa-user"></i>
+            <span class="pa-profile-panel__tab-text">Profile</span>
+        </button>
+        <button class="pa-tabs__item" data-profile-tab="favorites" title="Favorites">
+            <i class="fa-solid fa-star"></i>
+            <span class="pa-profile-panel__tab-text">Favorites</span>
+        </button>
     </div>
 </div>
 
 
 <!-- ================================
-     PROFILE PANEL - WITH FONT AWESOME
+     WIDTH CONTROL
+     The panel's content width is driven by two CSS custom properties
+     set at :root by the framework. The rule that applies them uses
+     :where() so the selector has ZERO specificity — any utility class
+     applied to .pa-profile-panel__content will win.
+
+     Default values:
+       --pa-local-profile-panel-width      (set from $profile-panel-width)
+       --pa-local-profile-panel-max-width  (set from $profile-panel-max-width)
+
+     Override strategies:
+       1. Utility class on __content        — wr-*, minwr-*, maxwr-*
+       2. Inline style on __content         — quick one-offs
+       3. Update the root CSS variable      — app-wide change
      ================================ -->
 
-<div class="pa-profile-panel" id="profilePanel">
-    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
-    <div class="pa-profile-panel__content">
-        <div class="pa-profile-panel__header">
-            <div class="pa-profile-panel__avatar">
-                <span class="pa-profile-panel__avatar-icon"><i class="fa-solid fa-user"></i></span>
-            </div>
-            <div class="pa-profile-panel__info">
-                <h3 class="pa-profile-panel__name">John Doe</h3>
-                <p class="pa-profile-panel__email">john.doe@company.com</p>
-                <span class="pa-profile-panel__role">Administrator</span>
-            </div>
-            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <div class="pa-profile-panel__body">
-            <nav class="pa-profile-panel__nav">
-                <ul>
-                    <li><a href="#profile" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-user"></i></span>
-                        Profile Settings
-                    </a></li>
-                    <li><a href="#security" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-lock"></i></span>
-                        Security
-                    </a></li>
-                    <li><a href="#notifications" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-bell"></i></span>
-                        Notifications
-                    </a></li>
-                    <li><a href="#preferences" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-gear"></i></span>
-                        Preferences
-                    </a></li>
-                    <li><a href="#help" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon"><i class="fa-solid fa-circle-question"></i></span>
-                        Help & Support
-                    </a></li>
-                </ul>
-            </nav>
-
-            <div class="pa-profile-panel__actions">
-                <button class="pa-btn pa-btn--secondary pa-btn--block">
-                    <i class="fa-solid fa-right-left"></i> Switch Account
-                </button>
-                <button class="pa-btn pa-btn--danger pa-btn--block">
-                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
-                </button>
-            </div>
-        </div>
-    </div>
+<!-- 1. Fixed width — 30rem (300px). Wins because :where() = 0 specificity. -->
+<div class="pa-profile-panel__content wr-30">
+    <!-- … -->
 </div>
+
+<!-- 2. Clamp between floor and ceiling — good for resizable panels -->
+<div class="pa-profile-panel__content minwr-25 maxwr-50">
+    <!-- width is free between 25rem and 50rem -->
+</div>
+
+<!-- 3. App-wide default — set the CSS variable at :root (or on <html>) -->
+<style>
+:root {
+    --pa-local-profile-panel-width: 36rem;
+    --pa-local-profile-panel-max-width: 56rem;
+}
+</style>
+
+<!--
+Responsive behaviour (automatic, below $mobile-breakpoint / 768px):
+  .pa-profile-panel__content → width: 85vw
+                               max-width: $profile-panel-mobile-max-width
+On mobile the panel fills most of the viewport regardless of the
+desktop width-control setting.
+-->
 
 
 <!-- ================================
-     PROFILE PANEL - MINIMAL (NO ACTIONS)
-     ================================ -->
-
-<div class="pa-profile-panel" id="profilePanel">
-    <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
-    <div class="pa-profile-panel__content">
-        <div class="pa-profile-panel__header">
-            <div class="pa-profile-panel__avatar">
-                <span class="pa-profile-panel__avatar-icon">👤</span>
-            </div>
-            <div class="pa-profile-panel__info">
-                <h3 class="pa-profile-panel__name">John Doe</h3>
-                <p class="pa-profile-panel__email">john.doe@company.com</p>
-                <span class="pa-profile-panel__role">Administrator</span>
-            </div>
-            <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
-                ✕
-            </button>
-        </div>
-
-        <div class="pa-profile-panel__body">
-            <nav class="pa-profile-panel__nav">
-                <ul>
-                    <li><a href="#profile" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">👤</span>
-                        Profile Settings
-                    </a></li>
-                    <li><a href="#logout" class="pa-profile-panel__nav-item">
-                        <span class="pa-profile-panel__nav-icon">🚪</span>
-                        Sign Out
-                    </a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
-
-
-<!-- ================================
-     JAVASCRIPT - PROFILE PANEL TOGGLE
+     JAVASCRIPT — toggle, close, tabs, favorites
      ================================ -->
 
 <script>
-/**
- * Toggle profile panel open/closed
- */
 function toggleProfilePanel() {
-    const profilePanel = document.getElementById('profilePanel');
-    profilePanel.classList.toggle('pa-profile-panel--open');
+    document.getElementById('profilePanel').classList.toggle('pa-profile-panel--open');
 }
 
-/**
- * Close profile panel
- */
 function closeProfilePanel() {
-    const profilePanel = document.getElementById('profilePanel');
-    profilePanel.classList.remove('pa-profile-panel--open');
+    document.getElementById('profilePanel').classList.remove('pa-profile-panel--open');
 }
 
-/**
- * Close profile panel when clicking outside
- */
+// Click-outside-to-close — checks against the profile BUTTON as well
+// as the panel itself so toggling via the button doesn't immediately
+// re-close it.
 document.addEventListener('click', (e) => {
-    const profilePanel = document.getElementById('profilePanel');
-    const profileBtn = document.querySelector('.pa-header__profile-btn');
+    const panel = document.getElementById('profilePanel');
+    const btn = document.querySelector('.pa-header__profile-btn');
+    if (!panel || !btn) return;
 
-    if (!profilePanel || !profileBtn) return;
-
-    if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target) &&
-        profilePanel.classList.contains('pa-profile-panel--open')) {
+    if (!panel.contains(e.target) && !btn.contains(e.target) &&
+        panel.classList.contains('pa-profile-panel--open')) {
         closeProfilePanel();
     }
 });
 
-/**
- * Profile panel tab switching
- */
+// Tab switching — flips --active on buttons + panels in lockstep.
 document.querySelectorAll('[data-profile-tab]').forEach(tab => {
     tab.addEventListener('click', () => {
-        const tabId = tab.dataset.profileTab;
-        // Update active tab
+        const id = tab.dataset.profileTab;
         document.querySelectorAll('[data-profile-tab]').forEach(t =>
-            t.classList.toggle('pa-tabs__item--active', t.dataset.profileTab === tabId));
-        // Update active panel
+            t.classList.toggle('pa-tabs__item--active', t.dataset.profileTab === id));
         document.querySelectorAll('[data-profile-panel]').forEach(p =>
-            p.classList.toggle('pa-tabs__panel--active', p.dataset.profilePanel === tabId));
+            p.classList.toggle('pa-tabs__panel--active', p.dataset.profilePanel === id));
     });
 });
 
-/**
- * Favorite item click - navigate using data-href
- */
+// Favorite click → navigate via data-href (unless the remove button was clicked)
 document.querySelectorAll('.pa-profile-panel__favorite-item').forEach(item => {
     item.addEventListener('click', (e) => {
-        // Skip if clicking the remove button
         if (e.target.closest('.pa-profile-panel__favorite-remove')) return;
         const href = item.dataset.href;
         if (href) window.location.href = href;
     });
 });
 
-/**
- * Favorite remove button - remove item from list
- */
+// Favorite remove → drop the <li>
 document.querySelectorAll('.pa-profile-panel__favorite-remove').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -517,67 +397,147 @@ document.querySelectorAll('.pa-profile-panel__favorite-remove').forEach(btn => {
 
 
 <!-- ================================
-     USAGE NOTES
+     COMPONENT REFERENCE
      ================================ -->
 
 <!--
-PROFILE BUTTON (HEADER):
-- .pa-header__profile-btn - Profile button in header
-- .pa-btn__icon - Icon container
-- .pa-header__profile-name - User name text
+HEADER BUTTON:
+- .pa-header__profile-btn       The trigger button; lives in .pa-header__end.
+- .pa-header__profile-name      User's name text inside the button.
+                                Hidden via `display: none` below 768px so
+                                only the icon shows on mobile.
 
-PROFILE PANEL STRUCTURE:
-- .pa-profile-panel - Main panel container
-- #profilePanel - Required ID for JavaScript
-- .pa-profile-panel--open - Open state (toggled by JS)
-- .pa-profile-panel__overlay - Click-to-close overlay
-- .pa-profile-panel__content - Panel content container
+PANEL STRUCTURE:
+- .pa-profile-panel                 Fixed-position container. Anchored to
+                                    inline-end (right in LTR, left in RTL).
+                                    Hidden by default (opacity: 0 + visibility).
+- .pa-profile-panel--open           Set by JS to reveal the panel.
+- .pa-profile-panel__overlay        Click-to-close backdrop (fills viewport).
+- .pa-profile-panel__content        The visible panel surface. Slides in
+                                    from the inline-end (translateX 100% → 0;
+                                    [dir="rtl"] flips to -100%).
 
-PANEL HEADER:
-- .pa-profile-panel__header - Header container
-- .pa-profile-panel__header--no-avatar - Modifier to hide avatar (for corporate apps)
-- .pa-profile-panel__avatar - Avatar container
-- .pa-profile-panel__avatar-icon - Avatar icon/image
-- .pa-profile-panel__info - User info container
-- .pa-profile-panel__name - User name (truncates with ellipsis, add title for tooltip)
-- .pa-profile-panel__email - User email (truncates with ellipsis, add title for tooltip)
-- .pa-profile-panel__role - User role badge
-- .pa-profile-panel__close - Close button
+HEADER:
+- .pa-profile-panel__header             Flex row: avatar + info + close.
+- .pa-profile-panel__header--no-avatar  Hides the avatar element (corporate apps).
+- .pa-profile-panel__avatar             Circular avatar wrapper.
+- .pa-profile-panel__avatar-icon        Emoji / FA icon inside the avatar.
+- .pa-profile-panel__info               Text column (name + email + role).
+- .pa-profile-panel__name               User name (ellipsis on overflow).
+- .pa-profile-panel__email              Email (ellipsis on overflow).
+- .pa-profile-panel__role               Role badge (uppercase, tinted bg).
+- .pa-profile-panel__close              Close button (top-end corner).
 
-PANEL TABS (optional):
-- .pa-profile-panel__tabs - Tabs container
-- .pa-profile-panel__tabs--icon-only - Modifier to hide text labels (icon-only mode)
-- .pa-profile-panel__tab-text - Text label element (hidden when --icon-only is applied)
-- .pa-tabs.pa-tabs--full - Full-width tabs
-- [data-profile-tab] - Tab button attribute
-- [data-profile-panel] - Tab panel attribute
-- Add title attribute to tab buttons for tooltip when using icon-only mode
+Theme-colour design choices (why they're like this):
+- __name and __email use var(--pa-header-profile-name-color) — the same
+  colour the header uses for the user's name. This guarantees contrast
+  against dark / coloured header backgrounds across all themes (body
+  text colours would read wrong on a dark header).
+- __role paints its background with color-mix(in srgb,
+  var(--pa-header-profile-name-color) 15%, transparent) so the tint is
+  derived from the header colour and works on any theme. An older
+  --pa-accent-light fallback is declared first for browsers without
+  color-mix.
 
-PANEL BODY:
-- .pa-profile-panel__body - Body container (scrollable)
-- .pa-profile-panel__nav - Navigation menu
-- .pa-profile-panel__nav-item - Navigation link
-- .pa-profile-panel__nav-icon - Navigation icon
-- .pa-profile-panel__actions - Action buttons (inside body, scrolls with content)
-- .pa-profile-panel__footer - Fixed footer (outside body, always visible at bottom)
+TABS (optional — sits between __header and __body):
+- .pa-profile-panel__tabs               Tabs container (border-bottom + header-bg).
+- .pa-profile-panel__tabs--icon-only    Hide text labels, keep icons (tooltips
+                                        via `title` attrs recommended).
+- .pa-profile-panel__tab-text           Text label element inside a tab
+                                        (kept in markup; hidden by --icon-only).
+- Uses the shared .pa-tabs / .pa-tabs--full / .pa-tabs__item / .pa-tabs__panel
+  component — see tabs.html for the full tab reference.
 
-FAVORITES SECTION:
-- .pa-profile-panel__favorites - Favorites container
-- .pa-profile-panel__favorite-item - Favorite link (use div with data-href)
-- .pa-profile-panel__favorite-icon - Favorite icon
-- .pa-profile-panel__favorite-label - Favorite text label
-- .pa-profile-panel__favorite-remove - Remove button (appears on hover)
-- .pa-profile-panel__favorites-add - Add button container
+BODY + NAV:
+- .pa-profile-panel__body        flex: 1; overflow-y: auto. Scrollable.
+- .pa-profile-panel__nav         Navigation menu wrapper (ul reset).
+- .pa-profile-panel__nav-item    Menu item link (flex icon + label).
+- .pa-profile-panel__nav-icon    Fixed-width icon slot (sidebar icon size).
 
-JAVASCRIPT FUNCTIONS:
-- toggleProfilePanel() - Toggle panel open/closed
-- closeProfilePanel() - Close panel
-- Auto-closes when clicking outside
-- Tab switching via data-profile-tab/data-profile-panel attributes
-- Favorite navigation via data-href attribute
+ACTIONS — two placements, mutually exclusive per action:
+- .pa-profile-panel__actions     Inside __body. Scrolls with the nav
+                                 above. Use for actions that belong to
+                                 the end of a list.
+- .pa-profile-panel__footer      Sibling of __body inside __content;
+                                 flex-shrink: 0. Always visible at the
+                                 bottom of the panel regardless of body
+                                 scroll position.
 
-PLACEMENT:
-- Profile button goes in header/navbar
-- Profile panel goes before closing </body> tag
-- Panel slides in from right side of screen
+FAVORITES (inside a tab panel):
+- .pa-profile-panel__favorites          Wrapper (ul reset).
+- .pa-profile-panel__favorite-item      Row <div> with data-href (JS
+                                        navigates on click). Hover
+                                        reveals the __favorite-remove
+                                        button.
+- .pa-profile-panel__favorite-icon      Fixed-width icon slot.
+- .pa-profile-panel__favorite-label     flex: 1 label text.
+- .pa-profile-panel__favorite-remove    × button; opacity: 0 by default,
+                                        fades in on __favorite-item:hover.
+- .pa-profile-panel__favorites-add      Bottom wrapper for the "+ Add" button.
+
+WIDTH CONTROL:
+Two CSS custom properties, applied via a :where() rule on __content so
+utility classes beat the default:
+
+  :root {
+    --pa-local-profile-panel-width:     $profile-panel-width;
+    --pa-local-profile-panel-max-width: $profile-panel-max-width;
+  }
+  :where(.pa-profile-panel__content) {
+    width: var(--pa-local-profile-panel-width);
+    max-width: var(--pa-local-profile-panel-max-width);
+  }
+
+Override options:
+- Utility class on __content — .wr-{n}, .minwr-{n}, .maxwr-{n}
+                               (n = 1..10, 15, 20, 25, 30, 35, 40, 45, 50 rem)
+- Inline style                — quick one-off width / max-width
+- Root CSS variable override  — app-wide default change
+
+RESPONSIVE BEHAVIOUR (automatic):
+Below $mobile-breakpoint (768px):
+  .pa-profile-panel__content  → width: 85vw,
+                                 max-width: $profile-panel-mobile-max-width
+  .pa-header__profile-name    → display: none (icon-only button)
+
+JAVASCRIPT CONTRACT:
+- toggleProfilePanel()   — flips --open on the panel
+- closeProfilePanel()    — removes --open
+- Click-outside-to-close — registered on document, checks both the
+                           panel AND the trigger button so toggling
+                           via the button doesn't immediately re-close.
+- Tabs                   — [data-profile-tab] on buttons pairs with
+                           [data-profile-panel] on panels; both get
+                           --active toggled in lockstep.
+- Favorite nav           — data-href attribute on __favorite-item; JS
+                           navigates on click except when the remove
+                           button is the target.
+
+STRUCTURE PATTERNS:
+
+Minimal panel (basic nav + in-body actions):
+<div class="pa-profile-panel" id="profilePanel">
+  <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
+  <div class="pa-profile-panel__content">
+    <div class="pa-profile-panel__header">
+      <div class="pa-profile-panel__avatar">…</div>
+      <div class="pa-profile-panel__info">…</div>
+      <button class="pa-profile-panel__close">✕</button>
+    </div>
+    <div class="pa-profile-panel__body">
+      <nav class="pa-profile-panel__nav">…</nav>
+      <div class="pa-profile-panel__actions">…</div>
+    </div>
+  </div>
+</div>
+
+With fixed footer (actions pinned, body scrolls):
+<div class="pa-profile-panel__content">
+  <div class="pa-profile-panel__header">…</div>
+  <div class="pa-profile-panel__body">…</div>
+  <div class="pa-profile-panel__footer">…</div>
+</div>
+
+Width override (fixed 30rem):
+<div class="pa-profile-panel__content wr-30">…</div>
 -->
