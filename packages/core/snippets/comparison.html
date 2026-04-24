@@ -1,7 +1,20 @@
 <!-- ================================
      COMPARISON TABLE SNIPPETS
      Pure Admin Visual Framework
+
+     Two- or three-column tables for "what changed?" scenarios —
+     version history, merge review, data diff views. Highlights rows
+     whose values differ from a base column, with an extra "conflict"
+     state for three-way merges where both branches touched the same
+     field.
+
+     Desktop: standard table layout.
+     Mobile (≤ $mobile-breakpoint): each <tr> stacks into a card-like
+     block, one cell per line. Each value cell uses a data-label="…"
+     attribute to render its column name on the left via ::before —
+     omit the attribute and you get a blank 120px column.
      ================================ -->
+
 
 <!-- ================================
      TWO-COLUMN COMPARISON
@@ -33,10 +46,11 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Regular row (no changes) -->
+                <!-- Regular row (no changes). data-label renders the
+                     column header beside each value when stacked on mobile. -->
                 <tr>
                     <td class="pa-comparison-table__label">Country Iso 2</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>be</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -44,7 +58,7 @@
                             </button>
                         </div>
                     </td>
-                    <td>
+                    <td data-label="New">
                         <div class="pa-comparison-table__value">
                             <span>be</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -54,17 +68,18 @@
                     </td>
                 </tr>
 
-                <!-- Empty row -->
+                <!-- Empty row (keep the <td>s so the table structure
+                     stays balanced on mobile card stacking) -->
                 <tr>
                     <td class="pa-comparison-table__label">Region</td>
-                    <td></td>
-                    <td></td>
+                    <td data-label="Base"></td>
+                    <td data-label="New"></td>
                 </tr>
 
-                <!-- Changed row (pink highlight) -->
+                <!-- Changed row: pink highlight with inline-start border accent -->
                 <tr>
                     <td class="pa-comparison-table__label">Town</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>Beveren</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -72,7 +87,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="pa-comparison-table__changed">
+                    <td data-label="New" class="pa-comparison-table__changed">
                         <div class="pa-comparison-table__value">
                             <span>Antwerpen</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -82,7 +97,8 @@
                     </td>
                 </tr>
 
-                <!-- Section header -->
+                <!-- Section header (single td with colspan covering all columns).
+                     Its ::before is suppressed on mobile. -->
                 <tr class="pa-comparison-table__section">
                     <td colspan="3">Address metadata</td>
                 </tr>
@@ -90,10 +106,10 @@
                 <!-- Row with status indicator -->
                 <tr>
                     <td class="pa-comparison-table__label">Is active</td>
-                    <td>
+                    <td data-label="Base">
                         <i class="fa-solid fa-check" style="color: var(--base-success-color);"></i>
                     </td>
-                    <td>
+                    <td data-label="New">
                         <i class="fa-solid fa-check" style="color: var(--base-success-color);"></i>
                     </td>
                 </tr>
@@ -101,10 +117,10 @@
                 <!-- Row with badge -->
                 <tr>
                     <td class="pa-comparison-table__label">Status</td>
-                    <td>
+                    <td data-label="Base">
                         <span class="pa-badge pa-badge--success">Active</span>
                     </td>
-                    <td>
+                    <td data-label="New">
                         <span class="pa-badge pa-badge--success">Active</span>
                     </td>
                 </tr>
@@ -145,7 +161,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Section header -->
                 <tr class="pa-comparison-table__section">
                     <td colspan="4">Contact Information</td>
                 </tr>
@@ -153,7 +168,7 @@
                 <!-- Single change in column A -->
                 <tr>
                     <td class="pa-comparison-table__label">Email</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>john.doe@company.com</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -161,7 +176,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="pa-comparison-table__changed">
+                    <td data-label="Change A" class="pa-comparison-table__changed">
                         <div class="pa-comparison-table__value">
                             <span>john.doe@newcompany.com</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -169,7 +184,7 @@
                             </button>
                         </div>
                     </td>
-                    <td>
+                    <td data-label="Change B">
                         <div class="pa-comparison-table__value">
                             <span>john.doe@company.com</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -182,7 +197,7 @@
                 <!-- Single change in column B -->
                 <tr>
                     <td class="pa-comparison-table__label">Phone</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>+32 123 456 789</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -190,7 +205,7 @@
                             </button>
                         </div>
                     </td>
-                    <td>
+                    <td data-label="Change A">
                         <div class="pa-comparison-table__value">
                             <span>+32 123 456 789</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -198,7 +213,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="pa-comparison-table__changed">
+                    <td data-label="Change B" class="pa-comparison-table__changed">
                         <div class="pa-comparison-table__value">
                             <span>+32 987 654 321</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -208,10 +223,13 @@
                     </td>
                 </tr>
 
-                <!-- Conflict (both A and B changed differently) -->
+                <!-- Conflict: both A and B changed differently.
+                     Note that __conflict composes with __changed — it
+                     recolours the left-border ::before that __changed
+                     provides; alone, __conflict has no border accent. -->
                 <tr>
                     <td class="pa-comparison-table__label">Department</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>Sales</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -219,7 +237,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="pa-comparison-table__changed">
+                    <td data-label="Change A" class="pa-comparison-table__changed">
                         <div class="pa-comparison-table__value">
                             <span>Marketing</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -227,7 +245,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="pa-comparison-table__changed pa-comparison-table__conflict">
+                    <td data-label="Change B" class="pa-comparison-table__changed pa-comparison-table__conflict">
                         <div class="pa-comparison-table__value">
                             <span>Engineering</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -261,10 +279,9 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Regular row (no changes) -->
                 <tr>
                     <td class="pa-comparison-table__label">Country Iso 2</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>be</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -272,7 +289,7 @@
                             </button>
                         </div>
                     </td>
-                    <td>
+                    <td data-label="New">
                         <div class="pa-comparison-table__value">
                             <span>be</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -282,10 +299,10 @@
                     </td>
                 </tr>
 
-                <!-- Changed row with solid background (no left border) -->
+                <!-- Solid highlight: deeper pink fill, no inline-start border -->
                 <tr>
                     <td class="pa-comparison-table__label">Town</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>Beveren</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -293,7 +310,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="pa-comparison-table__changed pa-comparison-table__changed--solid">
+                    <td data-label="New" class="pa-comparison-table__changed pa-comparison-table__changed--solid">
                         <div class="pa-comparison-table__value">
                             <span>Antwerpen</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -303,10 +320,9 @@
                     </td>
                 </tr>
 
-                <!-- Another changed row with solid background -->
                 <tr>
                     <td class="pa-comparison-table__label">Postal Code</td>
-                    <td>
+                    <td data-label="Base">
                         <div class="pa-comparison-table__value">
                             <span>9120</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -314,7 +330,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="pa-comparison-table__changed pa-comparison-table__changed--solid">
+                    <td data-label="New" class="pa-comparison-table__changed pa-comparison-table__changed--solid">
                         <div class="pa-comparison-table__value">
                             <span>2000</span>
                             <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
@@ -363,66 +379,101 @@ document.querySelectorAll('[data-action="accept-a"]').forEach(btn => {
 
 
 <!-- ================================
-     CSS CLASSES REFERENCE
+     COMPONENT REFERENCE
      ================================ -->
 
 <!--
-COMPONENT CLASSES:
-- pa-comparison-table            Main table class
-- pa-comparison-table__label     Field name column (left)
-- pa-comparison-table__value     Value wrapper (contains text + copy button)
-- pa-comparison-table__copy      Copy button styling
-- pa-comparison-table__changed   Pink highlight for changes (light bg + left border accent)
-- pa-comparison-table__changed--solid   Solid pink background (no left border)
-- pa-comparison-table__conflict  Orange highlight for merge conflicts (3-column only)
-- pa-comparison-table__conflict--solid  Solid orange background (no left border)
-- pa-comparison-table__section   Section header row
+TABLE:
+- .pa-comparison-table            Base class. Pairs well with .pa-table
+                                  (inherits cell spacing) but also works
+                                  standalone. border-collapse on the root.
 
-USAGE PATTERNS:
+SUB-ELEMENTS:
+- .pa-comparison-table__label     Field-name column (leftmost). Muted
+                                  text on main-bg; reads as a header-ish
+                                  label column.
+- .pa-comparison-table__value     Flex wrapper inside a value <td>;
+                                  hosts the text <span> (flex: 1,
+                                  word-break) and the optional __copy
+                                  button.
+- .pa-comparison-table__copy      Copy-to-clipboard button. opacity: 0
+                                  by default; revealed on tbody tr:hover.
+                                  Pair with a <button class="pa-btn
+                                  pa-btn--xs pa-btn--icon-only">.
+- .pa-comparison-table__section   <tr> modifier: section-header row.
+                                  Use a single <td colspan="N"> child
+                                  spanning all columns. Background
+                                  matches the table header.
 
-Two-column comparison:
-- Column 1: Field labels (pa-comparison-table__label)
-- Column 2: Base values
-- Column 3: New values
-- Add pa-comparison-table__changed to cells that changed
-- Add pa-comparison-table__changed--solid for solid background highlighting
+HIGHLIGHT STATES (apply to individual <td>):
+- .pa-comparison-table__changed           Pink tint + inline-start
+                                          border accent (::before).
+                                          Inline-start in LTR; flips in
+                                          RTL.
+- .pa-comparison-table__changed--solid    Deeper pink fill, NO border
+                                          accent (the ::before is
+                                          cancelled with content: none).
+                                          Use when the border stripe
+                                          interferes with layout, or
+                                          you just prefer solid fill.
+- .pa-comparison-table__conflict          Orange tint (for 3-way merge
+                                          conflicts). IMPORTANT: this
+                                          only recolours the existing
+                                          border accent — it does NOT
+                                          define its own ::before.
+                                          Compose with __changed to get
+                                          the full visual:
+                                            class="pa-comparison-table__changed
+                                                   pa-comparison-table__conflict"
+- .pa-comparison-table__conflict--solid   Deeper orange fill, no border
+                                          accent (same pattern as
+                                          __changed--solid).
 
-Three-column comparison:
-- Column 1: Field labels (pa-comparison-table__label)
-- Column 2: Base values
-- Column 3: Change A values
-- Column 4: Change B values
-- Add pa-comparison-table__changed to cells that changed
-- Add pa-comparison-table__changed--solid for solid background (no border accent)
-- Add pa-comparison-table__conflict to cells with conflicting changes
-- Add pa-comparison-table__conflict--solid for solid conflict highlighting
+MOBILE STACKING (automatic below $mobile-breakpoint = 768px):
+- thead is hidden.
+- Each <tr> becomes a card-shaped block with a border and rounded corners.
+- Each <td> becomes a flex row: [label via ::before] [value].
+- The label comes from `data-label="…"` on the <td> — add this attribute
+  to every value cell you want a column header for on mobile. Without
+  it, the ::before still reserves 120px of empty space to keep layout
+  aligned, but the user sees no column name.
+- Section headers (<tr class="__section">) center their text and skip
+  the ::before.
+- The __label column becomes a bold single row above each card's values.
 
-Highlighting Styles:
-- Default (pa-comparison-table__changed): Light background + colored left border accent
-- Solid (pa-comparison-table__changed--solid): More opaque background, no border accent
-- Use --solid variant when left border might interfere with table layout or when you prefer uniform background highlighting
+COPY BUTTON JS CONTRACT:
+- Reads the adjacent <span>'s text via button.previousElementSibling.textContent
+- navigator.clipboard.writeText(...)
+- Swaps the fa-clipboard icon to fa-check for 1s as feedback
 
-Section headers:
-- Use <tr class="pa-comparison-table__section">
-- Single <td> with colspan covering all columns
-- Contains section name text
+STRUCTURE PATTERNS:
 
-Empty rows:
-- Keep empty <td> elements to maintain table structure
-- Helps with visual scanning
+Basic value cell with copy button:
+<td data-label="New">
+  <div class="pa-comparison-table__value">
+    <span>some value</span>
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-comparison-table__copy">
+      <i class="fa-solid fa-clipboard"></i>
+    </button>
+  </div>
+</td>
 
-Value cells:
-- Wrap content in pa-comparison-table__value div
-- Include copy button for copyable values
-- Use icons, badges, or plain text as needed
+Row with a change highlight:
+<tr>
+  <td class="pa-comparison-table__label">Town</td>
+  <td data-label="Base">…</td>
+  <td data-label="New" class="pa-comparison-table__changed">…</td>
+</tr>
 
-FEATURES:
-✅ Responsive design (stacks on mobile)
-✅ Copy to clipboard functionality
-✅ Hover-visible copy buttons
-✅ Section grouping
-✅ Change highlighting (pink)
-✅ Conflict highlighting (orange)
-✅ Support for icons, badges, and rich content
-✅ Empty row preservation for structure
+Section header row:
+<tr class="pa-comparison-table__section">
+  <td colspan="3">Address metadata</td>
+</tr>
+
+Three-way conflict cell (must compose __conflict with __changed):
+<td data-label="Change B"
+    class="pa-comparison-table__changed pa-comparison-table__conflict">
+  <div class="pa-comparison-table__value">…</div>
+</td>
 -->
+
