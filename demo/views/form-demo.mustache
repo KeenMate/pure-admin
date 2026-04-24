@@ -105,37 +105,35 @@
 </div>
 
 <!-- Stored Submissions -->
-<div class="pa-card">
-    <div class="pa-card__header pa-card__header--underlined">
+<div class="pa-table-card">
+    <div class="pa-table-card__header">
         <h3>Stored Submissions</h3>
-        <div class="pa-card__actions">
+        <div class="pa-table-card__actions">
             <span class="pa-badge pa-badge--secondary" id="formDemoCount">0 total</span>
             <button type="button" class="pa-btn pa-btn--danger pa-btn--sm" id="formDemoClearAll" hidden>
                 <i class="fa-solid fa-trash"></i> Clear All
             </button>
         </div>
     </div>
-    <div class="pa-card__body">
-        <div class="pa-callout pa-callout--info" id="formDemoEmptyState">
+    <div class="pa-table-card__body">
+        <div class="pa-callout pa-callout--info m-3" id="formDemoEmptyState">
             No submissions yet. Fill in the form above and click <strong>Save Entry</strong>.
         </div>
 
-        <div id="formDemoTableWrapper" hidden>
-            <table class="pa-table pa-table--striped pa-table--hover pa-table--responsive">
-                <thead>
-                    <tr>
-                        <th style="width:88px"></th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Department</th>
-                        <th>Start Date</th>
-                        <th>Bio</th>
-                        <th>Submitted</th>
-                    </tr>
-                </thead>
-                <tbody id="formDemoTableBody"></tbody>
-            </table>
-        </div>
+        <table class="pa-table pa-table--striped pa-table--hover" id="formDemoTable" hidden>
+            <thead>
+                <tr>
+                    <th style="width:88px"></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Start Date</th>
+                    <th>Bio</th>
+                    <th>Submitted</th>
+                </tr>
+            </thead>
+            <tbody id="formDemoTableBody"></tbody>
+        </table>
     </div>
 </div>
 

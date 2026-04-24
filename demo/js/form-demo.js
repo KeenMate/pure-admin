@@ -4,7 +4,7 @@
 
     const alertSlot = document.getElementById('formDemoAlertSlot');
     const tableBody = document.getElementById('formDemoTableBody');
-    const tableWrapper = document.getElementById('formDemoTableWrapper');
+    const tableEl = document.getElementById('formDemoTable');
     const emptyState = document.getElementById('formDemoEmptyState');
     const countBadge = document.getElementById('formDemoCount');
     const clearAllBtn = document.getElementById('formDemoClearAll');
@@ -179,14 +179,14 @@
 
         if (entries.length === 0) {
             emptyState.hidden = false;
-            tableWrapper.hidden = true;
+            tableEl.hidden = true;
             clearAllBtn.hidden = true;
             tableBody.innerHTML = '';
             return;
         }
 
         emptyState.hidden = true;
-        tableWrapper.hidden = false;
+        tableEl.hidden = false;
         clearAllBtn.hidden = false;
 
         tableBody.innerHTML = entries.map(e => {
