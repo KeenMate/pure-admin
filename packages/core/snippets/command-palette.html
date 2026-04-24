@@ -1,56 +1,63 @@
-<!-- ========================================
-     Command Palette Component
-     macOS Spotlight-style global search
-     ======================================== -->
+<!-- ================================
+     COMMAND PALETTE
+     Pure Admin Visual Framework
 
-<!--
-  USAGE:
-  - Include this HTML in your layout (globally available)
-  - Include /dist/js/command-palette.js for functionality
-  - Press Ctrl+K or Cmd+K to open
-  - Use /p, /o, /u, /i prefixes for context switching
--->
+     Three co-located components in _command-palette.scss:
+       pa-command-palette     macOS Spotlight-style search modal
+       pa-navbar-search       The clickable "search pill" in the navbar
+                              that triggers the palette
+       pa-shortcut-help       Modal content for an all-shortcuts help dialog
 
-<!-- Command Palette Modal -->
+     The palette is CSS + structure only — behaviour (open/close,
+     filtering, keyboard navigation, context switching) is wired up by
+     your own JS or the framework's demo script
+     (demo/js/command-palette.js).
+     ================================ -->
+
+
+<!-- ================================
+     PALETTE MARKUP (full shell)
+     Place near </body> so it's not clipped by layout containers.
+     Toggle .pa-command-palette--active to show/hide.
+     ================================ -->
+
 <div class="pa-command-palette" id="commandPalette">
-    <!-- Backdrop overlay -->
+    <!-- Backdrop — fullscreen, blurred; clicking it typically closes -->
     <div class="pa-command-palette__backdrop" id="commandPaletteBackdrop"></div>
 
-    <!-- Main container -->
     <div class="pa-command-palette__container">
-        <!-- Search input -->
+        <!-- Search row: tokens (top) + input (bottom) -->
         <div class="pa-command-palette__search">
+            <!-- Tokens stay hidden while empty (:empty selector) -->
             <div class="pa-command-palette__tokens" id="commandPaletteTokens"></div>
+
             <div class="pa-command-palette__input-wrapper">
                 <input
                     type="text"
                     class="pa-command-palette__input"
                     id="commandPaletteInput"
-                    placeholder="Type / for commands, : to search, or just start typing..."
+                    placeholder="Type to search or use / for commands…"
                     autocomplete="off"
                     spellcheck="false"
                 >
+                <!-- Context pill floats over the input's inline-end;
+                     toggle --visible when a context (e.g. /products) is active -->
                 <div class="pa-command-palette__context" id="commandPaletteContext"></div>
             </div>
         </div>
 
-        <!-- Results container -->
+        <!-- Results / home / empty / loader all live inside __results -->
         <div class="pa-command-palette__results" id="commandPaletteResults">
-            <!-- Empty state (default) -->
             <div class="pa-command-palette__empty">
-                Type to search or use /p for products, /o for orders, /u for users, /i for invoices
+                Start typing to search
             </div>
         </div>
 
-        <!-- Footer with keyboard hints -->
+        <!-- Footer: inline keyboard hints -->
         <div class="pa-command-palette__footer">
             <div class="pa-command-palette__hint">
                 <span class="pa-command-palette__key">↑↓</span>
                 <span>Navigate</span>
-            </div>
-            <div class="pa-command-palette__hint">
-                <span class="pa-command-palette__key">←→</span>
-                <span>Pages</span>
             </div>
             <div class="pa-command-palette__hint">
                 <span class="pa-command-palette__key">↵</span>
@@ -64,17 +71,18 @@
     </div>
 </div>
 
-<!-- ========================================
-     JavaScript States
-     ======================================== -->
 
-<!-- Loader state (shown during search) -->
+<!-- ================================
+     RESULT STATES (swap these into __results)
+     ================================ -->
+
+<!-- Loader (shown during async search) -->
 <div class="pa-command-palette__loader">
-    <div class="pa-spinner pa-spinner--sm pa-spinner--primary"></div>
-    <span>Searching...</span>
+    <div class="pa-spinner pa-spinner--primary"></div>
+    <span>Searching…</span>
 </div>
 
-<!-- Result item (generated dynamically) -->
+<!-- Single result item -->
 <div class="pa-command-palette__item">
     <div class="pa-command-palette__item-icon">💻</div>
     <div class="pa-command-palette__item-content">
@@ -84,7 +92,7 @@
     <span class="pa-badge">In Stock</span>
 </div>
 
-<!-- Active result item -->
+<!-- Highlighted / keyboard-focused item -->
 <div class="pa-command-palette__item pa-command-palette__item--active">
     <div class="pa-command-palette__item-icon">📱</div>
     <div class="pa-command-palette__item-content">
@@ -94,7 +102,7 @@
     <span class="pa-badge">New</span>
 </div>
 
-<!-- Result with highlighted search match -->
+<!-- Item title with search highlight (<mark> gets styled) -->
 <div class="pa-command-palette__item">
     <div class="pa-command-palette__item-icon">🎧</div>
     <div class="pa-command-palette__item-content">
@@ -104,109 +112,391 @@
     <span class="pa-badge">Popular</span>
 </div>
 
-<!-- Pagination indicator (shown when multiple pages) -->
-<div class="pa-command-palette__pagination">
-    Page 1 of 3 • 24 results
+<!-- Item with inline keyboard shortcut hint -->
+<div class="pa-command-palette__item">
+    <div class="pa-command-palette__item-icon">⚙️</div>
+    <div class="pa-command-palette__item-content">
+        <div class="pa-command-palette__item-title">Open Settings</div>
+    </div>
+    <div class="pa-command-palette__shortcut">
+        <span class="pa-command-palette__key">Ctrl</span>
+        <span class="pa-command-palette__key">,</span>
+    </div>
 </div>
 
-<!-- Section header (for grouping results) -->
-<div class="pa-command-palette__section">
-    Recent Searches
+<!-- Section header (group results by category) -->
+<div class="pa-command-palette__section">Recent</div>
+
+<!-- Pagination indicator (after the last result on a multi-page list) -->
+<div class="pa-command-palette__pagination">Page 1 of 3 • 24 results</div>
+
+
+<!-- ================================
+     HOME SCREEN (idle — no query yet)
+     Shown inside __results when the input is empty. Sections are
+     visually divided by a top border (added automatically by
+     :not(:first-child)).
+     ================================ -->
+
+<div class="pa-command-palette__results">
+    <div class="pa-command-palette__home">
+        <div class="pa-command-palette__home-section">
+            <div class="pa-command-palette__home-heading">Recent</div>
+            <div class="pa-command-palette__item">
+                <div class="pa-command-palette__item-icon">🕑</div>
+                <div class="pa-command-palette__item-content">
+                    <div class="pa-command-palette__item-title">Inventory report — Q4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pa-command-palette__home-section">
+            <div class="pa-command-palette__home-heading">Commands</div>
+            <div class="pa-command-palette__item">
+                <div class="pa-command-palette__item-icon">/</div>
+                <div class="pa-command-palette__item-content">
+                    <div class="pa-command-palette__item-title">Products</div>
+                    <div class="pa-command-palette__item-meta">Search products by SKU or name</div>
+                </div>
+                <div class="pa-command-palette__shortcut">
+                    <span class="pa-command-palette__key">/p</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- ========================================
-     CSS Modifiers
-     ======================================== -->
 
-<!-- Active state (shows the palette) -->
+<!-- ================================
+     TOKENS (populated state)
+     The empty .pa-command-palette__tokens stays hidden (it uses the
+     :empty selector). Once tokens are rendered inside it, it becomes
+     a flex-wrap row of pa-badge pills. Each pill has a __remove
+     button to drop it from the query.
+
+     Optional inline prompt text (.pa-command-palette__token-prompt)
+     sits after the last token — useful for "in: …" language guidance.
+     ================================ -->
+
+<div class="pa-command-palette__tokens">
+    <span class="pa-badge pa-badge--primary">
+        in: Products
+        <button class="pa-badge__remove" aria-label="Remove">×</button>
+    </span>
+    <span class="pa-badge pa-badge--info">
+        tag: sale
+        <button class="pa-badge__remove" aria-label="Remove">×</button>
+    </span>
+    <span class="pa-command-palette__token-prompt">type to filter…</span>
+</div>
+
+
+<!-- ================================
+     OTHER STATE MODIFIERS
+     ================================ -->
+
+<!-- Palette visible -->
 <div class="pa-command-palette pa-command-palette--active">
-    <!-- ... -->
+    <!-- … -->
 </div>
 
-<!-- Context label visible -->
+<!-- Context pill visible (e.g. "Searching in Products") -->
 <div class="pa-command-palette__context pa-command-palette__context--visible">
     Searching in Products
 </div>
 
-<!-- Results in loading state (shows overlay) -->
+<!-- Results in loading state (subtle 70% overlay over current results) -->
 <div class="pa-command-palette__results pa-command-palette__results--loading">
-    <!-- ... -->
+    <!-- … -->
 </div>
 
-<!-- ========================================
-     JavaScript API
-     ======================================== -->
+
+<!-- ================================
+     NAVBAR SEARCH TRIGGER (pa-navbar-search)
+     Looks like an input; functions as a button. Clicking it opens the
+     palette. Shows the Cmd+K / Ctrl+K hint as a <kbd> on the
+     inline-end side. Has size variants matching the input/button sizes.
+     ================================ -->
+
+<button class="pa-navbar-search" onclick="openCommandPalette()">
+    <span class="pa-navbar-search__icon">🔍</span>
+    <span class="pa-navbar-search__placeholder">Search or jump to…</span>
+    <span class="pa-navbar-search__shortcut">
+        <kbd>Ctrl</kbd>
+        <kbd>K</kbd>
+    </span>
+</button>
+
+<!-- Sizes (align with input / button sizes): -->
+<button class="pa-navbar-search pa-navbar-search--xs">…</button>
+<button class="pa-navbar-search pa-navbar-search--sm">…</button>
+<button class="pa-navbar-search pa-navbar-search--md">…</button>
+<button class="pa-navbar-search pa-navbar-search--lg">…</button>
+<button class="pa-navbar-search pa-navbar-search--xl">…</button>
 
 <!--
-// Open palette
-document.getElementById('commandPalette').classList.add('pa-command-palette--active');
-document.getElementById('commandPaletteInput').focus();
-
-// Close palette
-document.getElementById('commandPalette').classList.remove('pa-command-palette--active');
-document.getElementById('commandPaletteInput').value = '';
-
-// Open with pre-filled query
-const input = document.getElementById('commandPaletteInput');
-input.value = '/p laptop';
-input.dispatchEvent(new Event('input'));
+Responsive: below $mobile-breakpoint (768px), both __placeholder and
+__shortcut are hidden so the trigger collapses to just the icon. The
+button retains its padding and hit area.
 -->
 
-<!-- ========================================
-     Context Prefixes
-     ======================================== -->
+
+<!-- ================================
+     SHORTCUT HELP DIALOG (pa-shortcut-help)
+     Pure content block — drop this into a .pa-modal body or any
+     other overlay when you want to show the app's keyboard shortcuts.
+     Grouped by category; each row is a description + one or more keys
+     (chord separators use pa-shortcut-help__separator).
+     ================================ -->
+
+<div class="pa-shortcut-help">
+    <div class="pa-shortcut-help__category">
+        <h3 class="pa-shortcut-help__category-title">Global</h3>
+        <div class="pa-shortcut-help__list">
+            <div class="pa-shortcut-help__item">
+                <div class="pa-shortcut-help__description">Open command palette</div>
+                <div class="pa-shortcut-help__keys">
+                    <span class="pa-shortcut-help__key">Ctrl</span>
+                    <span class="pa-shortcut-help__separator">+</span>
+                    <span class="pa-shortcut-help__key">K</span>
+                </div>
+            </div>
+            <div class="pa-shortcut-help__item">
+                <div class="pa-shortcut-help__description">Close any overlay</div>
+                <div class="pa-shortcut-help__keys">
+                    <span class="pa-shortcut-help__key">Esc</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-shortcut-help__category">
+        <h3 class="pa-shortcut-help__category-title">Navigation</h3>
+        <div class="pa-shortcut-help__list">
+            <div class="pa-shortcut-help__item">
+                <div class="pa-shortcut-help__description">Go to next item</div>
+                <div class="pa-shortcut-help__keys">
+                    <span class="pa-shortcut-help__key">↓</span>
+                </div>
+            </div>
+            <div class="pa-shortcut-help__item">
+                <div class="pa-shortcut-help__description">Go to previous item</div>
+                <div class="pa-shortcut-help__keys">
+                    <span class="pa-shortcut-help__key">↑</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state if no shortcuts are registered -->
+    <!--
+    <div class="pa-shortcut-help__empty">
+        No shortcuts registered for this app.
+    </div>
+    -->
+</div>
+
+
+<!-- ================================
+     JAVASCRIPT — minimal open/close
+     The real palette needs a search / filter / navigation implementation;
+     this is just the class-toggle contract.
+     ================================ -->
+
+<script>
+function openCommandPalette() {
+    document.getElementById('commandPalette').classList.add('pa-command-palette--active');
+    document.getElementById('commandPaletteInput').focus();
+}
+
+function closeCommandPalette() {
+    const palette = document.getElementById('commandPalette');
+    palette.classList.remove('pa-command-palette--active');
+    document.getElementById('commandPaletteInput').value = '';
+}
+
+// Global Ctrl/Cmd+K to open; Esc to close.
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        openCommandPalette();
+    }
+    if (e.key === 'Escape') {
+        closeCommandPalette();
+    }
+});
+</script>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
 
 <!--
-/p  → Products    → "Searching in Products"
-/o  → Orders      → "Searching in Orders"
-/u  → Users       → "Searching in Users"
-/i  → Invoices    → "Searching in Invoices"
--->
+PALETTE SHELL (pa-command-palette):
+- .pa-command-palette                   Fixed-inset modal; display: none by default.
+- .pa-command-palette--active           Visible state (display: flex).
+- .pa-command-palette__backdrop         Blurred fullscreen backdrop; fadeIn animated.
+- .pa-command-palette__container        Centred card holding the UI
+                                        (max-width $command-palette-width,
+                                         slideDown animation on open).
 
-<!-- ========================================
-     Keyboard Shortcuts
-     ======================================== -->
+SEARCH ROW:
+- .pa-command-palette__search           Wrapper with bottom border.
+- .pa-command-palette__tokens           Flex-wrap row of token badges.
+                                        Uses :empty, so the wrapper
+                                        self-hides when you haven't
+                                        rendered any tokens yet.
+- .pa-command-palette__token-prompt     Italic muted caption shown
+                                        alongside tokens ("type to
+                                        filter", etc).
+- .pa-command-palette__input-wrapper    Positioning context for __context.
+- .pa-command-palette__input            The search <input>.
+- .pa-command-palette__context          Accent pill floating over the
+                                        input's inline-end; hidden by
+                                        default.
+- .pa-command-palette__context--visible Fade-in to reveal the context pill.
 
-<!--
-Ctrl+K / Cmd+K  → Open/close palette
-↑ ↓             → Navigate between results
-← →             → Navigate between pages
-Enter           → Select highlighted result
-Esc             → Close palette
--->
+RESULTS ZONE (swap contents inside __results):
+- .pa-command-palette__results          Scrollable results container
+                                        (max-height $command-palette-
+                                         results-max-height; drops to
+                                         60vh under mobile breakpoint).
+- .pa-command-palette__results--loading Adds a translucent overlay via
+                                        ::after so the current results
+                                        stay readable during async
+                                        refetch.
+- .pa-command-palette__home             Wrapper for idle-state content.
+- .pa-command-palette__home-section     Logical group (e.g. Recent,
+                                        Commands). Sections after the
+                                        first get an automatic top
+                                        border divider.
+- .pa-command-palette__home-heading     Tiny uppercase section label.
+- .pa-command-palette__empty            Centered muted text ("no results").
+- .pa-command-palette__loader           Flex row with spinner + label
+                                        during async search.
+- .pa-command-palette__section          Inline section divider inside
+                                        results (e.g. group headers).
+- .pa-command-palette__pagination       "Page X of Y" indicator below
+                                        a page's results (top border).
 
-<!-- ========================================
-     SCSS Variables (for customization)
-     ======================================== -->
+RESULT ITEM:
+- .pa-command-palette__item             One row; flex icon + content
+                                        + trailing badge/shortcut.
+- .pa-command-palette__item--active     Keyboard-selected state.
+- .pa-command-palette__item-icon        Accent-tinted square icon slot.
+- .pa-command-palette__item-content     Flexible middle (flex: 1).
+- .pa-command-palette__item-title       Title row; ellipsis on overflow.
+                                        <mark> children are auto-styled
+                                        as search-match highlights.
+- .pa-command-palette__item-meta        Small muted meta line.
+- .pa-command-palette__shortcut         Inline flex row for
+                                        __key children on an item
+                                        (shows the "Ctrl+," style hint).
 
-<!--
-$command-palette-width: 38rem
-$command-palette-offset-top: 8rem
-$command-palette-border-radius: $border-radius
-$command-palette-backdrop-bg: rgba(0, 0, 0, 0.5)
-$command-palette-backdrop-blur: 4px
-$command-palette-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3)
-$command-palette-input-padding-v: $spacing-base
-$command-palette-input-padding-h: $spacing-lg
-$command-palette-input-font-size: $font-size-lg
-$command-palette-results-max-height: 24rem
-$command-palette-empty-padding-v: $spacing-2xl
-$command-palette-item-padding-v: $spacing-sm
-$command-palette-item-hover-bg: rgba($accent-color, 0.05)
-$command-palette-item-active-bg: rgba($accent-color, 0.1)
-$command-palette-item-icon-size: 2rem
-$command-palette-highlight-bg: rgba($accent-color, 0.2)
-$command-palette-highlight-text: $accent-color
--->
+FOOTER:
+- .pa-command-palette__footer           Border-top row with inline
+                                        keyboard hints.
+- .pa-command-palette__hint             Single hint (__key + label text).
+- .pa-command-palette__key              Individual keycap pill
+                                        (used inside __hint and __shortcut).
 
-<!-- ========================================
-     Implementation Files
-     ======================================== -->
 
-<!--
-SCSS:       src/scss/core-components/_command-palette.scss
-Variables:  src/scss/_variables.scss (17 variables)
-JavaScript: dist/js/command-palette.js
-HTML:       views/layout.mustache (included globally)
-Demo:       /command-palette
+NAVBAR TRIGGER (pa-navbar-search):
+- .pa-navbar-search                     Clickable pill (button).
+- .pa-navbar-search--xs / --sm / --md
+- .pa-navbar-search--lg / --xl          Size variants matching input heights.
+- .pa-navbar-search__icon               Leading search icon.
+- .pa-navbar-search__placeholder        Muted prompt text (flex: 1,
+                                        ellipsis).
+- .pa-navbar-search__shortcut           Trailing flex row of <kbd>
+                                        keys styled as pillboxes.
+
+Responsive: below 768px, __placeholder and __shortcut both hide —
+trigger collapses to the icon only.
+
+
+SHORTCUT HELP DIALOG (pa-shortcut-help):
+- .pa-shortcut-help                     Root flex-column wrapper; put
+                                        inside a .pa-modal body.
+- .pa-shortcut-help__category           One grouping block.
+- .pa-shortcut-help__category-title     Tiny uppercase category label
+                                        with a bottom border.
+- .pa-shortcut-help__list               Flex-column list of items.
+- .pa-shortcut-help__item               One shortcut row (description
+                                        + keys; space-between).
+- .pa-shortcut-help__keys               Flex row holding the keycaps.
+- .pa-shortcut-help__key                Individual keycap pillbox.
+- .pa-shortcut-help__separator          "+" / "then" divider between
+                                        keycaps in a chord.
+- .pa-shortcut-help__description        Human-readable action text.
+- .pa-shortcut-help__empty              Fallback when no shortcuts
+                                        registered.
+
+
+KEYBOARD INTEGRATION (app conventions — NOT framework classes):
+The demo uses these patterns on top of the CSS; they're conventions,
+not CSS rules:
+- Ctrl/Cmd + K           open/close the palette
+- /p  /o  /u  /i         enter contexts (Products / Orders / Users /
+                         Invoices) — flip --visible on __context and
+                         render badges in __tokens
+- ↑ ↓                    navigate items (toggle __item--active)
+- ← →                    page between result pages
+- Enter                  commit the --active item's action
+- Esc                    close the palette
+Define your own in JS; the framework just styles the container, items,
+tokens, context pill, and keyboard-hint keys.
+
+
+STRUCTURE PATTERNS:
+
+Navbar trigger + full palette together:
+<!-- In header -->
+<button class="pa-navbar-search" onclick="openCommandPalette()">
+  <span class="pa-navbar-search__icon">🔍</span>
+  <span class="pa-navbar-search__placeholder">Search…</span>
+  <span class="pa-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+</button>
+
+<!-- Near </body> -->
+<div class="pa-command-palette" id="commandPalette">
+  <div class="pa-command-palette__backdrop"></div>
+  <div class="pa-command-palette__container">
+    <div class="pa-command-palette__search">
+      <div class="pa-command-palette__tokens"></div>
+      <div class="pa-command-palette__input-wrapper">
+        <input class="pa-command-palette__input" type="text">
+        <div class="pa-command-palette__context"></div>
+      </div>
+    </div>
+    <div class="pa-command-palette__results"></div>
+    <div class="pa-command-palette__footer">
+      <div class="pa-command-palette__hint"><span class="pa-command-palette__key">↵</span> Select</div>
+    </div>
+  </div>
+</div>
+
+Help dialog body (inside a pa-modal):
+<div class="pa-shortcut-help">
+  <div class="pa-shortcut-help__category">
+    <h3 class="pa-shortcut-help__category-title">Global</h3>
+    <div class="pa-shortcut-help__list">
+      <div class="pa-shortcut-help__item">
+        <div class="pa-shortcut-help__description">Open command palette</div>
+        <div class="pa-shortcut-help__keys">
+          <span class="pa-shortcut-help__key">Ctrl</span>
+          <span class="pa-shortcut-help__separator">+</span>
+          <span class="pa-shortcut-help__key">K</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+IMPLEMENTATION FILES:
+- SCSS:       src/scss/core-components/_command-palette.scss
+- Demo JS:    demo/js/command-palette.js
+- Demo page:  /components/command-palette
 -->

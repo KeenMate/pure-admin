@@ -33,13 +33,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `profile.html` | 2026-04-24 | `core-components/_profile.scss` | [2b70e27](../../../commit/2b70e27) |
 | `tabs.html` | 2026-04-24 | `core-components/_tabs.scss` | [35f5f16](../../../commit/35f5f16) |
 | `timeline.html` | 2026-04-24 | `core-components/_timeline.scss` | [eaa5ad9](../../../commit/eaa5ad9) |
-| `checkbox-lists.html` | 2026-04-24 | `core-components/_checkbox-lists.scss`, `core-components/forms/_checkboxes-radios.scss` (pa-checkbox component reference) | _(this commit)_ |
+| `checkbox-lists.html` | 2026-04-24 | `core-components/_checkbox-lists.scss`, `core-components/forms/_checkboxes-radios.scss` (pa-checkbox component reference) | [e2bb951](../../../commit/e2bb951) |
+| `command-palette.html` | 2026-04-24 | `core-components/_command-palette.scss` (covers `.pa-command-palette`, `.pa-navbar-search`, `.pa-shortcut-help`) | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `command-palette.html`
 - `comparison.html`
 - `modals.html`
 - `modal-dialogs.html`
