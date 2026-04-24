@@ -15,13 +15,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 |---|---|---|---|
 | `callouts.html` | 2026-04-24 | `core-components/_callouts.scss` | [6ea28e8](../../../commit/6ea28e8) |
 | `code.html` | 2026-04-24 | `core-components/_code.scss`, `variables/_colors.scss` | [cd2e51b](../../../commit/cd2e51b) |
-| `loaders.html` | 2026-04-24 | `core-components/_loaders.scss`, `core-components/_buttons.scss` (loading state), `variables/_components.scss` | _(this commit)_ |
+| `loaders.html` | 2026-04-24 | `core-components/_loaders.scss`, `core-components/_buttons.scss` (loading state), `variables/_components.scss` | [6a4682d](../../../commit/6a4682d) |
+| `toasts.html` | 2026-04-24 | `core-components/_toasts.scss` | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `toasts.html`
 - `popconfirm.html`
 - `typography.html`
 - `alerts.html`

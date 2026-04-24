@@ -3,17 +3,27 @@
      Pure Admin Visual Framework
      ================================ -->
 
-<!-- Note: Toast containers should be at body level in your layout -->
-<!-- Include these containers once in your main layout -->
-<div id="toast-container-top-right" class="pa-toast-container pa-toast-container--top-right"></div>
-<div id="toast-container-top-center" class="pa-toast-container pa-toast-container--top-center"></div>
-<div id="toast-container-top-left" class="pa-toast-container pa-toast-container--top-left"></div>
-<div id="toast-container-bottom-right" class="pa-toast-container pa-toast-container--bottom-right"></div>
+<!--
+Toast containers live at body level so toasts float above the layout.
+Include one container per position you plan to use (usually all six,
+once, in the app shell).
+
+IMPORTANT: positions use CSS logical property names (start/end), NOT
+left/right, so the UI mirrors correctly in RTL. --top-end is the
+most common "toast in the upper-right" slot in LTR.
+-->
+<div id="toast-container-top-end"      class="pa-toast-container pa-toast-container--top-end"></div>
+<div id="toast-container-top-center"   class="pa-toast-container pa-toast-container--top-center"></div>
+<div id="toast-container-top-start"    class="pa-toast-container pa-toast-container--top-start"></div>
+<div id="toast-container-bottom-end"   class="pa-toast-container pa-toast-container--bottom-end"></div>
 <div id="toast-container-bottom-center" class="pa-toast-container pa-toast-container--bottom-center"></div>
-<div id="toast-container-bottom-left" class="pa-toast-container pa-toast-container--bottom-left"></div>
+<div id="toast-container-bottom-start" class="pa-toast-container pa-toast-container--bottom-start"></div>
 
 
-<!-- TOAST STRUCTURE -->
+<!-- ================================
+     TOAST STRUCTURE — BORDERED VARIANTS
+     Card-background with a coloured border and tinted icon chip.
+     ================================ -->
 
 <!-- Primary Toast -->
 <div class="pa-toast pa-toast--primary pa-toast--show">
@@ -66,9 +76,60 @@
 </div>
 
 
-<!-- TOAST WITH PROGRESS BAR -->
+<!-- ================================
+     FILLED VARIANTS
+     Full-colour background; icon chip is a white-at-20%-alpha pill;
+     __actions separator goes to a 25% white line.
+     ================================ -->
 
-<!-- Toast with Auto-dismiss Progress -->
+<!-- Filled Primary -->
+<div class="pa-toast pa-toast--filled-primary pa-toast--show">
+  <div class="pa-toast__icon">ℹ️</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Heads up</div>
+    <div class="pa-toast__message">This is a filled primary toast.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+<!-- Filled Success -->
+<div class="pa-toast pa-toast--filled-success pa-toast--show">
+  <div class="pa-toast__icon">✓</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Saved</div>
+    <div class="pa-toast__message">Changes stored successfully.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+<!-- Pattern: pa-toast--filled-{primary|success|danger|warning|info} and pa-toast--filled-color-{1..9} -->
+
+
+<!-- ================================
+     TOAST WITH ACTION BUTTONS
+     __actions sits under a separator — good fit for "Undo" on an
+     optimistic delete, "Retry" on a failed request, etc.
+     ================================ -->
+
+<div class="pa-toast pa-toast--info pa-toast--show">
+  <div class="pa-toast__icon">🗑️</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Entry removed</div>
+    <div class="pa-toast__message">The record was deleted from the list.</div>
+    <div class="pa-toast__actions">
+      <button class="pa-btn pa-btn--xs pa-btn--secondary">Undo</button>
+    </div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+
+<!-- ================================
+     TOAST WITH AUTO-DISMISS PROGRESS BAR
+     __progress is absolutely positioned along the bottom; JS animates
+     its width from 100% → 0% over the toast's lifetime.
+     ================================ -->
+
 <div class="pa-toast pa-toast--primary pa-toast--show">
   <div class="pa-toast__icon">ℹ</div>
   <div class="pa-toast__content">
@@ -80,11 +141,37 @@
 </div>
 
 
-<!-- JAVASCRIPT API -->
+<!-- ================================
+     THEME COLOR SLOT VARIANTS
+     ================================ -->
+
+<!-- Bordered theme-color-1 toast -->
+<div class="pa-toast pa-toast--color-1 pa-toast--show">
+  <div class="pa-toast__icon">●</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Color 1</div>
+    <div class="pa-toast__message">Border and icon pulled from <code>--pa-color-1</code>.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+<!-- Pattern: pa-toast--color-{1..9} (bordered) and pa-toast--filled-color-{1..9} (filled) -->
+
+
+<!-- ================================
+     JAVASCRIPT API
+     The real implementation lives in demo/js/toast-service.js
+     (exposed as window.PureAdmin.toast). Below is a minimal
+     reference for embedding toasts without that service.
+     ================================ -->
+
 <script>
 // Create a toast notification
 function createToast(position, variant, title, message, duration = 5000, showProgress = false, persistent = false) {
+  // position is one of: top-end, top-start, top-center, bottom-end, bottom-start, bottom-center
   const container = document.getElementById(`toast-container-${position}`);
+  if (!container) return;
+
   const toastId = `toast-${Date.now()}-${Math.random()}`;
 
   const toast = document.createElement('div');
@@ -111,44 +198,105 @@ function createToast(position, variant, title, message, duration = 5000, showPro
 
   container.appendChild(toast);
 
-  // Show toast
-  setTimeout(() => {
-    toast.classList.add('pa-toast--show');
-  }, 10);
+  // Flip to show state on the next frame so the transition runs
+  setTimeout(() => toast.classList.add('pa-toast--show'), 10);
 
-  // Progress bar animation
+  // Progress bar animation — width transitions from 100% → 0% over the toast lifetime
   if (showProgress && !persistent) {
     const progress = toast.querySelector('.pa-toast__progress');
     if (progress) {
       progress.style.transition = `width ${duration}ms linear`;
-      setTimeout(() => {
-        progress.style.width = '0%';
-      }, 50);
+      setTimeout(() => { progress.style.width = '0%'; }, 50);
     }
   }
 
-  // Auto-dismiss (only if not persistent)
   if (!persistent) {
-    setTimeout(() => {
-      dismissToast(toastId);
-    }, duration);
+    setTimeout(() => dismissToast(toastId), duration);
   }
 }
 
-// Dismiss a toast
 function dismissToast(toastId) {
   const toast = document.getElementById(toastId);
   if (!toast) return;
-
   toast.classList.remove('pa-toast--show');
   toast.classList.add('pa-toast--hide');
-
-  setTimeout(() => {
-    toast.remove();
-  }, 300);
+  setTimeout(() => toast.remove(), 300);
 }
 
 // Usage examples:
-// createToast('top-right', 'success', 'Success', 'Operation completed!');
-// createToast('top-right', 'warning', 'Warning', 'Please review', 0, false, true); // Persistent
+// createToast('top-end', 'success', 'Saved', 'Operation completed.');
+// createToast('top-end', 'warning', 'Heads up', 'Please review.', 0, false, true); // persistent
 </script>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+CONTAINERS:
+- .pa-toast-container                          — fixed, pointer-events: none so toasts through
+- .pa-toast-container--top-end                 — upper inline-end (right in LTR, left in RTL)
+- .pa-toast-container--top-start               — upper inline-start (left in LTR, right in RTL)
+- .pa-toast-container--top-center              — upper centre (translateX)
+- .pa-toast-container--bottom-end              — lower inline-end
+- .pa-toast-container--bottom-start            — lower inline-start
+- .pa-toast-container--bottom-center           — lower centre
+
+(No --*-right / --*-left classes exist. Logical props mirror in RTL.)
+
+TOAST ITEM:
+- .pa-toast             — base toast (card-bg + border + shadow); starts hidden
+- .pa-toast--show       — animation end state: opacity 1, transform: 0 (apply via JS)
+- .pa-toast--hide       — animation exit state: opacity 0, transform: off-axis
+
+BORDERED VARIANTS (coloured border + tinted icon chip):
+- .pa-toast--primary / --success / --danger / --warning / --info
+- .pa-toast--color-{1..9}                     — theme colour slots
+
+FILLED VARIANTS (full-colour background):
+- .pa-toast--filled-primary / -success / -danger / -warning / -info
+- .pa-toast--filled-color-{1..9}
+
+SUB-ELEMENTS:
+- .pa-toast__icon      — leading chip (48×48 default, flex-centered)
+- .pa-toast__content   — flex: 1 column; hosts __title + __message (+ __actions)
+- .pa-toast__title     — bold, text-color-1
+- .pa-toast__message   — text-color-2, line-height-base
+- .pa-toast__actions   — optional button row under a 1px separator (Undo/Retry/etc.)
+- .pa-toast__close     — 32×32 trailing close button (inherits color)
+- .pa-toast__progress  — absolute bar along the bottom edge; JS animates width → 0
+
+RESPONSIVE:
+- Below $mobile-breakpoint the container goes full-width (inset-inline: $spacing-md)
+  and centre positions drop their translateX — so toasts are readable on phones.
+
+PATTERNS:
+
+Bordered toast:
+<div class="pa-toast pa-toast--success pa-toast--show">
+  <div class="pa-toast__icon">✓</div>
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Saved</div>
+    <div class="pa-toast__message">Entry stored.</div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+Toast with Undo action:
+<div class="pa-toast pa-toast--info pa-toast--show">
+  <div class="pa-toast__content">
+    <div class="pa-toast__title">Entry removed</div>
+    <div class="pa-toast__actions">
+      <button class="pa-btn pa-btn--xs pa-btn--secondary">Undo</button>
+    </div>
+  </div>
+  <button class="pa-toast__close" aria-label="Close">✕</button>
+</div>
+
+Toast with progress bar:
+<div class="pa-toast pa-toast--primary pa-toast--show">
+  …
+  <div class="pa-toast__progress w-100" style="transition: width 5000ms linear;"></div>
+</div>
+-->
