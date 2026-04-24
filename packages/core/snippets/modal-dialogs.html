@@ -17,13 +17,16 @@ Perfect for:
 - No HTML boilerplate needed
 
 JAVASCRIPT FILE:
-- src/js/modal-dialogs.js (must be included in your page)
+- src/js/modal-dialogs.js attaches to window.PureAdmin on load.
+- Include it once in your page shell before calling PureAdmin.*:
+
+    <script src="/src/js/modal-dialogs.js"></script>
 
 AVAILABLE METHODS:
-- PureAdmin.confirm(options) → Promise<boolean>
-- PureAdmin.alert(options) → Promise<void>
-- PureAdmin.prompt(options) → Promise<string | null>
-- PureAdmin.custom(options) → Promise<any>
+- PureAdmin.confirm(options) → Promise<boolean>          (true on confirm, false on cancel)
+- PureAdmin.alert(options)   → Promise<void>              (resolves when dismissed)
+- PureAdmin.prompt(options)  → Promise<string | null>     (string on submit, null on cancel)
+- PureAdmin.custom(options)  → Promise<any>               (whatever you pass to close())
 -->
 
 
@@ -199,33 +202,43 @@ async function customDialog() {
      ================================ -->
 
 <!--
+Shared enum-like options (same across all four methods):
+  variant  →  'primary' | 'success' | 'warning' | 'danger'
+             Default: 'primary'. Maps directly to pa-modal--{variant}
+             on the root; see modals.html for the visual result.
+  size     →  'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'fw'
+             The value is string-interpolated into pa-modal__container--
+             {size}, so any size class defined in _modals.scss works.
+             Default: 'sm' for confirm/alert/prompt, 'md' for custom.
+  position →  'center' | 'top'
+             Default: 'center'. 'top' adds pa-modal--top (5vh offset).
+
+
 CONFIRM OPTIONS:
 {
   title: string           // Modal title (default: 'Confirm')
   message: string         // Message text (default: 'Are you sure?')
   confirmText: string     // OK button text (default: 'OK')
   cancelText: string      // Cancel button text (default: 'Cancel')
-  variant: string         // Modal header color: 'primary', 'success', 'warning', 'danger'
+  variant: string         // (default: 'primary')
   confirmVariant: string  // Confirm button color (default: same as variant)
-  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'sm')
-  position: string        // 'center' or 'top' (default: 'center')
+  size: string            // (default: 'sm')
+  position: string        // (default: 'center')
   closeOnBackdrop: bool   // Allow closing by clicking backdrop (default: true)
 }
-
-Returns: Promise<boolean> - true if confirmed, false if cancelled
+Returns: Promise<boolean> — true on confirm, false on cancel/backdrop/Esc.
 
 ALERT OPTIONS:
 {
   title: string           // Modal title (default: 'Alert')
   message: string         // Message text (default: '')
   okText: string          // Button text (default: 'OK')
-  variant: string         // 'primary', 'success', 'warning', 'danger'
-  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'sm')
-  position: string        // 'center' or 'top' (default: 'center')
-  closeOnBackdrop: bool   // Allow closing by clicking backdrop (default: true)
+  variant: string         // (default: 'primary')
+  size: string            // (default: 'sm')
+  position: string        // (default: 'center')
+  closeOnBackdrop: bool   // (default: true)
 }
-
-Returns: Promise<void> - resolves when user clicks OK
+Returns: Promise<void> — resolves when the user dismisses the dialog.
 
 PROMPT OPTIONS:
 {
@@ -235,35 +248,32 @@ PROMPT OPTIONS:
   placeholder: string     // Input placeholder (default: '')
   confirmText: string     // Submit button text (default: 'OK')
   cancelText: string      // Cancel button text (default: 'Cancel')
-  variant: string         // 'primary', 'success', 'warning', 'danger'
-  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'sm')
-  position: string        // 'center' or 'top' (default: 'center')
-  validator: function     // Validation function (optional)
-  closeOnBackdrop: bool   // ALWAYS false for prompts
+  variant: string         // (default: 'primary')
+  size: string            // (default: 'sm')
+  position: string        // (default: 'center')
+  validator: function     // (value: string) => true | errorMessage
+  closeOnBackdrop: bool   // (default: true — same as the other methods;
+                          //  if the user clicks backdrop it resolves null
+                          //  just like Cancel)
 }
-
-Validator function signature:
-  (value: string) => true | string
-  Return true if valid, or error message string if invalid
-
-Returns: Promise<string | null> - string if submitted, null if cancelled
+Returns: Promise<string | null> — string on submit, null on cancel.
 
 CUSTOM OPTIONS:
 {
   title: string           // Modal title (default: 'Dialog')
-  size: string            // 'sm', 'md', 'lg', 'xl' (default: 'md')
-  variant: string         // 'primary', 'success', 'warning', 'danger'
-  position: string        // 'center' or 'top' (default: 'center')
-  closeOnBackdrop: bool   // Allow closing by clicking backdrop (default: true)
-  render: function        // Render function (required)
+  size: string            // (default: 'md' — note: different from the
+                          //  other methods, which default to 'sm')
+  variant: string         // (default: 'primary')
+  position: string        // (default: 'center')
+  closeOnBackdrop: bool   // (default: true)
+  render: function        // REQUIRED — (container, close) => void
+                          //   container: the .pa-modal__container element.
+                          //              The JS pre-renders __header; append
+                          //              __body and __footer yourself.
+                          //   close(value): resolve the promise with `value`
+                          //                 and tear the modal down.
 }
-
-Render function signature:
-  (container: HTMLElement, close: Function) => void
-  container: The .pa-modal__container element to append content to
-  close: Function to close modal with a value: close(value)
-
-Returns: Promise<any> - whatever value you pass to close()
+Returns: Promise<any> — whatever value you pass to close().
 -->
 
 
@@ -378,34 +388,97 @@ document.querySelector('#deleteForm').addEventListener('submit', async function(
 
 
 <!-- ================================
-     NOTES
+     COMPONENT REFERENCE
      ================================ -->
 
 <!--
-KEY FEATURES:
-- ✅ Promise-based API (works with async/await)
-- ✅ No HTML boilerplate needed
-- ✅ Automatic cleanup (modal removed from DOM after use)
-- ✅ XSS protection (all text is escaped)
-- ✅ Keyboard navigation (Enter confirms, Esc cancels)
-- ✅ Auto-focus on inputs/buttons
-- ✅ Backdrop click to close (configurable)
-- ✅ Scrollbar compensation (prevents layout shift)
-- ✅ Input validation for prompts
+MODULE CONTRACT:
+- Loaded via <script src="/src/js/modal-dialogs.js"></script>.
+- Attaches onto window.PureAdmin. If another script already set
+  window.PureAdmin, the file extends it non-destructively.
+- Each method appends a fresh .pa-modal element to <body>, runs the
+  interaction, resolves the returned Promise, then removes the
+  element from the DOM.
+- The DOM it produces is the same as the markup in modals.html — the
+  same pa-modal / pa-modal__backdrop / pa-modal__container / __header /
+  __body / __footer shell — so any custom styles that target those
+  classes apply here too.
 
-DIFFERENCES FROM STATIC MODALS:
-- Static modals require pre-defined HTML in the page
-- Dialog modals are created on-demand via JavaScript
-- Dialog modals are automatically removed after use
-- Dialog modals return Promise for easy async/await usage
+KEYBOARD / BEHAVIOUR BASELINES (built in, not configurable):
+- Enter                 confirm / submit (where applicable)
+- Esc                   cancel (resolves false / null / Promise)
+- Backdrop click        close (honours closeOnBackdrop; always dismisses
+                        with the same value as Esc)
+- Focus                 auto-focused on the primary button or input
+                        after open
+- Scrollbar gutter      body gets padding-right compensation so the
+                        layout doesn't shift when the scrollbar hides
 
-BROWSER COMPATIBILITY:
-- Requires ES6+ (async/await, Promise, const/let)
-- Modern browsers (Chrome/Firefox/Safari/Edge)
+SECURITY:
+- title / message / button text / placeholder / defaultValue are all
+  escaped through textContent → innerHTML before being inserted.
+- Anything you inject via the custom() render(container, close)
+  callback is YOUR responsibility — build it from DOM nodes or escape
+  it yourself.
 
 ACCESSIBILITY:
-- ARIA attributes (role="dialog", aria-modal, aria-labelledby)
-- Keyboard support (Enter, Esc)
-- Focus management (auto-focus first input/button)
-- Proper modal structure for screen readers
+- role="dialog", aria-modal="true", aria-labelledby pointing at the
+  title. Trap-focus and focus-return-on-close are handled by the JS.
+
+VS STATIC MODALS (modals.html):
+- modals.html:          markup is in the page; JS toggles --show.
+- modal-dialogs.html:   JS creates the markup per call; no page shell.
+- Prefer modal-dialogs for confirm/alert/prompt/custom flows where
+  you'd otherwise juggle pre-built HTML and ad-hoc event wiring.
+  Prefer static modals when the dialog has rich, persistent content
+  (long forms, tab panels) that benefits from SSR or living in the
+  markup.
+
+BROWSER SUPPORT:
+- ES2017 (async/await), Promise, const/let, template literals.
+  Chrome / Firefox / Safari / Edge — evergreen only.
+
+STRUCTURE PATTERNS:
+
+Confirm:
+  const ok = await PureAdmin.confirm({
+    title: 'Delete item?',
+    message: 'Cannot be undone.',
+    variant: 'danger', confirmVariant: 'danger',
+    confirmText: 'Delete', cancelText: 'Keep',
+    closeOnBackdrop: false
+  });
+  if (!ok) return;
+
+Alert:
+  await PureAdmin.alert({ title: 'Saved', variant: 'success' });
+
+Prompt with validation:
+  const email = await PureAdmin.prompt({
+    title: 'Email', placeholder: 'you@example.com',
+    validator: (v) => v.includes('@') || 'Must be a valid email'
+  });
+  if (email === null) return;
+
+Custom (promise resolves with whatever close() is called with):
+  const result = await PureAdmin.custom({
+    title: 'Preferences', size: 'lg',
+    render: (container, close) => {
+      const body = document.createElement('div');
+      body.className = 'pa-modal__body';
+      body.innerHTML = '<p>Custom content here.</p>';
+
+      const footer = document.createElement('div');
+      footer.className = 'pa-modal__footer';
+      footer.innerHTML = `
+        <button class="pa-btn pa-btn--secondary" data-cancel>Cancel</button>
+        <button class="pa-btn pa-btn--primary"   data-save>Save</button>
+      `;
+
+      container.append(body, footer);
+      footer.querySelector('[data-cancel]').onclick = () => close(null);
+      footer.querySelector('[data-save]').onclick   = () => close({ ok: true });
+    }
+  });
 -->
+
