@@ -22,13 +22,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `alerts.html` | 2026-04-24 | `core-components/_alerts.scss` | [512ef3c](../../../commit/512ef3c) |
 | `badges.html` | 2026-04-24 | `core-components/badges/_badge-base.scss`, `_composite-badge.scss`, `_composite-badge-variants.scss`, `_badge-group.scss`, `_labels.scss` | [517f6bf](../../../commit/517f6bf) |
 | `buttons.html` | 2026-04-24 | `core-components/_buttons.scss` | [43a9a42](../../../commit/43a9a42) |
-| `tables.html` | 2026-04-24 | `core-components/_tables.scss` (covers `.pa-table`, `.pa-table-container`, `.pa-table-card`), `core-components/_pagers.scss` (covers `.pa-pager`, `.pa-load-more`) | _(this commit)_ |
+| `tables.html` | 2026-04-24 | `core-components/_tables.scss` (covers `.pa-table`, `.pa-table-container`, `.pa-table-card`), `core-components/_pagers.scss` (covers `.pa-pager`, `.pa-load-more`) | [e34ca85](../../../commit/e34ca85) |
+| `lists.html` | 2026-04-24 | `core-components/_lists.scss` | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `lists.html`
 - `tooltips.html`
 - `grid.html`
 - `utilities.html`

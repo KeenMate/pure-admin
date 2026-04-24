@@ -62,30 +62,35 @@
 
 <!-- ================================
      ICON LISTS
+     --icon alone = green ✓ (success). Combine with --danger / --info /
+     --warning to swap the ::before icon + colour. Those semantic
+     modifiers ONLY do anything when --icon is also present — they
+     style the pseudo-element, which doesn't exist without --icon.
+     (No --success modifier exists because success is the default.)
      ================================ -->
 
-<!-- Success (checkmarks) -->
+<!-- Default icon list — green ✓ (implicit success) -->
 <ul class="pa-list-basic pa-list-basic--icon">
     <li>SSL/TLS encryption enabled</li>
     <li>Automatic daily backups</li>
     <li>99.9% uptime SLA guarantee</li>
 </ul>
 
-<!-- Danger (X marks) -->
+<!-- Danger (red ✗) -->
 <ul class="pa-list-basic pa-list-basic--icon pa-list-basic--danger">
     <li>Deprecated API endpoint</li>
     <li>Unsupported browser version</li>
     <li>Missing required permissions</li>
 </ul>
 
-<!-- Info (arrows) -->
+<!-- Info (blue →) -->
 <ul class="pa-list-basic pa-list-basic--icon pa-list-basic--info">
     <li>Navigate to Settings panel</li>
     <li>Select Integration options</li>
     <li>Choose your provider</li>
 </ul>
 
-<!-- Warning (exclamation) -->
+<!-- Warning (yellow !) -->
 <ul class="pa-list-basic pa-list-basic--icon pa-list-basic--warning">
     <li>Rate limit approaching threshold</li>
     <li>Certificate expires in 30 days</li>
@@ -152,6 +157,10 @@
 
 <!-- ================================
      COMPLEX LISTS (with avatars)
+     The sub-elements are flex-aware, so the container + items can be
+     <div>s (as below) or semantic <ul>/<li> — the CSS doesn't care.
+     Prefer <ul>/<li> when the list is genuinely enumerative so screen
+     readers announce it as one.
      ================================ -->
 
 <div class="pa-list">
@@ -181,52 +190,140 @@
     </div>
 </div>
 
+<!-- Same structure using semantic markup -->
+<ul class="pa-list pa-list-basic--unstyled">
+    <li class="pa-list__item">
+        <div class="pa-list__avatar">🔔</div>
+        <div class="pa-list__content">
+            <div class="pa-list__title">New comment on "Q3 Roadmap"</div>
+            <div class="pa-list__subtitle">Sarah: "Looks good, shipping Monday"</div>
+            <div class="pa-list__meta">5 minutes ago</div>
+        </div>
+    </li>
+    <li class="pa-list__item">
+        <div class="pa-list__avatar">📦</div>
+        <div class="pa-list__content">
+            <div class="pa-list__title">Deploy succeeded</div>
+            <div class="pa-list__subtitle">web-api · build #2341</div>
+            <div class="pa-list__meta">1 hour ago</div>
+        </div>
+    </li>
+</ul>
+
 
 <!-- ================================
-     CSS CLASSES REFERENCE
+     COMPONENT REFERENCE
      ================================ -->
 
 <!--
-UNORDERED LISTS:
-- pa-list-basic                     Base unordered list with bullets
-- pa-list-basic--compact            Reduced spacing between items
-- pa-list-basic--spacious           Increased spacing between items
-- pa-list-basic--unstyled           No bullets, no padding
-- pa-list-basic--inline             Horizontal layout with flex
-- pa-list-basic--bordered           Border between each item
-- pa-list-basic--striped            Zebra striping (even rows)
-- pa-list-basic--icon               Checkmarks (success icons)
-- pa-list-basic--icon pa-list-basic--danger    X marks (danger icons)
-- pa-list-basic--icon pa-list-basic--info      Arrows (info icons)
-- pa-list-basic--icon pa-list-basic--warning   Exclamation marks (warning icons)
+UNORDERED LISTS (.pa-list-basic — apply to <ul> or <ol>):
 
-ORDERED LISTS:
-- pa-list-ordered                   Base ordered list (1, 2, 3...)
-- pa-list-ordered--roman            Roman numerals (I, II, III...)
-- pa-list-ordered--alpha            Lowercase letters (a, b, c...)
+Spacing:
+- .pa-list-basic              Default (bullet list, li-margin: $spacing-sm, line-height 1.6)
+- .pa-list-basic--compact     li-margin: $spacing-xs
+- .pa-list-basic--spacious    li-margin: $spacing-base
 
-DEFINITION LISTS:
-- pa-list-definition                Standard definition list (dt/dd)
-- pa-list-definition--inline        Horizontal key-value pairs
+Presentation:
+- .pa-list-basic--unstyled    No bullets, padding-inline-start: 0
+- .pa-list-basic--inline      Flex horizontal, gap: $spacing-base, no bullets
+- .pa-list-basic--bordered    Divider between items (last has none)
+- .pa-list-basic--striped     Alternating background on :nth-child(even)
 
-COMPLEX LISTS:
-- pa-list                           Container for complex list items
-- pa-list__item                     Individual list item with avatar/content
-- pa-list__avatar                   Avatar/icon container (circular)
-- pa-list__content                  Content wrapper
-- pa-list__title                    Primary text (bold)
-- pa-list__subtitle                 Secondary text (gray, smaller)
-- pa-list__meta                     Metadata text (gray, smallest)
+Icon lists (pseudo-element ::before on each li):
+- .pa-list-basic--icon                                 Green ✓ (default / implicit success)
+- .pa-list-basic--icon.pa-list-basic--danger           Red ✗
+- .pa-list-basic--icon.pa-list-basic--info             Blue →
+- .pa-list-basic--icon.pa-list-basic--warning          Yellow !
 
-USAGE NOTES:
-✅ Use pa-list-basic for simple content lists
-✅ Use pa-list-basic--icon for feature lists or checklists
-✅ Use pa-list-basic--bordered for menu-like lists
-✅ Use pa-list-basic--inline for navigation or tags
-✅ Use pa-list-ordered for step-by-step instructions
-✅ Use pa-list-definition for glossaries or specifications
-✅ Use pa-list (complex) for user lists, activity feeds, notifications
-✅ All lists have proper line-height (1.6) for readability
-✅ Icon lists use semantic colors (success, danger, info, warning)
-✅ Complex lists work great in card bodies with pa-card__body--no-padding
+Note: --danger / --info / --warning ONLY do anything when combined
+with --icon — they style the ::before pseudo that --icon creates.
+There's no standalone --danger list style. And --success doesn't
+exist because success IS the default of --icon.
+
+ORDERED LISTS (.pa-list-ordered — apply to <ol>):
+- .pa-list-ordered            Default numeric (1, 2, 3…)
+- .pa-list-ordered--roman     Upper-roman (I, II, III…)
+- .pa-list-ordered--alpha     Lower-alpha (a, b, c…)
+
+DEFINITION LISTS (.pa-list-definition — apply to <dl>):
+- .pa-list-definition         Stacked dt/dd
+                              dt: bold, $spacing-base margin-top
+                              dd: indented $spacing-lg, muted text
+- .pa-list-definition--inline dt and dd on one line; dt gets a `: `
+                              suffix via ::after; each dd ends in a
+                              block-level line break (so pairs stack).
+
+COMPLEX LISTS (.pa-list — container + sub-elements):
+
+  .pa-list
+    .pa-list__item
+      .pa-list__avatar     (circular — btn-icon-only-size; flex-centred)
+      .pa-list__content    (flex: 1)
+        .pa-list__title    (medium weight, text-color-1)
+        .pa-list__subtitle (muted, font-size-sm)
+        .pa-list__meta     (muted, font-size-xs — smallest)
+
+Automatic behaviour:
+- .pa-list__item has flex, gap: $spacing-md, card-footer padding, and
+  a bottom border between items (last-child has none).
+- .pa-list__item:hover gets var(--pa-main-bg) — signals interactivity.
+  Don't use bare .pa-list for passive read-only content if the hover
+  would be misleading.
+- Any block element works for .pa-list + .pa-list__item; semantic
+  <ul>/<li> (combined with .pa-list-basic--unstyled on the ul to kill
+  bullets) is preferred for screen readers when the items form a
+  genuine enumerative list.
+
+RTL HANDLING (all list types):
+- padding-inline-start / margin-inline-start used throughout, so
+  bullets, definition indent, and RTL hanging indents flip correctly
+  under [dir="rtl"] without any extra classes.
+
+WHEN TO USE WHICH:
+- pa-list-basic                Content lists, feature lists, inline nav
+- pa-list-basic--icon          Checklists, feature comparisons
+- pa-list-basic--bordered      Menu-like lists, settings toggles
+- pa-list-basic--striped       Dense key/value-ish content
+- pa-list-ordered              Step-by-step instructions, numbered procedures
+- pa-list-definition           Glossaries, specs, API reference
+- pa-list (complex)            User lists, activity feeds, notifications
+
+STRUCTURE PATTERNS:
+
+Feature checklist:
+<ul class="pa-list-basic pa-list-basic--icon">
+  <li>SSL/TLS encryption enabled</li>
+  <li>Automatic daily backups</li>
+</ul>
+
+Bordered menu:
+<ul class="pa-list-basic pa-list-basic--bordered">
+  <li>Overview</li>
+  <li>Settings</li>
+  <li>Billing</li>
+</ul>
+
+Inline navigation:
+<ul class="pa-list-basic pa-list-basic--inline">
+  <li><a href="#">Home</a></li>
+  <li><a href="#">About</a></li>
+</ul>
+
+Inline key-value:
+<dl class="pa-list-definition pa-list-definition--inline">
+  <dt>Status</dt><dd>Active</dd>
+  <dt>Owner</dt><dd>John Doe</dd>
+</dl>
+
+Complex user row with hover feedback:
+<ul class="pa-list pa-list-basic--unstyled">
+  <li class="pa-list__item">
+    <div class="pa-list__avatar">👤</div>
+    <div class="pa-list__content">
+      <div class="pa-list__title">Sarah Johnson</div>
+      <div class="pa-list__subtitle">Product Manager</div>
+      <div class="pa-list__meta">Last active: 2h ago</div>
+    </div>
+  </li>
+</ul>
 -->
