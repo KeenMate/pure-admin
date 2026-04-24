@@ -27,13 +27,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `tooltips.html` | 2026-04-24 | `core-components/_tooltips.scss` | [b2d196b](../../../commit/b2d196b) |
 | `grid.html` | 2026-04-24 | `core-components/_grid.scss`, `utilities.scss` (.pa-cq), `variables/_spacing.scss` ($grid-breakpoints) | [0bd9f16](../../../commit/0bd9f16) |
 | `utilities.html` | 2026-04-24 | `utilities.scss` (main utilities), `core-components/_utilities.scss` (components-adjacent helpers), `variables/_spacing.scss` (spacing scale) | [20df758](../../../commit/20df758) |
-| `cards.html` | 2026-04-24 | `core-components/_cards.scss` | _(this commit)_ |
+| `cards.html` | 2026-04-24 | `core-components/_cards.scss` | [4a67018](../../../commit/4a67018) |
+| `forms.html` | 2026-04-24 | `core-components/forms/` (all 7 files: _form-layout, _form-inputs, _form-states, _input-groups, _input-wrapper, _checkboxes-radios, _query-editor) | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `forms.html`
 - `layout.html`
 - `profile.html`
 - `tabs.html`
@@ -62,6 +62,7 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 | filter-card | `_filter-card.scss` | Public — snippet worth adding |
 | logic-tree | `_logic-tree.scss` | Specialized — decide during gap pass |
 | data-display | `_data-display.scss` | Public — snippet worth adding |
+| query-editor | `core-components/forms/_query-editor.scss` | Public — large surface (search highlighting, autocomplete, virtual textbox, inline query editor with tokens). Briefly cross-referenced from forms.html; deserves its own snippet. |
 | data-viz | `_data-viz.scss` | D3-driven — snippet would be thin; defer |
 | scrollbars | `_scrollbars.scss` | Global utility styling; no snippet needed |
 | settings-panel | `_settings-panel.scss` | Demo-internal; no snippet needed |

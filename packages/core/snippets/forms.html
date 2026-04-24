@@ -1,160 +1,177 @@
 <!-- ================================
      FORM SNIPPETS
      Pure Admin Visual Framework
+
+     Form SCSS lives in core-components/forms/:
+       _form-layout.scss      .pa-form, .pa-form-group
+       _form-inputs.scss      .pa-input, .pa-select, .pa-textarea + sizes
+       _form-states.scss      validation states + theme colour slots
+       _input-groups.scss     .pa-input-group + prepend/append/button
+       _input-wrapper.scss    .pa-input-wrapper (clear button), search tokens
+       _checkboxes-radios.scss  .pa-checkbox (tri-state) + .pa-radio
+       _query-editor.scss     search highlighting + inline query editor
+                              (complex enough for its own future snippet)
      ================================ -->
+
 
 <!-- BASIC FORM ELEMENTS -->
 
-<!-- Text Input -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="username">Username</label>
-  <input type="text" class="pa-input" id="username" placeholder="Enter username">
-</div>
+<!--
+Label styling: when a <label> lives inside .pa-form > .pa-form-group,
+the SCSS styles it automatically (flex, gap, medium weight, small
+font). No .pa-form-label class is needed — just use native <label>.
+-->
 
-<!-- Email Input -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="email">Email</label>
-  <input type="email" class="pa-input" id="email" placeholder="your@email.com">
-</div>
+<form class="pa-form">
+  <div class="pa-form-group">
+    <label for="username">Username</label>
+    <input type="text" class="pa-input" id="username" placeholder="Enter username">
+  </div>
 
-<!-- Password Input -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="password">Password</label>
-  <input type="password" class="pa-input" id="password" placeholder="Enter password">
-</div>
+  <div class="pa-form-group">
+    <label for="email">Email</label>
+    <input type="email" class="pa-input" id="email" placeholder="your@email.com">
+  </div>
 
-<!-- Textarea -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="message">Message</label>
-  <textarea class="pa-textarea" id="message" rows="4" placeholder="Enter your message"></textarea>
-</div>
+  <div class="pa-form-group">
+    <label for="password">Password</label>
+    <input type="password" class="pa-input" id="password" placeholder="Enter password">
+  </div>
 
-<!-- Select -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="country">Country</label>
-  <select class="pa-select" id="country">
-    <option>United States</option>
-    <option>United Kingdom</option>
-    <option>Canada</option>
-  </select>
-</div>
+  <div class="pa-form-group">
+    <label for="message">Message</label>
+    <textarea class="pa-textarea" id="message" rows="4" placeholder="Enter your message"></textarea>
+  </div>
+
+  <div class="pa-form-group">
+    <label for="country">Country</label>
+    <select class="pa-select" id="country">
+      <option>United States</option>
+      <option>United Kingdom</option>
+      <option>Canada</option>
+    </select>
+  </div>
+
+  <div class="pa-form-actions">
+    <button type="reset" class="pa-btn pa-btn--secondary">Reset</button>
+    <button type="submit" class="pa-btn pa-btn--primary">Submit</button>
+  </div>
+</form>
 
 
-<!-- INPUT SIZES -->
+<!-- INPUT / SELECT SIZES (shared --xs / --sm / default / --lg / --xl) -->
 
-<!-- Extra Small Input -->
 <input type="text" class="pa-input pa-input--xs" placeholder="Extra small">
-
-<!-- Small Input -->
 <input type="text" class="pa-input pa-input--sm" placeholder="Small">
-
-<!-- Default Input -->
-<input type="text" class="pa-input" placeholder="Default">
-
-<!-- Large Input -->
+<input type="text" class="pa-input"              placeholder="Default">
 <input type="text" class="pa-input pa-input--lg" placeholder="Large">
-
-<!-- Extra Large Input -->
 <input type="text" class="pa-input pa-input--xl" placeholder="Extra large">
 
+<select class="pa-select pa-select--sm"><option>Small select</option></select>
+<select class="pa-select pa-select--lg"><option>Large select</option></select>
 
-<!-- INPUT STATES -->
 
-<!-- Disabled Input -->
+<!-- TEXTAREA SIZES (sets height + min-height so it can grow but not collapse) -->
+
+<textarea class="pa-textarea pa-textarea--xs" placeholder="xs  (4rem)"></textarea>
+<textarea class="pa-textarea pa-textarea--sm" placeholder="sm  (6rem)"></textarea>
+<textarea class="pa-textarea"                  placeholder="default (resize: vertical; $textarea-min-height)"></textarea>
+<textarea class="pa-textarea pa-textarea--lg" placeholder="lg  (12rem)"></textarea>
+<textarea class="pa-textarea pa-textarea--xl" placeholder="xl  (16rem)"></textarea>
+
+
+<!-- INPUT / TEXTAREA NATIVE STATES -->
+
 <input type="text" class="pa-input" disabled value="Disabled input">
-
-<!-- Readonly Input -->
 <input type="text" class="pa-input" readonly value="Readonly input">
-
-<!-- Required Input -->
-<div class="pa-form-group pa-form-group--required">
-  <label class="pa-form-label" for="required-field">Required Field</label>
-  <input type="text" class="pa-input" id="required-field" required>
-</div>
+<input type="text" class="pa-input" required placeholder="Required (HTML5 attribute)">
 
 
-<!-- VALIDATION STATES -->
+<!--
+VALIDATION STATES
+Two ways to apply a validation style — pick the one that fits your
+framework wrapper:
 
-<!-- Success State -->
+  1. Standalone modifier on the control:
+     <input class="pa-input pa-input--error">
+
+  2. Wrapper class on the form-group:
+     <div class="pa-form-group pa-form-group--error">
+       <input class="pa-input">   <!-- styled automatically -->
+     </div>
+
+IMPORTANT: the form-group wrapper only paints .pa-input and .pa-select
+borders — NOT .pa-textarea. There's also no .pa-textarea--error /
+--success / --warning class. For textarea error visuals, lean on the
+help text below (pa-form-help--error) and a red label — the border
+just stays neutral.
+-->
+
+<!-- Success -->
 <div class="pa-form-group pa-form-group--success">
-  <label class="pa-form-label" for="valid-input">Valid Input</label>
+  <label for="valid-input">Valid Input</label>
   <input type="text" class="pa-input" id="valid-input" value="Valid value">
   <small class="pa-form-help pa-form-help--success">Looks good!</small>
 </div>
 
-<!-- Warning State -->
+<!-- Warning -->
 <div class="pa-form-group pa-form-group--warning">
-  <label class="pa-form-label" for="warning-input">Warning Input</label>
+  <label for="warning-input">Warning Input</label>
   <input type="text" class="pa-input" id="warning-input" value="Check this">
   <small class="pa-form-help pa-form-help--warning">Please verify this field.</small>
 </div>
 
-<!-- Error State -->
+<!-- Error -->
 <div class="pa-form-group pa-form-group--error">
-  <label class="pa-form-label" for="invalid-input">Invalid Input</label>
+  <label for="invalid-input">Invalid Input</label>
   <input type="text" class="pa-input" id="invalid-input" value="Invalid value">
   <small class="pa-form-help pa-form-help--error">Please provide a valid value.</small>
 </div>
 
-
-<!-- THEME COLOR VARIANTS -->
-<!-- Use --pa-color-1 through --pa-color-9 CSS variables (set by theme) -->
-
-<!-- Color 1 with matching help text -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="color1-input">Color 1</label>
-  <input type="text" class="pa-input pa-input--color-1" id="color1-input" value="Color 1 input">
-  <small class="pa-form-help pa-form-help--color-1">Colored help text</small>
-</div>
-
-<!-- Color 2 with matching help text -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="color2-input">Color 2</label>
-  <input type="text" class="pa-input pa-input--color-2" id="color2-input" value="Color 2 input">
-  <small class="pa-form-help pa-form-help--color-2">Colored help text</small>
-</div>
-
-<!-- Color 3 with gray help text (no color class) -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="color3-input">Color 3</label>
-  <input type="text" class="pa-input pa-input--color-3" id="color3-input" value="Color 3 input">
-  <small class="pa-form-help">Gray help text (no color class)</small>
-</div>
-
-<!-- Select with color variant -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="color-select">Color Select</label>
-  <select class="pa-select pa-select--color-1" id="color-select">
-    <option>Option 1</option>
-    <option>Option 2</option>
-  </select>
-</div>
-
-<!-- Textarea with color variant -->
-<div class="pa-form-group">
-  <label class="pa-form-label" for="color-textarea">Color Textarea</label>
-  <textarea class="pa-textarea pa-textarea--color-2" id="color-textarea">Color 2 textarea</textarea>
-</div>
+<!-- Standalone modifier (no form-group required) -->
+<input type="text" class="pa-input pa-input--error" value="Inline error">
+<select class="pa-select pa-select--warning"><option>Warning</option></select>
 
 
-<!-- CUSTOM TRI-STATE CHECKBOXES -->
-<!-- States: unchecked, checked, indeterminate (set via JS: checkbox.indeterminate = true) -->
+<!-- THEME COLOR SLOTS (1-9) -->
 
-<!-- Basic Checkbox -->
+<input type="text" class="pa-input pa-input--color-1" value="Theme colour 1">
+<select class="pa-select pa-select--color-5"><option>Theme colour 5</option></select>
+
+<!-- Textarea DOES have colour variants (unlike validation states) -->
+<textarea class="pa-textarea pa-textarea--color-2">Theme colour 2</textarea>
+
+<!-- Help text colour variants -->
+<small class="pa-form-help pa-form-help--color-3">Colour-3 help text</small>
+
+<!-- Pattern: pa-input--color-{1..9}, pa-select--color-{1..9},
+              pa-textarea--color-{1..9}, pa-form-help--color-{1..9} -->
+
+
+<!-- CUSTOM TRI-STATE CHECKBOX -->
+
+<!--
+States: unchecked, checked, indeterminate. Set the indeterminate bit
+via JS (the SCSS listens for `input:indeterminate`):
+
+  document.getElementById('my-cb').indeterminate = true;
+-->
+
+<!-- Basic unchecked -->
 <label class="pa-checkbox">
   <input type="checkbox">
   <span class="pa-checkbox__box"></span>
   <span class="pa-checkbox__label">Unchecked option</span>
 </label>
 
-<!-- Checked Checkbox -->
+<!-- Checked -->
 <label class="pa-checkbox">
   <input type="checkbox" checked>
   <span class="pa-checkbox__box"></span>
   <span class="pa-checkbox__label">Checked option</span>
 </label>
 
-<!-- Indeterminate Checkbox (set via JavaScript) -->
+<!-- Indeterminate — third visual state; toggled by JS, not by the `indeterminate` HTML attribute -->
 <label class="pa-checkbox">
   <input type="checkbox" id="my-indeterminate-checkbox">
   <span class="pa-checkbox__box"></span>
@@ -162,90 +179,80 @@
 </label>
 <script>document.getElementById('my-indeterminate-checkbox').indeterminate = true;</script>
 
-<!-- Disabled Checkbox -->
+<!-- Disabled — either add --disabled, or just use input[disabled]: the
+     SCSS has a :has(input:disabled) rule so either works. -->
 <label class="pa-checkbox pa-checkbox--disabled">
   <input type="checkbox" disabled>
   <span class="pa-checkbox__box"></span>
   <span class="pa-checkbox__label">Disabled unchecked</span>
 </label>
 
-<label class="pa-checkbox pa-checkbox--disabled">
+<label class="pa-checkbox">
   <input type="checkbox" checked disabled>
   <span class="pa-checkbox__box"></span>
-  <span class="pa-checkbox__label">Disabled checked</span>
+  <span class="pa-checkbox__label">Disabled checked (auto-dimmed via :has)</span>
 </label>
 
-<!-- Checkbox Sizes -->
+<!-- X-mark variant — swaps the checkmark for an X (useful for
+     "excluded" / "blocked" selections rather than yes/no). -->
+<label class="pa-checkbox pa-checkbox--x">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">X-mark style when checked</span>
+</label>
+
+<!-- Sizes (same scale as input/select) -->
 <label class="pa-checkbox pa-checkbox--xs">
   <input type="checkbox" checked>
   <span class="pa-checkbox__box"></span>
-  <span class="pa-checkbox__label">Extra Small (xs)</span>
+  <span class="pa-checkbox__label">Extra Small</span>
 </label>
-
 <label class="pa-checkbox pa-checkbox--sm">
   <input type="checkbox" checked>
   <span class="pa-checkbox__box"></span>
-  <span class="pa-checkbox__label">Small (sm)</span>
+  <span class="pa-checkbox__label">Small</span>
 </label>
-
 <label class="pa-checkbox">
   <input type="checkbox" checked>
   <span class="pa-checkbox__box"></span>
   <span class="pa-checkbox__label">Default</span>
 </label>
-
 <label class="pa-checkbox pa-checkbox--lg">
   <input type="checkbox" checked>
   <span class="pa-checkbox__box"></span>
-  <span class="pa-checkbox__label">Large (lg)</span>
+  <span class="pa-checkbox__label">Large</span>
 </label>
-
 <label class="pa-checkbox pa-checkbox--xl">
   <input type="checkbox" checked>
   <span class="pa-checkbox__box"></span>
-  <span class="pa-checkbox__label">Extra Large (xl)</span>
+  <span class="pa-checkbox__label">Extra Large</span>
 </label>
 
-<!-- Checkbox Group (vertical stack) -->
+<!-- Vertical stack -->
 <div class="pa-checkbox-group">
-  <label class="pa-checkbox">
-    <input type="checkbox" checked>
-    <span class="pa-checkbox__box"></span>
-    <span class="pa-checkbox__label">Option A</span>
-  </label>
-  <label class="pa-checkbox">
-    <input type="checkbox">
-    <span class="pa-checkbox__box"></span>
-    <span class="pa-checkbox__label">Option B</span>
-  </label>
-  <label class="pa-checkbox">
-    <input type="checkbox">
-    <span class="pa-checkbox__box"></span>
-    <span class="pa-checkbox__label">Option C</span>
-  </label>
+  <label class="pa-checkbox"><input type="checkbox" checked><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Option A</span></label>
+  <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Option B</span></label>
+  <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span><span class="pa-checkbox__label">Option C</span></label>
 </div>
 
 
-<!-- RADIO BUTTONS (native styling) -->
+<!-- RADIO BUTTONS (native styling + sizes) -->
 
-<!-- Radio Button Group -->
 <div class="pa-radio-group">
-  <label class="pa-radio">
-    <input type="radio" name="radioGroup" checked>
-    Option 1 (selected)
-  </label>
-  <label class="pa-radio">
-    <input type="radio" name="radioGroup">
-    Option 2
-  </label>
-  <label class="pa-radio">
-    <input type="radio" name="radioGroup" disabled>
-    Option 3 (disabled)
-  </label>
+  <label class="pa-radio"><input type="radio" name="radioGroup" checked> Option 1</label>
+  <label class="pa-radio"><input type="radio" name="radioGroup"> Option 2</label>
+  <label class="pa-radio"><input type="radio" name="radioGroup" disabled> Option 3 (disabled)</label>
 </div>
 
+<!-- Radio sizes scale the native input (wrapper stays flex) -->
+<label class="pa-radio pa-radio--xs"><input type="radio" name="sizeDemo"> xs</label>
+<label class="pa-radio pa-radio--sm"><input type="radio" name="sizeDemo"> sm</label>
+<label class="pa-radio"><input type="radio" name="sizeDemo"> default</label>
+<label class="pa-radio pa-radio--lg"><input type="radio" name="sizeDemo"> lg</label>
+<label class="pa-radio pa-radio--xl"><input type="radio" name="sizeDemo"> xl</label>
 
-<!-- INPUT GROUPS -->
+
+<!-- INPUT GROUPS (prepend / append / button; RTL-aware) -->
 
 <!-- Prepend only -->
 <div class="pa-input-group">
@@ -259,74 +266,105 @@
   <span class="pa-input-group__append">USD</span>
 </div>
 
-<!-- Prepend and Append -->
+<!-- Prepend + Append -->
 <div class="pa-input-group">
   <span class="pa-input-group__prepend">$</span>
   <input type="text" class="pa-input" placeholder="0.00">
   <span class="pa-input-group__append">.00</span>
 </div>
 
-<!-- Input with Button -->
+<!-- Input with trailing button -->
 <div class="pa-input-group">
-  <input type="text" class="pa-input" placeholder="Search...">
+  <input type="text" class="pa-input" placeholder="Search…">
   <button class="pa-input-group__button pa-btn pa-btn--primary">Search</button>
 </div>
 
-<!-- Prepend + Input + Button -->
+<!-- Multiple addons on one side (they get an internal divider) -->
 <div class="pa-input-group">
   <span class="pa-input-group__prepend">🔍</span>
-  <input type="text" class="pa-input" placeholder="Search...">
+  <span class="pa-input-group__prepend">query</span>
+  <input type="text" class="pa-input" placeholder="Search…">
   <button class="pa-input-group__button pa-btn pa-btn--primary">Go</button>
 </div>
 
-<!-- Input + Append + Button -->
+<!-- Quantity stepper -->
 <div class="pa-input-group">
-  <input type="text" class="pa-input" placeholder="Enter amount">
-  <span class="pa-input-group__append">USD</span>
-  <button class="pa-input-group__button pa-btn pa-btn--success">Convert</button>
-</div>
-
-<!-- Button + Input + Append -->
-<div class="pa-input-group">
-  <button class="pa-input-group__button pa-btn pa-btn--secondary">-</button>
-  <input type="number" class="pa-input" value="1">
-  <span class="pa-input-group__append">items</span>
-</div>
-
-<!-- Prepend + Input + Append + Button -->
-<div class="pa-input-group">
-  <span class="pa-input-group__prepend">https://</span>
-  <input type="text" class="pa-input" placeholder="example.com">
-  <span class="pa-input-group__append">.com</span>
-  <button class="pa-input-group__button pa-btn pa-btn--primary">Visit</button>
-</div>
-
-<!-- Button + Input + Button (quantity controls) -->
-<div class="pa-input-group">
-  <button class="pa-input-group__button pa-btn pa-btn--secondary">-</button>
+  <button class="pa-input-group__button pa-btn pa-btn--secondary">−</button>
   <input type="number" class="pa-input text-center" value="1">
   <button class="pa-input-group__button pa-btn pa-btn--secondary">+</button>
 </div>
 
+<!-- Input group sizes — match prepend/append to the input size -->
+<div class="pa-input-group pa-input-group--xs">
+  <span class="pa-input-group__prepend">@</span>
+  <input type="text" class="pa-input pa-input--xs" placeholder="xs">
+</div>
+<div class="pa-input-group pa-input-group--sm">
+  <span class="pa-input-group__prepend">@</span>
+  <input type="text" class="pa-input pa-input--sm" placeholder="sm">
+</div>
+<div class="pa-input-group pa-input-group--lg">
+  <span class="pa-input-group__prepend">@</span>
+  <input type="text" class="pa-input pa-input--lg" placeholder="lg">
+</div>
+<div class="pa-input-group pa-input-group--xl">
+  <span class="pa-input-group__prepend">@</span>
+  <input type="text" class="pa-input pa-input--xl" placeholder="xl">
+</div>
 
-<!-- FORM LAYOUTS -->
+<!-- Implicit: when .pa-input inside the group gets :focus, adjacent
+     prepend / append borders pick up the focus colour so the whole
+     group reads as focused. -->
 
-<!-- Inline Form -->
-<form class="pa-form pa-form--inline">
-  <input type="text" class="pa-input" placeholder="Username">
-  <input type="password" class="pa-input" placeholder="Password">
-  <button class="pa-btn pa-btn--primary">Sign in</button>
-</form>
 
-<!-- Horizontal Form Groups (label left, input right) -->
+<!-- INPUT WRAPPER (clear button) -->
 
-<!-- Single Horizontal Field -->
+<!--
+.pa-input-wrapper positions a clear button over the trailing end of
+any input-like element it contains. The input gets padding-inline-end
+so text doesn't run under the button. Toggle .pa-input-wrapper__clear
+--hidden via JS when the input is empty.
+-->
+
+<div class="pa-input-wrapper">
+  <input type="text" class="pa-input" id="searchInput" placeholder="Type to search…">
+  <button class="pa-input-wrapper__clear" type="button" aria-label="Clear"
+          onclick="document.getElementById('searchInput').value = '';">
+    ×
+  </button>
+</div>
+
+
+<!-- SEARCH TOKENS (for query-builder pills inside an input-wrapper) -->
+
+<!--
+A lightweight shell for rendering "tag"-style tokens inside a search
+input. Pair with .pa-input-wrapper or .pa-virtual-textbox for interactive
+builders. Each token is a pa-badge plus a close button.
+-->
+
+<div class="pa-input-wrapper">
+  <div class="pa-search-tokens">
+    <div class="pa-search-token-group">
+      <span class="pa-badge pa-badge--primary">status:active</span>
+      <button class="pa-search-token-remove" aria-label="Remove">×</button>
+    </div>
+    <div class="pa-search-token-group">
+      <span class="pa-badge pa-badge--info">role:admin</span>
+      <button class="pa-search-token-remove" aria-label="Remove">×</button>
+    </div>
+  </div>
+  <input type="text" class="pa-input" placeholder="Add filter…">
+</div>
+
+
+<!-- HORIZONTAL FORM GROUPS (label left, input right) -->
+
 <div class="pa-form-group pa-form-group--horizontal">
   <label for="email">Email</label>
   <input type="email" id="email" class="pa-input" placeholder="your@email.com">
 </div>
 
-<!-- Horizontal Field with Select -->
 <div class="pa-form-group pa-form-group--horizontal">
   <label for="department">Department</label>
   <select id="department" class="pa-select">
@@ -336,132 +374,69 @@
   </select>
 </div>
 
-<!-- Horizontal Field with Textarea -->
 <div class="pa-form-group pa-form-group--horizontal">
   <label for="notes">Notes</label>
-  <textarea id="notes" class="pa-textarea" rows="3" placeholder="Additional notes..."></textarea>
+  <textarea id="notes" class="pa-textarea" rows="3" placeholder="Additional notes…"></textarea>
 </div>
 
 
-<!-- HORIZONTAL FORM LAYOUTS WITH GRIDS -->
+<!-- MULTI-COLUMN FORMS WITH THE GRID -->
 
-<!-- Multi-Column Horizontal Form (3 equal columns) -->
 <form class="pa-form">
   <div class="pa-row">
     <div class="pa-col-100 pa-col-md-1-3">
-      <div class="pa-form-group pa-form-group--horizontal">
+      <div class="pa-form-group">
         <label for="fname">First Name</label>
         <input type="text" id="fname" class="pa-input" placeholder="John">
       </div>
     </div>
-
     <div class="pa-col-100 pa-col-md-1-3">
-      <div class="pa-form-group pa-form-group--horizontal">
+      <div class="pa-form-group">
         <label for="lname">Last Name</label>
         <input type="text" id="lname" class="pa-input" placeholder="Doe">
       </div>
     </div>
-
     <div class="pa-col-100 pa-col-md-1-3">
-      <div class="pa-form-group pa-form-group--horizontal">
-        <label for="email">Email</label>
-        <input type="email" id="email" class="pa-input" placeholder="john@example.com">
+      <div class="pa-form-group">
+        <label for="mail">Email</label>
+        <input type="email" id="mail" class="pa-input" placeholder="john@example.com">
       </div>
     </div>
   </div>
-</form>
 
-<!-- Multi-Column Horizontal Form (varying widths) -->
-<form class="pa-form">
-  <div class="pa-row">
-    <!-- Phone (smaller - 25%) -->
-    <div class="pa-col-100 pa-col-md-25">
-      <div class="pa-form-group pa-form-group--horizontal">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" class="pa-input" placeholder="+1 555-0123">
-      </div>
-    </div>
-
-    <!-- Department (larger - 50%) -->
-    <div class="pa-col-100 pa-col-md-50">
-      <div class="pa-form-group pa-form-group--horizontal">
-        <label for="dept">Department</label>
-        <select id="dept" class="pa-select">
-          <option>Select...</option>
-          <option>Engineering</option>
-          <option>Marketing</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Job Title (medium - 25%) -->
-    <div class="pa-col-100 pa-col-md-25">
-      <div class="pa-form-group pa-form-group--horizontal">
-        <label for="title">Job Title</label>
-        <input type="text" id="title" class="pa-input" placeholder="Senior Developer">
-      </div>
-    </div>
+  <div class="pa-form-actions justify-content-end">
+    <button type="reset" class="pa-btn pa-btn--secondary">Reset</button>
+    <button type="submit" class="pa-btn pa-btn--primary">Submit</button>
   </div>
 </form>
 
 
-<!-- COMPLETE HORIZONTAL FORM EXAMPLE -->
+<!-- COMPLETE FORM IN A CARD (with footer actions) -->
+
 <div class="pa-card">
-  <div class="pa-card__header">
+  <div class="pa-card__header pa-card__header--underlined">
     <h3>Employee Information</h3>
   </div>
   <div class="pa-card__body">
     <form class="pa-form">
-      <!-- Line 1: Personal Info -->
       <div class="pa-row">
-        <div class="pa-col-100 pa-col-md-1-3">
-          <div class="pa-form-group pa-form-group--horizontal">
+        <div class="pa-col-100 pa-col-md-1-2">
+          <div class="pa-form-group">
             <label for="first">First Name</label>
             <input type="text" id="first" class="pa-input" placeholder="John">
           </div>
         </div>
-        <div class="pa-col-100 pa-col-md-1-3">
-          <div class="pa-form-group pa-form-group--horizontal">
+        <div class="pa-col-100 pa-col-md-1-2">
+          <div class="pa-form-group">
             <label for="last">Last Name</label>
             <input type="text" id="last" class="pa-input" placeholder="Doe">
           </div>
         </div>
-        <div class="pa-col-100 pa-col-md-1-3">
-          <div class="pa-form-group pa-form-group--horizontal">
-            <label for="mail">Email</label>
-            <input type="email" id="mail" class="pa-input" placeholder="john.doe@company.com">
-          </div>
-        </div>
       </div>
 
-      <!-- Line 2: Address -->
-      <div class="pa-row">
-        <div class="pa-col-100 pa-col-md-50">
-          <div class="pa-form-group pa-form-group--horizontal">
-            <label for="address">Address</label>
-            <input type="text" id="address" class="pa-input" placeholder="123 Main Street">
-          </div>
-        </div>
-        <div class="pa-col-100 pa-col-md-1-3">
-          <div class="pa-form-group pa-form-group--horizontal">
-            <label for="city">City</label>
-            <input type="text" id="city" class="pa-input" placeholder="San Francisco">
-          </div>
-        </div>
-        <div class="pa-col-100 pa-col-md-20">
-          <div class="pa-form-group pa-form-group--horizontal">
-            <label for="zip">Zip</label>
-            <input type="text" id="zip" class="pa-input" placeholder="94102">
-          </div>
-        </div>
-      </div>
-
-      <!-- Submit Buttons -->
-      <div class="pa-row">
-        <div class="pa-col-100 text-end">
-          <button type="button" class="pa-btn pa-btn--secondary">Cancel</button>
-          <button type="submit" class="pa-btn pa-btn--primary">Submit</button>
-        </div>
+      <div class="pa-form-actions justify-content-end">
+        <button type="button" class="pa-btn pa-btn--secondary">Cancel</button>
+        <button type="submit" class="pa-btn pa-btn--primary">Save</button>
       </div>
     </form>
   </div>
@@ -473,62 +448,183 @@
      ================================ -->
 
 <!--
-FORM ELEMENTS:
-- .pa-form: Form container
-- .pa-form--inline: Inline form layout
-- .pa-form-group: Form group wrapper
-- .pa-form-group--required: Shows required indicator
-- .pa-form-group--horizontal: Label-left, input-right layout
-- .pa-form-group--success: Success validation state
-- .pa-form-group--warning: Warning validation state
-- .pa-form-group--error: Error validation state
-- .pa-form-label: Form label
+FORM CONTAINER:
+- .pa-form                     Wraps the form; enables auto label/action
+                               styling for direct .pa-form-group children.
+- .pa-form-actions             Button row (flex, gap, wrap). Inside .pa-form
+                               it gets top margin so it sits below fields.
+                               Combine with .justify-content-end (from
+                               utilities) to right-align.
+
+(No .pa-form--inline — not defined in SCSS.)
+
+FORM GROUP:
+- .pa-form-group               Wrapper around label + control + help text.
+                               Auto margin reset when first/last child of
+                               .pa-card__body (directly or via grid column).
+- .pa-form-group--horizontal   Label on the inline-start side, control fills
+                               remaining space. Label gets padding-top to
+                               align with the input's first line.
+
+Validation wrappers (only affect .pa-input and .pa-select inside —
+NOT .pa-textarea):
+- .pa-form-group--success
+- .pa-form-group--warning
+- .pa-form-group--error
+
+(No .pa-form-group--required class — use the native `required` attribute.)
+
+LABELS:
+Inside .pa-form .pa-form-group, a bare <label> gets framework styling
+automatically (flex, gap, medium weight, $font-size-sm). There is NO
+.pa-form-label class.
 
 INPUTS:
-- .pa-input: Text input base class
-- .pa-input--xs, --sm, --lg, --xl: Size variants
-- .pa-input--success, --warning, --error: Validation states
-- .pa-input--color-1 through --color-9: Theme color variants
-
-TEXTAREA:
-- .pa-textarea: Textarea element
-- .pa-textarea--xs, --sm, --lg, --xl: Size variants
-- .pa-textarea--success, --warning, --error: Validation states
-- .pa-textarea--color-1 through --color-9: Theme color variants
+- .pa-input                    Base text input (width: 100%, md height)
+- .pa-input--xs / --sm / --lg / --xl    Size variants
+- .pa-input--success / --warning / --error    Standalone validation borders
+- .pa-input--color-{1..9}      Theme colour slot border
 
 SELECT:
-- .pa-select: Select dropdown
-- .pa-select--xs, --sm, --lg, --xl: Size variants
-- .pa-select--success, --warning, --error: Validation states
-- .pa-select--color-1 through --color-9: Theme color variants
+- .pa-select                   Base select
+- .pa-select--xs / --sm / --lg / --xl
+- .pa-select--success / --warning / --error
+- .pa-select--color-{1..9}
 
-CHECKBOXES (custom tri-state):
-- .pa-checkbox: Checkbox wrapper label
-- .pa-checkbox__box: Custom checkbox visual
-- .pa-checkbox__label: Checkbox label text
-- .pa-checkbox--xs, --sm, --lg, --xl: Size variants
-- .pa-checkbox--disabled: Disabled state
-- .pa-checkbox-group: Vertical checkbox group
-
-RADIO BUTTONS:
-- .pa-radio: Radio wrapper label
-- .pa-radio-group: Vertical radio group
-
-INPUT GROUPS:
-- .pa-input-group: Input group container
-- .pa-input-group__prepend: Left addon
-- .pa-input-group__append: Right addon
-- .pa-input-group__button: Button addon
+TEXTAREA:
+- .pa-textarea                 Base textarea (resize: vertical,
+                               $textarea-min-height; size variants set
+                               height AND min-height so it can grow but
+                               not collapse).
+- .pa-textarea--xs / --sm / --lg / --xl
+- .pa-textarea--color-{1..9}
+  (NO --success / --warning / --error — textarea has no validation
+   border styling. Communicate textarea errors with pa-form-help--error
+   beneath the field.)
 
 HELP TEXT:
-- .pa-form-help: Help/hint text below inputs
-- .pa-form-help--success: Success message
-- .pa-form-help--warning: Warning message
-- .pa-form-help--error: Error message
-- .pa-form-help--color-1 through --color-9: Theme color variants
+- .pa-form-help                Small hint text below a control
+- .pa-form-help--success
+- .pa-form-help--warning
+- .pa-form-help--error
+- .pa-form-help--color-{1..9}
 
-GRID LAYOUT (for multi-column forms):
-- .pa-row: Row container (flexbox)
-- .pa-col-100: Full width on mobile
-- .pa-col-md-25, .pa-col-md-50, .pa-col-md-1-3, etc.: Responsive column widths
+CHECKBOX (custom tri-state):
+- .pa-checkbox                 <label> wrapper (contains the hidden native
+                               input, the custom __box, and the __label).
+- .pa-checkbox__box            The drawn-in-CSS checkbox square.
+- .pa-checkbox__label          The visible label text.
+- .pa-checkbox--xs / --sm / --lg / --xl    Size variants (scale __box).
+- .pa-checkbox--disabled       Manual disabled style.
+                               (Also auto-applied via :has(input:disabled),
+                               so input[disabled] alone is enough.)
+- .pa-checkbox--x              Swap the checkmark for an X (for
+                               "excluded" / "blocked" selection states).
+
+States:
+- input[checked]               Filled square with tick
+- input.indeterminate == true  Filled square with dash (SET VIA JS —
+                               the `indeterminate` attribute in HTML
+                               has no effect; call
+                               `el.indeterminate = true` instead)
+
+- .pa-checkbox-group           Vertical flex stack
+
+RADIO:
+- .pa-radio                    <label> wrapper for a native radio input
+- .pa-radio--xs / --sm / --lg / --xl    Size variants (scale the input)
+- .pa-radio-group              Vertical flex stack
+
+INPUT GROUP (prepend / append / button — RTL-aware via logical borders):
+- .pa-input-group
+- .pa-input-group__prepend     Inline-start addon
+- .pa-input-group__append      Inline-end addon
+- .pa-input-group__button      Button addon (keeps input's border radius
+                               at the group ends, not on itself)
+- .pa-input-group--xs / --sm / --lg / --xl    Matches prepend/append height
+                                               to the input size
+
+Implicit behaviour:
+- When .pa-input inside the group is :focus, adjacent __prepend /
+  __append borders pick up the focus colour so the group reads as
+  focused together.
+- Multiple __prepends (or __appends) in a row get internal dividers
+  between them.
+
+INPUT WRAPPER (clear button):
+- .pa-input-wrapper            Relative flex container that positions
+                               a trailing clear button over the input.
+- .pa-input-wrapper__clear     The close × button (absolute positioned,
+                               inset-inline-end — RTL-aware).
+- .pa-input-wrapper__clear--hidden   Toggle via JS when input is empty.
+
+SEARCH TOKENS (lightweight query-builder pills):
+- .pa-search-tokens            Flex-wrap container for tokens.
+- .pa-search-token-group       One token = pa-badge + close button.
+- .pa-search-token-remove      The × inside a token group.
+
+QUERY EDITOR (separate family — full coverage pending a dedicated snippet):
+- .pa-search-highlight + __overlay / __input / __field / __operator
+- .pa-search-autocomplete + __item / __item-name / __item-type /
+  __section / __empty / __item--active
+- .pa-virtual-textbox          Contenteditable input with inline badges.
+                               Uses data-placeholder attribute for empty
+                               state.
+- .pa-inline-query-editor + __layers / __highlights / __input
+- .pa-inline-query-token       + --field / --operator / --value / --keyword
+                               + --invalid (wavy red underline)
+- .pa-inline-query-autocomplete + rich __item substructure
+
+IMPLICIT BEHAVIOURS:
+- .pa-form-group margin resets to 0 when it's the first/last child of a
+  .pa-card__body (directly or through pure-g / grid column wrappers).
+- Dark-mode webkit date picker icons get filter: invert(1) for visibility.
+- All input/select/textarea get a focus ring using --pa-accent-light.
+
+STRUCTURE PATTERNS:
+
+Basic form group:
+<div class="pa-form-group">
+  <label for="x">Label</label>
+  <input class="pa-input" id="x">
+</div>
+
+With validation + help text:
+<div class="pa-form-group pa-form-group--error">
+  <label for="x">Email</label>
+  <input class="pa-input" id="x" value="not-an-email">
+  <small class="pa-form-help pa-form-help--error">Enter a valid email.</small>
+</div>
+
+Input with prepend/append and button:
+<div class="pa-input-group">
+  <span class="pa-input-group__prepend">@</span>
+  <input class="pa-input" type="text">
+  <button class="pa-input-group__button pa-btn pa-btn--primary">Go</button>
+</div>
+
+Tri-state checkbox (indeterminate set via JS):
+<label class="pa-checkbox">
+  <input type="checkbox" id="parent">
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Select all</span>
+</label>
+<script>
+  document.getElementById('parent').indeterminate = true;
+</script>
+
+Multi-column form with grid:
+<form class="pa-form">
+  <div class="pa-row">
+    <div class="pa-col-100 pa-col-md-1-2">
+      <div class="pa-form-group">…</div>
+    </div>
+    <div class="pa-col-100 pa-col-md-1-2">
+      <div class="pa-form-group">…</div>
+    </div>
+  </div>
+  <div class="pa-form-actions justify-content-end">
+    <button type="submit" class="pa-btn pa-btn--primary">Submit</button>
+  </div>
+</form>
 -->
