@@ -1,6 +1,7 @@
 <!-- ========================================
    Callout Components
    Documentation-style callouts with left border accent
+   For tips, notes, warnings in content areas
    ======================================== -->
 
 <!-- BASIC CALLOUTS -->
@@ -37,13 +38,14 @@
 
 <!-- ========================================
    CALLOUTS WITH ICONS
+   Icon floats to the start; wrap the rest in __content for the clearfix.
    ======================================== -->
 
 <!-- Info with Icon -->
 <div class="pa-callout pa-callout--info">
   <span class="pa-callout__icon">💡</span>
   <div class="pa-callout__content">
-    <div class="pa-callout__heading">Did you know?</div>
+    <h4 class="pa-callout__heading">Did you know?</h4>
     <p>You can hover over any element to see its tooltip. Tooltips provide additional context without cluttering the interface.</p>
   </div>
 </div>
@@ -52,7 +54,7 @@
 <div class="pa-callout pa-callout--warning">
   <span class="pa-callout__icon">⚠️</span>
   <div class="pa-callout__content">
-    <div class="pa-callout__heading">Breaking Change</div>
+    <h4 class="pa-callout__heading">Breaking Change</h4>
     <p>The <code>getData()</code> method now returns a Promise. Update your code to use <code>await</code> or <code>.then()</code>.</p>
   </div>
 </div>
@@ -61,7 +63,7 @@
 <div class="pa-callout pa-callout--danger">
   <span class="pa-callout__icon">🚨</span>
   <div class="pa-callout__content">
-    <div class="pa-callout__heading">Security Notice</div>
+    <h4 class="pa-callout__heading">Security Notice</h4>
     <p>Never commit API keys or secrets to version control. Use environment variables instead.</p>
   </div>
 </div>
@@ -70,7 +72,7 @@
 <div class="pa-callout pa-callout--success">
   <span class="pa-callout__icon">✅</span>
   <div class="pa-callout__content">
-    <div class="pa-callout__heading">Best Practice</div>
+    <h4 class="pa-callout__heading">Best Practice</h4>
     <p>Always validate user input on both client and server side for maximum security.</p>
   </div>
 </div>
@@ -100,7 +102,7 @@
 
 <!-- Callout with Unordered List -->
 <div class="pa-callout pa-callout--info">
-  <div class="pa-callout__heading">Requirements</div>
+  <h4 class="pa-callout__heading">Requirements</h4>
   <ul>
     <li>Node.js version 16 or higher</li>
     <li>npm version 8 or higher</li>
@@ -110,7 +112,7 @@
 
 <!-- Callout with Ordered List -->
 <div class="pa-callout pa-callout--warning">
-  <div class="pa-callout__heading">Migration Steps</div>
+  <h4 class="pa-callout__heading">Migration Steps</h4>
   <ol>
     <li>Backup your database</li>
     <li>Update dependencies with <code>npm update</code></li>
@@ -127,3 +129,82 @@
 <div class="pa-callout pa-callout--primary">
   <strong>Tip:</strong> Use <code>console.table()</code> instead of <code>console.log()</code> for arrays and objects to get a nicely formatted table output.
 </div>
+
+
+<!-- ========================================
+   THEME COLOR CALLOUTS (color-1 through color-9)
+   ======================================== -->
+
+<!-- Theme Color 1 Callout -->
+<div class="pa-callout pa-callout--color-1">
+  <strong>Color 1:</strong> Theme color slot 1 callout — border and background tint pulled from <code>--pa-color-1</code>.
+</div>
+
+<!-- Pattern: pa-callout--color-{1..9} — border tracks the slot, background is a 10% tint. -->
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+CALLOUT CLASSES:
+- .pa-callout: Base callout with a left (inline-start) border accent
+
+VARIANTS:
+- .pa-callout--primary: Accent border + subtle accent tint
+- .pa-callout--secondary: Muted border + 5% text-color-2 tint
+- .pa-callout--success: Green border + success tint
+- .pa-callout--danger: Red border + danger tint
+- .pa-callout--warning: Yellow/orange border + warning tint
+- .pa-callout--info: Cyan/blue border + info tint
+
+THEME COLOR VARIANTS (1-9):
+- .pa-callout--color-{1-9}: Theme color slot border + 10% tint background
+
+SIZES:
+- .pa-callout--sm: Small (spacing-sm/md padding, font-size-xs)
+- (default): Standard (card-footer padding, font-size-sm)
+- .pa-callout--lg: Large (spacing-lg/xl padding, font-size-base)
+
+ELEMENTS:
+- .pa-callout__icon: Floated icon (inline-start, uses CSS float; RTL flips automatically)
+- .pa-callout__heading: Title element — use <h4> (or any h*) so semantic margin reset applies
+- .pa-callout__content: Content wrapper with clearfix after the floated icon
+
+STYLED CHILDREN (automatic, no extra classes needed):
+- <p>, <ul>, <ol>: margin rules that collapse the last-child bottom margin
+- <code>: subtle dark tint, slightly smaller font
+- <a>: inherits color, underlined, removes underline on hover
+- <h1>–<h6>: color: inherit, margin-top: 0
+
+BEHAVIOR IN CARDS:
+- When used as the first or last child of .pa-card__body, the top/bottom margin
+  is automatically removed — no need for .m-0 or similar overrides.
+
+STRUCTURE PATTERNS:
+
+Simple callout:
+<div class="pa-callout pa-callout--info">
+  <strong>Note:</strong> Message here.
+</div>
+
+Callout with heading and paragraphs:
+<div class="pa-callout pa-callout--warning">
+  <h4 class="pa-callout__heading">Title</h4>
+  <p>Body paragraph.</p>
+</div>
+
+Callout with floated icon (wrap the rest in __content for the clearfix):
+<div class="pa-callout pa-callout--success">
+  <span class="pa-callout__icon">✅</span>
+  <div class="pa-callout__content">
+    <h4 class="pa-callout__heading">Title</h4>
+    <p>Body text that wraps around the icon.</p>
+  </div>
+</div>
+
+CALLOUT vs ALERT:
+- Callout: documentation-style, left border only, static content, not dismissible
+- Alert:   full background, filled variants, supports --dismissible close button
+-->
