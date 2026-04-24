@@ -30,13 +30,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `cards.html` | 2026-04-24 | `core-components/_cards.scss` | [4a67018](../../../commit/4a67018) |
 | `forms.html` | 2026-04-24 | `core-components/forms/` (all 7 files: _form-layout, _form-inputs, _form-states, _input-groups, _input-wrapper, _checkboxes-radios, _query-editor) | [272f141](../../../commit/272f141) |
 | `layout.html` | 2026-04-24 | `core-components/layout/` (all 6 files: _layout-container, _navbar, _navbar-elements, _sidebar, _sidebar-states, _layout-responsive), `variables/_layout.scss` (container widths) | [9762492](../../../commit/9762492) |
-| `profile.html` | 2026-04-24 | `core-components/_profile.scss` | _(this commit)_ |
+| `profile.html` | 2026-04-24 | `core-components/_profile.scss` | [2b70e27](../../../commit/2b70e27) |
+| `tabs.html` | 2026-04-24 | `core-components/_tabs.scss` | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `tabs.html`
 - `timeline.html`
 - `checkbox-lists.html`
 - `command-palette.html`

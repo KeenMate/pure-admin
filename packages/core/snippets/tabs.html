@@ -200,7 +200,7 @@
       <span>Notifications</span>
     </button>
   </div>
-  <div class="pa-tabs__content" class="flex-grow-1">
+  <div class="pa-tabs__content flex-grow-1">
     <div class="pa-tabs__panel pa-tabs__panel--active" id="vert-1">
       Account settings
     </div>
@@ -226,7 +226,7 @@
       <i class="fa-solid fa-gear"></i>
     </button>
   </div>
-  <div class="pa-tabs__content" class="flex-grow-1">
+  <div class="pa-tabs__content flex-grow-1">
     <div class="pa-tabs__panel pa-tabs__panel--active" id="vert-c-1">
       Dashboard content
     </div>
@@ -582,7 +582,7 @@
       <i class="fa-solid fa-envelope"></i>
     </button>
   </div>
-  <div class="pa-tabs__content" class="flex-grow-1">
+  <div class="pa-tabs__content flex-grow-1">
     <div class="pa-tabs__panel pa-tabs__panel--active" id="vicon1">
       Home content
     </div>
@@ -680,20 +680,20 @@
 <!-- Vertical Standalone Tabs - Sidebar Style Navigation (use vertical layout wrapper) -->
 <div class="pa-tabs__vertical-layout">
   <div class="pa-tabs pa-tabs--vertical">
-    <button class="pa-tabs__item pa-tabs__item--h-3x pa-tabs__item--active">
+    <button class="pa-tabs__item minhr-3 pa-tabs__item--active">
       <i class="fa-solid fa-house"></i>
       <span>Dashboard</span>
     </button>
-    <button class="pa-tabs__item pa-tabs__item--h-3x">
+    <button class="pa-tabs__item minhr-3">
       <i class="fa-solid fa-chart-bar"></i>
       <span>Analytics</span>
     </button>
-    <button class="pa-tabs__item pa-tabs__item--h-3x">
+    <button class="pa-tabs__item minhr-3">
       <i class="fa-solid fa-users"></i>
       <span>Users</span>
     </button>
   </div>
-  <div class="pa-tabs__content" class="flex-grow-1">
+  <div class="pa-tabs__content flex-grow-1">
     <div class="pa-tabs__panel pa-tabs__panel--active" id="sav1">
       <div class="pa-card">
         <div class="pa-card__header">
@@ -743,20 +743,20 @@
 <!-- Bordered Vertical Tabs - Card-Like Wrapper -->
 <div class="pa-tabs__vertical-layout pa-tabs__vertical-layout--bordered">
   <div class="pa-tabs pa-tabs--vertical">
-    <button class="pa-tabs__item pa-tabs__item--h-3x pa-tabs__item--active">
+    <button class="pa-tabs__item minhr-3 pa-tabs__item--active">
       <i class="fa-solid fa-gauge"></i>
       <span>Overview</span>
     </button>
-    <button class="pa-tabs__item pa-tabs__item--h-3x">
+    <button class="pa-tabs__item minhr-3">
       <i class="fa-solid fa-chart-pie"></i>
       <span>Reports</span>
     </button>
-    <button class="pa-tabs__item pa-tabs__item--h-3x">
+    <button class="pa-tabs__item minhr-3">
       <i class="fa-solid fa-gear"></i>
       <span>Settings</span>
     </button>
   </div>
-  <div class="pa-tabs__content" class="flex-grow-1">
+  <div class="pa-tabs__content flex-grow-1">
     <div class="pa-tabs__panel pa-tabs__panel--active" id="bv1">
       Overview - bordered vertical tabs with divider
     </div>
@@ -770,9 +770,72 @@
 </div>
 
 
+<!-- ================================
+     CARD-HEADER TABS (pa-tabs__container--card)
+     Makes the tab row look and sit like a pa-card__header — same
+     height, same padding, same background. Useful when the tabs ARE
+     the header of a card-shaped section, not just navigation above it.
+
+     Built-in overflow behaviour: when the tab row can't fit all tabs,
+     a .pa-tabs__overflow menu on the inline-end side holds the
+     overflowing ones. The toggle carries --has-active when the hidden
+     tab is the active one (adds an accent underline to the toggle).
+     ================================ -->
+
+<div class="pa-tabs__container pa-tabs__container--card">
+  <div class="pa-tabs">
+    <button class="pa-tabs__item pa-tabs__item--active">Overview</button>
+    <button class="pa-tabs__item">Analytics</button>
+    <button class="pa-tabs__item">Logs</button>
+
+    <!-- Overflow affordance — toggle + dropdown menu.
+         Flipped open/closed by adding pa-tabs__overflow-menu--open on
+         the menu. Add pa-tabs__overflow-toggle--has-active on the
+         toggle when the hidden tab currently has --active. -->
+    <div class="pa-tabs__overflow">
+      <button class="pa-tabs__overflow-toggle" onclick="toggleTabOverflow(this)" aria-label="More tabs">
+        <i class="fa-solid fa-ellipsis"></i>
+      </button>
+      <div class="pa-tabs__overflow-menu">
+        <button class="pa-tabs__item">Archived</button>
+        <button class="pa-tabs__item">Deleted</button>
+        <button class="pa-tabs__item">Audit Trail</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pa-tabs__content">
+    <div class="pa-tabs__panel pa-tabs__panel--active" id="cardtabs-1">
+      Overview content — tab row renders at $card-header-min-height with
+      $card-header-padding, matching adjacent pa-card headers cleanly.
+    </div>
+    <div class="pa-tabs__panel" id="cardtabs-2">Analytics content</div>
+    <div class="pa-tabs__panel" id="cardtabs-3">Logs content</div>
+  </div>
+</div>
+
+
 <!-- JAVASCRIPT FOR TAB SWITCHING -->
 
 <script>
+// Toggle the overflow menu on card-header tabs.
+function toggleTabOverflow(btn) {
+  const menu = btn.nextElementSibling;
+  if (menu && menu.classList.contains('pa-tabs__overflow-menu')) {
+    menu.classList.toggle('pa-tabs__overflow-menu--open');
+  }
+}
+
+// Close the overflow menu when clicking outside
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.pa-tabs__overflow-menu--open').forEach(menu => {
+    const overflow = menu.closest('.pa-tabs__overflow');
+    if (overflow && !overflow.contains(e.target)) {
+      menu.classList.remove('pa-tabs__overflow-menu--open');
+    }
+  });
+});
+
 // Scrollable tabs functionality
 function scrollTabs(button, direction) {
   const tabsContainer = button.closest('.pa-tabs--scrollable');
@@ -907,46 +970,67 @@ STANDALONE TABS:
 - pa-tabs__panel--active (active panel)
 
 STYLES:
-- pa-tabs--pills (pill-style tabs with rounded backgrounds)
-- pa-tabs--boxed (boxed tabs with container border)
-- pa-tabs--vertical (vertical tab orientation)
+- pa-tabs--pills       (pill-style tabs with rounded backgrounds)
+- pa-tabs--boxed       (boxed tabs with container border)
+- pa-tabs--vertical    (vertical tab orientation; use inside
+                        .pa-tabs__vertical-layout for proper spacing)
+- pa-tabs--border-top  (active indicator on TOP border instead of bottom;
+                        border-bottom is removed on the container)
 
 ALIGNMENT:
-- pa-tabs--centered (center-align tabs)
-- pa-tabs--full (full-width tabs, equal distribution)
+- pa-tabs--centered    (center-align tabs)
+- pa-tabs--full        (full-width tabs, equal distribution)
 
 OVERFLOW HANDLING:
-- (default) (tabs wrap to multiple lines when constrained)
-- pa-tabs--nowrap (prevent wrapping, tabs overflow in single line)
-- pa-tabs--scrollable (horizontal scroll with arrow navigation)
-- pa-tabs--collapse (show only icons, active tab shows full title - requires icons on all tabs)
-- Use for long tab titles in narrow containers
+- (default)            (tabs wrap to multiple lines when constrained)
+- pa-tabs--nowrap      (prevent wrapping, tabs overflow in single line)
+- pa-tabs--scrollable  (horizontal scroll with arrow navigation;
+                        requires .pa-tabs__scroll-container wrap and
+                        .pa-tabs__scroll-btn--start / --end arrows)
+- pa-tabs--collapse    (show only icons, active tab shows full title —
+                        all tabs must have an <i> AND a <span>, since
+                        the SCSS only hides the span)
 
 SIZES:
-- pa-tabs--sm (small tabs with compact padding)
-- (no class) (default size)
-- pa-tabs--lg (large tabs with generous padding)
+- pa-tabs--sm          (small tabs with compact padding)
+- (no class)           (default size)
+- pa-tabs--lg          (large tabs with generous padding)
 
-FIXED WIDTH/HEIGHT (use utility classes):
-- minwr-1 through minwr-25 (min-width in rem)
-- minhr-1 through minhr-25 (min-height in rem)
-- Examples: minwr-6 (6rem), minwr-8 (8rem), minhr-3 (3rem)
-- Use for consistent tab sizing across navigation
+FIXED WIDTH/HEIGHT (utility classes from utilities.scss):
+- minwr-{n} / wr-{n} / maxwr-{n}    (rem width; n = 1..10, 15, 20, 25, 30, 35, 40, 45, 50)
+- minhr-{n} / hr-{n}  / maxhr-{n}   (rem height; same set)
+- Examples: .minwr-6 (6rem), .minwr-8 (8rem), .minhr-3 (3rem)
+- For icon-only vertical tabs, .minwr-3 .minhr-3 produces a 30×30 px square.
 
-LAYOUT WRAPPERS:
-- pa-tabs__container (wrapper for horizontal tabs + content)
-  - pa-tabs__container--bordered (card-like border around entire tabs system)
-- pa-tabs__vertical-layout (flexbox wrapper for vertical tabs + content)
-  - pa-tabs__vertical-layout--bordered (card-like border around entire tabs system)
-- Use wrappers for all vertical tab layouts instead of grid
-- Provides proper spacing and alignment
+LAYOUT WRAPPERS (for pairing tabs + content):
+- pa-tabs__container                    Horizontal wrapper.
+- pa-tabs__container--bordered          Card-like border around the
+                                        whole tabs system; adds a
+                                        divider between nav and content.
+- pa-tabs__container--card              Tab row renders as a
+                                        pa-card__header (same height,
+                                        padding, bg); supports an
+                                        overflow menu on the inline-end.
+                                        Content below uses card body
+                                        padding. Good when tabs ARE the
+                                        section header.
+- pa-tabs__vertical-layout              Vertical wrapper (flex row:
+                                        tabs on start, content on end).
+                                        Content panels get padding-top: 0
+                                        so they align horizontally with
+                                        the tab row.
+- pa-tabs__vertical-layout--bordered    Card-like border with a divider
+                                        between vertical tabs and content.
 
-BORDERED VARIANTS:
-- Add --bordered modifier to wrapper for card-like appearance
-- Wraps entire tab system (navigation + content) in single border
-- Horizontal: pa-tabs__container--bordered
-- Vertical: pa-tabs__vertical-layout--bordered
-- Perfect for standalone tabs that need visual separation
+OVERFLOW MENU (used inside pa-tabs__container--card):
+- pa-tabs__overflow                     Wrapper; sits at the inline-end
+                                        of the tab row.
+- pa-tabs__overflow-toggle              Ellipsis / chevron button.
+- pa-tabs__overflow-toggle--has-active  Adds an accent underline so the
+                                        user knows the active tab is
+                                        currently hidden inside the menu.
+- pa-tabs__overflow-menu                Dropdown <div> hosting tab items.
+- pa-tabs__overflow-menu--open          JS-flipped visibility.
 
 USAGE NOTES:
 - Use pa-card__tabs for tabs integrated into cards
