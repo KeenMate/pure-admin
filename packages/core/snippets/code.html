@@ -142,6 +142,39 @@ app.listen(3000);</pre>
 
 
 <!-- ========================================
+     LINE-NUMBERED VARIANT
+     pa-code--numbered draws a gutter on the inline-start side. It uses
+     a CSS counter, so rendered line numbers come from each top-level
+     child element — the simplest approach is one <span> per logical
+     line. No counter-increment classes needed; the SCSS reset wires
+     the counter automatically for direct children.
+     ======================================== -->
+
+<!-- Numbered code block -->
+<pre class="pa-code pa-code--numbered pa-code--javascript">function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+greet('World');</pre>
+
+
+<!-- ========================================
+     SYNTAX HIGHLIGHTING (manual)
+     Wrap tokens in <span class="pa-code-<token>"> inside a <pre>. These
+     classes are colour-only — you still have to tokenize the source
+     yourself (or via a highlighter that emits these class names).
+     ======================================== -->
+
+<pre class="pa-code pa-code--javascript"><span class="pa-code-comment">// Greet the user</span>
+<span class="pa-code-keyword">function</span> <span class="pa-code-function">greet</span>(name) {
+    <span class="pa-code-keyword">return</span> <span class="pa-code-string">`Hello, ${name}!`</span>;
+}
+
+<span class="pa-code-keyword">const</span> answer = <span class="pa-code-number">42</span>;
+<span class="pa-code-function">console</span>.<span class="pa-code-property">log</span>(answer);</pre>
+
+
+<!-- ========================================
      ALL LANGUAGE VARIANTS
      ======================================== -->
 
@@ -196,30 +229,41 @@ function copyCode(button) {
 
 <!--
 INLINE CODE:
-- <code> - Inline code element with light background
+- <code> - Inline code element with accent-light background (bare element, no class)
 
 CODE BLOCKS:
-- .pa-code - Basic code block (pre element)
+- .pa-code - Basic code block (use on <pre>); white-space: pre, overflow-x: auto
 - .pa-code--compact - Smaller padding and font size
-- .pa-code--javascript - Yellow left border
-- .pa-code--json - Orange left border
-- .pa-code--html - Red left border
-- .pa-code--css - Blue left border
-- .pa-code--bash - Green left border
-- .pa-code--sql - Teal left border
-- .pa-code--python - Blue left border
+- .pa-code--numbered - Line-number gutter on the inline-start side (RTL-aware)
+- .pa-code--javascript - Yellow left border (#f0db4f)
+- .pa-code--json - Amber/orange left border (#f59e0b)
+- .pa-code--html - Red-orange left border (#e34c26)
+- .pa-code--css - Blue left border (#264de4)
+- .pa-code--bash - Green left border (#4eaa25)
+- .pa-code--sql - Teal left border (#00758f)
+- .pa-code--python - Blue left border (#3776ab)
 
 CODE BLOCK WITH HEADER:
 - .pa-code-block - Container with border
-- .pa-code-block__header - Header with title and actions
+- .pa-code-block__header - Header row (title + actions)
 - .pa-code-block__title - Filename or description
-- .pa-code-block__body - Body containing .pa-code
+- .pa-code-block__body - Body wrapping .pa-code (strips its border/radius)
+
+SYNTAX HIGHLIGHTING (manual token classes — colour only):
+- .pa-code-keyword - Keywords (blue, medium weight)
+- .pa-code-string - String literals (green)
+- .pa-code-number - Numeric literals (orange)
+- .pa-code-comment - Comments (muted text color, italic)
+- .pa-code-function - Function names (purple)
+- .pa-code-property - Property names (pink-red)
 
 COMBINE MODIFIERS:
 <pre class="pa-code pa-code--compact pa-code--javascript">
+<pre class="pa-code pa-code--numbered pa-code--python">
 
 USAGE:
 Inline: <code>code here</code>
 Block: <pre class="pa-code">code here</pre>
 With language: <pre class="pa-code pa-code--json">{"key": "value"}</pre>
+With highlighting: wrap tokens in <span class="pa-code-keyword">…</span> inside a <pre>.
 -->
