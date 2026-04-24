@@ -26,13 +26,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `lists.html` | 2026-04-24 | `core-components/_lists.scss` | [894b0dd](../../../commit/894b0dd) |
 | `tooltips.html` | 2026-04-24 | `core-components/_tooltips.scss` | [b2d196b](../../../commit/b2d196b) |
 | `grid.html` | 2026-04-24 | `core-components/_grid.scss`, `utilities.scss` (.pa-cq), `variables/_spacing.scss` ($grid-breakpoints) | [0bd9f16](../../../commit/0bd9f16) |
-| `utilities.html` | 2026-04-24 | `utilities.scss` (main utilities), `core-components/_utilities.scss` (components-adjacent helpers), `variables/_spacing.scss` (spacing scale) | _(this commit)_ |
+| `utilities.html` | 2026-04-24 | `utilities.scss` (main utilities), `core-components/_utilities.scss` (components-adjacent helpers), `variables/_spacing.scss` (spacing scale) | [20df758](../../../commit/20df758) |
+| `cards.html` | 2026-04-24 | `core-components/_cards.scss` | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `cards.html`
 - `forms.html`
 - `layout.html`
 - `profile.html`

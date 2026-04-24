@@ -4,8 +4,6 @@
      ================================ -->
 
 <!-- BASIC CARD -->
-
-<!-- Simple Card -->
 <div class="pa-card">
   <div class="pa-card__body">
     This is a simple card with just a body.
@@ -14,8 +12,6 @@
 
 
 <!-- CARD WITH HEADER -->
-
-<!-- Card with Header -->
 <div class="pa-card">
   <div class="pa-card__header">
     <h3>Card Title</h3>
@@ -27,8 +23,6 @@
 
 
 <!-- CARD WITH FOOTER -->
-
-<!-- Card with Footer -->
 <div class="pa-card">
   <div class="pa-card__body">
     Card content goes here.
@@ -39,9 +33,7 @@
 </div>
 
 
-<!-- COMPLETE CARD -->
-
-<!-- Card with Header, Body, and Footer -->
+<!-- COMPLETE CARD (header + body + footer) -->
 <div class="pa-card">
   <div class="pa-card__header">
     <h3>Complete Card</h3>
@@ -56,66 +48,226 @@
 </div>
 
 
-<!-- CARD WITH TABS -->
+<!-- ================================
+     THREE-PART HEADER LAYOUT
+     .pa-card__header is a flex row with automatic behaviour:
+       [title (truncates)] — [description <p> (flexes and truncates)] — [actions (fixed)]
+     Any h1..h6 / <p> children get ellipsis on overflow so narrow cards
+     never push content out of the header. Use .pa-card__header--wrap
+     if you'd rather have the text wrap to multiple lines instead.
+     ================================ -->
 
-<!-- Card with Tabs -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <div class="pa-card__tabs">
-      <button class="pa-card__tab pa-card__tab--active">Overview</button>
-      <button class="pa-card__tab">Details</button>
-      <button class="pa-card__tab">Settings</button>
+    <h3>Dashboard</h3>
+    <p>Live metrics across every connected service — updated every 30 seconds.</p>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Refresh</button>
+    </div>
+  </div>
+  <div class="pa-card__body">Body content.</div>
+</div>
+
+<!-- Wrap instead of truncate -->
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--wrap">
+    <h3>Wrapping Header</h3>
+    <p>This description wraps to multiple lines when the header gets narrow, instead of being clipped with an ellipsis.</p>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Action</button>
+    </div>
+  </div>
+  <div class="pa-card__body">Body.</div>
+</div>
+
+
+<!-- ================================
+     HEADER UNDERLINE MODIFIER
+     Puts an accent-coloured border under the heading inside the header.
+     Semantic variants and theme colour slots both swap the border tint.
+     ================================ -->
+
+<!-- Default (accent-coloured underline) -->
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--underlined">
+    <h3>Section</h3>
+  </div>
+  <div class="pa-card__body">Body content.</div>
+</div>
+
+<!-- Semantic colour variants -->
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-success">
+    <h3>Success underline</h3>
+  </div>
+  <div class="pa-card__body">Body.</div>
+</div>
+
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-danger">
+    <h3>Danger underline</h3>
+  </div>
+  <div class="pa-card__body">Body.</div>
+</div>
+
+<!-- Theme colour slot (1..9) -->
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-color-3">
+    <h3>Theme colour 3 underline</h3>
+  </div>
+  <div class="pa-card__body">Body.</div>
+</div>
+
+<!-- Patterns:
+     pa-card__header--underline-{success|warning|danger|info}
+     pa-card__header--underline-color-{1..9}
+-->
+
+
+<!-- CARD WITH TITLE COMPONENTS (icon + truncating text) -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+      <span class="pa-card__title-icon">📊</span>
+      <h3 class="pa-card__title-text">Analytics Dashboard</h3>
+    </div>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Refresh</button>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Tab content goes here.</p>
+    Use .pa-card__title when you need the title-icon combo + __actions
+    alignment; h3 alone works too when no icon is needed.
   </div>
 </div>
 
 
-<!-- CARD VARIANTS -->
+<!-- CARD WITH METADATA -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Article Title</h3>
+    <span class="pa-card__meta">Published 2 hours ago</span>
+  </div>
+  <div class="pa-card__body">Article content.</div>
+</div>
 
-<!-- Primary Card -->
+
+<!-- CARD WITH ACTIONS IN HEADER -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Card with Actions</h3>
+    <div class="pa-btn-group">
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Cancel</button>
+      <button class="pa-btn pa-btn--sm pa-btn--success">Save</button>
+    </div>
+  </div>
+  <div class="pa-card__body">Card content.</div>
+</div>
+
+
+<!-- CARD WITH FOOTER ACTIONS -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Form Card</h3>
+  </div>
+  <div class="pa-card__body">Form content here.</div>
+  <div class="pa-card__footer">
+    <div></div>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--secondary">Cancel</button>
+      <button class="pa-btn pa-btn--success">Save</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- CARD WITH NO-PADDING BODY (for flush tables / lists) -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>User List</h3>
+  </div>
+  <div class="pa-card__body pa-card__body--no-padding">
+    <table class="pa-table">
+      <thead>
+        <tr><th>Name</th><th>Email</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>John Doe</td><td>john@example.com</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- For most table-in-card scenarios, reach for .pa-table-card instead
+     — it has purpose-built header/body/footer + --scrollable modifier. -->
+
+
+<!-- ================================
+     CARD VARIANTS — SEMANTIC COLOURS
+     Only 4 semantic variants exist: primary / success / warning / danger.
+     No --secondary / --info / --light / --dark. The header background
+     is filled; body stays on the default card background.
+     ================================ -->
+
 <div class="pa-card pa-card--primary">
-  <div class="pa-card__header">
-    <h3>Primary Card</h3>
-  </div>
-  <div class="pa-card__body">
-    Content here.
-  </div>
+  <div class="pa-card__header"><h3>Primary Card</h3></div>
+  <div class="pa-card__body">Body content.</div>
 </div>
 
-<!-- Success Card -->
 <div class="pa-card pa-card--success">
-  <div class="pa-card__header">
-    <h3>Success Card</h3>
-  </div>
-  <div class="pa-card__body">
-    Content here.
-  </div>
+  <div class="pa-card__header"><h3>Success Card</h3></div>
+  <div class="pa-card__body">Body content.</div>
 </div>
 
-<!-- Warning Card -->
 <div class="pa-card pa-card--warning">
-  <div class="pa-card__header">
-    <h3>Warning Card</h3>
-  </div>
-  <div class="pa-card__body">
-    Content here.
-  </div>
+  <div class="pa-card__header"><h3>Warning Card</h3></div>
+  <div class="pa-card__body">Body content.</div>
 </div>
 
-<!-- Danger Card -->
 <div class="pa-card pa-card--danger">
-  <div class="pa-card__header">
-    <h3>Danger Card</h3>
-  </div>
+  <div class="pa-card__header"><h3>Danger Card</h3></div>
+  <div class="pa-card__body">Body content.</div>
+</div>
+
+
+<!-- THEME COLOUR SLOT VARIANTS (color-1 through color-9) -->
+
+<div class="pa-card pa-card--color-1">
+  <div class="pa-card__header"><h3>Theme colour 1</h3></div>
+  <div class="pa-card__body">Body content.</div>
+</div>
+
+<div class="pa-card pa-card--color-5">
+  <div class="pa-card__header"><h3>Theme colour 5</h3></div>
+  <div class="pa-card__body">Body content.</div>
+</div>
+
+<!-- Pattern: pa-card--color-{1..9}.
+     Header bg = --pa-color-N, header text = --pa-color-N-text. -->
+
+
+<!-- ================================
+     GHOST CARD
+     Invisible container — same structure + spacing as pa-card, but
+     transparent background, no border, no shadow. Useful for wrapping
+     stat tiles or content blocks that need card-like layout without
+     the visual chrome (see KPI dashboard).
+     Uses !important to beat dark-mode scoped overrides.
+     ================================ -->
+
+<div class="pa-card pa-card--ghost pa-card--stat">
   <div class="pa-card__body">
-    Content here.
+    <div class="pa-stat pa-stat--hero-compact">
+      <div class="pa-stat__label">Total Customers</div>
+      <div class="pa-stat__value">156,340</div>
+      <div class="pa-stat__change pa-stat__change--positive">▲ 6.8% vs last month</div>
+    </div>
   </div>
 </div>
 
-<!-- Stat Card (Basic) -->
+
+<!-- STAT CARDS (pa-card--stat) -->
+
+<!-- Basic stat card — tighter body padding for compact KPI tiles -->
 <div class="pa-card pa-card--stat">
   <div class="pa-card__body">
     <div class="pa-stat">
@@ -125,7 +277,7 @@
   </div>
 </div>
 
-<!-- Stat Card with Icon -->
+<!-- Stat card with icon -->
 <div class="pa-card pa-card--stat">
   <div class="pa-card__body">
     <div class="pa-stat pa-stat--with-icon">
@@ -138,7 +290,7 @@
   </div>
 </div>
 
-<!-- Stat Card with Trend -->
+<!-- Stat card with trend indicator -->
 <div class="pa-card pa-card--stat">
   <div class="pa-card__body">
     <div class="pa-stat">
@@ -149,200 +301,141 @@
   </div>
 </div>
 
+<!-- Note: .pa-stat itself is defined in _statistics.scss (not _cards.scss).
+     The pa-card--stat modifier just tightens card body padding so tiles
+     look compact on a dashboard. A fuller statistics reference is in the
+     pending statistics.html snippet. -->
 
-<!-- CARD WITH ACTIONS IN HEADER -->
 
-<!-- Card with Header Actions -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>Card with Actions</h3>
-    <div class="pa-btn-group">
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">Cancel</button>
-      <button class="pa-btn pa-btn--sm pa-btn--success">Save</button>
-    </div>
-  </div>
-  <div class="pa-card__body">
-    Card content.
-  </div>
+<!-- ================================
+     LIVE-DATA STATES
+     Persistent tinted background reflecting the latest change. JS
+     swaps the class on each data update; the colour stays until the
+     next update (so the user sees what just changed). Good for
+     real-time dashboards, live orders, ticker rows.
+     ================================ -->
+
+<div class="pa-card pa-card--live-up">
+  <div class="pa-card__body">Value went up — card tinted green until next tick.</div>
+</div>
+
+<div class="pa-card pa-card--live-down">
+  <div class="pa-card__body">Value went down — card tinted red until next tick.</div>
+</div>
+
+<div class="pa-card pa-card--live-neutral">
+  <div class="pa-card__body">Neutral state — back to the default card background.</div>
 </div>
 
 
-<!-- CARD WITH TITLE COMPONENTS -->
+<!-- ================================
+     CARD TABS
+     Two tab styles in the header: default (bordered tabs inside
+     __tabs) and --inline (compact pill tabs that can sit next to
+     title/actions in the same header row).
+     ================================ -->
 
-<!-- Card with Title Icon and Text -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <div class="pa-card__title">
-      <span class="pa-card__title-icon">📊</span>
-      <h3 class="pa-card__title-text">Analytics Dashboard</h3>
-    </div>
-    <div class="pa-card__actions">
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">Refresh</button>
-    </div>
-  </div>
-  <div class="pa-card__body">
-    Dashboard content with title icon and tools.
-  </div>
-</div>
-
-
-<!-- CARD WITH METADATA -->
-
-<!-- Card with Meta Information -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>Article Title</h3>
-    <span class="pa-card__meta">Published 2 hours ago</span>
-  </div>
-  <div class="pa-card__body">
-    Article content goes here.
-  </div>
-</div>
-
-
-<!-- CARD WITH FOOTER ACTIONS -->
-
-<!-- Card with Footer Actions -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>Form Card</h3>
-  </div>
-  <div class="pa-card__body">
-    Form content here.
-  </div>
-  <div class="pa-card__footer">
-    <div></div>
-    <div class="pa-card__actions">
-      <button class="pa-btn pa-btn--secondary">Cancel</button>
-      <button class="pa-btn pa-btn--success">Save</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- CARD WITH NO PADDING BODY -->
-
-<!-- Card with No Padding Body (for tables) -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <h3>User List</h3>
-  </div>
-  <div class="pa-card__body pa-card__body--no-padding">
-    <table class="pa-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>John Doe</td>
-          <td>john@example.com</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<!-- CARD WITH TAB CONTENT -->
-
-<!-- Card with Tab Content Areas -->
+<!-- Default tabs (below title, full-width row) -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__tabs">
-      <button class="pa-card__tab pa-card__tab--active" onclick="switchTab(this, 'tab1')">Tab 1</button>
-      <button class="pa-card__tab" onclick="switchTab(this, 'tab2')">Tab 2</button>
-      <button class="pa-card__tab" onclick="switchTab(this, 'tab3')">Tab 3</button>
+      <button class="pa-card__tab pa-card__tab--active" onclick="switchTab(this, 'tab1')">Overview</button>
+      <button class="pa-card__tab" onclick="switchTab(this, 'tab2')">Details</button>
+      <button class="pa-card__tab" onclick="switchTab(this, 'tab3')">Settings</button>
     </div>
   </div>
   <div class="pa-card__body">
-    <div class="pa-card__tab-content pa-card__tab-content--active" id="tab1">
-      Content for Tab 1
-    </div>
-    <div class="pa-card__tab-content" id="tab2">
-      Content for Tab 2
-    </div>
-    <div class="pa-card__tab-content" id="tab3">
-      Content for Tab 3
-    </div>
+    <div class="pa-card__tab-content pa-card__tab-content--active" id="tab1">Tab 1</div>
+    <div class="pa-card__tab-content" id="tab2">Tab 2</div>
+    <div class="pa-card__tab-content" id="tab3">Tab 3</div>
   </div>
 </div>
 
+<!-- Inline tabs — pills that live in the header row -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Sales</h3>
+    <div class="pa-card__tabs pa-card__tabs--inline">
+      <button class="pa-card__tab pa-card__tab--active">Day</button>
+      <button class="pa-card__tab">Week</button>
+      <button class="pa-card__tab">Month</button>
+    </div>
+  </div>
+  <div class="pa-card__body">Chart area.</div>
+</div>
 
-<!-- SAME HEIGHT CARDS -->
 
-<!-- Equal Height Cards in a Row -->
+<!-- CLICKABLE CARD (anchor-wrapped) -->
+
+<!-- When the whole card should be a link, wrap the card with <a>.
+     a.pa-card resets text-decoration and color so the card looks
+     identical, but the entire area becomes clickable. -->
+<a href="/products/42" class="pa-card">
+  <div class="pa-card__header">
+    <h3>Widget Pro</h3>
+  </div>
+  <div class="pa-card__body">
+    <p>Click anywhere on this card to navigate.</p>
+  </div>
+</a>
+
+
+<!-- SAME-HEIGHT CARDS IN A GRID ROW -->
+
 <div class="pa-row pa-row--same-height">
   <div class="pa-col-100 pa-col-md-1-3">
     <div class="pa-card">
-      <div class="pa-card__header">
-        <h3>Short Card</h3>
-      </div>
+      <div class="pa-card__header"><h3>Short Card</h3></div>
+      <div class="pa-card__body"><p>Minimal content.</p></div>
+    </div>
+  </div>
+  <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pa-card">
+      <div class="pa-card__header"><h3>Tall Card</h3></div>
       <div class="pa-card__body">
-        <p>Minimal content.</p>
+        <p>More content.</p>
+        <p>Siblings stretch to match.</p>
       </div>
     </div>
   </div>
   <div class="pa-col-100 pa-col-md-1-3">
     <div class="pa-card">
-      <div class="pa-card__header">
-        <h3>Tall Card</h3>
-      </div>
-      <div class="pa-card__body">
-        <p>This card has more content.</p>
-        <p>All cards stretch to match this height.</p>
-        <p>Useful for consistent dashboard layouts.</p>
-      </div>
-    </div>
-  </div>
-  <div class="pa-col-100 pa-col-md-1-3">
-    <div class="pa-card">
-      <div class="pa-card__header">
-        <h3>Medium Card</h3>
-      </div>
-      <div class="pa-card__body">
-        <p>Also stretches to match.</p>
-      </div>
+      <div class="pa-card__header"><h3>Medium Card</h3></div>
+      <div class="pa-card__body"><p>Also stretches.</p></div>
     </div>
   </div>
 </div>
 
 
-<!-- CARD SECTION -->
+<!-- CARD SECTION — underlined heading above a card -->
 
-<!-- Section with Heading -->
 <div class="pa-section">
   <h3>Section Title</h3>
   <div class="pa-card">
     <div class="pa-card__body">
-      Content inside section
+      The section heading ties multiple cards together with an accent
+      underline above them.
     </div>
   </div>
 </div>
+
+<!-- Standalone section title (not tied to a .pa-section container) -->
+<h3 class="pa-section-title">Standalone Section Title</h3>
 
 
 <!-- JAVASCRIPT FOR TAB SWITCHING -->
 <script>
 function switchTab(button, tabId) {
-  // Remove active class from all tabs
   const tabs = button.parentElement.querySelectorAll('.pa-card__tab');
   tabs.forEach(tab => tab.classList.remove('pa-card__tab--active'));
-
-  // Add active class to clicked tab
   button.classList.add('pa-card__tab--active');
 
-  // Hide all tab content
   const card = button.closest('.pa-card');
   const contents = card.querySelectorAll('.pa-card__tab-content');
-  contents.forEach(content => content.classList.remove('pa-card__tab-content--active'));
+  contents.forEach(c => c.classList.remove('pa-card__tab-content--active'));
 
-  // Show selected tab content
-  const selectedContent = card.querySelector(`#${tabId}`);
-  if (selectedContent) {
-    selectedContent.classList.add('pa-card__tab-content--active');
-  }
+  const selected = card.querySelector(`#${tabId}`);
+  if (selected) selected.classList.add('pa-card__tab-content--active');
 }
 </script>
 
@@ -352,41 +445,131 @@ function switchTab(button, tabId) {
      ================================ -->
 
 <!--
-CARD CLASSES:
-- .pa-card: Base card class
-- .pa-card--primary, --success, --warning, --danger: Colored header variants
-- .pa-card--stat: Stat card variant (compact, centered)
+pa-card — THE CARD CONTAINER:
+- .pa-card                     flex column, shadow, hover lift, overflow:hidden
+                               so children respect the rounded border.
 
-CARD ELEMENTS:
-- .pa-card__header: Card header container
-- .pa-card__body: Card body/content container
-- .pa-card__body--no-padding: Remove body padding (for tables)
-- .pa-card__footer: Card footer container
-- .pa-card__meta: Metadata text (dates, author, etc.)
-- .pa-card__title: Title container
-- .pa-card__title-icon: Icon in title
-- .pa-card__title-text: Title text
-- .pa-card__actions: Actions container (used in header and footer)
+VARIANTS (fill the header with a semantic colour):
+- .pa-card--primary
+- .pa-card--success
+- .pa-card--warning
+- .pa-card--danger
+  (No --secondary / --info / --light / --dark — not defined in SCSS.)
 
-CARD TABS:
-- .pa-card__tabs: Tab container in header
-- .pa-card__tab: Individual tab button
-- .pa-card__tab--active: Active tab state
-- .pa-card__tab-content: Tab panel content
-- .pa-card__tab-content--active: Active tab panel
+THEME COLOUR VARIANTS (1-9):
+- .pa-card--color-{1..9}       header bg = --pa-color-N,
+                               header text = --pa-color-N-text
 
-STAT COMPONENT (inside stat cards):
-- .pa-stat: Stat container
-- .pa-stat--with-icon: Stat with icon layout
-- .pa-stat__icon: Stat icon
-- .pa-stat__content: Content wrapper (when using icon)
-- .pa-stat__value: Stat value (large number)
-- .pa-stat__label: Stat label/description
-- .pa-stat__trend: Trend indicator
-- .pa-stat__trend--up: Positive trend (green)
-- .pa-stat__trend--down: Negative trend (red)
+LAYOUT / STATE MODIFIERS:
+- .pa-card--stat               Tighter body padding for compact KPI tiles.
+- .pa-card--ghost              Invisible container: transparent bg, no
+                               border, no shadow. Uses !important to
+                               beat dark-mode scoped overrides.
+- .pa-card--live-up            Persistent green tint on update.
+- .pa-card--live-down          Persistent red tint on update.
+- .pa-card--live-neutral       Reset to default card background.
 
-LAYOUT:
-- .pa-row--same-height: Equal height cards in a row
-- .pa-section: Section container with heading
+CLICKABLE CARD:
+- <a class="pa-card">          Full-card link; styles reset so it
+                               looks identical to a regular card.
+
+SUB-ELEMENTS:
+- .pa-card__header             Flex row: [title] — [description] — [actions].
+                               Direct h1..h6 and <p> children auto-truncate.
+                               Native tags inside get margin/padding/border
+                               reset so they inherit the header layout cleanly.
+- .pa-card__body               flex: 1; standard padding.
+- .pa-card__footer             Border-top + footer background; flex row.
+- .pa-card__actions            Button/control container (gap + align-center).
+                               flex-shrink: 0 inside header.
+- .pa-card__meta               Muted secondary text (dates, byline, etc.).
+
+TITLE SUB-COMPONENT:
+- .pa-card__title              Flex row wrapping icon + text; flex: 1 so
+                               the actions sibling stays on the right.
+- .pa-card__title-icon         Fixed-size icon.
+- .pa-card__title-text         Truncates with ellipsis on overflow.
+
+BODY MODIFIER:
+- .pa-card__body--no-padding   Strips body padding (for tables / lists
+                               that should meet the card borders).
+                               For a proper table-in-card, reach for
+                               .pa-table-card instead (see tables.html).
+
+HEADER MODIFIERS:
+- .pa-card__header--underlined
+    Accent-coloured border under h1..h6 in the header. Composes with:
+    --underline-success / --underline-warning / --underline-danger
+    --underline-info / --underline-color-{1..9}
+    (e.g. pa-card__header--underlined pa-card__header--underline-success)
+
+- .pa-card__header--wrap
+    Allow heading + description to wrap to multiple lines instead of
+    being truncated with an ellipsis. Description reflows to its own
+    line.
+
+TABS:
+- .pa-card__tabs               Full-width tab strip inside the header
+                               (sits below the title).
+- .pa-card__tabs--inline       Compact pill-style tabs that fit on the
+                               same row as title/actions.
+- .pa-card__tab                Individual tab button (pill or strip,
+                               depending on --inline).
+- .pa-card__tab--active        Current tab state.
+- .pa-card__tab-content        Tab panel; hidden by default.
+- .pa-card__tab-content--active  Visible tab panel.
+
+SECTION WRAPPERS (lighter than a card, for heading-only groupings):
+- .pa-section                  Container with a muted h3 heading that
+                               carries an accent-underlined border.
+- .pa-section-title            Standalone heading style — same accent
+                               underline, no container behaviour.
+
+IMPLICIT BEHAVIOURS:
+- The header is flex with auto-truncation: direct h1..h6 and <p>
+  children get white-space: nowrap + text-overflow: ellipsis. This
+  is why long card titles look "cut off" in narrow columns — use
+  --wrap to opt out.
+- Buttons inside the header get -0.25rem vertical margin so they
+  don't grow the header height past $card-header-min-height.
+- Card body :first-child gets margin-top: 0 to avoid double-spacing
+  with the body padding.
+
+STRUCTURE PATTERNS:
+
+Card with three-part header:
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Title</h3>
+    <p>Description (truncates)</p>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--sm">Action</button>
+    </div>
+  </div>
+  <div class="pa-card__body">…</div>
+</div>
+
+Card with underlined header (semantic variant):
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-danger">
+    <h3>Critical Settings</h3>
+  </div>
+  <div class="pa-card__body">…</div>
+</div>
+
+Ghost stat tile in a dashboard:
+<div class="pa-card pa-card--ghost pa-card--stat">
+  <div class="pa-card__body">
+    <div class="pa-stat">
+      <div class="pa-stat__value">1,234</div>
+      <div class="pa-stat__label">Users</div>
+    </div>
+  </div>
+</div>
+
+Clickable card:
+<a href="/item/42" class="pa-card">
+  <div class="pa-card__header"><h3>Item 42</h3></div>
+  <div class="pa-card__body">Click anywhere.</div>
+</a>
 -->
