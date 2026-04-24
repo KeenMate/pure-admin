@@ -1,48 +1,23 @@
 <!-- ================================
      MODAL SNIPPETS
      Pure Admin Visual Framework
+
+     Classic overlay-dialog component. Toggle .pa-modal--show to open;
+     class off to close. The default body already scrolls when content
+     exceeds the container's max-height — use --scrollable only when
+     you want a shorter explicit ceiling.
      ================================ -->
 
-<!--
-MODAL WRAPPER CLASSES:
-- pa-modal: Base modal wrapper
-- pa-modal--show: Show the modal (add/remove via JavaScript)
-- pa-modal--top: Position modal near top instead of center (useful for search/command interfaces)
-- pa-modal--static: Prevent closing via ESC key or backdrop click (must use explicit button)
-- pa-modal--primary: Primary themed modal (blue header)
-- pa-modal--success: Success themed modal (green header)
-- pa-modal--warning: Warning themed modal (orange header)
-- pa-modal--danger: Danger themed modal (red header)
-- pa-modal--info: Info themed modal (cyan header)
 
-CONTAINER SIZE CLASSES:
-- pa-modal__container--sm: Small (20rem / 320px)
-- pa-modal__container: Medium/default (30rem / 480px)
-- pa-modal__container--lg: Large (50rem / 800px)
-- pa-modal__container--xl: Extra large (70rem / 1120px)
-- pa-modal__container--xxl: Extra extra large (90rem / 1440px)
-- pa-modal__container--fw: Full width (constrained by viewport margins)
+<!-- BASIC MODAL (centered) -->
 
-BODY CLASSES:
-- pa-modal__body: Base body class
-- pa-modal__body--scrollable: Scrollable body with max-height (header/footer fixed)
-
-HEADER THEME CLASSES (alternative to modal-level themes):
-- pa-modal__header--primary: Blue themed header
-- pa-modal__header--success: Green themed header
-- pa-modal__header--warning: Orange themed header
-- pa-modal__header--danger: Red themed header
--->
-
-<!-- BASIC MODAL (Centered) -->
-
-<!-- Modal Structure -->
 <div class="pa-modal pa-modal--show" id="basicModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Modal Title</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('basicModal')">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary"
+              onclick="closeModal('basicModal')" aria-label="Close">✕</button>
     </div>
     <div class="pa-modal__body">
       <p>Modal body content goes here.</p>
@@ -54,19 +29,21 @@ HEADER THEME CLASSES (alternative to modal-level themes):
   </div>
 </div>
 
-<!-- TOP-ALIGNED MODAL -->
 
-<!-- Modal positioned near top (5vh from top) -->
+<!-- TOP-ALIGNED MODAL (5vh from top instead of centered) -->
+
 <div class="pa-modal pa-modal--top pa-modal--show" id="topModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Top-Aligned Modal</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm" onclick="closeModal('topModal')">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary"
+              onclick="closeModal('topModal')" aria-label="Close">✕</button>
     </div>
     <div class="pa-modal__body">
-      <p>This modal appears near the top of the viewport.</p>
-      <p>Useful for search interfaces, quick actions, or command palettes.</p>
+      <p>Appears near the top of the viewport. Useful for search
+         interfaces, quick-action panels, command palette-style
+         overlays.</p>
     </div>
     <div class="pa-modal__footer">
       <button class="pa-btn pa-btn--secondary" onclick="closeModal('topModal')">Close</button>
@@ -76,175 +53,172 @@ HEADER THEME CLASSES (alternative to modal-level themes):
 </div>
 
 
-<!-- STATIC MODAL (No ESC, No Backdrop Click) -->
+<!-- STATIC MODAL (JS-contract, no CSS) -->
 
 <!--
-Static modals cannot be closed by:
-- Pressing the Escape key
-- Clicking the backdrop
+`pa-modal--static` is a JS hook, not a CSS rule. The SCSS has no
+.pa-modal--static selector; the framework's example JS below checks
+classList.contains('pa-modal--static') before closing, so backdrop
+clicks and ESC become no-ops.
 
-User MUST click an explicit button to close.
-Use for: license agreements, critical confirmations, required actions.
+Use for: license acceptances, destructive confirmations that require
+an explicit yes/no, onboarding steps the user shouldn't dismiss by
+accident.
 
-Implementation:
-1. Add pa-modal--static class to the modal wrapper
-2. Do NOT add onclick to the backdrop
-3. Optionally remove the X close button from header
-4. JavaScript must check for --static class before closing on ESC
+- Add .pa-modal--static on the root
+- Don't add an onclick to __backdrop (or your JS will handle it)
+- Usually omit the header close button — force the footer choice
 -->
 
 <div class="pa-modal pa-modal--static" id="staticModal">
-  <div class="pa-modal__backdrop"></div><!-- No onclick here! -->
+  <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container pa-modal__container--sm">
-    <div class="pa-modal__header pa-modal__header--warning">
+    <!-- Theming lives on the root .pa-modal--{variant}; the header
+         picks up colour via descendant selector. No --warning modifier
+         on the header itself. -->
+    <div class="pa-modal__header">
       <h3 class="pa-modal__title">License Agreement</h3>
-      <!-- No X close button - user must use footer buttons -->
     </div>
     <div class="pa-modal__body">
       <p>You must accept the terms to continue.</p>
-      <p>This modal cannot be dismissed with ESC or by clicking outside.</p>
+      <p>This modal cannot be dismissed with Esc or by clicking outside.</p>
     </div>
     <div class="pa-modal__footer">
       <button class="pa-btn pa-btn--secondary" onclick="closeModal('staticModal')">Decline</button>
-      <button class="pa-btn pa-btn--warning" onclick="closeModal('staticModal')">Accept</button>
+      <button class="pa-btn pa-btn--warning"   onclick="closeModal('staticModal')">Accept</button>
     </div>
   </div>
 </div>
 
 
-<!-- MODAL SIZES -->
+<!-- MODAL SIZES (on __container) -->
 
-<!-- Small Modal -->
 <div class="pa-modal" id="smallModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container pa-modal__container--sm">
-    <!-- content -->
+    <!-- 32rem / 320px -->
   </div>
 </div>
 
-<!-- Medium Modal (Default) -->
 <div class="pa-modal" id="mediumModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
-    <!-- content -->
+    <!-- Default: 48rem / 480px -->
   </div>
 </div>
 
-<!-- Large Modal -->
 <div class="pa-modal" id="largeModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container pa-modal__container--lg">
-    <!-- content -->
+    <!-- 80rem / 800px -->
   </div>
 </div>
 
-<!-- Extra Large Modal -->
 <div class="pa-modal" id="xlModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container pa-modal__container--xl">
-    <!-- content -->
+    <!-- 112rem / 1120px -->
   </div>
 </div>
 
-<!-- 2XL Modal -->
 <div class="pa-modal" id="xxlModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container pa-modal__container--xxl">
-    <!-- content -->
+    <!-- 144rem / 1440px -->
   </div>
 </div>
 
-<!-- Full Width Modal -->
+<!-- Full-width: viewport minus $modal-fw-margin (1.6rem default) on every side -->
 <div class="pa-modal" id="fwModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container pa-modal__container--fw">
-    <!-- content -->
+    <!-- Fills viewport with a small gutter -->
   </div>
 </div>
 
 
-<!-- THEMED MODALS -->
+<!-- THEMED MODALS (colored header) -->
 
-<!-- Primary Modal -->
+<!--
+Theming is applied at the ROOT level (.pa-modal--{variant}) and
+cascades into the header via descendant selector. There's no
+pa-modal__header--{variant} class in SCSS.
+Available variants: primary, success, warning, danger.
+(No --info, --secondary, --light, --dark on modals.)
+-->
+
 <div class="pa-modal pa-modal--primary" id="primaryModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Primary Modal</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close">✕</button>
     </div>
-    <div class="pa-modal__body">
-      Content here.
-    </div>
+    <div class="pa-modal__body">Body content.</div>
   </div>
 </div>
 
-<!-- Success Modal -->
 <div class="pa-modal pa-modal--success" id="successModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Success Modal</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close">✕</button>
     </div>
-    <div class="pa-modal__body">
-      Content here.
-    </div>
+    <div class="pa-modal__body">Body content.</div>
   </div>
 </div>
 
-<!-- Warning Modal -->
 <div class="pa-modal pa-modal--warning" id="warningModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Warning Modal</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close">✕</button>
     </div>
-    <div class="pa-modal__body">
-      Content here.
-    </div>
+    <div class="pa-modal__body">Body content.</div>
   </div>
 </div>
 
-<!-- Danger Modal -->
 <div class="pa-modal pa-modal--danger" id="dangerModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Danger Modal</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close">✕</button>
     </div>
-    <div class="pa-modal__body">
-      Content here.
-    </div>
+    <div class="pa-modal__body">Body content.</div>
   </div>
 </div>
 
 
-<!-- SCROLLABLE MODAL BODY -->
+<!-- SCROLLABLE BODY -->
 
-<!-- Modal with Scrollable Content -->
+<!--
+The default __body already scrolls — it has overflow-y: auto, and the
+container caps at max-height: 90vh. For most cases you don't need
+--scrollable.
+
+Use --scrollable when you want an EXPLICIT shorter max-height on the
+body (default is 60vh). This keeps the footer visible even when the
+viewport is very tall, so Accept / Decline stay on-screen.
+-->
+
 <div class="pa-modal" id="scrollableModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container pa-modal__container--lg">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">Terms and Conditions</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary" aria-label="Close">✕</button>
     </div>
     <div class="pa-modal__body pa-modal__body--scrollable">
-      <!-- Long content that requires scrolling -->
       <h4>1. Introduction</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       <h4>2. Terms of Service</h4>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
       <h4>3. Privacy Policy</h4>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-      <h4>4. User Responsibilities</h4>
-      <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <h4>5. Disclaimer</h4>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
-      <!-- More content... -->
+      <p>Duis aute irure dolor in reprehenderit in voluptate.</p>
+      <!-- … more content … -->
     </div>
     <div class="pa-modal__footer">
       <button class="pa-btn pa-btn--secondary">Decline</button>
@@ -253,34 +227,26 @@ Implementation:
   </div>
 </div>
 
-<!--
-SCROLLABLE BODY NOTES:
-- Use pa-modal__body--scrollable for content that may exceed viewport height
-- Body gets max-height and overflow-y: auto
-- Header and footer remain fixed, only body scrolls
-- Recommended for: Terms of service, long forms, data tables, file lists
--->
 
+<!-- MODAL WITH A FORM -->
 
-<!-- MODAL WITH FORM -->
-
-<!-- Form Modal -->
 <div class="pa-modal" id="formModal">
   <div class="pa-modal__backdrop"></div>
   <div class="pa-modal__container">
     <div class="pa-modal__header">
       <h3 class="pa-modal__title">User Information</h3>
-      <button class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm">✕</button>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary" aria-label="Close">✕</button>
     </div>
     <div class="pa-modal__body">
-      <form>
+      <!-- Labels auto-style inside .pa-form .pa-form-group; no .pa-form-label class needed. -->
+      <form class="pa-form">
         <div class="pa-form-group">
-          <label class="pa-form-label">Name</label>
-          <input type="text" class="pa-input">
+          <label for="name">Name</label>
+          <input type="text" id="name" class="pa-input">
         </div>
         <div class="pa-form-group">
-          <label class="pa-form-label">Email</label>
-          <input type="email" class="pa-input">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="pa-input">
         </div>
       </form>
     </div>
@@ -292,58 +258,162 @@ SCROLLABLE BODY NOTES:
 </div>
 
 
-<!-- JAVASCRIPT -->
+<!-- ================================
+     JAVASCRIPT — open/close with scrollbar-gutter compensation
+     ================================ -->
+
 <script>
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) {
-    // Calculate scrollbar width to prevent layout shift
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-    modal.classList.add('pa-modal--show');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    document.body.style.paddingRight = scrollbarWidth + 'px'; // Compensate for scrollbar
-  }
+  if (!modal) return;
+  // Prevent layout shift when the vertical scrollbar disappears.
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  modal.classList.add('pa-modal--show');
+  document.body.style.overflow = 'hidden';
+  document.body.style.paddingRight = scrollbarWidth + 'px';
 }
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.classList.remove('pa-modal--show');
-    document.body.style.overflow = ''; // Restore scrolling
-    document.body.style.paddingRight = ''; // Remove compensation
-  }
+  if (!modal) return;
+  modal.classList.remove('pa-modal--show');
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
 }
 
-// Close modal with Escape key (skip static modals)
-document.addEventListener('keydown', function(e) {
+// Esc closes the topmost open modal, unless it's --static.
+document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    const openModal = document.querySelector('.pa-modal--show');
-    // Don't close static modals with ESC
-    if (openModal && !openModal.classList.contains('pa-modal--static')) {
-      closeModal(openModal.id);
+    const open = document.querySelector('.pa-modal--show');
+    if (open && !open.classList.contains('pa-modal--static')) {
+      closeModal(open.id);
     }
   }
 });
 
-// Close modal when clicking backdrop (skip static modals)
+// Backdrop click closes the modal, unless it's --static.
 document.querySelectorAll('.pa-modal__backdrop').forEach(backdrop => {
-  backdrop.addEventListener('click', function() {
+  backdrop.addEventListener('click', function () {
     const modal = this.closest('.pa-modal');
-    // Don't close static modals on backdrop click
     if (modal && !modal.classList.contains('pa-modal--static')) {
       closeModal(modal.id);
     }
   });
 });
-
-// Close modal when clicking close button
-document.querySelectorAll('.pa-modal .pa-btn--icon-only').forEach(btn => {
-  btn.addEventListener('click', function() {
-    const modal = this.closest('.pa-modal');
-    if (modal) {
-      closeModal(modal.id);
-    }
-  });
-});
 </script>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+WRAPPER:
+- .pa-modal                  Fixed-inset root; display: none by default.
+- .pa-modal--show            Visible state (display: flex, centred by default).
+- .pa-modal--top             Align container near the top (5vh padding-top);
+                             use for search/command-palette style modals.
+- .pa-modal--static          JS contract only — no CSS rule. The example
+                             JS skips Esc + backdrop dismissal when this
+                             class is present. Add it on the root.
+
+Colour variants (cascade into __header via descendant selector):
+- .pa-modal--primary
+- .pa-modal--success
+- .pa-modal--warning
+- .pa-modal--danger
+(No --info / --secondary / --light / --dark. No pa-modal__header--*
+ modifiers — theme lives on the root.)
+
+STRUCTURE:
+- .pa-modal__backdrop        Full-viewport overlay behind the dialog.
+- .pa-modal__container       The dialog card itself.
+- .pa-modal__header          Flex row: __title (start) + close button (end).
+- .pa-modal__title           <h3>-weight title text.
+- .pa-modal__body            Scrollable content region (flex: 1;
+                             overflow-y: auto — default scrolls when
+                             content exceeds container max-height).
+- .pa-modal__footer          Right-aligned action buttons row
+                             (justify-content: flex-end; gap).
+
+CONTAINER SIZES (on __container):
+- .pa-modal__container--sm   32rem  / 320px
+- (default)                  48rem  / 480px
+- .pa-modal__container--lg   80rem  / 800px
+- .pa-modal__container--xl   112rem / 1120px
+- .pa-modal__container--xxl  144rem / 1440px
+- .pa-modal__container--fw   Viewport minus $modal-fw-margin on every side
+
+BODY MODIFIER:
+- .pa-modal__body--scrollable   Explicit max-height: $modal-body-
+                                scrollable-max-height (60vh default).
+                                Use when you want a shorter ceiling than
+                                the container's own max-height (90vh),
+                                so long content scrolls earlier and
+                                __footer stays in view.
+
+RESPONSIVE:
+- Below $mobile-breakpoint (768px):
+    - __container margin drops to $modal-mobile-margin
+    - max-height becomes $modal-mobile-max-height
+    - --lg / --xl / --xxl all collapse to
+      calc(100vw - $spacing-base)
+    - --fw uses the same fw-margin with viewport-derived width/height
+
+JAVASCRIPT CONTRACT:
+- openModal(id) / closeModal(id) — toggle pa-modal--show on the root
+- Esc handler skips modals with pa-modal--static
+- Backdrop click handler skips modals with pa-modal--static
+- Scrollbar-gutter compensation on open/close prevents layout shift
+  (body gets overflow: hidden + padding-right matching scrollbar width).
+
+STRUCTURE PATTERNS:
+
+Basic modal:
+<div class="pa-modal" id="x">
+  <div class="pa-modal__backdrop"></div>
+  <div class="pa-modal__container">
+    <div class="pa-modal__header">
+      <h3 class="pa-modal__title">Title</h3>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary" aria-label="Close">✕</button>
+    </div>
+    <div class="pa-modal__body">…</div>
+    <div class="pa-modal__footer">
+      <button class="pa-btn pa-btn--secondary">Cancel</button>
+      <button class="pa-btn pa-btn--primary">Save</button>
+    </div>
+  </div>
+</div>
+
+Themed modal (colour on the root, not the header):
+<div class="pa-modal pa-modal--danger">
+  <div class="pa-modal__backdrop"></div>
+  <div class="pa-modal__container">
+    <div class="pa-modal__header">
+      <h3 class="pa-modal__title">Delete account?</h3>
+    </div>
+    …
+  </div>
+</div>
+
+Static modal (no Esc/backdrop dismiss; user must choose):
+<div class="pa-modal pa-modal--static">
+  <div class="pa-modal__backdrop"></div>
+  <div class="pa-modal__container pa-modal__container--sm">
+    <div class="pa-modal__header"><h3 class="pa-modal__title">Confirm</h3></div>
+    <div class="pa-modal__body">…</div>
+    <div class="pa-modal__footer">
+      <button class="pa-btn pa-btn--secondary">Decline</button>
+      <button class="pa-btn pa-btn--danger">Accept</button>
+    </div>
+  </div>
+</div>
+
+Modal with a form (labels auto-style inside .pa-form .pa-form-group):
+<form class="pa-form">
+  <div class="pa-form-group">
+    <label for="x">Field</label>
+    <input id="x" class="pa-input">
+  </div>
+</form>
+-->
