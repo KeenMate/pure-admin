@@ -68,6 +68,25 @@
 <!-- Outline Info -->
 <button class="pa-btn pa-btn--outline-info">Info</button>
 
+<!-- Note: no pa-btn--outline-light or pa-btn--outline-dark — SCSS only
+     defines outline variants for primary/secondary/success/warning/
+     danger/info. -->
+
+
+<!-- THEME COLOR SLOT BUTTONS (color-1 through color-9) -->
+
+<!-- Filled theme color slot -->
+<button class="pa-btn pa-btn--color-1">Color 1</button>
+<button class="pa-btn pa-btn--color-3">Color 3</button>
+<button class="pa-btn pa-btn--color-5">Color 5</button>
+
+<!-- Outline theme color slot -->
+<button class="pa-btn pa-btn--outline-color-1">Outline 1</button>
+<button class="pa-btn pa-btn--outline-color-3">Outline 3</button>
+
+<!-- Pattern: pa-btn--color-{1..9} (filled) and pa-btn--outline-color-{1..9}
+     Colour + text colour both track the active theme's --pa-color-N slot. -->
+
 
 <!-- BUTTON STATES -->
 
@@ -373,3 +392,162 @@
 <button class="pa-btn pa-btn--primary pa-btn--ripple" data-loading-demo data-ripple>
   Save Changes
 </button>
+
+<!--
+data-ripple / data-loading-demo are DEMO-wiring attributes picked up by
+external JS in the demo app — they aren't framework class hooks. The
+framework's only ripple contract is pa-btn--ripple (the CSS animation)
+plus pa-btn--ripple-active (set by your own JS during the click). The
+data-* attributes just tell the demo's script to call `.classList.add`
+with that class at the right time.
+-->
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+BUTTON CLASSES:
+- .pa-btn             Base button; inline-block, $btn-height-base,
+                      centred text, $font-size-sm, medium weight.
+
+COLOUR VARIANTS (solid):
+- .pa-btn--primary / --secondary / --success / --warning / --danger
+  / --info / --light / --dark
+
+OUTLINE VARIANTS (transparent bg, fills on hover):
+- .pa-btn--outline-primary / --outline-secondary / --outline-success
+  / --outline-warning / --outline-danger / --outline-info
+  (No --outline-light / --outline-dark — SCSS doesn't define them.)
+
+THEME COLOUR SLOT VARIANTS (1-9):
+- .pa-btn--color-{1..9}            filled theme slot
+- .pa-btn--outline-color-{1..9}    outline theme slot
+
+SIZES:
+- .pa-btn--xs / --sm / (default) / --lg / --xl
+  Each size adjusts height, padding, and font-size from the $btn-*
+  scale. Size classes compose with every variant.
+
+STATES:
+- :disabled attribute     50% opacity, not-allowed cursor, no transform
+                          (opt-in disable state — no class needed)
+- .pa-btn--loading        hides text (text-fill transparent) and
+                          positions a .pa-btn__spinner centred in the
+                          button; keep the label text so the width
+                          stays the same during load.
+
+LAYOUT MODIFIERS:
+- .pa-btn--block          width: 100%; display: block (full-width CTA)
+- .pa-btn--icon-only      square aspect; padding: 0; flex-centred icon
+                          (size-aware — composes with --xs/--sm/--lg/--xl
+                          to set the square dimension)
+
+CONTENT ALIGNMENT (affects justify-content inside the button):
+- .pa-btn--align-start    flush-start (default behaviour)
+- .pa-btn--align-end      flush-end
+- .pa-btn--align-center   centred, __label flexes to fill
+- .pa-btn--align-justify  space-between (icon on one side, text on the other)
+
+EFFECTS:
+- .pa-btn--ripple            enables the CSS ripple base styles
+- .pa-btn--ripple-active     added/removed by your own JS to trigger the
+                             ripple expansion (see note above about
+                             data-ripple which is a demo-wiring attribute)
+
+ELEMENTS:
+- .pa-btn__icon     icon container. Gets margin-inline-end by default;
+                    on :last-child (icon AFTER text) the margin flips to
+                    inline-start so spacing reads correctly in both
+                    positions.
+- .pa-btn__label    text wrapper used by --align-center to flex-fill
+                    and centre its text within the button.
+- .pa-btn__spinner  only used inside .pa-btn--loading; CSS handles
+                    positioning + animation, no extra classes needed.
+
+IMPLICIT BEHAVIOUR:
+- Any .pa-btn containing a .pa-btn__icon child auto-switches to
+  inline-flex, align-items: center, gap: $spacing-sm, and
+  text-align: start (logical — flips in RTL). You don't need to add
+  --align-start manually for the common icon-then-text pattern.
+
+BUTTON GROUP (.pa-btn-group):
+- default                  inline-flex, wrap, $btn-group-gap, aligned centre
+- --vertical               flex-column; aligns to flex-start by default
+- --vertical --center      vertical + centre cross-axis alignment
+- --vertical --end         vertical + flex-end alignment
+- --vertical --stretch     vertical + stretch (all children go 100% width)
+- --nowrap                 prevents wrapping on overflow
+- --{sm|md|lg|xl}-vertical       responsive: column at that breakpoint
+- --{sm|md|lg|xl}-horizontal     responsive: row at that breakpoint
+- (Use .gap-{n} utilities to override the default gap size.)
+
+SPLIT BUTTON (.pa-btn-split):
+  Structure:
+    .pa-btn-split
+      .pa-btn                (primary action)
+      .pa-btn.pa-btn-split__toggle
+        .pa-btn-split__chevron    (optional — rotates on --open)
+      .pa-btn-split__menu
+        .pa-btn-split__menu-inner
+          .pa-btn-split__item
+          .pa-btn-split__item--danger
+
+  State:
+  - .pa-btn-split--open              set by JS; adds rotation to __chevron
+  - .pa-btn-split__menu--open        set by JS; displays the menu
+
+  Attributes:
+  - data-placement="top-end"         consumed by the demo's split-button JS
+                                     (Floating UI placement value)
+
+  Item row (for menu items with a trailing action button):
+    .pa-btn-split__item-row
+      .pa-btn-split__item (flex: 1)
+      .pa-btn (flex-shrink: 0, end-margin)
+    .pa-btn-split__item-icon         optional leading icon
+
+  Requires JS: the dropdown won't open/close or reposition without a
+  script that toggles --open classes and positions __menu. The demo
+  uses demo/js/split-button.js — snippet authors will need to wire
+  their own equivalent.
+
+STRUCTURE PATTERNS:
+
+Icon-then-text button (most common):
+<button class="pa-btn pa-btn--primary">
+  <span class="pa-btn__icon"><i class="fa-solid fa-floppy-disk"></i></span>
+  Save
+</button>
+
+Icon-only at XS for tables:
+<button class="pa-btn pa-btn--danger pa-btn--icon-only pa-btn--xs" title="Delete">
+  <i class="fa-solid fa-trash"></i>
+</button>
+
+Loading button (preserves width):
+<button class="pa-btn pa-btn--primary pa-btn--loading">
+  <span class="pa-btn__spinner"></span>
+  Saving…
+</button>
+
+Fixed-width button with truncation:
+<button class="pa-btn pa-btn--primary minwr-10 maxwr-10">
+  <span class="pa-btn__icon">✓</span>
+  <span class="text-truncate">Save All Changes</span>
+</button>
+
+Full-width vertical action stack:
+<div class="pa-btn-group pa-btn-group--vertical pa-btn-group--stretch">
+  <button class="pa-btn pa-btn--primary">Save</button>
+  <button class="pa-btn pa-btn--secondary">Cancel</button>
+</div>
+
+Responsive direction (row on mobile, column at md+):
+<div class="pa-btn-group pa-btn-group--md-vertical">
+  <button class="pa-btn pa-btn--primary">Save</button>
+  <button class="pa-btn pa-btn--secondary">Cancel</button>
+</div>
+-->
+
