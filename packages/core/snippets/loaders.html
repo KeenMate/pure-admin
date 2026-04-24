@@ -5,17 +5,17 @@
 
 <!-- SPINNER COMPONENT -->
 
-<!-- Basic Spinner -->
+<!-- Basic Spinner (default size — $spinner-size, 16px default) -->
 <div class="pa-spinner"></div>
 
-<!-- Spinner Sizes -->
+<!-- Extra-Small Spinner (uses $loader-dot-size, 12px default) -->
 <div class="pa-spinner pa-spinner--xs"></div>
-<div class="pa-spinner pa-spinner--sm"></div>
-<div class="pa-spinner"></div>
-<div class="pa-spinner pa-spinner--md"></div>
-<div class="pa-spinner pa-spinner--lg"></div>
-<div class="pa-spinner pa-spinner--xl"></div>
-<div class="pa-spinner pa-spinner--2xl"></div>
+
+<!--
+Note: the spinner only ships two sizes — the default and --xs. For
+other sizes, override $spinner-size in SCSS before the framework
+import, or set width/height inline.
+-->
 
 <!-- Colored Spinners -->
 <div class="pa-spinner pa-spinner--primary"></div>
@@ -28,7 +28,11 @@
 
 <!-- ADVANCED LOADERS -->
 
-<!-- Dots Loader (requires 3 span children) -->
+<!--
+Dots Loader — convention is 3 <span> children. SCSS sets staggered
+animation delays on nth-child(1) and (2); extra spans still work, they
+just start in phase.
+-->
 <div class="pa-loader-dots">
   <span></span>
   <span></span>
@@ -42,7 +46,10 @@
   <span></span>
 </div>
 
-<!-- Bars Loader (requires 5 span children) -->
+<!--
+Bars Loader — requires 5 <span> children. SCSS stagger targets
+nth-child(1) through (5) explicitly.
+-->
 <div class="pa-loader-bars">
   <span></span>
   <span></span>
@@ -66,13 +73,13 @@
 <!-- Pulse Loader - Large -->
 <div class="pa-loader-pulse pa-loader-pulse--lg"></div>
 
-<!-- Ring Loader (CSS-only, no children needed) -->
+<!-- Ring Loader (CSS-only, uses ::after pseudo-element) -->
 <div class="pa-loader-ring"></div>
 
 <!-- Ring Loader - Large -->
 <div class="pa-loader-ring pa-loader-ring--lg"></div>
 
-<!-- Wave Loader (requires 5 span children) -->
+<!-- Wave Loader — 5 <span> children (same stagger as bars) -->
 <div class="pa-loader-wave">
   <span></span>
   <span></span>
@@ -100,13 +107,17 @@
 
 <!-- Centered Loader with Text -->
 <div class="pa-loader-center">
-  <div class="pa-spinner pa-spinner--lg pa-spinner--primary"></div>
+  <div class="pa-spinner pa-spinner--primary"></div>
   <p>Loading your data...</p>
 </div>
 
-<!-- Overlay Loader (covers entire screen) -->
+<!--
+Overlay Loader — absolutely positioned, so the parent must have
+position: relative (or similar) to contain it. Background uses
+var(--pa-loader-overlay-bg).
+-->
 <div class="pa-loader-overlay">
-  <div class="pa-spinner pa-spinner--lg"></div>
+  <div class="pa-spinner"></div>
 </div>
 
 
@@ -114,13 +125,17 @@
 
 <!-- Inline Loading Text -->
 <p>
-  Loading data <span class="pa-spinner pa-spinner--sm"></span>
+  Loading data <span class="pa-spinner pa-spinner--xs"></span>
 </p>
 
 
 <!-- BUTTON WITH SPINNER -->
 
-<!-- Loading Button -->
+<!--
+Loading button — pa-btn--loading hides the label (text-fill transparent)
+and positions the internal .pa-btn__spinner centered over the button.
+Keep the label text so the button preserves its width.
+-->
 <button class="pa-btn pa-btn--primary pa-btn--loading">
   <span class="pa-btn__spinner"></span>
   Loading...
@@ -133,12 +148,12 @@
 <div class="pa-card">
   <div class="pa-card__body">
     <div class="pa-loader-center" style="min-height: 200px;">
-      <div class="pa-loader-dots pa-loader-dots--lg" style="color: var(--accent-color);">
+      <div class="pa-loader-dots pa-loader-dots--lg" style="color: var(--pa-accent);">
         <span></span>
         <span></span>
         <span></span>
       </div>
-      <p style="margin-top: 1rem; color: var(--text-secondary);">Loading content...</p>
+      <p style="margin-top: 1rem; color: var(--pa-text-color-2);">Loading content...</p>
     </div>
   </div>
 </div>
@@ -150,34 +165,44 @@
 
 <!--
 SPINNERS:
-- .pa-spinner: Basic spinner (CSS animation)
-- .pa-spinner--xs, --sm, --md, --lg, --xl, --2xl: Size variants
-- .pa-spinner--primary, --secondary, --success, --danger, --warning, --info: Color variants
+- .pa-spinner:           Rotating-border spinner at $spinner-size (16px default)
+- .pa-spinner--xs:       Extra-small variant using $loader-dot-size (12px default)
+  (No --sm / --md / --lg / --xl / --2xl exist in _loaders.scss. Override
+   $spinner-size in SCSS or set inline width/height for other sizes.)
+- Color variants (border-top-color from the $btn-*-bg theme tokens):
+    .pa-spinner--primary    .pa-spinner--secondary
+    .pa-spinner--success    .pa-spinner--danger
+    .pa-spinner--warning    .pa-spinner--info
 
-ADVANCED LOADERS:
-- .pa-loader-dots: Bouncing dots (requires 3 <span> children)
-- .pa-loader-bars: Animated bars (requires 5 <span> children)
-- .pa-loader-wave: Wave animation (requires 5 <span> children)
-- .pa-loader-pulse: Pulsing circle (CSS-only, no children)
-- .pa-loader-ring: Spinning ring (CSS-only, no children)
-- All support --lg size variant
+ADVANCED LOADERS (child <span> count matters):
+- .pa-loader-dots   — 3 <span>s (only 2 delays defined; 3rd sits in phase)
+- .pa-loader-bars   — 5 <span>s (delays on nth-child 1..5)
+- .pa-loader-wave   — 5 <span>s (same stagger as bars)
+- .pa-loader-pulse  — CSS-only, no children
+- .pa-loader-ring   — CSS-only, animates via ::after
+- All five support the --lg size modifier.
+
+COLOR:
+- All loaders paint from `currentColor` — set color on the wrapper to
+  theme them: <div class="pa-loader-dots" style="color: var(--pa-success-bg);">
 
 UTILITIES:
-- .pa-loader-center: Center loader in container (flex column, centered)
-- .pa-loader-overlay: Full-screen overlay with loader
+- .pa-loader-center  — flex column, centered; stack a loader + caption
+- .pa-loader-overlay — absolute overlay with var(--pa-loader-overlay-bg);
+                       parent must be positioned (relative/absolute/fixed)
 
 BUTTON LOADING:
-- .pa-btn--loading: Loading state modifier
-- .pa-btn__spinner: Spinner inside button
+- .pa-btn--loading    — on the button: hides the label, keeps width
+- .pa-btn__spinner    — inside the button: gets positioned + animated
 
 STRUCTURE EXAMPLES:
-<div class="pa-loader-dots">       <!-- 3 spans required -->
-  <span></span>
-  <span></span>
-  <span></span>
+<div class="pa-loader-dots">       <!-- 3 spans -->
+  <span></span><span></span><span></span>
 </div>
 
-<div class="pa-loader-bars">       <!-- 5 spans required -->
+<div class="pa-loader-bars">       <!-- 5 spans -->
   <span></span><span></span><span></span><span></span><span></span>
 </div>
+
+<div class="pa-loader-ring"></div>  <!-- no children -->
 -->

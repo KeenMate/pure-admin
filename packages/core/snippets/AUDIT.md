@@ -15,12 +15,12 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 |---|---|---|---|
 | `callouts.html` | 2026-04-24 | `core-components/_callouts.scss` | [6ea28e8](../../../commit/6ea28e8) |
 | `code.html` | 2026-04-24 | `core-components/_code.scss`, `variables/_colors.scss` | [cd2e51b](../../../commit/cd2e51b) |
+| `loaders.html` | 2026-04-24 | `core-components/_loaders.scss`, `core-components/_buttons.scss` (loading state), `variables/_components.scss` | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `loaders.html`
 - `toasts.html`
 - `popconfirm.html`
 - `typography.html`
@@ -71,6 +71,7 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 ## Known issues flagged during audits (not in scope to fix here)
 
 - **`demo/views/code.mustache`** reference block lists several accent colors that don't match `variables/_colors.scss`: JSON → "Green" (actual amber), bash → "Gray" (actual green), SQL → "Purple" (actual teal), keyword → "purple, bold" (actual blue + medium), function → "blue" (actual purple), property → "cyan" (actual pink-red). Fix in a later demo pass.
+- **`.pa-spinner` ghost size modifiers.** `_loaders.scss` only defines `--xs`; the demo page (`demo/views/loaders.mustache`) and the previous snippet both showed `--sm`, `--md`, `--lg`, `--xl`, `--2xl` with fabricated size labels (1rem → 4rem). All render at the default 16px because the modifiers don't exist. Snippet fixed in loaders commit; demo page still broken — either remove the ghost sizes from the demo, or add them to SCSS. Decision to be made in a future framework pass.
 
 ## Rehash
 
