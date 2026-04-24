@@ -6,42 +6,42 @@
 <!-- BASIC ALERTS -->
 
 <!-- Primary Alert -->
-<div class="pa-alert pa-alert--primary">
+<div class="pa-alert pa-alert--primary" role="alert">
   <strong>Primary!</strong> This is a primary alert — check it out!
 </div>
 
 <!-- Secondary Alert -->
-<div class="pa-alert pa-alert--secondary">
+<div class="pa-alert pa-alert--secondary" role="alert">
   <strong>Secondary!</strong> This is a secondary alert — check it out!
 </div>
 
 <!-- Success Alert -->
-<div class="pa-alert pa-alert--success">
+<div class="pa-alert pa-alert--success" role="alert">
   <strong>Success!</strong> This is a success alert — your operation completed successfully.
 </div>
 
 <!-- Danger Alert -->
-<div class="pa-alert pa-alert--danger">
+<div class="pa-alert pa-alert--danger" role="alert">
   <strong>Danger!</strong> This is a danger alert — something went wrong!
 </div>
 
 <!-- Warning Alert -->
-<div class="pa-alert pa-alert--warning">
+<div class="pa-alert pa-alert--warning" role="alert">
   <strong>Warning!</strong> This is a warning alert — please review before proceeding.
 </div>
 
 <!-- Info Alert -->
-<div class="pa-alert pa-alert--info">
+<div class="pa-alert pa-alert--info" role="alert">
   <strong>Info!</strong> This is an info alert — here's some useful information.
 </div>
 
 <!-- Light Alert -->
-<div class="pa-alert pa-alert--light">
+<div class="pa-alert pa-alert--light" role="alert">
   <strong>Light!</strong> This is a light alert — subtle but important.
 </div>
 
 <!-- Dark Alert -->
-<div class="pa-alert pa-alert--dark">
+<div class="pa-alert pa-alert--dark" role="alert">
   <strong>Dark!</strong> This is a dark alert — for high contrast messaging.
 </div>
 
@@ -49,7 +49,7 @@
 <!-- ALERTS WITH ICONS -->
 
 <!-- Success Alert with Icon -->
-<div class="pa-alert pa-alert--success">
+<div class="pa-alert pa-alert--success" role="alert">
   <span class="pa-alert__icon">✓</span>
   <div class="pa-alert__content">
     <strong>Success!</strong> Your changes have been saved successfully.
@@ -57,7 +57,7 @@
 </div>
 
 <!-- Danger Alert with Icon -->
-<div class="pa-alert pa-alert--danger">
+<div class="pa-alert pa-alert--danger" role="alert">
   <span class="pa-alert__icon">⚠</span>
   <div class="pa-alert__content">
     <strong>Error!</strong> Unable to process your request. Please try again.
@@ -65,7 +65,7 @@
 </div>
 
 <!-- Warning Alert with Icon -->
-<div class="pa-alert pa-alert--warning">
+<div class="pa-alert pa-alert--warning" role="alert">
   <span class="pa-alert__icon">!</span>
   <div class="pa-alert__content">
     <strong>Warning!</strong> Your session will expire in 5 minutes.
@@ -73,7 +73,7 @@
 </div>
 
 <!-- Info Alert with Icon -->
-<div class="pa-alert pa-alert--info">
+<div class="pa-alert pa-alert--info" role="alert">
   <span class="pa-alert__icon">ⓘ</span>
   <div class="pa-alert__content">
     <strong>Information!</strong> New features are now available in your account.
@@ -81,10 +81,17 @@
 </div>
 
 
-<!-- DISMISSIBLE ALERTS -->
+<!--
+DISMISSIBLE ALERTS
+--dismissible adds padding-inline-end so the text doesn't run under the
+close button. It's a spacing modifier, not a structural one — you still
+render __content + __close yourself, and wire dismissal via JS.
+__close uses inset-inline-end (logical) so it lands on the reading-end
+side in both LTR and RTL.
+-->
 
 <!-- Dismissible Success Alert -->
-<div class="pa-alert pa-alert--success pa-alert--dismissible">
+<div class="pa-alert pa-alert--success pa-alert--dismissible" role="alert">
   <div class="pa-alert__content">
     <strong>Well done!</strong> You successfully read this important alert message.
   </div>
@@ -94,7 +101,7 @@
 </div>
 
 <!-- Dismissible Danger Alert -->
-<div class="pa-alert pa-alert--danger pa-alert--dismissible">
+<div class="pa-alert pa-alert--danger pa-alert--dismissible" role="alert">
   <div class="pa-alert__content">
     <strong>Oh snap!</strong> Change a few things and try submitting again.
   </div>
@@ -107,15 +114,15 @@
 <!-- ALERTS WITH ADDITIONAL CONTENT -->
 
 <!-- Alert with Heading and Paragraph -->
-<div class="pa-alert pa-alert--success">
+<div class="pa-alert pa-alert--success" role="alert">
   <h4 class="pa-alert__heading">Success!</h4>
   <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
   <hr>
   <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
 </div>
 
-<!-- Alert with List -->
-<div class="pa-alert pa-alert--info">
+<!-- Alert with List and Actions -->
+<div class="pa-alert pa-alert--info" role="alert">
   <h4 class="pa-alert__heading">System Update</h4>
   <p>A new version of the application is available. This update includes:</p>
   <ul class="pa-alert__list">
@@ -130,85 +137,69 @@
 </div>
 
 
-<!-- OUTLINE ALERTS -->
+<!-- OUTLINE ALERTS — border-only, transparent background -->
 
 <!-- Outline Primary Alert -->
-<div class="pa-alert pa-alert--outline-primary">
+<div class="pa-alert pa-alert--outline-primary" role="alert">
   <strong>Primary Outline!</strong> This is a primary outline alert.
 </div>
 
 <!-- Outline Success Alert -->
-<div class="pa-alert pa-alert--outline-success">
+<div class="pa-alert pa-alert--outline-success" role="alert">
   <strong>Success Outline!</strong> This is a success outline alert.
 </div>
 
 <!-- Outline Danger Alert -->
-<div class="pa-alert pa-alert--outline-danger">
+<div class="pa-alert pa-alert--outline-danger" role="alert">
   <strong>Danger Outline!</strong> This is a danger outline alert.
 </div>
 
 <!-- Outline Warning Alert -->
-<div class="pa-alert pa-alert--outline-warning">
+<div class="pa-alert pa-alert--outline-warning" role="alert">
   <strong>Warning Outline!</strong> This is a warning outline alert.
 </div>
 
 <!-- Outline Info Alert -->
-<div class="pa-alert pa-alert--outline-info">
+<div class="pa-alert pa-alert--outline-info" role="alert">
   <strong>Info Outline!</strong> This is an info outline alert.
 </div>
+
+<!-- Note: no outline variants for secondary / light / dark. -->
 
 
 <!-- THEME COLOR ALERTS (color-1 through color-9) -->
 
 <!-- Theme Color 1 Alert (filled) -->
-<div class="pa-alert pa-alert--color-1">
+<div class="pa-alert pa-alert--color-1" role="alert">
   <strong>Color 1!</strong> Theme color slot 1 alert.
 </div>
 
 <!-- Theme Color 1 Alert (outline) -->
-<div class="pa-alert pa-alert--outline-color-1">
+<div class="pa-alert pa-alert--outline-color-1" role="alert">
   <strong>Color 1 Outline!</strong> Theme color slot 1 outline alert.
 </div>
 
-<!-- Pattern: pa-alert--color-{1-9} and pa-alert--outline-color-{1-9} -->
+<!-- Pattern: pa-alert--color-{1..9} (filled) and pa-alert--outline-color-{1..9} (outline). -->
 
 
 <!-- ALERT SIZES -->
 
 <!-- Small Alert -->
-<div class="pa-alert pa-alert--success pa-alert--sm">
+<div class="pa-alert pa-alert--success pa-alert--sm" role="alert">
   <span class="pa-alert__icon">✓</span> Saved
 </div>
 
 <!-- Default Alert -->
-<div class="pa-alert pa-alert--info">
+<div class="pa-alert pa-alert--info" role="alert">
   <span class="pa-alert__icon">ⓘ</span> Default size alert with standard padding
 </div>
 
 <!-- Large Alert -->
-<div class="pa-alert pa-alert--warning pa-alert--lg">
+<div class="pa-alert pa-alert--warning pa-alert--lg" role="alert">
   <span class="pa-alert__icon">!</span>
   <div class="pa-alert__content">
     <strong>Large Alert!</strong> This is a large alert with increased font size for better prominence.
   </div>
-</div>
-
-
-<!-- COMPACT ALERTS -->
-
-<!-- Small Success Alert -->
-<div class="pa-alert pa-alert--success pa-alert--sm">
-  <span class="pa-alert__icon">✓</span> Saved
-</div>
-
-<!-- Small Warning Alert -->
-<div class="pa-alert pa-alert--warning pa-alert--sm">
-  <span class="pa-alert__icon">!</span> Pending
-</div>
-
-<!-- Small Danger Alert -->
-<div class="pa-alert pa-alert--danger pa-alert--sm">
-  <span class="pa-alert__icon">×</span> Failed
 </div>
 
 
@@ -231,62 +222,91 @@ function dismissAlert(button) {
 
 <!--
 ALERT CLASSES:
-- .pa-alert: Base alert class
+- .pa-alert: Base alert — flex container, $spacing-sm gap, aligned flex-start
 
-VARIANTS (solid background):
-- .pa-alert--primary: Blue alert
-- .pa-alert--secondary: Gray alert
-- .pa-alert--success: Green alert
-- .pa-alert--danger: Red alert
-- .pa-alert--warning: Yellow/orange alert
-- .pa-alert--info: Cyan alert
-- .pa-alert--light: Light gray alert
-- .pa-alert--dark: Dark alert
+VARIANTS (solid tint background):
+- .pa-alert--primary        accent-tinted
+- .pa-alert--secondary      muted/neutral
+- .pa-alert--success        green
+- .pa-alert--danger         red (also honours $alert-danger-text-transform —
+                            some themes set this to uppercase)
+- .pa-alert--warning        yellow/orange
+- .pa-alert--info           cyan/blue
+- .pa-alert--light          subtle light
+- .pa-alert--dark           subtle dark
 
-OUTLINE VARIANTS (border only):
-- .pa-alert--outline-primary: Blue outline
-- .pa-alert--outline-success: Green outline
-- .pa-alert--outline-danger: Red outline
-- .pa-alert--outline-warning: Orange outline
-- .pa-alert--outline-info: Cyan outline
+OUTLINE VARIANTS (transparent background, coloured border):
+- .pa-alert--outline-primary
+- .pa-alert--outline-success
+- .pa-alert--outline-danger
+- .pa-alert--outline-warning
+- .pa-alert--outline-info
+  (No outline variants for secondary / light / dark.)
 
 THEME COLOR VARIANTS (1-9):
-- .pa-alert--color-{1-9}: Filled theme color slot
-- .pa-alert--outline-color-{1-9}: Outline theme color slot
+- .pa-alert--color-{1-9}           filled theme colour slot
+- .pa-alert--outline-color-{1-9}   outline theme colour slot
 
 SIZES:
-- .pa-alert--sm: Small alert (reduced padding and font)
-- (default): Standard size
-- .pa-alert--lg: Large alert (increased padding and font)
+- .pa-alert--sm            $alert-padding v/h, font-size-sm
+- (default)                $card-footer-padding-v/h, font-size-sm
+- .pa-alert--lg            $alert-padding v/h, font-size-base
+  (No --xs / --xl.)
 
 MODIFIERS:
-- .pa-alert--dismissible: Adds padding-right for close button
+- .pa-alert--dismissible   adds padding-inline-end so __close doesn't overlap
+                           content; you still render the button yourself.
 
 ELEMENTS:
-- .pa-alert__icon: Icon container (displays to left of content)
-- .pa-alert__content: Content wrapper (used with icon layout)
-- .pa-alert__heading: Alert title/heading (h4)
-- .pa-alert__list: List container (ul) for bullet points
-- .pa-alert__actions: Button container for action buttons
-- .pa-alert__close: Close/dismiss button
+- .pa-alert__icon      leading icon (flex-shrink: 0, font-size-base)
+- .pa-alert__content   content wrapper (flex: 1) — used when there's an icon
+                       sibling to keep the right text block from wrapping under
+- .pa-alert__heading   alert title, rendered on <h4>
+- .pa-alert__list      <ul> inside the alert with tighter spacing
+- .pa-alert__actions   button row, spaced with gap: $spacing-sm
+- .pa-alert__close     absolutely positioned close button on the
+                       inline-end side (logical — RTL-aware)
+
+AUTOMATIC BEHAVIOUR:
+- When the alert is the first or last child of .pa-card__body, its
+  top/bottom margin collapses — no extra classes needed.
+- <a> inside an alert inherits colour, is underlined, and drops the
+  underline on hover.
+- <hr> inside an alert gets a subtle thin border and tighter margins
+  for in-alert dividers.
+
+ACCESSIBILITY:
+- Add role="alert" on dynamic or dismissible alerts so screen readers
+  announce them as they appear.
 
 STRUCTURE PATTERNS:
 
 Simple alert:
-<div class="pa-alert pa-alert--success">
+<div class="pa-alert pa-alert--success" role="alert">
   <strong>Success!</strong> Message here.
 </div>
 
-Alert with icon:
-<div class="pa-alert pa-alert--success">
+Alert with icon (wrap the rest in __content so long text doesn't
+wrap under the icon):
+<div class="pa-alert pa-alert--success" role="alert">
   <span class="pa-alert__icon">✓</span>
   <div class="pa-alert__content">
     <strong>Success!</strong> Message here.
   </div>
 </div>
 
-Alert with list and actions:
-<div class="pa-alert pa-alert--info">
+Dismissible alert:
+<div class="pa-alert pa-alert--danger pa-alert--dismissible" role="alert">
+  <div class="pa-alert__content">
+    <strong>Oh snap!</strong> Something went wrong.
+  </div>
+  <button class="pa-alert__close" aria-label="Close">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+
+Alert with heading, list, and actions:
+<div class="pa-alert pa-alert--info" role="alert">
   <h4 class="pa-alert__heading">Title</h4>
   <p>Description text.</p>
   <ul class="pa-alert__list">
@@ -297,4 +317,10 @@ Alert with list and actions:
     <button class="pa-btn pa-btn--sm pa-btn--primary">Action</button>
   </div>
 </div>
+
+CALLOUT vs ALERT:
+- Alert:   full background tint or outline; supports --dismissible; fits
+           dynamic feedback, notifications, message banners.
+- Callout: documentation-style, left border only, no dismiss; use for
+           static tips/notes/warnings inside content areas.
 -->
