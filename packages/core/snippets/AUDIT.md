@@ -62,7 +62,7 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 | filter-card | `_filter-card.scss` | Public — snippet worth adding |
 | logic-tree | `_logic-tree.scss` | Specialized — decide during gap pass |
 | data-display | `_data-display.scss` | Public — snippet worth adding |
-| query-editor | `core-components/forms/_query-editor.scss` | Public — large surface (search highlighting, autocomplete, virtual textbox, inline query editor with tokens). Briefly cross-referenced from forms.html; deserves its own snippet. |
+| smart-filters (aka query-editor) | `core-components/forms/_query-editor.scss` | Public — large surface (search highlighting, autocomplete, virtual textbox, inline query editor with tokens). The SCSS file is named `_query-editor.scss` but the demo calls it "Smart Filters" (`demo/views/smart-filters.mustache` + `demo/js/search-autocomplete*.js`, `virtual-textbox.js`). Briefly cross-referenced from forms.html; deserves its own snippet (probably `smart-filters.html`). |
 | data-viz | `_data-viz.scss` | D3-driven — snippet would be thin; defer |
 | scrollbars | `_scrollbars.scss` | Global utility styling; no snippet needed |
 | settings-panel | `_settings-panel.scss` | Demo-internal; no snippet needed |
