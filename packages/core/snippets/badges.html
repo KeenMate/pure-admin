@@ -32,19 +32,19 @@
 
 <!-- BADGE SIZES -->
 
-<!-- Extra Small Badge -->
+<!-- Extra Small Badge (10px) -->
 <span class="pa-badge pa-badge--primary pa-badge--xs">XS</span>
 
-<!-- Small Badge -->
+<!-- Small Badge (12px) -->
 <span class="pa-badge pa-badge--primary pa-badge--sm">Small</span>
 
-<!-- Default Badge -->
+<!-- Default Badge (12px) -->
 <span class="pa-badge pa-badge--primary">Default</span>
 
-<!-- Large Badge -->
+<!-- Large Badge (14px) -->
 <span class="pa-badge pa-badge--primary pa-badge--lg">Large</span>
 
-<!-- Extra Large Badge -->
+<!-- Extra Large Badge (16px) -->
 <span class="pa-badge pa-badge--primary pa-badge--xl">XL</span>
 
 
@@ -59,7 +59,7 @@
 
 <!-- BADGES WITH ICONS -->
 
-<!-- Badge with Icon -->
+<!-- Badge with Icon — __icon gets font-size-2xs (10px) so it stays proportional -->
 <span class="pa-badge pa-badge--success">
   <span class="pa-badge__icon">✓</span>
   Verified
@@ -72,8 +72,13 @@
 </span>
 
 
-<!-- FIXED WIDTH BADGES -->
-<!-- Use wr-*/minwr-*/maxwr-* utilities with text-truncate for ellipsis -->
+<!--
+FIXED WIDTH BADGES
+minwr-*/maxwr-*/wr-* are utility classes (not part of the badge component)
+that set min-/max-/width in 1rem increments. Combine with text-truncate for
+clean ellipsis. Adding text-truncate to a pa-badge auto-switches it from
+inline-flex to inline-block because ellipsis doesn't work on flex containers.
+-->
 
 <!-- Fixed Width 8rem -->
 <span class="pa-badge pa-badge--primary minwr-8 maxwr-8 text-truncate">Status</span>
@@ -83,39 +88,93 @@
   <span class="pa-badge pa-badge--info minwr-15 maxwr-15 text-truncate">Very Long Badge Text That Needs Truncation</span>
 </span>
 
-<!-- Fixed Width with Start-Side Ellipsis (for paths, breadcrumbs) -->
+<!--
+--ellipsis-start: truncates from the start instead of the end. Uses
+direction: rtl + text-align: left under the hood so the visible tail is
+what matters (good for file paths, breadcrumbs, hierarchies where the
+rightmost segment is the key info). In RTL document mode the override
+reverses so the user sees the same behaviour.
+-->
 <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Settings > User Preferences > Notifications > Email">
   <span class="pa-badge pa-badge--secondary minwr-10 maxwr-10 text-truncate pa-badge--ellipsis-start">Settings > User Preferences > Notifications > Email</span>
 </span>
 
 
-<!-- COMPOSITE BADGES -->
+<!--
+COMPOSITE BADGES — three-section inline structure: [icon][label][button].
+Use for notification pills, status + count, interactive chips.
+-->
 
-<!-- Standard Composite Badge -->
+<!-- Standard — all sections follow the variant colour -->
 <div class="pa-composite-badge pa-composite-badge--primary">
   <span class="pa-composite-badge__icon">🔔</span>
   <span class="pa-composite-badge__label">Notifications</span>
   <span class="pa-composite-badge__button">5</span>
 </div>
 
-<!-- Success Composite Badge -->
 <div class="pa-composite-badge pa-composite-badge--success">
   <span class="pa-composite-badge__icon">✓</span>
   <span class="pa-composite-badge__label">Completed</span>
   <span class="pa-composite-badge__button">12</span>
 </div>
 
-<!-- Danger Composite Badge -->
 <div class="pa-composite-badge pa-composite-badge--danger">
   <span class="pa-composite-badge__icon">⚠</span>
   <span class="pa-composite-badge__label">Errors</span>
   <span class="pa-composite-badge__button">3</span>
 </div>
 
+<div class="pa-composite-badge pa-composite-badge--warning">
+  <span class="pa-composite-badge__icon">!</span>
+  <span class="pa-composite-badge__label">Pending</span>
+  <span class="pa-composite-badge__button">7</span>
+</div>
+
+<div class="pa-composite-badge pa-composite-badge--info">
+  <span class="pa-composite-badge__icon">ℹ</span>
+  <span class="pa-composite-badge__label">Updates</span>
+  <span class="pa-composite-badge__button">2</span>
+</div>
+
+<!-- Pattern: pa-composite-badge--{primary|secondary|success|danger|warning|info|light|dark} -->
+
+<!--
+MIXED COLOUR COMPOSITES
+--label-* and --btn-* override only that section. Combine with a base
+variant (or skip it) to build badges like "success icon + neutral label
++ danger dismiss button".
+-->
+
+<!-- Primary icon, info-tinted label, danger dismiss button -->
+<div class="pa-composite-badge pa-composite-badge--primary pa-composite-badge--label-info pa-composite-badge--btn-primary">
+  <span class="pa-composite-badge__icon">📧</span>
+  <span class="pa-composite-badge__label">New messages</span>
+  <span class="pa-composite-badge__button">×</span>
+</div>
+
+<!-- Success icon, secondary-grey label, success button -->
+<div class="pa-composite-badge pa-composite-badge--success pa-composite-badge--label-secondary pa-composite-badge--btn-success">
+  <span class="pa-composite-badge__icon">✓</span>
+  <span class="pa-composite-badge__label">CI passed</span>
+  <span class="pa-composite-badge__button">9</span>
+</div>
+
+<!-- Patterns:
+     pa-composite-badge--label-{primary|secondary|success|danger|warning|info|light|dark}
+     pa-composite-badge--btn-{primary|secondary|success|warning|info|light|dark}
+     Note: --btn-danger is NOT defined (base __button already renders
+     danger-coloured by default, so it would be a no-op).
+-->
+
 
 <!-- BADGE GROUP -->
 
-<!-- Badge Group (shows first 5, then "more") -->
+<!--
+.pa-badge-group hides any badges past the 6th except the last one, which
+stays visible. Common pattern: put 5 real badges + a "N more" summary
+badge at the end; extras between them get hidden but render in DOM so
+filtering/sorting still works.
+-->
 <div class="pa-badge-group">
   <span class="pa-badge pa-badge--primary">JavaScript</span>
   <span class="pa-badge pa-badge--info">React</span>
@@ -128,7 +187,8 @@
   </span>
 </div>
 
-<!-- Badge Group - Show All -->
+<!-- --show-all disables the visible limit. Useful when the parent
+     component expands (e.g. a "show all tags" toggle). -->
 <div class="pa-badge-group pa-badge-group--show-all">
   <span class="pa-badge pa-badge--primary">Tag 1</span>
   <span class="pa-badge pa-badge--info">Tag 2</span>
@@ -139,7 +199,9 @@
 
 <!-- ================================
      LABELS
-     Lightweight inline indicators
+     Lightweight inline indicators — tinted background + border in the
+     variant colour. Font-weight is medium (badges are not weighted).
+     Labels have the same size scale as badges but no --light / --dark.
      ================================ -->
 
 <!-- Basic Labels -->
@@ -150,13 +212,17 @@
 <span class="pa-label pa-label--warning">Warning</span>
 <span class="pa-label pa-label--info">Info</span>
 
-<!-- Labels are lighter-weight than badges -->
-<!-- Use for inline status indicators, tags, categories -->
-
-<!-- Label Sizes -->
+<!-- Label Sizes (same scale as badges: xs / sm / default / lg / xl) -->
+<span class="pa-label pa-label--primary pa-label--xs">XS</span>
 <span class="pa-label pa-label--primary pa-label--sm">Small</span>
 <span class="pa-label pa-label--primary">Default</span>
 <span class="pa-label pa-label--primary pa-label--lg">Large</span>
+<span class="pa-label pa-label--primary pa-label--xl">XL</span>
+
+<!-- Outline Labels — transparent background, coloured border + text -->
+<span class="pa-label pa-label--primary pa-label--outline">Primary outline</span>
+<span class="pa-label pa-label--success pa-label--outline">Success outline</span>
+<span class="pa-label pa-label--danger pa-label--outline">Danger outline</span>
 
 
 <!-- ================================
@@ -165,49 +231,115 @@
 
 <!--
 BADGE CLASSES:
-- .pa-badge: Base badge class
+- .pa-badge: Base badge (inline-flex, rounded, variant-agnostic)
 
-VARIANTS (colors):
-- .pa-badge--primary: Blue badge
-- .pa-badge--secondary: Gray badge
-- .pa-badge--success: Green badge
-- .pa-badge--danger: Red badge
-- .pa-badge--warning: Yellow/orange badge
-- .pa-badge--info: Cyan badge
-- .pa-badge--light: Light gray badge
-- .pa-badge--dark: Dark badge
+VARIANTS:
+- .pa-badge--primary / --secondary / --success / --warning / --danger
+  / --info / --light / --dark  (all 8 btn-style colour pairs)
 
 SIZES:
-- .pa-badge--xs: Extra small (10px font)
-- .pa-badge--sm: Small (12px font)
-- (default): Standard size (12px font, standard padding)
-- .pa-badge--lg: Large (14px font)
-- .pa-badge--xl: Extra large (16px font)
+- .pa-badge--xs     10px / tight padding
+- .pa-badge--sm     12px
+- (default)         12px / normal padding
+- .pa-badge--lg     14px
+- .pa-badge--xl     16px / wide padding
 
-MODIFIERS:
-- .pa-badge--pill: Rounded pill shape
-- .pa-badge--ellipsis-start: Truncate from start instead of end
-- Use utilities for fixed width: maxwr-* text-truncate
+SHAPE:
+- .pa-badge--pill   border-radius: 50rem (full round ends)
 
-ELEMENTS:
-- .pa-badge__icon: Icon container inside badge
+ELLIPSIS / TRUNCATION:
+- .pa-badge--ellipsis-start   truncates from the start instead of end.
+                              Uses direction: rtl internally; RTL
+                              document mode flips it back automatically.
+                              Best for paths / breadcrumbs where the end
+                              is the informative part.
+- .text-truncate              ellipsis from the end. Adding this to a
+                              pa-badge auto-switches the badge from
+                              inline-flex to inline-block (ellipsis
+                              doesn't work on flex containers).
+- minwr-{n} / maxwr-{n} / wr-{n}  separate width utilities in 1rem
+                                  increments; combine with text-truncate.
 
-COMPOSITE BADGE:
-- .pa-composite-badge: Three-part badge container
-- .pa-composite-badge--{variant}: Color variants
-- .pa-composite-badge__icon: Icon section
-- .pa-composite-badge__label: Label/text section
-- .pa-composite-badge__button: Button/count section
-- .pa-composite-badge--label-{variant}: Label section color override
-- .pa-composite-badge--btn-{variant}: Button section color override
+ELEMENT:
+- .pa-badge__icon     inline icon — font-size-2xs (10px) so it stays
+                      proportional. Any child element works since the
+                      badge is flex + gap.
+
+AUTOMATIC BEHAVIOURS:
+- .pa-badge.text-truncate flips display to inline-block (see above).
+
+COMPOSITE BADGE — three-section container:
+  .pa-composite-badge
+    .pa-composite-badge__icon      fixed-width left section
+    .pa-composite-badge__label     flexible middle (clickable, hover state)
+    .pa-composite-badge__button    fixed-width right section (default
+                                   renders danger-coloured for dismiss)
+
+  All-sections variants:
+    .pa-composite-badge--{primary | secondary | success | danger | warning
+                         | info | light | dark}
+
+  Section overrides (compose with the base variant or use alone):
+    .pa-composite-badge--label-{primary | secondary | success | danger
+                                | warning | info | light | dark}
+    .pa-composite-badge--btn-{primary | secondary | success | warning
+                              | info | light | dark}
+  (No --btn-danger — base __button is already danger-coloured, so it
+   would be a no-op. File a framework issue if you need explicit parity.)
 
 BADGE GROUP:
-- .pa-badge-group: Container for multiple badges
-- .pa-badge-group--show-all: Show all badges (disable limit)
+- .pa-badge-group             Flex wrap container; hides children past
+                              $badge-group-visible-limit (default 6) EXCEPT
+                              the last one, which always shows (for "+N
+                              more" indicators). Hidden badges stay in DOM.
+- .pa-badge-group--show-all   Disables the limit; all children visible.
 
-LABELS (lightweight alternative to badges):
-- .pa-label: Base label class
-- .pa-label--primary, --secondary, --success, --danger, --warning, --info: Color variants
-- .pa-label--sm: Small size
-- .pa-label--lg: Large size
+LABEL CLASSES:
+- .pa-label                   Lighter tag-style indicator — tinted bg +
+                              coloured border, medium weight.
+
+LABEL VARIANTS:
+- .pa-label--primary / --secondary / --success / --danger / --warning / --info
+  (No --light / --dark, unlike badges.)
+
+LABEL SIZES (same scale as badges):
+- .pa-label--xs / --sm / (default) / --lg / --xl
+
+LABEL MODIFIER:
+- .pa-label--outline          Transparent background; on hover fills with
+                              the tinted colour. Composes with colour
+                              variants: .pa-label--danger.pa-label--outline.
+
+BADGE vs LABEL:
+- Badge  filled tint + border matching bg; nowrap; heavier. Good for
+         counts, status chips, categorical tags in tables.
+- Label  lighter tint + visible border; medium weight; $line-height-tight.
+         Good for inline content tags, category chips in prose.
+
+STRUCTURE PATTERNS:
+
+Badge with icon:
+<span class="pa-badge pa-badge--success">
+  <span class="pa-badge__icon">✓</span> Verified
+</span>
+
+Fixed-width badge with truncation:
+<span class="pa-badge pa-badge--primary minwr-12 maxwr-12 text-truncate">…</span>
+
+Composite badge with mixed section colours:
+<div class="pa-composite-badge pa-composite-badge--primary pa-composite-badge--label-info">
+  <span class="pa-composite-badge__icon">📧</span>
+  <span class="pa-composite-badge__label">…</span>
+  <span class="pa-composite-badge__button">×</span>
+</div>
+
+Badge group with "+N more" tail:
+<div class="pa-badge-group">
+  <span class="pa-badge pa-badge--primary">…</span>
+  … (up to 5)
+  <span class="pa-badge pa-badge--secondary">+N more</span>
+</div>
+
+Outline label:
+<span class="pa-label pa-label--success pa-label--outline">Active</span>
 -->

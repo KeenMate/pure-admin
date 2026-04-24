@@ -19,13 +19,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `toasts.html` | 2026-04-24 | `core-components/_toasts.scss` | [4056fa9](../../../commit/4056fa9) |
 | `popconfirm.html` | 2026-04-24 | `core-components/_popconfirm.scss` | [d8e7f7c](../../../commit/d8e7f7c) |
 | `typography.html` | 2026-04-24 | `core-components/_base.scss`, `core-components/_utilities.scss` (.pa-text), `utilities.scss` (.text-*), `_fonts.scss`, `variables/_typography.scss` | [12f1281](../../../commit/12f1281) |
-| `alerts.html` | 2026-04-24 | `core-components/_alerts.scss` | _(this commit)_ |
+| `alerts.html` | 2026-04-24 | `core-components/_alerts.scss` | [512ef3c](../../../commit/512ef3c) |
+| `badges.html` | 2026-04-24 | `core-components/badges/_badge-base.scss`, `_composite-badge.scss`, `_composite-badge-variants.scss`, `_badge-group.scss`, `_labels.scss` | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `badges.html`
 - `buttons.html`
 - `tables.html`
 - `lists.html`
@@ -73,6 +73,7 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 - **`demo/views/code.mustache`** reference block lists several accent colors that don't match `variables/_colors.scss`: JSON → "Green" (actual amber), bash → "Gray" (actual green), SQL → "Purple" (actual teal), keyword → "purple, bold" (actual blue + medium), function → "blue" (actual purple), property → "cyan" (actual pink-red). Fix in a later demo pass.
 - **`.pa-spinner` ghost size modifiers.** `_loaders.scss` only defines `--xs`; the demo page (`demo/views/loaders.mustache`) and the previous snippet both showed `--sm`, `--md`, `--lg`, `--xl`, `--2xl` with fabricated size labels (1rem → 4rem). All render at the default 16px because the modifiers don't exist. Snippet fixed in loaders commit; demo page still broken — either remove the ghost sizes from the demo, or add them to SCSS. Decision to be made in a future framework pass.
 - ~~**Popconfirm is physical-only; toasts are logical.**~~ Fixed in the popconfirm logical-rename commit: `--left`/`--right` → `--start`/`--end`, SCSS switched to `inset-inline-*` + `margin-inline-*`, arrow gets `scaleX(-1)` under `[dir="rtl"]`. See Unreleased section of CHANGELOG.
+- **Composite badge missing `--btn-danger` variant.** All other button-section colour overrides exist (`--btn-primary`, `--btn-secondary`, `--btn-success`, `--btn-warning`, `--btn-info`, `--btn-light`, `--btn-dark`) but not `--btn-danger`. The base `.pa-composite-badge__button` defaults to danger colours, so adding `--btn-danger` would be a no-op in practice, but the gap is inconsistent with `--label-danger` (which does exist) and makes "what overrides are available" harder to predict. Snippet flags the omission; actual fix is a single block in `_composite-badge-variants.scss`.
 
 ## Rehash
 
