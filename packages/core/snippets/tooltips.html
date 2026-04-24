@@ -89,17 +89,24 @@
 <span class="pa-tooltip pa-tooltip--color-9" data-tooltip="Color 9">Color 9</span>
 
 
-<!-- CURSOR MODIFIERS -->
+<!-- CURSOR / UNDERLINE MODIFIERS -->
 
-<!-- Default tooltip (inherits parent cursor - good for clickable elements like buttons, tabs) -->
+<!-- Default tooltip (inherits parent cursor — good for clickable elements like buttons, tabs) -->
 <button class="pa-btn pa-btn--primary pa-tooltip" data-tooltip="Click to view">
   Clickable Item
 </button>
 
-<!-- Help cursor tooltip (question mark cursor - good for informational hints) -->
+<!-- Help cursor tooltip (question-mark cursor — good for informational hints) -->
 <span class="pa-tooltip pa-tooltip--help" data-tooltip="This provides helpful information">
   What's this?
 </span>
+
+<!-- Keyword tooltip (dotted underline + help cursor — good for inline term explanations) -->
+<p>
+  The system uses
+  <span class="pa-tooltip pa-tooltip--keyword" data-tooltip="JSON Web Tokens: a signed claim used for stateless auth">JWT</span>
+  for session authentication.
+</p>
 
 
 <!-- COLORED TOOLTIPS WITH POSITIONS -->
@@ -170,6 +177,42 @@
 <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Very Long Badge Text That Needs Truncation">
   <span class="pa-badge pa-badge--info minwr-8 maxwr-8 text-truncate">Very Long Badge Text That Needs Truncation</span>
 </span>
+
+
+<!-- ================================
+     JS-PORTAL TOOLTIP (.pa-tooltip-floating)
+     A separate class for tooltips rendered into the body by JS (the
+     tooltips-popovers.js script does this automatically). Use when the
+     trigger sits inside an overflow: hidden container — a CSS tooltip
+     would be clipped; the portal-rendered one escapes the parent.
+
+     Consumers don't author this markup directly — it's emitted by
+     the tooltip JS at runtime. But for framework wrappers (Svelte/Vue/
+     React) that render their own portal tooltip, match this shape:
+     ================================ -->
+
+<div class="pa-tooltip-floating" role="tooltip">
+  Tooltip text here
+</div>
+
+<!-- Floating tooltip with colour / multiline variants -->
+<div class="pa-tooltip-floating pa-tooltip--primary" role="tooltip">Primary</div>
+<div class="pa-tooltip-floating pa-tooltip--success" role="tooltip">Success</div>
+<div class="pa-tooltip-floating pa-tooltip--warning" role="tooltip">Warning</div>
+<div class="pa-tooltip-floating pa-tooltip--danger"  role="tooltip">Danger</div>
+<div class="pa-tooltip-floating pa-tooltip--color-3" role="tooltip">Theme color 3</div>
+
+<div class="pa-tooltip-floating pa-tooltip--multiline" role="tooltip">
+  Long multi-line content that wraps inside the tooltip box.
+</div>
+
+<!--
+If you attach the portal tooltip to an element that ALSO has a
+pa-tooltip CSS class, add pa-tooltip--floating to the element to
+suppress the CSS pseudo tooltip — otherwise you get two tooltips
+stacked over the trigger.
+-->
+<span class="pa-tooltip pa-tooltip--floating" data-tooltip="handled by JS">Trigger</span>
 
 
 <!-- POPOVERS - Basic -->
@@ -394,86 +437,161 @@ document.addEventListener('content-loaded', function() {
 </script>
 
 
-<!-- AVAILABLE CLASSES REFERENCE -->
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
 <!--
-TOOLTIPS:
-- pa-tooltip (base class, top position by default)
+CSS TOOLTIP (.pa-tooltip):
+Pure CSS pseudo-element tooltip — no JS needed for the basic effect.
+Text comes from the `data-tooltip` attribute on the trigger.
 
-POSITIONS (RTL-aware):
-- pa-tooltip--end (inline-end: right in LTR, left in RTL)
-- pa-tooltip--bottom
-- pa-tooltip--start (inline-start: left in LTR, right in RTL)
+Position (logical, RTL-aware):
+- .pa-tooltip           default (top)
+- .pa-tooltip--bottom   below the trigger
+- .pa-tooltip--end      inline-end (right in LTR, left in RTL)
+- .pa-tooltip--start    inline-start (left in LTR, right in RTL)
 
-VARIANTS:
-- pa-tooltip--primary (primary colored background)
-- pa-tooltip--success (success colored background)
-- pa-tooltip--warning (warning colored background)
-- pa-tooltip--danger (danger colored background)
-- pa-tooltip--color-1 through pa-tooltip--color-9 (theme-defined colors)
+Colour variants (colour the bubble + arrow):
+- .pa-tooltip--primary / --success / --warning / --danger
+  (--warning uses dark text automatically because yellow-on-white is
+   low-contrast; the others keep --pa-tooltip-text.)
+- .pa-tooltip--color-{1..9}                 theme colour slots
 
-MULTILINE:
-- pa-tooltip--multiline (allows text wrapping)
+Modifiers:
+- .pa-tooltip--multiline   allow text wrapping (fixed width); default
+                           is single-line with ellipsis overflow.
+- .pa-tooltip--help        cursor: help (? cursor) — informational hints
+- .pa-tooltip--keyword     dotted underline + help cursor — for
+                           term-explanation inline in prose.
+- .pa-tooltip--floating    suppress the CSS pseudo tooltip — used when
+                           a JS portal tooltip (.pa-tooltip-floating)
+                           is showing over the same trigger, to prevent
+                           double tooltips.
 
-POPOVERS:
-- pa-popover (base container)
+Auto-flip (applied at runtime by tooltips-popovers.js when the
+tooltip would overflow the viewport — not typically authored):
+- .pa-tooltip--auto-flip-top     shifted to show above after being
+                                 authored below
+- .pa-tooltip--auto-flip-bottom  inverse
+- .pa-tooltip--auto-flip-start   inverse of --end
+- .pa-tooltip--auto-flip-end     inverse of --start
+  (These are CSS classes the JS toggles dynamically. Safe to author
+   your tooltip with whatever side you prefer and let the JS handle
+   collisions.)
 
-POSITIONING (use data-placement attribute, RTL-aware):
-- data-placement="top" (default)
-- data-placement="end" (inline-end: right in LTR, left in RTL)
+
+JS PORTAL TOOLTIP (.pa-tooltip-floating):
+Separate class for a tooltip element appended to the body by JS. Used
+when the trigger lives inside an `overflow: hidden` ancestor that
+would clip the pseudo-element tooltip. Emitted automatically by
+tooltips-popovers.js; framework wrappers should match this structure:
+
+  <div class="pa-tooltip-floating" role="tooltip">Tooltip text</div>
+
+Variants (compose with the base class):
+- .pa-tooltip--multiline
+- .pa-tooltip--primary / --success / --warning / --danger
+- .pa-tooltip--color-{1..9}
+
+(When using .pa-tooltip-floating against a trigger that also has
+pa-tooltip, add .pa-tooltip--floating to the trigger to hide the
+CSS pseudo — otherwise both tooltips render.)
+
+
+POPOVER (.pa-popover):
+Click-triggered rich-content container. JS-positioned via Floating UI;
+shown/hidden by toggling `data-show` on `__content`.
+
+Structure:
+  .pa-popover[data-placement="top|bottom|start|end"]
+    button.pa-popover__trigger         circular trigger button
+    .pa-popover__content[data-show]    hidden without data-show
+      .pa-popover__header
+        <h4>Title</h4>                 header expects <h4> (styled)
+        button.pa-popover__close       × close button
+      .pa-popover__body
+        <p>, <ul>/<ol>, <a>, <code>    all auto-styled (see below)
+
+Positioning:
+- data-placement="top"      (default)
 - data-placement="bottom"
-- data-placement="start" (inline-start: left in LTR, right in RTL)
+- data-placement="end"      inline-end (RTL-aware)
+- data-placement="start"    inline-start (RTL-aware)
+  (Popovers use an attribute, not a class modifier, because positioning
+  is entirely JS-driven — there's no CSS fallback.)
 
-SIZES:
-- pa-popover--sm (small)
-- pa-popover--lg (large)
+Sizes:
+- .pa-popover--sm
+- (default)
+- .pa-popover--lg
 
-ALIGNMENT:
-- pa-popover--center (centered body text)
-- pa-popover--end (end-aligned body text)
+Body alignment:
+- (default)             text-align: start
+- .pa-popover--center   text-align: center on body
+- .pa-popover--end      text-align: end on body (RTL-aware)
 
-COMPONENTS:
-- pa-popover__trigger (button/trigger element)
-- pa-popover__content (popover container)
-- pa-popover__header (header section)
-- pa-popover__body (content section)
-- pa-popover__close (close button)
+Auto-styled inside .pa-popover__body:
+- <p>     spaced paragraphs; last-child bottom margin collapsed
+- <a>     accent colour, underlined, darker on hover
+- <ul>, <ol>   spacing-sm vertical margin, padding-inline-start
+- <code>  monospace, tinted background, small padding
 
-FLOATING UI FEATURES:
-- Automatic collision detection
-- Auto-flipping when near viewport edges
-- Smart shift to stay visible
-- No manual positioning needed
-- autoUpdate for automatic repositioning on scroll/resize
--->
 
-<!-- IMPLEMENTATION NOTES -->
-<!--
-REQUIREMENTS:
-- @floating-ui/core and @floating-ui/dom must be loaded
-- tooltips-popovers.js handles all initialization
-- SCSS styles in core-components/_tooltips.scss
-
-FLOATING UI BENEFITS:
-- Tooltips never go off-screen
-- Auto-flip to opposite side if no space
-- Shift horizontally/vertically to stay visible
-- Works with scrolling and resizing
-- Position is calculated dynamically
-
-TOOLTIP BEHAVIOR:
-- Show on mouseenter and focus
-- Hide on mouseleave and blur
+FLOATING UI CONTRACT:
+Both .pa-tooltip-floating rendering and .pa-popover positioning are
+driven by @floating-ui/core + @floating-ui/dom. Features the demo
+bundle wires up via tooltips-popovers.js:
+- computePosition() with offset + flip + shift middleware
+- autoUpdate() so tooltips / popovers reposition on scroll + resize
 - Single shared tooltip element (performance)
-- Positioned using computePosition() with flip, shift, offset middleware
-
-POPOVER BEHAVIOR:
-- Show on trigger click
-- Hide on close button click or outside click
-- Use data-placement attribute for positioning (not CSS classes)
-- Positioned using computePosition() with flip, shift, offset middleware
-- autoUpdate ensures automatic repositioning on scroll/resize
-- Uses data-show attribute for visibility control
-- Absolute positioning relative to trigger
 - Only one popover open at a time
-- Proper cleanup of autoUpdate on hide
+- Outside-click and Escape close popovers; close-button does the same
+
+JAVASCRIPT API:
+tooltips-popovers.js exposes:
+  window.PureAdminTooltips.init()           (re-scan DOM)
+  window.PureAdminTooltips.initTooltips()
+  window.PureAdminTooltips.initPopovers()
+  window.PureAdminTooltips.showTooltip(el)
+  window.PureAdminTooltips.hideTooltip()
+
+Call init() after dynamically-inserted content to register new
+triggers. Demo example:
+  document.addEventListener('content-loaded', () => {
+    window.PureAdminTooltips.init();
+  });
+
+
+STRUCTURE PATTERNS:
+
+Simple tooltip:
+<span class="pa-tooltip" data-tooltip="Hello">Hover me</span>
+
+Tooltip on an icon button (bottom, coloured):
+<button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger pa-tooltip pa-tooltip--bottom" data-tooltip="Delete user">
+  🗑️
+</button>
+
+Keyword tooltip inline in prose (dotted underline):
+<p>
+  Ask for a
+  <span class="pa-tooltip pa-tooltip--keyword" data-tooltip="Web Worker">WW</span>
+  when you need background threads.
+</p>
+
+Rich popover:
+<div class="pa-popover" data-placement="bottom">
+  <button class="pa-popover__trigger">?</button>
+  <div class="pa-popover__content">
+    <div class="pa-popover__header">
+      <h4>Help</h4>
+      <button class="pa-popover__close">×</button>
+    </div>
+    <div class="pa-popover__body">
+      <p>Rich popover with a <a href="#">link</a> and a list:</p>
+      <ul><li>Item A</li><li>Item B</li></ul>
+    </div>
+  </div>
+</div>
 -->
