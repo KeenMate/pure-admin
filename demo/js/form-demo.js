@@ -168,10 +168,38 @@
         return str.length > max ? str.slice(0, max) + '…' : str;
     }
 
-    function formatTime(dt) {
+    // Buckets mirror PureAdmin.DateTime.relative/2 in keen-pure-admin so the
+    // two demos produce matching phrasing.
+    function relativeTime(dt, now = new Date()) {
+        const diff = Math.round((now.getTime() - dt.getTime()) / 1000);
+        const abs = Math.abs(diff);
+        const future = diff < 0;
+
+        const wrap = (phrase) => future ? `in ${phrase}` : `${phrase} ago`;
+
+        if (abs <= 5) return 'now';
+        if (abs < 60) return wrap(`${abs} seconds`);
+        if (abs < 120) return future ? 'in a minute' : 'a minute ago';
+        if (abs < 3600) return wrap(`${Math.floor(abs / 60)} minutes`);
+        if (abs < 7200) return future ? 'in an hour' : 'an hour ago';
+        if (abs < 86400) return wrap(`${Math.floor(abs / 3600)} hours`);
+        if (abs < 172800) return future ? 'tomorrow' : 'yesterday';
+        if (abs < 604800) return wrap(`${Math.floor(abs / 86400)} days`);
+        if (abs < 1209600) return future ? 'in a week' : 'a week ago';
+        if (abs < 2592000) return wrap(`${Math.floor(abs / 604800)} weeks`);
+        if (abs < 5184000) return future ? 'in a month' : 'a month ago';
+        if (abs < 31536000) return wrap(`${Math.floor(abs / 2592000)} months`);
+        if (abs < 63072000) return future ? 'in a year' : 'a year ago';
+        return wrap(`${Math.floor(abs / 31536000)} years`);
+    }
+
+    const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+
+    function longDateTime(dt) {
         const pad = n => String(n).padStart(2, '0');
-        return `${dt.getUTCFullYear()}-${pad(dt.getUTCMonth() + 1)}-${pad(dt.getUTCDate())} ` +
-            `${pad(dt.getUTCHours())}:${pad(dt.getUTCMinutes())}:${pad(dt.getUTCSeconds())} UTC`;
+        return `${MONTH_NAMES[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()} at ` +
+            `${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
     }
 
     function renderTable() {
@@ -219,7 +247,7 @@
                     <td>${dept}</td>
                     <td>${date}</td>
                     <td>${bio}</td>
-                    <td><small class="text-muted">${formatTime(e.inserted_at)}</small></td>
+                    <td><span class="text-muted" title="${escapeHtml(longDateTime(e.inserted_at))}">${escapeHtml(relativeTime(e.inserted_at))}</span></td>
                 </tr>
             `;
         }).join('');
