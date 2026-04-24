@@ -1,122 +1,207 @@
 <!-- ================================
      LAYOUT & SIDEBAR SNIPPETS
      Pure Admin Visual Framework
+
+     SCSS lives in core-components/layout/ as a subfolder:
+       _layout-container.scss   .pa-layout, container widths, footer
+       _navbar.scss             .pa-navbar + header sections
+       _navbar-elements.scss    burger, brand, nav, dropdowns, title, profile
+       _sidebar.scss            .pa-layout__sidebar + .pa-sidebar BEM block
+       _sidebar-states.scss     hidden, icon-collapse, flyouts
+       _layout-responsive.scss  mobile / tablet media queries
      ================================ -->
+
 
 <!-- ================================
      BASIC LAYOUT STRUCTURE
+     The framework expects this outer shell — navbar fixed at top,
+     layout below it hosting sidebar + content + footer.
      ================================ -->
 
-<!-- Navbar (outside layout container) -->
+<!-- Navbar (position: fixed, full width by default) -->
 <nav class="pa-navbar">
     <div class="pa-navbar__inner">
-        <!-- Navbar content uses pa-header__ classes for elements -->
-        <!-- Burger menu, brand, navigation, page title, profile -->
-        <!-- See HEADER/NAVBAR section below for complete example -->
+        <!-- Header sections go here — see NAVBAR section below for a full example -->
     </div>
 </nav>
 
-<!-- Layout Container (below navbar) -->
+<!-- Layout wrapper (sits below navbar thanks to margin-top: $header-height) -->
 <div class="pa-layout">
-    <!-- Layout Inner: Sidebar + Content -->
+    <!-- Inner: sidebar + content (flex row) -->
     <div class="pa-layout__inner">
-        <!-- Sidebar -->
         <aside class="pa-layout__sidebar">
             <nav class="pa-sidebar__nav">
                 <ul>
-                    <!-- Sidebar menu items here -->
-                    <!-- See SIDEBAR sections below for complete examples -->
+                    <!-- Sidebar items go here — see SIDEBAR sections below -->
                 </ul>
             </nav>
         </aside>
 
-        <!-- Layout Content: Main only -->
+        <!-- Content wrapper (scrolls in sticky mode) -->
         <div class="pa-layout__content">
-            <!-- Main Content -->
+            <!-- Main content — sets container-type: inline-size, so
+                 pa-col-sm-* / -md-* / -lg-* / -xl-* grid responsiveness
+                 works automatically for any pa-row nested inside. -->
             <main class="pa-layout__main">
-                <div class="pa-layout__main__inner">
-                    <!-- Your page content here -->
-                </div>
+                <!-- Your page content here -->
             </main>
         </div>
     </div>
 
-    <!-- Footer (outside inner, inside layout) -->
-    <!-- Three-section layout: Left / Center / Right -->
+    <!-- Footer — sibling of __inner, inside .pa-layout -->
     <footer class="pa-layout__footer">
-        <!-- Left Section (stays anchored left) -->
         <div class="pa-footer__start">
             <p>&copy; 2024 Pure Admin Framework</p>
         </div>
-
-        <!-- Center Section (flexible, fills space) -->
         <div class="pa-footer__center">
-            <!-- Optional center content -->
+            <!-- Optional centre content; hidden on mobile by default -->
         </div>
-
-        <!-- Right Section (stays anchored right) -->
         <div class="pa-footer__end">
             <span>App version: 1.2.1</span>
-            <span>Database version: 2.3.1</span>
             <a href="#">Open Source Licenses</a>
         </div>
     </footer>
 </div>
 
+<!-- Footer end with vertical stack (for many small items) -->
+<div class="pa-footer__end pa-footer__end--vertical">
+    <span>Version 1.2.1</span>
+    <span>Build 2341</span>
+    <a href="#">Licenses</a>
+</div>
+
 
 <!-- ================================
-     LAYOUT WIDTH VARIANTS
-     Width is controlled by body classes, not div classes
+     LAYOUT MODES (body-level flags)
+     Two orthogonal mode flags applied to <body>:
+       pa-layout--sticky    — body overflow: hidden; .pa-layout is
+                              100vh, content wrapper scrolls internally.
+                              Good for "app" feel with fixed sidebar.
+       (none)               — default; body scrolls naturally, footer
+                              reaches viewport bottom via min-height.
+
+     Container widths (also body classes — constrain both .pa-navbar
+     and .pa-layout max-width):
+       pa-container-sm      768px
+       pa-container-md      1024px
+       pa-container-lg      1280px
+       pa-container-xl      1600px
+       pa-container-2xl     1920px
+       (none)               fluid / full width
      ================================ -->
 
-<!-- Fluid Layout (Full Width) - Default -->
-<body>
-    <div class="pa-layout">
-        <!-- Content -->
-    </div>
-</body>
-
-<!-- Small Container (768px) -->
-<body class="pa-container-sm">
-    <div class="pa-layout">
-        <!-- Content -->
-    </div>
-</body>
-
-<!-- Medium Container (1024px) -->
-<body class="pa-container-md">
-    <div class="pa-layout">
-        <!-- Content -->
-    </div>
-</body>
-
-<!-- Large Container (1280px) -->
-<body class="pa-container-lg">
-    <div class="pa-layout">
-        <!-- Content -->
-    </div>
-</body>
-
-<!-- Extra Large Container (1600px) -->
-<body class="pa-container-xl">
-    <div class="pa-layout">
-        <!-- Content -->
-    </div>
-</body>
-
-<!-- 2X Large Container (1920px) -->
-<body class="pa-container-2xl">
-    <div class="pa-layout">
-        <!-- Content -->
-    </div>
+<body class="pa-layout--sticky pa-container-lg">
+    <!-- Sticky mode, constrained to 1280px -->
 </body>
 
 
 <!-- ================================
-     SIDEBAR - BASIC MENU
+     NAVBAR / HEADER
+     Three-section layout (start / center / end) inside .pa-navbar__inner.
      ================================ -->
 
-<!-- Sidebar with Simple Links -->
+<nav class="pa-navbar">
+    <div class="pa-navbar__inner">
+        <!-- START: burger, brand, left nav -->
+        <div class="pa-header__start">
+            <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="pa-header__brand">
+                <h1>Pure Admin</h1>
+            </div>
+
+            <!-- Nav: pa-header__nav auto-styles its direct child <ul> > <li> > <a>.
+                 No additional classes needed on list items or anchors. -->
+            <nav class="pa-header__nav pa-header__nav--start">
+                <ul>
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="/components">Components</a></li>
+
+                    <!-- Hover-triggered dropdown -->
+                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+                        <a href="#" class="pa-header__nav-link">More</a>
+                        <ul class="pa-header__dropdown">
+                            <li><a href="/forms">Forms</a></li>
+                            <li><a href="/tables">Tables</a></li>
+
+                            <!-- Nested dropdown (level 2) -->
+                            <li class="pa-header__nav-item--has-dropdown">
+                                <a href="#">Reports ›</a>
+                                <ul class="pa-header__dropdown pa-header__dropdown--level2">
+                                    <li><a href="/reports/daily">Daily</a></li>
+                                    <li><a href="/reports/weekly">Weekly</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- CENTER: page title (flexes + truncates) -->
+        <div class="pa-header__center">
+            <div class="pa-header__title">
+                <h2>Dashboard</h2>
+            </div>
+        </div>
+
+        <!-- END: right nav, notifications, profile -->
+        <div class="pa-header__end">
+            <nav class="pa-header__nav pa-header__nav--end">
+                <ul>
+                    <li><a href="/alerts">Alerts</a></li>
+                </ul>
+            </nav>
+
+            <!-- pa-notifications is defined in _notifications.scss, not
+                 layout — see the (pending) notifications snippet for
+                 the full variant set. -->
+            <div class="pa-notifications">
+                <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
+                    <span class="pa-notifications__icon">🔔</span>
+                    <span class="pa-notifications__badge">3</span>
+                </button>
+            </div>
+
+            <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+                <span class="pa-btn__icon">👤</span>
+                <span class="pa-header__profile-name">John Doe</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!--
+Notes on the navbar:
+- .pa-header__nav--start / --end are organisational placeholders
+  (empty SCSS blocks). They let you group nav links by side without
+  adding display rules. If you add your own styling, remember these
+  classes carry none of their own.
+- .pa-header__nav-item--has-dropdown uses position: static so the
+  dropdown positions relative to the navbar, not this specific item.
+- On mobile (max-width: $mobile-breakpoint), .pa-header__nav is hidden
+  entirely. Put dropdown-only items in a sidebar nav if they must stay
+  reachable below 768px.
+-->
+
+
+<!-- THEME SWITCHER (helper block in the header) -->
+
+<div class="theme-switcher">
+    <label for="theme">Theme:</label>
+    <select id="theme" onchange="switchTheme(this.value)">
+        <option value="corporate">Corporate</option>
+        <option value="dark">Dark</option>
+    </select>
+</div>
+
+
+<!-- ================================
+     SIDEBAR — BASIC MENU
+     ================================ -->
+
 <aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
@@ -126,74 +211,33 @@
                     <span class="pa-sidebar__label">Dashboard</span>
                 </a>
             </li>
-
             <li class="pa-sidebar__item">
                 <a href="/components" class="pa-sidebar__link">
                     <span class="pa-sidebar__icon">🧩</span>
                     <span class="pa-sidebar__label">Components</span>
                 </a>
             </li>
-
             <li class="pa-sidebar__item">
                 <a href="/forms" class="pa-sidebar__link">
                     <span class="pa-sidebar__icon">📝</span>
                     <span class="pa-sidebar__label">Forms</span>
                 </a>
             </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/tables" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">📋</span>
-                    <span class="pa-sidebar__label">Tables</span>
-                </a>
-            </li>
         </ul>
     </nav>
 </aside>
 
 
 <!-- ================================
-     SIDEBAR - WITH FONT AWESOME ICONS
+     SIDEBAR — WITH COLLAPSIBLE SUBMENU
+     Use <button class="pa-sidebar__toggle"> for collapsible parents and
+     <a class="pa-sidebar__link"> for leaves. Submenu opens when the
+     parent <li> gets --open and the <ul> gets --open.
      ================================ -->
 
-<!-- Sidebar with Font Awesome Icons -->
 <aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
-            <li class="pa-sidebar__item">
-                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
-                    <span class="pa-sidebar__icon"><i class="fa-solid fa-chart-line"></i></span>
-                    <span class="pa-sidebar__label">Dashboard</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/users" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon"><i class="fa-solid fa-users"></i></span>
-                    <span class="pa-sidebar__label">Users</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/settings" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon"><i class="fa-solid fa-gear"></i></span>
-                    <span class="pa-sidebar__label">Settings</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</aside>
-
-
-<!-- ================================
-     SIDEBAR - WITH COLLAPSIBLE SUBMENU
-     ================================ -->
-
-<!-- Sidebar with Submenu (Two Levels) -->
-<aside class="pa-layout__sidebar">
-    <nav class="pa-sidebar__nav">
-        <ul>
-            <!-- Regular link -->
             <li class="pa-sidebar__item">
                 <a href="/" class="pa-sidebar__link">
                     <span class="pa-sidebar__icon">📊</span>
@@ -201,7 +245,7 @@
                 </a>
             </li>
 
-            <!-- Collapsible submenu -->
+            <!-- Collapsible (parent is a button, not a link) -->
             <li class="pa-sidebar__item">
                 <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
                     <span class="pa-sidebar__icon">📋</span>
@@ -211,13 +255,13 @@
                 <ul class="pa-sidebar__submenu">
                     <li class="pa-sidebar__item">
                         <a href="/tables" class="pa-sidebar__link">
-                            <span class="pa-sidebar__icon">📊</span>
-                            <span class="pa-sidebar__label">Standard Tables</span>
+                            <span class="pa-sidebar__icon">•</span>
+                            <span class="pa-sidebar__label">Standard</span>
                         </a>
                     </li>
                     <li class="pa-sidebar__item">
                         <a href="/tables-lazy" class="pa-sidebar__link">
-                            <span class="pa-sidebar__icon">⚡</span>
+                            <span class="pa-sidebar__icon">•</span>
                             <span class="pa-sidebar__label">Lazy Loading</span>
                         </a>
                     </li>
@@ -229,10 +273,12 @@
 
 
 <!-- ================================
-     SIDEBAR - THREE-LEVEL NESTED MENU
+     SIDEBAR — THREE-LEVEL NESTING
+     Level 2 and level 3 items get progressively indented via
+     padding-inline-start so the hierarchy reads at a glance. All
+     indentation is RTL-aware.
      ================================ -->
 
-<!-- Sidebar with Three-Level Nesting -->
 <aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
         <ul>
@@ -259,12 +305,6 @@
                                     <span class="pa-sidebar__label">Security</span>
                                 </a>
                             </li>
-                            <li class="pa-sidebar__item">
-                                <a href="/settings/advanced/performance" class="pa-sidebar__link">
-                                    <span class="pa-sidebar__icon">•</span>
-                                    <span class="pa-sidebar__label">Performance</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -275,272 +315,126 @@
 
 
 <!-- ================================
-     SIDEBAR - COMPLETE EXAMPLE
+     SIDEBAR MODES
+     Only one real modifier class exists on the sidebar element:
+     --icon-collapse (for the icon-only collapsed state).
+
+     Hidden vs visible is controlled by body classes:
+       .sidebar-hidden   — desktop: sidebar collapses (or hides)
+       .sidebar-visible  — mobile: sidebar overlays the content
      ================================ -->
 
-<!-- Full Sidebar with Mixed Links and Submenus -->
+<!-- Icon-collapse sidebar: hidden state shows a narrow icon bar with
+     hover flyouts for labels and submenus. When not hidden, renders
+     at normal width with labels visible. -->
+<aside class="pa-layout__sidebar pa-layout__sidebar--icon-collapse">
+    <!-- Same pa-sidebar__nav markup as above. No content changes needed —
+         the CSS handles the collapse/flyout behaviour automatically. -->
+</aside>
+
+<!-- Default sidebar with no modifier: hides entirely under .sidebar-hidden,
+     shows fully otherwise. -->
+<aside class="pa-layout__sidebar">
+    <!-- nav -->
+</aside>
+
+
+<!-- ================================
+     SIDEBAR WIDTH / RESIZING
+     The sidebar reads its width from a CSS custom property:
+
+       :root { --pa-local-sidebar-width: 28.8rem; }   /* default */
+       :where(.pa-layout__sidebar) { width: var(--pa-local-sidebar-width); }
+
+     :where() gives the rule zero specificity, so any utility class
+     (.wr-*, .minwr-*, .maxwr-*) on the same element wins.
+
+     To make the sidebar drag-resizable, include a .pa-sidebar-resize
+     handle inside it and wire up JS that:
+       1. On mousedown: add body.pa-sidebar-resizing (locks selection)
+                        + .pa-sidebar-resize--active (visual feedback)
+       2. On mousemove: update --pa-local-sidebar-width on :root or html
+       3. On mouseup:   remove both classes; optionally persist width to
+                        localStorage.
+
+     There is NO pa-layout__sidebar--resizable or --sticky modifier.
+     Earlier docs claimed these; they never existed in SCSS.
+     ================================ -->
+
+<!-- Fixed width via rem utility — overrides the CSS variable default -->
+<aside class="pa-layout__sidebar wr-25">
+    <!-- 25rem (250px) — utility class wins because :where() has 0 specificity -->
+</aside>
+
+<!-- Resizable sidebar — user-drag-to-resize via handle + JS -->
 <aside class="pa-layout__sidebar">
     <nav class="pa-sidebar__nav">
-        <ul>
-            <li class="pa-sidebar__item">
-                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
-                    <span class="pa-sidebar__icon">📊</span>
-                    <span class="pa-sidebar__label">Dashboard</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/components" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">🧩</span>
-                    <span class="pa-sidebar__label">Components</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/forms" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">📝</span>
-                    <span class="pa-sidebar__label">Forms</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/buttons" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">🔘</span>
-                    <span class="pa-sidebar__label">Buttons</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/cards" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">🃏</span>
-                    <span class="pa-sidebar__label">Cards</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/badges" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">🏷️</span>
-                    <span class="pa-sidebar__label">Badges</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/modals" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">🪟</span>
-                    <span class="pa-sidebar__label">Modals</span>
-                </a>
-            </li>
-
-            <li class="pa-sidebar__item">
-                <a href="/alerts" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">⚠️</span>
-                    <span class="pa-sidebar__label">Alerts</span>
-                </a>
-            </li>
-
-            <!-- Tables submenu -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">📋</span>
-                    <span class="pa-sidebar__label">Tables</span>
-                    <span class="pa-sidebar__chevron">›</span>
-                </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item">
-                        <a href="/tables" class="pa-sidebar__link">
-                            <span class="pa-sidebar__icon">📊</span>
-                            <span class="pa-sidebar__label">Standard Tables</span>
-                        </a>
-                    </li>
-                    <li class="pa-sidebar__item">
-                        <a href="/tables-lazy" class="pa-sidebar__link">
-                            <span class="pa-sidebar__icon">⚡</span>
-                            <span class="pa-sidebar__label">Lazy Loading</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        <!-- nav items -->
     </nav>
+    <!-- Handle element; styled absolute on inline-end edge -->
+    <div class="pa-sidebar-resize"></div>
 </aside>
 
-
-<!-- ================================
-     SIDEBAR MODES
-     ================================ -->
-
-<!-- Sticky Sidebar (stays fixed while content scrolls) -->
-<aside class="pa-layout__sidebar pa-layout__sidebar--sticky">
-    <!-- Nav content -->
-</aside>
-
-<!-- Icon-collapse Sidebar (collapses to icon bar instead of hiding) -->
-<aside class="pa-layout__sidebar pa-layout__sidebar--icon-collapse">
-    <!-- Nav content -->
-</aside>
-
-
-<!-- ================================
-     SIDEBAR WIDTH CONTROL
-     ================================ -->
-
-<!-- Default width (28.8rem / 288px from CSS variable) -->
-<aside class="pa-layout__sidebar">
-    <!-- Nav content -->
-</aside>
-
-<!-- Resizable sidebar (opt-in, drag right edge to resize) -->
-<aside class="pa-layout__sidebar pa-layout__sidebar--resizable">
-    <!-- Nav content -->
-    <!-- Drag handle appears on right edge -->
-    <!-- Width saved to localStorage -->
-    <!-- Double-click handle to reset to default -->
-</aside>
-
-<!-- Custom fixed width using utility class (overrides default and resize) -->
-<aside class="pa-layout__sidebar wr-25">
-    <!-- Fixed 25rem (250px) width -->
-    <!-- wr-* sets exact width, blocks resize -->
-</aside>
-
-<!-- Custom minimum width using utility class (allows resize above minimum) -->
-<aside class="pa-layout__sidebar pa-layout__sidebar--resizable minwr-20">
-    <!-- Minimum 20rem (200px) width -->
-    <!-- minwr-* sets floor, resize still works above it -->
-</aside>
-
+<!-- Width bounds set by the CSS variables below — JS should respect these: -->
 <!--
-SIDEBAR WIDTH OPTIONS:
-1. Default: Uses CSS variable --pa-local-sidebar-width (28.8rem)
-2. Resizable: Add --resizable class, user can drag to resize (180-500px range)
-3. Fixed width: Add wr-* utility class (e.g., wr-20, wr-25, wr-30)
-4. Minimum width: Add minwr-* utility class (e.g., minwr-15, minwr-20)
-
-WIDTH UTILITY CLASSES (rem-based, 10px = 1rem):
-- .wr-15 to .wr-25 - Fixed width (15rem to 25rem)
-- .minwr-15 to .minwr-25 - Minimum width (allows resize above)
-- .maxwr-15 to .maxwr-25 - Maximum width (limits resize)
-
-NOTE: Fixed width (.wr-*) overrides both default and resizable width.
-      Use .minwr-* with --resizable to set a floor while allowing resize.
+  :root {
+    --pa-local-sidebar-width: 28.8rem;       /* default */
+    --pa-local-sidebar-min-width: 18rem;     /* floor   */
+    --pa-local-sidebar-max-width: 50rem;     /* ceiling */
+  }
 -->
 
 
 <!-- ================================
-     NAVBAR/HEADER (with burger menu and navigation)
-     Three-section layout: Left / Center / Right
+     BURGER MENU
+     Three <span>s stacked vertically; add .active to animate into an X.
+     RTL-aware — the translation direction flips under [dir="rtl"].
      ================================ -->
 
-<!-- Complete Navbar Example (hybrid: pa-navbar wrapper, pa-header__ elements) -->
-<nav class="pa-navbar">
-    <div class="pa-navbar__inner">
-        <!-- Left Section: Burger, Brand, Left Nav (stays anchored left) -->
-        <div class="pa-header__start">
-            <!-- Hamburger Menu (burger) -->
-            <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+<button class="burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
 
-            <!-- Brand -->
-            <div class="pa-header__brand">
-                <h1>Pure Admin</h1>
-            </div>
-
-            <!-- Left Navigation Links -->
-            <nav class="pa-header__nav pa-header__nav--start">
-                <ul>
-                    <li><a href="/">Dashboard</a></li>
-                    <li><a href="/components">Components</a></li>
-                    <li><a href="/forms">Forms</a></li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Center Section: Page Title (flexible, fills space between left/right) -->
-        <div class="pa-header__center">
-            <div class="pa-header__title">
-                <h2>Dashboard</h2>
-            </div>
-        </div>
-
-        <!-- Right Section: Right Nav, Notifications, Profile (stays anchored right) -->
-        <div class="pa-header__end">
-            <!-- Right Navigation Links -->
-            <nav class="pa-header__nav pa-header__nav--end">
-                <ul>
-                    <li><a href="/alerts">Alerts</a></li>
-                    <li><a href="/tables">Tables</a></li>
-                </ul>
-            </nav>
-
-            <!-- Notification Bell -->
-            <div class="pa-notifications">
-                <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
-                    <span class="pa-notifications__icon">🔔</span>
-                    <span class="pa-notifications__badge">3</span>
-                </button>
-            </div>
-
-            <!-- Profile Button -->
-            <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
-                <span class="pa-btn__icon">👤</span>
-                <span class="pa-header__profile-name">John Doe</span>
-            </button>
-        </div>
-    </div>
-</nav>
+<!--
+- burger-menu (no .active) → three bars (☰) — sidebar visible / shown
+- burger-menu.active        → X shape          — sidebar hidden / closed
+Animation: ~150ms ease-out. Top/bottom bars rotate; middle bar fades.
+The class .pa-header__burger is just a layout-position helper; the
+visual animation lives on .burger-menu.
+-->
 
 
 <!-- ================================
-     JAVASCRIPT - BURGER MENU TOGGLE
+     JAVASCRIPT — SIDEBAR TOGGLE + SUBMENU
      ================================ -->
 
 <script>
-/**
- * Toggle sidebar visibility (burger menu)
- */
+// Toggle sidebar: mobile uses .sidebar-visible (overlay); desktop uses
+// .sidebar-hidden (collapse / hide depending on --icon-collapse).
 function toggleSidebar() {
     const body = document.body;
-    const burgerMenu = document.querySelector('.burger-menu');
+    const burger = document.querySelector('.burger-menu');
     const isMobile = window.innerWidth <= 768;
 
     if (isMobile) {
-        // Mobile: Toggle sidebar visibility
         body.classList.toggle('sidebar-visible');
-        burgerMenu.classList.toggle('active');
+        burger.classList.toggle('active');
     } else {
-        // Desktop: Toggle sidebar hidden state
         body.classList.toggle('sidebar-hidden');
-        burgerMenu.classList.toggle('active');
-        const isHidden = body.classList.contains('sidebar-hidden');
-        localStorage.setItem('sidebar-hidden', isHidden);
+        burger.classList.toggle('active');
+        localStorage.setItem('sidebar-hidden', body.classList.contains('sidebar-hidden'));
     }
 }
-</script>
 
-
-<!-- ================================
-     JAVASCRIPT - SUBMENU TOGGLE
-     ================================ -->
-
-<script>
-/**
- * Toggle sidebar submenu open/closed
- * Saves state to localStorage for persistence
- *
- * @param {HTMLElement} button - The .pa-sidebar__toggle button element
- */
+// Toggle collapsible submenu — flips --open on the parent item + the <ul>.
 function toggleSubmenu(button) {
     const parentItem = button.closest('.pa-sidebar__item');
     const submenu = parentItem.querySelector('.pa-sidebar__submenu');
-
     if (!submenu) return;
 
     const isOpen = parentItem.classList.contains('pa-sidebar__item--open');
-
-    // Toggle current submenu
     if (isOpen) {
         parentItem.classList.remove('pa-sidebar__item--open');
         submenu.classList.remove('pa-sidebar__submenu--open');
@@ -549,157 +443,162 @@ function toggleSubmenu(button) {
         submenu.classList.add('pa-sidebar__submenu--open');
     }
 
-    // Save state to localStorage (optional)
-    const submenuId = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
-    localStorage.setItem(`submenu-${submenuId}`, !isOpen ? 'open' : 'closed');
+    // Optional: persist per-menu open state
+    const id = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
+    localStorage.setItem(`submenu-${id}`, !isOpen ? 'open' : 'closed');
 }
-
-/**
- * Restore submenu states from localStorage on page load (optional)
- */
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.pa-sidebar__toggle').forEach(button => {
-        const label = button.querySelector('.pa-sidebar__label');
-        if (!label) return;
-
-        const submenuId = label.textContent.toLowerCase().replace(/\s+/g, '-');
-        const savedState = localStorage.getItem(`submenu-${submenuId}`);
-
-        if (savedState === 'open') {
-            const parentItem = button.closest('.pa-sidebar__item');
-            const submenu = parentItem.querySelector('.pa-sidebar__submenu');
-            if (submenu) {
-                parentItem.classList.add('pa-sidebar__item--open');
-                submenu.classList.add('pa-sidebar__submenu--open');
-            }
-        }
-    });
-});
 </script>
 
 
 <!-- ================================
-     USAGE NOTES
+     COMPONENT REFERENCE
      ================================ -->
 
 <!--
-LAYOUT STRUCTURE (HYBRID NAMING):
-The framework uses a hybrid naming approach:
-- Navbar wrapper: .pa-navbar + .pa-navbar__inner
-- Navbar elements inside use: .pa-header__ classes (burger, brand, nav, title, profile)
-- Layout wrapper: .pa-layout + .pa-layout__inner
-- Sidebar container: .pa-layout__sidebar
-- Sidebar nav elements use: .pa-sidebar__ classes
+LAYOUT SHELL:
+- .pa-navbar                   Fixed top bar (position: fixed, z-index $z-index-header).
+- .pa-navbar__inner            Inner flex container (padding, gap).
+- .pa-layout                   Below navbar (margin-top: $header-height);
+                               flex column, max-width 100%.
+- .pa-layout__inner            Flex row hosting sidebar + content.
+- .pa-layout__content          Wraps <main>; overflow-y: auto so the
+                               content area is always scrollable.
+- .pa-layout__main             Main content region. Sets
+                               container-type: inline-size — this is
+                               WHY responsive grid classes
+                               (pa-col-sm-*, -md-*, etc.) work inside
+                               the layout automatically.
+- .pa-layout__footer           Page footer; flex row with start/center/end
+                               sections (responsive — center hidden on mobile).
 
-NAVBAR CLASSES:
-- .pa-navbar - Navbar outer wrapper (outside layout container)
-- .pa-navbar__inner - Navbar inner container
+FOOTER SECTIONS:
+- .pa-footer__start            Anchored to inline-start (copyright, etc.)
+- .pa-footer__center           Flexible middle
+- .pa-footer__end              Anchored to inline-end (version info, links)
+- .pa-footer__end--vertical    Stack end items vertically (flex-column)
 
-HEADER SECTION CONTAINERS (inside pa-navbar__inner):
-- .pa-header__start - Start section (burger, brand, nav--start) - stays anchored to start
-- .pa-header__center - Center section (title) - flexible, fills space
-- .pa-header__end - End section (nav--end, notifications, profile) - stays anchored to end
+BODY-LEVEL FLAGS (orthogonal — any combination is valid):
+- .pa-layout--sticky           Fixed-viewport mode: body overflow: hidden;
+                               .pa-layout is 100vh; content wrapper scrolls.
+- .pa-container-sm / -md / -lg / -xl / -2xl
+                               Constrains .pa-navbar AND .pa-layout max-width
+                               to 768 / 1024 / 1280 / 1600 / 1920 px
+                               respectively. Navbar and layout both get
+                               margin-inline: auto to stay centred.
+- .sidebar-hidden              Desktop sidebar collapse / hide state.
+- .sidebar-visible             Mobile sidebar overlay visible.
+- .pa-sidebar-resizing         Set by the resize JS during drag (locks
+                               text selection, forces ew-resize cursor).
 
-HEADER/NAVBAR ELEMENT CLASSES (inside section containers):
-- .pa-header__burger - Burger menu button
-- .burger-menu - Burger menu class (same as __burger)
-- .pa-header__brand - Brand/logo area
-- .pa-header__nav - Navigation container
-- .pa-header__nav--start/right - Navigation alignment
-- .pa-header__title - Page title area (flexible, with ellipsis)
-- .pa-notifications - Notification bell container
-- .pa-header__profile-btn - Profile button
-- .pa-header__profile-name - Profile name text
+NAVBAR HEADER SECTIONS (inside .pa-navbar__inner):
+- .pa-header__start            Start-anchored section; flex, gap.
+- .pa-header__center           Flexible middle (flex: 1; min-width: 0).
+- .pa-header__end              End-anchored section; margin-inline-start: auto.
 
-LAYOUT CLASSES:
-- .pa-layout - Main layout wrapper (below navbar)
-- .pa-layout__inner - Inner wrapper for sidebar + content
-- .pa-layout__sidebar - Sidebar container
-- .pa-layout__content - Content wrapper
-- .pa-layout__main - Main content area
-- .pa-layout__main__inner - Main content inner wrapper
-- .pa-layout__footer - Footer container
+NAVBAR ELEMENTS (inside header sections):
+- .pa-header__burger           Wrapper for the burger-menu button.
+- .burger-menu                 The animated three-bar button itself.
+- .burger-menu.active          X-shape state (bars rotate + middle fades).
+- .pa-header__brand            Logo / brand area; h1 styled automatically.
+- .pa-header__nav              Nav container; auto-styles direct
+                               ul > li > a descendants (no classes needed
+                               on list items / anchors).
+- .pa-header__nav--start       Organisational placeholder (empty SCSS block).
+- .pa-header__nav--end         Organisational placeholder (empty SCSS block).
+- .pa-header__nav-item         Explicit li class (same behaviour as bare <li>).
+- .pa-header__nav-item--has-dropdown
+                               Parent li that reveals a child .pa-header__dropdown
+                               on hover. Uses position: static so the
+                               dropdown positions relative to the navbar.
+- .pa-header__nav-link         Optional anchor class (flex + gap for icon+text).
+- .pa-header__dropdown         Hover-dropdown <ul> (absolute; card-bg;
+                               box-shadow; z-index 1100).
+- .pa-header__dropdown--level2 Nested dropdown shifted to the side.
+- .pa-header__title            Centre-section page title with ellipsis h2.
+- .pa-header__profile-btn      Right-side profile button (flex-shrink: 0).
+- .theme-switcher              Inline label + select styled for the header.
 
-FOOTER SECTION CONTAINERS (inside pa-layout__footer):
-- .pa-footer__start - Start section (copyright, etc.) - stays anchored to start
-- .pa-footer__center - Center section (optional) - flexible, fills space
-- .pa-footer__end - End section (version info, links) - stays anchored to end
+SIDEBAR:
+- .pa-layout__sidebar                  Sidebar column; width comes from
+                                       --pa-local-sidebar-width via :where()
+                                       so utility classes override it.
+- .pa-layout__sidebar--icon-collapse   Collapses to a narrow icon bar under
+                                       .sidebar-hidden; hover reveals labels
+                                       + submenus as flyouts.
+                                       (Expanded when NOT .sidebar-hidden.)
 
-LAYOUT WIDTH VARIANTS (applied to body tag):
-- No class - Fluid layout (full width)
-- .pa-container-sm - Small (768px)
-- .pa-container-md - Medium (1024px)
-- .pa-container-lg - Large (1280px)
-- .pa-container-xl - Extra Large (1600px)
-- .pa-container-2xl - 2X Large (1920px)
+SIDEBAR BEM BLOCK:
+- .pa-sidebar__nav              <nav> wrapper for the menu ul.
+- .pa-sidebar__item             <li> menu item.
+- .pa-sidebar__item--open       Submenu-open state — set by JS when
+                                toggling a .pa-sidebar__toggle parent.
+                                Rotates the chevron 90° (−90° in RTL).
+- .pa-sidebar__link             Leaf link (flex: icon + label, optional hover).
+- .pa-sidebar__link--active     Active leaf state — accent colour +
+                                accent border-inline-end accent bar.
+- .pa-sidebar__toggle           Collapsible parent (<button>, not <a>).
+- .pa-sidebar__toggle--active   Active collapsible state (kept open manually).
+- .pa-sidebar__icon             Fixed-width icon slot ($sidebar-icon-size).
+- .pa-sidebar__label            Text label (flex: 1; ellipsis on overflow).
+- .pa-sidebar__chevron          Right-pointing indicator; rotates on --open.
+- .pa-sidebar__submenu          Nested <ul>; hidden by default.
+- .pa-sidebar__submenu--open    Visible state.
 
-SIDEBAR STRUCTURE:
-- .pa-layout__sidebar - Sidebar container
-- .pa-sidebar__nav - Navigation wrapper
-- .pa-sidebar__item - Menu item container
-- .pa-sidebar__link - Regular menu link
-- .pa-sidebar__toggle - Collapsible menu toggle button
-- .pa-sidebar__icon - Icon container (fixed width)
-- .pa-sidebar__label - Text label
-- .pa-sidebar__chevron - Expand/collapse indicator
-- .pa-sidebar__submenu - Submenu container
-- .pa-sidebar__link--active - Active link state
-- .pa-sidebar__item--open - Open submenu state
-- .pa-sidebar__submenu--open - Open submenu state
+RESIZE MECHANISM:
+- .pa-sidebar-resize            Handle element inside the sidebar
+                                (absolute-positioned on the inline-end edge).
+- .pa-sidebar-resize--active    Active state (highlighted during drag).
+- --pa-local-sidebar-width       runtime width; JS rewrites this on drag.
+- --pa-local-sidebar-min-width   floor (default 18rem).
+- --pa-local-sidebar-max-width   ceiling (default 50rem).
+- body.pa-sidebar-resizing       set by JS during drag to disable text
+                                 selection + force ew-resize cursor.
+(NO .pa-layout__sidebar--resizable or --sticky — these were never in
+ SCSS. The older snippet advertised them; the real knobs are the CSS
+ variable + handle element above.)
 
-SIDEBAR MODES (modifiers on .pa-layout__sidebar):
-- Default - Sidebar scrolls with content
-- .pa-layout__sidebar--sticky - Sidebar stays fixed while content scrolls
-- .pa-layout__sidebar--icon-collapse - Sidebar collapses to icon bar instead of hiding
-- .pa-layout__sidebar--resizable - Drag right edge to resize (opt-in)
+RESPONSIVE BEHAVIOUR (built in):
+- Below $mobile-breakpoint (768px):
+    - .pa-header__nav hides entirely.
+    - Theme-switcher label hides.
+    - body:not(.sidebar-visible) hides the sidebar (width: 0).
+    - .sidebar-visible renders sidebar as a fixed-position overlay
+      ($mobile-sidebar-width) with a backdrop::before.
+    - Footer wraps, centre section hidden.
+- Between $tablet-breakpoint-min and $tablet-breakpoint:
+    - Sidebar width shrinks to $sidebar-width-tablet.
+    - Sidebar link padding tightens.
 
-SIDEBAR WIDTH CONTROL:
-- Default width: 28.8rem (288px) via CSS variable --pa-local-sidebar-width
-- Resizable: Add --resizable class for drag-to-resize (180-500px range)
-- Fixed width: Add .wr-* utility class (e.g., wr-25 = 250px) - overrides resize
-- Min width: Add .minwr-* utility class (e.g., minwr-20) - sets floor for resize
-- Max width: Add .maxwr-* utility class (e.g., maxwr-40) - sets ceiling for resize
+STRUCTURE PATTERNS:
 
-BURGER MENU:
-- .burger-menu - Burger menu button (same as .pa-header__burger)
-- Three <span> elements inside for the three lines
-- .active - Active state (X shape when clicked)
+Minimal app shell:
+<body class="pa-layout--sticky">
+  <nav class="pa-navbar"><div class="pa-navbar__inner">
+    <div class="pa-header__start">…</div>
+    <div class="pa-header__center"><div class="pa-header__title"><h2>Page</h2></div></div>
+    <div class="pa-header__end">…</div>
+  </div></nav>
 
-BURGER MENU ANIMATION:
-- NO .active class → ☰ (3 bars) → Sidebar is visible
-- WITH .active class → ✕ (X shape) → Sidebar is hidden
-- JavaScript toggles .active class on click
-- CSS animates the transition in 150ms (ease-out)
-- Animation details:
-  - Top bar: Rotates 45° and translates down/right
-  - Middle bar: Fades out (opacity: 0)
-  - Bottom bar: Rotates -45° and translates up/right
-- Customizable via SCSS variables:
-  - $burger-width: 1.5rem
-  - $burger-height: 1.5rem
-  - $burger-bar-height: 2px
-  - $burger-transform-offset: 3px
-  - $transition-normal: 0.15s
-  - $easing-snappy: ease-out
+  <div class="pa-layout">
+    <div class="pa-layout__inner">
+      <aside class="pa-layout__sidebar">…</aside>
+      <div class="pa-layout__content">
+        <main class="pa-layout__main">…</main>
+      </div>
+    </div>
+    <footer class="pa-layout__footer">…</footer>
+  </div>
+</body>
 
-BODY CLASSES (for sidebar state):
-- .sidebar-hidden - Desktop: Sidebar is hidden
-- .sidebar-visible - Mobile: Sidebar is visible (overlay)
+Constrained-width layout:
+<body class="pa-container-lg">
+  …navbar + layout… (both limited to 1280px, centred)
+</body>
 
-JAVASCRIPT:
-- toggleSidebar() - Toggle sidebar visibility (burger menu)
-- toggleSubmenu(button) - Toggle submenu open/closed
-- Stores state in localStorage for persistence across page loads
-
-PROFILE PANEL WIDTH CONTROL:
-- Default width: 20vw via CSS variable --pa-local-profile-panel-width
-- Default max-width: 48rem (480px) via CSS variable --pa-local-profile-panel-max-width
-- Override with utility classes: Add .wr-* to .pa-profile-panel__content
-- Examples:
-  - .wr-30 = fixed 30rem (300px) width
-  - .wr-40 = fixed 40rem (400px) width
-  - .minwr-25 = minimum 25rem width
-  - .maxwr-50 = maximum 50rem width
-- Uses low specificity (:where) so utility classes can override
-- Available: wr-1 to wr-10, then 15, 20, 25, 30, 35, 40, 45, 50 (same for minwr/maxwr)
+Resizable sidebar:
+<aside class="pa-layout__sidebar">
+  <nav class="pa-sidebar__nav">…</nav>
+  <div class="pa-sidebar-resize"></div>
+</aside>
+<!-- + JS that updates --pa-local-sidebar-width on drag -->
 -->

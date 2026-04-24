@@ -28,13 +28,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `grid.html` | 2026-04-24 | `core-components/_grid.scss`, `utilities.scss` (.pa-cq), `variables/_spacing.scss` ($grid-breakpoints) | [0bd9f16](../../../commit/0bd9f16) |
 | `utilities.html` | 2026-04-24 | `utilities.scss` (main utilities), `core-components/_utilities.scss` (components-adjacent helpers), `variables/_spacing.scss` (spacing scale) | [20df758](../../../commit/20df758) |
 | `cards.html` | 2026-04-24 | `core-components/_cards.scss` | [4a67018](../../../commit/4a67018) |
-| `forms.html` | 2026-04-24 | `core-components/forms/` (all 7 files: _form-layout, _form-inputs, _form-states, _input-groups, _input-wrapper, _checkboxes-radios, _query-editor) | _(this commit)_ |
+| `forms.html` | 2026-04-24 | `core-components/forms/` (all 7 files: _form-layout, _form-inputs, _form-states, _input-groups, _input-wrapper, _checkboxes-radios, _query-editor) | [272f141](../../../commit/272f141) |
+| `layout.html` | 2026-04-24 | `core-components/layout/` (all 6 files: _layout-container, _navbar, _navbar-elements, _sidebar, _sidebar-states, _layout-responsive), `variables/_layout.scss` (container widths) | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `layout.html`
 - `profile.html`
 - `tabs.html`
 - `timeline.html`
