@@ -37,13 +37,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `command-palette.html` | 2026-04-24 | `core-components/_command-palette.scss` (covers `.pa-command-palette`, `.pa-navbar-search`, `.pa-shortcut-help`) | [a9b4fe3](../../../commit/a9b4fe3) |
 | `comparison.html` | 2026-04-24 | `core-components/_comparison.scss` | [e4f1cd6](../../../commit/e4f1cd6) |
 | `modals.html` | 2026-04-24 | `core-components/_modals.scss`, `variables/_components.scss` ($modal-*-width + $modal-body-scrollable-max-height) | [795856e](../../../commit/795856e) |
-| `modal-dialogs.html` | 2026-04-24 | `src/js/modal-dialogs.js` (PureAdmin.confirm / alert / prompt / custom API); DOM produced matches `_modals.scss` | _(this commit)_ |
+| `modal-dialogs.html` | 2026-04-24 | `src/js/modal-dialogs.js` (PureAdmin.confirm / alert / prompt / custom API); DOM produced matches `_modals.scss` | [e5eba00](../../../commit/e5eba00) |
+| `detail-panel.html` | 2026-04-24 | `core-components/_detail-panel.scss`, `variables/_components.scss` (panel width + z-index) | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `detail-panel.html`
 - `customization.html`
 - `virtual-scroll.html`
 - `web-daterangepicker.html`
