@@ -132,17 +132,18 @@
         });
     }
 
-    const CLOSE_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`;
-
     function showAlert(variant, title, message) {
         alertSlot.innerHTML = '';
         const alert = document.createElement('div');
-        alert.setAttribute('role', 'alert');
         alert.className = `pa-alert pa-alert--${variant} pa-alert--dismissible mb-4`;
         alert.innerHTML = `
-            <h4 class="pa-alert__heading">${title}</h4>
-            <p class="mb-0">${message}</p>
-            <button type="button" class="pa-alert__close" aria-label="Close">${CLOSE_ICON_SVG}</button>
+            <div class="pa-alert__content">
+                <strong>${title}</strong>
+                <p class="mb-0">${message}</p>
+            </div>
+            <button type="button" class="pa-alert__close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         `;
         alert.querySelector('.pa-alert__close').addEventListener('click', () => alert.remove());
         alertSlot.appendChild(alert);
