@@ -102,6 +102,98 @@ JAVASCRIPT REQUIRED:
 </div>
 
 
+<!-- ICON VARIANTS -->
+
+<!--
+Note: the base __icon class (no modifier) already prepends ⚠️ via a
+::before, so <div class="…__message …__icon"> gives you a warning icon
+for free. Use --danger/--warning/--info to swap the emoji.
+-->
+
+<!-- Default icon (warning emoji via base __icon) -->
+<div id="popconfirm-default-icon" class="pa-popconfirm pa-popconfirm--bottom">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message pa-popconfirm__icon">
+            <p>Heads up — this will affect all members of the group.</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-default-icon')">Cancel</button>
+            <button class="pa-btn pa-btn--primary" onclick="confirmAction('popconfirm-default-icon')">Proceed</button>
+        </div>
+    </div>
+</div>
+
+<!-- Warning icon (same emoji as default, but explicit) -->
+<div id="popconfirm-warning" class="pa-popconfirm pa-popconfirm--bottom">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--warning">
+            <p>Archive this item? It will be moved to the archive folder.</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-warning')">Cancel</button>
+            <button class="pa-btn pa-btn--warning" onclick="confirmAction('popconfirm-warning')">Archive</button>
+        </div>
+    </div>
+</div>
+
+<!-- Info icon -->
+<div id="popconfirm-info" class="pa-popconfirm pa-popconfirm--bottom">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--info">
+            <p>Reset all settings to their default values?</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-info')">Cancel</button>
+            <button class="pa-btn pa-btn--primary" onclick="confirmAction('popconfirm-info')">Reset</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- POSITION VARIANTS -->
+
+<!--
+The position class is the *initial* placement. The JS below uses Floating
+UI, which runs flip() collision detection on open and swaps the class to
+the actual resolved side. So even if you author with --bottom, users near
+the bottom of the viewport will see --top at runtime — the stylesheet
+supports all four sides.
+-->
+
+<!-- Top placement (popconfirm appears above trigger) -->
+<div id="popconfirm-top" class="pa-popconfirm pa-popconfirm--top">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message">
+            <p>Replace the current selection?</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-top')">No</button>
+            <button class="pa-btn pa-btn--primary" onclick="confirmAction('popconfirm-top')">Yes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Right placement (popconfirm appears to the right of trigger) -->
+<div id="popconfirm-right" class="pa-popconfirm pa-popconfirm--right pa-popconfirm--compact">
+    <div class="pa-popconfirm__arrow"></div>
+    <div class="pa-popconfirm__content">
+        <div class="pa-popconfirm__message">
+            <p>Remove tag?</p>
+        </div>
+        <div class="pa-popconfirm__actions">
+            <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('popconfirm-right')">No</button>
+            <button class="pa-btn pa-btn--danger" onclick="confirmAction('popconfirm-right')">Yes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Pattern: pa-popconfirm--{top|bottom|left|right} (physical sides; no RTL mirroring) -->
+
+
 <!-- TABLE USAGE EXAMPLE -->
 
 <!-- Common pattern: Delete action in table -->
@@ -251,3 +343,82 @@ window.addEventListener('resize', () => {
     }
 });
 </script>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+STRUCTURE (required):
+.pa-popconfirm
+  .pa-popconfirm__arrow            ← decorative triangle pointing at trigger
+  .pa-popconfirm__content          ← card surface with border + shadow
+    .pa-popconfirm__message        ← body copy
+    .pa-popconfirm__actions        ← button row (right-aligned by default)
+
+STATE (note: .is-* class, not a BEM --modifier):
+- .is-open    — set by JS to flip display:none → display:block
+
+POSITION MODIFIERS (physical sides, no RTL mirror — start/end not used here):
+- .pa-popconfirm--bottom  — popconfirm below trigger, arrow on top     (default)
+- .pa-popconfirm--top     — popconfirm above trigger, arrow on bottom
+- .pa-popconfirm--right   — popconfirm to the right, arrow on left
+- .pa-popconfirm--left    — popconfirm to the left, arrow on right
+
+Runtime note: the JS runs Floating UI's flip() middleware on open and
+rewrites the position class to match where the popconfirm actually fits,
+so the initial class is just a *preferred* side.
+
+SIZE:
+- .pa-popconfirm--compact — tighter padding; min-width drops from 25.6rem to 19.2rem
+
+ICON (optional, applied on the __message element):
+- .pa-popconfirm__icon            — base icon styling (prepends ⚠️ via ::before)
+- .pa-popconfirm__icon--danger    — swaps the emoji to 🗑️
+- .pa-popconfirm__icon--warning   — explicit warning (same ⚠️ as base)
+- .pa-popconfirm__icon--info      — swaps to ℹ️
+
+(The base .pa-popconfirm__icon class alone already shows ⚠️ — the
+--warning modifier just makes the intent explicit. Use --danger for
+destructive actions; the emoji change is the differentiator.)
+
+DIMENSIONS:
+- min-width: 25.6rem / max-width: 32rem (default)
+- min-width: 19.2rem                    (compact)
+- z-index: $z-index-tooltip (9000) — renders above cards, modals' backdrops, etc.
+
+JAVASCRIPT CONTRACT:
+- Trigger: toggles .is-open on the target popconfirm element
+- Positioning: Floating UI (loaded globally as window.FloatingUIDOM)
+  middleware: offset(8), flip(), shift({ padding: 10 })
+- Dismissal: click outside, close button, or explicit confirm/cancel call
+- The position-class rewrite happens every open + on scroll/resize while open
+
+PATTERNS:
+
+Basic delete confirm:
+<button onclick="togglePopconfirm(event, 'pc-1')">Delete</button>
+<div id="pc-1" class="pa-popconfirm pa-popconfirm--bottom">
+  <div class="pa-popconfirm__arrow"></div>
+  <div class="pa-popconfirm__content">
+    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+      <p>Delete this item?</p>
+    </div>
+    <div class="pa-popconfirm__actions">
+      <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-1')">No</button>
+      <button class="pa-btn pa-btn--danger"    onclick="confirmAction('pc-1')">Yes</button>
+    </div>
+  </div>
+</div>
+
+Compact table-row variant:
+<div class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact"> … </div>
+
+POPCONFIRM vs MODAL:
+- Popconfirm: anchored to trigger, no backdrop, 1-step Yes/No question,
+              cheap to open/close. Use for destructive row actions.
+- Modal:      centered, backdrop, multi-field forms, long explanations.
+              Use when you need attention or more than a button choice.
+-->
+
