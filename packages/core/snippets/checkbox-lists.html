@@ -1,11 +1,23 @@
-<!-- ========================================
-     Checkbox Lists & Custom Checkbox Component
-     Comprehensive examples of checkbox patterns
-     ======================================== -->
+<!-- ================================
+     CHECKBOX LISTS & CUSTOM CHECKBOX COMPONENT
+     Pure Admin Visual Framework
+
+     Two layers in play:
+       1. .pa-checkbox (the custom tri-state component from
+          _checkboxes-radios.scss; see forms.html for full reference)
+       2. .pa-checkbox-list (a list layout that hosts either native
+          <input type="checkbox"> or the .pa-checkbox component inside
+          its items)
+
+     The .pa-checkbox-list__checkbox class is a legacy helper for plain
+     native inputs. Prefer nesting the full .pa-checkbox component
+     inside .pa-checkbox-list__label for new markup — the custom
+     component gives you tri-state, sizes, --x, and consistent styling.
+     ================================ -->
 
 <!-- ========================================
      CUSTOM TRI-STATE CHECKBOX COMPONENT
-     Fully styled checkboxes with 3 states
+     Quick reference — full docs live in forms.html
      ======================================== -->
 
 <!-- Basic Custom Checkbox (Three States) -->
@@ -134,8 +146,20 @@
   </li>
 </ul>
 
-<!-- Item States (Clickable, Disabled, Locked) -->
+<!--
+Item States (Selected, Clickable, Disabled, Locked)
+- --selected: accent-light background; indicates active selection
+- --disabled: opacity: 0.5, not-allowed cursor
+- --locked: not-allowed cursor; text inside turns warning-coloured and
+            gets a 🔒 emoji via ::before on .pa-checkbox-list__text
+-->
 <ul class="pa-checkbox-list pa-checkbox-list--bordered">
+  <li class="pa-checkbox-list__item pa-checkbox-list__item--selected">
+    <label class="pa-checkbox-list__label">
+      <input type="checkbox" class="pa-checkbox-list__checkbox" id="state0" checked>
+      <span class="pa-checkbox-list__text">Selected (accent-light background)</span>
+    </label>
+  </li>
   <li class="pa-checkbox-list__item">
     <label class="pa-checkbox-list__label">
       <input type="checkbox" class="pa-checkbox-list__checkbox" id="state1">
@@ -145,7 +169,7 @@
   <li class="pa-checkbox-list__item pa-checkbox-list__item--disabled">
     <label class="pa-checkbox-list__label">
       <input type="checkbox" class="pa-checkbox-list__checkbox" id="state2" disabled>
-      <span class="pa-checkbox-list__text">Disabled - feature not available</span>
+      <span class="pa-checkbox-list__text">Disabled — feature not available</span>
     </label>
   </li>
   <li class="pa-checkbox-list__item pa-checkbox-list__item--locked">
@@ -156,27 +180,40 @@
   </li>
 </ul>
 
-<!-- Checkbox List with Descriptions -->
+<!--
+Checkbox List with Descriptions
+IMPORTANT: .pa-checkbox-list__label is display: flex — so a bare
+__description span alongside the title text would sit next to it, not
+below. Wrap the title + description in a .pa-checkbox-list__text
+(flex: 1) block; then __description (display: block) stacks correctly
+beneath the title.
+-->
 <ul class="pa-checkbox-list">
   <li class="pa-checkbox-list__item">
     <input type="checkbox" class="pa-checkbox-list__checkbox" id="feature1">
     <label class="pa-checkbox-list__label" for="feature1">
-      Email Notifications
-      <span class="pa-checkbox-list__description">Receive updates via email</span>
+      <span class="pa-checkbox-list__text">
+        Email Notifications
+        <span class="pa-checkbox-list__description">Receive updates via email</span>
+      </span>
     </label>
   </li>
   <li class="pa-checkbox-list__item">
     <input type="checkbox" class="pa-checkbox-list__checkbox" id="feature2" checked>
     <label class="pa-checkbox-list__label" for="feature2">
-      SMS Alerts
-      <span class="pa-checkbox-list__description">Get urgent alerts via SMS</span>
+      <span class="pa-checkbox-list__text">
+        SMS Alerts
+        <span class="pa-checkbox-list__description">Get urgent alerts via SMS</span>
+      </span>
     </label>
   </li>
   <li class="pa-checkbox-list__item">
     <input type="checkbox" class="pa-checkbox-list__checkbox" id="feature3">
     <label class="pa-checkbox-list__label" for="feature3">
-      Push Notifications
-      <span class="pa-checkbox-list__description">Browser push notifications</span>
+      <span class="pa-checkbox-list__text">
+        Push Notifications
+        <span class="pa-checkbox-list__description">Browser push notifications</span>
+      </span>
     </label>
   </li>
 </ul>
@@ -433,58 +470,155 @@
   </tbody>
 </table>
 
-<!-- ========================================
-     Available Classes Reference
-     ======================================== -->
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
 
-<!-- Custom Checkbox Component:
-  .pa-checkbox                - Wrapper label for custom checkbox
-  .pa-checkbox__box           - Visual checkbox replacement (hidden native input)
-  .pa-checkbox__label         - Label text
+<!--
+CUSTOM CHECKBOX COMPONENT (pa-checkbox — see forms.html for full docs):
+- .pa-checkbox                  Wrapper <label>; hides the native input,
+                                renders a custom __box + __label.
+- .pa-checkbox__box             The drawn-in-CSS checkbox square.
+- .pa-checkbox__label           Visible label text.
+- .pa-checkbox--xs / --sm       Smaller sizes.
+- (default)                     Default size.
+- .pa-checkbox--lg / --xl       Larger sizes.
+- .pa-checkbox--x               Swap the checkmark for an X.
+- .pa-checkbox--disabled        Explicit disabled style
+                                (also auto-applied via :has(input:disabled)).
+- Indeterminate: set via JS — `el.indeterminate = true`. The HTML
+  attribute alone does nothing.
 
-  Checkbox Size Modifiers:
-  .pa-checkbox--xs            - Extra small checkbox
-  .pa-checkbox--sm            - Small checkbox
-  (default)                   - Default size
-  .pa-checkbox--lg            - Large checkbox
-  .pa-checkbox--xl            - Extra large checkbox
+CHECKBOX LIST (.pa-checkbox-list):
 
-  Checkbox State Modifiers:
-  .pa-checkbox--x             - Shows X mark instead of checkmark when checked
-  .pa-checkbox--disabled      - Disabled styling (add disabled attribute to input)
+Base + items:
+- .pa-checkbox-list             List container (flex column; list-style reset).
+- .pa-checkbox-list__item       Row; has a bottom border between siblings
+                                (dropped on :last-child); hover background.
+- .pa-checkbox-list__label      Clickable <label>; flex, padding — this is
+                                what makes the whole row a hitbox.
 
-  Indeterminate State:
-  Set via JavaScript: checkbox.indeterminate = true
-  CSS :indeterminate pseudo-class handles styling (shows dash)
+Input flavours (pick one):
+- .pa-checkbox-list__checkbox   LEGACY native-style input. Keep for plain
+                                checkboxes where you don't need tri-state.
+- .pa-checkbox                  (nested inside __label) The custom
+                                component. Preferred for new markup.
+
+Optional children (inside __label):
+- .pa-checkbox-list__text         Wrap the title here so the description
+                                  stacks below it instead of alongside.
+- .pa-checkbox-list__description  Muted caption; display: block.
+- .pa-checkbox-list__actions      Absolutely positioned button group on
+                                  the inline-end side (pointer-events: none
+                                  on wrapper; the buttons themselves
+                                  re-enable pointer-events). Auto-padding
+                                  on __label keeps text clear of the
+                                  buttons via
+                                  __item:has(__actions) __label {
+                                     padding-inline-end: 6rem
+                                  }.
+
+List layout modifiers (compose with base):
+- .pa-checkbox-list--compact    Tighter padding (spacing-xs/-sm).
+- .pa-checkbox-list--bordered   Border + radius around the whole list.
+- .pa-checkbox-list--striped    Zebra stripes on even items.
+- .pa-checkbox-list--inline     Flex-wrap chips — items get their own
+                                border + radius and sit horizontally.
+- .pa-checkbox-list--grid       CSS grid: auto-fill columns with a
+                                minimum 320px column width (1fr max).
+                                Items get individual borders.
+- .pa-checkbox-list--2col       Two equal columns (no gap; vertical
+                                divider after odd items).
+- .pa-checkbox-list--3col       Three equal columns (vertical dividers
+                                after all but every 3rd item).
+
+Item state modifiers:
+- .pa-checkbox-list__item--selected   Accent-light background (active).
+- .pa-checkbox-list__item--disabled   opacity: 0.5; not-allowed cursor.
+                                      Hover background suppressed.
+                                      (No explicit text-colour change —
+                                       matches the native disabled look.)
+- .pa-checkbox-list__item--locked     not-allowed cursor; text inside
+                                      .pa-checkbox-list__text turns
+                                      warning colour and gets a 🔒 emoji
+                                      via ::before. The inner checkbox
+                                      gets opacity: 0.5. Use for
+                                      "requires permission" scenarios —
+                                      distinct from --disabled which
+                                      signals "feature unavailable".
+
+TABLE INTEGRATION (rules live in _checkbox-lists.scss):
+- .pa-table__checkbox-col             <th>/<td> helper; width: 1%,
+                                      white-space: nowrap, text-align: center.
+- .pa-table__row--selected            Accent-light background on the row.
+- th/td .pa-checkbox                  Implicit rules zero the gap and
+                                      hide .pa-checkbox__label, so you
+                                      can drop a custom checkbox into a
+                                      table cell without extra markup.
+- th/td .pa-checkbox-list__checkbox   Legacy native checkbox in cells
+                                      (cursor: pointer, no margin).
+                                      Or just use a plain <input
+                                      type="checkbox"> — the same
+                                      margin/cursor rules apply.
+
+STRUCTURE PATTERNS:
+
+Basic list (legacy native inputs):
+<ul class="pa-checkbox-list">
+  <li class="pa-checkbox-list__item">
+    <input type="checkbox" class="pa-checkbox-list__checkbox" id="a">
+    <label class="pa-checkbox-list__label" for="a">Option A</label>
+  </li>
+</ul>
+
+Modern pattern with the custom component nested inside the label:
+<ul class="pa-checkbox-list">
+  <li class="pa-checkbox-list__item">
+    <label class="pa-checkbox-list__label">
+      <span class="pa-checkbox">
+        <input type="checkbox">
+        <span class="pa-checkbox__box"></span>
+      </span>
+      <span class="pa-checkbox-list__text">Option A</span>
+    </label>
+  </li>
+</ul>
+
+With description (title + description must live inside __text):
+<li class="pa-checkbox-list__item">
+  <input type="checkbox" class="pa-checkbox-list__checkbox" id="n1">
+  <label class="pa-checkbox-list__label" for="n1">
+    <span class="pa-checkbox-list__text">
+      Email Notifications
+      <span class="pa-checkbox-list__description">Receive updates via email</span>
+    </span>
+  </label>
+</li>
+
+With action buttons (the auto-padding on __label keeps text clear):
+<li class="pa-checkbox-list__item">
+  <input type="checkbox" class="pa-checkbox-list__checkbox" id="t1">
+  <label class="pa-checkbox-list__label" for="t1">Task title</label>
+  <div class="pa-checkbox-list__actions">
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary">✏️</button>
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger">🗑️</button>
+  </div>
+</li>
+
+Table with select-all + row checkboxes:
+<table class="pa-table">
+  <thead>
+    <tr>
+      <th class="pa-table__checkbox-col"><input type="checkbox"></th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="pa-table__row--selected">
+      <td class="pa-table__checkbox-col"><input type="checkbox" checked></td>
+      <td>…</td>
+    </tr>
+  </tbody>
+</table>
 -->
 
-<!-- Checkbox List Base Classes:
-  .pa-checkbox-list           - Base checkbox list container
-  .pa-checkbox-list__item     - Individual list item
-  .pa-checkbox-list__checkbox - Checkbox input (native style)
-  .pa-checkbox-list__label    - Label text
-  .pa-checkbox-list__text     - Text wrapper (use with custom checkbox)
-  .pa-checkbox-list__description - Optional description/metadata
-  .pa-checkbox-list__actions  - Optional action buttons container
--->
-
-<!-- List Modifiers:
-  .pa-checkbox-list--compact  - Less padding
-  .pa-checkbox-list--bordered - Border around entire list
-  .pa-checkbox-list--striped  - Alternating row colors
-  .pa-checkbox-list--inline   - Horizontal wrapping layout
-  .pa-checkbox-list--grid     - Grid layout (auto-fill)
-  .pa-checkbox-list--2col     - Two-column layout
-  .pa-checkbox-list--3col     - Three-column layout
--->
-
-<!-- Item State Modifiers:
-  .pa-checkbox-list__item--selected  - Selected state styling
-  .pa-checkbox-list__item--disabled  - Disabled state styling (feature unavailable - 50% opacity, muted color)
-  .pa-checkbox-list__item--locked    - Locked state styling (requires permission - 70% opacity, warning color, lock icon)
--->
-
-<!-- Table Classes:
-  .pa-table__checkbox-col     - Checkbox column (width: 1%, centered)
-  .pa-table__row--selected    - Selected row styling
--->

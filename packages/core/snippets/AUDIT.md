@@ -32,13 +32,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `layout.html` | 2026-04-24 | `core-components/layout/` (all 6 files: _layout-container, _navbar, _navbar-elements, _sidebar, _sidebar-states, _layout-responsive), `variables/_layout.scss` (container widths) | [9762492](../../../commit/9762492) |
 | `profile.html` | 2026-04-24 | `core-components/_profile.scss` | [2b70e27](../../../commit/2b70e27) |
 | `tabs.html` | 2026-04-24 | `core-components/_tabs.scss` | [35f5f16](../../../commit/35f5f16) |
-| `timeline.html` | 2026-04-24 | `core-components/_timeline.scss` | _(this commit)_ |
+| `timeline.html` | 2026-04-24 | `core-components/_timeline.scss` | [eaa5ad9](../../../commit/eaa5ad9) |
+| `checkbox-lists.html` | 2026-04-24 | `core-components/_checkbox-lists.scss`, `core-components/forms/_checkboxes-radios.scss` (pa-checkbox component reference) | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `checkbox-lists.html`
 - `command-palette.html`
 - `comparison.html`
 - `modals.html`
