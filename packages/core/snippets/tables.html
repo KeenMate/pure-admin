@@ -3,9 +3,7 @@
      Pure Admin Visual Framework
      ================================ -->
 
-<!-- BASIC TABLE -->
-
-<!-- Simple Table -->
+<!-- BASIC TABLE (hover is built-in; no modifier needed) -->
 <table class="pa-table">
   <thead>
     <tr>
@@ -30,8 +28,6 @@
 
 
 <!-- STRIPED TABLE -->
-
-<!-- Table with Alternating Row Colors -->
 <table class="pa-table pa-table--striped">
   <thead>
     <tr>
@@ -40,24 +36,28 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>John Doe</td>
-      <td>Active</td>
-    </tr>
-    <tr>
-      <td>Jane Smith</td>
-      <td>Inactive</td>
-    </tr>
+    <tr><td>John Doe</td><td>Active</td></tr>
+    <tr><td>Jane Smith</td><td>Inactive</td></tr>
   </tbody>
 </table>
 
 
-<!-- NOTE: All tables have hover effect by default (no modifier needed) -->
+<!-- BORDERED TABLE (full cell borders on every side) -->
+<table class="pa-table pa-table--bordered">
+  <thead>
+    <tr>
+      <th>Column A</th>
+      <th>Column B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>A1</td><td>B1</td></tr>
+    <tr><td>A2</td><td>B2</td></tr>
+  </tbody>
+</table>
 
 
-<!-- TABLE WITH ACTIONS -->
-
-<!-- Table with Icon Buttons -->
+<!-- TABLE WITH ACTIONS (col-auto keeps actions column narrow) -->
 <table class="pa-table pa-table--striped">
   <thead>
     <tr>
@@ -82,98 +82,43 @@
 </table>
 
 
-<!-- TABLE SPACING VARIANTS -->
+<!-- TABLE SIZE VARIANTS -->
 
-<!-- Default Spacing (base padding) -->
-<table class="pa-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>John Doe</td>
-      <td>john@example.com</td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- XS Size (compact, fits button-xs) -->
+<!-- XS (pairs with pa-btn--xs) -->
 <table class="pa-table pa-table--xs">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>John Doe</td>
-      <td>john@example.com</td>
-    </tr>
-  </tbody>
+  <thead><tr><th>Name</th><th>Email</th></tr></thead>
+  <tbody><tr><td>John Doe</td><td>john@example.com</td></tr></tbody>
 </table>
 
-<!-- LG Size (spacious, fits button-lg) -->
+<!-- SM -->
+<table class="pa-table pa-table--sm">
+  <thead><tr><th>Name</th><th>Email</th></tr></thead>
+  <tbody><tr><td>John Doe</td><td>john@example.com</td></tr></tbody>
+</table>
+
+<!-- Default (pairs with pa-btn default size) -->
+<table class="pa-table">
+  <thead><tr><th>Name</th><th>Email</th></tr></thead>
+  <tbody><tr><td>John Doe</td><td>john@example.com</td></tr></tbody>
+</table>
+
+<!-- LG (pairs with pa-btn--lg) -->
 <table class="pa-table pa-table--lg">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>John Doe</td>
-      <td>john@example.com</td>
-    </tr>
-  </tbody>
+  <thead><tr><th>Name</th><th>Email</th></tr></thead>
+  <tbody><tr><td>John Doe</td><td>john@example.com</td></tr></tbody>
+</table>
+
+<!-- XL (pairs with pa-btn--xl) -->
+<table class="pa-table pa-table--xl">
+  <thead><tr><th>Name</th><th>Email</th></tr></thead>
+  <tbody><tr><td>John Doe</td><td>john@example.com</td></tr></tbody>
 </table>
 
 
-<!-- RESPONSIVE TABLE -->
-
-<!-- Table in Card with Horizontal Scroll on Mobile -->
-<div class="pa-card">
-  <div class="pa-card__body">
-    <div class="pa-table-responsive">
-      <table class="pa-table pa-table--striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td>john@example.com</td>
-            <td>Admin</td>
-            <td>Active</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-
-<!-- TABLE WITH BADGES -->
-
-<!-- Table with Status Badges -->
+<!-- TABLE WITH BADGES — common data-display pattern -->
 <table class="pa-table pa-table--striped">
   <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Role</th>
-    </tr>
+    <tr><th>Name</th><th>Status</th><th>Role</th></tr>
   </thead>
   <tbody>
     <tr>
@@ -190,32 +135,179 @@
 </table>
 
 
-<!-- TABLE CONTAINER -->
+<!-- ================================
+     RESPONSIVE TABLES (pa-table--responsive)
+     Modifier on the <table> itself — NOT a wrapper class.
+     Desktop: normal table.
+     Tablet (max-width: $tablet-breakpoint): horizontal scroll.
+     Mobile (max-width: $table-responsive-breakpoint): each row becomes
+     a card; each <td> becomes a label+value row inside the card. The
+     label comes from a data-label attribute on each <td>.
+     ================================ -->
+<table class="pa-table pa-table--striped pa-table--responsive">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td data-label="ID">1</td>
+      <td data-label="Name">John Doe</td>
+      <td data-label="Email">john@example.com</td>
+      <td data-label="Role">Admin</td>
+      <td data-label="Status"><span class="pa-badge pa-badge--success">Active</span></td>
+    </tr>
+  </tbody>
+</table>
 
-<!-- Table in Container with Border and Scrolling -->
+
+<!-- ================================
+     RESPONSIVE GRID TABLES (pa-table--responsive-grid)
+     Same desktop appearance, but mobile layout is a CSS Grid inside
+     each row (set via data-grid on <tr>). Individual cells can span
+     columns via data-span.
+     ================================ -->
+<table class="pa-table pa-table--striped pa-table--responsive-grid">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- 2-col grid: Name + ID on top row, Email + Status on bottom -->
+    <tr data-grid="2">
+      <td data-label="Name" data-span="2">John Doe</td>
+      <td data-label="ID">1</td>
+      <td data-label="Status"><span class="pa-badge pa-badge--success">Active</span></td>
+      <td data-label="Email" data-span="full">john.doe@company.example</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- data-grid accepts "2" or "3" (preset column counts).
+     data-span accepts "2", "3", or "full" on individual cells. -->
+
+
+<!-- ================================
+     TABLE CONTAINER (pa-table-container)
+     Simple wrapper that gives the table a border, rounded corners, and
+     horizontal scroll on overflow. Use when you want the table framed
+     but don't need a card header / footer / actions area.
+     ================================ -->
+
+<!-- Base container -->
 <div class="pa-table-container">
   <table class="pa-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>John Doe</td>
-        <td>john@example.com</td>
-      </tr>
-    </tbody>
+    <thead><tr><th>ID</th><th>Name</th><th>Email</th></tr></thead>
+    <tbody><tr><td>1</td><td>John Doe</td><td>john@example.com</td></tr></tbody>
+  </table>
+</div>
+
+<!-- Panel container (adds shadow + lg radius + hover shadow lift) -->
+<div class="pa-table-container pa-table-container--panel">
+  <div class="pa-table-container__header">
+    <h3 class="pa-table-container__title">Recent Users</h3>
+    <div class="pa-table-container__actions">
+      <button class="pa-btn pa-btn--sm pa-btn--secondary">Export</button>
+      <button class="pa-btn pa-btn--sm pa-btn--primary">Add</button>
+    </div>
+  </div>
+  <table class="pa-table">
+    <thead><tr><th>Name</th><th>Email</th></tr></thead>
+    <tbody><tr><td>John Doe</td><td>john@example.com</td></tr></tbody>
   </table>
 </div>
 
 
-<!-- PAGER COMPONENT -->
+<!-- ================================
+     TABLE CARD (pa-table-card)
+     Full card with header + body + optional footer, purpose-built to
+     host a table. The body has no padding (table edges meet the card
+     border), and the first/last column gets $card-header-padding-h of
+     padding-inline so data lines up with the header text above.
+     Add --scrollable to the body when the table is wide enough to need
+     horizontal scroll (the card has overflow: hidden for its radius,
+     so without --scrollable wide tables are silently clipped).
+     ================================ -->
+<div class="pa-table-card">
+  <div class="pa-table-card__header">
+    <h3>Orders</h3>
+    <div class="pa-table-card__actions">
+      <span class="pa-badge pa-badge--secondary">12 total</span>
+      <button class="pa-btn pa-btn--sm pa-btn--primary">Add Order</button>
+    </div>
+  </div>
+  <div class="pa-table-card__body pa-table-card__body--scrollable">
+    <table class="pa-table pa-table--striped">
+      <thead>
+        <tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#1001</td>
+          <td>John Smith</td>
+          <td>$250.00</td>
+          <td><span class="pa-badge pa-badge--success">Completed</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pa-table-card__footer">
+    <span>Showing 1 of 12 orders</span>
+    <button class="pa-btn pa-btn--sm pa-btn--secondary">View All</button>
+  </div>
+</div>
 
-<!-- Centered Pager (default) -->
+<!-- Table card with semantic color variant (coloured header) -->
+<div class="pa-table-card pa-table-card--primary">
+  <div class="pa-table-card__header">
+    <h3>Primary Table</h3>
+  </div>
+  <div class="pa-table-card__body">
+    <table class="pa-table">
+      <thead><tr><th>Key</th><th>Value</th></tr></thead>
+      <tbody><tr><td>Theme</td><td>corporate</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Table card without visual styling (structure only) — useful when
+     the card itself is already framed by a parent layout -->
+<div class="pa-table-card pa-table-card--plain">
+  <div class="pa-table-card__header">
+    <h3>Inline Section Table</h3>
+  </div>
+  <div class="pa-table-card__body">
+    <table class="pa-table">
+      <thead><tr><th>Col 1</th><th>Col 2</th></tr></thead>
+      <tbody><tr><td>A</td><td>B</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Patterns:
+     pa-table-card--{primary|success|warning|danger}           semantic header colours
+     pa-table-card--color-{1..9}                               theme slot header colours
+     pa-table-card--plain                                      drop card chrome
+     (No --secondary / --info / --light / --dark variants for table-card.)
+-->
+
+
+<!-- ================================
+     PAGER (pa-pager)
+     Pagination controls. Declared in _pagers.scss — independent of
+     the table, so works anywhere. Centre-aligned by default.
+     ================================ -->
+
+<!-- Centred pager with prev/next + page input -->
 <div class="pa-pager">
   <div class="pa-pager__container">
     <div class="pa-pager__controls">
@@ -230,7 +322,7 @@
   </div>
 </div>
 
-<!-- Left-Aligned Pager -->
+<!-- Start-aligned pager with First/Last -->
 <div class="pa-pager pa-pager--start">
   <div class="pa-pager__container">
     <div class="pa-pager__controls">
@@ -242,7 +334,7 @@
   </div>
 </div>
 
-<!-- Right-Aligned Pager -->
+<!-- End-aligned pager with row count -->
 <div class="pa-pager pa-pager--end">
   <div class="pa-pager__container">
     <span class="pa-pager__text">Showing 1-25 of 250</span>
@@ -254,9 +346,13 @@
 </div>
 
 
-<!-- LOAD MORE COMPONENT -->
+<!-- ================================
+     LOAD MORE (pa-load-more)
+     Single action button as an alternative to paging. Also declared in
+     _pagers.scss.
+     ================================ -->
 
-<!-- Centered Load More (default) -->
+<!-- Centred "Load More" with count -->
 <div class="pa-load-more">
   <button class="pa-load-more__button">
     <span class="pa-load-more__text">Load More</span>
@@ -264,7 +360,7 @@
   </button>
 </div>
 
-<!-- Load More with Loading State -->
+<!-- Loading state — spinner rotates, button becomes non-interactive -->
 <div class="pa-load-more">
   <button class="pa-load-more__button pa-load-more__button--loading">
     <span class="pa-load-more__spinner"></span>
@@ -272,48 +368,161 @@
   </button>
 </div>
 
-<!-- Left-Aligned Load More -->
-<div class="pa-load-more pa-load-more--start">
-  <button class="pa-load-more__button">
-    <span class="pa-load-more__text">Show More Items</span>
-  </button>
-</div>
-
-<!-- Right-Aligned Load More -->
-<div class="pa-load-more pa-load-more--end">
-  <button class="pa-load-more__button">
-    <span class="pa-load-more__text">Load Previous</span>
-  </button>
-</div>
+<!-- Start / end alignment also available: pa-load-more--start / --end -->
 
 
-<!-- AVAILABLE TABLE MODIFIERS -->
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
 <!--
-BASE CLASS:
-- pa-table (base table with hover effect built-in)
+pa-table — THE TABLE ELEMENT:
+- .pa-table             Base (100% width, collapsed borders, built-in hover)
 
-MODIFIERS:
-- pa-table--striped (alternating row colors)
-- pa-table--xs (compact, fits button-xs)
-- pa-table--sm (slightly wider horizontal padding)
-- pa-table--lg (spacious, fits button-lg)
-- pa-table--xl (extra spacious, fits button-xl)
+Modifiers:
+- .pa-table--striped             Alternating row colours on tbody tr:nth-child(even)
+- .pa-table--bordered            Full cell borders on every side
+- .pa-table--xs                  Pairs with pa-btn--xs (compact)
+- .pa-table--sm                  Slightly tighter than default
+- (default size)
+- .pa-table--lg                  Pairs with pa-btn--lg
+- .pa-table--xl                  Pairs with pa-btn--xl
+- .pa-table--responsive          Mobile: each row → card with data-label
+                                 per cell; tablet: horizontal scroll
+- .pa-table--responsive-grid     Mobile: CSS Grid inside each <tr> (use
+                                 data-grid="2"|"3" on <tr> + data-span
+                                 on <td> for custom layouts)
 
-HELPERS:
-- col-auto (auto-width column that shrinks to content)
-- pa-table-container (wrapper with border and scroll)
-- pa-table-responsive (horizontal scroll on mobile)
+Row/cell helpers:
+- .col-auto                      On a <th>/<td>: width: 1%; nowrap
+                                 (shrinks column to content)
+- data-label="Label" on <td>     Mobile label in --responsive /
+                                 --responsive-grid modes
+- data-grid="2" | "3"            On <tr>: mobile grid layout
+- data-span="2" | "3" | "full"   On <td> inside data-grid row: column span
 
-PAGER:
-- pa-pager (center aligned by default)
-- pa-pager--start (start aligned)
-- pa-pager--end (end aligned)
-- pa-pager__container, __controls, __info, __input, __text
+Implicit behaviour:
+- Hover is built in (no modifier needed). Rows also get an inline-start
+  accent border on hover if $table-hover-accent-width > 0.
+- Buttons inside td get -0.25rem vertical margin so they don't grow the
+  row height.
+- Last row's bottom border is removed (unless --responsive or --bordered).
 
-LOAD MORE:
-- pa-load-more (center aligned by default)
-- pa-load-more--start (start aligned)
-- pa-load-more--end (end aligned)
-- pa-load-more__button, __spinner, __text, __count
-- pa-load-more__button--loading (loading state)
+pa-table-container — SIMPLE WRAPPER:
+- .pa-table-container           overflow-x: auto, border, rounded corners
+- .pa-table-container--panel    Adds shadow + lg radius + hover lift
+
+Panel header sub-elements (optional):
+- .pa-table-container__header
+- .pa-table-container__title
+- .pa-table-container__actions
+
+pa-table-card — FULL CARD CONTAINER:
+- .pa-table-card                Card with overflow: hidden (so the
+                                table respects rounded corners)
+
+Structure:
+  .pa-table-card
+    .pa-table-card__header
+      h1..h6            (title text; styled automatically)
+      .pa-table-card__actions
+        .pa-btn / .pa-badge / etc.
+    .pa-table-card__body                (padding: 0 — table meets card edges)
+      table.pa-table    (first/last cells auto-inset by card padding)
+    .pa-table-card__footer              (optional)
+
+Body modifier:
+- .pa-table-card__body--scrollable      Enables overflow-x: auto.
+                                        Without this, the card's own
+                                        overflow: hidden silently clips
+                                        wide tables. Opt in when the
+                                        table can be wider than the card.
+
+Variants (semantic colour on the header):
+- .pa-table-card--primary
+- .pa-table-card--success
+- .pa-table-card--warning
+- .pa-table-card--danger
+  (No --secondary / --info / --light / --dark for table-card.)
+
+Theme color variants (1-9):
+- .pa-table-card--color-{1..9}
+
+Structural variant:
+- .pa-table-card--plain                  Strips card chrome — no border,
+                                         bg, radius, or shadow. Useful
+                                         when the container already
+                                         provides that framing.
+
+WHEN TO USE WHICH WRAPPER:
+- pa-table alone            simplest; fine inside a pa-card body
+- pa-table-container        border + scroll without card overhead
+- pa-table-container--panel adds shadow + optional header area
+- pa-table-card             proper card with header/actions/footer slots;
+                            table edges meet card border cleanly
+
+pa-pager — PAGINATION CONTROLS:
+- .pa-pager                  flex container, centre-aligned by default
+- .pa-pager--start           flex-start
+- .pa-pager--end             flex-end
+
+Sub-elements:
+- .pa-pager__container       inner wrapper (flex row, gap: $spacing-sm)
+- .pa-pager__controls        button group (gap: $pager-controls-gap)
+- .pa-pager__info            input + text wrapper
+- .pa-pager__input           narrow number input ($pager-input-width)
+- .pa-pager__text            muted caption text
+
+pa-load-more — SINGLE-ACTION ALTERNATIVE:
+- .pa-load-more              flex container, centre-aligned by default
+- .pa-load-more--start / --end
+- .pa-load-more__button      button styling; sits independent of pa-btn
+  .pa-load-more__button--loading  adds spinner rotation + reduced opacity
+- .pa-load-more__spinner     circular spinner (rotates when --loading)
+- .pa-load-more__text        label
+- .pa-load-more__count       muted counter (margin-inline-start)
+
+pa-virtual-table — see virtual-scroll.html for full coverage.
+
+STRUCTURE PATTERNS:
+
+Simple data table:
+<table class="pa-table pa-table--striped">
+  <thead><tr><th>Name</th><th>Email</th></tr></thead>
+  <tbody>
+    <tr><td>John Doe</td><td>john@example.com</td></tr>
+  </tbody>
+</table>
+
+Responsive table (mobile → stacked cards):
+<table class="pa-table pa-table--striped pa-table--responsive">
+  <thead><tr><th>Name</th><th>Email</th></tr></thead>
+  <tbody>
+    <tr>
+      <td data-label="Name">John Doe</td>
+      <td data-label="Email">john@example.com</td>
+    </tr>
+  </tbody>
+</table>
+
+Table card with scrollable body:
+<div class="pa-table-card">
+  <div class="pa-table-card__header">
+    <h3>Orders</h3>
+    <div class="pa-table-card__actions">
+      <button class="pa-btn pa-btn--sm pa-btn--primary">Add</button>
+    </div>
+  </div>
+  <div class="pa-table-card__body pa-table-card__body--scrollable">
+    <table class="pa-table pa-table--striped">…</table>
+  </div>
+</div>
+
+Actions column with icon buttons:
+<td class="col-auto">
+  <div class="pa-btn-group">
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--primary" title="View">👁️</button>
+    <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--danger"  title="Delete">🗑️</button>
+  </div>
+</td>
 -->
