@@ -4,12 +4,32 @@
      Native Flexbox Grid Reference
      ================================ -->
 
-<!-- RESPONSIVE BREAKPOINTS -->
 <!--
-  sm: 576px
-  md: 768px
+RESPONSIVE STRATEGY — IMPORTANT:
+Responsive column classes (pa-col-sm-*, pa-col-md-*, pa-col-lg-*,
+pa-col-xl-*) use CSS `@container` queries, NOT `@media`. They only
+activate inside a containment context.
+
+- Inside the framework's .pa-layout__main: works automatically (that
+  element sets container-type: inline-size).
+- Anywhere else: wrap the grid in an element with the .pa-cq utility
+  (also container-type: inline-size) or set the container-type
+  yourself. Without it, the responsive classes silently do nothing.
+
+Visibility helpers (pa-hide, pa-show, -bp, -below-bp) use @media and
+do NOT need the containment context.
+
+BREAKPOINTS (from $grid-breakpoints):
+  sm: 576px     (container/viewport width ≥ 576px)
+  md: 768px     (also = $mobile-breakpoint)
   lg: 992px
   xl: 1200px
+
+AUTO-STACK ON MOBILE:
+Below $mobile-breakpoint (768px), bare percentage/fraction columns
+(pa-col-50, pa-col-1-3, etc.) auto-stack to 100% width, and offsets
+are reset. To keep a non-stacked layout on phones, use explicit
+responsive classes (pa-col-sm-50 won't stack, pa-col-50 will).
 -->
 
 
@@ -69,18 +89,8 @@
 </div>
 
 
-<!-- FIFTHS (20%, 40%, 60%, 80%) -->
+<!-- FIFTHS, SIXTHS, TWELFTHS (fraction aliases) -->
 
-<!-- Five equal columns -->
-<div class="pa-row">
-  <div class="pa-col-20">Fifth</div>
-  <div class="pa-col-20">Fifth</div>
-  <div class="pa-col-20">Fifth</div>
-  <div class="pa-col-20">Fifth</div>
-  <div class="pa-col-20">Fifth</div>
-</div>
-
-<!-- Using fraction aliases -->
 <div class="pa-row">
   <div class="pa-col-2-5">Two fifths</div>
   <div class="pa-col-3-5">Three fifths</div>
@@ -91,19 +101,11 @@
   <div class="pa-col-4-5">Four fifths</div>
 </div>
 
-
-<!-- SIXTHS (16.67%, 83.33%) -->
-
-<!-- Using fraction aliases -->
 <div class="pa-row">
   <div class="pa-col-1-6">One sixth</div>
   <div class="pa-col-5-6">Five sixths</div>
 </div>
 
-
-<!-- TWELFTHS (8.33%, etc.) -->
-
-<!-- Using fraction aliases -->
 <div class="pa-row">
   <div class="pa-col-1-12">1/12</div>
   <div class="pa-col-11-12">11/12</div>
@@ -117,7 +119,7 @@
 
 <!-- 5% INCREMENT COLUMNS -->
 
-<!-- 5% increments available: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100 -->
+<!-- Available sizes: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100 -->
 <div class="pa-row">
   <div class="pa-col-15">15%</div>
   <div class="pa-col-85">85%</div>
@@ -129,7 +131,34 @@
 </div>
 
 
-<!-- RESPONSIVE GRID EXAMPLES -->
+<!-- AUTO COLUMNS (no fixed width) -->
+
+<!-- .pa-col: auto-equal width (flex: 1) — fills remaining space, shares equally with siblings -->
+<div class="pa-row">
+  <div class="pa-col">Auto-equal</div>
+  <div class="pa-col">Auto-equal</div>
+  <div class="pa-col">Auto-equal</div>
+</div>
+
+<!-- .pa-col-auto: content-sized (flex: 0 0 auto) — shrinks to its content width -->
+<div class="pa-row">
+  <div class="pa-col-auto">Just the text width</div>
+  <div class="pa-col">Fills the rest</div>
+</div>
+
+<!-- Mix and match — fixed + auto + content -->
+<div class="pa-row">
+  <div class="pa-col-25">Fixed 25%</div>
+  <div class="pa-col">Fills remaining</div>
+  <div class="pa-col-auto">Content</div>
+</div>
+
+
+<!--
+RESPONSIVE GRID
+Requires @container context. Works out of the box inside the framework
+layout (.pa-layout__main); elsewhere wrap in .pa-cq.
+-->
 
 <!-- Mobile: full width, Tablet+: half width -->
 <div class="pa-row">
@@ -145,23 +174,17 @@
   <div class="pa-col-100 pa-col-sm-50 pa-col-md-1-3 pa-col-lg-25">Multi-breakpoint</div>
 </div>
 
-<!-- Sidebar + content layout (responsive) -->
-<div class="pa-row">
-  <div class="pa-col-100 pa-col-md-25">Sidebar (mobile: full, tablet+: 25%)</div>
-  <div class="pa-col-100 pa-col-md-75">Content (mobile: full, tablet+: 75%)</div>
-</div>
-
-<!-- Three-column responsive with fractions -->
-<div class="pa-row">
-  <div class="pa-col-100 pa-col-sm-50 pa-col-lg-1-3">Column 1</div>
-  <div class="pa-col-100 pa-col-sm-50 pa-col-lg-1-3">Column 2</div>
-  <div class="pa-col-100 pa-col-sm-50 pa-col-lg-1-3">Column 3</div>
+<!-- Standalone grid with explicit containment context -->
+<div class="pa-cq">
+  <div class="pa-row">
+    <div class="pa-col-100 pa-col-md-50">Responsive works because of .pa-cq</div>
+    <div class="pa-col-100 pa-col-md-50">Responsive works because of .pa-cq</div>
+  </div>
 </div>
 
 
-<!-- NESTED GRIDS -->
+<!-- NESTED GRIDS — nested .pa-row resets its own margin -->
 
-<!-- Grid inside grid -->
 <div class="pa-row">
   <div class="pa-col-50">
     <div class="pa-row">
@@ -177,29 +200,49 @@
 
 <!-- ROW MODIFIERS -->
 
-<!-- No gutter (remove spacing between columns) -->
+<!-- Gutter / spacing -->
 <div class="pa-row pa-row--no-gutter">
-  <div class="pa-col-50">No gutter</div>
-  <div class="pa-col-50">No gutter</div>
+  <div class="pa-col-50">No gutter between me</div>
+  <div class="pa-col-50">and me</div>
 </div>
 
-<!-- Center columns -->
+<!-- Horizontal alignment of children -->
 <div class="pa-row pa-row--center">
-  <div class="pa-col-1-3">Centered</div>
+  <div class="pa-col-1-3">Centred</div>
 </div>
 
-<!-- Space between columns -->
+<div class="pa-row pa-row--end">
+  <div class="pa-col-1-3">End-aligned</div>
+</div>
+
 <div class="pa-row pa-row--between">
-  <div class="pa-col-25">Left</div>
-  <div class="pa-col-25">Right</div>
+  <div class="pa-col-25">Space</div>
+  <div class="pa-col-25">Between</div>
 </div>
 
-<!-- Same height cards -->
+<div class="pa-row pa-row--around">
+  <div class="pa-col-25">Space</div>
+  <div class="pa-col-25">Around</div>
+</div>
+
+<!-- Vertical alignment of children -->
+<div class="pa-row pa-row--top">
+  <div class="pa-col-50">Top aligned</div>
+</div>
+<div class="pa-row pa-row--middle">
+  <div class="pa-col-50">Middle aligned</div>
+</div>
+<div class="pa-row pa-row--bottom">
+  <div class="pa-col-50">Bottom aligned</div>
+</div>
+<div class="pa-row pa-row--stretch">
+  <div class="pa-col-50">Stretch vertically (default, included for explicitness)</div>
+</div>
+
+<!-- Same-height cards (normalises card heights across columns) -->
 <div class="pa-row pa-row--same-height">
   <div class="pa-col-1-3">
-    <div class="pa-card">
-      <div class="pa-card__body">Short</div>
-    </div>
+    <div class="pa-card"><div class="pa-card__body">Short</div></div>
   </div>
   <div class="pa-col-1-3">
     <div class="pa-card">
@@ -211,23 +254,24 @@
     </div>
   </div>
   <div class="pa-col-1-3">
-    <div class="pa-card">
-      <div class="pa-card__body">Medium</div>
-    </div>
+    <div class="pa-card"><div class="pa-card__body">Medium</div></div>
   </div>
 </div>
 
-<!-- Vertical alignment -->
-<div class="pa-row pa-row--top">
-  <div class="pa-col-50">Top aligned</div>
+
+<!-- COLUMN MODIFIERS -->
+
+<!-- --no-padding: kill the gutter on a single column (e.g., full-bleed card) -->
+<div class="pa-row">
+  <div class="pa-col-50 pa-col--no-padding">No padding on this column</div>
+  <div class="pa-col-50">Normal gutter</div>
 </div>
 
-<div class="pa-row pa-row--middle">
-  <div class="pa-col-50">Middle aligned</div>
-</div>
-
-<div class="pa-row pa-row--bottom">
-  <div class="pa-col-50">Bottom aligned</div>
+<!-- --grow / --shrink: adjust flex-grow / flex-shrink individually -->
+<div class="pa-row">
+  <div class="pa-col-auto">Fixed-size</div>
+  <div class="pa-col-auto pa-col--grow">Grows to fill extra space</div>
+  <div class="pa-col-auto">Fixed-size</div>
 </div>
 
 
@@ -250,89 +294,157 @@
 
 <!-- Two-thirds content + one-third sidebar -->
 <div class="pa-row">
-  <div class="pa-col-100 pa-col-md-2-3">
-    Main content area (2/3)
-  </div>
-  <div class="pa-col-100 pa-col-md-1-3">
-    Sidebar (1/3)
-  </div>
+  <div class="pa-col-100 pa-col-md-2-3">Main content area (2/3)</div>
+  <div class="pa-col-100 pa-col-md-1-3">Sidebar (1/3)</div>
 </div>
 
 
 <!-- OFFSET COLUMNS -->
 
-<!-- Offset from left -->
+<!-- Offset from reading start (left in LTR, right in RTL) — uses margin-inline-start -->
 <div class="pa-row">
-  <div class="pa-col-50 pa-offset-25">Offset 25% from left</div>
+  <div class="pa-col-50 pa-offset-25">Offset 25% from start</div>
 </div>
 
 <div class="pa-row">
-  <div class="pa-col-1-3 pa-offset-35">Offset 35% from left</div>
+  <div class="pa-col-1-3 pa-offset-35">Offset 35% from start</div>
+</div>
+
+<!-- Responsive offset (only at md+) -->
+<div class="pa-row">
+  <div class="pa-col-100 pa-col-md-50 pa-offset-md-25">Offset only at md+</div>
 </div>
 
 
-<!-- ALL AVAILABLE CLASSES REFERENCE -->
+<!-- VISIBILITY HELPERS (use @media, NOT @container — unlike responsive columns) -->
 
-<!-- Container: -->
-<!-- .pa-row -->
+<!-- Always hidden / always shown -->
+<div class="pa-hide">Never visible</div>
+<div class="pa-show">Always visible</div>
 
-<!-- Row modifiers: -->
-<!-- .pa-row--no-gutter (remove column spacing) -->
-<!-- .pa-row--center (center columns horizontally) -->
-<!-- .pa-row--end (align columns to right) -->
-<!-- .pa-row--between (space between columns) -->
-<!-- .pa-row--around (space around columns) -->
-<!-- .pa-row--same-height (equal height cards) -->
-<!-- .pa-row--top (align items to top) -->
-<!-- .pa-row--middle (align items to middle) -->
-<!-- .pa-row--bottom (align items to bottom) -->
+<!-- Breakpoint-up (hide or show at that breakpoint and wider) -->
+<div class="pa-hide-md">Hidden at md and wider</div>
+<div class="pa-show-md">Visible at md and wider (hidden below)</div>
 
-<!-- Column classes - 5% increments: -->
-<!-- .pa-col (auto equal width) -->
-<!-- .pa-col-5 (5%) -->
-<!-- .pa-col-10 (10%) -->
-<!-- .pa-col-15 (15%) -->
-<!-- .pa-col-20 (20%) -->
-<!-- .pa-col-25 (25%) -->
-<!-- .pa-col-30 (30%) -->
-<!-- .pa-col-35 (35%) -->
-<!-- .pa-col-40 (40%) -->
-<!-- .pa-col-45 (45%) -->
-<!-- .pa-col-50 (50%) -->
-<!-- .pa-col-55 (55%) -->
-<!-- .pa-col-60 (60%) -->
-<!-- .pa-col-65 (65%) -->
-<!-- .pa-col-70 (70%) -->
-<!-- .pa-col-75 (75%) -->
-<!-- .pa-col-80 (80%) -->
-<!-- .pa-col-85 (85%) -->
-<!-- .pa-col-90 (90%) -->
-<!-- .pa-col-95 (95%) -->
-<!-- .pa-col-100 (100%) -->
+<!-- Breakpoint-down (hide or show below that breakpoint) -->
+<div class="pa-hide-below-md">Hidden below md (visible at md and wider)</div>
+<div class="pa-show-below-md">Visible below md (hidden at md and wider)</div>
 
-<!-- Column classes - fractions (intuitive naming): -->
-<!-- .pa-col-1-2 (50% - 1/2) -->
-<!-- .pa-col-1-3 (33.33% - 1/3) -->
-<!-- .pa-col-2-3 (66.67% - 2/3) -->
-<!-- .pa-col-1-4 (25% - 1/4) -->
-<!-- .pa-col-3-4 (75% - 3/4) -->
-<!-- .pa-col-1-5 (20% - 1/5) -->
-<!-- .pa-col-2-5 (40% - 2/5) -->
-<!-- .pa-col-3-5 (60% - 3/5) -->
-<!-- .pa-col-4-5 (80% - 4/5) -->
-<!-- .pa-col-1-6 (16.67% - 1/6) -->
-<!-- .pa-col-5-6 (83.33% - 5/6) -->
-<!-- .pa-col-1-12 (8.33% - 1/12) -->
-<!-- .pa-col-5-12 (41.67% - 5/12) -->
-<!-- .pa-col-7-12 (58.33% - 7/12) -->
-<!-- .pa-col-11-12 (91.67% - 11/12) -->
+<!-- Common pattern: desktop-only sidebar hidden on mobile -->
+<div class="pa-row">
+  <div class="pa-col-100 pa-col-md-25 pa-hide-below-md">Desktop-only sidebar</div>
+  <div class="pa-col-100 pa-col-md-75">Main content</div>
+</div>
 
-<!-- Responsive prefixes (add to any column size): -->
-<!-- .pa-col-sm-* (≥576px) -->
-<!-- .pa-col-md-* (≥768px) -->
-<!-- .pa-col-lg-* (≥992px) -->
-<!-- .pa-col-xl-* (≥1200px) -->
 
-<!-- Offset classes (5% increments): -->
-<!-- .pa-offset-5 through .pa-offset-95 -->
-<!-- .pa-offset-sm-*, .pa-offset-md-*, .pa-offset-lg-*, .pa-offset-xl-* -->
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+BREAKPOINTS ($grid-breakpoints map):
+  sm: 576px      md: 768px      lg: 992px      xl: 1200px
+  $mobile-breakpoint = 768px (auto-stack threshold)
+
+CONTAINMENT CONTEXT:
+Responsive column classes require a container-query ancestor:
+  - .pa-layout__main              framework default (set automatically)
+  - .pa-cq                        helper class (container-type: inline-size)
+
+Without one, pa-col-{sm,md,lg,xl}-* silently do nothing.
+Visibility helpers use @media so they work anywhere.
+
+ROW CONTAINER (.pa-row):
+- .pa-row                         Flex wrap container (-gutter margin-inline)
+- .pa-row--no-gutter              Remove horizontal gutter from row + children
+- .pa-row--center                 justify-content: center
+- .pa-row--end                    justify-content: flex-end
+- .pa-row--between                justify-content: space-between
+- .pa-row--around                 justify-content: space-around
+- .pa-row--top                    align-items: flex-start
+- .pa-row--middle                 align-items: center
+- .pa-row--bottom                 align-items: flex-end
+- .pa-row--stretch                align-items: stretch (default; explicit form)
+- .pa-row--same-height            .pa-card inside each column stretches to 100%
+
+COLUMNS — AUTO / CONTENT:
+- .pa-col                         flex: 1 (auto-equal with siblings)
+- .pa-col-auto                    flex: 0 0 auto (content width)
+
+COLUMNS — PERCENTAGE (5% increments):
+  .pa-col-{5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100}
+
+COLUMNS — FRACTIONS (intuitive aliases):
+  1-2 (50%)    1-3 (33.333%)  2-3 (66.667%)
+  1-4 (25%)    3-4 (75%)
+  1-5 (20%)    2-5 (40%)      3-5 (60%)       4-5 (80%)
+  1-6 (16.667%) 5-6 (83.333%)
+  1-12 (8.333%)  5-12 (41.667%)  7-12 (58.333%)  11-12 (91.667%)
+
+COLUMNS — RESPONSIVE (prefix with -sm / -md / -lg / -xl):
+  .pa-col-md-50                   becomes 50% at md+
+  .pa-col-lg-1-3                  becomes 1/3 at lg+
+  .pa-col-sm-auto                 becomes content-width at sm+
+
+COLUMN MODIFIERS:
+- .pa-col--no-padding             Zero the column's gutter padding
+- .pa-col--grow                   flex-grow: 1 (fills extra space)
+- .pa-col--shrink                 flex-shrink: 1
+
+OFFSETS (5% increments, 5..95):
+- .pa-offset-{5,10,...,95}        margin-inline-start
+- .pa-offset-{bp}-{size}          responsive, requires @container context
+
+VISIBILITY HELPERS (@media, works anywhere):
+- .pa-hide / .pa-show                 Always hidden / always shown
+- .pa-hide-{bp} / .pa-show-{bp}       At breakpoint and wider
+- .pa-hide-below-{bp} / .pa-show-below-{bp}   Below breakpoint
+
+AUTO BEHAVIOURS:
+- Below 768px ($mobile-breakpoint), bare percentage and fraction columns
+  (pa-col-50, pa-col-1-3, etc.) become 100% width; offsets reset to 0.
+  Use pa-col-sm-* / pa-col-md-* to override.
+- Columns inside .pa-card__body lose their bottom padding to prevent
+  conflict with card padding.
+- Nested .pa-row resets its own margin-inline to 0 so nested grids
+  align cleanly with their parent column's padding.
+- min-width: 0 on every column prevents flex overflow from wide content
+  (long URLs, long words, etc.) forcing the row wider than the container.
+
+STRUCTURE PATTERNS:
+
+Responsive stat-card row:
+<div class="pa-row">
+  <div class="pa-col-100 pa-col-sm-50 pa-col-lg-25">…</div>
+  <div class="pa-col-100 pa-col-sm-50 pa-col-lg-25">…</div>
+  <div class="pa-col-100 pa-col-sm-50 pa-col-lg-25">…</div>
+  <div class="pa-col-100 pa-col-sm-50 pa-col-lg-25">…</div>
+</div>
+
+Sidebar + content layout:
+<div class="pa-row">
+  <div class="pa-col-100 pa-col-md-25 pa-hide-below-md">Sidebar</div>
+  <div class="pa-col-100 pa-col-md-75">Main</div>
+</div>
+
+Content + auto-sized trailing element:
+<div class="pa-row">
+  <div class="pa-col">Main content (fills)</div>
+  <div class="pa-col-auto">Button</div>
+</div>
+
+Same-height cards across columns:
+<div class="pa-row pa-row--same-height">
+  <div class="pa-col-1-3"><div class="pa-card">…</div></div>
+  <div class="pa-col-1-3"><div class="pa-card">…</div></div>
+  <div class="pa-col-1-3"><div class="pa-card">…</div></div>
+</div>
+
+Standalone grid outside the framework layout:
+<div class="pa-cq">
+  <div class="pa-row">
+    <div class="pa-col-100 pa-col-md-50">…</div>
+    <div class="pa-col-100 pa-col-md-50">…</div>
+  </div>
+</div>
+-->
