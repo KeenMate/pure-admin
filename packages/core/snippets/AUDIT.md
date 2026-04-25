@@ -44,13 +44,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `web-daterangepicker.html` | 2026-04-25 | `../../web-daterangepicker/src/web-component.ts` (observedAttributes), `../../web-daterangepicker/src/types.ts` (DatePickerOptions, DateInfo, disabledDatesHandling), `../../web-daterangepicker/API.md`, `core-components/_web-components-theme.scss` (--base-* bridge) | [7cbad56](../../../commit/7cbad56) |
 | `web-multiselect.html` | 2026-04-25 | `../../web-multiselect/src/web-component.ts` (observedAttributes), `../../web-multiselect/src/types.ts` (BadgesDisplayMode, BadgesPosition, SearchMode, ValueFormat etc.), `../../web-multiselect/src/css/_variables.css` (--ms-* surface), `core-components/_web-components-theme.scss` | [95cf062](../../../commit/95cf062) |
 | `filter-card.html` | 2026-04-25 | `core-components/_filter-card.scss` (whole file — only BEM elements + 2 state modifiers, no base block) | [b65ec2b](../../../commit/b65ec2b) |
-| `statistics.html` | 2026-04-25 | `core-components/_statistics.scss` (whole file — `.pa-stat`, `--hero`, `--hero-compact`, `--square` + 6 colour variants, `.pa-kpi-grid`) | _(this commit)_ |
+| `statistics.html` | 2026-04-25 | `core-components/_statistics.scss` (whole file — `.pa-stat`, `--hero`, `--hero-compact`, `--square` + 6 colour variants, `.pa-kpi-grid`) | [5de0ce8](../../../commit/5de0ce8) |
+| `notifications.html` | 2026-04-25 | `core-components/_notifications.scss` (whole file — bell + dropdown panel, item states, page-view modifier, hover-revealed actions) | _(this commit)_ |
 
 ## Pending
 
 Gap pass — adding new snippets, smallest SCSS surface first:
 
-- `notifications.html` (320 lines)
 - `file-selector.html` (780 lines)
 - `data-display.html` (1112 lines)
 - `smart-filters.html` (313 lines + JS)
@@ -65,7 +65,7 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 | Component | SCSS file | Notes |
 |---|---|---|
 | pagers | `_pagers.scss` | Covered inside `tables.html` audit (same family; pager/load-more only meaningful alongside tables). |
-| notifications | `_notifications.scss` | Public — snippet worth adding |
+| ~~notifications~~ | ~~`_notifications.scss`~~ | ~~Public — snippet worth adding~~ → done in `notifications.html` |
 | ~~statistics~~ | ~~`_statistics.scss`~~ | ~~Public — snippet worth adding~~ → done in `statistics.html` |
 | file-selector | `_file-selector.scss` | Public — snippet worth adding |
 | ~~filter-card~~ | ~~`_filter-card.scss`~~ | ~~Public — snippet worth adding~~ → done in `filter-card.html` |

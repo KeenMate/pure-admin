@@ -1,0 +1,285 @@
+<!-- ================================
+     NOTIFICATIONS
+     Two pieces under one BEM block:
+
+       1. Notification bell + dropdown panel (lives in the navbar)
+       2. Full-page notification list (--page modifier on the list)
+
+     Source: core-components/_notifications.scss
+
+     Same z-index as the profile panel ($z-index-profile-panel ≈ 5000),
+     so the panel overlays normal content but sits below modal dialogs.
+     ================================ -->
+
+
+<!-- ================================
+     1. BELL + DROPDOWN PANEL
+     This is the canonical "bell in the top bar" pattern. The wrapper
+     (.pa-notifications) is the positioning anchor; the button has an
+     icon + a small red badge counter; the panel toggles via the
+     `.is-open` state class.
+
+     Toggle visibility from JS — there's no hover/focus auto-open
+     because the button + panel pair is too easy to accidentally
+     trigger by mouse-over.
+     ================================ -->
+
+<div class="pa-notifications">
+
+  <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
+    <span class="pa-notifications__icon">🔔</span>
+    <span class="pa-notifications__badge">3</span>
+  </button>
+
+  <div class="pa-notifications__panel" id="notificationsPanel">
+
+    <div class="pa-notifications__header">
+      <h3>Notifications</h3>
+      <button class="pa-notifications__mark-read" onclick="markAllRead()">Mark all as read</button>
+    </div>
+
+    <ul class="pa-notifications__list">
+
+      <li class="pa-notifications__item pa-notifications__item--unread">
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--primary">📝</div>
+        <div class="pa-notifications__content">
+          <h4>New task assigned</h4>
+          <p>Review the Q4 report by end of week</p>
+          <span class="pa-notifications__time">2 minutes ago</span>
+        </div>
+      </li>
+
+      <li class="pa-notifications__item pa-notifications__item--unread">
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--success">✓</div>
+        <div class="pa-notifications__content">
+          <h4>Build completed</h4>
+          <p>Production deployment finished successfully</p>
+          <span class="pa-notifications__time">15 minutes ago</span>
+        </div>
+      </li>
+
+      <li class="pa-notifications__item pa-notifications__item--unread">
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">⚠️</div>
+        <div class="pa-notifications__content">
+          <h4>Server maintenance</h4>
+          <p>Scheduled downtime tonight at 11 PM</p>
+          <span class="pa-notifications__time">1 hour ago</span>
+        </div>
+      </li>
+
+      <!-- Read item — drops the --unread modifier -->
+      <li class="pa-notifications__item">
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--secondary">💬</div>
+        <div class="pa-notifications__content">
+          <h4>New comment</h4>
+          <p>Sarah replied to your comment on Issue #432</p>
+          <span class="pa-notifications__time">3 hours ago</span>
+        </div>
+      </li>
+
+    </ul>
+
+    <div class="pa-notifications__footer">
+      <a href="/notifications">View all notifications</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleNotifications() {
+  document.getElementById('notificationsPanel').classList.toggle('is-open');
+}
+function markAllRead() {
+  document.querySelectorAll('.pa-notifications__item--unread')
+    .forEach(el => el.classList.remove('pa-notifications__item--unread'));
+  // Reset the bell badge counter or hide it entirely
+  const badge = document.querySelector('.pa-notifications__badge');
+  if (badge) badge.style.display = 'none';
+}
+
+// Close on outside click (typical pattern; not provided by SCSS):
+document.addEventListener('click', (e) => {
+  const wrap = document.querySelector('.pa-notifications');
+  if (!wrap.contains(e.target)) {
+    document.getElementById('notificationsPanel').classList.remove('is-open');
+  }
+});
+</script>
+
+
+<!-- ================================
+     ICON-WRAPPER COLOUR VARIANTS
+     Five colours. Note: there's no --info variant on the icon
+     wrapper — defaults to the accent colour if you omit the
+     modifier entirely. For an info-coloured slot, fall back to
+     the default (no modifier).
+     ================================ -->
+
+<div class="pa-notifications__icon-wrapper">                                              📌</div>
+<div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--primary">      📌</div>
+<div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--success">      📌</div>
+<div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">      📌</div>
+<div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--danger">       📌</div>
+<div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--secondary">    📌</div>
+
+
+<!-- ================================
+     2. PAGE VIEW (--page list modifier)
+     A full-page notification list. Same building blocks; the list
+     gets a --page modifier that scales padding/icon/font up and
+     drops the max-height + scrolling so the list flows with the
+     page.
+
+     Items support an optional .pa-notifications__actions slot that
+     hover-reveals action buttons on desktop, and is always visible
+     on mobile (wrapping to a new row).
+
+     A leading .pa-checkbox is a typical addition for bulk actions.
+     ================================ -->
+
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>All Notifications</h3>
+  </div>
+  <div class="pa-card__body p-0">
+    <ul class="pa-notifications__list pa-notifications__list--page">
+
+      <li class="pa-notifications__item pa-notifications__item--unread">
+        <label class="pa-checkbox">
+          <input type="checkbox">
+          <span class="pa-checkbox__box"></span>
+        </label>
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--primary">👤</div>
+        <div class="pa-notifications__content">
+          <h4>New user registration</h4>
+          <p>John Doe has registered a new account and is awaiting approval.</p>
+          <span class="pa-notifications__time">2 minutes ago</span>
+        </div>
+        <div class="pa-notifications__actions">
+          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">✓</button>
+          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">✕</button>
+        </div>
+      </li>
+
+      <li class="pa-notifications__item">
+        <label class="pa-checkbox">
+          <input type="checkbox">
+          <span class="pa-checkbox__box"></span>
+        </label>
+        <div class="pa-notifications__icon-wrapper pa-notifications__icon-wrapper--warning">⚠️</div>
+        <div class="pa-notifications__content">
+          <h4>High CPU usage</h4>
+          <p>Server CPU usage has exceeded 85%. Consider scaling resources.</p>
+          <span class="pa-notifications__time">15 minutes ago</span>
+        </div>
+        <div class="pa-notifications__actions">
+          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Mark as read">✓</button>
+          <button class="pa-btn pa-btn--ghost pa-btn--sm" title="Delete">✕</button>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+SUB-ELEMENTS:
+
+  Bell button + panel anchor
+    .pa-notifications              Wrapper (positioning anchor for
+                                    the absolutely-positioned panel).
+    .pa-notifications__btn         Round bell button (no border).
+    .pa-notifications__icon        The bell glyph itself.
+    .pa-notifications__badge       Red counter pill, top-end of btn.
+
+  Dropdown panel
+    .pa-notifications__panel       Floating panel. display:none until
+                                    you add `.is-open`. Uses
+                                    z-index-profile-panel (= 5000),
+                                    same as the profile panel.
+    .pa-notifications__header      Header row inside the panel.
+    .pa-notifications__mark-read   Right-aligned text button in header.
+    .pa-notifications__list        <ul> wrapping items.
+    .pa-notifications__item        <li>; flex row with icon + content.
+    .pa-notifications__icon-wrapper  Round icon tile on the inline-start.
+    .pa-notifications__content     Title (h4) + body (p) + time.
+    .pa-notifications__time        Small muted timestamp.
+    .pa-notifications__footer      Centered link row at the bottom.
+
+ITEM STATE:
+  --unread      Lighter accent-tinted background. Hover deepens it.
+  (no class)    Read; default background, accent-tint on hover only.
+
+ICON-WRAPPER COLOURS:
+  (no modifier)        accent (--pa-accent)
+  --primary
+  --success
+  --warning
+  --danger
+  --secondary
+  Note: there is NO --info variant; use the default (no modifier) for
+  the accent slot.
+
+PAGE-VIEW MODIFIER:
+  .pa-notifications__list--page
+    - Removes the panel max-height + overflow.
+    - Bigger padding, larger icon (4rem vs 3.2rem), larger text.
+    - Pairs with .pa-notifications__actions inside each item:
+        opacity: 0; reveals on .pa-notifications__item:hover
+        on mobile: opacity: 1 always, wraps to a new row with a
+        top divider.
+
+PANEL OPEN/CLOSE:
+  No SCSS animation — `display: none` ↔ `display: flex` via .is-open.
+  Three things you'll wire up yourself:
+    1. Click the bell  → toggle .is-open on .pa-notifications__panel
+    2. Click outside   → remove .is-open
+    3. Mark all read   → strip --unread from items + zero/hide badge
+
+  Common alternative: replace .is-open toggle with the `hidden`
+  attribute on the panel — works as long as you also add
+  `&[hidden] { display: none !important; }` somewhere, since the
+  base rule already forces `display: none`.
+
+RESPONSIVE BEHAVIOUR (panel only, ≤ $mobile-breakpoint):
+  Width fills the viewport (minus 3.2rem) up to a 35.2rem cap.
+  Aligned to the inline-end edge with -$spacing-base offset.
+  Page-view items: actions always visible, wrapping to a new row
+  with a top border separator.
+
+STRUCTURE PATTERNS:
+
+  Bell + dropdown (the navbar pattern):
+    <div class="pa-notifications">
+      <button class="pa-notifications__btn">
+        <span class="pa-notifications__icon">🔔</span>
+        <span class="pa-notifications__badge">3</span>
+      </button>
+      <div class="pa-notifications__panel">
+        <div class="pa-notifications__header">…</div>
+        <ul class="pa-notifications__list">
+          <li class="pa-notifications__item pa-notifications__item--unread">
+            <div class="pa-notifications__icon-wrapper …">…</div>
+            <div class="pa-notifications__content">…</div>
+          </li>
+        </ul>
+        <div class="pa-notifications__footer">…</div>
+      </div>
+    </div>
+
+  Full-page list:
+    <ul class="pa-notifications__list pa-notifications__list--page">
+      <li class="pa-notifications__item …">
+        <label class="pa-checkbox">…</label>      <!-- bulk select -->
+        <div class="pa-notifications__icon-wrapper …">…</div>
+        <div class="pa-notifications__content">…</div>
+        <div class="pa-notifications__actions">…</div>   <!-- hover-revealed -->
+      </li>
+    </ul>
+-->
