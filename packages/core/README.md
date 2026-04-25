@@ -2,17 +2,20 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.5.0
+
+- **Form Demo showcase page** (`/showcases/form-demo`) — Vanilla-JS CRUD form mirroring the LiveView form demo from `keen-pure-admin`: inline validation slots, edit/update flow, optimistic delete with toast-undo, and a `simulateServerSave()` failure path so error states are exercisable without any tooling.
+- **Alert system overhaul** — `pa-alert__heading` is now the single heading element (compact default + new `--lg` modifier for punchy presentation), default alignment flipped to `align-items: center` so icons sit nicely with single-line content (new `pa-alert--multiline` opt-out for icon + multi-line stacks), real size scale on `--sm` / `--lg` (both padding *and* font now step in 0.25rem / 0.2rem increments), and `__actions` renders with a toast-style separator. Multi-element layouts (heading + list + actions) stack reliably now via `flex-basis: 100%` on structural children.
+- **Snippets audit + gap pass** — Every snippet under `snippets/` cross-checked against its SCSS source (27 audit commits, tracked in `snippets/AUDIT.md`). Wrong attribute names, dead classes, and structural omissions corrected across the board. Four new gap-pass snippets: `filter-card`, `statistics`, `notifications`, `data-display`.
+- **Popconfirm position classes renamed (Breaking)** — `pa-popconfirm--right` / `--left` → `pa-popconfirm--end` / `--start`. SCSS uses logical properties so the popconfirm and its arrow mirror in `dir="rtl"`. No backwards-compatibility aliases — update markup directly.
+- **`pa-alert__heading` size now opt-in (Breaking)** — Was hardcoded `font-size-lg`; defaults to the alert's body font-size now. Add `pa-alert__heading--lg` on existing alerts to keep the previous bigger treatment.
+
 ## What's New in 2.4.0
 
 - **`download-themes` bin removed** — Theme management now lives in the [`pureadmin` CLI](https://www.npmjs.com/package/@keenmate/pureadmin) (`npx pureadmin themes add/update/list`). README's Theme Setup section rewritten to match.
 - **Theme-aware charts** — Demo dashboard chart rewritten to source colors and fonts from Pure Admin CSS custom properties (`--pa-accent`, `--pa-text-color-*`, `--base-font-family`). Establishes the canonical pattern for SVG charts tracking the active theme.
 - **KPI square stats theme correctly** — `pa-stat--square` color variants now route through `--pa-accent` / `--pa-success-bg` / etc. instead of raw SCSS vars that resolved to Bootstrap defaults in every theme.
 - **Profile panel readable on colored headers** — Name, email, role badge, and tab icons now use `--pa-header-profile-name-color` (guaranteed to contrast with header bg) instead of body text vars, with opacity/color-mix for hierarchy.
-
-## What's New in 2.3.6
-
-- **Responsive font sizing** — `pa-font-responsive` class on `<html>` for automatic mobile scaling (10px desktop, 12px mobile). Granular `pa-font-base-*` / `pa-font-mobile-*` classes for full control. No JS, no FOUC.
-- **Getting Started page** — New demo page covering installation, theme management via CLI, responsive sizing, RTL, and BEM reference
 
 ## Installation
 
