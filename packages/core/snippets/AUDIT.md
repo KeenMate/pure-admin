@@ -40,13 +40,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `modal-dialogs.html` | 2026-04-24 | `src/js/modal-dialogs.js` (PureAdmin.confirm / alert / prompt / custom API); DOM produced matches `_modals.scss` | [e5eba00](../../../commit/e5eba00) |
 | `detail-panel.html` | 2026-04-24 | `core-components/_detail-panel.scss`, `variables/_components.scss` (panel width + z-index) | [c1dc6ff](../../../commit/c1dc6ff) |
 | `customization.html` | 2026-04-25 | `_base-css-variables.scss`, `_variables.scss`, theme-system pattern (mirrors `pure-admin-themes` repo) | [0a8950e](../../../commit/0a8950e) |
-| `virtual-scroll.html` | 2026-04-25 | `core-components/_tables.scss` (`.pa-virtual-table` shell, lines 477-552), `core-components/_timeline.scss` (`.pa-timeline__loader`), `src/js/virtual-scroll.js` (VirtualScroll class API) | _(this commit)_ |
+| `virtual-scroll.html` | 2026-04-25 | `core-components/_tables.scss` (`.pa-virtual-table` shell, lines 477-552), `core-components/_timeline.scss` (`.pa-timeline__loader`), `src/js/virtual-scroll.js` (VirtualScroll class API) | [85db533](../../../commit/85db533) |
+| `web-daterangepicker.html` | 2026-04-25 | `../../web-daterangepicker/src/web-component.ts` (observedAttributes), `../../web-daterangepicker/src/types.ts` (DatePickerOptions, DateInfo, disabledDatesHandling), `../../web-daterangepicker/API.md`, `core-components/_web-components-theme.scss` (--base-* bridge) | _(this commit)_ |
 
 ## Pending
 
 Ordered roughly narrow → broad, the way the audit is running:
 
-- `web-daterangepicker.html`
 - `web-multiselect.html`
 
 ## Gaps — SCSS without a snippet

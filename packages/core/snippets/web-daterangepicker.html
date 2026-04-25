@@ -1,9 +1,24 @@
-<!-- Web Date Range Picker Component
-     Advanced date picker web component from @keenmate/web-daterangepicker
-     Framework-agnostic, TypeScript-based web component with excellent features
-     Repository: https://github.com/keenmate/web-daterangepicker
+<!-- ================================
+     WEB DATE RANGE PICKER
+     A framework-agnostic web component from @keenmate/web-daterangepicker
+     (separate package; not part of pure-admin-core's CSS).
+
+     Pure Admin's role: themes export ~45 --base-* CSS variables (see
+     _base-css-variables.scss + _web-components-theme.scss bridge).
+     The component reads them via fallback chains:
+
+       1. Page override   :  web-daterangepicker { --drp-accent-color: … }
+       2. Theme base value:  var(--base-accent-color)
+       3. Hardcoded default: built into the component
+
+     So in a Pure Admin app you usually do NOT override --drp-* — the
+     theme already cascades. Override --drp-* only for one-off
+     instance-specific tweaks.
+
      Package: npm install @keenmate/web-daterangepicker
--->
+     Repo:    https://github.com/keenmate/web-daterangepicker
+     Auto-registers as <web-daterangepicker> on import.
+     ================================ -->
 
 <!-- ========================================
      BASIC USAGE
@@ -24,7 +39,11 @@
   date-format-mask="YYYY-MM-DD">
 </web-daterangepicker>
 
-<!-- Multiple Dates/Ranges Selection -->
+<!-- Multiple Dates/Ranges Selection
+     Note: TypeScript narrows the public selectionMode property to
+     'single' | 'range', but the underlying engine accepts 'multiple'
+     too — used in the demo (date-picker.mustache) for cherry-picking
+     several dates / ranges. -->
 <web-daterangepicker
   selection-mode="multiple"
   placeholder="Select multiple dates"
@@ -181,7 +200,12 @@ pastOnly.setAttribute('max-date', yesterday.toISOString().split('T')[0]);
 <script>
 const customBadges = document.getElementById('custom-badges');
 
-// Add metadata to dates (holidays, events, etc.)
+// Callback returns DateInfo or null. DateInfo shape:
+//   { isDisabled?, badgeText?, badgeClass?, badgeTooltip?,
+//     dayClass?, dayTooltip? }
+// badgeText goes in the badge row above the day number; badgeClass /
+// dayClass let you compose with predefined .holiday / .event classes
+// or your own.
 customBadges.getDateMetadataCallback = (date) => {
   const day = date.getDate();
   const month = date.getMonth();
@@ -189,32 +213,41 @@ customBadges.getDateMetadataCallback = (date) => {
   // New Year's Day
   if (month === 0 && day === 1) {
     return {
-      badge: 'primary',
-      tooltip: 'New Year\'s Day',
-      label: 'Holiday'
+      badgeText: '🎉',
+      badgeClass: 'holiday',
+      badgeTooltip: "New Year's Day",
+      dayTooltip: 'Public holiday'
     };
   }
 
   // Valentine's Day
   if (month === 1 && day === 14) {
     return {
-      badge: 'danger',
-      tooltip: 'Valentine\'s Day',
-      label: 'Holiday'
+      badgeText: '❤️',
+      badgeClass: 'holiday',
+      badgeTooltip: "Valentine's Day"
     };
   }
 
   // Team meetings on Mondays
   if (date.getDay() === 1) {
     return {
-      badge: 'warning',
-      tooltip: 'Team Meeting at 10 AM',
-      label: 'Meeting'
+      badgeText: '📅',
+      badgeClass: 'event',
+      badgeTooltip: 'Team Meeting at 10 AM'
     };
   }
 
   return null;
 };
+
+// Alternative: pre-built specialDates array (no callback overhead).
+// Property names default to date / badgeText / badgeClass / badgeTooltip
+// / dayClass / dayTooltip / isDisabled — override via *Member options.
+customBadges.specialDates = [
+  { date: '2025-12-25', badgeText: '🎄', badgeTooltip: 'Christmas',  badgeClass: 'holiday' },
+  { date: '2025-12-31', badgeText: '🎆', badgeTooltip: "New Year's Eve" }
+];
 </script>
 
 <!-- ========================================
@@ -250,32 +283,70 @@ disabledDates.getDateMetadataCallback = (date) => {
 </script>
 
 <!-- ========================================
-     RANGE HANDLING MODES
+     RANGE HANDLING MODES (disabled-dates-handling)
+     Five modes for what happens when a selected range overlaps
+     disabled dates. Set via attribute OR property.
      ======================================== -->
 
-<!-- Allow Mode (default): Range can include disabled dates -->
+<!-- allow (default): range spans disabled dates;
+     event detail includes enabledDates + disabledDates arrays -->
 <web-daterangepicker
   selection-mode="range"
   visible-months-count="2"
   disabled-weekdays="0,6"
-  placeholder="Range includes weekends"
+  disabled-dates-handling="allow"
+  placeholder="Range includes weekends (counted separately)"
   date-format-mask="YYYY-MM-DD">
 </web-daterangepicker>
 
-<!-- Block Mode: Range stops at disabled dates -->
+<!-- block: range end snaps to last enabled date before any gap -->
 <web-daterangepicker
-  id="block-mode"
   selection-mode="range"
   visible-months-count="2"
   disabled-weekdays="0,6"
+  disabled-dates-handling="block"
   placeholder="Range stops at weekends"
   date-format-mask="YYYY-MM-DD">
 </web-daterangepicker>
 
-<!-- Note: Range handling mode is set via JavaScript property, not attribute -->
+<!-- prevent: range can't be selected at all if it would cross disabled -->
+<web-daterangepicker
+  selection-mode="range"
+  visible-months-count="2"
+  disabled-weekdays="0,6"
+  disabled-dates-handling="prevent"
+  placeholder="Selection rejected if it crosses disabled dates"
+  date-format-mask="YYYY-MM-DD">
+</web-daterangepicker>
+
+<!-- split: returns multiple ranges separated by disabled gaps;
+     event detail.dateRanges is DateRange[] -->
+<web-daterangepicker
+  selection-mode="range"
+  visible-months-count="2"
+  disabled-weekdays="0,6"
+  disabled-dates-handling="split"
+  placeholder="Split into weekday-only sub-ranges"
+  date-format-mask="YYYY-MM-DD">
+</web-daterangepicker>
+
+<!-- individual: returns a flat array of enabled dates only;
+     event detail.dates is Date[] -->
+<web-daterangepicker
+  selection-mode="range"
+  visible-months-count="2"
+  disabled-weekdays="0,6"
+  disabled-dates-handling="individual"
+  placeholder="Each enabled day picked individually"
+  date-format-mask="YYYY-MM-DD">
+</web-daterangepicker>
+
+<!-- Equivalent JS: -->
 <script>
-const blockMode = document.getElementById('block-mode');
-// blockMode.disabledDatesHandling = 'block'; // Requires access to component API
+// const picker = document.querySelector('web-daterangepicker');
+// picker.setAttribute('disabled-dates-handling', 'block');
+// or via the underlying picker engine:
+// picker.picker.options.disabledDatesHandling = 'block';
 </script>
 
 <!-- ========================================
@@ -416,30 +487,33 @@ programmatic.addEventListener('change', (e) => {
 </web-daterangepicker>
 
 <!-- ========================================
-     AUTO-CLOSE BEHAVIOR
+     AUTO-CLOSE BEHAVIOR (auto-close)
+     Three values: 'never' | 'selection' | 'apply'
      ======================================== -->
 
-<!-- Auto-close on single date selection -->
+<!-- selection: close as soon as selection completes
+     (single date picked, or range end picked) -->
 <web-daterangepicker
   selection-mode="single"
-  auto-close="on-select"
+  auto-close="selection"
   placeholder="Closes after selection"
   date-format-mask="YYYY-MM-DD">
 </web-daterangepicker>
 
-<!-- Auto-close on range completion -->
-<web-daterangepicker
-  selection-mode="range"
-  auto-close="on-select"
-  placeholder="Closes after range selected"
-  date-format-mask="YYYY-MM-DD">
-</web-daterangepicker>
-
-<!-- Manual close only (use Apply button) -->
+<!-- apply: stay open until the user clicks Apply -->
 <web-daterangepicker
   selection-mode="range"
   show-apply-button="true"
-  placeholder="Requires Apply button"
+  auto-close="apply"
+  placeholder="Closes only when Apply clicked"
+  date-format-mask="YYYY-MM-DD">
+</web-daterangepicker>
+
+<!-- never: never auto-close; manage open/close yourself with show()/hide() -->
+<web-daterangepicker
+  selection-mode="range"
+  auto-close="never"
+  placeholder="Stays open"
   date-format-mask="YYYY-MM-DD">
 </web-daterangepicker>
 
@@ -448,187 +522,293 @@ programmatic.addEventListener('change', (e) => {
      ======================================== -->
 
 <!--
-  Core Attributes:
-  - selection-mode: "single" | "range" | "multiple"
-  - visible-months-count: Number of months to display (1-3)
-  - placeholder: Input placeholder text
-  - date-format-mask: Date format (YYYY-MM-DD, DD.MM.YYYY, MM/DD/YYYY, DD/MM/YYYY)
-  - positioning-mode: "floating" (default) | "inline"
-  - calendar-placement: Floating UI placement (bottom-start, bottom-end, etc.)
-  - locale: Locale code (en, de, fr, es, etc.)
-  - disabled: Disable the component
+  Source of truth: web-component.ts observedAttributes list. The full
+  set of attributes the web component accepts:
+
+  Core:
+  - selection-mode             "single" (default) | "range" | "multiple"
+  - date-format-mask           Format pattern. YYYY/YY, MM/M, DD/D with
+                               separators -, /, .   Default: YYYY-MM-DD
+  - display-format-mask        Localized format shown to user (e.g.
+                               "dd/mm/aaaa" in Spanish); validation still
+                               uses date-format-mask
+  - visible-months-count       Number of months on screen (default:
+                               1 single, 2 range)
+  - calendar-open-trigger      "focus" (default) | "typing" | "manual"
+  - placeholder                Input placeholder text
+  - value                      Current formatted value
+  - disabled                   Boolean attribute
+  - week-start-day             "auto" (locale-based) | 0..6
+  - locale                     "auto" (default) | "en" | "de" | "fr" | "es" | …
+  - show-debug-info            Boolean — enables loglevel debug output
+  - enable-transitions         Boolean — opt-in CSS transitions
+
+  Layout (multi-month):
+  - positioning-mode           "floating" (default) | "inline"
+  - calendar-placement         Floating UI placement: bottom / top /
+                               left / right / bottom-start / bottom-end / …
+  - month-layout               "horizontal" (default) | "grid"
+  - grid-rows                  number (e.g. 2 for a 2×3 grid)
+  - grid-columns               number (e.g. 3 for a 2×3 grid)
 
   Date Restrictions:
-  - min-date: Minimum selectable date (YYYY-MM-DD)
-  - max-date: Maximum selectable date (YYYY-MM-DD)
-  - disabled-weekdays: Comma-separated day numbers (0=Sunday, 6=Saturday)
+  - min-date                   YYYY-MM-DD
+  - max-date                   YYYY-MM-DD
+  - disabled-weekdays          "0,6" etc. (0=Sun, 6=Sat)
+  - disabled-dates-handling    "allow" (default) | "block" | "prevent"
+                                | "split" | "individual"
+  - highlight-disabled-in-range  Boolean (default true)
 
-  Action Buttons:
-  - show-today-button: "true" | "false" (default)
-  - show-clear-button: "true" | "false" (default)
-  - show-apply-button: "true" | "false" (default)
+  Action Buttons (set "true" to show):
+  - show-today-button
+  - show-clear-button
+  - show-apply-button          Defaults to true for range / multiple modes
 
-  Behavior:
-  - auto-close: "on-select" | "manual" (default)
+  Close Behavior:
+  - auto-close                 "never" | "selection" | "apply"
+  - close-on-scroll            Boolean
+
+  Sizing (5-step scale, all default "md"):
+  - input-size                 xs | sm | md | lg | xl  (input field)
+  - spacing                    xs | sm | md | lg | xl  (calendar gaps)
+  - font-size                  xs | sm | md | lg | xl  (calendar text)
+  - cell-size                  xs | sm | md | lg | xl  (day cell size)
 -->
 
 <!-- ========================================
-     CSS THEMING (40+ Variables)
+     WRAPPER CLASSES (page-level, on a parent <div>)
+     Lets you scale font and spacing independently of the input-size /
+     spacing / font-size attributes — handy when the picker lives
+     inside a section with its own density.
+     ======================================== -->
+
+<!-- Compact spacing with large readable text -->
+<div class="drp-font-lg drp-spacing-xs">
+  <web-daterangepicker selection-mode="single"></web-daterangepicker>
+</div>
+
+<!-- Responsive: scales font + spacing down at 1200px and 768px breakpoints -->
+<div class="drp-font-md drp-spacing-md drp-responsive">
+  <web-daterangepicker selection-mode="range"></web-daterangepicker>
+</div>
+
+<!--
+Wrapper class scales (multipliers — defaults are 1.0×):
+  .drp-font-xs    .drp-font-sm    .drp-font-md    .drp-font-lg    .drp-font-xl
+  .drp-spacing-xs .drp-spacing-sm .drp-spacing-md .drp-spacing-lg .drp-spacing-xl
+  .drp-responsive — flips to a smaller scale below 1200px and again below 768px
+-->
+
+
+<!-- ========================================
+     CSS CUSTOM PROPERTIES (--drp-*)
+     The component defines these on :host inside its shadow DOM, so
+     override them by targeting the element (NOT :root — :root inside
+     shadow DOM doesn't reach the component).
      ======================================== -->
 
 <style>
-/* Override CSS custom properties to match your theme */
-:root {
-  /* Colors */
-  --drp-accent-color: #007bff;
-  --drp-primary-bg: #007bff;
-  --drp-text-primary: #2c3e50;
-  --drp-text-secondary: #6c757d;
-  --drp-border-color: #e1e5e9;
-  --drp-card-bg: #ffffff;
-  --drp-hover-bg: #f8f9fa;
+/* Override on the element so the variables cascade into the shadow root */
+web-daterangepicker {
+  --drp-accent-color: var(--pa-accent);          /* hook into Pure Admin theme */
+  --drp-card-bg:      var(--pa-card-bg);
+  --drp-text-primary: var(--pa-text-color-1);
+  --drp-text-secondary: var(--pa-text-color-2);
+  --drp-border-color: var(--pa-border-color);
+  --drp-border-radius: var(--pa-border-radius);
+}
 
-  /* Calendar */
-  --drp-calendar-bg: #ffffff;
-  --drp-calendar-shadow: 0 0 60px rgba(0, 0, 0, 0.12);
-  --drp-calendar-border-radius: 4px;
-  --drp-calendar-padding: 1rem;
-
-  /* Days */
-  --drp-day-size: 2.25rem;
-  --drp-day-font-size: 0.875rem;
-  --drp-day-border-radius: 2px;
-  --drp-day-hover-bg: rgba(0, 123, 255, 0.1);
-  --drp-day-selected-bg: #007bff;
-  --drp-day-selected-text: #ffffff;
-  --drp-day-range-bg: rgba(0, 123, 255, 0.05);
-  --drp-day-today-border: #007bff;
-  --drp-day-disabled-opacity: 0.65;
-
-  /* Weekday Header */
-  --drp-weekday-font-size: 0.75rem;
-  --drp-weekday-font-weight: 600;
-  --drp-weekday-text: #6c757d;
-
-  /* Badges */
-  --drp-badge-primary: #007bff;
-  --drp-badge-success: #28a745;
-  --drp-badge-warning: #ffc107;
-  --drp-badge-danger: #dc3545;
-  --drp-badge-info: #17a2b8;
-
-  /* Input */
-  --drp-input-bg: #ffffff;
-  --drp-input-border: #ced4da;
-  --drp-input-padding-v: 0.5rem;
-  --drp-input-padding-h: 0.75rem;
-  --drp-input-font-size: 0.875rem;
-  --drp-input-border-radius: 4px;
-  --drp-input-focus-border: #007bff;
-
-  /* Action Buttons */
-  --drp-action-btn-primary-bg: #007bff;
-  --drp-action-btn-primary-text: #ffffff;
-
-  /* Spacing */
-  --drp-spacing-sm: 0.5rem;
-  --drp-spacing-md: 0.75rem;
-  --drp-spacing-base: 1rem;
-
-  /* Animations */
-  --drp-transition-normal: 0.15s;
-  --drp-easing-smooth: ease;
+/* Scoped instance override (e.g. a "compact" variant on a search bar) */
+web-daterangepicker.compact {
+  --drp-card-bg: #1e293b;
+  --drp-text-primary: #f1f5f9;
+  --drp-accent-color: #10b981;
 }
 </style>
+
+<!--
+Common --drp-* tokens (full list in API.md):
+
+  Colors        --drp-card-bg, --drp-border-color, --drp-primary-bg,
+                --drp-primary-bg-hover, --drp-accent-color,
+                --drp-accent-color-hover, --drp-text-primary,
+                --drp-text-secondary, --drp-accent-text-color,
+                --drp-button-text-color
+  Spacing       --drp-spacing-xs / -sm / -md / -lg / -xl
+  Typography    --drp-font-size-{2xs..2xl}, --drp-font-weight-{medium,semibold}
+  Borders       --drp-border-width-base, --drp-border-radius, --drp-shadow-xl
+  Transitions   --drp-transition-fast, --drp-easing-snappy
+  Input sizes   --drp-input-size-{xs|sm|md|lg|xl}-{font|padding-v|padding-h|height|icon-size}
+  Grid          --drp-grid-rows, --drp-grid-columns (set automatically)
+
+PURE ADMIN INTEGRATION:
+  packages/core/src/scss/core-components/_web-components-theme.scss
+  bridges Pure Admin's --base-* variables (set by themes) into the
+  daterangepicker's fallback chain. So in a Pure Admin app you usually
+  do NOT hand-set --drp-* — the theme already cascades. Override
+  --drp-* only for one-off tweaks like the .compact example above.
+-->
 
 <!-- ========================================
      TYPESCRIPT TYPES
      ======================================== -->
 
 <!--
-TypeScript usage:
-
 import '@keenmate/web-daterangepicker';
-import type { DateRangePickerElement } from '@keenmate/web-daterangepicker';
+import type { DatePickerOptions, DateRange, DecoratedDate, DateInfo }
+  from '@keenmate/web-daterangepicker';
 
-const picker = document.querySelector<DateRangePickerElement>('web-daterangepicker');
+const picker = document.querySelector('web-daterangepicker');
 
-if (picker) {
-  // Type-safe API
-  picker.addEventListener('date-select', (e: CustomEvent<{
-    date?: string;
-    dateRange?: { start: string; end: string };
-  }>) => {
-    console.log(e.detail);
-  });
+picker.addEventListener('date-select', (e) => {
+  // detail is a discriminated union by mode + disabled-dates-handling.
+  // See COMPONENT REFERENCE → EVENTS below for the full shape.
+  console.log(e.detail);
+});
 
-  // Validation callback
-  picker.beforeDateSelectCallback = async (selection) => {
-    return true; // or false to reject
-  };
+picker.beforeDateSelectCallback = async (selection) => {
+  return true; // false to reject
+};
 
-  // Custom rendering
-  picker.getDateMetadataCallback = (date: Date) => {
-    return {
-      badge: 'primary',
-      tooltip: 'Event',
-      isDisabled: false
-    };
-  };
-}
+picker.getDateMetadataCallback = (date) => ({
+  badgeText: 'E',
+  badgeClass: 'event',
+  badgeTooltip: 'Event',
+  isDisabled: false
+});
 -->
 
-<!-- ========================================
-     KEY FEATURES
-     ======================================== -->
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
 
 <!--
-✅ Selection Modes: Single, range, and multiple date/range selection
-✅ Keyboard Navigation: Full arrow key support with shortcuts (Ctrl+arrows, PageUp/Down, Home/End, Tab, T for today)
-✅ Date Restrictions: Min/max dates, disabled weekdays, custom disabled dates
-✅ Rolling Selector: Innovative month/year picker for quick navigation
-✅ Custom Rendering: Badges, tooltips, and custom content for dates
-✅ Validation: Async beforeDateSelectCallback for validation
-✅ Action Buttons: Today, Clear, Apply buttons with customization
-✅ Range Handling: 5 modes (allow, block, split, individual, prevent) for disabled dates
-✅ Input Masking: Auto-format dates as user types
-✅ Localization: Support for multiple languages and date formats
-✅ Inline Mode: Display calendar directly on page instead of dropdown
-✅ Framework Agnostic: Works with any framework or vanilla JS
-✅ TypeScript: Full type definitions included
-✅ Accessible: Keyboard-friendly with proper focus management
-✅ Customizable: 40+ CSS variables for theming
-✅ Dependencies: Only @floating-ui/dom for smart positioning
--->
+SELECTION MODES:
+  single        One date.
+  range         Two dates with a fill in between.
+  multiple      Cherry-pick individual dates / mini-ranges (TS narrows
+                public type to 'single' | 'range', but the engine
+                handles 'multiple' too — used in date-picker demo).
 
-<!-- ========================================
-     KEYBOARD SHORTCUTS
-     ======================================== -->
+DATE METADATA — TWO PATHS:
+  1. specialDates property (preferred for static data)
+       picker.specialDates = [
+         { date: '2025-12-25', badgeText: '🎄', badgeTooltip: 'Christmas' },
+         …
+       ];
+     Property names default to date / badgeText / badgeClass /
+     badgeTooltip / dayClass / dayTooltip / isDisabled — re-map via
+     dateMember / badgeTextMember / etc. when consuming an existing
+     dataset shape.
 
-<!--
-Navigation:
-- ↑↓: Navigate by day (up/down)
-- ←→: Navigate by week (left/right)
-- Ctrl+←→: Previous/next month
-- PageUp/PageDown: Previous/next month
-- Home/End: First/last day of month
-- Ctrl+Home/End: First/last day of year
-- Tab: Switch between month columns (multi-month view)
-- T: Jump to today
+  2. getDateMetadataCallback (computed per render)
+       picker.getDateMetadataCallback = (date) => DateInfo | null;
+     DateInfo = { isDisabled?, badgeText?, badgeClass?, badgeTooltip?,
+                  dayClass?, dayTooltip? }
+     Predefined classes you can hand to badgeClass / dayClass:
+     .holiday (red tint) and .event (green tint). Plus any custom class.
 
-Actions:
-- Enter: Select focused day
-- Esc: Close calendar
-- Space: Toggle selection (in multiple mode)
--->
+VALIDATION HOOK:
+  picker.beforeDateSelectCallback = async (selection) => boolean
+  Async-supported. Return false to reject; the calendar reverts.
 
-<!-- ========================================
-     RESOURCES
-     ======================================== -->
+EVENTS (both bubble, both composed — use either):
+  date-select         Always fires on selection change.
+  change              Alias of date-select.
 
-<!--
-npm Package: @keenmate/web-daterangepicker
-Repository: https://github.com/keenmate/web-daterangepicker
-Documentation: See package README and ../../web-daterangepicker/ai/ for AI instructions
-Pure Admin Integration: src/scss/core-components/_web-components-theme.scss
+  event.detail shape varies by mode:
+    formattedValue                    always present
+    date                              single mode
+    dateRange { start, end }          range mode (allow / block)
+    dateRanges DateRange[]            range mode + split
+    dates Date[]                      range mode + split / individual
+    enabledDates / disabledDates      range mode + allow
+    getEnabledDateCount() / getTotalDays()   range + allow helpers
+
+PUBLIC METHODS (on <web-daterangepicker> element):
+  show() / hide() / toggle()         floating mode visibility
+  clearSelection()                   wipe all selections + input
+  getInputValue()                    current formatted string
+  setInputValue(v)                   set value + sync calendar
+  picker                             the underlying PureDatePicker
+                                     instance (deeper API: formatDate,
+                                     isDateDisabledInternal,
+                                     getEnabledDatesInRange, etc.)
+
+SIZING:
+  Two coordinated paths:
+    a) Attributes (single instance):
+       input-size, spacing, font-size, cell-size — each xs..xl, default md.
+    b) Wrapper classes (parent <div>):
+       .drp-font-{xs..xl}, .drp-spacing-{xs..xl}, .drp-responsive
+
+KEYBOARD:
+  Arrow keys                  navigate by day; up/down moves by week
+  Ctrl/Cmd + ←/→  or PgUp/PgDn  prev / next month (keep day position)
+  Home / End                  first / last day of month (press again
+                              for adjacent month)
+  Ctrl/Cmd + Home / End       Jan 1 / Dec 31 of current year
+  Tab / Shift+Tab             switch month column in multi-month view
+  Enter                       select focused day
+  Space                       toggle (multiple mode)
+  T / t                       jump to today
+  Esc                         close (floating mode)
+
+CSS VARIABLE NAMESPACES:
+  --drp-*       Component runtime tokens. Set on the element (not
+                :root — :root inside shadow DOM doesn't reach the
+                component).
+  --base-*      Pure Admin theme bridge. Themes export ~45 of these
+                via output-base-css-variables; the component falls
+                back from --drp-* → var(--base-*, hardcoded). So
+                themes "just work"; only override --drp-* for one-off
+                instances.
+
+LOAD ORDER:
+  Import the component once (auto-registers the custom element):
+    import '@keenmate/web-daterangepicker';
+    import '@keenmate/web-daterangepicker/style.css';
+  Pure Admin's CSS provides the --base-* values; the component picks
+  them up automatically.
+
+STRUCTURE PATTERNS:
+
+  Basic single-date input:
+    <web-daterangepicker selection-mode="single"
+                          date-format-mask="DD.MM.YYYY"
+                          placeholder="Select date">
+    </web-daterangepicker>
+
+  Range with weekend block + apply button + auto-close on apply:
+    <web-daterangepicker selection-mode="range"
+                          visible-months-count="2"
+                          disabled-weekdays="0,6"
+                          disabled-dates-handling="block"
+                          show-apply-button="true"
+                          auto-close="apply">
+    </web-daterangepicker>
+
+  6-month inline grid for big picture views:
+    <web-daterangepicker selection-mode="single"
+                          positioning-mode="inline"
+                          visible-months-count="6"
+                          month-layout="grid"
+                          grid-rows="2" grid-columns="3">
+    </web-daterangepicker>
+
+  Localized display (validates ISO, displays Spanish):
+    <web-daterangepicker selection-mode="single"
+                          locale="es"
+                          date-format-mask="YYYY-MM-DD"
+                          display-format-mask="dd/mm/aaaa">
+    </web-daterangepicker>
+
+RESOURCES:
+  npm           @keenmate/web-daterangepicker
+  Repository    https://github.com/keenmate/web-daterangepicker
+  API docs      ../../web-daterangepicker/API.md
+  AI guides     ../../web-daterangepicker/ai/
+  Pure Admin    src/scss/core-components/_web-components-theme.scss
+                bridges --base-* into the component's fallback chain.
 -->
