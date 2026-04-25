@@ -1,0 +1,246 @@
+<!-- ================================
+     FILTER CARD
+     A thin layout helper that turns a regular .pa-card into a
+     filter panel: a single inline row of filter inputs + action
+     buttons, plus a collapsible "advanced" section underneath.
+
+     Source: core-components/_filter-card.scss (no .pa-filter-card
+     base block — only BEM elements + two state modifiers — so it
+     piggybacks on the surrounding .pa-card for chrome).
+
+     The structure mirrors how a typical "Search + Filter" panel
+     above a data table is built — see also tables.html and
+     forms.html for the inputs that go inside.
+     ================================ -->
+
+
+<!-- ================================
+     BASE LAYOUT
+     Inline filters + action buttons on a single row. Each child of
+     __filters auto-stretches with min-width 200px, so they wrap
+     onto extra rows on narrow viewports without overflowing.
+     ================================ -->
+
+<div class="pa-card pa-filter-card">
+  <div class="pa-card__body">
+    <div class="pa-filter-card__row">
+
+      <div class="pa-filter-card__filters">
+        <div class="pa-input-group">
+          <span class="pa-input-group__prepend"><i class="fas fa-search"></i></span>
+          <input type="text" class="pa-input" placeholder="Search by name">
+        </div>
+
+        <div class="pa-input-wrapper">
+          <select class="pa-select">
+            <option>All categories</option>
+            <option>Electronics</option>
+            <option>Clothing</option>
+          </select>
+          <button class="pa-input-wrapper__clear" type="button">×</button>
+        </div>
+
+        <div class="pa-input-wrapper">
+          <select class="pa-select">
+            <option>Any status</option>
+            <option>In stock</option>
+            <option>Out of stock</option>
+          </select>
+          <button class="pa-input-wrapper__clear" type="button">×</button>
+        </div>
+      </div>
+
+      <div class="pa-filter-card__actions">
+        <button class="pa-btn pa-btn--secondary pa-btn--icon-only" title="Clear all">
+          <i class="fas fa-times"></i>
+        </button>
+        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Refresh">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="More filters">
+          <i class="fas fa-caret-down"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================
+     WITH ADVANCED SECTION (collapsible)
+     The __advanced block sits below __row inside the same card body
+     and gets a top border + spacing automatically. Show/hide via JS
+     by toggling a class (or `hidden`); the SCSS doesn't define a
+     state for it — it's plain layout.
+     ================================ -->
+
+<div class="pa-card pa-filter-card" id="search-card">
+  <div class="pa-card__body">
+
+    <div class="pa-filter-card__row">
+      <div class="pa-filter-card__filters">
+        <div class="pa-input-group">
+          <span class="pa-input-group__prepend"><i class="fas fa-search"></i></span>
+          <input type="text" class="pa-input" placeholder="Search…">
+        </div>
+      </div>
+      <div class="pa-filter-card__actions">
+        <button class="pa-btn pa-btn--secondary" onclick="toggleAdvanced()">
+          <i class="fas fa-sliders-h"></i> Advanced
+        </button>
+      </div>
+    </div>
+
+    <div class="pa-filter-card__advanced" id="advanced-section" hidden>
+      <div class="pa-row">
+        <div class="pa-col-100 pa-col-md-1-3">
+          <div class="pa-form-group">
+            <label>Category</label>
+            <div class="pa-input-wrapper">
+              <select class="pa-select">
+                <option>All categories</option>
+                <option>Electronics</option>
+              </select>
+              <button class="pa-input-wrapper__clear" type="button">×</button>
+            </div>
+          </div>
+        </div>
+        <div class="pa-col-100 pa-col-md-1-3">
+          <div class="pa-form-group">
+            <label>Price range</label>
+            <div class="pa-input-wrapper">
+              <select class="pa-select">
+                <option>Any price</option>
+                <option>Under $50</option>
+              </select>
+              <button class="pa-input-wrapper__clear" type="button">×</button>
+            </div>
+          </div>
+        </div>
+        <div class="pa-col-100 pa-col-md-1-3">
+          <div class="pa-form-group">
+            <label>Date range</label>
+            <input type="date" class="pa-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="pa-filter-card__advanced-actions">
+        <button class="pa-btn pa-btn--secondary">Clear filters</button>
+        <button class="pa-btn pa-btn--primary">Apply filters</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleAdvanced() {
+  document.getElementById('advanced-section').toggleAttribute('hidden');
+}
+</script>
+
+
+<!-- ================================
+     STATES
+     Both modifiers go on the .pa-filter-card wrapper — the same
+     element that already carries .pa-card. They dim the card and
+     disable interaction; behavior matches `pointer-events: none`,
+     so make sure form fields elsewhere on the page are still
+     reachable.
+     ================================ -->
+
+<!-- Loading: dim to 0.7, ignore clicks while data refreshes -->
+<div class="pa-card pa-filter-card pa-filter-card--loading">
+  <div class="pa-card__body">
+    <div class="pa-filter-card__row">…</div>
+  </div>
+</div>
+
+<!-- Disabled: dim to 0.5, ignore clicks (e.g. user lacks permission) -->
+<div class="pa-card pa-filter-card pa-filter-card--disabled">
+  <div class="pa-card__body">
+    <div class="pa-filter-card__row">…</div>
+  </div>
+</div>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+HOW IT WORKS:
+  No `.pa-filter-card` base block — `_filter-card.scss` only defines
+  BEM elements and modifiers. The wrapper carries `pa-card` for the
+  visual chrome AND `pa-filter-card` so the modifiers can latch on.
+
+SUB-ELEMENTS:
+  .pa-filter-card__row              Flex row, gap, wraps. Holds the
+                                    filters block + actions block.
+  .pa-filter-card__filters          flex: 1 grow region. Each child
+                                    auto-stretches with min-width
+                                    200px, so inputs wrap to a new
+                                    line gracefully.
+  .pa-filter-card__actions          flex-shrink: 0 region for the
+                                    action buttons (clear, refresh,
+                                    expand, etc.). Smaller gap than
+                                    __filters to group icons tightly.
+  .pa-filter-card__advanced         Collapsible block under __row.
+                                    Top border + spacing already set;
+                                    you toggle visibility yourself.
+  .pa-filter-card__advanced-actions Right-aligned button row at the
+                                    bottom of the advanced block.
+
+MODIFIERS (on the .pa-filter-card wrapper):
+  .pa-filter-card--loading          opacity 0.7 + pointer-events none
+  .pa-filter-card--disabled         opacity 0.5 + pointer-events none
+
+WHAT GOES INSIDE:
+  __filters expects form controls — typically `.pa-input-group`,
+  `.pa-input-wrapper > .pa-select`, plain `.pa-input`, web-components
+  like <web-multiselect> / <web-daterangepicker>. See forms.html for
+  the inventory.
+
+  __actions expects `.pa-btn`s. Use `.pa-btn--icon-only` for compact
+  icon buttons; pair with a `title` attribute so the tooltip carries
+  the meaning.
+
+  __advanced expects whatever fits — typically a `.pa-row` of
+  `.pa-form-group`s for a tidy multi-column form.
+
+EXPAND / COLLAPSE:
+  No built-in JS. Use the `hidden` attribute (preferred — no CSS
+  required, accessibility-friendly), a `d-none` toggle, or an
+  inline `style.display`. The advanced block already has its own
+  top spacing + border, so just unhide it.
+
+STRUCTURE PATTERNS:
+
+  Search + actions only:
+    <div class="pa-card pa-filter-card">
+      <div class="pa-card__body">
+        <div class="pa-filter-card__row">
+          <div class="pa-filter-card__filters">…</div>
+          <div class="pa-filter-card__actions">…</div>
+        </div>
+      </div>
+    </div>
+
+  Search + advanced (toggled):
+    <div class="pa-card pa-filter-card">
+      <div class="pa-card__body">
+        <div class="pa-filter-card__row">…</div>
+        <div class="pa-filter-card__advanced" hidden>
+          <div class="pa-row">…</div>
+          <div class="pa-filter-card__advanced-actions">…</div>
+        </div>
+      </div>
+    </div>
+
+  Loading state during data fetch:
+    el.classList.add('pa-filter-card--loading');
+    await fetchResults();
+    el.classList.remove('pa-filter-card--loading');
+-->

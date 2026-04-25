@@ -42,11 +42,21 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `customization.html` | 2026-04-25 | `_base-css-variables.scss`, `_variables.scss`, theme-system pattern (mirrors `pure-admin-themes` repo) | [0a8950e](../../../commit/0a8950e) |
 | `virtual-scroll.html` | 2026-04-25 | `core-components/_tables.scss` (`.pa-virtual-table` shell, lines 477-552), `core-components/_timeline.scss` (`.pa-timeline__loader`), `src/js/virtual-scroll.js` (VirtualScroll class API) | [85db533](../../../commit/85db533) |
 | `web-daterangepicker.html` | 2026-04-25 | `../../web-daterangepicker/src/web-component.ts` (observedAttributes), `../../web-daterangepicker/src/types.ts` (DatePickerOptions, DateInfo, disabledDatesHandling), `../../web-daterangepicker/API.md`, `core-components/_web-components-theme.scss` (--base-* bridge) | [7cbad56](../../../commit/7cbad56) |
-| `web-multiselect.html` | 2026-04-25 | `../../web-multiselect/src/web-component.ts` (observedAttributes), `../../web-multiselect/src/types.ts` (BadgesDisplayMode, BadgesPosition, SearchMode, ValueFormat etc.), `../../web-multiselect/src/css/_variables.css` (--ms-* surface), `core-components/_web-components-theme.scss` | _(this commit)_ |
+| `web-multiselect.html` | 2026-04-25 | `../../web-multiselect/src/web-component.ts` (observedAttributes), `../../web-multiselect/src/types.ts` (BadgesDisplayMode, BadgesPosition, SearchMode, ValueFormat etc.), `../../web-multiselect/src/css/_variables.css` (--ms-* surface), `core-components/_web-components-theme.scss` | [95cf062](../../../commit/95cf062) |
+| `filter-card.html` | 2026-04-25 | `core-components/_filter-card.scss` (whole file — only BEM elements + 2 state modifiers, no base block) | _(this commit)_ |
 
 ## Pending
 
-_None — pass complete._ Next step is the gap pass: decide per-component whether the SCSS-without-snippet entries below get a snippet or are marked demo-internal. Then run `npm run generate-hashes -w @keenmate/pure-admin-core` to refresh `snippets/manifest.json`.
+Gap pass — adding new snippets, smallest SCSS surface first:
+
+- `statistics.html` (200 lines)
+- `notifications.html` (320 lines)
+- `file-selector.html` (780 lines)
+- `data-display.html` (1112 lines)
+- `smart-filters.html` (313 lines + JS)
+- `logic-tree.html` (280 lines — re-evaluate on arrival)
+
+After all snippets land, run `npm run generate-hashes -w @keenmate/pure-admin-core` once more to refresh `snippets/manifest.json`.
 
 ## Gaps — SCSS without a snippet
 
@@ -58,7 +68,7 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 | notifications | `_notifications.scss` | Public — snippet worth adding |
 | statistics | `_statistics.scss` | Public — snippet worth adding |
 | file-selector | `_file-selector.scss` | Public — snippet worth adding |
-| filter-card | `_filter-card.scss` | Public — snippet worth adding |
+| ~~filter-card~~ | ~~`_filter-card.scss`~~ | ~~Public — snippet worth adding~~ → done in `filter-card.html` |
 | logic-tree | `_logic-tree.scss` | Specialized — decide during gap pass |
 | data-display | `_data-display.scss` | Public — snippet worth adding |
 | smart-filters (aka query-editor) | `core-components/forms/_query-editor.scss` | Public — large surface (search highlighting, autocomplete, virtual textbox, inline query editor with tokens). The SCSS file is named `_query-editor.scss` but the demo calls it "Smart Filters" (`demo/views/smart-filters.mustache` + `demo/js/search-autocomplete*.js`, `virtual-textbox.js`). Briefly cross-referenced from forms.html; deserves its own snippet (probably `smart-filters.html`). |
