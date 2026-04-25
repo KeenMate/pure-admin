@@ -1,0 +1,247 @@
+<!-- ================================
+     STATISTICS
+     Stat displays — three flavours, one BEM block:
+
+       1. Default      icon + content (number + label)
+       2. --hero       centred, oversized value, +/- change indicator
+       3. --square     coloured tile with big number, decorative
+                        symbol, and bottom label
+
+     Source: core-components/_statistics.scss
+
+     Slight gotcha:
+       Default + square use `__number`. Hero uses `__value`. Same
+       semantic role, different element name — don't mix them up.
+     ================================ -->
+
+
+<!-- ================================
+     DEFAULT (icon + content)
+     Horizontal layout: a coloured icon tile next to a number and a
+     muted label. Drop inside any container; pa-card + pa-card--stat
+     is the canonical home (see cards.html for the wrapper).
+     ================================ -->
+
+<div class="pa-stat">
+  <div class="pa-stat__icon pa-stat__icon--primary">👥</div>
+  <div class="pa-stat__content">
+    <div class="pa-stat__number">1,234</div>
+    <div class="pa-stat__label">Total users</div>
+  </div>
+</div>
+
+<!-- Inside a card (the dashboard pattern) -->
+<div class="pa-card pa-card--stat">
+  <div class="pa-card__body">
+    <div class="pa-stat">
+      <div class="pa-stat__icon pa-stat__icon--success">📊</div>
+      <div class="pa-stat__content">
+        <div class="pa-stat__number">$45,678</div>
+        <div class="pa-stat__label">Revenue</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Icon colour variants:
+     The default icon supports four semantic colours.
+     There is NO --danger variant on .pa-stat__icon (only on the
+     square variant below). For an alert-style stat, use the icon
+     family from alerts.html or wrap the icon in a pa-badge. -->
+<div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--primary">👥</div><div class="pa-stat__content">…</div></div>
+<div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--success">📊</div><div class="pa-stat__content">…</div></div>
+<div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--warning">📦</div><div class="pa-stat__content">…</div></div>
+<div class="pa-stat"><div class="pa-stat__icon pa-stat__icon--info">📈</div><div class="pa-stat__content">…</div></div>
+
+
+<!-- ================================
+     HERO VARIANT (centred, big value, change indicator)
+     The dashboard "metric tile" look. Centred text, oversized value,
+     uppercase label, optional positive/negative change line.
+
+     ELEMENT NAMES IN HERO ARE DIFFERENT:
+       __value   (NOT __number)
+       __change  with --positive / --negative / --neutral
+     ================================ -->
+
+<div class="pa-card">
+  <div class="pa-card__body">
+    <div class="pa-stat pa-stat--hero">
+      <div class="pa-stat__label">Total Revenue</div>
+      <div class="pa-stat__value">$847,392</div>
+      <div class="pa-stat__change pa-stat__change--positive">
+        ▲ 12.5% vs last month
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Negative trend -->
+<div class="pa-stat pa-stat--hero">
+  <div class="pa-stat__label">Conversion Rate</div>
+  <div class="pa-stat__value">3.47%</div>
+  <div class="pa-stat__change pa-stat__change--negative">▼ 2.1% vs last month</div>
+</div>
+
+<!-- Neutral / no change -->
+<div class="pa-stat pa-stat--hero">
+  <div class="pa-stat__label">Active Sessions</div>
+  <div class="pa-stat__value">1,024</div>
+  <div class="pa-stat__change pa-stat__change--neutral">— flat vs last week</div>
+</div>
+
+<!-- --hero-compact uses the same styles with no functional difference
+     today — kept as a separate modifier so future tightening only
+     applies to one variant. Use it interchangeably with --hero. -->
+<div class="pa-stat pa-stat--hero-compact">
+  <div class="pa-stat__label">Avg Order Value</div>
+  <div class="pa-stat__value">$134.52</div>
+  <div class="pa-stat__change pa-stat__change--positive">▲ 5.7%</div>
+</div>
+
+
+<!-- ================================
+     SQUARE VARIANT (coloured tile with shadow)
+     A compact, brand-coloured square tile. Big number on the left,
+     a translucent decorative symbol on the right (looks shadowed /
+     watermark-style), and a small label pinned to the bottom-left.
+
+     The whole tile is the colour — not just the icon. Pick from six
+     semantic colours; they read from --pa-* runtime tokens, so theme
+     swaps re-tint them automatically.
+
+     Use inside .pa-kpi-grid to negate the per-tile margin and lay
+     them out flush in a grid.
+     ================================ -->
+
+<div class="pa-kpi-grid">
+  <div class="pa-row">
+    <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pa-stat pa-stat--square pa-stat--primary">
+        <div class="pa-stat__number">87</div>
+        <div class="pa-stat__symbol">%</div>
+        <div class="pa-stat__label">Completion Rate</div>
+      </div>
+    </div>
+    <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pa-stat pa-stat--square pa-stat--success">
+        <div class="pa-stat__number">94</div>
+        <div class="pa-stat__symbol">%</div>
+        <div class="pa-stat__label">Customer Satisfaction</div>
+      </div>
+    </div>
+    <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pa-stat pa-stat--square pa-stat--info">
+        <div class="pa-stat__number">2.3</div>
+        <div class="pa-stat__symbol">k</div>
+        <div class="pa-stat__label">Active Tickets</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- All six square colour variants -->
+<div class="pa-stat pa-stat--square pa-stat--primary">  <div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Primary</div>  </div>
+<div class="pa-stat pa-stat--square pa-stat--success">  <div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Success</div>  </div>
+<div class="pa-stat pa-stat--square pa-stat--info">     <div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Info</div>     </div>
+<div class="pa-stat pa-stat--square pa-stat--warning">  <div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Warning</div>  </div>
+<div class="pa-stat pa-stat--square pa-stat--danger">   <div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Danger</div>   </div>
+<div class="pa-stat pa-stat--square pa-stat--secondary"><div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Secondary</div></div>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+SUB-ELEMENTS:
+  .pa-stat                 Block. By default a horizontal flex row.
+  .pa-stat__icon           Square icon tile. Default variant only.
+                            Modifiers: --primary, --success,
+                            --warning, --info  (no --danger).
+  .pa-stat__content        Wrapper for __number + __label in default.
+  .pa-stat__number         Big bold number. Used by default + square.
+  .pa-stat__label          Muted caption.
+  .pa-stat__value          Hero variant only — same role as __number
+                            but at a much larger scale.
+  .pa-stat__change         Hero variant only — change-vs-period line.
+                            Modifiers: --positive (green), --negative
+                            (red), --neutral (muted).
+  .pa-stat__symbol         Square variant only — the decorative
+                            watermark symbol on the inline-end side.
+
+VARIANTS (mutually exclusive):
+  (default)                Icon + content row. Pair with
+                            .pa-card pa-card--stat for the wrapper.
+  --hero                   Centred, oversized __value, optional
+                            __change line. Use inside a .pa-card.
+  --hero-compact           Identical visuals to --hero today;
+                            reserved for future tightening.
+  --square                 Coloured tile, big __number, decorative
+                            __symbol, bottom-pinned __label. Apply
+                            a colour modifier on the same element.
+
+SQUARE COLOUR MODIFIERS (apply with --square):
+  --primary, --success, --info, --warning, --danger, --secondary
+  All read from --pa-{accent,success,info,warning,danger,text-color-2}
+  + --pa-btn-{primary,success,info,warning,danger}-text — so theme
+  swaps re-tint automatically.
+
+KPI GRID:
+  .pa-kpi-grid wrapper applies a negative -$spacing-sm margin to
+  cancel the per-tile margin on .pa-stat--square, so a row of
+  squares sits flush with the surrounding column gutters.
+  Use it as the immediate parent of the .pa-row that holds the
+  square stats.
+
+WHEN TO USE WHAT:
+  Default       Side-by-side stat strips (e.g. four cards across
+                 a settings page header).
+  --hero        Dashboard top-row metrics where the number itself
+                 is the headline; pair with a .pa-card for chrome.
+  --square      Coloured KPI tiles when you want the numbers to
+                 also signal status (red = bad, green = good).
+                 Higher visual weight than --hero.
+
+STRUCTURE PATTERNS:
+
+  Default (inside a stat card):
+    <div class="pa-card pa-card--stat">
+      <div class="pa-card__body">
+        <div class="pa-stat">
+          <div class="pa-stat__icon pa-stat__icon--primary">👥</div>
+          <div class="pa-stat__content">
+            <div class="pa-stat__number">1,234</div>
+            <div class="pa-stat__label">Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  Hero (top-row dashboard metric):
+    <div class="pa-card">
+      <div class="pa-card__body">
+        <div class="pa-stat pa-stat--hero">
+          <div class="pa-stat__label">Total Revenue</div>
+          <div class="pa-stat__value">$847,392</div>
+          <div class="pa-stat__change pa-stat__change--positive">
+            ▲ 12.5% vs last month
+          </div>
+        </div>
+      </div>
+    </div>
+
+  Square (KPI grid):
+    <div class="pa-kpi-grid">
+      <div class="pa-row">
+        <div class="pa-col-100 pa-col-md-1-3">
+          <div class="pa-stat pa-stat--square pa-stat--primary">
+            <div class="pa-stat__number">87</div>
+            <div class="pa-stat__symbol">%</div>
+            <div class="pa-stat__label">Completion</div>
+          </div>
+        </div>
+        …
+      </div>
+    </div>
+-->
