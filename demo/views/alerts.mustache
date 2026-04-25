@@ -430,21 +430,33 @@
 
         <h4 class="mt-4">Sizes & Modifiers</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-alert--sm</code> - Small alert</li>
-            <li><code>pa-alert--lg</code> - Large alert</li>
-            <li><code>pa-alert--dismissible</code> - Adds padding for close button</li>
+            <li><code>pa-alert--sm</code> &mdash; Small: <code>0.5rem 1rem</code> padding, <code>font-size-xs</code> (12px)</li>
+            <li><code>(default)</code> &mdash; Default: <code>1.2rem 1rem</code> padding, <code>font-size-sm</code> (14px)</li>
+            <li><code>pa-alert--lg</code> &mdash; Large: <code>1rem 1.5rem</code> padding, <code>font-size-base</code> (16px)</li>
+            <li><code>pa-alert--dismissible</code> &mdash; Adds inline-end padding so the absolutely-positioned close button doesn't overlap text</li>
         </ul>
+        <p class="text-muted mt-2">
+            Themes can retune the size scale via the
+            <code>$alert-padding-&#123;sm,lg&#125;-&#123;v,h&#125;</code> and
+            <code>$alert-font-size-&#123;sm,lg&#125;</code> SCSS variables in
+            <code>variables/_components.scss</code> (all <code>!default</code>).
+        </p>
 
         <h4 class="mt-4">Sub-elements</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-alert__icon</code> - Icon container (flex-shrink: 0)</li>
-            <li><code>pa-alert__content</code> - Content wrapper (flex: 1)</li>
-            <li><code>pa-alert__heading</code> - Alert heading/title (h4); defaults to body font-size + semibold</li>
-            <li><code>pa-alert__heading--lg</code> - Heading bumped to <code>font-size-lg</code> for the punchy, deliberate-read presentation</li>
-            <li><code>pa-alert__list</code> - List inside alert (ul)</li>
-            <li><code>pa-alert__actions</code> - Action buttons row, sits below a thin divider with symmetric padding (same separator pattern as <code>pa-toast__actions</code>)</li>
-            <li><code>pa-alert__close</code> - Close/dismiss button (absolute, inline-end)</li>
+            <li><code>pa-alert__icon</code> &mdash; Leading icon (flex-shrink: 0, font-size-base)</li>
+            <li><code>pa-alert__content</code> &mdash; Content wrapper (<code>flex: 1; min-width: 0</code>) &mdash; use it when there's an icon AND structured content (heading, paragraph, list, actions); drop it when the alert has no icon</li>
+            <li><code>pa-alert__heading</code> &mdash; Alert heading/title (h4); defaults to body font-size + semibold</li>
+            <li><code>pa-alert__heading--lg</code> &mdash; Heading bumped to <code>font-size-lg</code> for the punchy, deliberate-read presentation</li>
+            <li><code>pa-alert__list</code> &mdash; <code>&lt;ul&gt;</code> inside the alert; spacing to siblings handled by the alert's flex gap</li>
+            <li><code>pa-alert__actions</code> &mdash; Action buttons row, sits below a thin divider with symmetric padding (same separator pattern as <code>pa-toast__actions</code>); always renders on its own row at the bottom</li>
+            <li><code>pa-alert__close</code> &mdash; Close/dismiss button (absolutely positioned, inline-end &mdash; RTL-aware)</li>
         </ul>
+        <p class="text-muted mt-2">
+            <strong>Layout note:</strong> the alert is <code>display: flex; flex-wrap: wrap</code> with <code>gap: $spacing-sm</code>.
+            Structural children (<code>__heading</code>, <code>__list</code>, <code>__actions</code>, top-level <code>&lt;p&gt;</code>, <code>&lt;hr&gt;</code>)
+            get <code>flex-basis: 100%</code> so they take their own row; inline siblings (<code>__icon</code>, <code>__content</code>, bare text + <code>&lt;strong&gt;</code>) stay on the flex row.
+        </p>
     </div>
 </div>
 
