@@ -1,5 +1,13 @@
-<!-- Virtual Scroll & Infinite Scroll Snippets -->
-<!-- Clean HTML and JavaScript examples for efficient large dataset rendering -->
+<!-- ================================
+     VIRTUAL SCROLL & INFINITE SCROLL
+     Pure Admin Visual Framework
+
+     Two strategies for rendering large datasets without melting the
+     DOM. The framework provides a small JS helper class
+     (VirtualScroll) plus a CSS shell for grid-based virtual tables
+     (.pa-virtual-table — see _tables.scss). Infinite scroll is pure
+     pattern, no helper required.
+     ================================ -->
 
 <!-- ========================================
      Virtual Scroll (True Virtualization)
@@ -75,9 +83,12 @@ renderTimelineItems();
      Preserves table structure
      ======================================== -->
 
+<!-- Sticky header positioning is the only inline style needed — the
+     .pa-table thead th rule already paints the header with
+     var(--pa-table-header-bg). -->
 <div id="table-virtual-container" style="height: 400px; overflow-y: auto;">
     <table class="pa-table pa-table--striped">
-        <thead style="position: sticky; top: 0; background: var(--base-primary-bg); z-index: 10;">
+        <thead style="position: sticky; top: 0; z-index: 10;">
             <tr>
                 <th>#</th>
                 <th>Name</th>
@@ -157,13 +168,12 @@ renderTableRows();
 <div class="pa-timeline__scroll-container" id="infinite-scroll-container" style="max-height: 400px; overflow-y: auto;">
     <ul class="pa-timeline pa-timeline--feed" id="infinite-scroll-timeline"></ul>
 </div>
-<div class="pa-timeline__loader" id="infinite-scroll-loader">
-    <div class="pa-loader pa-loader--sm d-none" id="infinite-scroll-spinner">
-        <div class="pa-spinner"></div>
-    </div>
-    <div class="pa-timeline__loader-text d-none" id="infinite-scroll-text">
-        Loading more entries...
-    </div>
+<!-- pa-timeline__loader is a centred wrapper from _timeline.scss; the
+     real loader visual is just .pa-spinner. There's no .pa-loader /
+     --sm class — the wrapper provides centring + padding. -->
+<div class="pa-timeline__loader d-none" id="infinite-scroll-loader">
+    <div class="pa-spinner pa-spinner--primary"></div>
+    <div class="pa-timeline__loader-text">Loading more entries…</div>
 </div>
 
 <script>
@@ -171,8 +181,7 @@ let infinitePage = 0;
 let isLoadingInfinite = false;
 const infiniteContainer = document.getElementById('infinite-scroll-container');
 const infiniteTimeline = document.getElementById('infinite-scroll-timeline');
-const infiniteSpinner = document.getElementById('infinite-scroll-spinner');
-const infiniteText = document.getElementById('infinite-scroll-text');
+const infiniteLoader   = document.getElementById('infinite-scroll-loader');
 
 function loadInfiniteItems() {
     if (isLoadingInfinite || infinitePage >= 100) {
@@ -180,8 +189,7 @@ function loadInfiniteItems() {
     }
 
     isLoadingInfinite = true;
-    infiniteSpinner.style.display = 'block';
-    infiniteText.style.display = 'block';
+    infiniteLoader.classList.remove('d-none');
 
     // Simulate async data loading
     setTimeout(() => {
@@ -203,8 +211,7 @@ function loadInfiniteItems() {
         }
 
         infinitePage++;
-        infiniteSpinner.style.display = 'none';
-        infiniteText.style.display = 'none';
+        infiniteLoader.classList.add('d-none');
         isLoadingInfinite = false;
     }, 500);
 }
@@ -224,6 +231,57 @@ infiniteContainer.addEventListener('scroll', () => {
     }
 });
 </script>
+
+<!-- ========================================
+     CSS Shell: .pa-virtual-table
+     A grid-based virtual table component shipped in _tables.scss.
+     Use when you'd rather not roll your own <table>+spacer markup.
+     The shell is purely presentational — render the visible window
+     yourself (same loop as the table example above), then absolutely
+     position rows inside __body. The grid columns are themed via
+     CSS variables; the snippet shows a 6-column dashboard preset,
+     but you can override grid-template-columns inline.
+     ======================================== -->
+
+<div class="pa-virtual-table" id="vt-container">
+    <div class="pa-virtual-table__header">
+        <div class="pa-virtual-table__header-cell">#</div>
+        <div class="pa-virtual-table__header-cell">Name</div>
+        <div class="pa-virtual-table__header-cell">Email</div>
+        <div class="pa-virtual-table__header-cell">Role</div>
+        <div class="pa-virtual-table__header-cell">Status</div>
+        <div class="pa-virtual-table__header-cell">Updated</div>
+    </div>
+    <div class="pa-virtual-table__body" id="vt-body" style="height: 600000px; position: relative;">
+        <!-- Rows added by your virtual scroll loop:
+        <div class="pa-virtual-table__row" style="position: absolute; top: 0;">
+          <div class="pa-virtual-table__cell">1</div>
+          <div class="pa-virtual-table__cell">John Doe</div>
+          ...
+        </div>
+        -->
+    </div>
+</div>
+
+<!--
+Sub-elements:
+  .pa-virtual-table              border + radius shell, sticky header,
+                                 internal scroll
+  .pa-virtual-table__header      sticky-positioned grid row
+  .pa-virtual-table__header-cell single header cell with end border
+  .pa-virtual-table__body        positioning context for absolute rows
+  .pa-virtual-table__row         grid row; even rows get table stripe;
+                                 hover applies the same accent border
+                                 inline-start as .pa-table
+  .pa-virtual-table__cell        grid cell with ellipsis overflow
+
+Default grid template (6 columns) lives in _tables.scss; override
+inline if your dataset has different column counts:
+
+<div class="pa-virtual-table__header"
+     style="grid-template-columns: 8rem 1fr 1fr 12rem;">
+-->
+
 
 <!-- ========================================
      Using VirtualScroll Class (General Purpose)
@@ -258,65 +316,133 @@ const range = vs.getVisibleRange(); // Get current visible range
 vs.destroy();                       // Cleanup
 </script>
 
-<!-- ========================================
-     Performance Comparison
-     ======================================== -->
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
 <!--
-VIRTUAL SCROLL (Constant DOM):
-- DOM size: ~20-30 elements regardless of dataset
-- Performance: Handles millions of items smoothly
-- Requirements: Fixed item heights, uniform layout
-- Best for: Tables, logs, file lists, data grids
-- Strategy: Items added/removed dynamically as you scroll
+TWO STRATEGIES:
 
-INFINITE SCROLL (Growing DOM):
-- DOM size: Grows with each load (e.g., 2000 elements for 2000 items)
-- Performance: Good for hundreds/low thousands
-- Requirements: Works with variable heights
-- Best for: Social feeds, news lists, image galleries
-- Strategy: Items appended, never removed
+  VIRTUAL SCROLL (constant DOM)
+    Render only the items inside the viewport (+ a small buffer);
+    add/remove rows on scroll. DOM stays at ~20-30 elements no matter
+    how big the dataset is.
+    Best for: tables, logs, file lists, data grids — anything with
+    fixed-height uniform rows.
+    Requires: known + consistent itemHeight.
 
-WHEN TO USE WHAT:
-- 10,000+ uniform items → Virtual Scroll
-- Rich variable content → Infinite Scroll
-- Complex nested layouts → Infinite Scroll
-- Simple repeating rows → Virtual Scroll
--->
+  INFINITE SCROLL (growing DOM)
+    Append more items as the user nears the bottom; never remove.
+    DOM grows with each page load.
+    Best for: social feeds, news lists, image galleries — variable
+    heights and rich nested layouts.
+    Requires: nothing; just a scroll listener + a loader element.
 
-<!-- ========================================
-     Configuration Guidelines
-     ======================================== -->
-<!--
-VIRTUAL SCROLL SETTINGS:
+  Rule of thumb:
+    10,000+ uniform items          → Virtual
+    Rich / variable content        → Infinite
+    Complex nested layouts         → Infinite
+    Simple repeating rows          → Virtual
 
-itemHeight:
-- Must be exact and consistent
-- Measure with: element.offsetHeight
-- Examples:
-  - Timeline item: 50px
-  - Table row: 38px
-  - List item: 44px
+CSS SHELL — .pa-virtual-table (in _tables.scss):
 
-bufferSize:
-- Recommended: 5-15 items
-- Larger = smoother scroll, more DOM
-- Smaller = less DOM, potential flicker
+  Use this when you want a grid-based virtual table without rolling
+  your own <table>+spacer markup. The shell is purely presentational —
+  you still own the visible-window loop and absolute positioning.
 
-totalItems:
-- Can be updated dynamically
-- Example: vs.setTotalItems(newCount)
+  Sub-elements:
+    .pa-virtual-table              Border + radius + sticky-header
+                                   shell. Internal scroll, fixed
+                                   $chart-height, --pa-table-bg.
+    .pa-virtual-table__header      Sticky grid row at the top.
+    .pa-virtual-table__header-cell Single header cell with
+                                   border-inline-end (RTL-safe).
+    .pa-virtual-table__body        Positioning context for absolute
+                                   rows (you set its height to
+                                   totalItems × rowHeight).
+    .pa-virtual-table__row         Grid row; striped via :nth-child(even);
+                                   hover applies the same accent
+                                   border-inline-start as .pa-table.
+    .pa-virtual-table__cell        Grid cell with ellipsis overflow.
 
-INFINITE SCROLL SETTINGS:
+  Default grid template is 6-column (dashboard preset). Override
+  inline if your dataset shape differs:
+    <div class="pa-virtual-table__header"
+         style="grid-template-columns: 8rem 1fr 1fr 12rem;">
+    <div class="pa-virtual-table__row"
+         style="grid-template-columns: 8rem 1fr 1fr 12rem;">
+  Both header and rows must use the same template.
 
-Threshold:
-- Recommended: 50-100px from bottom
-- Trigger early for smooth experience
+VirtualScroll CLASS API (/dist/js/virtual-scroll.js):
 
-Page size:
-- Recommended: 20-50 items per load
-- Balance between requests and UX
+  new VirtualScroll({
+    container,        // scroll container element (required)
+    itemHeight,       // px, exact + consistent (required)
+    totalItems,       // dataset size (required)
+    bufferSize,       // extra items above/below viewport (default: 10)
+    renderItem,       // (index) => HTMLElement (required)
+    onScroll,         // (scrollTop) => void (optional)
+  })
 
-Max pages:
-- Set a limit to prevent memory issues
-- Example: 100 pages = 2000 items max
+  Methods:
+    .setTotalItems(n)       Update total; re-renders.
+    .scrollToItem(i)        Programmatic scroll.
+    .getVisibleRange()      Returns { start, end } for current viewport.
+    .destroy()              Detach scroll listener; cleanup.
+
+INFINITE SCROLL LOADER:
+
+  Wrap the spinner in .pa-timeline__loader (centred wrapper from
+  _timeline.scss) — the loader visual is just .pa-spinner. There is
+  no .pa-loader / .pa-loader--sm class.
+
+    <div class="pa-timeline__loader d-none" id="loader">
+      <div class="pa-spinner pa-spinner--primary"></div>
+      <div class="pa-timeline__loader-text">Loading more…</div>
+    </div>
+
+  Toggle visibility with classList.add/remove('d-none') — keep the
+  show/hide path uniform; don't mix d-none with style.display = 'none'.
+
+CONFIGURATION GUIDELINES:
+
+  Virtual scroll
+    itemHeight     Must be exact. Measure with element.offsetHeight.
+                   Examples: timeline ~50px, table row ~38px, list ~44px.
+    bufferSize     5-15 items. Larger = smoother but more DOM.
+    totalItems     Can change at runtime via vs.setTotalItems(n).
+
+  Infinite scroll
+    Threshold      50-100px from bottom — trigger early for smoothness.
+    Page size      20-50 items — balance request count vs. UX.
+    Max pages      Cap to keep DOM bounded (e.g. 100 pages × 20 = 2000).
+
+STRUCTURE PATTERNS:
+
+  1. Roll-your-own virtual list (timeline / custom layout):
+     scroll listener → compute visible range → innerHTML='' → append
+     visible items with absolute top offsets → set list height to
+     totalItems × itemHeight to preserve scroll.
+
+  2. Roll-your-own virtual table (top + bottom spacer rows):
+     same loop, but instead of absolute positioning, emit a single
+     spacer <tr> above (height = visibleStart × rowHeight) and below
+     (height = remaining × rowHeight) the visible rows. Preserves
+     <thead>/<tbody> semantics; sticky header just works.
+
+  3. .pa-virtual-table grid shell:
+     same loop as #1, but render rows as .pa-virtual-table__row +
+     .pa-virtual-table__cell inside the grid shell. Lets you skip
+     <table> markup entirely; gives you striping + hover accent for
+     free.
+
+  4. VirtualScroll class:
+     pass renderItem callback; the helper handles scroll listening,
+     range math, and DOM diffing for you.
+
+  5. Infinite scroll:
+     append-only. Listen for scroll near bottom (scrollTop +
+     clientHeight >= scrollHeight - threshold), guard with
+     isLoading flag, increment a page cursor, append items, toggle
+     loader d-none.
 -->
