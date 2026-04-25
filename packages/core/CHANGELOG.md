@@ -19,12 +19,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **Alert sizes were a no-op** — `.pa-alert--sm` and `.pa-alert--lg` both pulled their padding from `$alert-padding-v/h`, which itself defaulted to `$card-footer-padding-v/h` — the same values the default rule uses. Result: all three sizes rendered at identical padding, and `--sm` even had the same `font-size: $font-size-sm` as the default rule, so it was a complete no-op visually. `--lg` only differed by a 0.2rem font bump. Fix:
+- **Alert sizes were a no-op + default sat outside the size scale** — `.pa-alert--sm` and `.pa-alert--lg` both pulled their padding from `$alert-padding-v/h`, which itself defaulted to `$card-footer-padding-v/h` — the same values the default rule used. Result: all three sizes rendered at identical padding, and `--sm` even had the same `font-size: $font-size-sm` as the default rule. Worse, `$card-footer-padding-v/h` is `1.2rem / 1rem` (V > H) — fine for card footers but visibly off as an alert default, and the V (1.2rem) was actually *bigger than `--lg`'s* (1rem), so default sat outside the scale ("not in the middle"). Two-part fix:
     - New SCSS variables `$alert-padding-sm-v/h`, `$alert-padding-lg-v/h`, `$alert-font-size-sm`, `$alert-font-size-lg` in `variables/_components.scss` (all `!default`).
-    - `.pa-alert--sm` now renders at `$spacing-sm / $spacing-base` padding + `$font-size-xs` (12px) text.
-    - `.pa-alert--lg` now renders at `$spacing-base / $spacing-lg` padding + `$font-size-base` (16px) text (font unchanged; padding is the new bit).
+    - `$alert-padding-v/h` itself decoupled from `$card-footer-padding-v/h` and given alert-tuned defaults (`$spacing-md / 1.25rem` = 0.75rem / 1.25rem) so default sits in the middle of the scale.
+    - Final scale: V steps `0.5 → 0.75 → 1rem`, H steps `1 → 1.25 → 1.5rem` — clean 0.25rem increments. Font-size steps `1.2 → 1.4 → 1.6rem`.
+    - `.pa-alert__close` now uses `$alert-padding-v/h` too so its click-target tracks the alert body padding.
     - Themes can override any of the new variables to retune the scale.
-    The demo's "Sizes" card now actually shows three visibly different sizes.
+
+   Existing alerts will render with tighter vertical padding and slightly looser horizontal padding than before — the visual rhythm now reads as a horizontal banner.
 
 - **Alert layout for multi-element content** — the alert is `display: flex; flex-wrap: wrap`, which had left structural children (`__heading`, `__list`, `__actions`, top-level `<p>`, `<hr>`) at content width, so they sat beside each other instead of stacking. The System Update example surfaced the bug clearly: the action buttons floated mid-alert next to the bullet list, and the divider rendered with a "big gap above" because the heading's `margin-bottom: $spacing-sm` doubled up with the flex container's `gap: $spacing-sm`. Fixes:
     - `flex-basis: 100%` on `__heading`, `__list`, `__actions`, top-level `<p>`, `<hr>` — each breaks onto its own row in the wrap.

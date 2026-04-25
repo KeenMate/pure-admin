@@ -430,13 +430,15 @@
 
         <h4 class="mt-4">Sizes & Modifiers</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-alert--sm</code> &mdash; Small: <code>0.5rem 1rem</code> padding, <code>font-size-xs</code> (12px)</li>
-            <li><code>(default)</code> &mdash; Default: <code>1.2rem 1rem</code> padding, <code>font-size-sm</code> (14px)</li>
-            <li><code>pa-alert--lg</code> &mdash; Large: <code>1rem 1.5rem</code> padding, <code>font-size-base</code> (16px)</li>
+            <li><code>pa-alert--sm</code> &mdash; Small: <code>0.5rem / 1rem</code> padding, <code>font-size-xs</code> (12px)</li>
+            <li><code>(default)</code> &mdash; Default: <code>0.75rem / 1.25rem</code> padding, <code>font-size-sm</code> (14px)</li>
+            <li><code>pa-alert--lg</code> &mdash; Large: <code>1rem / 1.5rem</code> padding, <code>font-size-base</code> (16px)</li>
             <li><code>pa-alert--dismissible</code> &mdash; Adds inline-end padding so the absolutely-positioned close button doesn't overlap text</li>
         </ul>
         <p class="text-muted mt-2">
-            Themes can retune the size scale via the
+            V steps <code>0.5 &rarr; 0.75 &rarr; 1rem</code>; H steps <code>1 &rarr; 1.25 &rarr; 1.5rem</code> &mdash; clean 0.25rem increments.
+            Themes can retune the scale via the
+            <code>$alert-padding-&#123;v,h&#125;</code>,
             <code>$alert-padding-&#123;sm,lg&#125;-&#123;v,h&#125;</code> and
             <code>$alert-font-size-&#123;sm,lg&#125;</code> SCSS variables in
             <code>variables/_components.scss</code> (all <code>!default</code>).

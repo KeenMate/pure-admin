@@ -295,12 +295,16 @@ $multiselect-selected-popover-width: 32rem !default;  // 320px (was 20rem)
 // ============================================================================
 // ALERT SYSTEM
 // ============================================================================
-$alert-padding-v: $card-footer-padding-v !default;
-$alert-padding-h: $card-footer-padding-h !default;
+// Default alert padding — decoupled from $card-footer-padding so alerts
+// can have their own scale. The previous coupling left default with V
+// padding (1.2rem) bigger than --lg's (1rem) and H padding (1rem) equal
+// to --sm's, so default sat visually outside the size scale instead of
+// in the middle.
+$alert-padding-v: $spacing-md !default;        // 0.75rem
+$alert-padding-h: 1.25rem !default;            // sits between --sm (1rem) and --lg (1.5rem)
 
 // Size-modifier scales — themes can override to tighten/loosen each size
-// independently. Defaults give a real, visible step between --sm, default,
-// and --lg (both padding AND font-size differ, not just font).
+// independently. V steps 0.5 → 0.75 → 1, H steps 1 → 1.25 → 1.5.
 $alert-padding-sm-v: $spacing-sm !default;     // 0.5rem
 $alert-padding-sm-h: $spacing-base !default;   // 1rem
 $alert-font-size-sm: $font-size-xs !default;   // 1.2rem (12px)
