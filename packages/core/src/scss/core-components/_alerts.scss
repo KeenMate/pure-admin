@@ -121,15 +121,17 @@
     }
   }
 
-  // Alert sizes (size modifiers only change font-size, padding controlled by theme)
+  // Alert sizes — both padding AND font-size step at each size.
+  // See $alert-padding-{sm,lg}-{v,h} and $alert-font-size-{sm,lg} in
+  // variables/_components.scss for theme-overridable scales.
   &--sm {
-    padding: $alert-padding-v $alert-padding-h;
-    font-size: $font-size-sm;
+    padding: $alert-padding-sm-v $alert-padding-sm-h;
+    font-size: $alert-font-size-sm;
   }
 
   &--lg {
-    padding: $alert-padding-v $alert-padding-h;
-    font-size: $font-size-base;
+    padding: $alert-padding-lg-v $alert-padding-lg-h;
+    font-size: $alert-font-size-lg;
   }
 
   // Dismissible alerts

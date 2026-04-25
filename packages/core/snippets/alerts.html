@@ -279,9 +279,17 @@ THEME COLOR VARIANTS (1-9):
 - .pa-alert--outline-color-{1-9}   outline theme colour slot
 
 SIZES:
-- .pa-alert--sm            $alert-padding v/h, font-size-sm
-- (default)                $card-footer-padding-v/h, font-size-sm
-- .pa-alert--lg            $alert-padding v/h, font-size-base
+- .pa-alert--sm            $alert-padding-sm-{v,h} ($spacing-sm /
+                            $spacing-base), $alert-font-size-sm
+                            ($font-size-xs = 1.2rem)
+- (default)                $card-footer-padding-{v,h} (1.2rem / 1rem),
+                            $font-size-sm (1.4rem)
+- .pa-alert--lg            $alert-padding-lg-{v,h} ($spacing-base /
+                            $spacing-lg), $alert-font-size-lg
+                            ($font-size-base = 1.6rem)
+  Both padding and font-size step at each size — themes can override
+  the $alert-padding-{sm,lg}-{v,h} and $alert-font-size-{sm,lg}
+  variables in variables/_components.scss to retune the scale.
   (No --xs / --xl.)
 
 MODIFIERS:
