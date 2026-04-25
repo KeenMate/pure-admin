@@ -146,22 +146,34 @@
 
   &__content {
     flex: 1;
+    min-width: 0; // allow long content to shrink + wrap rather than overflow
+  }
+
+  // Force structural sub-elements + top-level <p> / <hr> onto their own row
+  // in the alert's flex-wrap layout. Without this, they sit at content width
+  // beside each other (heading next to body, actions next to list, …).
+  &__heading,
+  &__list,
+  &__actions,
+  > p,
+  > hr {
+    flex-basis: 100%;
   }
 
   &__heading {
-    margin: 0 0 $spacing-sm 0;
+    margin: 0; // alert flex-gap supplies the spacing — don't double up
     color: inherit;
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
   }
 
   &__list {
-    margin: $spacing-sm 0;
+    margin: 0; // alert flex-gap supplies the spacing
     padding-inline-start: $alert-list-padding-left; // RTL: flips to padding-right
   }
 
   &__actions {
-    margin-top: $spacing-base;
+    margin-top: 0; // alert flex-gap supplies the spacing above the divider
     padding-top: $spacing-base;
     border-top: $border-width-base solid rgba(0, 0, 0, $opacity-light);
     display: flex;

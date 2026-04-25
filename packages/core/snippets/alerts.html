@@ -291,21 +291,34 @@ MODIFIERS:
 
 ELEMENTS:
 - .pa-alert__icon      leading icon (flex-shrink: 0, font-size-base)
-- .pa-alert__content   content wrapper (flex: 1) — used when there's an icon
-                       sibling to keep the right text block from wrapping under.
-                       Drop the wrapper when the alert has no icon — the
-                       heading + paragraph pattern uses direct children.
-- .pa-alert__heading   alert title on <h4>; font-size-lg + semibold +
-                       margin-bottom: $spacing-sm. Bigger / louder than
-                       inline <strong>.
-- .pa-alert__list      <ul> inside the alert with tighter spacing.
+- .pa-alert__content   content wrapper (flex: 1, min-width: 0). When you
+                       have an icon AND structured content (heading,
+                       paragraph, list, actions), wrap everything that
+                       isn't the icon inside __content — block-flow
+                       inside the wrapper handles vertical stacking.
+                       Drop the wrapper when there's no icon; direct
+                       children work too.
+- .pa-alert__heading   alert title on <h4>; font-size-lg + semibold.
+                       Bigger / louder than inline <strong>. Spacing
+                       to the next element is the alert's flex gap
+                       (no built-in margin-bottom).
+- .pa-alert__list      <ul> inside the alert. Spacing to siblings is
+                       the alert's flex gap (no built-in margin).
 - .pa-alert__actions   button row below a thin divider (border-top +
-                       symmetric $spacing-base padding-top + matching
-                       margin-top). Same separator pattern as
-                       .pa-toast__actions, so action-bearing alerts
-                       and toasts feel visually consistent.
+                       $spacing-base padding-top). Same separator
+                       pattern as .pa-toast__actions, so action-bearing
+                       alerts and toasts feel visually consistent.
+                       Always renders on its own row — sits at the
+                       bottom of the alert's content stack.
 - .pa-alert__close     absolutely positioned close button on the
                        inline-end side (logical — RTL-aware).
+
+LAYOUT NOTE:
+The alert is `display: flex; flex-wrap: wrap` with `gap: $spacing-sm`.
+Structural children (__heading, __list, __actions, top-level <p>, <hr>)
+are forced to `flex-basis: 100%` so they each take their own row.
+Inline siblings (__icon, __content, bare text + <strong>) stay on the
+flex row.
 
 HEADER STYLE — COMPACT vs PUNCHY:
 - Compact: bare <strong>Title</strong> on the same line scale as the
