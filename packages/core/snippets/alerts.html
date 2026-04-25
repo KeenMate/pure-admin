@@ -111,9 +111,37 @@ side in both LTR and RTL.
 </div>
 
 
-<!-- ALERTS WITH ADDITIONAL CONTENT -->
+<!-- ALERTS WITH ADDITIONAL CONTENT
 
-<!-- Alert with Heading and Paragraph -->
+Two header weights — pick by visual loudness, not by line count:
+
+  Compact (<strong>)             same font-size as body, just bolded.
+                                  Status banners — "Validation failed",
+                                  "Saved", "Connection lost".
+  Punchy (.pa-alert__heading)    bigger semibold heading block with a
+                                  bottom margin (font-size-lg). Use
+                                  when the alert announces something
+                                  the user must read deliberately —
+                                  blocking errors, system updates,
+                                  quota warnings.
+-->
+
+<!-- Multi-line alert with COMPACT header (small <strong> title + paragraph) -->
+<div class="pa-alert pa-alert--danger" role="alert">
+  <strong>Validation failed</strong>
+  <p class="mb-0">Please fix the errors below.</p>
+</div>
+
+<!-- Same pattern, dismissible -->
+<div class="pa-alert pa-alert--danger pa-alert--dismissible" role="alert">
+  <strong>Validation failed</strong>
+  <p class="mb-0">Please fix the errors below.</p>
+  <button class="pa-alert__close" onclick="dismissAlert(this)" aria-label="Close">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+
+<!-- Multi-line alert with PUNCHY header (h4 .pa-alert__heading + paragraph) -->
 <div class="pa-alert pa-alert--success" role="alert">
   <h4 class="pa-alert__heading">Success!</h4>
   <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
@@ -121,7 +149,11 @@ side in both LTR and RTL.
   <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
 </div>
 
-<!-- Alert with List and Actions -->
+<!-- Alert with List and Actions.
+     .pa-alert__actions sits below a thin divider with symmetric
+     padding — same separator pattern as .pa-toast__actions, so a
+     "System update / Update now" alert has the same visual weight
+     as a custom-action toast. -->
 <div class="pa-alert pa-alert--info" role="alert">
   <h4 class="pa-alert__heading">System Update</h4>
   <p>A new version of the application is available. This update includes:</p>
@@ -260,12 +292,32 @@ MODIFIERS:
 ELEMENTS:
 - .pa-alert__icon      leading icon (flex-shrink: 0, font-size-base)
 - .pa-alert__content   content wrapper (flex: 1) — used when there's an icon
-                       sibling to keep the right text block from wrapping under
-- .pa-alert__heading   alert title, rendered on <h4>
-- .pa-alert__list      <ul> inside the alert with tighter spacing
-- .pa-alert__actions   button row, spaced with gap: $spacing-sm
+                       sibling to keep the right text block from wrapping under.
+                       Drop the wrapper when the alert has no icon — the
+                       heading + paragraph pattern uses direct children.
+- .pa-alert__heading   alert title on <h4>; font-size-lg + semibold +
+                       margin-bottom: $spacing-sm. Bigger / louder than
+                       inline <strong>.
+- .pa-alert__list      <ul> inside the alert with tighter spacing.
+- .pa-alert__actions   button row below a thin divider (border-top +
+                       symmetric $spacing-base padding-top + matching
+                       margin-top). Same separator pattern as
+                       .pa-toast__actions, so action-bearing alerts
+                       and toasts feel visually consistent.
 - .pa-alert__close     absolutely positioned close button on the
-                       inline-end side (logical — RTL-aware)
+                       inline-end side (logical — RTL-aware).
+
+HEADER STYLE — COMPACT vs PUNCHY:
+- Compact: bare <strong>Title</strong> on the same line scale as the
+           body (the alert's default font-size-sm). For status banners
+           that the user is meant to register quickly: "Validation
+           failed", "Saved", "Connection lost". Pair with <p> below for
+           a multi-line variant — heading and body both stay small.
+- Punchy:  <h4 class="pa-alert__heading">Title</h4> renders bigger
+           (font-size-lg), semibold, with a bottom margin built in. Use
+           when the alert announces something the user has to read
+           deliberately: blocking errors, system updates, quota
+           warnings. Pair with <p>, optional <hr>, lists, and __actions.
 
 AUTOMATIC BEHAVIOUR:
 - When the alert is the first or last child of .pa-card__body, its
@@ -281,9 +333,15 @@ ACCESSIBILITY:
 
 STRUCTURE PATTERNS:
 
-Simple alert:
+Simple inline alert (one line, compact <strong> title):
 <div class="pa-alert pa-alert--success" role="alert">
   <strong>Success!</strong> Message here.
+</div>
+
+Multi-line alert with compact header (small <strong> title + paragraph):
+<div class="pa-alert pa-alert--danger" role="alert">
+  <strong>Validation failed</strong>
+  <p class="mb-0">Please fix the errors below.</p>
 </div>
 
 Alert with icon (wrap the rest in __content so long text doesn't
