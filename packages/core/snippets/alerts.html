@@ -345,6 +345,40 @@ For the icon + multi-line __content case, add .pa-alert--multiline
 so the icon stops centring against the tall content stack and
 top-aligns with the heading instead.
 
+MARKUP SHAPES — WITH vs WITHOUT ICON:
+The alert has two valid shapes depending on whether you have an icon:
+
+- WITH icon: wrap the rest of the content in .pa-alert__content.
+  .pa-alert is a flex row, the icon is one flex item, __content is
+  the other flex item (flex: 1) that takes the remaining width.
+  Without the wrapper, every word/element next to the icon would
+  become its own flex item and the layout breaks.
+
+    <div class="pa-alert pa-alert--info">
+      <span class="pa-alert__icon">ⓘ</span>
+      <div class="pa-alert__content">
+        <strong>Title</strong> Body text…
+      </div>
+    </div>
+
+- WITHOUT icon: skip __content and put the structural children
+  directly inside .pa-alert. There's no icon to flow around, and
+  __heading / __list / __actions / top-level <p>, <hr> get
+  flex-basis: 100% so each takes its own row anyway. Wrapping them
+  in __content for "consistency" would just add an empty <div>
+  with no visual or semantic gain — and it'd actually move them
+  out of the `> p` / `> hr` selector reach, breaking the layout
+  rules.
+
+    <div class="pa-alert pa-alert--danger">
+      <h4 class="pa-alert__heading">Sync failed</h4>
+      <p class="mb-0">We couldn't reach the server.</p>
+      <div class="pa-alert__actions">…</div>
+    </div>
+
+Same alert system, two markup shapes — pick by whether there's an
+icon to flow around. Both are first-class.
+
 HEADING SIZE — DEFAULT vs --lg:
 - Default: <h4 class="pa-alert__heading">Title</h4> sits at the
            alert's body font-size + semibold weight. Compact look,
@@ -393,8 +427,7 @@ Multi-line alert with --lg heading (deliberate read):
   <p class="mb-0">A new version is available.</p>
 </div>
 
-Alert with icon (wrap the rest in __content so long text doesn't
-wrap under the icon):
+Alert with icon — single-line content (icon + __content centred):
 <div class="pa-alert pa-alert--success" role="alert">
   <span class="pa-alert__icon">✓</span>
   <div class="pa-alert__content">
@@ -402,11 +435,20 @@ wrap under the icon):
   </div>
 </div>
 
-Dismissible alert:
-<div class="pa-alert pa-alert--danger pa-alert--dismissible" role="alert">
+Alert with icon — multi-line content (use --multiline so the icon
+sticks to the top with the heading instead of centring against
+the whole stack):
+<div class="pa-alert pa-alert--info pa-alert--multiline" role="alert">
+  <span class="pa-alert__icon">ⓘ</span>
   <div class="pa-alert__content">
-    <strong>Oh snap!</strong> Something went wrong.
+    <h4 class="pa-alert__heading pa-alert__heading--lg">Heads up</h4>
+    <p class="mb-0">Long body text spans multiple lines…</p>
   </div>
+</div>
+
+Dismissible alert (no icon — no __content needed):
+<div class="pa-alert pa-alert--danger pa-alert--dismissible" role="alert">
+  <strong>Oh snap!</strong> Something went wrong.
   <button class="pa-alert__close" aria-label="Close">
     <span aria-hidden="true">×</span>
   </button>
