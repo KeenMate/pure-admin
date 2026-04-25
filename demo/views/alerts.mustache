@@ -124,13 +124,13 @@
             <div class="pa-card">
                 <div class="pa-card__header">
                     <h3>Alerts with Additional Content</h3>
-                    <p class="text-muted mb-0">Use <code>pa-alert__heading</code> for a punchier title, <code>pa-alert__list</code> for an in-alert <code>&lt;ul&gt;</code>, and a plain <code>&lt;hr&gt;</code> for a subtle divider that picks up an alert-tinted top border automatically.</p>
+                    <p class="text-muted mb-0">Always use <code>pa-alert__heading</code> for a separate title element; default sits at the alert's body font-size, add <code>--lg</code> for the punchier presentation. Pair with <code>pa-alert__list</code> for an in-alert <code>&lt;ul&gt;</code>, and a plain <code>&lt;hr&gt;</code> for a subtle divider that picks up an alert-tinted top border automatically.</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pa-row">
                         <div class="pa-col-100 pa-col-md-50">
                             <div class="pa-alert pa-alert--success">
-                                <h4 class="pa-alert__heading">Success!</h4>
+                                <h4 class="pa-alert__heading pa-alert__heading--lg">Success!</h4>
                                 <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
                                 <hr>
                                 <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
@@ -139,7 +139,7 @@
 
                         <div class="pa-col-100 pa-col-md-50">
                             <div class="pa-alert pa-alert--warning">
-                                <h4 class="pa-alert__heading">Storage running low</h4>
+                                <h4 class="pa-alert__heading pa-alert__heading--lg">Storage running low</h4>
                                 <p>Your account is approaching the quota limit. The next sync will fail unless you free space:</p>
                                 <ul class="pa-alert__list">
                                     <li>Archive old projects you don't actively edit</li>
@@ -152,34 +152,34 @@
                 </div>
             </div>
 
-            <!-- Header style: compact vs punchy -->
+            <!-- Heading size: default vs --lg -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>Header style: compact vs. punchy</h3>
-                    <p class="text-muted mb-0">Both patterns are valid — pick by visual loudness. Plain <code>&lt;strong&gt;</code> stays at body font-size for status banners; <code>pa-alert__heading</code> renders as a bigger, semibold block (<code>font-size-lg</code> + bottom margin) when the alert needs deliberate attention.</p>
+                    <h3>Heading size: default vs. <code>--lg</code></h3>
+                    <p class="text-muted mb-0">Same markup either way — always <code>pa-alert__heading</code>. Default size sits at the alert's body font-size for compact status banners ("Validation failed", "Saved", "Connection lost"). Add <code>pa-alert__heading--lg</code> when the alert needs deliberate attention (blocking errors, system updates, quota warnings).</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pa-row">
                         <div class="pa-col-100 pa-col-md-50">
-                            <h4>Compact (<code>&lt;strong&gt;</code>)</h4>
-                            <div class="pa-alert pa-alert--danger" role="alert">
-                                <strong>Validation failed</strong>
-                                <p class="mb-0">Please fix the errors below.</p>
-                            </div>
-                            <div class="pa-alert pa-alert--success" role="alert">
-                                <strong>Saved</strong>
-                                <p class="mb-0">Changes synced 2 seconds ago.</p>
-                            </div>
-                        </div>
-
-                        <div class="pa-col-100 pa-col-md-50">
-                            <h4>Punchy (<code>pa-alert__heading</code>)</h4>
+                            <h4>Default (<code>pa-alert__heading</code>)</h4>
                             <div class="pa-alert pa-alert--danger" role="alert">
                                 <h4 class="pa-alert__heading">Validation failed</h4>
                                 <p class="mb-0">Please fix the errors below.</p>
                             </div>
                             <div class="pa-alert pa-alert--success" role="alert">
                                 <h4 class="pa-alert__heading">Saved</h4>
+                                <p class="mb-0">Changes synced 2 seconds ago.</p>
+                            </div>
+                        </div>
+
+                        <div class="pa-col-100 pa-col-md-50">
+                            <h4>With <code>--lg</code></h4>
+                            <div class="pa-alert pa-alert--danger" role="alert">
+                                <h4 class="pa-alert__heading pa-alert__heading--lg">Validation failed</h4>
+                                <p class="mb-0">Please fix the errors below.</p>
+                            </div>
+                            <div class="pa-alert pa-alert--success" role="alert">
+                                <h4 class="pa-alert__heading pa-alert__heading--lg">Saved</h4>
                                 <p class="mb-0">Changes synced 2 seconds ago.</p>
                             </div>
                         </div>
@@ -197,7 +197,7 @@
                     <div class="pa-row">
                         <div class="pa-col-100 pa-col-md-50">
                             <div class="pa-alert pa-alert--info" role="alert">
-                                <h4 class="pa-alert__heading">System update</h4>
+                                <h4 class="pa-alert__heading pa-alert__heading--lg">System update</h4>
                                 <p>A new version of the application is available. This update includes:</p>
                                 <ul class="pa-alert__list">
                                     <li>Performance improvements</li>
@@ -213,7 +213,7 @@
 
                         <div class="pa-col-100 pa-col-md-50">
                             <div class="pa-alert pa-alert--danger" role="alert">
-                                <h4 class="pa-alert__heading">Sync failed</h4>
+                                <h4 class="pa-alert__heading pa-alert__heading--lg">Sync failed</h4>
                                 <p class="mb-0">We couldn't reach the server. Check your connection and try again.</p>
                                 <div class="pa-alert__actions">
                                     <button class="pa-btn pa-btn--sm pa-btn--danger">Retry sync</button>
@@ -222,7 +222,7 @@
                             </div>
 
                             <div class="pa-alert pa-alert--warning" role="alert">
-                                <strong>Cookies disabled</strong>
+                                <h4 class="pa-alert__heading">Cookies disabled</h4>
                                 <p class="mb-0">Some features need cookies to work properly.</p>
                                 <div class="pa-alert__actions">
                                     <button class="pa-btn pa-btn--sm pa-btn--primary">Enable cookies</button>
@@ -439,7 +439,8 @@
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-alert__icon</code> - Icon container (flex-shrink: 0)</li>
             <li><code>pa-alert__content</code> - Content wrapper (flex: 1)</li>
-            <li><code>pa-alert__heading</code> - Alert heading/title</li>
+            <li><code>pa-alert__heading</code> - Alert heading/title (h4); defaults to body font-size + semibold</li>
+            <li><code>pa-alert__heading--lg</code> - Heading bumped to <code>font-size-lg</code> for the punchy, deliberate-read presentation</li>
             <li><code>pa-alert__list</code> - List inside alert (ul)</li>
             <li><code>pa-alert__actions</code> - Action buttons row, sits below a thin divider with symmetric padding (same separator pattern as <code>pa-toast__actions</code>)</li>
             <li><code>pa-alert__close</code> - Close/dismiss button (absolute, inline-end)</li>

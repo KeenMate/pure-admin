@@ -163,8 +163,15 @@
   &__heading {
     margin: 0; // alert flex-gap supplies the spacing — don't double up
     color: inherit;
-    font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
+    // No explicit font-size — inherits the alert's body font-size ($font-size-sm)
+    // so heading + body read at the same scale (compact look). Add --lg to opt
+    // into the bigger, "punchy" presentation when the alert needs deliberate
+    // attention.
+
+    &--lg {
+      font-size: $font-size-lg;
+    }
   }
 
   &__list {

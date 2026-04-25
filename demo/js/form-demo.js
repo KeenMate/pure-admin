@@ -136,11 +136,10 @@
         alertSlot.innerHTML = '';
         const alert = document.createElement('div');
         alert.className = `pa-alert pa-alert--${variant} pa-alert--dismissible mb-4`;
+        alert.setAttribute('role', 'alert');
         alert.innerHTML = `
-            <div class="pa-alert__content">
-                <strong>${title}</strong>
-                <p class="mb-0">${message}</p>
-            </div>
+            <h4 class="pa-alert__heading">${title}</h4>
+            <p class="mb-0">${message}</p>
             <button type="button" class="pa-alert__close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
