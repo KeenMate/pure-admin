@@ -1,9 +1,33 @@
-<!-- Web Multiselect Component
-     Advanced multiselect web component from @keenmate/web-multiselect
-     Framework-agnostic, TypeScript-based web component with excellent performance
-     Repository: https://github.com/keenmate/web-multiselect
+<!-- ================================
+     WEB MULTISELECT
+     A framework-agnostic web component from @keenmate/web-multiselect
+     (separate package; not part of pure-admin-core's CSS).
+
+     Pure Admin's role: themes export ~45 --base-* CSS variables (see
+     _base-css-variables.scss + _web-components-theme.scss bridge).
+     The component reads them via fallback chains:
+
+       1. Page override   :  web-multiselect { --ms-accent-color: … }
+       2. Theme base value:  var(--base-accent-color)
+       3. Hardcoded default: built into the component
+
+     So in a Pure Admin app you usually do NOT override --ms-* — the
+     theme already cascades. Override --ms-* only for one-off
+     instance-specific tweaks. Pure Admin also sets two group-label
+     overrides directly in _web-components-theme.scss:
+       web-multiselect {
+         --ms-group-label-color: var(--base-text-color-1);
+         --ms-group-label-font-weight: 600;
+       }
+
+     Note on the rem base: the component exposes --ms-rem (default 10px)
+     which matches Pure Admin's html { font-size: 10px } perfectly —
+     all internal sizing scales together with the surrounding UI.
+
      Package: npm install @keenmate/web-multiselect
--->
+     Repo:    https://github.com/keenmate/web-multiselect
+     Auto-registers as <web-multiselect> on import.
+     ================================ -->
 
 <!-- ========================================
      BASIC USAGE
@@ -28,33 +52,35 @@
      DISPLAY MODES
      ======================================== -->
 
-<!-- Pills Mode (Default) - Individual badges -->
-<web-multiselect badges-display-mode="pills" placeholder="Select...">
+<!-- badges (default) - one badge per selected item -->
+<web-multiselect badges-display-mode="badges" placeholder="Select...">
   <option value="1" selected>Option 1</option>
   <option value="2" selected>Option 2</option>
 </web-multiselect>
 
-<!-- Count Mode - "X selected" counter -->
+<!-- count - "X selected" counter only -->
 <web-multiselect badges-display-mode="count" placeholder="Select...">
   <option value="1" selected>Option 1</option>
   <option value="2" selected>Option 2</option>
 </web-multiselect>
 
-<!-- Compact Mode - First item + "+X more" -->
+<!-- compact - first item + "+X more" -->
 <web-multiselect badges-display-mode="compact" placeholder="Select...">
   <option value="1" selected>First</option>
   <option value="2" selected>Second</option>
   <option value="3" selected>Third</option>
 </web-multiselect>
 
-<!-- Partial Mode - Limited badges + "+X more" -->
-<web-multiselect badges-display-mode="partial" placeholder="Select...">
+<!-- partial - limited visible badges + "+X more"
+     Pair with badges-max-visible to control the cap; switch
+     thresholding logic with badges-threshold-mode="count" | "partial". -->
+<web-multiselect badges-display-mode="partial" badges-max-visible="2" placeholder="Select...">
   <option value="1" selected>Alpha</option>
   <option value="2" selected>Beta</option>
   <option value="3" selected>Gamma</option>
 </web-multiselect>
 
-<!-- None Mode - Minimal UI, no badges -->
+<!-- none - placeholder/input only, no badges UI -->
 <web-multiselect badges-display-mode="none" placeholder="Select...">
   <option value="1" selected>Option A</option>
   <option value="2" selected>Option B</option>
@@ -64,18 +90,32 @@
      SEARCH & FILTER
      ======================================== -->
 
-<!-- Search Mode: Filter (hides non-matching) -->
-<web-multiselect search-enabled="true" search-mode="filter" placeholder="Search...">
+<!-- Search filter mode (hides non-matching).
+     Note: the attribute is `enable-search`, not `search-enabled`. -->
+<web-multiselect enable-search="true" search-mode="filter" placeholder="Search...">
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
   <option value="cherry">Cherry</option>
 </web-multiselect>
 
-<!-- Search Mode: Navigate (jumps to matches, keeps all visible) -->
-<web-multiselect search-enabled="true" search-mode="navigate" placeholder="Search...">
+<!-- Navigate mode (jumps focus to first match, keeps all options visible) -->
+<web-multiselect enable-search="true" search-mode="navigate" placeholder="Search...">
   <option value="argentina">Argentina</option>
   <option value="brazil">Brazil</option>
   <option value="canada">Canada</option>
+</web-multiselect>
+
+<!-- Tweak the search input itself with `search-input-mode` and
+     gate it behind a minimum search length: -->
+<web-multiselect enable-search="true"
+                  search-mode="filter"
+                  search-input-mode="normal"
+                  min-search-length="2"
+                  search-placeholder="Type 2+ chars…"
+                  placeholder="Search countries…">
+  <option value="ar">Argentina</option>
+  <option value="br">Brazil</option>
+  <option value="ca">Canada</option>
 </web-multiselect>
 
 <!-- ========================================
@@ -109,7 +149,16 @@
      VIRTUAL SCROLLING (Large Datasets)
      ======================================== -->
 
-<web-multiselect id="large-dataset" search-enabled="true" placeholder="Search 10,000 items...">
+<!-- Virtual scrolling auto-enables once the option count crosses
+     `virtual-scroll-threshold` (default ≈ a few hundred). To force
+     it on/off, set `enable-virtual-scroll="true" | "false"`.
+     `option-height` should match your actual rendered row height. -->
+<web-multiselect id="large-dataset"
+                  enable-search="true"
+                  enable-virtual-scroll="true"
+                  option-height="50"
+                  virtual-scroll-buffer="10"
+                  placeholder="Search 10,000 items...">
   <!-- Options added via JavaScript for large datasets -->
 </web-multiselect>
 
@@ -228,135 +277,322 @@ document.getElementById('myForm').addEventListener('submit', (e) => {
      ======================================== -->
 
 <!--
-  Core Attributes:
-  - placeholder: Placeholder text
-  - multiple: "true" (default) or "false" for single-select
-  - badges-display-mode: "pills" | "count" | "compact" | "partial" | "none"
-  - badges-position: "bottom" | "top" | "left" | "right"
-  - dir: "ltr" (default) | "rtl"
-  - disabled: Disable the component
+  Source of truth: web-component.ts observedAttributes list. The full
+  set of attributes the web component accepts:
+
+  Core:
+  - placeholder            Input placeholder
+  - multiple               "true" (default) | "false" for single-select
+  - dir                    "ltr" (default) | "rtl"
+  - disabled               Disable the entire component
+  - allow-groups           "true" | "false" — render <optgroup> headers
+  - close-on-select        Close dropdown on each pick
+  - lock-placement         Pin dropdown placement (skip flip)
+  - dropdown-min-width     CSS width
+  - dropdown-max-width     CSS width
+  - max-height             Dropdown max height
+  - empty-message          Text when no options match
+  - loading-message        Text shown during async load
+  - sticky-actions         Pin the action bar at the bottom
+  - actions-layout         Layout token for the action bar
+  - allow-add-new          Let the user create options inline
+  - initial-values         CSV / JSON initial selection
+  - show-debug-info        Boolean — opt-in console logging
+
+  Badges (selection display):
+  - badges-display-mode    "badges" (default) | "count" | "compact"
+                            | "partial" | "none"
+  - badges-position        "bottom" (default) | "top" | "left" | "right"
+  - badges-threshold       Numeric trigger for threshold-mode collapse
+  - badges-threshold-mode  "count" | "partial"
+  - badges-max-visible     Cap on visible badges in partial mode
+  - show-counter           Show "(N)" counter alongside badges
+  - enable-badge-tooltips  Tooltip on each badge
+  - badge-tooltip-placement Floating UI placement for badge tooltip
+  - remove-button-tooltip-text  Tooltip text on the × button
 
   Search:
-  - search-enabled: "true" | "false" (default)
-  - search-mode: "filter" | "navigate"
-  - search-placeholder: Placeholder for search input
-  - min-search-length: Minimum characters before search
+  - enable-search          "true" | "false" (default false)
+                            (NOT `search-enabled` — common mistake)
+  - search-mode            "filter" (default) | "navigate"
+  - search-input-mode      "normal" | "readonly" | "hidden"
+  - search-placeholder     Placeholder for the search input
+  - search-hint            Helper text under the search input
+  - min-search-length      Don't trigger filter until N characters typed
+  - keep-options-on-search Keep already-selected items at the top
+  - should-keep-search-on-close  Preserve search query across opens
 
   Display:
-  - show-checkboxes: Show checkboxes for options
-  - partial-display-limit: Number of badges to show in partial mode
+  - show-checkboxes        Show checkboxes inside option rows
 
-  Virtual Scrolling:
-  - virtual-scroll-enabled: "true" | "false" (auto-enabled for large datasets)
-  - virtual-scroll-buffer: Number of items to render outside viewport
-  - option-height: Height of each option in pixels
+  Virtual Scrolling (auto-enabled past virtual-scroll-threshold):
+  - enable-virtual-scroll  "true" | "false"
+                            (NOT `virtual-scroll-enabled` — common mistake)
+  - virtual-scroll-threshold  Item count that flips virtual scrolling on
+  - option-height          Height of each option row in px (must match
+                            your render — defaults to 50)
+  - badge-height           Height of each badge row when virtual
+  - virtual-scroll-buffer  Items rendered above/below viewport
+
+  Member Property Names (for plugging in foreign data shapes):
+  - value-member           Default: 'value'
+  - display-value-member   Default: 'label'
+  - search-value-member    Default: same as display-value-member
+  - icon-member            Default: 'icon'
+  - subtitle-member        Default: 'subtitle'
+  - group-member           Default: 'group'
+  - disabled-member        Default: 'disabled'
+
+  Form Integration:
+  - name                   Field name; participates in <form> submission
+  - value-format           "json" (default) | "csv" | "array"
 -->
 
 <!-- ========================================
-     CSS THEMING (150+ Variables)
+     CSS CUSTOM PROPERTIES (--ms-*)
+     The component defines its variables on :host inside its shadow DOM,
+     so override them by targeting the element (NOT :root — :root inside
+     shadow DOM doesn't reach the component).
+
+     The actual prefix is --ms- (multiselect), not --ml-.
      ======================================== -->
 
 <style>
-/* Override CSS custom properties to match your theme */
-:root {
-  /* Colors */
-  --ml-accent-color: #007bff;
-  --ml-text-primary: #2c3e50;
-  --ml-text-secondary: #6c757d;
-  --ml-bg-primary: #f8f9fa;
-  --ml-border-color: #e1e5e9;
+/* Override on the element so the variables cascade into the shadow root.
+   In a Pure Admin app this is rarely needed — the theme already cascades
+   via --base-* and the component falls back from --ms-* → var(--base-*,
+   hardcoded). Override only for one-off instance tweaks. */
+web-multiselect {
+  --ms-accent-color:         var(--pa-accent);
+  --ms-input-bg:             var(--pa-input-bg);
+  --ms-text-color-1:         var(--pa-text-color-1);
+  --ms-text-color-3:         var(--pa-text-color-2);
+  --ms-border-color:         var(--pa-border-color);
+  --ms-input-border-radius:  var(--pa-border-radius);
+}
 
-  /* Input */
-  --ml-input-bg: #ffffff;
-  --ml-input-border: #ced4da;
-  --ml-input-padding-v: 0.5rem;
-  --ml-input-padding-h: 0.75rem;
-  --ml-input-font-size: 0.875rem;
-  --ml-input-border-radius: 4px;
-  --ml-input-focus-border: #007bff;
-
-  /* Dropdown */
-  --ml-dropdown-bg: #ffffff;
-  --ml-dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --ml-dropdown-max-height: 300px;
-
-  /* Options */
-  --ml-option-padding-v: 0.5rem;
-  --ml-option-padding-h: 0.75rem;
-  --ml-option-hover-bg: #f8f9fa;
-  --ml-option-selected-bg: rgba(0, 123, 255, 0.05);
-  --ml-option-selected-color: #007bff;
-
-  /* Badges */
-  --ml-badge-bg: #007bff;
-  --ml-badge-text: #ffffff;
-  --ml-badge-padding-v: 0.125rem;
-  --ml-badge-padding-h: 0.5rem;
-  --ml-badge-font-size: 0.75rem;
-  --ml-badge-border-radius: 2px;
-  --ml-badge-gap: 0.5rem;
-
-  /* Animations */
-  --ml-transition-duration: 0.15s;
-  --ml-timing-function: ease;
+/* Scoped instance override (e.g. a "compact" variant) */
+web-multiselect.compact {
+  --ms-rem: 9px;             /* shrinks every internal sizing unit */
+  --ms-accent-color: #10b981;
 }
 </style>
+
+<!--
+Variable groups (full list in src/css/_variables.css — 349 declarations):
+
+  Base sizing
+    --ms-rem                 Base sizing unit. Defaults 10px to match
+                             Pure Admin's html { font-size: 10px }. All
+                             internal sizes scale from this value.
+
+  Colors / theme
+    --ms-accent-color, --ms-accent-color-hover, --ms-accent-color-active
+    --ms-accent-color-light, --ms-accent-color-light-hover
+    --ms-text-color-1..-4, --ms-text-color-on-accent
+    --ms-text-primary, --ms-text-secondary  (legacy aliases)
+    --ms-primary-bg, --ms-primary-bg-hover
+    --ms-border-color, --ms-border
+
+  Input
+    --ms-input-bg, --ms-input-color, --ms-input-border,
+    --ms-input-border-hover, --ms-input-border-focus,
+    --ms-input-placeholder-color, --ms-input-bg-disabled
+
+  Toggle / chevron
+    --ms-toggle-icon-color, --ms-toggle-icon-color-open
+
+  Dropdown
+    --ms-dropdown-bg, --ms-dropdown-shadow, --ms-dropdown-border,
+    --ms-dropdown-border-radius, --ms-dropdown-max-height
+
+  Options
+    --ms-option-bg, --ms-option-bg-hover, --ms-option-bg-selected,
+    --ms-option-text-color, --ms-option-text-color-hover, …
+
+  Badges
+    --ms-badge-bg, --ms-badge-text, --ms-badge-padding-v / -h,
+    --ms-badge-font-size, --ms-badge-border-radius, --ms-badge-gap
+
+  Group labels (set by Pure Admin's _web-components-theme.scss)
+    --ms-group-label-color, --ms-group-label-font-weight
+
+  Animations
+    --ms-transition-duration, --ms-timing-function
+
+PURE ADMIN INTEGRATION:
+  packages/core/src/scss/core-components/_web-components-theme.scss
+  bridges --base-* → --ms-* automatically. So themes "just work" — no
+  manual --ms-* overrides needed in normal Pure Admin usage. The
+  bridge file also sets two group-label-specific overrides directly.
+-->
 
 <!-- ========================================
      TYPESCRIPT TYPES
      ======================================== -->
 
 <!--
-TypeScript usage:
-
 import '@keenmate/web-multiselect';
-import type { MultiSelectElement, MultiSelectOption } from '@keenmate/web-multiselect';
+import type {
+  MultiSelectOption,        // single option shape
+  MultiSelectOptions,       // array of options
+  MultiSelectEventDetail,   // shape of `change` event detail
+  BadgesDisplayMode,        // 'badges' | 'count' | 'compact' | 'partial' | 'none'
+  BadgesPosition,           // 'top' | 'bottom' | 'left' | 'right'
+  BadgesThresholdMode,      // 'count' | 'partial'
+  SearchInputMode,          // 'normal' | 'readonly' | 'hidden'
+  SearchMode,               // 'filter' | 'navigate'
+  ValueFormat               // 'json' | 'csv' | 'array'
+} from '@keenmate/web-multiselect';
 
-const select = document.querySelector<MultiSelectElement>('web-multiselect');
+const select = document.querySelector('web-multiselect');
 
-if (select) {
-  // Type-safe API
-  select.options = [
-    { value: 'js', label: 'JavaScript' },
-    { value: 'ts', label: 'TypeScript' }
-  ];
+select.options = [
+  { value: 'js', label: 'JavaScript' },
+  { value: 'ts', label: 'TypeScript' }
+];
 
-  select.addEventListener('change', (e: CustomEvent<{
-    selectedValues: string[];
-    selectedOptions: MultiSelectOption[];
-  }>) => {
-    console.log(e.detail.selectedValues);
-  });
-}
+select.addEventListener('change', (e) => {
+  // e.detail: MultiSelectEventDetail
+  console.log(e.detail.selectedValues);
+});
 -->
 
-<!-- ========================================
-     KEY FEATURES
-     ======================================== -->
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
 
 <!--
-✅ Virtual Scrolling: Handles 15,000+ options efficiently
-✅ Search: Filter or navigate modes with async support
-✅ Display Modes: Pills, count, compact, partial, none
-✅ Keyboard Navigation: Full arrow key support
-✅ RTL Support: Arabic, Hebrew, Persian, etc.
-✅ Grouped Options: Optgroup support with labels
-✅ Disabled Options: Per-option disable state
-✅ Form Integration: Native form submission support
-✅ Framework Agnostic: Works with any framework or vanilla JS
-✅ TypeScript: Full type definitions included
-✅ Accessible: ARIA-friendly with focus management
-✅ Customizable: 150+ CSS variables for theming
-✅ Zero Dependencies: Only requires @floating-ui/dom for positioning
--->
+DECLARATIVE vs PROGRAMMATIC OPTIONS:
 
-<!-- ========================================
-     RESOURCES
-     ======================================== -->
+  Declarative — drop <option> / <optgroup> children, no JS needed:
+    <web-multiselect placeholder="Pick…">
+      <optgroup label="Frontend">
+        <option value="react" selected>React</option>
+        <option value="vue">Vue</option>
+      </optgroup>
+    </web-multiselect>
 
-<!--
-npm Package: @keenmate/web-multiselect
-Repository: https://github.com/keenmate/web-multiselect
-Documentation: See package README and ../../web-multiselect/ai/ for AI instructions
-Pure Admin Integration: src/scss/core-components/_web-components-theme.scss
+  Programmatic — set the .options array (re-initializes the picker):
+    el.options = [
+      { value: 'react', label: 'React', icon: '⚛️' },
+      { value: 'vue',   label: 'Vue',   icon: '💚' }
+    ];
+
+  Foreign data shapes — re-map property names instead of transforming
+  the data:
+    el.valueMember = 'id';
+    el.displayValueMember = 'name';
+    el.iconMember = 'emoji';
+    el.options = [{ id: '1', name: 'React', emoji: '⚛️' }];
+
+DISPLAY MODES (badges-display-mode):
+  badges (default)  one badge per selected item
+  count             "X selected" counter only
+  compact           first item + "+X more"
+  partial           visible badges capped by `badges-max-visible`,
+                    threshold flip via `badges-threshold-mode`
+  none              no badges UI; placeholder only
+
+SEARCH (enable-search="true"):
+  search-mode="filter"     hides non-matching options
+  search-mode="navigate"   keeps all visible, jumps focus to match
+  search-input-mode        normal | readonly | hidden
+  min-search-length        delay filter until N characters typed
+
+VIRTUAL SCROLL:
+  Auto-enabled past `virtual-scroll-threshold`. Force with
+  `enable-virtual-scroll="true" | "false"`. Tune with
+  `option-height` (must match real row height, default 50) and
+  `virtual-scroll-buffer`. Handles 10–15k options comfortably.
+
+EVENTS:
+  change                 detail: { selectedValues, selectedOptions }
+  Bubbles + composed; works through shadow DOM boundaries.
+
+PUBLIC METHODS:
+  el.setSelected(values: (string|number)[])
+  el.getValue()                  → values array
+  el.getSelected()               → MultiSelectOption[]
+  el.options                     read/write the options array
+  el.{value,displayValue,…}Member  re-map foreign-data property names
+  el.picker                      underlying engine for advanced calls
+
+FORM INTEGRATION:
+  Add `name` to participate in <form> submission. `value-format`
+  controls the encoding the form receives:
+    json  (default)  — JSON.stringify(values)
+    csv               — comma-separated string
+    array             — multiple form fields with the same name
+                        (FormData.getAll(name))
+
+KEYBOARD:
+  ↓ / ↑                navigate options
+  Enter / Space        toggle selection
+  Esc                  close dropdown / clear search
+  Backspace            with empty search, removes last badge
+  Tab                  focus the action bar / next field
+  Type                 incremental search (when enable-search)
+
+CSS VARIABLE NAMESPACES:
+  --ms-*       Component runtime tokens. Set on the element (NOT
+               :root — :root inside shadow DOM doesn't reach the
+               component). Prefix is "ms" (multiselect), not "ml".
+  --base-*     Pure Admin theme bridge. Themes export these via
+               output-base-css-variables; the component falls back
+               from --ms-* → var(--base-*, hardcoded).
+
+LOAD ORDER:
+  Import the component once (auto-registers the custom element):
+    import '@keenmate/web-multiselect';
+    import '@keenmate/web-multiselect/style.css';
+  Pure Admin's CSS provides the --base-* values; the component picks
+  them up automatically.
+
+STRUCTURE PATTERNS:
+
+  Tag-style multi-select with checkboxes:
+    <web-multiselect multiple="true"
+                      enable-search="true"
+                      show-checkboxes="true"
+                      badges-display-mode="badges">
+      …
+    </web-multiselect>
+
+  Big dataset with virtual scrolling + filter search:
+    <web-multiselect enable-search="true"
+                      enable-virtual-scroll="true"
+                      option-height="44"
+                      virtual-scroll-buffer="10"
+                      max-height="40rem">
+      …
+    </web-multiselect>
+
+  Compact selection counter (saves vertical space in toolbars):
+    <web-multiselect badges-display-mode="count"
+                      show-counter="true">
+      …
+    </web-multiselect>
+
+  RTL with logical badge position. NOTE: BadgesPosition is physical
+  ('top' | 'bottom' | 'left' | 'right') — pair `dir="rtl"` with the
+  appropriate physical side:
+    <web-multiselect dir="rtl" badges-position="right">…</web-multiselect>
+
+  Form-integrated CSV submission:
+    <form>
+      <web-multiselect name="tags" value-format="csv">
+        …
+      </web-multiselect>
+    </form>
+
+RESOURCES:
+  npm           @keenmate/web-multiselect
+  Repository    https://github.com/keenmate/web-multiselect
+  AI guides     ../../web-multiselect/ai/  (per-topic .txt files)
+  API docs      ../../web-multiselect/docs/api-reference.html
+  Theming       ../../web-multiselect/THEMING.md
+  Pure Admin    src/scss/core-components/_web-components-theme.scss
+                bridges --base-* into the component's fallback chain.
 -->

@@ -41,13 +41,12 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `detail-panel.html` | 2026-04-24 | `core-components/_detail-panel.scss`, `variables/_components.scss` (panel width + z-index) | [c1dc6ff](../../../commit/c1dc6ff) |
 | `customization.html` | 2026-04-25 | `_base-css-variables.scss`, `_variables.scss`, theme-system pattern (mirrors `pure-admin-themes` repo) | [0a8950e](../../../commit/0a8950e) |
 | `virtual-scroll.html` | 2026-04-25 | `core-components/_tables.scss` (`.pa-virtual-table` shell, lines 477-552), `core-components/_timeline.scss` (`.pa-timeline__loader`), `src/js/virtual-scroll.js` (VirtualScroll class API) | [85db533](../../../commit/85db533) |
-| `web-daterangepicker.html` | 2026-04-25 | `../../web-daterangepicker/src/web-component.ts` (observedAttributes), `../../web-daterangepicker/src/types.ts` (DatePickerOptions, DateInfo, disabledDatesHandling), `../../web-daterangepicker/API.md`, `core-components/_web-components-theme.scss` (--base-* bridge) | _(this commit)_ |
+| `web-daterangepicker.html` | 2026-04-25 | `../../web-daterangepicker/src/web-component.ts` (observedAttributes), `../../web-daterangepicker/src/types.ts` (DatePickerOptions, DateInfo, disabledDatesHandling), `../../web-daterangepicker/API.md`, `core-components/_web-components-theme.scss` (--base-* bridge) | [7cbad56](../../../commit/7cbad56) |
+| `web-multiselect.html` | 2026-04-25 | `../../web-multiselect/src/web-component.ts` (observedAttributes), `../../web-multiselect/src/types.ts` (BadgesDisplayMode, BadgesPosition, SearchMode, ValueFormat etc.), `../../web-multiselect/src/css/_variables.css` (--ms-* surface), `core-components/_web-components-theme.scss` | _(this commit)_ |
 
 ## Pending
 
-Ordered roughly narrow → broad, the way the audit is running:
-
-- `web-multiselect.html`
+_None — pass complete._ Next step is the gap pass: decide per-component whether the SCSS-without-snippet entries below get a snippet or are marked demo-internal. Then run `npm run generate-hashes -w @keenmate/pure-admin-core` to refresh `snippets/manifest.json`.
 
 ## Gaps — SCSS without a snippet
 
