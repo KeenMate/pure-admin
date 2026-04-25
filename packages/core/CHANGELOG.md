@@ -9,9 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`pa-alert__actions` now renders with a toast-style separator** — was a plain flex row; now uses the same `border-top` + symmetric `padding-top` pattern as `.pa-toast__actions`, so an action-bearing alert (System Update / Update Now, Sync failed / Retry) reads with the same visual weight as a custom-action toast. Markup contract is unchanged. Separator color is `rgba(0, 0, 0, $opacity-light)` to match the existing in-alert `<hr>` convention so it tints subtly across all alert variants without fighting the variant background. `flex-wrap: wrap` added so a long action row breaks gracefully.
+
 - **De-duplicated `.pa-pager` and `.pa-load-more`** — full definitions of both components had been living in both `_tables.scss` (lines 475–608) and `_pagers.scss`. `_pagers.scss` loads last in `_core.scss`, so its definitions already won at cascade time, but the duplicate block in `_tables.scss` was stale in one subtle way: `_pagers.scss`'s spinner used the raw SCSS `$accent-color` (resolved at compile time — no runtime theme response) while the `_tables.scss` copy used `var(--pa-accent)`. Removed the duplicate from `_tables.scss` and ported the `var(--pa-accent)` upgrade into `_pagers.scss`, so the load-more spinner now tracks theme colour at runtime. No visual change for the default theme; RTL/theme switching now updates the spinner colour live.
 
 - **Popconfirm position classes renamed to logical start/end (Breaking)** — `pa-popconfirm--right`/`--left` are now `pa-popconfirm--end`/`--start`, and the SCSS uses logical properties (`margin-inline-start/end`, `inset-inline-start/end`) so the popconfirm and its arrow mirror correctly in `dir="rtl"`. The block-axis variants (`--top`/`--bottom`) keep their names but also use logical centering now. This reverses the v1.5.0 "Kept as physical" exception for popconfirm — tooltip has been logical since a later pass, so this brings the two siblings back in line. No backwards-compatibility aliases; update markup directly. The `positionPopconfirm` JS helpers in the demo (`demo/views/popconfirm.mustache`, `demo/views/buttons.mustache`) and the snippet (`packages/core/snippets/popconfirm.html`) gained a small translation layer that maps logical class names to the physical placements Floating UI's `computePosition` expects, then maps the post-flip result back.
+
+### Fixed
+
+- **Alert layout for multi-element content** — the alert is `display: flex; flex-wrap: wrap`, which had left structural children (`__heading`, `__list`, `__actions`, top-level `<p>`, `<hr>`) at content width, so they sat beside each other instead of stacking. The System Update example surfaced the bug clearly: the action buttons floated mid-alert next to the bullet list, and the divider rendered with a "big gap above" because the heading's `margin-bottom: $spacing-sm` doubled up with the flex container's `gap: $spacing-sm`. Fixes:
+    - `flex-basis: 100%` on `__heading`, `__list`, `__actions`, top-level `<p>`, `<hr>` — each breaks onto its own row in the wrap.
+    - Dropped `margin-bottom` on `__heading` and `margin` on `__list`. Flex gap supplies the spacing; no more doubling.
+    - `__actions` margin-top reset to `0` (was `$spacing-base`). The flex-gap above + `padding-top` below the border now gives consistent spacing on both sides of the divider.
+    - `__content` got `min-width: 0` so long content can shrink + wrap rather than overflow in narrow alerts.
+    - Inline patterns (`<strong>title</strong> message`, `__icon` + `__content`) still stay on the flex row as before — only structural children got the full-row treatment.
+
+### Demo
+
+- **Alerts page restructured** — split out two showcases that were either buried or absent. New cards: "Alerts with custom actions" (System Update, Sync failed with Retry/Dismiss, compact Cookies disabled with single button), "Header style: compact vs. punchy" (same Validation failed / Saved messages rendered both ways side by side), and "Sizes" (explicit sm / default / lg stack — `--lg` was undemoed before). "Alerts with Additional Content" stays focused on `__heading` + `__list` + `<hr>`. "Compact Alerts in Grid" renamed to "Status strip layout" since it's a real-world layout example, not a sizes demo.
+
+### Documentation
+
+- **Snippets audit + gap pass complete** — every snippet under `packages/core/snippets/` cross-checked against its SCSS source and brought into accuracy in 27 commits (one snippet per commit, tracked in `snippets/AUDIT.md`). Wrong attribute names (`web-multiselect`'s `--ml-*` → `--ms-*` prefix; `auto-close` values; `disabled-dates-handling`), dead classes (`pa-loader--sm`, `pa-tabs__item--h-3x`, several modal/forms/layout modifiers), and structural omissions (`.pa-virtual-table` shell, `.pa-navbar-search`, `.pa-shortcut-help`, `pa-table-card` family, modal-dialogs JS API, customization layers) all corrected. Gap pass added four new snippets — `filter-card.html`, `statistics.html`, `notifications.html`, `data-display.html`. Three components (`file-selector`, `logic-tree`, `smart-filters`) deferred until their APIs stabilize. `snippets/manifest.json` regenerated.
+
+- **`alerts.html` snippet expanded** — new "compact multi-line alert" pattern (`<strong>title</strong> + <p>body</p>`) documented alongside the existing `__heading` punchy variant, with explicit guidance on when to pick which (status banners vs. deliberate-read alerts). New "LAYOUT NOTE" explaining the flex-wrap + flex-basis: 100% behavior so consumers know which children stack vs. stay inline. `__actions` description updated to flag the toast-parallel separator.
 
 ### Added
 

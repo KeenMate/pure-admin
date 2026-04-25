@@ -19,7 +19,7 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `toasts.html` | 2026-04-24 | `core-components/_toasts.scss` | [4056fa9](../../../commit/4056fa9) |
 | `popconfirm.html` | 2026-04-24 | `core-components/_popconfirm.scss` | [d8e7f7c](../../../commit/d8e7f7c) |
 | `typography.html` | 2026-04-24 | `core-components/_base.scss`, `core-components/_utilities.scss` (.pa-text), `utilities.scss` (.text-*), `_fonts.scss`, `variables/_typography.scss` | [12f1281](../../../commit/12f1281) |
-| `alerts.html` | 2026-04-24 | `core-components/_alerts.scss` | [512ef3c](../../../commit/512ef3c) |
+| `alerts.html` | 2026-04-25 | `core-components/_alerts.scss` | [512ef3c](../../../commit/512ef3c), revised [dd7a096](../../../commit/dd7a096) (toast-style `__actions` separator + compact-vs-punchy header pattern) and [f824000](../../../commit/f824000) (flex-wrap layout fix: structural children get `flex-basis: 100%`) |
 | `badges.html` | 2026-04-24 | `core-components/badges/_badge-base.scss`, `_composite-badge.scss`, `_composite-badge-variants.scss`, `_badge-group.scss`, `_labels.scss` | [517f6bf](../../../commit/517f6bf) |
 | `buttons.html` | 2026-04-24 | `core-components/_buttons.scss` | [43a9a42](../../../commit/43a9a42) |
 | `tables.html` | 2026-04-24 | `core-components/_tables.scss` (covers `.pa-table`, `.pa-table-container`, `.pa-table-card`), `core-components/_pagers.scss` (covers `.pa-pager`, `.pa-load-more`) | [e34ca85](../../../commit/e34ca85) |
@@ -46,15 +46,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `filter-card.html` | 2026-04-25 | `core-components/_filter-card.scss` (whole file — only BEM elements + 2 state modifiers, no base block) | [b65ec2b](../../../commit/b65ec2b) |
 | `statistics.html` | 2026-04-25 | `core-components/_statistics.scss` (whole file — `.pa-stat`, `--hero`, `--hero-compact`, `--square` + 6 colour variants, `.pa-kpi-grid`) | [5de0ce8](../../../commit/5de0ce8) |
 | `notifications.html` | 2026-04-25 | `core-components/_notifications.scss` (whole file — bell + dropdown panel, item states, page-view modifier, hover-revealed actions) | [0d7bb15](../../../commit/0d7bb15) |
-| `data-display.html` | 2026-04-25 | `core-components/_data-display.scss` (whole file — 7 components: `.pa-field` + `.pa-fields` (15+ layout modifiers), `.pa-field-group`, `.pa-desc-table`, `.pa-prop-card`, `.pa-banded`, `.pa-accent-grid`, `.pa-dot-leaders`; shared copy-pattern modifiers across all) | _(this commit)_ |
+| `data-display.html` | 2026-04-25 | `core-components/_data-display.scss` (whole file — 7 components: `.pa-field` + `.pa-fields` (15+ layout modifiers), `.pa-field-group`, `.pa-desc-table`, `.pa-prop-card`, `.pa-banded`, `.pa-accent-grid`, `.pa-dot-leaders`; shared copy-pattern modifiers across all) | [39cc6bd](../../../commit/39cc6bd) |
 
 ## Pending
 
 _None — both audit and gap passes complete._
 
 Run `npm run generate-hashes -w @keenmate/pure-admin-core` to refresh `snippets/manifest.json` whenever any of the snippet files change.
-
-After all snippets land, run `npm run generate-hashes -w @keenmate/pure-admin-core` once more to refresh `snippets/manifest.json`.
 
 ## Gaps — SCSS without a snippet
 
