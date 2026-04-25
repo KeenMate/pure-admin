@@ -1,0 +1,584 @@
+<!-- ================================
+     DATA DISPLAY
+     Read-only label/value patterns. Seven distinct components share
+     one SCSS file (_data-display.scss) — pick the one whose visual
+     density matches the surface you're filling.
+
+       1. .pa-field           single label/value pair (stacked)
+       2. .pa-fields          container of .pa-field items;
+                               many layout modifiers
+       3. .pa-field-group     titled block grouping .pa-fields
+       4. .pa-desc-table      Ant-style flat grid; tinted label cells
+       5. .pa-prop-card       bordered card with header + rows
+       6. .pa-banded          full-width rows with tinted label column
+       7. .pa-accent-grid     grid of items with coloured start border
+       8. .pa-dot-leaders     restaurant menu / invoice — dotted line
+
+     A consistent copy-to-clipboard pattern is shared across most:
+     four state modifiers (--copy-btn / --copy-hover / --copy-click /
+     --copied). See "COPY PATTERN" near the bottom.
+     ================================ -->
+
+
+<!-- ================================
+     1. .pa-field — SINGLE LABEL/VALUE
+     Stacked by default: uppercase label on top, value below.
+     Layout changes when wrapped in .pa-fields with a layout
+     modifier (see next section).
+     ================================ -->
+
+<div class="pa-field">
+  <span class="pa-field__label">Email</span>
+  <span class="pa-field__value">jane@example.com</span>
+</div>
+
+<!-- --full spans the entire row in a grid layout (see .pa-fields--cols-N) -->
+<div class="pa-field pa-field--full">
+  <span class="pa-field__label">Notes</span>
+  <span class="pa-field__value">Long-form text that should span all columns.</span>
+</div>
+
+
+<!-- ================================
+     2. .pa-fields — CONTAINER + LAYOUT MODIFIERS
+     Use .pa-fields-container as a parent if you want container
+     queries (collapses --cols-N to a single column under the mobile
+     breakpoint). The fields container has a subtle inline-start
+     border by default — drop with --no-border.
+     ================================ -->
+
+<!-- Default: vertical stack with start border -->
+<div class="pa-fields">
+  <div class="pa-field"><span class="pa-field__label">Name</span><span class="pa-field__value">Jane Doe</span></div>
+  <div class="pa-field"><span class="pa-field__label">Email</span><span class="pa-field__value">jane@example.com</span></div>
+  <div class="pa-field"><span class="pa-field__label">Role</span><span class="pa-field__value">Admin</span></div>
+</div>
+
+<!-- Multi-column grid — pair with .pa-fields-container for responsive collapse -->
+<div class="pa-fields-container">
+  <div class="pa-fields pa-fields--cols-3">
+    <div class="pa-field"><span class="pa-field__label">First</span><span class="pa-field__value">Jane</span></div>
+    <div class="pa-field"><span class="pa-field__label">Last</span><span class="pa-field__value">Doe</span></div>
+    <div class="pa-field"><span class="pa-field__label">Title</span><span class="pa-field__value">Engineer</span></div>
+    <!-- A field that spans all columns -->
+    <div class="pa-field pa-field--full">
+      <span class="pa-field__label">Bio</span>
+      <span class="pa-field__value">Full-stack engineer specialising in observability.</span>
+    </div>
+  </div>
+</div>
+
+<!-- Horizontal: label inline-start, value to the right -->
+<div class="pa-fields pa-fields--horizontal">
+  <div class="pa-field"><span class="pa-field__label">Email</span><span class="pa-field__value">jane@example.com</span></div>
+  <div class="pa-field"><span class="pa-field__label">Role</span><span class="pa-field__value">Admin</span></div>
+</div>
+
+<!-- Table-style: same as horizontal but with consistent label widths
+     (so labels line up across rows). -->
+<div class="pa-fields pa-fields--table">
+  <div class="pa-field"><span class="pa-field__label">Email</span><span class="pa-field__value">jane@example.com</span></div>
+  <div class="pa-field"><span class="pa-field__label">Phone</span><span class="pa-field__value">+1 555 010 4242</span></div>
+</div>
+
+<!-- Bordered: bottom-border separator between fields -->
+<div class="pa-fields pa-fields--bordered">…</div>
+
+<!-- Striped: alternating background -->
+<div class="pa-fields pa-fields--striped">…</div>
+
+<!-- Compact: tighter gap; Relaxed: larger gap -->
+<div class="pa-fields pa-fields--compact">…</div>
+<div class="pa-fields pa-fields--relaxed">…</div>
+
+<!-- Inline: fields flow horizontally, wrap as needed -->
+<div class="pa-fields pa-fields--inline">
+  <div class="pa-field"><span class="pa-field__label">ID</span><span class="pa-field__value">USR-1234</span></div>
+  <div class="pa-field"><span class="pa-field__label">Status</span><span class="pa-field__value">Active</span></div>
+  <div class="pa-field"><span class="pa-field__label">Created</span><span class="pa-field__value">2026-04-01</span></div>
+</div>
+
+<!-- Row: equal-width columns, auto-collapse to stack on mobile -->
+<div class="pa-fields pa-fields--row">…</div>
+
+<!-- Filled: subtle background panel; combine with --color-N for tinted bg -->
+<div class="pa-fields pa-fields--filled pa-fields--color-3">…</div>
+
+<!-- No border: drop the inline-start accent border -->
+<div class="pa-fields pa-fields--no-border">…</div>
+
+<!-- Linear: ultra-clean side-by-side; no border, no uppercase, weight
+     and colour contrast only. Use for properties under a heading. -->
+<div class="pa-fields pa-fields--linear">
+  <div class="pa-field"><span class="pa-field__label">Created</span><span class="pa-field__value">2026-04-01</span></div>
+  <div class="pa-field"><span class="pa-field__label">Updated</span><span class="pa-field__value">2026-04-25</span></div>
+  <div class="pa-field"><span class="pa-field__label">Owner</span><span class="pa-field__value">Jane Doe</span></div>
+</div>
+
+<!-- Chips: inline flow, value rendered as a coloured pill.
+     Pill colour modifier goes on .pa-field__value. -->
+<div class="pa-fields pa-fields--chips">
+  <div class="pa-field">
+    <span class="pa-field__label">Plan</span>
+    <span class="pa-field__value">Pro</span>
+  </div>
+  <div class="pa-field">
+    <span class="pa-field__label">Status</span>
+    <span class="pa-field__value pa-field__value--success">Active</span>
+  </div>
+  <div class="pa-field">
+    <span class="pa-field__label">Renewal</span>
+    <span class="pa-field__value pa-field__value--warning">Expiring soon</span>
+  </div>
+  <div class="pa-field">
+    <span class="pa-field__label">Risk</span>
+    <span class="pa-field__value pa-field__value--danger">High</span>
+  </div>
+</div>
+
+<!-- Theme-coloured start border (and tinted bg with --filled).
+     --color-1 through --color-9 read from --pa-color-{N}. -->
+<div class="pa-fields pa-fields--color-3">…</div>          <!-- accent border -->
+<div class="pa-fields pa-fields--filled pa-fields--color-7">…</div>  <!-- tinted background -->
+
+
+<!-- ================================
+     3. .pa-field-group — TITLED SECTIONS
+     A wrapper that puts a thin underlined title above .pa-fields.
+     Adjacent groups get vertical spacing automatically.
+     ================================ -->
+
+<div class="pa-field-group">
+  <h3 class="pa-field-group__title">Customer</h3>
+  <div class="pa-fields pa-fields--horizontal">
+    <div class="pa-field"><span class="pa-field__label">Name</span><span class="pa-field__value">Jane Doe</span></div>
+    <div class="pa-field"><span class="pa-field__label">Email</span><span class="pa-field__value">jane@example.com</span></div>
+  </div>
+</div>
+
+<div class="pa-field-group">
+  <h3 class="pa-field-group__title">Delivery address</h3>
+  <div class="pa-fields pa-fields--horizontal">
+    <div class="pa-field"><span class="pa-field__label">Street</span><span class="pa-field__value">123 Pine St</span></div>
+    <div class="pa-field"><span class="pa-field__label">City</span><span class="pa-field__value">Portland, OR</span></div>
+  </div>
+</div>
+
+
+<!-- ================================
+     4. .pa-desc-table — ANT-STYLE DESCRIPTIONS
+     Flat grid, tinted label cells with auto-appended ":" via CSS.
+     Wrap in .pa-desc-container for container-query responsiveness
+     (collapses to 1-column at mobile, label-above-value at <300px).
+     ================================ -->
+
+<div class="pa-desc-container">
+  <div class="pa-desc-table pa-desc-table--cols-2">
+    <div class="pa-desc-table__label">Name</div>
+    <div class="pa-desc-table__value">Jane Doe</div>
+
+    <div class="pa-desc-table__label">Email</div>
+    <div class="pa-desc-table__value">jane@example.com</div>
+
+    <div class="pa-desc-table__label">Role</div>
+    <div class="pa-desc-table__value">Admin</div>
+
+    <div class="pa-desc-table__label">Notes</div>
+    <!-- __value--full spans both columns of a multi-column row -->
+    <div class="pa-desc-table__value pa-desc-table__value--full">
+      Long-form notes that span the full grid width.
+    </div>
+  </div>
+</div>
+
+<!-- Fixed label width (override per-instance with --label-width) -->
+<div class="pa-desc-table pa-desc-table--fixed" style="--label-width: 16rem;">
+  <div class="pa-desc-table__label">SKU</div>
+  <div class="pa-desc-table__value">PA-2024-001</div>
+  <div class="pa-desc-table__label">Total bill amount</div>
+  <div class="pa-desc-table__value">$1,234.56</div>
+</div>
+
+<!-- Alignment + middle vertical centring + truncate -->
+<div class="pa-desc-table pa-desc-table--middle pa-desc-table--label-end pa-desc-table--value-end pa-desc-table--truncate">
+  <div class="pa-desc-table__label">Identifier</div>
+  <div class="pa-desc-table__value">very-long-identifier-that-truncates-with-ellipsis</div>
+</div>
+
+
+<!-- ================================
+     5. .pa-prop-card — BORDERED PROPERTY CARD
+     Header on top; rows below with inline label / inline-end value
+     and thin dividers between rows. Good for spec sheets / metadata.
+     ================================ -->
+
+<div class="pa-prop-card">
+  <div class="pa-prop-card__header">Specifications</div>
+
+  <div class="pa-prop-card__row">
+    <span class="pa-prop-card__label">Resolution</span>
+    <span class="pa-prop-card__value">3840 × 2160</span>
+  </div>
+  <div class="pa-prop-card__row">
+    <span class="pa-prop-card__label">Refresh rate</span>
+    <span class="pa-prop-card__value">144 Hz</span>
+  </div>
+  <div class="pa-prop-card__row">
+    <span class="pa-prop-card__label">Price</span>
+    <!-- __value--bold for emphasis on key rows -->
+    <span class="pa-prop-card__value pa-prop-card__value--bold">$899</span>
+  </div>
+</div>
+
+
+<!-- ================================
+     6. .pa-banded — FULL-WIDTH ROWS, TINTED LABEL COLUMN
+     Wider visual presence than .pa-prop-card; the label sits in a
+     fixed-width tinted column on the inline-start. Container-query
+     stacks label above value below the mobile breakpoint.
+     ================================ -->
+
+<div class="pa-banded-container">
+  <div class="pa-banded">
+    <div class="pa-banded__row">
+      <div class="pa-banded__label">Status</div>
+      <div class="pa-banded__value">Active</div>
+    </div>
+    <div class="pa-banded__row">
+      <div class="pa-banded__label">Created</div>
+      <div class="pa-banded__value">2026-04-01</div>
+    </div>
+    <div class="pa-banded__row">
+      <div class="pa-banded__label">Notes</div>
+      <div class="pa-banded__value">Optional long-form notes that wrap.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Width variants: --narrow, --wide; alignment + truncate share the
+     same modifier names as .pa-desc-table. -->
+<div class="pa-banded pa-banded--narrow pa-banded--middle pa-banded--label-end">…</div>
+<div class="pa-banded pa-banded--wide pa-banded--truncate">…</div>
+
+
+<!-- ================================
+     7. .pa-accent-grid — COLOUR-CODED START-BORDER GRID
+     Auto-fill grid; each item gets an inline-start coloured border.
+     Default = accent. Items can carry --success, --warning, --danger,
+     --info to flip the border colour.
+     ================================ -->
+
+<div class="pa-accent-grid">
+  <div class="pa-accent-grid__item">
+    <div class="pa-accent-grid__label">Total revenue</div>
+    <div class="pa-accent-grid__value">$847,392</div>
+  </div>
+  <div class="pa-accent-grid__item pa-accent-grid__item--success">
+    <div class="pa-accent-grid__label">Conversion</div>
+    <div class="pa-accent-grid__value">3.47%</div>
+  </div>
+  <div class="pa-accent-grid__item pa-accent-grid__item--warning">
+    <div class="pa-accent-grid__label">Open issues</div>
+    <div class="pa-accent-grid__value">12</div>
+  </div>
+  <div class="pa-accent-grid__item pa-accent-grid__item--danger">
+    <div class="pa-accent-grid__label">Failed jobs</div>
+    <div class="pa-accent-grid__value">3</div>
+  </div>
+  <div class="pa-accent-grid__item pa-accent-grid__item--info">
+    <div class="pa-accent-grid__label">Avg latency</div>
+    <div class="pa-accent-grid__value">142 ms</div>
+  </div>
+</div>
+
+
+<!-- ================================
+     8. .pa-dot-leaders — RESTAURANT MENU / INVOICE STYLE
+     Label on the start, dotted leader line filling the space, value
+     on the end. tabular-nums on the value so digits line up
+     vertically across rows. Use __item--total for the bottom line
+     with a top divider + heavier weight.
+     ================================ -->
+
+<div class="pa-dot-leaders">
+  <div class="pa-dot-leaders__item">
+    <span class="pa-dot-leaders__label">Subscription</span>
+    <span class="pa-dot-leaders__leader"></span>
+    <span class="pa-dot-leaders__value">$49.00</span>
+  </div>
+  <div class="pa-dot-leaders__item">
+    <span class="pa-dot-leaders__label">Add-on storage</span>
+    <span class="pa-dot-leaders__leader"></span>
+    <span class="pa-dot-leaders__value">$12.50</span>
+  </div>
+  <div class="pa-dot-leaders__item">
+    <span class="pa-dot-leaders__label">Tax</span>
+    <span class="pa-dot-leaders__leader"></span>
+    <span class="pa-dot-leaders__value">$5.40</span>
+  </div>
+  <div class="pa-dot-leaders__item pa-dot-leaders__item--total">
+    <span class="pa-dot-leaders__label">Total</span>
+    <span class="pa-dot-leaders__leader"></span>
+    <span class="pa-dot-leaders__value">$66.90</span>
+  </div>
+</div>
+
+
+<!-- ================================
+     COPY PATTERN (shared)
+     Four state modifiers, available on most data-display components
+     (.pa-field, .pa-desc-table, .pa-prop-card, .pa-banded,
+     .pa-accent-grid). Same modifier names everywhere; placement of
+     the modifier varies (on the .pa-field for fields, on
+     .pa-{x}__row for prop-card / banded, on .pa-{x}__item for
+     accent-grid, on .pa-{x}__value for desc-table).
+
+       --copy-btn      Copy button always visible (low opacity).
+       --copy-hover    Copy button hidden; appears on row/item hover.
+       --copy-click    The whole value becomes clickable; shows a
+                        "Click to copy" hint on hover.
+       --copied        Post-action feedback: replaces the hint with
+                        "Copied!" in green. Apply briefly via JS.
+
+     The framework only ships the *visuals* — wire up the actual
+     clipboard write yourself (navigator.clipboard.writeText) and
+     toggle the --copied class for ~1.5s.
+     ================================ -->
+
+<!-- pa-field with always-visible copy button -->
+<div class="pa-field pa-field--copy-btn">
+  <span class="pa-field__label">API key</span>
+  <span class="pa-field__value">
+    sk_live_4eC39H…
+    <button class="pa-field__copy" type="button" aria-label="Copy API key">
+      <i class="fas fa-copy"></i>
+    </button>
+  </span>
+</div>
+
+<!-- Click-to-copy whole value -->
+<div class="pa-field pa-field--copy-click" id="copy-click-field">
+  <span class="pa-field__label">User ID</span>
+  <span class="pa-field__value" onclick="copyValue(this, 'copy-click-field')">USR-1234</span>
+</div>
+
+<!-- desc-table with hover-revealed copy buttons -->
+<div class="pa-desc-table pa-desc-table--cols-2">
+  <div class="pa-desc-table__label">Token</div>
+  <div class="pa-desc-table__value pa-desc-table__value--copy-hover">
+    eyJhbGciOi…
+    <button class="pa-desc-table__copy" type="button"><i class="fas fa-copy"></i></button>
+  </div>
+</div>
+
+<script>
+async function copyValue(valueEl, rootId) {
+  await navigator.clipboard.writeText(valueEl.textContent.trim());
+  const root = document.getElementById(rootId);
+  // Apply --copied to whichever class layer holds the modifier:
+  // pa-field uses the block; desc-table / banded use the value/row.
+  root.classList.add('pa-field--copied');
+  setTimeout(() => root.classList.remove('pa-field--copied'), 1500);
+}
+</script>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+COMPONENT INVENTORY:
+
+  .pa-field                 Single label/value. Stacked by default.
+  .pa-fields                Container of .pa-field. Layout via
+                             modifiers (see below). Default has a
+                             subtle inline-start accent border —
+                             drop with --no-border.
+  .pa-field-group           Titled wrapper for a section of fields;
+                             auto vertical spacing between adjacent
+                             groups.
+  .pa-fields-container      `container-type: inline-size` parent.
+                             Lets .pa-fields--cols-N collapse to
+                             1 column at the mobile breakpoint via
+                             container query.
+
+  .pa-desc-table            Ant-style flat grid; tinted label cells
+                             with auto-appended ":" colon. Wrap in
+                             .pa-desc-container for container queries.
+  .pa-prop-card             Bordered card with header + rows.
+  .pa-banded                Full-width rows, fixed-width tinted
+                             label column. Wrap in .pa-banded-
+                             container for container queries.
+  .pa-accent-grid           Auto-fill grid; items have a coloured
+                             inline-start border. Default = accent;
+                             item modifiers --success / --warning /
+                             --danger / --info flip the colour.
+  .pa-dot-leaders           Restaurant menu / invoice style. Items
+                             with __label / __leader / __value;
+                             __item--total for the summary row.
+
+LAYOUT MODIFIERS ON .pa-fields:
+
+  Grid / column count
+    --cols-2, --cols-3, --cols-4    CSS grid; collapses to 1 col on
+                                     mobile (container or media query).
+  Per-axis layout
+    --horizontal      label inline-start, value inline-end
+    --table           horizontal + consistent label widths
+    --inline          fields flow on one line, wrap as needed
+    --row             equal-width columns, stack on mobile
+    --linear          ultra-clean side-by-side, weight + color
+                       contrast only (no uppercase, no border)
+    --chips           inline flow, value as a coloured pill
+                       (chip colour: __value--success / -warning
+                       / -danger)
+  Spacing
+    --bordered        bottom-border between fields
+    --striped         alternating background rows
+    --compact         tight gaps
+    --relaxed         loose gaps
+    --filled          subtle background panel; combine with --color-N
+                       for a tinted background
+  Border tweaks
+    --no-border       drop the inline-start accent border
+    --color-1..9      inline-start border tinted from --pa-color-N;
+                       with --filled also tints the panel background
+
+  Single-field modifier:
+    .pa-field--full   in a .pa-fields--cols-N grid, span the entire
+                       row.
+
+DESC-TABLE MODIFIERS:
+
+  Layout
+    --cols-2          two label/value pairs per row
+    --fixed           fixed label width via --label-width custom
+                       property (override per-instance):
+                         <div class="pa-desc-table pa-desc-table--fixed"
+                              style="--label-width: 18rem">
+  Vertical
+    --middle          centre cell content vertically
+  Horizontal alignment
+    --label-end / --label-center
+    --value-end / --value-center
+  Truncation
+    --truncate        single-line + ellipsis on labels and values
+  Span:
+    .pa-desc-table__value--full       span all columns of the row.
+
+BANDED MODIFIERS:
+  --narrow / --wide      label column width preset
+  --middle               vertical centring
+  --label-end / --label-center / --value-end / --value-center
+  --truncate             single-line ellipsis
+  Stacks label-above-value below the mobile breakpoint
+  (container query — wrap in .pa-banded-container for it to fire on
+  parent width rather than viewport width).
+
+PROP-CARD VALUE EMPHASIS:
+  __value--bold      bolded value (e.g. price / total).
+
+ACCENT-GRID ITEM COLOURS:
+  (default)          accent (--pa-accent)
+  --success          --pa-success-color
+  --warning          --pa-warning-color
+  --danger           --pa-danger-color
+  --info             --pa-info-color
+  Auto-fill grid: each item is at least the SCSS variable
+  $accent-grid-min-col wide; rows fill as items wrap.
+
+COPY PATTERN — SHARED ACROSS COMPONENTS:
+
+  Modifier placement (inconsistent across components — match the
+  one for the pattern you're using):
+
+    .pa-field--copy-btn / --copy-hover / --copy-click / --copied
+    .pa-desc-table__value--copy-btn / --copy-hover / --copy-click / --copied
+    .pa-prop-card__row--copy-btn / --copy-hover / --copy-click / (no --copied)
+    .pa-banded__row--copy-btn / --copy-hover / --copy-click / --copied
+    .pa-accent-grid__item--copy-btn / --copy-hover / --copy-click / --copied
+
+  Markup pattern (regardless of component):
+
+    <{value-element} class="…--copy-btn">     <!-- or --copy-hover -->
+      The value text
+      <button class="pa-{component}__copy" type="button">
+        <i class="fas fa-copy"></i>
+      </button>
+    </{value-element}>
+
+  JS contract:
+    1. Listen for click on .pa-{component}__copy or, for --copy-click,
+       on the value itself.
+    2. navigator.clipboard.writeText(value).
+    3. Add --copied to the modifier-bearing element for ~1.5s, then
+       remove. The CSS replaces the "Click to copy" hint with
+       "Copied!" in green.
+
+WHEN TO USE WHAT:
+
+  .pa-field / .pa-fields           Detail pages, modal bodies, side
+                                    panels. Most flexible; many
+                                    layout modifiers.
+  .pa-field-group                  When a detail page has multiple
+                                    logical sections (Customer,
+                                    Address, Billing, …).
+  .pa-desc-table                   Static read-only data with strong
+                                    visual structure (Ant-style).
+                                    Great for technical specs.
+  .pa-prop-card                    A focused property block with a
+                                    sectional header.
+  .pa-banded                       Heavier, more prominent layout —
+                                    for hero detail panels.
+  .pa-accent-grid                  Status-coloured KPI tiles arranged
+                                    in a responsive grid.
+  .pa-dot-leaders                  Invoices, receipts, menus —
+                                    anywhere the "label …… value"
+                                    visual carries semantic weight.
+
+STRUCTURE PATTERNS:
+
+  Detail card with grouped fields:
+    <div class="pa-card">
+      <div class="pa-card__body pa-fields-container">
+
+        <div class="pa-field-group">
+          <h3 class="pa-field-group__title">Customer</h3>
+          <div class="pa-fields pa-fields--horizontal">
+            <div class="pa-field">…</div>
+            <div class="pa-field">…</div>
+          </div>
+        </div>
+
+        <div class="pa-field-group">
+          <h3 class="pa-field-group__title">Address</h3>
+          <div class="pa-fields pa-fields--cols-2">…</div>
+        </div>
+
+      </div>
+    </div>
+
+  Invoice with subtotal + total:
+    <div class="pa-dot-leaders">
+      <div class="pa-dot-leaders__item">…line item…</div>
+      …
+      <div class="pa-dot-leaders__item pa-dot-leaders__item--total">
+        Total ……………………………………… $66.90
+      </div>
+    </div>
+
+  Spec sheet with copyable identifiers:
+    <div class="pa-prop-card">
+      <div class="pa-prop-card__header">Identifiers</div>
+      <div class="pa-prop-card__row pa-prop-card__row--copy-hover">
+        <span class="pa-prop-card__label">SKU</span>
+        <span class="pa-prop-card__value">
+          PA-2024-001
+          <button class="pa-prop-card__copy" type="button">
+            <i class="fas fa-copy"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+-->

@@ -45,14 +45,13 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `web-multiselect.html` | 2026-04-25 | `../../web-multiselect/src/web-component.ts` (observedAttributes), `../../web-multiselect/src/types.ts` (BadgesDisplayMode, BadgesPosition, SearchMode, ValueFormat etc.), `../../web-multiselect/src/css/_variables.css` (--ms-* surface), `core-components/_web-components-theme.scss` | [95cf062](../../../commit/95cf062) |
 | `filter-card.html` | 2026-04-25 | `core-components/_filter-card.scss` (whole file — only BEM elements + 2 state modifiers, no base block) | [b65ec2b](../../../commit/b65ec2b) |
 | `statistics.html` | 2026-04-25 | `core-components/_statistics.scss` (whole file — `.pa-stat`, `--hero`, `--hero-compact`, `--square` + 6 colour variants, `.pa-kpi-grid`) | [5de0ce8](../../../commit/5de0ce8) |
-| `notifications.html` | 2026-04-25 | `core-components/_notifications.scss` (whole file — bell + dropdown panel, item states, page-view modifier, hover-revealed actions) | _(this commit)_ |
+| `notifications.html` | 2026-04-25 | `core-components/_notifications.scss` (whole file — bell + dropdown panel, item states, page-view modifier, hover-revealed actions) | [0d7bb15](../../../commit/0d7bb15) |
+| `data-display.html` | 2026-04-25 | `core-components/_data-display.scss` (whole file — 7 components: `.pa-field` + `.pa-fields` (15+ layout modifiers), `.pa-field-group`, `.pa-desc-table`, `.pa-prop-card`, `.pa-banded`, `.pa-accent-grid`, `.pa-dot-leaders`; shared copy-pattern modifiers across all) | _(this commit)_ |
 
 ## Pending
 
 Gap pass — adding new snippets, smallest SCSS surface first:
 
-- `file-selector.html` (780 lines)
-- `data-display.html` (1112 lines)
 - `smart-filters.html` (313 lines + JS)
 - `logic-tree.html` (280 lines — re-evaluate on arrival)
 
@@ -67,10 +66,10 @@ These components exist in `src/scss/core-components/` but downstream consumers h
 | pagers | `_pagers.scss` | Covered inside `tables.html` audit (same family; pager/load-more only meaningful alongside tables). |
 | ~~notifications~~ | ~~`_notifications.scss`~~ | ~~Public — snippet worth adding~~ → done in `notifications.html` |
 | ~~statistics~~ | ~~`_statistics.scss`~~ | ~~Public — snippet worth adding~~ → done in `statistics.html` |
-| file-selector | `_file-selector.scss` | Public — snippet worth adding |
+| file-selector | `_file-selector.scss` | **Deferred** — component is not yet finished. Revisit once the API stabilizes; snippet would chase a moving target. |
 | ~~filter-card~~ | ~~`_filter-card.scss`~~ | ~~Public — snippet worth adding~~ → done in `filter-card.html` |
 | logic-tree | `_logic-tree.scss` | Specialized — decide during gap pass |
-| data-display | `_data-display.scss` | Public — snippet worth adding |
+| ~~data-display~~ | ~~`_data-display.scss`~~ | ~~Public — snippet worth adding~~ → done in `data-display.html` |
 | smart-filters (aka query-editor) | `core-components/forms/_query-editor.scss` | Public — large surface (search highlighting, autocomplete, virtual textbox, inline query editor with tokens). The SCSS file is named `_query-editor.scss` but the demo calls it "Smart Filters" (`demo/views/smart-filters.mustache` + `demo/js/search-autocomplete*.js`, `virtual-textbox.js`). Briefly cross-referenced from forms.html; deserves its own snippet (probably `smart-filters.html`). |
 | data-viz | `_data-viz.scss` | D3-driven — snippet would be thin; defer |
 | scrollbars | `_scrollbars.scss` | Global utility styling; no snippet needed |
