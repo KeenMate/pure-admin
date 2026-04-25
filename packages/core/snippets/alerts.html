@@ -296,6 +296,16 @@ SIZES:
 MODIFIERS:
 - .pa-alert--dismissible   adds padding-inline-end so __close doesn't overlap
                            content; you still render the button yourself.
+- .pa-alert--multiline     opts out of the default `align-items: center`
+                           and aligns flex children to flex-start. Use when
+                           you have an icon (.pa-alert__icon) next to a
+                           multi-line .pa-alert__content (heading + body +
+                           actions) — without it the icon would sit in the
+                           vertical middle of the content stack instead of
+                           at the top with the heading. Not needed for
+                           structural stacks without an icon (their children
+                           are flex-basis: 100% and each take their own
+                           row anyway).
 
 ELEMENTS:
 - .pa-alert__icon      leading icon (flex-shrink: 0, font-size-base)
@@ -324,11 +334,16 @@ ELEMENTS:
                        inline-end side (logical — RTL-aware).
 
 LAYOUT NOTE:
-The alert is `display: flex; flex-wrap: wrap` with `gap: $spacing-sm`.
-Structural children (__heading, __list, __actions, top-level <p>, <hr>)
-are forced to `flex-basis: 100%` so they each take their own row.
-Inline siblings (__icon, __content, bare text + <strong>) stay on the
-flex row.
+The alert is `display: flex; flex-wrap: wrap` with `gap: $spacing-sm`
+and `align-items: center` (so an icon vertically centres against
+single-line __content). Structural children (__heading, __list,
+__actions, top-level <p>, <hr>) are forced to `flex-basis: 100%` so
+they each take their own row. Inline siblings (__icon, __content,
+bare text + <strong>) stay on the flex row.
+
+For the icon + multi-line __content case, add .pa-alert--multiline
+so the icon stops centring against the tall content stack and
+top-aligns with the heading instead.
 
 HEADING SIZE — DEFAULT vs --lg:
 - Default: <h4 class="pa-alert__heading">Title</h4> sits at the

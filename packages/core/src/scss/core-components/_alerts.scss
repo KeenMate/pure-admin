@@ -14,7 +14,11 @@
   font-size: $font-size-sm;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  // Centre by default — keeps icon + single-line content vertically
+  // aligned with the text glyph (the most common case). Opt out with
+  // .pa-alert--multiline when you have icon + multi-line __content
+  // and need the icon to stick to the top with the heading.
+  align-items: center;
 
   // Remove margins when first/last child in card body
   .pa-card__body &:first-child {
@@ -137,6 +141,17 @@
   // Dismissible alerts
   &--dismissible {
     padding-inline-end: $alert-dismissible-padding-right; // RTL: flips to padding-left
+  }
+
+  // Multiline content modifier — opt out of the default `align-items: center`
+  // so that an icon next to a multi-line .pa-alert__content (heading +
+  // paragraph + actions, etc.) stays top-aligned with the heading instead
+  // of floating in the vertical middle of the stack.
+  // Pure structural stacks without an icon don't need this — their children
+  // get `flex-basis: 100%` (one per row) so the alert's `align-items` is
+  // visually irrelevant for them.
+  &--multiline {
+    align-items: flex-start;
   }
 
   // Alert components

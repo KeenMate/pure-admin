@@ -367,6 +367,39 @@
                 </div>
             </div>
 
+            <!-- Icon + multi-line content (the --multiline modifier) -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Icon + multi-line content</h3>
+                    <p class="text-muted mb-0">When you pair an <code>pa-alert__icon</code> with a multi-line <code>pa-alert__content</code> (heading + body + actions), add <code>pa-alert--multiline</code> so the icon stays at the top with the heading instead of vertically centring against the whole stack. Side by side below — the left example uses the modifier; the right one shows what happens without it.</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-row">
+                        <div class="pa-col-100 pa-col-md-50">
+                            <h4>With <code>--multiline</code></h4>
+                            <div class="pa-alert pa-alert--info pa-alert--multiline" role="alert">
+                                <span class="pa-alert__icon">ⓘ</span>
+                                <div class="pa-alert__content">
+                                    <h4 class="pa-alert__heading pa-alert__heading--lg">Heads up</h4>
+                                    <p class="mb-0">This alert spans several lines, so we want the info icon to sit at the top with the heading rather than floating in the vertical middle of the stack.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pa-col-100 pa-col-md-50">
+                            <h4>Without (default centring)</h4>
+                            <div class="pa-alert pa-alert--info" role="alert">
+                                <span class="pa-alert__icon">ⓘ</span>
+                                <div class="pa-alert__content">
+                                    <h4 class="pa-alert__heading pa-alert__heading--lg">Heads up</h4>
+                                    <p class="mb-0">This alert spans several lines, so we want the info icon to sit at the top with the heading rather than floating in the vertical middle of the stack.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Status Strip — real-world compact layout -->
             <div class="pa-card">
                 <div class="pa-card__header">
@@ -434,6 +467,7 @@
             <li><code>(default)</code> &mdash; Default: <code>0.75rem / 1.25rem</code> padding, <code>font-size-sm</code> (14px)</li>
             <li><code>pa-alert--lg</code> &mdash; Large: <code>1rem / 1.5rem</code> padding, <code>font-size-base</code> (16px)</li>
             <li><code>pa-alert--dismissible</code> &mdash; Adds inline-end padding so the absolutely-positioned close button doesn't overlap text</li>
+            <li><code>pa-alert--multiline</code> &mdash; Opts out of the default <code>align-items: center</code> so an icon next to multi-line <code>pa-alert__content</code> stays top-aligned with the heading instead of centring against the content stack</li>
         </ul>
         <p class="text-muted mt-2">
             V steps <code>0.5 &rarr; 0.75 &rarr; 1rem</code>; H steps <code>1 &rarr; 1.25 &rarr; 1.5rem</code> &mdash; clean 0.25rem increments.
