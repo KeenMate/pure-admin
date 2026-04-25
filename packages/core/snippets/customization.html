@@ -1,142 +1,349 @@
 <!-- ================================
-     CUSTOMIZATION & CSS VARIABLES
+     CUSTOMIZATION
      Pure Admin Visual Framework
+
+     The framework has four layers of customization, in increasing
+     order of how much you want to change:
+
+       1. RUNTIME — CSS variables on :root or any scope
+                    (theme-aware, no rebuild, supports mode switching)
+       2. MODE / VARIANT body classes
+                    (toggle .pa-mode-dark, .pa-color-* on <body>)
+       3. THEME SWAP
+                    (load a different /dist/css/themes/<name>.css)
+       4. BUILD-TIME SCSS overrides
+                    (override $vars before importing the framework)
+
+     Use the lightest layer that does the job.
      ================================ -->
+
 
 <!-- ================================
-     PAGE LOADER CSS VARIABLES
-     Customize the loading screen appearance
+     CSS VARIABLE NAMESPACES
+     The framework exposes three groups of CSS custom properties.
+     Themes set them; consumers override at :root or scope tighter.
      ================================ -->
 
-<!-- Default Usage (uses theme values) -->
-<!-- The page loader appears during initial page load to prevent FOUC -->
-<!-- Each theme defines its own colors via CSS variables -->
+<!--
+--pa-*       Framework runtime tokens (the bulk of the surface).
+              Each theme sets these on :root. Examples:
+                --pa-accent             accent / brand colour
+                --pa-text-color-1       primary text
+                --pa-text-color-2       secondary / muted text
+                --pa-card-bg            card surface
+                --pa-border-color       borders
+                --pa-input-bg           input background
+                --pa-success-bg / --pa-danger-bg / --pa-warning-bg / --pa-info-bg
+                --pa-color-1 ... --pa-color-9 + --pa-color-N-text
+                                        nine theme palette slots
+              Override at :root for app-wide change, or on a section /
+              element for localised changes.
 
-<!-- Custom Override Example -->
+--base-*     Bridge variables for @keenmate web components
+              (web-multiselect, web-daterangepicker, web-grid).
+              Themes export ~45 of these so external web components
+              theme automatically. Rarely overridden directly — they
+              cascade from the theme. See packages/core/CSS-VARIABLES.md
+              for the catalogue.
+
+--page-loader-*    The pre-FOUC loading screen (3 variables only).
+                    Special-cased because it must paint BEFORE the
+                    theme CSS loads. See "Page Loader" section below.
+-->
+
+
+<!-- ================================
+     RUNTIME OVERRIDES — :root
+     Set on :root in your own stylesheet AFTER the theme CSS link, or
+     scope tighter (body / a section / a single component) for
+     localised changes.
+     ================================ -->
+
 <style>
-  :root {
-    /* Background overlay color (with transparency) */
-    --page-loader-bg: rgba(255, 0, 0, 0.9);
+/* App-wide accent + main background override */
+:root {
+    --pa-accent: #ff6b35;
+    --pa-main-bg: #fafafa;
+}
 
-    /* Spinner border color */
-    --page-loader-spinner-border: #333;
+/* Scope to a single section without affecting the rest of the app */
+.special-section {
+    --pa-accent: #6b46c1;
+    --pa-card-bg: #ffffff;
+}
+</style>
 
-    /* Spinner accent color (animated top border) */
-    --page-loader-spinner-accent: #00ff00;
+
+<!-- ================================
+     COLOR-SLOT SYSTEM (--pa-color-1 .. --pa-color-9)
+     Themes pick nine palette colours. Most theme-coloured component
+     variants (pa-btn--color-3, pa-badge--color-5, pa-table-card--
+     color-7, pa-card--color-9, etc.) read directly from these slots,
+     so swapping them re-tints the whole app without per-component
+     overrides.
+
+     Each slot has a paired text colour for legibility:
+       --pa-color-N            (background / fill / border)
+       --pa-color-N-text       (text on top of the fill)
+     ================================ -->
+
+<style>
+:root {
+    --pa-color-1: #ef4444; --pa-color-1-text: #ffffff;
+    --pa-color-2: #f97316; --pa-color-2-text: #ffffff;
+    --pa-color-3: #f59e0b; --pa-color-3-text: #1f2937;
+    --pa-color-4: #84cc16; --pa-color-4-text: #1f2937;
+    --pa-color-5: #10b981; --pa-color-5-text: #ffffff;
+    --pa-color-6: #14b8a6; --pa-color-6-text: #ffffff;
+    --pa-color-7: #3b82f6; --pa-color-7-text: #ffffff;
+    --pa-color-8: #8b5cf6; --pa-color-8-text: #ffffff;
+    --pa-color-9: #ec4899; --pa-color-9-text: #ffffff;
+}
+</style>
+
+
+<!-- ================================
+     MODE CLASSES (light / dark)
+     Toggled on <body> by your JS. Themes provide the dark/light look —
+     core just adds a few mode-aware tweaks (e.g. dark-mode webkit
+     calendar icon inversion). data-theme on <body> mirrors the same
+     state for web components.
+     ================================ -->
+
+<script>
+function setThemeMode(mode /* 'light' | 'dark' */) {
+    const body = document.body;
+    body.classList.remove('pa-mode-light', 'pa-mode-dark');
+    body.classList.add(`pa-mode-${mode}`);
+    body.dataset.theme = mode; // for web components keyed on data-theme
+    localStorage.setItem('theme-mode', mode);
+}
+</script>
+
+
+<!-- ================================
+     COLOR-VARIANT BODY CLASSES
+     Some themes ship multiple colour palettes selectable at runtime
+     (e.g. dark + dark-blue + dark-green + dark-red as variants of the
+     same dark theme). Apply via a body class:
+     ================================ -->
+
+<script>
+function setColorVariant(name /* e.g. 'red', 'green' */) {
+    const body = document.body;
+    [...body.classList].forEach(c => c.startsWith('pa-color-') && body.classList.remove(c));
+    if (name) body.classList.add(`pa-color-${name}`);
+    localStorage.setItem('color-variant', name || '');
+}
+</script>
+
+
+<!-- ================================
+     PAGE LOADER (--page-loader-* CSS variables)
+     A separate variable set because the loader paints BEFORE the
+     theme CSS finishes loading — that's the whole point: avoid a
+     flash of unstyled content. The values live in critical inline
+     CSS in the layout's <head>; CSS variables let you override
+     without rebuilding.
+
+     Variables:
+       --page-loader-bg                full-screen overlay colour
+                                       (rgba — keep some transparency)
+       --page-loader-spinner-border    spinner ring colour (muted)
+       --page-loader-spinner-accent    spinner animated arc colour
+
+     Defaults are theme-defined. Override AFTER the theme CSS link:
+     ================================ -->
+
+<link rel="stylesheet" href="/dist/css/themes/corporate.css">
+<style>
+:root {
+    --page-loader-bg: rgba(30, 30, 30, 0.98);
+    --page-loader-spinner-border: #444;
+    --page-loader-spinner-accent: #ff6b35;
+}
+
+/* Optionally tweak structural styles too */
+.page-loader {
+    backdrop-filter: blur(15px);
+}
+.page-loader__spinner {
+    width: 60px;
+    height: 60px;
+    border-width: 5px;
+}
+</style>
+
+
+<!-- ================================
+     BUILD-TIME SCSS OVERRIDES
+     For deeper changes (spacing scale, typography, component sizes),
+     define SCSS variables BEFORE importing the framework. Every
+     framework variable is declared with !default, so your earlier
+     definition wins.
+     ================================ -->
+
+<!--
+  // your-app.scss
+  $primary-bg: #ff6b35;          // accent background everywhere
+  $body-font-family: 'Inter', sans-serif;
+  $card-border-radius: 0;        // square cards across the whole app
+  $sidebar-width: 32rem;         // wider default sidebar
+
+  @import '@keenmate/pure-admin-core/scss/main';
+-->
+
+
+<!-- ================================
+     THEME SWAPPING
+     The framework ships a single core CSS file (main.css). Themes are
+     separate CSS files compiled from the @keenmate/pure-admin-themes
+     repo. To switch theme at runtime, swap the <link> href:
+     ================================ -->
+
+<link rel="stylesheet" href="/dist/css/themes/corporate.css" id="theme-css">
+
+<script>
+function setTheme(name /* e.g. 'corporate', 'audi', 'minimal' */) {
+    document.getElementById('theme-css').href = `/dist/css/themes/${name}.css`;
+    localStorage.setItem('selectedTheme', name);
+}
+</script>
+
+
+<!-- ================================
+     COMPONENT-LEVEL OVERRIDES VIA UTILITY CLASSES
+     Several components use a low-specificity :where() rule for their
+     dimensions so utility classes (.wr-*, .minwr-*, .maxwr-*) win
+     without specificity battles. Same pattern in:
+       - sidebar (layout.html — --pa-local-sidebar-width)
+       - profile panel (profile.html — --pa-local-profile-panel-width)
+       - detail panel (detail-panel.html — --pa-local-detail-panel-width)
+     ================================ -->
+
+<aside class="pa-layout__sidebar wr-25">
+    <!-- sidebar fixed at 25rem because .wr-25 wins against the :where() rule -->
+</aside>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+LAYERS — pick the lightest one that does the job:
+
+  1. RUNTIME (CSS vars)
+     Any --pa-*, --base-*, --page-loader-* variable on :root or any
+     scope. Cascades into components automatically.
+     Use for: brand colours, accent swap, mode toggles, per-section
+     theming, page loader overrides.
+
+  2. MODE / VARIANT BODY CLASSES (set by JS)
+     - .pa-mode-light / .pa-mode-dark
+     - .pa-color-{name}      (theme-defined colour variants)
+     - data-theme="light"|"dark"   (web components keyed on data-theme)
+     Use for: user-controlled theme / mode toggles.
+
+  3. THEME SWAP
+     <link rel="stylesheet" href="/dist/css/themes/<name>.css">
+     Themes live in the separate @keenmate/pure-admin-themes repo
+     (and pure-admin-themes/ at the workspace level).
+     Use for: shipping multiple distinct looks under one app, or
+     letting users pick a theme.
+
+  4. BUILD-TIME SCSS
+     Override $variables BEFORE the framework import. All framework
+     variables use !default, so your earlier definition wins.
+     Use for: design-system level changes (spacing scale, typography,
+     border radii, sidebar default width) that apply across themes.
+
+CSS VARIABLE NAMESPACES:
+
+  --pa-*               Framework runtime tokens. Themes set these.
+                       Consumers override at :root for app-wide
+                       changes, or scoped for sections.
+
+  --pa-color-{1..9}    Theme palette slots. Each has a paired
+  --pa-color-{1..9}-text   text colour for legible foregrounds.
+                       Most theme-colour component variants read
+                       from these slots (pa-btn--color-3,
+                       pa-badge--color-5, pa-table-card--color-7…).
+
+  --base-*             Bridge variables for @keenmate web components
+                       (web-multiselect, web-daterangepicker,
+                       web-grid). Themes export ~45 of these so the
+                       components inherit the theme automatically.
+                       Rarely overridden directly. See
+                       packages/core/CSS-VARIABLES.md for the full list.
+
+  --pa-local-*         Per-component runtime widths/dimensions
+                       (sidebar, profile panel, detail panel).
+                       Applied via :where() so utility classes can
+                       override without !important.
+
+  --page-loader-*      The pre-FOUC loader specifically. Loads BEFORE
+                       theme CSS, so it's a separate variable set —
+                       3 vars: bg, spinner-border, spinner-accent.
+
+LOAD ORDER (matters):
+  <link rel="stylesheet" href="/dist/css/themes/<theme>.css">
+  <style> :root { /* your overrides */ } </style>
+
+  Theme CSS sets the defaults; your inline / linked stylesheet that
+  follows wins.
+
+REM BASE:
+  html { font-size: 10px } in core means every rem value in the
+  framework reads at 1rem = 10px. Set html { font-size: 11px } / 12px
+  to scale the whole UI proportionally (see typography.html for the
+  html.font-size-* classes that flip this at runtime).
+
+THEMES REPO:
+  @keenmate/pure-admin-themes (separate package; workspace path
+  ../pure-admin-themes from the demo). Each theme is a small SCSS
+  file that overrides $variables and calls
+  @include output-base-css-variables to expose --base-*. See the
+  themes repo's CLAUDE.md for the build / pack / publish pipeline.
+
+STRUCTURE PATTERNS:
+
+App-wide accent override:
+<style>
+  :root { --pa-accent: #ff6b35; }
+</style>
+
+Section-scoped theme tweak:
+<style>
+  .marketing-section {
+    --pa-accent: #6b46c1;
+    --pa-card-bg: #ffffff;
   }
 </style>
 
-<!-- Theme Default Values -->
-<!--
-CORPORATE THEME:
---page-loader-bg: rgba(26, 26, 26, 0.95)
---page-loader-spinner-border: #333
---page-loader-spinner-accent: #0066cc
+Light/dark toggle (body class set by JS):
+<body class="pa-mode-dark" data-theme="dark">…</body>
 
-EXPRESS THEME:
---page-loader-bg: rgba(0, 0, 0, 0.95)
---page-loader-spinner-border: #333
---page-loader-spinner-accent: #FFCC00
+Theme swap at runtime:
+<link id="theme-css" rel="stylesheet" href="/dist/css/themes/corporate.css">
+<script>
+  function setTheme(name) {
+    document.getElementById('theme-css').href = `/dist/css/themes/${name}.css`;
+  }
+</script>
 
-AUDI THEME (DARK):
---page-loader-bg: rgba(10, 10, 10, 0.95)
---page-loader-spinner-border: #333
---page-loader-spinner-accent: #ff0000
+Build-time SCSS override:
+// in your-app.scss
+$primary-bg: #ff6b35;
+$card-border-radius: 0;
+@import '@keenmate/pure-admin-core/scss/main';
 
-AUDI LIGHT THEME:
---page-loader-bg: rgba(240, 240, 240, 0.95)
---page-loader-spinner-border: #d0d0d0
---page-loader-spinner-accent: #bb0a30
-
-MINIMAL THEME:
---page-loader-bg: rgba(255, 255, 255, 0.95)
---page-loader-spinner-border: #e0e0e0
---page-loader-spinner-accent: #000000
-
-DARK THEMES (dark, dark-blue, dark-green, dark-red):
---page-loader-bg: rgba(26, 26, 26, 0.95)
---page-loader-spinner-border: #333
---page-loader-spinner-accent: <theme-color>
-  - dark: #0ea5e9 (blue)
-  - dark-blue: #3b82f6 (blue)
-  - dark-green: #10b981 (green)
-  - dark-red: #ef4444 (red)
--->
-
-<!-- Why CSS Variables? -->
-<!--
-The page loader uses CSS variables instead of SCSS variables because:
-1. It loads BEFORE the theme CSS (to prevent FOUC)
-2. Projects can easily override without recompiling SCSS
-3. Supports runtime theme switching if needed
-
-Just add your custom CSS AFTER the theme CSS link:
+Page loader override (must come AFTER theme CSS):
 <link rel="stylesheet" href="/dist/css/themes/corporate.css">
 <style>
   :root {
-    --page-loader-bg: rgba(0, 100, 200, 0.95);
+    --page-loader-bg: rgba(30, 30, 30, 0.98);
+    --page-loader-spinner-accent: #ff6b35;
   }
 </style>
--->
-
-<!-- Integration Example -->
-<!--
-In your project's custom CSS file:
--->
-<style>
-/* custom.css */
-:root {
-  /* Brand-specific loader colors */
-  --page-loader-bg: rgba(30, 30, 30, 0.98);
-  --page-loader-spinner-border: #444;
-  --page-loader-spinner-accent: #ff6b35; /* Orange brand color */
-}
-
-/* You can also override other aspects if needed */
-.page-loader {
-  /* Add custom backdrop blur */
-  backdrop-filter: blur(15px);
-}
-
-.page-loader__spinner {
-  /* Make spinner larger */
-  width: 60px;
-  height: 60px;
-  border-width: 5px;
-}
-</style>
-
-<!-- ================================
-     FUTURE CUSTOMIZATION OPTIONS
-     More CSS variables coming soon
-     ================================ -->
-
-<!-- Planned CSS Variables -->
-<!--
-Future versions may include CSS variables for:
-- Color scheme switching
-- Dynamic accent colors
-- Component-specific overrides
-- Animation timing customization
-
-For now, use SCSS variables for deep customization:
-$main-bg: #your-color;
-$accent-color: #your-accent;
-@import '@pure-admin/core/scss';
--->
-
-<!-- ================================
-     QUICK REFERENCE
-     ================================ -->
-
-<!--
-PAGE LOADER VARIABLES:
-- --page-loader-bg (background overlay color with opacity)
-- --page-loader-spinner-border (spinner border color)
-- --page-loader-spinner-accent (spinner animated color)
-
-USAGE:
-Define in :root selector AFTER theme CSS loads
-Values can use rgba(), hex, or any CSS color format
-Include alpha/transparency for overlay effect
 -->
