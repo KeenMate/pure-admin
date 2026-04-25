@@ -124,6 +124,7 @@
             <div class="pa-card">
                 <div class="pa-card__header">
                     <h3>Alerts with Additional Content</h3>
+                    <p class="text-muted mb-0">Use <code>pa-alert__heading</code> for a punchier title, <code>pa-alert__list</code> for an in-alert <code>&lt;ul&gt;</code>, and a plain <code>&lt;hr&gt;</code> for a subtle divider that picks up an alert-tinted top border automatically.</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pa-row">
@@ -137,8 +138,66 @@
                         </div>
 
                         <div class="pa-col-100 pa-col-md-50">
-                            <div class="pa-alert pa-alert--info">
-                                <h4 class="pa-alert__heading">System Update</h4>
+                            <div class="pa-alert pa-alert--warning">
+                                <h4 class="pa-alert__heading">Storage running low</h4>
+                                <p>Your account is approaching the quota limit. The next sync will fail unless you free space:</p>
+                                <ul class="pa-alert__list">
+                                    <li>Archive old projects you don't actively edit</li>
+                                    <li>Empty your trash folder</li>
+                                    <li>Upgrade to a larger plan</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header style: compact vs punchy -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Header style: compact vs. punchy</h3>
+                    <p class="text-muted mb-0">Both patterns are valid — pick by visual loudness. Plain <code>&lt;strong&gt;</code> stays at body font-size for status banners; <code>pa-alert__heading</code> renders as a bigger, semibold block (<code>font-size-lg</code> + bottom margin) when the alert needs deliberate attention.</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-row">
+                        <div class="pa-col-100 pa-col-md-50">
+                            <h4>Compact (<code>&lt;strong&gt;</code>)</h4>
+                            <div class="pa-alert pa-alert--danger" role="alert">
+                                <strong>Validation failed</strong>
+                                <p class="mb-0">Please fix the errors below.</p>
+                            </div>
+                            <div class="pa-alert pa-alert--success" role="alert">
+                                <strong>Saved</strong>
+                                <p class="mb-0">Changes synced 2 seconds ago.</p>
+                            </div>
+                        </div>
+
+                        <div class="pa-col-100 pa-col-md-50">
+                            <h4>Punchy (<code>pa-alert__heading</code>)</h4>
+                            <div class="pa-alert pa-alert--danger" role="alert">
+                                <h4 class="pa-alert__heading">Validation failed</h4>
+                                <p class="mb-0">Please fix the errors below.</p>
+                            </div>
+                            <div class="pa-alert pa-alert--success" role="alert">
+                                <h4 class="pa-alert__heading">Saved</h4>
+                                <p class="mb-0">Changes synced 2 seconds ago.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts with Custom Actions -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Alerts with custom actions</h3>
+                    <p class="text-muted mb-0">Wrap action buttons in <code>pa-alert__actions</code>. The element renders a thin divider above with symmetric padding — same separator pattern as <code>pa-toast__actions</code>, so action-bearing alerts and custom-action toasts feel visually consistent.</p>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-row">
+                        <div class="pa-col-100 pa-col-md-50">
+                            <div class="pa-alert pa-alert--info" role="alert">
+                                <h4 class="pa-alert__heading">System update</h4>
                                 <p>A new version of the application is available. This update includes:</p>
                                 <ul class="pa-alert__list">
                                     <li>Performance improvements</li>
@@ -146,10 +205,63 @@
                                     <li>New dashboard features</li>
                                 </ul>
                                 <div class="pa-alert__actions">
-                                    <button class="pa-btn pa-btn--sm pa-btn--primary">Update Now</button>
-                                    <button class="pa-btn pa-btn--sm pa-btn--secondary">Remind Me Later</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--primary">Update now</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--secondary">Remind me later</button>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="pa-col-100 pa-col-md-50">
+                            <div class="pa-alert pa-alert--danger" role="alert">
+                                <h4 class="pa-alert__heading">Sync failed</h4>
+                                <p class="mb-0">We couldn't reach the server. Check your connection and try again.</p>
+                                <div class="pa-alert__actions">
+                                    <button class="pa-btn pa-btn--sm pa-btn--danger">Retry sync</button>
+                                    <button class="pa-btn pa-btn--sm pa-btn--ghost">Dismiss</button>
+                                </div>
+                            </div>
+
+                            <div class="pa-alert pa-alert--warning" role="alert">
+                                <strong>Cookies disabled</strong>
+                                <p class="mb-0">Some features need cookies to work properly.</p>
+                                <div class="pa-alert__actions">
+                                    <button class="pa-btn pa-btn--sm pa-btn--primary">Enable cookies</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sizes -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Sizes</h3>
+                    <p class="text-muted mb-0">Three sizes — <code>pa-alert--sm</code>, default, and <code>pa-alert--lg</code>. Padding stays consistent across sizes (set by the theme); the modifier scales the font size.</p>
+                </div>
+                <div class="pa-card__body">
+                    <h4>Small — <code>pa-alert--sm</code></h4>
+                    <div class="pa-alert pa-alert--success pa-alert--sm" role="alert">
+                        <span class="pa-alert__icon">✓</span>
+                        <strong>Small alert</strong>
+                        Tighter font for status strips and compact layouts.
+                    </div>
+
+                    <h4 class="mt-4">Default</h4>
+                    <div class="pa-alert pa-alert--info" role="alert">
+                        <span class="pa-alert__icon">ⓘ</span>
+                        <div class="pa-alert__content">
+                            <strong>Default alert</strong>
+                            Standard size — what you get with no <code>--sm</code> / <code>--lg</code> modifier.
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Large — <code>pa-alert--lg</code></h4>
+                    <div class="pa-alert pa-alert--warning pa-alert--lg" role="alert">
+                        <span class="pa-alert__icon">!</span>
+                        <div class="pa-alert__content">
+                            <strong>Large alert</strong>
+                            Bigger font for prominence — consider this when an alert sits alone above the page hero, not stacked among others.
                         </div>
                     </div>
                 </div>
@@ -255,10 +367,11 @@
                 </div>
             </div>
 
-            <!-- Compact Alerts Grid -->
+            <!-- Status Strip — real-world compact layout -->
             <div class="pa-card">
                 <div class="pa-card__header">
-                    <h3>Compact Alerts in Grid</h3>
+                    <h3>Status strip layout</h3>
+                    <p class="text-muted mb-0">Real-world example — small, icon-prefixed alerts arranged in a row above a section. <code>pa-alert--sm</code> keeps each pill compact so multiple states fit on one line at desktop widths.</p>
                 </div>
                 <div class="pa-card__body">
                     <div class="pa-row">
@@ -328,8 +441,8 @@
             <li><code>pa-alert__content</code> - Content wrapper (flex: 1)</li>
             <li><code>pa-alert__heading</code> - Alert heading/title</li>
             <li><code>pa-alert__list</code> - List inside alert (ul)</li>
-            <li><code>pa-alert__actions</code> - Action buttons container</li>
-            <li><code>pa-alert__close</code> - Close/dismiss button</li>
+            <li><code>pa-alert__actions</code> - Action buttons row, sits below a thin divider with symmetric padding (same separator pattern as <code>pa-toast__actions</code>)</li>
+            <li><code>pa-alert__close</code> - Close/dismiss button (absolute, inline-end)</li>
         </ul>
     </div>
 </div>
