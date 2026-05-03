@@ -418,6 +418,15 @@ app.get('/components/data-visualization', (req, res) => {
     renderWithLayout(res, 'data-visualization', { pageTitle: 'Data Visualization', currentPage: 'data-visualization', isDataVisualization: true });
 });
 
+// KPI showcases — one page per indicator design (sidebar: KPI submenu)
+app.get('/kpi/terminal-grid', (req, res) => {
+    renderWithLayout(res, 'kpi-terminal-grid', { pageTitle: 'KPI · Terminal grid', currentPage: 'kpi-terminal-grid', isKpiTerminalGrid: true });
+});
+
+app.get('/kpi/sparkline-list', (req, res) => {
+    renderWithLayout(res, 'kpi-sparkline-list', { pageTitle: 'KPI · Sparkline list', currentPage: 'kpi-sparkline-list', isKpiSparklineList: true });
+});
+
 app.get('/components/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });

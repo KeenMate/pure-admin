@@ -1,0 +1,931 @@
+<p>Bloomberg-y "sparkline list" KPI indicator. Each KPI becomes one row: <strong>name · sparkline · value · Δ%</strong>. No view-mode toggle, no status pills, no prev row — built for fast vertical scanning and side-by-side comparison rather than per-tile depth. Sparkline gets a filled area under the line for stronger visual weight than the terminal-grid version. Hover any row for the structured detail breakdown.</p>
+
+<style>
+/* === KPI design tokens (shared across all KPI indicators) ===
+   Duplicated from kpi-terminal-grid.mustache; will be deduped to a shared
+   core-components/_kpi-tokens.scss when these designs stabilise and graduate
+   to the framework. For now each KPI page declares its own copy so it works
+   standalone. */
+:root {
+  /* Semantic 5-step scale */
+  --kpi-very-positive: #16a34a;
+  --kpi-positive:      #22c55e;
+  --kpi-neutral:       #9ca3af;
+  --kpi-negative:      #ef4444;
+  --kpi-very-negative: #dc2626;
+
+  /* Hover detail popover chrome — Bloomberg dark, theme-independent. */
+  --kpi-detail-bg: rgba(15, 17, 21, 0.97);
+  --kpi-detail-text: #ffffff;
+  --kpi-detail-row-label: rgba(255, 255, 255, 0.75);
+  --kpi-detail-title: rgba(255, 255, 255, 0.55);
+  --kpi-detail-shadow: 0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
+}
+
+/* === Card header: title + LIVE pulse (no view toggle in this design) === */
+.kpi-spark-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+.kpi-spark-list__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+}
+.kpi-spark-list__livedot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--kpi-positive);
+  box-shadow: 0 0 6px var(--kpi-positive);
+  animation: kpiPulse 1.6s ease-in-out infinite;
+}
+@keyframes kpiPulse { 50% { opacity: 0.35; } }
+
+/* === Body: stacked rows, no padding so border-bottoms span full card width === */
+.kpi-spark-list__body { padding: 0; }
+
+/* === The card is a query container so rows can react to *card width*, not
+       viewport width. This is the right axis: the same row can sit in a
+       wide section-1 card or a 25% page-grid card, and we want it to choose
+       a layout based on the card it's actually in. === */
+.kpi-spark-list {
+  container-type: inline-size;
+}
+
+/* === Row: default (wide) 4-column grid — label · chart · value · delta === */
+.kpi-spark-row {
+  display: grid;
+  grid-template-columns: minmax(14rem, 28%) minmax(10rem, 1fr) minmax(8rem, 18%) minmax(7rem, 12%);
+  align-items: center;
+  gap: 1.6rem;
+  padding: 1.4rem 2rem;
+  border-bottom: 1px solid var(--pa-border-color);
+}
+.kpi-spark-row:last-child { border-bottom: 0; }
+
+/* === Mid-narrow card (1×3 page-grid columns and 45% column). Stack to two
+       rows: label/value/delta on top, full-width chart below. The 4-col
+       layout's combined min-content is ~500px (label 140 + chart 100 +
+       value 80 + delta 70 + gaps 48 + row padding 64), so trigger stacking
+       generously at 640px — keeps things visually spacious even for cards
+       that *could* technically squeeze 4 cols.
+       Default order: value-above-chart. Use .kpi-spark-list--chart-first to
+       flip (see below). === */
+@container (max-width: 640px) {
+  .kpi-spark-row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "label value delta"
+      "chart chart chart";
+    column-gap: 1.2rem;
+    row-gap: 0.4rem;
+    align-items: baseline;
+    padding: 1.2rem 1.6rem;
+  }
+  .kpi-spark-row__label  { grid-area: label; align-self: center; font-size: 1.25rem; }
+  .kpi-spark-row__value  { grid-area: value; }
+  .kpi-spark-row__delta  { grid-area: delta; font-size: 1.25rem; }
+  .kpi-spark-row__chart  { grid-area: chart; }
+  .kpi-spark-row__chart svg { height: 3rem; }
+  .kpi-spark-row__num { font-size: 2rem; }
+}
+
+/* === Modifier: --chart-first — flips the stacked order. Label on top,
+       chart full-width in the middle, value/delta side-by-side at the
+       bottom. Reads like the canonical 4-col layout rotated 90° (the
+       canonical L-to-R order is label → chart → value → delta, so
+       top-to-bottom keeps that flow). Applies starting at the same
+       640px container breakpoint, and is also what the very-narrow
+       fallback (≤360px) collapses to for both default and modifier. === */
+@container (max-width: 640px) {
+  .kpi-spark-list--chart-first .kpi-spark-row {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "label  label"
+      "chart  chart"
+      "value  delta";
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+    padding: 1.2rem 1.6rem;
+  }
+  .kpi-spark-list--chart-first .kpi-spark-row__label  { align-self: start; }
+  .kpi-spark-list--chart-first .kpi-spark-row__value  { text-align: start; align-self: baseline; }
+  .kpi-spark-list--chart-first .kpi-spark-row__delta  { align-self: baseline; }
+}
+
+/* === Very narrow card (the 25% page-grid stress test, ~280–360px). At this
+       width even label + value + delta on one row doesn't fit, so we force
+       the chart-first 3-row layout regardless of modifier. === */
+@container (max-width: 360px) {
+  .kpi-spark-row {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "label  label"
+      "chart  chart"
+      "value  delta";
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+    padding: 1.2rem 1.4rem;
+  }
+  .kpi-spark-row__label  { grid-area: label; align-self: start; }
+  .kpi-spark-row__chart  { grid-area: chart; }
+  .kpi-spark-row__value  { grid-area: value; text-align: start; align-self: baseline; }
+  .kpi-spark-row__delta  { grid-area: delta; align-self: baseline; }
+}
+
+/* Label (left column) — uppercase, mono, muted vs the value */
+.kpi-spark-row__label {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+}
+
+/* Sparkline (col 2) — line + filled area underneath + trailing dot */
+.kpi-spark-row__chart svg {
+  display: block;
+  width: 100%;
+  height: 4rem;
+  overflow: visible;
+}
+.kpi-spark-row__chart polyline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.kpi-spark-row__chart polygon {
+  fill: currentColor;
+  fill-opacity: 0.18;     /* subtle area shading — same hue as the line */
+  stroke: none;
+}
+.kpi-spark-row__chart circle { fill: currentColor; }
+
+/* Sparkline color reflects sentiment, not direction (see kpi-terminal-grid
+   for the rationale). Picks one of the 5 scale colors via currentColor. */
+.kpi-spark-row--up-strong   .kpi-spark-row__chart svg { color: var(--kpi-very-positive); }
+.kpi-spark-row--up          .kpi-spark-row__chart svg { color: var(--kpi-positive); }
+.kpi-spark-row--flat        .kpi-spark-row__chart svg { color: var(--kpi-neutral); }
+.kpi-spark-row--down        .kpi-spark-row__chart svg { color: var(--kpi-negative); }
+.kpi-spark-row--down-strong .kpi-spark-row__chart svg { color: var(--kpi-very-negative); }
+
+/* Value (col 3) — focal white number + muted unit, mono, right-aligned */
+.kpi-spark-row__value {
+  font-family: var(--base-font-family-mono);
+  text-align: end;
+  line-height: 1;
+}
+.kpi-spark-row__num {
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pa-text-color-1);
+}
+.kpi-spark-row__unit {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  margin-left: 0.2rem;
+}
+
+/* Delta (col 4) — coloured by the same 5-step scale as terminal-grid */
+.kpi-spark-row__delta {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+.kpi-spark-row__delta--very-positive { color: var(--kpi-very-positive); }
+.kpi-spark-row__delta--positive      { color: var(--kpi-positive); }
+.kpi-spark-row__delta--neutral       { color: var(--kpi-neutral); }
+.kpi-spark-row__delta--negative      { color: var(--kpi-negative); }
+.kpi-spark-row__delta--very-negative { color: var(--kpi-very-negative); }
+
+/* === Footer caption === */
+.kpi-spark-list__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+}
+.kpi-spark-list__footer strong {
+  color: var(--pa-text-color-1);
+  font-weight: 700;
+}
+
+/* === Hover detail popover — same Floating UI / cursor-anchored recipe as
+   kpi-terminal-grid. Moved to <body> on init to escape ancestor overflow. === */
+.kpi-spark-row__detail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 9000;
+  min-width: 26rem;
+  max-width: 32rem;
+  background: var(--kpi-detail-bg);
+  color: var(--kpi-detail-text);
+  padding: 1.2rem 1.5rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.4rem;
+  box-shadow: var(--kpi-detail-shadow);
+}
+.kpi-spark-row__detail[data-show] { visibility: visible; }
+.kpi-spark-row__detail-title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--kpi-detail-title);
+  margin-bottom: 0.6rem;
+}
+.kpi-spark-row__detail dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 1.6rem;
+  margin: 0;
+}
+.kpi-spark-row__detail dt { margin: 0; color: var(--kpi-detail-row-label); font-weight: 400; }
+.kpi-spark-row__detail dd { margin: 0; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
+.kpi-spark-row__detail .pos { color: var(--kpi-positive); }
+.kpi-spark-row__detail .neg { color: var(--kpi-negative); }
+</style>
+
+<div class="pa-card kpi-spark-list">
+    <div class="pa-card__header kpi-spark-list__header">
+        <h3>Key Performance Indicators</h3>
+        <span class="kpi-spark-list__live"><span class="kpi-spark-list__livedot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body kpi-spark-list__body">
+
+        <!-- Row 1 — Completion Rate -->
+        <div class="kpi-spark-row kpi-spark-row--up">
+            <div class="kpi-spark-row__label">Completion Rate</div>
+            <div class="kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5 100,24 0,24" />
+                    <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                    <circle cx="96" cy="5" r="2" />
+                </svg>
+            </div>
+            <div class="kpi-spark-row__value">
+                <span class="kpi-spark-row__num">87.9</span><span class="kpi-spark-row__unit">%</span>
+            </div>
+            <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+4.4%</div>
+            <div class="kpi-spark-row__detail" role="tooltip">
+                <div class="kpi-spark-row__detail-title">Completion Rate · 30D</div>
+                <dl>
+                    <dt>Current</dt><dd>87.9%</dd>
+                    <dt>Previous</dt><dd>84.2%</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+3.7pp</dd>
+                    <dt>Δ percent</dt><dd class="pos">+4.4%</dd>
+                    <dt>Target</dt><dd>90.0%</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 2 — Monthly Revenue -->
+        <div class="kpi-spark-row kpi-spark-row--up">
+            <div class="kpi-spark-row__label">Monthly Revenue</div>
+            <div class="kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4 100,24 0,24" />
+                    <polyline points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4" />
+                    <circle cx="96" cy="4" r="2" />
+                </svg>
+            </div>
+            <div class="kpi-spark-row__value">
+                <span class="kpi-spark-row__unit">$</span><span class="kpi-spark-row__num">862</span><span class="kpi-spark-row__unit">K</span>
+            </div>
+            <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+14.7%</div>
+            <div class="kpi-spark-row__detail" role="tooltip">
+                <div class="kpi-spark-row__detail-title">Monthly Revenue · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>$862K</dd>
+                    <dt>Previous</dt><dd>$752K</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+$110K</dd>
+                    <dt>Δ percent</dt><dd class="pos">+14.7%</dd>
+                    <dt>Target</dt><dd>$900K</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 3 — Server Temp (red — line trends up = bad sentiment) -->
+        <div class="kpi-spark-row kpi-spark-row--down">
+            <div class="kpi-spark-row__label">Server Temp</div>
+            <div class="kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6 100,24 0,24" />
+                    <polyline points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6" />
+                    <circle cx="96" cy="6" r="2" />
+                </svg>
+            </div>
+            <div class="kpi-spark-row__value">
+                <span class="kpi-spark-row__num">23.8</span><span class="kpi-spark-row__unit">°C</span>
+            </div>
+            <div class="kpi-spark-row__delta kpi-spark-row__delta--negative">-2.7%</div>
+            <div class="kpi-spark-row__detail" role="tooltip">
+                <div class="kpi-spark-row__detail-title">Server Temp · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>23.8°C</dd>
+                    <dt>Previous</dt><dd>24.5°C</dd>
+                    <dt>Δ absolute</dt><dd class="neg">−0.7°C</dd>
+                    <dt>Δ percent</dt><dd class="neg">−2.7%</dd>
+                    <dt>Target</dt><dd>≤ 23°C</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 4 — Server Capacity -->
+        <div class="kpi-spark-row kpi-spark-row--up">
+            <div class="kpi-spark-row__label">Server Capacity</div>
+            <div class="kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,15 12,12 24,16 36,9 48,13 60,7 72,11 84,5 96,9 100,24 0,24" />
+                    <polyline points="0,15 12,12 24,16 36,9 48,13 60,7 72,11 84,5 96,9" />
+                    <circle cx="96" cy="9" r="2" />
+                </svg>
+            </div>
+            <div class="kpi-spark-row__value">
+                <span class="kpi-spark-row__num">83.1</span><span class="kpi-spark-row__unit">%</span>
+            </div>
+            <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+17.1%</div>
+            <div class="kpi-spark-row__detail" role="tooltip">
+                <div class="kpi-spark-row__detail-title">Server Capacity · 7D</div>
+                <dl>
+                    <dt>Current</dt><dd>83.1%</dd>
+                    <dt>Previous</dt><dd>71.0%</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+12.1pp</dd>
+                    <dt>Δ percent</dt><dd class="pos">+17.1%</dd>
+                    <dt>Target</dt><dd>≤ 75%</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 5 — Error Rate (38% drop = strong positive → very-positive scale) -->
+        <div class="kpi-spark-row kpi-spark-row--up-strong">
+            <div class="kpi-spark-row__label">Error Rate</div>
+            <div class="kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15 100,24 0,24" />
+                    <polyline points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15" />
+                    <circle cx="96" cy="15" r="2" />
+                </svg>
+            </div>
+            <div class="kpi-spark-row__value">
+                <span class="kpi-spark-row__num">0.25</span><span class="kpi-spark-row__unit">%</span>
+            </div>
+            <div class="kpi-spark-row__delta kpi-spark-row__delta--very-positive">-38.1%</div>
+            <div class="kpi-spark-row__detail" role="tooltip">
+                <div class="kpi-spark-row__detail-title">Error Rate · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>0.25%</dd>
+                    <dt>Previous</dt><dd>0.40%</dd>
+                    <dt>Δ absolute</dt><dd class="pos">−0.15pp</dd>
+                    <dt>Δ percent</dt><dd class="pos">−38.1%</dd>
+                    <dt>Target</dt><dd>≤ 0.50%</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 6 — Tokyo Office -->
+        <div class="kpi-spark-row kpi-spark-row--up">
+            <div class="kpi-spark-row__label">Tokyo Office</div>
+            <div class="kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,14 12,11 24,15 36,9 48,13 60,8 72,12 84,10 96,9 100,24 0,24" />
+                    <polyline points="0,14 12,11 24,15 36,9 48,13 60,8 72,12 84,10 96,9" />
+                    <circle cx="96" cy="9" r="2" />
+                </svg>
+            </div>
+            <div class="kpi-spark-row__value">
+                <span class="kpi-spark-row__unit">¥</span><span class="kpi-spark-row__num">11.6</span><span class="kpi-spark-row__unit">M</span>
+            </div>
+            <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+3.6%</div>
+            <div class="kpi-spark-row__detail" role="tooltip">
+                <div class="kpi-spark-row__detail-title">Tokyo Office · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>¥11.6M</dd>
+                    <dt>Previous</dt><dd>¥11.2M</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+0.40M</dd>
+                    <dt>Δ percent</dt><dd class="pos">+3.6%</dd>
+                    <dt>Target</dt><dd>¥13.0M</dd>
+                </dl>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pa-card__footer kpi-spark-list__footer">
+        <span><strong>Sparkline list</strong> — Each KPI becomes a row: name · sparkline · value · Δ%. Fast comparison.</span>
+        <span>Hover any KPI for detail</span>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     2. Layout test — 1×3 page grid (.pa-col-1-3)
+     ============================================================ -->
+
+<h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
+<p>Three smaller cards side-by-side. The middle card uses the <code>.kpi-spark-list--chart-first</code> modifier so you can see the two stacking styles side by side at the same width: <strong>card 1 + 3 = value-above-chart (default)</strong>, <strong>card 2 = chart-above-value (modifier)</strong>.</p>
+
+<div class="pa-row">
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card kpi-spark-list">
+            <div class="pa-card__body kpi-spark-list__body">
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Completion Rate</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5 100,24 0,24" />
+                            <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                            <circle cx="96" cy="5" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">87.9</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+4.4%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Completion Rate · 30D</div>
+                        <dl>
+                            <dt>Current</dt><dd>87.9%</dd>
+                            <dt>Previous</dt><dd>84.2%</dd>
+                            <dt>Δ percent</dt><dd class="pos">+4.4%</dd>
+                            <dt>Target</dt><dd>90.0%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Monthly Revenue</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4 100,24 0,24" />
+                            <polyline points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4" />
+                            <circle cx="96" cy="4" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__unit">$</span><span class="kpi-spark-row__num">862</span><span class="kpi-spark-row__unit">K</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+14.7%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Monthly Revenue · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>$862K</dd>
+                            <dt>Previous</dt><dd>$752K</dd>
+                            <dt>Δ percent</dt><dd class="pos">+14.7%</dd>
+                            <dt>Target</dt><dd>$900K</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card kpi-spark-list kpi-spark-list--chart-first">
+            <div class="pa-card__body kpi-spark-list__body">
+
+                <div class="kpi-spark-row kpi-spark-row--down">
+                    <div class="kpi-spark-row__label">Server Temp</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6 100,24 0,24" />
+                            <polyline points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6" />
+                            <circle cx="96" cy="6" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">23.8</span><span class="kpi-spark-row__unit">°C</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--negative">-2.7%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Server Temp · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>23.8°C</dd>
+                            <dt>Previous</dt><dd>24.5°C</dd>
+                            <dt>Δ percent</dt><dd class="neg">−2.7%</dd>
+                            <dt>Target</dt><dd>≤ 23°C</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Server Capacity</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,15 12,12 24,16 36,9 48,13 60,7 72,11 84,5 96,9 100,24 0,24" />
+                            <polyline points="0,15 12,12 24,16 36,9 48,13 60,7 72,11 84,5 96,9" />
+                            <circle cx="96" cy="9" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">83.1</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+17.1%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Server Capacity · 7D</div>
+                        <dl>
+                            <dt>Current</dt><dd>83.1%</dd>
+                            <dt>Previous</dt><dd>71.0%</dd>
+                            <dt>Δ percent</dt><dd class="pos">+17.1%</dd>
+                            <dt>Target</dt><dd>≤ 75%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card kpi-spark-list">
+            <div class="pa-card__body kpi-spark-list__body">
+
+                <div class="kpi-spark-row kpi-spark-row--up-strong">
+                    <div class="kpi-spark-row__label">Error Rate</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15 100,24 0,24" />
+                            <polyline points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15" />
+                            <circle cx="96" cy="15" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">0.25</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--very-positive">-38.1%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Error Rate · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>0.25%</dd>
+                            <dt>Previous</dt><dd>0.40%</dd>
+                            <dt>Δ percent</dt><dd class="pos">−38.1%</dd>
+                            <dt>Target</dt><dd>≤ 0.50%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Tokyo Office</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,14 12,11 24,15 36,9 48,13 60,8 72,12 84,10 96,9 100,24 0,24" />
+                            <polyline points="0,14 12,11 24,15 36,9 48,13 60,8 72,12 84,10 96,9" />
+                            <circle cx="96" cy="9" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__unit">¥</span><span class="kpi-spark-row__num">11.6</span><span class="kpi-spark-row__unit">M</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+3.6%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Tokyo Office · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>¥11.6M</dd>
+                            <dt>Previous</dt><dd>¥11.2M</dd>
+                            <dt>Δ percent</dt><dd class="pos">+3.6%</dd>
+                            <dt>Target</dt><dd>¥13.0M</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     3. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
+     ============================================================ -->
+
+<h3>3×3 stack · <code>.pa-col-25</code> + <code>.pa-col-45</code> + <code>.pa-col-25</code></h3>
+<p>Three page-grid columns. <strong>Left 25% (default)</strong>, <strong>middle 45% (default)</strong>, <strong>right 25% with <code>.kpi-spark-list--chart-first</code></strong>. Compares the two stacking variants at the same narrow width — at viewports wider than ~1440px the 25% columns are wider than the &lt;360px fallback threshold, so the default renders 2-row (value-above-chart) while the modifier renders 3-row (label / chart / value+delta). Below ~1440px both 25% cols hit the very-narrow fallback and render identically.</p>
+
+<div class="pa-row">
+    <div class="pa-col-100 pa-col-md-25">
+        <div class="pa-card kpi-spark-list">
+            <div class="pa-card__body kpi-spark-list__body">
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Completion Rate</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5 100,24 0,24" />
+                            <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                            <circle cx="96" cy="5" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">87.9</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+4.4%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Completion Rate · 30D</div>
+                        <dl>
+                            <dt>Current</dt><dd>87.9%</dd>
+                            <dt>Previous</dt><dd>84.2%</dd>
+                            <dt>Δ percent</dt><dd class="pos">+4.4%</dd>
+                            <dt>Target</dt><dd>90.0%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--down">
+                    <div class="kpi-spark-row__label">Server Temp</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6 100,24 0,24" />
+                            <polyline points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6" />
+                            <circle cx="96" cy="6" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">23.8</span><span class="kpi-spark-row__unit">°C</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--negative">-2.7%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Server Temp · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>23.8°C</dd>
+                            <dt>Previous</dt><dd>24.5°C</dd>
+                            <dt>Δ percent</dt><dd class="neg">−2.7%</dd>
+                            <dt>Target</dt><dd>≤ 23°C</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--up-strong">
+                    <div class="kpi-spark-row__label">Error Rate</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15 100,24 0,24" />
+                            <polyline points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15" />
+                            <circle cx="96" cy="15" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">0.25</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--very-positive">-38.1%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Error Rate · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>0.25%</dd>
+                            <dt>Previous</dt><dd>0.40%</dd>
+                            <dt>Δ percent</dt><dd class="pos">−38.1%</dd>
+                            <dt>Target</dt><dd>≤ 0.50%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-col-100 pa-col-md-45">
+        <div class="pa-card kpi-spark-list">
+            <div class="pa-card__body kpi-spark-list__body">
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Monthly Revenue</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4 100,24 0,24" />
+                            <polyline points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4" />
+                            <circle cx="96" cy="4" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__unit">$</span><span class="kpi-spark-row__num">862</span><span class="kpi-spark-row__unit">K</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+14.7%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Monthly Revenue · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>$862K</dd>
+                            <dt>Previous</dt><dd>$752K</dd>
+                            <dt>Δ percent</dt><dd class="pos">+14.7%</dd>
+                            <dt>Target</dt><dd>$900K</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Server Capacity</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,15 12,12 24,16 36,9 48,13 60,7 72,11 84,5 96,9 100,24 0,24" />
+                            <polyline points="0,15 12,12 24,16 36,9 48,13 60,7 72,11 84,5 96,9" />
+                            <circle cx="96" cy="9" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">83.1</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+17.1%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Server Capacity · 7D</div>
+                        <dl>
+                            <dt>Current</dt><dd>83.1%</dd>
+                            <dt>Previous</dt><dd>71.0%</dd>
+                            <dt>Δ percent</dt><dd class="pos">+17.1%</dd>
+                            <dt>Target</dt><dd>≤ 75%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Tokyo Office</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,14 12,11 24,15 36,9 48,13 60,8 72,12 84,10 96,9 100,24 0,24" />
+                            <polyline points="0,14 12,11 24,15 36,9 48,13 60,8 72,12 84,10 96,9" />
+                            <circle cx="96" cy="9" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__unit">¥</span><span class="kpi-spark-row__num">11.6</span><span class="kpi-spark-row__unit">M</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+3.6%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Tokyo Office · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>¥11.6M</dd>
+                            <dt>Previous</dt><dd>¥11.2M</dd>
+                            <dt>Δ percent</dt><dd class="pos">+3.6%</dd>
+                            <dt>Target</dt><dd>¥13.0M</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 3rd column: another .pa-col-25 with the --chart-first modifier so you
+         can compare default vs modifier at the same narrow width. -->
+    <div class="pa-col-100 pa-col-md-25">
+        <div class="pa-card kpi-spark-list kpi-spark-list--chart-first">
+            <div class="pa-card__body kpi-spark-list__body">
+
+                <div class="kpi-spark-row kpi-spark-row--up">
+                    <div class="kpi-spark-row__label">Completion Rate</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5 100,24 0,24" />
+                            <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                            <circle cx="96" cy="5" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">87.9</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--positive">+4.4%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Completion Rate · 30D</div>
+                        <dl>
+                            <dt>Current</dt><dd>87.9%</dd>
+                            <dt>Previous</dt><dd>84.2%</dd>
+                            <dt>Δ percent</dt><dd class="pos">+4.4%</dd>
+                            <dt>Target</dt><dd>90.0%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--down">
+                    <div class="kpi-spark-row__label">Server Temp</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6 100,24 0,24" />
+                            <polyline points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6" />
+                            <circle cx="96" cy="6" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">23.8</span><span class="kpi-spark-row__unit">°C</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--negative">-2.7%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Server Temp · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>23.8°C</dd>
+                            <dt>Previous</dt><dd>24.5°C</dd>
+                            <dt>Δ percent</dt><dd class="neg">−2.7%</dd>
+                            <dt>Target</dt><dd>≤ 23°C</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-spark-row kpi-spark-row--up-strong">
+                    <div class="kpi-spark-row__label">Error Rate</div>
+                    <div class="kpi-spark-row__chart">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <polygon points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15 100,24 0,24" />
+                            <polyline points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15" />
+                            <circle cx="96" cy="15" r="2" />
+                        </svg>
+                    </div>
+                    <div class="kpi-spark-row__value">
+                        <span class="kpi-spark-row__num">0.25</span><span class="kpi-spark-row__unit">%</span>
+                    </div>
+                    <div class="kpi-spark-row__delta kpi-spark-row__delta--very-positive">-38.1%</div>
+                    <div class="kpi-spark-row__detail" role="tooltip">
+                        <div class="kpi-spark-row__detail-title">Error Rate · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>0.25%</dd>
+                            <dt>Previous</dt><dd>0.40%</dd>
+                            <dt>Δ percent</dt><dd class="pos">−38.1%</dd>
+                            <dt>Target</dt><dd>≤ 0.50%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Hover detail popover — same Floating UI cursor-anchored recipe as
+// kpi-terminal-grid.mustache. Each row's detail is appended to <body> so
+// ancestor overflow:hidden doesn't clip; cursor coords (clientX/clientY)
+// drive a virtual reference element that computePosition anchors against.
+document.addEventListener('DOMContentLoaded', function() {
+    if (!window.FloatingUIDOM) return;
+    const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
+
+    document.querySelectorAll('.kpi-spark-row').forEach(row => {
+        const detail = row.querySelector('.kpi-spark-row__detail');
+        if (!detail) return;
+        document.body.appendChild(detail);
+
+        let cursorX = 0, cursorY = 0;
+        const virtualEl = {
+            getBoundingClientRect() {
+                return {
+                    width: 0, height: 0,
+                    x: cursorX, y: cursorY,
+                    top: cursorY, left: cursorX,
+                    right: cursorX, bottom: cursorY
+                };
+            }
+        };
+
+        const reposition = () => {
+            computePosition(virtualEl, detail, {
+                strategy: 'fixed',
+                placement: 'top-start',
+                middleware: [offset(14), flip(), shift({ padding: 8 })]
+            }).then(({ x, y }) => {
+                Object.assign(detail.style, { left: `${x}px`, top: `${y}px` });
+            });
+        };
+
+        row.addEventListener('mouseenter', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            detail.setAttribute('data-show', '');
+            reposition();
+        });
+        row.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            reposition();
+        });
+        row.addEventListener('mouseleave', () => {
+            detail.removeAttribute('data-show');
+        });
+    });
+});
+</script>
