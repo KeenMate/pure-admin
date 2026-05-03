@@ -151,7 +151,7 @@ Height and flex utilities for dynamic layouts:
 
 ## Theme Modes
 
-Themes support light/dark modes via CSS classes:
+Themes support light/dark modes via CSS classes on `<body>`:
 
 ```html
 <body class="pa-mode-dark">
@@ -163,6 +163,46 @@ The Dark theme also supports color accent variants:
 <body class="pa-color-blue">
 <!-- or pa-color-green, pa-color-red -->
 ```
+
+### JS contract (important for charts, SVG, canvas)
+
+The mode/variant classes go on **`<body>`**, not `<html>`. CSS custom-property values are inherited parent → child only, so reading vars from `document.documentElement` (`<html>`) returns the `:root` (dark-default) values regardless of which mode is active — the override on `<body>` never propagates upward. **Always read theme vars from `document.body`:**
+
+```js
+// ✅ correct — sees the active mode's values
+const styles = getComputedStyle(document.body);
+const textColor = styles.getPropertyValue('--pa-text-color-1').trim();
+
+// ❌ wrong — reads <html>, misses .pa-mode-light overrides on <body>
+getComputedStyle(document.documentElement).getPropertyValue('--pa-text-color-1');
+```
+
+Plain CSS (stylesheets, inline `style=`) using `var(--pa-*)` is unaffected — it updates live when the class on `<body>` changes.
+
+### Re-rendering on mode/variant change
+
+Code that **snapshots** CSS vars at draw time (D3 charts, canvas, baked SVG fills, web components reading attributes) needs to know when the user toggles mode or variant. Whatever code flips the body class should also dispatch a window event, e.g.:
+
+```js
+// Mode toggler
+document.body.classList.toggle('pa-mode-dark');
+window.dispatchEvent(new CustomEvent('pa:theme-change', { detail: { kind: 'mode' } }));
+```
+
+Charts and other snapshot-style code listen and re-render:
+
+```js
+function renderChart() {
+  const styles = getComputedStyle(document.body);
+  const accent = styles.getPropertyValue('--pa-accent').trim();
+  // ...draw chart with `accent`
+}
+
+renderChart();
+window.addEventListener('pa:theme-change', renderChart);
+```
+
+The demo's `settings-panel.js` already follows this convention. If you don't re-render, the page will look correct except for the snapshotted nodes, which keep stale colors until a hard reload.
 
 ## Docker Deployment
 

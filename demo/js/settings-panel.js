@@ -184,6 +184,12 @@
             }
         };
 
+        // Notify any code that snapshots CSS vars at draw time (charts, canvas, SVG)
+        // that theme appearance just changed and they should re-read.
+        const notifyThemeChange = (detail) => {
+            window.dispatchEvent(new CustomEvent('pa:theme-change', { detail }));
+        };
+
         // Apply theme mode (light/dark) without page reload
         const applyThemeMode = (mode, manifest) => {
             const cssClassPattern = manifest?.modeCssClass || manifest?.modes?.cssClass || 'pa-mode-{mode}';
@@ -199,6 +205,7 @@
             body.dataset.theme = mode;
 
             localStorage.setItem('theme-mode', mode);
+            notifyThemeChange({ kind: 'mode', mode });
         };
 
         // Apply color variant class
@@ -220,6 +227,7 @@
             }
 
             localStorage.setItem('color-variant', variant);
+            notifyThemeChange({ kind: 'variant', variant });
         };
 
         // Load saved settings

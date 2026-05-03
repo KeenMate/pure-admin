@@ -348,6 +348,10 @@
 // Theme-aware: pulls colors and font from Pure Admin CSS custom properties
 // (--pa-accent, --pa-text-color-1/2, --pa-border-color) and inherits the
 // body font so it tracks every theme automatically.
+//
+// CSS vars are snapshotted at draw time, so re-render on `pa:theme-change`
+// (dispatched by settings-panel.js when mode/variant changes) — otherwise
+// the chart keeps stale colors until a hard reload.
 document.addEventListener('DOMContentLoaded', function() {
     const data = [
         { product: 'Product Alpha', sales: 24532 },
@@ -358,84 +362,95 @@ document.addEventListener('DOMContentLoaded', function() {
         { product: 'Product Zeta', sales: 7543 }
     ];
 
-    const rootStyle = getComputedStyle(document.documentElement);
-    const cssVar = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
-    const accentColor  = cssVar('--pa-accent',         '#3b82f6');
-    const textPrimary  = cssVar('--pa-text-color-1',   '#1f2937');
-    const textMuted    = cssVar('--pa-text-color-2',   '#6b7280');
-    const borderColor  = cssVar('--pa-border-color',   '#e5e7eb');
-    // SVG doesn't reliably inherit font-family across the SVG boundary in
-    // all engines — read the theme's base font and apply explicitly.
-    const fontFamily   = cssVar('--base-font-family',  'system-ui, sans-serif');
+    function renderSalesChart() {
+        const container = document.getElementById('salesChart');
+        if (!container) return;
+        container.innerHTML = '';
 
-    const margin = { top: 20, right: 30, bottom: 40, left: 120 };
-    const width = 600 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+        // Mode classes (.pa-mode-light/.pa-mode-dark) live on <body>, so read from there.
+        // Reading from documentElement misses the mode override and yields the :root (dark-default) values.
+        const rootStyle = getComputedStyle(document.body);
+        const cssVar = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
+        const accentColor  = cssVar('--pa-accent',         '#3b82f6');
+        const textPrimary  = cssVar('--pa-text-color-1',   '#1f2937');
+        const textMuted    = cssVar('--pa-text-color-2',   '#6b7280');
+        const borderColor  = cssVar('--pa-border-color',   '#e5e7eb');
+        // SVG doesn't reliably inherit font-family across the SVG boundary in
+        // all engines — read the theme's base font and apply explicitly.
+        const fontFamily   = cssVar('--base-font-family',  'system-ui, sans-serif');
 
-    const svg = d3.select('#salesChart')
-        .append('svg')
-        .attr('width', '100%')
-        .attr('height', height + margin.top + margin.bottom)
-        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-        .attr('preserveAspectRatio', 'xMidYMid meet')
-        .style('font-family', fontFamily)
-        .style('font-size', '12px')
-        .append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
+        const margin = { top: 20, right: 30, bottom: 40, left: 120 };
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
 
-    const x = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.sales)])
-        .range([0, width]);
+        const svg = d3.select('#salesChart')
+            .append('svg')
+            .attr('width', '100%')
+            .attr('height', height + margin.top + margin.bottom)
+            .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .style('font-family', fontFamily)
+            .style('font-size', '12px')
+            .append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const y = d3.scaleBand()
-        .domain(data.map(d => d.product))
-        .range([0, height])
-        .padding(0.2);
+        const x = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.sales)])
+            .range([0, width]);
 
-    svg.append('g')
-        .attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(x).ticks(5).tickFormat(d => '$' + (d / 1000).toFixed(0) + 'k'))
-        .selectAll('text')
-        .style('fill', textMuted)
-        .style('font-family', fontFamily)
-        .style('font-size', '11px');
+        const y = d3.scaleBand()
+            .domain(data.map(d => d.product))
+            .range([0, height])
+            .padding(0.2);
 
-    svg.append('g')
-        .call(d3.axisLeft(y))
-        .selectAll('text')
-        .style('fill', textPrimary)
-        .style('font-family', fontFamily)
-        .style('font-size', '12px');
+        svg.append('g')
+            .attr('transform', `translate(0,${height})`)
+            .call(d3.axisBottom(x).ticks(5).tickFormat(d => '$' + (d / 1000).toFixed(0) + 'k'))
+            .selectAll('text')
+            .style('fill', textMuted)
+            .style('font-family', fontFamily)
+            .style('font-size', '11px');
 
-    svg.selectAll('.domain, .tick line')
-        .style('stroke', borderColor);
+        svg.append('g')
+            .call(d3.axisLeft(y))
+            .selectAll('text')
+            .style('fill', textPrimary)
+            .style('font-family', fontFamily)
+            .style('font-size', '12px');
 
-    svg.selectAll('rect')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('x', 0)
-        .attr('y', d => y(d.product))
-        .attr('width', d => x(d.sales))
-        .attr('height', y.bandwidth())
-        .attr('fill', accentColor)
-        .attr('opacity', 0.85)
-        .attr('rx', 4)
-        .on('mouseover', function() { d3.select(this).attr('opacity', 1); })
-        .on('mouseout',  function() { d3.select(this).attr('opacity', 0.85); });
+        svg.selectAll('.domain, .tick line')
+            .style('stroke', borderColor);
 
-    svg.selectAll('.label')
-        .data(data)
-        .enter()
-        .append('text')
-        .attr('class', 'label')
-        .attr('x', d => x(d.sales) + 5)
-        .attr('y', d => y(d.product) + y.bandwidth() / 2)
-        .attr('dy', '.35em')
-        .text(d => '$' + d.sales.toLocaleString())
-        .style('fill', textPrimary)
-        .style('font-family', fontFamily)
-        .style('font-size', '12px')
-        .style('font-weight', '600');
+        svg.selectAll('rect')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('x', 0)
+            .attr('y', d => y(d.product))
+            .attr('width', d => x(d.sales))
+            .attr('height', y.bandwidth())
+            .attr('fill', accentColor)
+            .attr('opacity', 0.85)
+            .attr('rx', 4)
+            .on('mouseover', function() { d3.select(this).attr('opacity', 1); })
+            .on('mouseout',  function() { d3.select(this).attr('opacity', 0.85); });
+
+        svg.selectAll('.label')
+            .data(data)
+            .enter()
+            .append('text')
+            .attr('class', 'label')
+            .attr('x', d => x(d.sales) + 5)
+            .attr('y', d => y(d.product) + y.bandwidth() / 2)
+            .attr('dy', '.35em')
+            .text(d => '$' + d.sales.toLocaleString())
+            .style('fill', textPrimary)
+            .style('font-family', fontFamily)
+            .style('font-size', '12px')
+            .style('font-weight', '600');
+    }
+
+    renderSalesChart();
+    window.addEventListener('pa:theme-change', renderSalesChart);
 });
 </script>

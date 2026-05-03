@@ -5,6 +5,18 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- **Mode toggle (light↔dark) required a hard reload to fully refresh the dashboard chart** — two distinct bugs in `demo/views/dashboard.mustache` combined to make this look like a CSS issue but it was JS-only.
+    1. **CSS vars were read from the wrong element.** The Top Sales Products D3 chart did `getComputedStyle(document.documentElement)` to pull `--pa-text-color-1`, `--pa-text-color-2`, `--pa-accent`, `--pa-border-color`, and `--base-font-family`. But the mode classes (`.pa-mode-light` / `.pa-mode-dark`) live on `<body>`, not `<html>` (`demo/views/layout.mustache:158-164`). CSS custom-property values defined on a child don't propagate up to the parent — so `<html>` always returned the `:root` (dark-default) values regardless of mode. Most visible on Audi-light: the Y/X axis labels rendered white-on-white because `<html>` reported `--pa-text-color-1: #ffffff` while `<body>` correctly held the light override `#212529`. Affected every theme that ships a `.pa-mode-light` block; the dark-mode case happened to render correctly only because both `:root` and `.pa-mode-dark` set the same values. Fix: read from `document.body`.
+    2. **CSS vars were snapshotted at draw time, with no refresh on toggle.** The chart code ran once at `DOMContentLoaded` and baked accent/text/border colors into the SVG nodes. Toggling mode flipped the body class — every CSS-driven element on the page updated instantly — but the SVG's text fills and bar fills stayed frozen at the old mode's values. Hard reload re-ran the snapshot and the chart looked right again. Fix: wrapped the render in `renderSalesChart()`, called once at load and again on every `pa:theme-change` window event.
+
+### Demo
+
+- **New `pa:theme-change` window event for theme-aware JS.** `demo/js/settings-panel.js` now dispatches `new CustomEvent('pa:theme-change', { detail: { kind: 'mode' | 'variant', ... } })` after `applyThemeMode()` and `applyColorVariant()` flip the body class. Any code that snapshots CSS vars at draw time (charts, canvas, SVG, web components) should listen on `window` and re-render. Documented in the README's "Theme Modes" section as the recommended convention for consumers building their own mode toggles. Pure-CSS code (anything using `var(--pa-*)` directly in stylesheets or inline `style=`) needs no changes — it already updates live with the body class flip.
+
 ## [2.5.0] - 2026-04-25 [PUBLISHED]
 
 ### Changed
