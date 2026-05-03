@@ -238,7 +238,14 @@
 .kpi-tile__delta--negative      { color: var(--kpi-negative); }
 .kpi-tile__delta--very-negative { color: var(--kpi-very-negative); }
 
-/* === Sparkline === */
+/* === Sparkline ===
+   The trailing dot (end-of-line marker) is a CSS-positioned <span>, not a
+   <circle> inside the SVG. The SVG uses preserveAspectRatio="none" so the
+   line/area stretch to fill arbitrary widths — but that same scaling turns
+   an SVG circle into an oval as a side-effect (different X/Y scale factors).
+   At init, JS converts each circle to a positioned span inside a wrapper;
+   the span is sized in CSS pixels (true circle, regardless of chart aspect
+   ratio). See the inline <script> at the bottom of this file. */
 .kpi-tile__spark {
   display: block;
   width: 100%;
@@ -252,19 +259,34 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.kpi-tile__spark circle { fill: currentColor; }
+.kpi-tile__spark-wrap {
+  display: block;
+  position: relative;     /* anchor for the dot */
+  width: 100%;
+}
+.kpi-spark-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;  /* centre on the (left, top) anchor point */
+  border-radius: 50%;
+  background: currentColor;
+  pointer-events: none;
+}
 /* Sparkline class names use up/down wording but resolve to sentiment colors —
    green for "the change is good", red for "the change is bad", regardless of
    whether the line shape itself rises or falls. For inverse-good metrics
    (error rate, server temp, churn) the line direction and sentiment diverge:
    error rate dropping shows a downward line but is good → use --up. Server
    temp climbing shows an upward line but is bad → use --down. Pick the
-   class that matches the *sentiment of the change*, not the line shape. */
-.kpi-tile--up-strong   .kpi-tile__spark { color: var(--kpi-very-positive); }
-.kpi-tile--up          .kpi-tile__spark { color: var(--kpi-positive); }
-.kpi-tile--flat        .kpi-tile__spark { color: var(--kpi-neutral); }
-.kpi-tile--down        .kpi-tile__spark { color: var(--kpi-negative); }
-.kpi-tile--down-strong .kpi-tile__spark { color: var(--kpi-very-negative); }
+   class that matches the *sentiment of the change*, not the line shape.
+   Color is set on both the SVG and the wrapper so currentColor resolves for
+   the line/area (inside SVG) and the dot (inside wrapper). */
+.kpi-tile--up-strong   .kpi-tile__spark, .kpi-tile--up-strong   .kpi-tile__spark-wrap { color: var(--kpi-very-positive); }
+.kpi-tile--up          .kpi-tile__spark, .kpi-tile--up          .kpi-tile__spark-wrap { color: var(--kpi-positive); }
+.kpi-tile--flat        .kpi-tile__spark, .kpi-tile--flat        .kpi-tile__spark-wrap { color: var(--kpi-neutral); }
+.kpi-tile--down        .kpi-tile__spark, .kpi-tile--down        .kpi-tile__spark-wrap { color: var(--kpi-negative); }
+.kpi-tile--down-strong .kpi-tile__spark, .kpi-tile--down-strong .kpi-tile__spark-wrap { color: var(--kpi-very-negative); }
 
 /* === Hover detail popover ===
    Positioned with Floating UI anchored to a *virtual element* at the cursor
@@ -958,5 +980,42 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // ---- Convert SVG <circle> end-of-line markers to CSS-positioned <span> ----
+    // The SVG uses preserveAspectRatio="none" so the line stretches to fill the
+    // container width, but that same non-uniform scaling turns an SVG <circle>
+    // into an oval (different X/Y scale factors). Render the dot as a CSS
+    // pixel-sized span instead — circular regardless of chart aspect ratio.
+    // The span is positioned via left/top % computed from the circle's cx/cy
+    // in viewBox coordinates.
+    document.querySelectorAll('.kpi-tile__spark').forEach(svg => {
+        const circle = svg.querySelector('circle');
+        if (!circle) return;
+
+        const cx = parseFloat(circle.getAttribute('cx'));
+        const cy = parseFloat(circle.getAttribute('cy'));
+        const vb = svg.viewBox.baseVal;
+        const xPct = (cx - vb.x) / vb.width * 100;
+        const yPct = (cy - vb.y) / vb.height * 100;
+
+        // Wrap SVG in a position:relative span so the dot can be absolutely
+        // anchored against it.
+        let wrap = svg.parentElement;
+        if (!wrap.classList.contains('kpi-tile__spark-wrap')) {
+            const newWrap = document.createElement('span');
+            newWrap.className = 'kpi-tile__spark-wrap';
+            svg.parentElement.insertBefore(newWrap, svg);
+            newWrap.appendChild(svg);
+            wrap = newWrap;
+        }
+
+        const dot = document.createElement('span');
+        dot.className = 'kpi-spark-dot';
+        dot.style.left = xPct + '%';
+        dot.style.top = yPct + '%';
+        wrap.appendChild(dot);
+
+        circle.remove();
+    });
 });
 </script>

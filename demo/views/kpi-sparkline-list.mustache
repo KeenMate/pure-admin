@@ -155,7 +155,15 @@
   color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
 }
 
-/* Sparkline (col 2) — line + filled area underneath + trailing dot */
+/* Sparkline (col 2) — line + filled area underneath + trailing dot.
+   The trailing dot is a CSS-positioned <span>, not a <circle>, because the
+   SVG uses preserveAspectRatio="none" — that stretches the line/area to
+   fill the cell width but turns an SVG circle into an oval as a side-effect
+   (different X/Y scale factors). JS converts each circle to a positioned
+   span at init; see the inline <script> at the bottom of this file. */
+.kpi-spark-row__chart {
+  position: relative;          /* anchor for the dot */
+}
 .kpi-spark-row__chart svg {
   display: block;
   width: 100%;
@@ -171,18 +179,28 @@
 }
 .kpi-spark-row__chart polygon {
   fill: currentColor;
-  fill-opacity: 0.18;     /* subtle area shading — same hue as the line */
+  fill-opacity: 0.18;          /* subtle area shading — same hue as the line */
   stroke: none;
 }
-.kpi-spark-row__chart circle { fill: currentColor; }
+.kpi-spark-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;       /* centre on (left, top) anchor */
+  border-radius: 50%;
+  background: currentColor;
+  pointer-events: none;
+}
 
 /* Sparkline color reflects sentiment, not direction (see kpi-terminal-grid
-   for the rationale). Picks one of the 5 scale colors via currentColor. */
-.kpi-spark-row--up-strong   .kpi-spark-row__chart svg { color: var(--kpi-very-positive); }
-.kpi-spark-row--up          .kpi-spark-row__chart svg { color: var(--kpi-positive); }
-.kpi-spark-row--flat        .kpi-spark-row__chart svg { color: var(--kpi-neutral); }
-.kpi-spark-row--down        .kpi-spark-row__chart svg { color: var(--kpi-negative); }
-.kpi-spark-row--down-strong .kpi-spark-row__chart svg { color: var(--kpi-very-negative); }
+   for the rationale). Color is set on .kpi-spark-row__chart so currentColor
+   resolves for both the SVG content (line/area) and the dot inside the
+   wrapper. Picks one of the 5 scale colors via currentColor. */
+.kpi-spark-row--up-strong   .kpi-spark-row__chart { color: var(--kpi-very-positive); }
+.kpi-spark-row--up          .kpi-spark-row__chart { color: var(--kpi-positive); }
+.kpi-spark-row--flat        .kpi-spark-row__chart { color: var(--kpi-neutral); }
+.kpi-spark-row--down        .kpi-spark-row__chart { color: var(--kpi-negative); }
+.kpi-spark-row--down-strong .kpi-spark-row__chart { color: var(--kpi-very-negative); }
 
 /* Value (col 3) — focal white number + muted unit, mono, right-aligned */
 .kpi-spark-row__value {
@@ -926,6 +944,29 @@ document.addEventListener('DOMContentLoaded', function() {
         row.addEventListener('mouseleave', () => {
             detail.removeAttribute('data-show');
         });
+    });
+
+    // Convert SVG <circle> end-of-line markers to CSS-positioned <span> so the
+    // dot stays a true circle. With preserveAspectRatio="none" on the SVG, the
+    // X and Y scale factors differ — an SVG <circle> renders as an oval. The
+    // line/area still stretch to fill the cell; only the dot is HTML-rendered.
+    document.querySelectorAll('.kpi-spark-row__chart svg').forEach(svg => {
+        const circle = svg.querySelector('circle');
+        if (!circle) return;
+
+        const cx = parseFloat(circle.getAttribute('cx'));
+        const cy = parseFloat(circle.getAttribute('cy'));
+        const vb = svg.viewBox.baseVal;
+        const xPct = (cx - vb.x) / vb.width * 100;
+        const yPct = (cy - vb.y) / vb.height * 100;
+
+        const dot = document.createElement('span');
+        dot.className = 'kpi-spark-dot';
+        dot.style.left = xPct + '%';
+        dot.style.top = yPct + '%';
+        svg.parentElement.appendChild(dot);
+
+        circle.remove();
     });
 });
 </script>

@@ -427,6 +427,10 @@ app.get('/kpi/sparkline-list', (req, res) => {
     renderWithLayout(res, 'kpi-sparkline-list', { pageTitle: 'KPI · Sparkline list', currentPage: 'kpi-sparkline-list', isKpiSparklineList: true });
 });
 
+app.get('/kpi/comparison-gauges', (req, res) => {
+    renderWithLayout(res, 'kpi-comparison-gauges', { pageTitle: 'KPI · Comparison gauges', currentPage: 'kpi-comparison-gauges', isKpiComparisonGauges: true });
+});
+
 app.get('/components/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });
