@@ -336,15 +336,26 @@ $stat-square-min-size: 12.8rem !default;   // 128px (was 8rem)
 $stat-label-letter-spacing: 0.05em !default;
 $stat-change-margin-bottom: 0.4rem !default; // 4px (was 0.25rem)
 $stat-number-margin-bottom: $spacing-xs !default;
-$stat-symbol-opacity: $opacity-shadow !default;
+$stat-symbol-opacity: 0.85 !default;
+$stat-square-symbol-gap: 0.15em !default;   // tight gap between number and symbol on the same row
 
-// Stat square clamp values (10px base)
-$stat-square-number-min: 4.8rem !default;    // 48px (was 3rem)
-$stat-square-number-scale: 8vw !default;
-$stat-square-number-max: 7.2rem !default;    // 72px (was 4.5rem)
-$stat-square-symbol-min: 6.4rem !default;    // 64px (was 4rem)
-$stat-square-symbol-scale: 10vw !default;
-$stat-square-symbol-max: 9.6rem !default;    // 96px (was 6rem)
+// Stat square clamp values (10px base).
+// Scale uses `cqi` (container query inline-size, requires `container-type: inline-size`
+// on .pa-stat--square) so font tracks the tile width, not the viewport. Without this,
+// a wide-viewport / narrow-tile combination (e.g. 6 KPIs in a 33% column on 1920px)
+// hits the max font size and overflows multi-character values like "$847K" or "¥12.4M".
+//
+// Sizing budget: a 5-char number ("12.4M") at $stat-square-number-scale plus a 1-char
+// symbol at $stat-square-symbol-scale plus the inter-element gap should fit inside the
+// tile's content area (tile width minus 2× $spacing-lg padding) at typical tile widths
+// (~250–400px). Numbers are sized aggressively so the KPI reads as the dominant element.
+$stat-square-number-min: 3.2rem !default;    // 32px floor
+$stat-square-number-scale: 25cqi !default;   // 25% of tile width
+$stat-square-number-max: 9.6rem !default;    // 96px ceiling (was 7.2/6.4 — bumped so wide tiles render large)
+// Symbol is intentionally smaller than the number (visual hierarchy: number primary, unit secondary).
+$stat-square-symbol-min: 1.6rem !default;    // 16px floor (~50% of number-min)
+$stat-square-symbol-scale: 12cqi !default;   // 12% of tile width (~48% of number)
+$stat-square-symbol-max: 4.8rem !default;    // 48px ceiling (~50% of number-max)
 
 // Stat shadow values
 $stat-text-shadow-1-y: 4px !default;
@@ -704,7 +715,7 @@ $progress-height: 0.8rem !default;           // 8px
 $progress-height-xs: 0.3rem !default;        // 3px
 $progress-height-sm: 0.5rem !default;        // 5px
 $progress-height-lg: 1.2rem !default;        // 12px
-$progress-bg: rgba(0, 0, 0, 0.08) !default;
+$progress-bg: color-mix(in srgb, var(--pa-text-color-1) 12%, transparent) !default;
 $progress-border-radius: $border-radius !default;
 $progress-stripe-angle: 45deg !default;
 $progress-stripe-size: 1.6rem !default;      // 16px
@@ -723,14 +734,14 @@ $stacked-bar-legend-font-size: $font-size-xs !default;
 $progress-ring-size: 8rem !default;          // 80px
 $progress-ring-size-sm: 5rem !default;       // 50px
 $progress-ring-size-lg: 11rem !default;      // 110px
-$progress-ring-track-color: rgba(0, 0, 0, 0.08) !default;
+$progress-ring-track-color: color-mix(in srgb, var(--pa-text-color-1) 12%, transparent) !default;
 $progress-ring-value-font-size: $font-size-lg !default;
 $progress-ring-value-font-weight: $font-weight-bold !default;
 $progress-ring-label-font-size: $font-size-2xs !default;
 
 // Gauge (pa-gauge)
 $gauge-size: 12rem !default;                 // 120px
-$gauge-track-color: rgba(0, 0, 0, 0.08) !default;
+$gauge-track-color: color-mix(in srgb, var(--pa-text-color-1) 12%, transparent) !default;
 $gauge-label-font-size: $font-size-xs !default;
 $gauge-value-font-size: $font-size-2xl !default;
 $gauge-value-font-weight: $font-weight-bold !default;

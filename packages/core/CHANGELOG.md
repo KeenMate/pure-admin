@@ -7,7 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **`pa-stat--square` redesigned: inline number+symbol with container-relative font sizing (Visual breaking)** — the old design used a giant absolute-positioned watermark for `__symbol` (clamp `6.4–9.6rem`, *bigger* than `__number`, at `opacity: 0.12`), positioned behind the number on the right. It only worked for `%` because that single asymmetric character could fade into the background without overflowing the card; multi-character units like `°C`, prefix currencies like `$` and `¥`, and longer suffixes degraded badly — they overflowed, sat in nonsensical positions for prefix marks, and were unreadable on Audi-light's bright color tiles where the 0.12 alpha blended into the surface. New layout:
+    - `__number` and `__symbol` sit on the same row baseline-aligned, label pinned to the bottom, no absolute positioning.
+    - **Markup order drives visual order**: `<number><symbol>` for suffix units (`87%`, `23°C`), `<symbol><number>` for prefix currencies (`$847K`, `¥12.4M`) — no flag or modifier needed.
+    - **Container-relative font sizing**: clamp scale is `cqi` (container query inline-size), not `vw`. The tile gets `container-type: inline-size`, so `__number` is `clamp(2.8rem, 20cqi, 6.4rem)` and `__symbol` is `clamp(1.4rem, 10cqi, 3.2rem)` — sizes track the *tile's* width, not the viewport. Without this, a wide-viewport / narrow-tile combination (e.g. 6 KPI tiles in a 33% column on a 1920px screen) hits the font max and multi-character values overflow the card.
+    - `__symbol` is now ~50% of the number's size at `opacity: 0.85` — clearly secondary but readable.
+    - Variables changed (all `!default`):
+      - `$stat-symbol-opacity`: `$opacity-shadow` (`0.12`) → `0.85`.
+      - `$stat-square-number-min`: `4.8rem` → `2.8rem`.
+      - `$stat-square-number-scale`: `8vw` → `20cqi`.
+      - `$stat-square-number-max`: `7.2rem` → `6.4rem`.
+      - `$stat-square-symbol-min`: `6.4rem` → `1.4rem`.
+      - `$stat-square-symbol-scale`: `10vw` → `10cqi`.
+      - `$stat-square-symbol-max`: `9.6rem` → `3.2rem`.
+      - New `$stat-square-symbol-gap: 0.15em` (column gap between number and symbol).
+    - **Browser support**: container queries / `cq*` units land in Chrome 105 (Aug 2022), Safari 16 (Sep 2022), Firefox 110 (Feb 2023). Pure Admin already requires modern browsers (uses `color-mix()`, container queries elsewhere), so this is consistent.
+    - Existing markup (`__number` + `__symbol` + `__label` siblings under `.pa-stat--square`) keeps working — only the visual presentation changes. Snippets and demo updated to showcase mixed units (`%`, `$`, `°C`, `¥`).
+    - Themes that want the old watermark look can override the variables back to their previous values.
+
 ### Fixed
+
+- **Progress ring and gauge inner circles ignored theme — numbers invisible in dark themes** — `.pa-progress-ring__inner` and `.pa-gauge__inner` in `_data-viz.scss` painted their center fill with the SCSS variable `$card-bg` (resolved at compile time to the default light card colour). Every other card-like surface in the codebase uses the CSS variable `var(--pa-card-bg)`, which themes override at runtime. Result in dark themes (Audi Dark, Dark, Dracula, etc.): white inner mask under white text (`var(--pa-text-color-1)` resolves to a light value in dark modes), so the percentage values disappeared while the labels (which use `--pa-text-color-2`, a muted grey, on the white inner) stayed faintly visible. Switched both `__inner` rules to `var(--pa-card-bg)` so the inner now tracks theme colour at runtime alongside the text colours already do. No markup change. Themes need a rebuild to ship the fix.
+
+- **Progress bar / ring / gauge tracks barely visible in dark themes** — `$progress-bg`, `$progress-ring-track-color`, and `$gauge-track-color` were all `rgba(0, 0, 0, 0.08)`. 8% black on a light surface reads as a faint grey track (fine); on a dark surface it's effectively invisible — the unfilled portion of every progress bar / ring / gauge dissolved into the card background, so a partially-filled indicator looked the same as a fully-filled one. Switched all three defaults to `color-mix(in srgb, var(--pa-text-color-1) 12%, transparent)`, which inverts with the theme: in light modes it's a subtle dark tint, in dark modes a subtle light tint. Slight opacity bump (0.08 → 0.12) makes the track a touch more pronounced on light surfaces too without dominating. Same `color-mix(... var(--pa-text-color-1) ...)` pattern already used by alert backgrounds (`_base-css-variables.scss:167`). Themes need a rebuild to ship the fix.
 
 - **Mode toggle (light↔dark) required a hard reload to fully refresh the dashboard chart** — two distinct bugs in `demo/views/dashboard.mustache` combined to make this look like a CSS issue but it was JS-only.
     1. **CSS vars were read from the wrong element.** The Top Sales Products D3 chart did `getComputedStyle(document.documentElement)` to pull `--pa-text-color-1`, `--pa-text-color-2`, `--pa-accent`, `--pa-border-color`, and `--base-font-family`. But the mode classes (`.pa-mode-light` / `.pa-mode-dark`) live on `<body>`, not `<html>` (`demo/views/layout.mustache:158-164`). CSS custom-property values defined on a child don't propagate up to the parent — so `<html>` always returned the `:root` (dark-default) values regardless of mode. Most visible on Audi-light: the Y/X axis labels rendered white-on-white because `<html>` reported `--pa-text-color-1: #ffffff` while `<body>` correctly held the light override `#212529`. Affected every theme that ships a `.pa-mode-light` block; the dark-mode case happened to render correctly only because both `:root` and `.pa-mode-dark` set the same values. Fix: read from `document.body`.

@@ -98,11 +98,17 @@
     }
   }
 
-  // Square variant - compact square with big number and shadowed symbol
+  // Square variant - compact square with a big number and a smaller, inline unit symbol.
+  // Layout: number + symbol on one row (baseline-aligned) at the top, label pinned to the
+  // bottom. Markup order drives visual order — `<symbol><number>` works for prefix
+  // currencies ($1,234), `<number><symbol>` for suffix units (87% / 23°C).
   &--square {
+    container-type: inline-size;      // enables cqi units in __number / __symbol clamps
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: space-between;     // number/symbol row sticks to the top, label to the bottom
+    align-items: baseline;            // baseline-align number and symbol (clean even when symbol is multi-char like "°C")
+    column-gap: $stat-square-symbol-gap;
     padding: $spacing-lg;
     min-height: $stat-square-min-size;
     min-width: $stat-square-min-size;
@@ -120,10 +126,8 @@
     .pa-stat__number {
       font-size: clamp($stat-square-number-min, $stat-square-number-scale, $stat-square-number-max);
       font-weight: $font-weight-bold;
-      line-height: 1.1;
+      line-height: 1;
       color: inherit;
-      z-index: $focus-outline-width;
-      position: relative;
       text-shadow: 0 $stat-text-shadow-1-y $stat-text-shadow-1-blur rgba(0, 0, 0, $btn-focus-ring-opacity),
                    0 $stat-text-shadow-2-y $stat-text-shadow-2-blur rgba(0, 0, 0, $opacity-shadow-md);
       filter: drop-shadow(0 $stat-drop-shadow-y $stat-drop-shadow-blur rgba(0, 0, 0, $opacity-light));
@@ -134,28 +138,21 @@
     .pa-stat__symbol {
       font-size: clamp($stat-square-symbol-min, $stat-square-symbol-scale, $stat-square-symbol-max);
       font-weight: $font-weight-bold;
-      line-height: 1.1;
-      opacity: $stat-symbol-opacity;
+      line-height: 1;
       color: inherit;
-      position: absolute;
-      right: $spacing-lg;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: $z-index-base;
+      opacity: $stat-symbol-opacity;
+      word-break: keep-all;
+      white-space: nowrap;
     }
 
     .pa-stat__label {
-      position: absolute;
-      bottom: $spacing-base;
-      left: $spacing-lg;
+      flex-basis: 100%;                // forces label onto its own row
       font-size: $font-size-xs;
       text-transform: uppercase;
       letter-spacing: $stat-label-letter-spacing;
       font-weight: $font-weight-medium;
       color: inherit;
       opacity: 0.8;
-      z-index: 2;
-      max-width: calc(100% - #{$spacing-lg * 2});
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
