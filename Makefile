@@ -1,7 +1,7 @@
 # Pure Admin Workspace - Makefile
 # Root workspace commands for development and build
 
-.PHONY: help setup install build watch clean demo dev package publish publish-dry verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
+.PHONY: help setup install build watch clean demo dev themes-install package publish publish-dry verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
 
 # === Configuration ===
 # Docker image settings
@@ -23,9 +23,10 @@ help:
 	@echo "    make setup        - Install dependencies and build"
 	@echo ""
 	@echo "  Development:"
-	@echo "    make install      - Install all workspace dependencies"
-	@echo "    make dev          - Run demo server with SCSS watch"
-	@echo "    make demo         - Run demo server only"
+	@echo "    make install         - Install all workspace dependencies"
+	@echo "    make themes-install  - Snapshot themes into ./themes/ (per pureadmin.json + .pureadmin.json)"
+	@echo "    make dev             - Snapshot themes, then run demo server with SCSS watch"
+	@echo "    make demo            - Snapshot themes, then run demo server only"
 	@echo ""
 	@echo "  Build:"
 	@echo "    make build        - Build core CSS"
@@ -56,8 +57,8 @@ help:
 install:
 	npm install
 
-# Full setup - install and build everything
-setup: install build
+# Full setup - install, build, and snapshot themes
+setup: install build themes-install
 
 # Build core CSS
 build:
@@ -67,12 +68,21 @@ build:
 watch:
 	npm run watch -w @keenmate/pure-admin-core
 
+# Snapshot themes into ./themes/ from configured sources (remote API or local sibling paths via .pureadmin.json).
+# Skips silently if no pureadmin.json / .pureadmin.json exists yet (e.g. fresh clone before configs are written).
+themes-install:
+	@if [ -f pureadmin.json ] || [ -f .pureadmin.json ]; then \
+		npx @keenmate/pureadmin themes install; \
+	else \
+		echo "themes-install: no pureadmin.json or .pureadmin.json — skipping"; \
+	fi
+
 # Run demo server only
-demo:
+demo: themes-install
 	npm run start -w demo
 
 # Development mode (demo server)
-dev:
+dev: themes-install
 	npm run dev -w demo
 
 # Clean dist directories
