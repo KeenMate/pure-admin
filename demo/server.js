@@ -439,6 +439,10 @@ app.get('/kpi/bento', (req, res) => {
     renderWithLayout(res, 'kpi-bento', { pageTitle: 'KPI · Bento layout', currentPage: 'kpi-bento', isKpiBento: true });
 });
 
+app.get('/kpi/numeric-strip', (req, res) => {
+    renderWithLayout(res, 'kpi-numeric-strip', { pageTitle: 'KPI · Numeric strip', currentPage: 'kpi-numeric-strip', isKpiNumericStrip: true });
+});
+
 app.get('/components/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });
