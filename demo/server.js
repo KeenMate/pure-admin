@@ -435,6 +435,10 @@ app.get('/kpi/hero-supporting', (req, res) => {
     renderWithLayout(res, 'kpi-hero-supporting', { pageTitle: 'KPI · Hero + supporting', currentPage: 'kpi-hero-supporting', isKpiHeroSupporting: true });
 });
 
+app.get('/kpi/bento', (req, res) => {
+    renderWithLayout(res, 'kpi-bento', { pageTitle: 'KPI · Bento layout', currentPage: 'kpi-bento', isKpiBento: true });
+});
+
 app.get('/components/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });
