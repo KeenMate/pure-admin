@@ -1,0 +1,821 @@
+<p>"Hero + supporting" KPI indicator. <strong>One headline metric on the left</strong> (huge value, delta + period + target meta row, big sparkline) — the marketing/exec story you want at a glance. <strong>A vertical side rail of supporting metrics on the right</strong> (compact tiles, each with label · value · delta-vs-prev). Card-level container query collapses the side-by-side layout to stacked when the card narrows below 700px so the same markup works in narrow page-grid cells.</p>
+
+<style>
+/* === KPI design tokens (shared) ===
+   Same palette as the other KPI showcases. Will dedupe to a shared SCSS
+   module when these graduate to core. */
+:root {
+  --kpi-very-positive: #16a34a;
+  --kpi-positive:      #22c55e;
+  --kpi-neutral:       #9ca3af;
+  --kpi-negative:      #ef4444;
+  --kpi-very-negative: #dc2626;
+  --kpi-warning:       #f97316;
+
+  --kpi-detail-bg: rgba(15, 17, 21, 0.97);
+  --kpi-detail-text: #ffffff;
+  --kpi-detail-row-label: rgba(255, 255, 255, 0.75);
+  --kpi-detail-title: rgba(255, 255, 255, 0.55);
+  --kpi-detail-shadow: 0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
+}
+
+/* === Card chrome === */
+.kpi-hero-list {
+  container-type: inline-size;
+}
+.kpi-hero-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+.kpi-hero-list__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+}
+.kpi-hero-list__livedot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--kpi-positive);
+  box-shadow: 0 0 6px var(--kpi-positive);
+  animation: kpiPulse 1.6s ease-in-out infinite;
+}
+@keyframes kpiPulse { 50% { opacity: 0.35; } }
+
+.kpi-hero-list__body { padding: 1.6rem; }
+
+/* === Two-column layout: hero left, side rail right.
+       Stacks vertically when the card is narrower than 700px. The hero
+       eats more horizontal space at wide widths because the big value
+       wants room to breathe; at narrow widths the columns are equal. === */
+.kpi-hero-list__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+}
+@container (max-width: 700px) {
+  .kpi-hero-list__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpi-hero-list__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* === HERO panel (left): label · big value · meta row · sparkline === */
+.kpi-hero-main {
+  position: relative;
+  padding: 1.8rem 2rem;
+  border: 1px solid var(--pa-border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  /* Sentiment colour cascades to the chart and any deltas via currentColor.
+     Override per-tile via the .kpi-hero-main--positive/negative/etc modifiers. */
+  --kpi-hero-color: var(--kpi-positive);
+}
+.kpi-hero-main--positive { --kpi-hero-color: var(--kpi-positive); }
+.kpi-hero-main--negative { --kpi-hero-color: var(--kpi-negative); }
+.kpi-hero-main--neutral  { --kpi-hero-color: var(--kpi-neutral); }
+.kpi-hero-main--up-strong { --kpi-hero-color: var(--kpi-very-positive); }
+
+.kpi-hero-main__label {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+}
+
+.kpi-hero-main__value {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--base-font-family-mono);
+  line-height: 1;
+  margin: 0.4rem 0 0.6rem;
+}
+.kpi-hero-main__num {
+  /* Container-query-relative — scales with the hero panel's width. Floor
+     keeps it readable in narrow page-grid cards; ceiling caps it on
+     ultra-wide canonicals. */
+  font-size: clamp(4rem, 17cqi, 7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pa-text-color-1);
+}
+.kpi-hero-main__unit {
+  font-size: clamp(1.8rem, 8cqi, 3rem);
+  font-weight: 500;
+  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  margin: 0 0.1rem;
+}
+
+/* Meta row under the big value: inline delta (arrow + %), period text,
+   target — all on one baseline. 3 columns; the period column takes the
+   remaining space and wraps if needed at narrow widths. */
+.kpi-hero-main__meta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.4rem 1.4rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+}
+.kpi-hero-main__delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  color: var(--kpi-hero-color);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+.kpi-hero-main__period {
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  line-height: 1.3;
+}
+.kpi-hero-main__target {
+  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  text-align: end;
+}
+
+/* Hero sparkline — fixed-height SVG pinned to the bottom of a flex-grow
+   container. Chart container expands to fill any leftover vertical space
+   in the hero column (when the side rail forces a tall grid row); the
+   SVG inside stays at a fixed pixel height, so the line shape is never
+   distorted along the Y axis no matter how tall the parent gets. Same
+   reason the trailing dot is an HTML span instead of an SVG circle —
+   preserveAspectRatio="none" stretches everything inside the SVG, so
+   anything that should keep its shape needs to live outside that scaling
+   or have its dimensions in absolute pixels. */
+.kpi-hero-main__chart {
+  flex: 1 1 10rem;
+  min-height: 10rem;
+  margin-top: 0.6rem;
+  color: var(--kpi-hero-color);
+  display: flex;
+  align-items: flex-end;     /* SVG wrap pinned to the bottom; extra space appears above */
+}
+/* Wrapper at fixed height — the SVG, the JS-appended dot, and any other
+   chart inhabitants all live in here and inherit its dimensions. */
+.kpi-hero-main__chart-svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 10rem;
+}
+.kpi-hero-main__chart-svg svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.kpi-hero-main__chart polyline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.kpi-hero-main__chart polygon {
+  fill: currentColor;
+  fill-opacity: 0.18;
+  stroke: none;
+}
+
+/* === SIDE rail tile ===
+   2×2 grid where the value spans both rows on the right column. Left column
+   has label (row 1) and delta (row 2) stacked. Value is vertically centred
+   across the whole tile height — feels balanced when the label is one line,
+   and still reads cleanly when the label wraps to two lines. */
+.kpi-hero-side {
+  position: relative;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--pa-border-color);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "label  value"
+    "delta  value";
+  column-gap: 1.2rem;
+  row-gap: 0.4rem;
+  align-items: center;
+  --kpi-side-color: var(--kpi-positive);
+}
+.kpi-hero-side--positive { --kpi-side-color: var(--kpi-positive); }
+.kpi-hero-side--negative { --kpi-side-color: var(--kpi-negative); }
+.kpi-hero-side--neutral  { --kpi-side-color: var(--kpi-neutral); }
+.kpi-hero-side--up-strong { --kpi-side-color: var(--kpi-very-positive); }
+
+.kpi-hero-side__label {
+  grid-area: label;
+  align-self: end;        /* sit at bottom of row 1 — tucks against the centred value */
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  line-height: 1.25;
+}
+.kpi-hero-side__value {
+  grid-area: value;
+  align-self: center;     /* vertically centred across the spanned rows */
+  font-family: var(--base-font-family-mono);
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: baseline;
+}
+.kpi-hero-side__num {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pa-text-color-1);
+}
+.kpi-hero-side__unit {
+  font-size: 1.5rem;        /* bumped from 1.2rem so the unit reads more clearly next to the bigger num */
+  font-weight: 500;
+  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  margin: 0 0.35rem;        /* visible gap between value and unit (was 0.1rem — felt glued together) */
+}
+.kpi-hero-side__delta {
+  grid-area: delta;
+  align-self: start;      /* sit at top of row 2 — tucks against the centred value */
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--kpi-side-color);
+}
+
+/* === Footer caption === */
+.kpi-hero-list__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+}
+.kpi-hero-list__footer strong {
+  color: var(--pa-text-color-1);
+  font-weight: 700;
+}
+
+/* === Hover detail popover (cursor-anchored, same recipe as elsewhere) === */
+.kpi-hero-detail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 9000;
+  min-width: 26rem;
+  max-width: 32rem;
+  background: var(--kpi-detail-bg);
+  color: var(--kpi-detail-text);
+  padding: 1.2rem 1.5rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.4rem;
+  box-shadow: var(--kpi-detail-shadow);
+}
+.kpi-hero-detail[data-show] { visibility: visible; }
+.kpi-hero-detail-title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--kpi-detail-title);
+  margin-bottom: 0.6rem;
+}
+.kpi-hero-detail dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 1.6rem;
+  margin: 0;
+}
+.kpi-hero-detail dt { margin: 0; color: var(--kpi-detail-row-label); font-weight: 400; }
+.kpi-hero-detail dd { margin: 0; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
+.kpi-hero-detail .pos { color: var(--kpi-positive); }
+.kpi-hero-detail .neg { color: var(--kpi-negative); }
+.kpi-hero-detail .warn { color: var(--kpi-warning); }
+</style>
+
+<!-- ============================================================
+     1. Canonical full-width Hero + supporting card
+     ============================================================ -->
+
+<div class="pa-card kpi-hero-list">
+    <div class="pa-card__header kpi-hero-list__header">
+        <h3>Key Performance Indicators</h3>
+        <span class="kpi-hero-list__live"><span class="kpi-hero-list__livedot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body kpi-hero-list__body">
+        <div class="kpi-hero-list__layout">
+
+            <!-- HERO: Monthly Revenue -->
+            <div class="kpi-hero-main kpi-hero-main--positive">
+                <div class="kpi-hero-main__label">Monthly Revenue</div>
+                <div class="kpi-hero-main__value">
+                    <span class="kpi-hero-main__unit">$</span><span class="kpi-hero-main__num">852</span><span class="kpi-hero-main__unit">K</span>
+                </div>
+                <div class="kpi-hero-main__meta">
+                    <div class="kpi-hero-main__delta">
+                        <span class="kpi-hero-main__delta-arrow">▲</span>
+                        <span class="kpi-hero-main__delta-pct">13.3%</span>
+                    </div>
+                    <div class="kpi-hero-main__period">vs last month</div>
+                    <div class="kpi-hero-main__target">tgt $900K</div>
+                </div>
+                <div class="kpi-hero-main__chart">
+                    <span class="kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polygon points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13 100,24 0,24" />
+                        <polyline points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13" />
+                        <circle cx="96" cy="13" r="2" />
+                    </svg></span>
+                </div>
+                <div class="kpi-hero-detail" role="tooltip">
+                    <div class="kpi-hero-detail-title">Monthly Revenue · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>$852K</dd>
+                        <dt>Previous</dt><dd>$752K</dd>
+                        <dt>Δ absolute</dt><dd class="pos">+$100K</dd>
+                        <dt>Δ percent</dt><dd class="pos">+13.3%</dd>
+                        <dt>Target</dt><dd>$900K</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- SIDE RAIL: 5 supporting metrics -->
+            <div class="kpi-hero-list__rail">
+
+                <div class="kpi-hero-side kpi-hero-side--positive">
+                        <div class="kpi-hero-side__label">Completion Rate</div>
+                        <div class="kpi-hero-side__value">
+                            <span class="kpi-hero-side__num">88.5</span><span class="kpi-hero-side__unit">%</span>
+                        </div>
+                    <div class="kpi-hero-side__delta">+5.1% vs prev</div>
+                    <div class="kpi-hero-detail" role="tooltip">
+                        <div class="kpi-hero-detail-title">Completion Rate · 30D</div>
+                        <dl>
+                            <dt>Current</dt><dd>88.5%</dd>
+                            <dt>Previous</dt><dd>84.2%</dd>
+                            <dt>Δ percent</dt><dd class="pos">+5.1%</dd>
+                            <dt>Target</dt><dd>90.0%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-hero-side kpi-hero-side--negative">
+                        <div class="kpi-hero-side__label">Server Temp</div>
+                        <div class="kpi-hero-side__value">
+                            <span class="kpi-hero-side__num">24.3</span><span class="kpi-hero-side__unit">°C</span>
+                        </div>
+                    <div class="kpi-hero-side__delta">-1.0% vs prev</div>
+                    <div class="kpi-hero-detail" role="tooltip">
+                        <div class="kpi-hero-detail-title">Server Temp · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>24.3°C</dd>
+                            <dt>Previous</dt><dd>24.5°C</dd>
+                            <dt>Δ percent</dt><dd class="neg">−1.0%</dd>
+                            <dt>Target</dt><dd>≤ 25°C</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-hero-side kpi-hero-side--positive">
+                        <div class="kpi-hero-side__label">Server Capacity</div>
+                        <div class="kpi-hero-side__value">
+                            <span class="kpi-hero-side__num">84.4</span><span class="kpi-hero-side__unit">%</span>
+                        </div>
+                    <div class="kpi-hero-side__delta">+18.9% vs prev</div>
+                    <div class="kpi-hero-detail" role="tooltip">
+                        <div class="kpi-hero-detail-title">Server Capacity · 7D</div>
+                        <dl>
+                            <dt>Current</dt><dd>84.4%</dd>
+                            <dt>Previous</dt><dd>71.0%</dd>
+                            <dt>Δ percent</dt><dd class="pos">+18.9%</dd>
+                            <dt>Target</dt><dd>≤ 80%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-hero-side kpi-hero-side--up-strong">
+                        <div class="kpi-hero-side__label">Error Rate</div>
+                        <div class="kpi-hero-side__value">
+                            <span class="kpi-hero-side__num">0.28</span><span class="kpi-hero-side__unit">%</span>
+                        </div>
+                    <div class="kpi-hero-side__delta">-32.0% vs prev</div>
+                    <div class="kpi-hero-detail" role="tooltip">
+                        <div class="kpi-hero-detail-title">Error Rate · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>0.28%</dd>
+                            <dt>Previous</dt><dd>0.41%</dd>
+                            <dt>Δ percent</dt><dd class="pos">−32.0%</dd>
+                            <dt>Target</dt><dd>≤ 0.50%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="kpi-hero-side kpi-hero-side--positive">
+                        <div class="kpi-hero-side__label">Tokyo Office</div>
+                        <div class="kpi-hero-side__value">
+                            <span class="kpi-hero-side__unit">¥</span><span class="kpi-hero-side__num">12.0</span><span class="kpi-hero-side__unit">M</span>
+                        </div>
+                    <div class="kpi-hero-side__delta">+7.0% vs prev</div>
+                    <div class="kpi-hero-detail" role="tooltip">
+                        <div class="kpi-hero-detail-title">Tokyo Office · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>¥12.0M</dd>
+                            <dt>Previous</dt><dd>¥11.2M</dd>
+                            <dt>Δ percent</dt><dd class="pos">+7.0%</dd>
+                            <dt>Target</dt><dd>¥13.0M</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer kpi-hero-list__footer">
+        <span><strong>Hero + supporting</strong> — One headline metric, supporting metrics in a side rail. Marketing/exec.</span>
+        <span>Hover any KPI for detail</span>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     2. Layout test — 1×3 page grid (.pa-col-1-3)
+     ============================================================ -->
+
+<h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
+<p>Three smaller cards. Each stays in hero+supporting structure, but the container query (≤700px card width) collapses the side-by-side layout to vertical stacking — hero on top, supporting tiles below. The hero value scales down via <code>cqi</code>-based clamp so it doesn't dwarf the narrow card.</p>
+
+<div class="pa-row">
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card kpi-hero-list">
+            <div class="pa-card__body kpi-hero-list__body">
+                <div class="kpi-hero-list__layout">
+                    <div class="kpi-hero-main kpi-hero-main--positive">
+                        <div class="kpi-hero-main__label">Completion Rate</div>
+                        <div class="kpi-hero-main__value"><span class="kpi-hero-main__num">88.5</span><span class="kpi-hero-main__unit">%</span></div>
+                        <div class="kpi-hero-main__meta">
+                            <div class="kpi-hero-main__delta"><span class="kpi-hero-main__delta-arrow">▲</span><span class="kpi-hero-main__delta-pct">5.1%</span></div>
+                            <div class="kpi-hero-main__period">vs last month</div>
+                            <div class="kpi-hero-main__target">tgt 90.0%</div>
+                        </div>
+                        <div class="kpi-hero-main__chart">
+                            <span class="kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                                <polygon points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5 100,24 0,24" />
+                                <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                                <circle cx="96" cy="5" r="2" />
+                            </svg></span>
+                        </div>
+                        <div class="kpi-hero-detail" role="tooltip">
+                            <div class="kpi-hero-detail-title">Completion Rate · 30D</div>
+                            <dl><dt>Current</dt><dd>88.5%</dd><dt>Target</dt><dd>90.0%</dd><dt>Δ percent</dt><dd class="pos">+5.1%</dd></dl>
+                        </div>
+                    </div>
+                    <div class="kpi-hero-list__rail">
+                        <div class="kpi-hero-side kpi-hero-side--negative">
+                                <div class="kpi-hero-side__label">Server Temp</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">24.3</span><span class="kpi-hero-side__unit">°C</span></div>
+                            <div class="kpi-hero-side__delta">-1.0% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Server Temp · 24H</div>
+                                <dl><dt>Current</dt><dd>24.3°C</dd><dt>Δ percent</dt><dd class="neg">−1.0%</dd></dl>
+                            </div>
+                        </div>
+                        <div class="kpi-hero-side kpi-hero-side--up-strong">
+                                <div class="kpi-hero-side__label">Error Rate</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">0.28</span><span class="kpi-hero-side__unit">%</span></div>
+                            <div class="kpi-hero-side__delta">-32.0% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Error Rate · 24H</div>
+                                <dl><dt>Current</dt><dd>0.28%</dd><dt>Δ percent</dt><dd class="pos">−32.0%</dd></dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card kpi-hero-list">
+            <div class="pa-card__body kpi-hero-list__body">
+                <div class="kpi-hero-list__layout">
+                    <div class="kpi-hero-main kpi-hero-main--positive">
+                        <div class="kpi-hero-main__label">Monthly Revenue</div>
+                        <div class="kpi-hero-main__value"><span class="kpi-hero-main__unit">$</span><span class="kpi-hero-main__num">852</span><span class="kpi-hero-main__unit">K</span></div>
+                        <div class="kpi-hero-main__meta">
+                            <div class="kpi-hero-main__delta"><span class="kpi-hero-main__delta-arrow">▲</span><span class="kpi-hero-main__delta-pct">13.3%</span></div>
+                            <div class="kpi-hero-main__period">vs last month</div>
+                            <div class="kpi-hero-main__target">tgt $900K</div>
+                        </div>
+                        <div class="kpi-hero-main__chart">
+                            <span class="kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                                <polygon points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13 100,24 0,24" />
+                                <polyline points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13" />
+                                <circle cx="96" cy="13" r="2" />
+                            </svg></span>
+                        </div>
+                        <div class="kpi-hero-detail" role="tooltip">
+                            <div class="kpi-hero-detail-title">Monthly Revenue · 12MO</div>
+                            <dl><dt>Current</dt><dd>$852K</dd><dt>Δ percent</dt><dd class="pos">+13.3%</dd></dl>
+                        </div>
+                    </div>
+                    <div class="kpi-hero-list__rail">
+                        <div class="kpi-hero-side kpi-hero-side--positive">
+                                <div class="kpi-hero-side__label">Server Capacity</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">84.4</span><span class="kpi-hero-side__unit">%</span></div>
+                            <div class="kpi-hero-side__delta">+18.9% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Server Capacity · 7D</div>
+                                <dl><dt>Current</dt><dd>84.4%</dd><dt>Δ percent</dt><dd class="pos">+18.9%</dd></dl>
+                            </div>
+                        </div>
+                        <div class="kpi-hero-side kpi-hero-side--positive">
+                                <div class="kpi-hero-side__label">Tokyo Office</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__unit">¥</span><span class="kpi-hero-side__num">12.0</span><span class="kpi-hero-side__unit">M</span></div>
+                            <div class="kpi-hero-side__delta">+7.0% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Tokyo Office · 12MO</div>
+                                <dl><dt>Current</dt><dd>¥12.0M</dd><dt>Δ percent</dt><dd class="pos">+7.0%</dd></dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card kpi-hero-list">
+            <div class="pa-card__body kpi-hero-list__body">
+                <div class="kpi-hero-list__layout">
+                    <div class="kpi-hero-main kpi-hero-main--positive">
+                        <div class="kpi-hero-main__label">Tokyo Office</div>
+                        <div class="kpi-hero-main__value"><span class="kpi-hero-main__unit">¥</span><span class="kpi-hero-main__num">12.0</span><span class="kpi-hero-main__unit">M</span></div>
+                        <div class="kpi-hero-main__meta">
+                            <div class="kpi-hero-main__delta"><span class="kpi-hero-main__delta-arrow">▲</span><span class="kpi-hero-main__delta-pct">7.0%</span></div>
+                            <div class="kpi-hero-main__period">vs last month</div>
+                            <div class="kpi-hero-main__target">tgt ¥13.0M</div>
+                        </div>
+                        <div class="kpi-hero-main__chart">
+                            <span class="kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                                <polygon points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10 100,24 0,24" />
+                                <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
+                                <circle cx="96" cy="10" r="2" />
+                            </svg></span>
+                        </div>
+                        <div class="kpi-hero-detail" role="tooltip">
+                            <div class="kpi-hero-detail-title">Tokyo Office · 12MO</div>
+                            <dl><dt>Current</dt><dd>¥12.0M</dd><dt>Δ percent</dt><dd class="pos">+7.0%</dd></dl>
+                        </div>
+                    </div>
+                    <div class="kpi-hero-list__rail">
+                        <div class="kpi-hero-side kpi-hero-side--positive">
+                                <div class="kpi-hero-side__label">Completion Rate</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">88.5</span><span class="kpi-hero-side__unit">%</span></div>
+                            <div class="kpi-hero-side__delta">+5.1% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Completion Rate · 30D</div>
+                                <dl><dt>Current</dt><dd>88.5%</dd><dt>Δ percent</dt><dd class="pos">+5.1%</dd></dl>
+                            </div>
+                        </div>
+                        <div class="kpi-hero-side kpi-hero-side--up-strong">
+                                <div class="kpi-hero-side__label">Error Rate</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">0.28</span><span class="kpi-hero-side__unit">%</span></div>
+                            <div class="kpi-hero-side__delta">-32.0% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Error Rate · 24H</div>
+                                <dl><dt>Current</dt><dd>0.28%</dd><dt>Δ percent</dt><dd class="pos">−32.0%</dd></dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     3. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
+     ============================================================ -->
+
+<h3>2-card stack · <code>.pa-col-25</code> + <code>.pa-col-45</code> (asymmetric, 30% empty)</h3>
+<p>Two page-grid columns. The 25% card is too narrow for any side-by-side layout — hero stacks above supporting (container query catches it). The 45% card also stacks (still under 700px). The hero value scales down via container-relative <code>cqi</code> so it stays proportional.</p>
+
+<div class="pa-row">
+    <div class="pa-col-100 pa-col-md-25">
+        <div class="pa-card kpi-hero-list">
+            <div class="pa-card__body kpi-hero-list__body">
+                <div class="kpi-hero-list__layout">
+                    <div class="kpi-hero-main kpi-hero-main--up-strong">
+                        <div class="kpi-hero-main__label">Error Rate</div>
+                        <div class="kpi-hero-main__value"><span class="kpi-hero-main__num">0.28</span><span class="kpi-hero-main__unit">%</span></div>
+                        <div class="kpi-hero-main__meta">
+                            <div class="kpi-hero-main__delta"><span class="kpi-hero-main__delta-arrow">▼</span><span class="kpi-hero-main__delta-pct">32.0%</span></div>
+                            <div class="kpi-hero-main__period">vs last day</div>
+                            <div class="kpi-hero-main__target">tgt 0.50%</div>
+                        </div>
+                        <div class="kpi-hero-main__chart">
+                            <span class="kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                                <polygon points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15 100,24 0,24" />
+                                <polyline points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15" />
+                                <circle cx="96" cy="15" r="2" />
+                            </svg></span>
+                        </div>
+                        <div class="kpi-hero-detail" role="tooltip">
+                            <div class="kpi-hero-detail-title">Error Rate · 24H</div>
+                            <dl><dt>Current</dt><dd>0.28%</dd><dt>Δ percent</dt><dd class="pos">−32.0%</dd></dl>
+                        </div>
+                    </div>
+                    <div class="kpi-hero-list__rail">
+                        <div class="kpi-hero-side kpi-hero-side--positive">
+                                <div class="kpi-hero-side__label">Completion Rate</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">88.5</span><span class="kpi-hero-side__unit">%</span></div>
+                            <div class="kpi-hero-side__delta">+5.1% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Completion Rate · 30D</div>
+                                <dl><dt>Current</dt><dd>88.5%</dd><dt>Δ percent</dt><dd class="pos">+5.1%</dd></dl>
+                            </div>
+                        </div>
+                        <div class="kpi-hero-side kpi-hero-side--negative">
+                                <div class="kpi-hero-side__label">Server Temp</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">24.3</span><span class="kpi-hero-side__unit">°C</span></div>
+                            <div class="kpi-hero-side__delta">-1.0% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Server Temp · 24H</div>
+                                <dl><dt>Current</dt><dd>24.3°C</dd><dt>Δ percent</dt><dd class="neg">−1.0%</dd></dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pa-col-100 pa-col-md-45">
+        <div class="pa-card kpi-hero-list">
+            <div class="pa-card__body kpi-hero-list__body">
+                <div class="kpi-hero-list__layout">
+                    <div class="kpi-hero-main kpi-hero-main--positive">
+                        <div class="kpi-hero-main__label">Monthly Revenue</div>
+                        <div class="kpi-hero-main__value"><span class="kpi-hero-main__unit">$</span><span class="kpi-hero-main__num">852</span><span class="kpi-hero-main__unit">K</span></div>
+                        <div class="kpi-hero-main__meta">
+                            <div class="kpi-hero-main__delta"><span class="kpi-hero-main__delta-arrow">▲</span><span class="kpi-hero-main__delta-pct">13.3%</span></div>
+                            <div class="kpi-hero-main__period">vs last month</div>
+                            <div class="kpi-hero-main__target">tgt $900K</div>
+                        </div>
+                        <div class="kpi-hero-main__chart">
+                            <span class="kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                                <polygon points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13 100,24 0,24" />
+                                <polyline points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13" />
+                                <circle cx="96" cy="13" r="2" />
+                            </svg></span>
+                        </div>
+                        <div class="kpi-hero-detail" role="tooltip">
+                            <div class="kpi-hero-detail-title">Monthly Revenue · 12MO</div>
+                            <dl><dt>Current</dt><dd>$852K</dd><dt>Δ percent</dt><dd class="pos">+13.3%</dd></dl>
+                        </div>
+                    </div>
+                    <div class="kpi-hero-list__rail">
+                        <div class="kpi-hero-side kpi-hero-side--positive">
+                                <div class="kpi-hero-side__label">Server Capacity</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">84.4</span><span class="kpi-hero-side__unit">%</span></div>
+                            <div class="kpi-hero-side__delta">+18.9% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Server Capacity · 7D</div>
+                                <dl><dt>Current</dt><dd>84.4%</dd><dt>Δ percent</dt><dd class="pos">+18.9%</dd></dl>
+                            </div>
+                        </div>
+                        <div class="kpi-hero-side kpi-hero-side--up-strong">
+                                <div class="kpi-hero-side__label">Error Rate</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__num">0.28</span><span class="kpi-hero-side__unit">%</span></div>
+                            <div class="kpi-hero-side__delta">-32.0% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Error Rate · 24H</div>
+                                <dl><dt>Current</dt><dd>0.28%</dd><dt>Δ percent</dt><dd class="pos">−32.0%</dd></dl>
+                            </div>
+                        </div>
+                        <div class="kpi-hero-side kpi-hero-side--positive">
+                                <div class="kpi-hero-side__label">Tokyo Office</div>
+                                <div class="kpi-hero-side__value"><span class="kpi-hero-side__unit">¥</span><span class="kpi-hero-side__num">12.0</span><span class="kpi-hero-side__unit">M</span></div>
+                            <div class="kpi-hero-side__delta">+7.0% vs prev</div>
+                            <div class="kpi-hero-detail" role="tooltip">
+                                <div class="kpi-hero-detail-title">Tokyo Office · 12MO</div>
+                                <dl><dt>Current</dt><dd>¥12.0M</dd><dt>Δ percent</dt><dd class="pos">+7.0%</dd></dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Cursor-anchored hover detail popovers + SVG circle → CSS span conversion
+// for the hero sparklines. Same recipes as the other KPI showcases.
+document.addEventListener('DOMContentLoaded', function() {
+
+    // ---- Hover detail popover ----
+    if (window.FloatingUIDOM) {
+        const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
+
+        document.querySelectorAll('.kpi-hero-main, .kpi-hero-side').forEach(host => {
+            const detail = host.querySelector('.kpi-hero-detail');
+            if (!detail) return;
+            document.body.appendChild(detail);
+
+            let cursorX = 0, cursorY = 0;
+            const virtualEl = {
+                getBoundingClientRect() {
+                    return {
+                        width: 0, height: 0,
+                        x: cursorX, y: cursorY,
+                        top: cursorY, left: cursorX,
+                        right: cursorX, bottom: cursorY
+                    };
+                }
+            };
+
+            const reposition = () => {
+                computePosition(virtualEl, detail, {
+                    strategy: 'fixed',
+                    placement: 'top-start',
+                    middleware: [offset(14), flip(), shift({ padding: 8 })]
+                }).then(({ x, y }) => {
+                    Object.assign(detail.style, { left: `${x}px`, top: `${y}px` });
+                });
+            };
+
+            host.addEventListener('mouseenter', (e) => {
+                cursorX = e.clientX;
+                cursorY = e.clientY;
+                detail.setAttribute('data-show', '');
+                reposition();
+            });
+            host.addEventListener('mousemove', (e) => {
+                cursorX = e.clientX;
+                cursorY = e.clientY;
+                reposition();
+            });
+            host.addEventListener('mouseleave', () => {
+                detail.removeAttribute('data-show');
+            });
+        });
+    }
+
+    // ---- Convert SVG <circle> end-of-line markers to CSS-positioned <span> ----
+    // (Same recipe as Sparkline list — preserveAspectRatio="none" stretches
+    // the SVG so a <circle> renders as an oval; render the dot as an HTML
+    // span sized in CSS pixels so it stays a true circle.)
+    document.querySelectorAll('.kpi-hero-main__chart svg').forEach(svg => {
+        const circle = svg.querySelector('circle');
+        if (!circle) return;
+
+        const cx = parseFloat(circle.getAttribute('cx'));
+        const cy = parseFloat(circle.getAttribute('cy'));
+        const vb = svg.viewBox.baseVal;
+        const xPct = (cx - vb.x) / vb.width * 100;
+        const yPct = (cy - vb.y) / vb.height * 100;
+
+        const dot = document.createElement('span');
+        dot.className = 'kpi-spark-dot';
+        dot.style.cssText = `
+            position: absolute;
+            width: 6px; height: 6px;
+            margin: -3px 0 0 -3px;
+            border-radius: 50%;
+            background: currentColor;
+            pointer-events: none;
+            left: ${xPct}%; top: ${yPct}%;
+        `;
+        svg.parentElement.appendChild(dot);
+        circle.remove();
+    });
+});
+</script>

@@ -431,6 +431,10 @@ app.get('/kpi/comparison-gauges', (req, res) => {
     renderWithLayout(res, 'kpi-comparison-gauges', { pageTitle: 'KPI · Comparison gauges', currentPage: 'kpi-comparison-gauges', isKpiComparisonGauges: true });
 });
 
+app.get('/kpi/hero-supporting', (req, res) => {
+    renderWithLayout(res, 'kpi-hero-supporting', { pageTitle: 'KPI · Hero + supporting', currentPage: 'kpi-hero-supporting', isKpiHeroSupporting: true });
+});
+
 app.get('/components/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });
