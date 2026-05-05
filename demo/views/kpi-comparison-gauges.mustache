@@ -122,13 +122,19 @@
   margin-left: 0.2rem;
 }
 
-/* Bar: subtle track + coloured fill + tick at right edge marking target position */
+/* Bar: subtle track + coloured fill + tick marking target position.
+   Tick position is author-controlled via `--kpi-gauge-tick-pos`
+   (default 100% = at the right edge, matching the bar's "0 → target"
+   scale). Override per-tile via `style="--kpi-gauge-tick-pos: 80%"`
+   if the bar represents a wider scale (e.g. 0→max where target sits
+   inside the bar) — the tick will slide to that position. */
 .kpi-gauge__bar {
+  --kpi-gauge-tick-pos: 100%;
   position: relative;
   height: 0.7rem;
   background: color-mix(in srgb, var(--pa-text-color-1) 12%, transparent);
   margin-bottom: 0.5rem;
-  overflow: visible;          /* tick can sit just outside the right edge */
+  overflow: visible;          /* tick can sit just outside the bar edges */
 }
 .kpi-gauge__fill {
   height: 100%;
@@ -136,13 +142,16 @@
   /* width set inline per tile via style="--fill: 95%" or width: X% directly */
   transition: width 0.3s ease;
 }
-/* Target tick — small lighter-coloured bar at the right edge of the track,
-   slightly taller than the bar so it reads as a "you should be here" mark.
-   This is the visual anchor for the "tgt XYZ" label below. */
+/* Target tick — small lighter-coloured bar slightly taller than the
+   track, reading as a "you should be here" mark. Centered on
+   `--kpi-gauge-tick-pos` via the negative margin-left (matches half
+   the tick's width, so the position value names where the *centre*
+   of the tick sits, not its left edge). */
 .kpi-gauge__bar::after {
   content: '';
   position: absolute;
-  right: 0;
+  left: var(--kpi-gauge-tick-pos);
+  margin-left: -0.15rem;
   top: -0.2rem;
   bottom: -0.2rem;
   width: 0.3rem;
@@ -286,14 +295,19 @@
                 </div>
             </div>
 
-            <!-- Server Capacity — over target (capacity above max) → warning -->
+            <!-- Server Capacity — over target → warning.
+                 Demonstrates `--kpi-gauge-tick-pos`: bar's scale runs 0 → 100%,
+                 fill is the actual value (84.5%), tick sits at the target (80%).
+                 The 4.5pp overshoot reads as "fill extends past the tick" —
+                 more informative than the default "fill capped at 100%, tick
+                 at right edge" pattern used by the other tiles. -->
             <div class="kpi-gauge kpi-gauge--warning">
                 <div class="kpi-gauge__head">
                     <div class="kpi-gauge__label">Server Capacity</div>
                     <div class="kpi-gauge__value"><span class="kpi-gauge__num">84.5</span><span class="kpi-gauge__unit">%</span></div>
                 </div>
-                <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 100%"></div></div>
-                <div class="kpi-gauge__scale"><span>0</span><span>tgt 80.0%</span></div>
+                <div class="kpi-gauge__bar" style="--kpi-gauge-tick-pos: 80%"><div class="kpi-gauge__fill" style="width: 84.5%"></div></div>
+                <div class="kpi-gauge__scale"><span>0</span><span>100% · tgt 80%</span></div>
                 <div class="kpi-gauge__detail" role="tooltip">
                     <div class="kpi-gauge__detail-title">Server Capacity · 7D</div>
                     <dl>
@@ -301,6 +315,7 @@
                         <dt>Target (max)</dt><dd>80.0%</dd>
                         <dt>Δ to target</dt><dd class="warn">+4.5pp</dd>
                         <dt>% of target</dt><dd class="warn">105.6%</dd>
+                        <dt>Scale</dt><dd>0 → 100%</dd>
                     </dl>
                 </div>
             </div>
@@ -558,6 +573,97 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<br>
+
+<!-- Usage Guide -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Usage Guide</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>When to use</h4>
+        <p>Goal-oriented dashboards — each KPI is shown as a progress bar against a target. Best when the operator's mental model is "are we on track?" rather than "what's the trend?". For trend-first reads, see Sparkline list or Terminal grid; for purely textual scanning, see Numeric strip.</p>
+
+        <h4 class="mt-4">Bar semantics — two modes</h4>
+        <p><strong>Default mode (0 → target scale):</strong> the bar's full width represents the target. Fill width = <code>value / target</code>, capped at 100%. Tick sits at the right edge marking target. Overshoots are signalled by the warning colour rather than by overflowing the bar. Best for metrics where "how close to target" is the only question.</p>
+        <p><strong>0 → max scale (override <code>--kpi-gauge-tick-pos</code>):</strong> the bar's full width represents some wider scale (e.g. 0–100% capacity). Fill width = the raw value; tick slides inside the bar to mark the target position. Overshoots become visible as fill extending past the tick. See "Server Capacity" in the canonical card for an example. Best for metrics with a natural upper bound (capacity, threshold-style targets, percentages).</p>
+
+        <h4 class="mt-4">Sentiment colours</h4>
+        <ul>
+            <li><strong>positive</strong> (green) — on track / approaching target.</li>
+            <li><strong>warning</strong> (orange) — off-target or approaching a limit. New to this showcase, sits alongside the green/red sentiment scale on a different axis (proximity-to-limit, not direction-of-change).</li>
+            <li><strong>negative</strong> (red) — actively bad / failing target.</li>
+            <li><strong>neutral</strong> (grey) — informational, no strong sentiment.</li>
+        </ul>
+        <p>The bar fill colour is set per-tile via <code>--kpi-bar-color</code>; the four <code>.kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
+
+        <h4 class="mt-4">Layout</h4>
+        <p>Internal 2-column grid for the canonical card; a container query at <code>max-width: 600px</code> collapses to single-column so the gauges stack vertically inside narrow page-grid cards (1×3 widths, 25% / 45% asymmetric placements). Same three-section layout testing pattern as the rest of the showcases — canonical full-width, 1×3 page-grid, 25/45/25 asymmetric — to surface how the design behaves at different host widths.</p>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <p>Cursor-anchored via Floating UI's <code>computePosition</code> + a virtual reference element built from <code>e.clientX/clientY</code>. Same recipe as the other KPI showcases: <code>position: fixed</code>, <code>pointer-events: none</code>, popover moved to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>.</p>
+    </div>
+</div>
+
+<br>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Card structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-gauge-list</code> — page-namespace class on <code>.pa-card</code>.</li>
+            <li><code>kpi-gauge-list__header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>kpi-gauge-list__live</code> / <code>kpi-gauge-list__livedot</code> — LIVE pill + animated dot.</li>
+            <li><code>kpi-gauge-list__body</code> — applies <code>padding: 0</code> so the inter-tile dividers go edge-to-edge.</li>
+            <li><code>kpi-gauge-list__grid</code> — internal 2-col grid (collapses to 1-col under 600px via container query).</li>
+            <li><code>kpi-gauge-list__footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Gauge tile</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-gauge</code> — single gauge cell. Carries <code>--kpi-bar-color</code> (set by sentiment modifiers below).</li>
+            <li><code>kpi-gauge--positive</code> — green fill (on track).</li>
+            <li><code>kpi-gauge--warning</code> — orange fill (off-target / approaching limit).</li>
+            <li><code>kpi-gauge--negative</code> — red fill (actively bad).</li>
+            <li><code>kpi-gauge--neutral</code> — grey fill (no sentiment).</li>
+        </ul>
+
+        <h4 class="mt-4">Tile content</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-gauge__head</code> — flex row with label + value.</li>
+            <li><code>kpi-gauge__label</code> — uppercase mono caption.</li>
+            <li><code>kpi-gauge__value</code> — focal number + unit.</li>
+            <li><code>kpi-gauge__num</code> / <code>kpi-gauge__unit</code> — numeric + unit spans.</li>
+            <li><code>kpi-gauge__scale</code> — flex row with "0" left and "tgt {value}" right (mono, dim).</li>
+        </ul>
+
+        <h4 class="mt-4">Bar + target tick</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-gauge__bar</code> — track. Reads <code>--kpi-gauge-tick-pos</code> for tick position (default <code>100%</code>).</li>
+            <li><code>kpi-gauge__fill</code> — coloured fill. Width set inline per tile via <code>style="width: X%"</code>.</li>
+            <li><code>--kpi-gauge-tick-pos</code> — custom property on <code>.kpi-gauge__bar</code> setting the target tick's position. Default <code>100%</code> (right edge, matching 0→target scale). Override per-tile via <code>style="--kpi-gauge-tick-pos: 80%"</code> when the bar represents a wider scale (e.g. 0→100% capacity, target at 80%).</li>
+        </ul>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-gauge__detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
+            <li><code>kpi-gauge__detail-title</code> — uppercase mono header.</li>
+            <li><code>kpi-gauge__detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+        </ul>
+
+        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome.</li>
+        </ul>
     </div>
 </div>
 

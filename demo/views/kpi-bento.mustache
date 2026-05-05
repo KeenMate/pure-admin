@@ -937,6 +937,85 @@
     </div>
 </div>
 
+<br>
+
+<!-- Usage Guide -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Usage Guide</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>When to use</h4>
+        <p>Magazine-cover dashboards where one headline KPI deserves disproportionate visual weight, with supporting metrics arranged around it. Sparklines sit <em>behind</em> the values rather than alongside them. Best for marketing pages, exec summaries, and "today at a glance" hero panels. If you want even visual weight across all KPIs, pick Editorial minimal or Numeric strip.</p>
+
+        <h4 class="mt-4">6-tile asymmetric grid</h4>
+        <p>The grid uses CSS <code>grid-template-areas</code> arranged as a 6-col × 3-row layout: hero takes the left half across the top two rows; two stacked tiles fill the right half of those rows; three equal tiles span the bottom row. Tile placement is by <em>source order</em> via <code>:nth-child</code> rules — authoring just lists six tiles in reading order. To rearrange, edit the named-area template; the markup stays unchanged.</p>
+
+        <h4 class="mt-4">Sparkline-behind-value layering</h4>
+        <p>Each tile is an internal 2-row grid (<code>"label delta" / "value value"</code>). The value sits at the bottom-left layered over an absolutely-positioned chart underneath it (<code>z-index: 1</code> on the value, <code>z-index: 0</code> on the chart). The sparkline reads <em>through</em> behind the digits rather than living in its own column. Polygon fill is <code>opacity: 0.10</code> and polyline is <code>stroke-opacity: 0.55</code> so the chart doesn't compete with the headline number.</p>
+
+        <h4 class="mt-4">Container-relative typography</h4>
+        <p>Hero value: <code>clamp(3.6rem, 22cqi, 7rem)</code>. Non-hero: <code>clamp(2rem, 14cqi, 3.2rem)</code>. <code>cqi</code> resolves against the <em>tile's</em> width (each tile is its own container via <code>container-type: inline-size</code>), not the card's. So at narrow page-grid widths the digits scale down without manual breakpoints, and at wide canonical widths the hero number gets dramatic without overflowing.</p>
+
+        <h4 class="mt-4">Narrow-width collapse</h4>
+        <p>Card-level container query at <code>max-width: 700px</code> collapses the whole bento to a single-column stack and resets <code>grid-area: auto</code> on every tile so the same markup works inside narrow page-grid cells (1×3 widths, 25% asymmetric placements).</p>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <p>Cursor-anchored via Floating UI's <code>computePosition</code> + virtual reference element built from <code>e.clientX/clientY</code>. Same recipe as the other KPI showcases. Sparkline trailing dots use the SVG <code>&lt;circle&gt;</code> → HTML <code>&lt;span&gt;</code> conversion to stay circular at non-square chart aspect ratios (the chart's <code>preserveAspectRatio="none"</code> would otherwise stretch the dot into an oval).</p>
+    </div>
+</div>
+
+<br>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Card structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-bento</code> — page-namespace class on <code>.pa-card</code>.</li>
+            <li><code>kpi-bento__header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>kpi-bento__live</code> / <code>kpi-bento__livedot</code> — LIVE pill + animated dot.</li>
+            <li><code>kpi-bento__body</code> — card body with internal padding (the bento's outer breathing room).</li>
+            <li><code>kpi-bento__grid</code> — 6×3 named-area grid; <code>:nth-child</code> rules assign each tile to its area.</li>
+            <li><code>kpi-bento__footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Tiles</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-bento-tile</code> — single tile (declares its own <code>container-type: inline-size</code> for cqi-relative typography). Carries <code>--kpi-tile-color</code>.</li>
+            <li><code>kpi-bento-tile--hero</code> — hero modifier: bigger value (<code>22cqi</code>), bigger min-height in collapsed mode.</li>
+            <li><code>kpi-bento-tile--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> / <code>--down-strong</code> — sentiment modifiers setting <code>--kpi-tile-color</code> on the tile.</li>
+        </ul>
+
+        <h4 class="mt-4">Tile content</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-bento-tile__label</code> — uppercase mono caption (top-left of the internal 2-row grid).</li>
+            <li><code>kpi-bento-tile__delta</code> — coloured Δ% (top-right; reads <code>--kpi-tile-color</code>).</li>
+            <li><code>kpi-bento-tile__value</code> — focal number row (bottom span of the tile, layered over the chart at <code>z-index: 1</code>).</li>
+            <li><code>kpi-bento-tile__num</code> / <code>kpi-bento-tile__unit</code> — numeric + unit spans inside <code>__value</code>.</li>
+            <li><code>kpi-bento-tile__chart</code> — absolutely-positioned chart wrapper (<code>z-index: 0</code>, sits behind the value).</li>
+            <li><code>kpi-bento-tile__chart-svg</code> — fixed-height pinned-to-bottom span containing the SVG (so vertical stretch doesn't distort the line).</li>
+        </ul>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-bento-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
+            <li><code>kpi-bento-detail-title</code> — uppercase mono header.</li>
+            <li><code>kpi-bento-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+        </ul>
+
+        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome.</li>
+        </ul>
+    </div>
+</div>
+
 <script>
 // Cursor-anchored hover detail popovers + SVG circle → CSS span conversion
 // for the sparklines. Same recipes as the other KPI showcases.

@@ -908,6 +908,116 @@
         </div>
     </div>
 </div>
+
+<br>
+
+<!-- Usage Guide -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Usage Guide</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>When to use</h4>
+        <p>Bloomberg-style dense KPI panels: per-tile depth (id, status pill, label, focal value, prev row, sparkline) with a view-mode toggle to swap the focal value between absolute, Δ%, and trend-only readings. Best for trading floor / NOC / operations dashboards where a single tile must carry a lot of context. If you want even-weight grids with less per-tile chrome, pick Sparkline list or Editorial minimal.</p>
+
+        <h4 class="mt-4">View-mode toggle</h4>
+        <p>Each <code>.kpi-terminal</code> is independent — its <code>data-view</code> attribute (set by the toggle buttons) drives which <code>.kpi-tile__value[data-mode="..."]</code> is visible. Authoring lists all three values per tile (one each for value / delta / trend) and CSS attribute selectors show only the active one. The page has three sections (canonical 2-col grid, 1×3 page-grid, 25/45 asymmetric) and each carries its own toggle.</p>
+
+        <h4 class="mt-4">Status pills (different axis from sentiment)</h4>
+        <p>Three pill styles for tile-level status: <code>WARN</code> (filled orange — needs attention), <code>GOOD</code> (text-only — passing, no chrome by design), <code>NEUTRAL</code> (filled grey — informational). Filled-vs-text is a deliberate hierarchy: filled for "act on this", text-only for "this is fine, just confirming".</p>
+        <p>The pill is on a <strong>different axis</strong> from the 5-step sentiment scale (<code>very-positive</code> / <code>positive</code> / <code>neutral</code> / <code>negative</code> / <code>very-negative</code>) used on <code>__value</code> and <code>__delta</code>. Sentiment is <em>direction of change</em> (ordinal — "how positive or negative is the movement"). The pill is <em>action urgency</em> (categorical — "does the operator need to do something"). They coexist intentionally: a tile can be <code>--very-negative</code> numerically (big drop) AND <code>--good</code> pill-wise if the drop is expected / on target — and vice versa, a flat-but-bad metric can be <code>--neutral</code> sentiment + <code>--warn</code> pill. Three levels rather than five because the action question is yes/no/maybe, not a five-step gradient.</p>
+
+        <h4 class="mt-4">Color hierarchy via color-mix</h4>
+        <p>The design needs four distinct text levels — focal value, label, secondary unit, dim metadata. Theme tokens (<code>--pa-text-color-2/3/4</code>) didn't give enough contrast spread, so supporting text uses <code>color-mix(in srgb, var(--pa-text-color-1) X%, transparent)</code> with explicit alphas (72% label, 55% unit, 42% id and prev/delta row) and only <code>__num</code> is full <code>--pa-text-color-1</code>. Inverts cleanly in light themes (where <code>--pa-text-color-1</code> resolves to dark) so the hierarchy survives mode toggling without theme-specific overrides.</p>
+
+        <h4 class="mt-4">--standalone modifier</h4>
+        <p>Tiles inside a <code>.kpi-terminal__grid</code> use grid-bookkeeping borders to share rules with their siblings. A tile placed directly inside a <code>.pa-col-*</code> (no surrounding grid) needs <code>kpi-tile--standalone</code> to draw its own full border + card-bg + bottom margin so it doesn't look orphaned.</p>
+
+        <h4 class="mt-4">Sparkline trailing dot</h4>
+        <p>Same fix as the other showcases: SVG <code>preserveAspectRatio="none"</code> stretches a <code>&lt;circle&gt;</code> into an oval, so JS converts each circle to an HTML <code>&lt;span&gt;</code> inside a <code>.kpi-tile__spark-wrap</code> on init. The dot is sized in CSS pixels so it stays a true circle regardless of chart aspect ratio.</p>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <p>Cursor-anchored via Floating UI's <code>computePosition</code> + virtual reference element. Each tile's detail is appended to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>; <code>position: fixed</code> + <code>strategy: 'fixed'</code> because cursor coords are viewport-relative; <code>pointer-events: none</code> so the cursor passes through. Tile-anchored placement was tried first but in vertical-stack layouts every tile's "above-it" geometry sat in an identical-looking gap above the next tile, which read as "popover is always at the same spot."</p>
+    </div>
+</div>
+
+<br>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Card structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-terminal</code> — page-namespace class on <code>.pa-card</code>. Carries the <code>data-view="value | delta | trend"</code> attribute that drives the view-mode toggle.</li>
+            <li><code>kpi-terminal__header</code> — flex header with title + controls + LIVE indicator.</li>
+            <li><code>kpi-terminal__controls</code> — controls group (currently the view-mode toggle).</li>
+            <li><code>kpi-terminal__viewtoggle</code> — segmented toggle container.</li>
+            <li><code>kpi-terminal__viewbtn</code> — individual VALUE / Δ% / TREND button. Add <code>is-active</code> for the selected one.</li>
+            <li><code>kpi-terminal__live</code> / <code>kpi-terminal__livedot</code> — LIVE pill + animated dot.</li>
+            <li><code>kpi-terminal__body</code> — card body with internal padding.</li>
+            <li><code>kpi-terminal__grid</code> — internal tile grid.</li>
+            <li><code>kpi-terminal__grid--2col</code> — 2-col layout modifier (canonical dense grid).</li>
+            <li><code>kpi-terminal__sectionhead</code> — section heading inside a card (used in the layout test sections).</li>
+        </ul>
+
+        <h4 class="mt-4">Tile structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-tile</code> — single tile (used inside <code>.kpi-terminal__grid</code>).</li>
+            <li><code>kpi-tile--standalone</code> — modifier for tiles placed directly in a <code>.pa-col-*</code> outside a grid (full border + card-bg + bottom margin).</li>
+            <li><code>kpi-tile--up-strong</code> / <code>--up</code> / <code>--flat</code> / <code>--down</code> / <code>--down-strong</code> — sparkline-direction sentiment modifiers (named by sentiment, not line shape: "error rate dropping" uses <code>--up</code>).</li>
+        </ul>
+
+        <h4 class="mt-4">Tile head</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-tile__head</code> — top row (id + status pill).</li>
+            <li><code>kpi-tile__id</code> — tile id (e.g. "KPI.01").</li>
+            <li><code>kpi-tile__status</code> — base status pill.</li>
+            <li><code>kpi-tile__status--warn</code> — filled orange "needs attention".</li>
+            <li><code>kpi-tile__status--good</code> — text-only green "passing".</li>
+            <li><code>kpi-tile__status--neutral</code> — filled grey "informational".</li>
+            <li><code>kpi-tile__label</code> — uppercase mono caption below the head.</li>
+        </ul>
+
+        <h4 class="mt-4">Tile values + view-mode swap</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-tile__values</code> — wrapper for the three value-mode variants.</li>
+            <li><code>kpi-tile__value</code> — single value variant. Carries <code>data-mode="value | delta | trend"</code> matched against the parent's <code>data-view</code> attribute.</li>
+            <li><code>kpi-tile__num</code> / <code>kpi-tile__unit</code> — numeric + unit spans.</li>
+            <li><code>kpi-tile__value--very-positive</code> / <code>--positive</code> / <code>--neutral</code> / <code>--negative</code> / <code>--very-negative</code> — coloured-number sentiment modifiers (apply to <code>__num</code> via descendant selector).</li>
+        </ul>
+
+        <h4 class="mt-4">Prev row + delta</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-tile__prev</code> — previous-period row (▲▼ + value, dim).</li>
+            <li><code>kpi-tile__delta--very-positive</code> / <code>--positive</code> / <code>--neutral</code> / <code>--negative</code> / <code>--very-negative</code> — delta sentiment colours.</li>
+        </ul>
+
+        <h4 class="mt-4">Sparkline</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-tile__spark</code> — chart SVG.</li>
+            <li><code>kpi-tile__spark-wrap</code> — wrapper containing the SVG + the JS-injected dot span.</li>
+            <li><code>kpi-spark-dot</code> — HTML span replacing the SVG circle (CSS-pixel sized so it stays circular).</li>
+        </ul>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-tile__detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init).</li>
+            <li><code>kpi-tile__detail-title</code> — uppercase mono header.</li>
+            <li><code>kpi-tile__detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+        </ul>
+
+        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome (intentionally Bloomberg-dark by default; override for theme-aware popovers).</li>
+        </ul>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // ---- View-mode toggle (per-terminal) ----

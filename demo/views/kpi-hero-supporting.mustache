@@ -736,6 +736,94 @@
     </div>
 </div>
 
+<br>
+
+<!-- Usage Guide -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Usage Guide</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>When to use</h4>
+        <p>Marketing / executive dashboards where one headline metric carries the page and a small set of supporting metrics provide context. The hero gets disproportionate visual weight (huge number + filled-area sparkline + meta row); the side rail is compact tile rows. Best for "today's top number, with a few supporting figures alongside" rather than even-weight grids of KPIs.</p>
+
+        <h4 class="mt-4">Layout</h4>
+        <p>Card body is a 2-column grid: hero on the left, supporting tile rail on the right. A container query at <code>max-width: 700px</code> collapses to single column on narrow page-grid cards (1×3, 25/45 widths) so the same markup works at multiple host widths.</p>
+
+        <h4 class="mt-4">Side-rail tile structure</h4>
+        <p>Each side tile is a 2×2 internal grid with the value spanning both rows on the right column. Left column has label (row 1, <code>align-self: end</code>) and delta (row 2, <code>align-self: start</code>), so they tuck against the vertically-centred value rather than each having a full-width row. Looks balanced when the label is one line and still reads cleanly when it wraps to two.</p>
+
+        <h4 class="mt-4">Hero chart can grow without distorting</h4>
+        <p>When the side rail has more tiles than the hero's natural content fills, the parent grid stretches the hero column. The chart container has <code>flex: 1 1 10rem</code> so it grows to absorb that extra height. The SVG inside is wrapped in a fixed-<code>10rem</code>-height span pinned to the bottom (<code>align-items: flex-end</code>), so the line's Y proportions never distort. Empty space appears above the chart instead of compressing into a void below it. Same shape as the bullet-as-CSS-span fix elsewhere: anything inside <code>preserveAspectRatio="none"</code> stretches with its container, so things-that-shouldn't-stretch need to live outside that scaling or have their dimensions in absolute pixels.</p>
+
+        <h4 class="mt-4">Container-relative hero typography</h4>
+        <p>Hero value uses <code>clamp(4rem, 17cqi, 7rem)</code> to scale with the hero column's width — dramatic at canonical widths, gracefully smaller in narrow page-grid cells. <code>cqi</code> resolves against the card (which declares <code>container-type: inline-size</code>).</p>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <p>Cursor-anchored via Floating UI's <code>computePosition</code> + virtual reference element. Each tile's detail is appended to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>. Sparkline trailing dots use the SVG <code>&lt;circle&gt;</code> → HTML <code>&lt;span&gt;</code> conversion to stay circular at non-square chart aspect ratios.</p>
+    </div>
+</div>
+
+<br>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Card structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-hero-list</code> — page-namespace class on <code>.pa-card</code>. Declares <code>container-type: inline-size</code> for the layout collapse.</li>
+            <li><code>kpi-hero-list__header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>kpi-hero-list__live</code> / <code>kpi-hero-list__livedot</code> — LIVE pill + animated dot.</li>
+            <li><code>kpi-hero-list__body</code> — card body with internal padding.</li>
+            <li><code>kpi-hero-list__layout</code> — 2-col grid (hero left, rail right). Collapses to 1-col under 700px via container query.</li>
+            <li><code>kpi-hero-list__rail</code> — vertical stack of side-tiles (right column).</li>
+            <li><code>kpi-hero-list__footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Hero (left column)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-hero-main</code> — hero container. Carries <code>--kpi-hero-color</code>.</li>
+            <li><code>kpi-hero-main--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers setting <code>--kpi-hero-color</code>.</li>
+            <li><code>kpi-hero-main__label</code> — uppercase mono caption.</li>
+            <li><code>kpi-hero-main__value</code> — focal number (<code>clamp(4rem, 17cqi, 7rem)</code>).</li>
+            <li><code>kpi-hero-main__num</code> / <code>kpi-hero-main__unit</code> — numeric + unit spans.</li>
+            <li><code>kpi-hero-main__meta</code> — flex row carrying delta · period · target.</li>
+            <li><code>kpi-hero-main__delta</code> — coloured Δ% (reads <code>--kpi-hero-color</code>).</li>
+            <li><code>kpi-hero-main__period</code> — period descriptor (e.g. "vs last month").</li>
+            <li><code>kpi-hero-main__target</code> — target value pair.</li>
+            <li><code>kpi-hero-main__chart</code> — chart wrapper (flex-grow to absorb extra height).</li>
+            <li><code>kpi-hero-main__chart-svg</code> — fixed-height pinned-to-bottom SVG host (line never distorts).</li>
+        </ul>
+
+        <h4 class="mt-4">Side rail tile (right column)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-hero-side</code> — single supporting tile. Carries <code>--kpi-side-color</code>.</li>
+            <li><code>kpi-hero-side--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers.</li>
+            <li><code>kpi-hero-side__label</code> — caption (top-left of internal 2×2 grid).</li>
+            <li><code>kpi-hero-side__value</code> — value spanning both rows on the right column.</li>
+            <li><code>kpi-hero-side__num</code> / <code>kpi-hero-side__unit</code> — numeric + unit spans.</li>
+            <li><code>kpi-hero-side__delta</code> — coloured Δ% (bottom-left).</li>
+        </ul>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-hero-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init).</li>
+            <li><code>kpi-hero-detail-title</code> — uppercase mono header.</li>
+            <li><code>kpi-hero-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+        </ul>
+
+        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome.</li>
+        </ul>
+    </div>
+</div>
+
 <script>
 // Cursor-anchored hover detail popovers + SVG circle → CSS span conversion
 // for the hero sparklines. Same recipes as the other KPI showcases.

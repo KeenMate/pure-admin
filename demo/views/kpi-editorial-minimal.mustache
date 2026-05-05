@@ -674,6 +674,102 @@
     </div>
 </div>
 
+<br>
+
+<!-- Usage Guide -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Usage Guide</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>When to use</h4>
+        <p>Executive dashboards / weekly review pages. The design's identity is restraint — one big light-weight number per tile, hairline rules, generous space, no chart chrome. Best when the operator wants "how are we doing" at a glance and reads the supporting context only on hover. If you need sparklines, status pills, or trend indication directly in the tile, pick a different showcase.</p>
+
+        <h4 class="mt-4">Hairline rules</h4>
+        <p>Dividers between cells are painted by <code>gap: 1px</code> on <code>.kpi-edit__grid</code> over a <code>background: var(--pa-border-color)</code>; each tile paints <code>--pa-card-bg</code> over its own area. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. The card's outer border supplies the perimeter — render the card with <code>.kpi-edit__body</code> at zero padding (table-card mode) so the rules go edge-to-edge.</p>
+
+        <h4 class="mt-4">Picking the column count</h4>
+        <p>Default is 3-col with container queries collapsing to 2-col under 640px and 1-col under 360px. Add <code>kpi-edit__grid--2col</code> to force 2-col regardless of card width — useful when "1/3 of the page" varies enough across viewport widths that the breakpoint can't reliably catch the right bucket. Keep tile count a multiple of column count to avoid orphan rows.</p>
+
+        <h4 class="mt-4">Authoring contract</h4>
+        <ul>
+            <li>Pick the column count (default 3-col, or <code>--2col</code>).</li>
+            <li>Drop tiles in reading order — CSS Grid auto-flow handles row/column placement.</li>
+            <li>Each tile carries its own <code>.kpi-edit-detail</code> popover; the script moves it to <code>&lt;body&gt;</code> on init and anchors it to the cursor on hover.</li>
+            <li>Use <code>.kpi-edit__delta--{positive | negative | neutral | up-strong | down-strong}</code> on the delta to colour-code sentiment from the shared <code>--kpi-*</code> token surface.</li>
+        </ul>
+
+        <h4 class="mt-4">Light-weight typography</h4>
+        <p>The headline value uses the body sans at <code>font-weight: 200</code>, not mono — mono fonts rarely ship a true thin weight, and the design's identity is the editorial thin numeral. Tabular numerals are preserved via <code>font-variant-numeric: tabular-nums</code> so column-aligned values still line up. Size is container-relative via <code>clamp(3.2rem, 18cqi, 5.6rem)</code> so the same markup shrinks gracefully into 25% page-grid cells without manual breakpoints.</p>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <p>Cursor-anchored via Floating UI's <code>computePosition</code> + a virtual reference element built from <code>e.clientX/clientY</code>. <code>position: fixed</code> + <code>strategy: 'fixed'</code> because cursor coords are viewport-relative; <code>pointer-events: none</code> so the cursor passes through to the tile (no oscillation). Each <code>.kpi-edit-detail</code> is moved to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>.</p>
+    </div>
+</div>
+
+<br>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Card structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-edit</code> — page-namespace class on <code>.pa-card</code>. Optional anchor for theme-scoped overrides.</li>
+            <li><code>kpi-edit__header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>kpi-edit__live</code> — LIVE pill (mono caps + animated dot).</li>
+            <li><code>kpi-edit__livedot</code> — pulsing dot inside the LIVE pill.</li>
+            <li><code>kpi-edit__body</code> — applies <code>padding: 0</code> to <code>.pa-card__body</code> so dividers go edge-to-edge.</li>
+            <li><code>kpi-edit__footer</code> — flex footer caption + "Hover any KPI for detail" hint.</li>
+        </ul>
+
+        <h4 class="mt-4">Grid + tiles</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-edit__grid</code> — grid container (<code>display: grid</code>, default <code>repeat(3, 1fr)</code>, <code>gap: 1px</code> over <code>--pa-border-color</code> background).</li>
+            <li><code>kpi-edit__grid--2col</code> — modifier forcing <code>grid-template-columns: repeat(2, 1fr)</code> regardless of card width.</li>
+            <li><code>kpi-edit__tile</code> — single KPI cell (<code>2.4rem 2rem</code> padding, <code>--pa-card-bg</code> over the grid background).</li>
+        </ul>
+
+        <h4 class="mt-4">Tile content</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-edit__label</code> — uppercase mono caption (50% contrast, allowed to wrap).</li>
+            <li><code>kpi-edit__value</code> — headline number row (body sans, <code>font-weight: 200</code>, <code>clamp(3.2rem, 18cqi, 5.6rem)</code>).</li>
+            <li><code>kpi-edit__num</code> — numeric span inside <code>__value</code> (tabular nums).</li>
+            <li><code>kpi-edit__unit</code> — currency / percent / unit span (40% size, dim).</li>
+            <li><code>kpi-edit__meta</code> — flex row carrying delta + target.</li>
+            <li><code>kpi-edit__delta</code> — coloured delta number.</li>
+            <li><code>kpi-edit__target</code> — dim "tgt {value}" pair; <code>em</code> inside is the literal "tgt" prefix.</li>
+        </ul>
+
+        <h4 class="mt-4">Delta sentiment modifiers</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-edit__delta--positive</code> — ordinary positive movement.</li>
+            <li><code>kpi-edit__delta--negative</code> — ordinary negative movement.</li>
+            <li><code>kpi-edit__delta--neutral</code> — no meaningful change (<code>±0.0</code>).</li>
+            <li><code>kpi-edit__delta--up-strong</code> — outlier positive (deeper green).</li>
+            <li><code>kpi-edit__delta--down-strong</code> — outlier negative (deeper red).</li>
+        </ul>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-edit-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
+            <li><code>kpi-edit-detail-title</code> — uppercase mono header inside the popover.</li>
+            <li><code>kpi-edit-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text inside the detail's <code>&lt;dl&gt;</code>.</li>
+        </ul>
+
+        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> — green sentiment scale.</li>
+            <li><code>--kpi-neutral</code> — grey for "no meaningful change".</li>
+            <li><code>--kpi-negative</code> / <code>--kpi-very-negative</code> — red sentiment scale.</li>
+            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome (Bloomberg-dark by default; override for theme-aware popovers).</li>
+        </ul>
+    </div>
+</div>
+
 <script>
 // Cursor-anchored hover detail popovers — same recipe as the other KPI showcases.
 document.addEventListener('DOMContentLoaded', function() {

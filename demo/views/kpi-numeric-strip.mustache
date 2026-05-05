@@ -578,6 +578,98 @@
     </div>
 </div>
 
+<br>
+
+<!-- Usage Guide -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Usage Guide</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>When to use</h4>
+        <p>"Spreadsheet-style" KPI scanning: pure tabular numbers, most data per pixel. Best when the operator wants to scan many KPIs side-by-side with consistent column alignment (now / prev / Δ% / vs target). No sparkline, no chart chrome, no decorations. If you need direction or trend at a glance, pick Sparkline list or Terminal grid; if you want headline numbers with restraint, pick Editorial minimal.</p>
+
+        <h4 class="mt-4">Wide-only by design</h4>
+        <p>This showcase has no responsive collapse. The narrow-card "stack each row into a mini-card" pattern was tried first but converged visually with the Comparison gauges showcase. For narrow page-grid placements (1×3 cards, 25% asymmetric cells) route to Comparison gauges instead. The 25/35/40 page-grid row demonstrates how cramped the columns get below the design's comfortable width — values can wrap or push past the column tracks. End-developer's call whether that's acceptable.</p>
+
+        <h4 class="mt-4">Table-card mode</h4>
+        <p><code>.kpi-strip__body</code> applies <code>padding: 0</code> so each row's <code>border-top</code> divider extends edge-to-edge. The horizontal inset lives on each row (<code>padding: 1.1rem 1.6rem</code>), matching what would have been the body's inline padding. Reads as the card's content rather than a table sitting inside another panel.</p>
+
+        <h4 class="mt-4">Per-row grid (not subgrid)</h4>
+        <p>Each <code>.kpi-strip__row</code> is its own grid sharing the same column template. This gives per-row hover hosts (needed for the cursor-anchored detail popover) while keeping cells aligned across rows because every row uses identical <code>fr</code>-units. CSS subgrid would be more semantically accurate but would duplicate the same effective layout in more lines.</p>
+
+        <h4 class="mt-4">Bar + percent in the target column</h4>
+        <p>The "vs target" column carries a tiny progress bar with the percent value pinned below it. Bar fill is theme-neutral grey via <code>color-mix(in srgb, var(--pa-text-color-1) 40%, transparent)</code>; the percent value (e.g. "97%" vs "108%" vs "54%") signals overshoot/undershoot, so colour reinforcement isn't needed. Bar is visually capped at 100% so over-target metrics read as "fully filled" rather than overflowing.</p>
+
+        <h4 class="mt-4">--no-prev modifier</h4>
+        <p>Add <code>kpi-strip--no-prev</code> on the card root and omit the <code>.kpi-strip__prev</code> cells in the markup to drop to a 4-col layout (metric / now / Δ% / target). Useful when there isn't room for prev <em>and</em> now side-by-side — typical at narrow page-grid widths or in dense dashboards where prev is redundant with the Δ%.</p>
+    </div>
+</div>
+
+<br>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Card structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-strip</code> — page-namespace class on <code>.pa-card</code>.</li>
+            <li><code>kpi-strip--no-prev</code> — modifier dropping the prev column (4-col layout).</li>
+            <li><code>kpi-strip__header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>kpi-strip__live</code> / <code>kpi-strip__livedot</code> — LIVE pill + animated dot.</li>
+            <li><code>kpi-strip__body</code> — applies <code>padding: 0</code> so dividers go edge-to-edge.</li>
+            <li><code>kpi-strip__footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Rows</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-strip__head-row</code> — header row (uppercase mono labels).</li>
+            <li><code>kpi-strip__row</code> — data row. Carries hover host for the cursor-anchored popover and per-row inline padding so dividers extend edge-to-edge.</li>
+            <li><code>kpi-strip__head</code> — header cell (uppercase mono, 42% contrast).</li>
+            <li><code>kpi-strip__head--num</code> — right-aligned variant (matches the right-aligned numeric cells below).</li>
+        </ul>
+
+        <h4 class="mt-4">Row cells</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-strip__metric</code> — uppercase mono metric label (78% contrast, allowed to wrap to two lines).</li>
+            <li><code>kpi-strip__now</code> — focal "now" value (largest text in the row, right-aligned).</li>
+            <li><code>kpi-strip__num</code> / <code>kpi-strip__unit</code> — numeric + unit spans inside <code>__now</code>.</li>
+            <li><code>kpi-strip__prev</code> — previous-period value (lower contrast than __now).</li>
+            <li><code>kpi-strip__delta</code> — coloured Δ% value (right-aligned).</li>
+            <li><code>kpi-strip__target</code> — vertical stack: bar + percent below.</li>
+            <li><code>kpi-strip__bar</code> — progress track (0.5rem tall, theme-neutral background).</li>
+            <li><code>kpi-strip__fill</code> — bar fill. Width set inline per row via <code>style="width: X%"</code>.</li>
+            <li><code>kpi-strip__bar-pct</code> — percent label pinned below the bar's right edge.</li>
+        </ul>
+
+        <h4 class="mt-4">Delta sentiment modifiers</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-strip__delta--positive</code> — ordinary positive movement.</li>
+            <li><code>kpi-strip__delta--negative</code> — ordinary negative movement.</li>
+            <li><code>kpi-strip__delta--neutral</code> — no meaningful change.</li>
+            <li><code>kpi-strip__delta--up-strong</code> — outlier positive (deeper green).</li>
+            <li><code>kpi-strip__delta--down-strong</code> — outlier negative (deeper red).</li>
+        </ul>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-strip-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
+            <li><code>kpi-strip-detail-title</code> — uppercase mono header.</li>
+            <li><code>kpi-strip-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+        </ul>
+
+        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome.</li>
+        </ul>
+    </div>
+</div>
+
 <script>
 // Cursor-anchored hover detail popovers — same recipe as the other KPI showcases.
 document.addEventListener('DOMContentLoaded', function() {

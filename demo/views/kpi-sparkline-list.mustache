@@ -894,6 +894,96 @@
     </div>
 </div>
 
+<br>
+
+<!-- Usage Guide -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Usage Guide</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>When to use</h4>
+        <p>Fast vertical scanning of many KPIs side-by-side. Each row is one KPI: <strong>label · sparkline · value · Δ%</strong>. No view-mode toggle, no status pills, no prev row — built for "show me 5–10 KPIs at once with their trend shapes" rather than per-tile depth. Sparkline gets a filled area underneath the line for stronger visual weight than the Terminal grid version. If you want trend <em>and</em> dense numeric data per tile, pick Terminal grid; if you want trend behind a single hero number, pick Hero + supporting.</p>
+
+        <h4 class="mt-4">Container queries (not media queries)</h4>
+        <p>The 4-col row layout (<code>label · chart · value · delta</code>) needs ~500px of min-content. Below that, columns overrun. <code>.kpi-spark-list</code> declares <code>container-type: inline-size</code> so the same row markup adapts based on whichever card width it lives in:</p>
+        <ul>
+            <li><strong>Default (≥640px):</strong> 4-col row.</li>
+            <li><strong>≤640px:</strong> 2-row stack (label/value/delta on top, full-width chart below).</li>
+            <li><strong>≤360px:</strong> 3-row stack (label, then chart, then value/delta side-by-side at the bottom).</li>
+        </ul>
+        <p>A canonical card at 1200px stays 4-col while a 1×3 card at 400px stacks — both on the same page at the same viewport width. This is the right axis for a layout that lives in different surfaces at different sizes.</p>
+
+        <h4 class="mt-4">--chart-first modifier</h4>
+        <p>Add <code>kpi-spark-list--chart-first</code> on the card root to flip the 2-row collapsed layout from "value-above-chart" to "label / chart / value+delta", which preserves the canonical L→R reading order (label → chart → value → delta) when rotated 90°. Default keeps the "summary line + supporting visual" pattern. The very-narrow ≤360px fallback always uses the 3-row layout regardless of modifier — at that width neither variant has horizontal room for label+value+delta on one line.</p>
+
+        <h4 class="mt-4">Sparkline trend colours</h4>
+        <p>Apply <code>kpi-spark-row--{up-strong | up | flat | down | down-strong}</code> on the row to colour the sparkline (and trailing dot) via <code>currentColor</code>. The 5-step semantic palette comes from the shared <code>--kpi-*</code> tokens. Note these are <em>direction-sentiment</em> classes, not line-shape classes — "error rate dropping" uses <code>--up</code> despite the line going down, because the sentiment is positive.</p>
+
+        <h4 class="mt-4">Trailing dot</h4>
+        <p>The chart SVG uses <code>preserveAspectRatio="none"</code> so the line stretches to fill arbitrary cell widths. As a side-effect, an SVG <code>&lt;circle&gt;</code> would render as an oval (X and Y scale factors differ at non-square aspect ratios). At init, JS converts each <code>&lt;circle&gt;</code> to an HTML <code>.kpi-spark-dot</code> span sized in CSS pixels so it stays a true circle. Position is computed from the original <code>cx/cy</code> as viewBox-relative percentages so the dot lands at the same end-of-line spot.</p>
+    </div>
+</div>
+
+<br>
+
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Card structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-spark-list</code> — page-namespace class on <code>.pa-card</code>. Declares <code>container-type: inline-size</code> for the layout collapse.</li>
+            <li><code>kpi-spark-list--chart-first</code> — modifier flipping the collapsed 2-row layout to "label / chart / value+delta".</li>
+            <li><code>kpi-spark-list__header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>kpi-spark-list__live</code> / <code>kpi-spark-list__livedot</code> — LIVE pill + animated dot.</li>
+            <li><code>kpi-spark-list__body</code> — applies <code>padding: 0</code> so row dividers go edge-to-edge.</li>
+            <li><code>kpi-spark-list__footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Row structure</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-spark-row</code> — single KPI row. Carries hover host for the popover.</li>
+            <li><code>kpi-spark-row--up-strong</code> / <code>--up</code> / <code>--flat</code> / <code>--down</code> / <code>--down-strong</code> — sparkline-direction sentiment modifiers (set <code>color</code> on the chart so <code>currentColor</code> resolves the line + dot).</li>
+        </ul>
+
+        <h4 class="mt-4">Row content</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-spark-row__label</code> — uppercase mono caption.</li>
+            <li><code>kpi-spark-row__chart</code> — chart wrapper (<code>position: relative</code> for the absolute-positioned dot).</li>
+            <li><code>kpi-spark-dot</code> — HTML span replacing the SVG circle (CSS-pixel sized so it stays circular at any aspect ratio).</li>
+            <li><code>kpi-spark-row__value</code> — focal value (right-aligned in the 4-col layout).</li>
+            <li><code>kpi-spark-row__num</code> / <code>kpi-spark-row__unit</code> — numeric + unit spans.</li>
+            <li><code>kpi-spark-row__delta</code> — coloured Δ% (right-aligned).</li>
+        </ul>
+
+        <h4 class="mt-4">Delta sentiment modifiers</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-spark-row__delta--very-positive</code> — outlier positive (deeper green).</li>
+            <li><code>kpi-spark-row__delta--positive</code> — ordinary positive.</li>
+            <li><code>kpi-spark-row__delta--neutral</code> — no meaningful change.</li>
+            <li><code>kpi-spark-row__delta--negative</code> — ordinary negative.</li>
+            <li><code>kpi-spark-row__delta--very-negative</code> — outlier negative (deeper red).</li>
+        </ul>
+
+        <h4 class="mt-4">Hover detail popover</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>kpi-spark-row__detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init).</li>
+            <li><code>kpi-spark-row__detail-title</code> — uppercase mono header.</li>
+            <li><code>kpi-spark-row__detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+        </ul>
+
+        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome.</li>
+        </ul>
+    </div>
+</div>
+
 <script>
 // Hover detail popover — same Floating UI cursor-anchored recipe as
 // kpi-terminal-grid.mustache. Each row's detail is appended to <body> so
