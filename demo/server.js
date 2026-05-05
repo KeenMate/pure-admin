@@ -443,6 +443,10 @@ app.get('/kpi/numeric-strip', (req, res) => {
     renderWithLayout(res, 'kpi-numeric-strip', { pageTitle: 'KPI · Numeric strip', currentPage: 'kpi-numeric-strip', isKpiNumericStrip: true });
 });
 
+app.get('/kpi/editorial-minimal', (req, res) => {
+    renderWithLayout(res, 'kpi-editorial-minimal', { pageTitle: 'KPI · Editorial minimal', currentPage: 'kpi-editorial-minimal', isKpiEditorialMinimal: true });
+});
+
 app.get('/components/notifications', (req, res) => {
     renderWithLayout(res, 'notifications', { pageTitle: 'Notifications', currentPage: 'notifications', isNotifications: true });
 });
