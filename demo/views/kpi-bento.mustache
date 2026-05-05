@@ -1,24 +1,6 @@
 <p>"Bento layout" KPI indicator. <strong>Asymmetric tile sizes, sparkline as a low-opacity background</strong> on each tile, big numerals layered over the chart in the lower-left corner. Hero (Monthly Revenue) spans two rows on the left; two stacked tiles on the right (top); three equal tiles below — magazine-style mixed sizes rather than a uniform grid. Card-level container query collapses the whole bento to a single-column stack when the host card narrows below 700px so the same markup works in narrow page-grid cells.</p>
 
 <style>
-/* === KPI design tokens (shared) ===
-   Same palette as the other KPI showcases. Will dedupe to a shared SCSS
-   module when these graduate to core. */
-:root {
-  --kpi-very-positive: #16a34a;
-  --kpi-positive:      #22c55e;
-  --kpi-neutral:       #9ca3af;
-  --kpi-negative:      #ef4444;
-  --kpi-very-negative: #dc2626;
-  --kpi-warning:       #f97316;
-
-  --kpi-detail-bg: rgba(15, 17, 21, 0.97);
-  --kpi-detail-text: #ffffff;
-  --kpi-detail-row-label: rgba(255, 255, 255, 0.75);
-  --kpi-detail-title: rgba(255, 255, 255, 0.55);
-  --kpi-detail-shadow: 0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
-}
-
 /* === Card chrome === */
 .kpi-bento {
   container-type: inline-size;
@@ -38,14 +20,14 @@
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  color: var(--pa-text-secondary);
 }
 .kpi-bento__livedot {
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 50%;
-  background: var(--kpi-positive);
-  box-shadow: 0 0 6px var(--kpi-positive);
+  background: var(--pa-positive);
+  box-shadow: 0 0 6px var(--pa-positive);
   animation: kpiPulse 1.6s ease-in-out infinite;
 }
 @keyframes kpiPulse { 50% { opacity: 0.35; } }
@@ -115,13 +97,13 @@
   gap: 0.4rem 1rem;
   /* Sparkline + delta sentiment colour cascades via currentColor.
      Override per-tile with the modifiers below. */
-  --kpi-tile-color: var(--kpi-positive);
+  --kpi-tile-color: var(--pa-positive);
 }
-.kpi-bento-tile--positive    { --kpi-tile-color: var(--kpi-positive); }
-.kpi-bento-tile--negative    { --kpi-tile-color: var(--kpi-negative); }
-.kpi-bento-tile--neutral     { --kpi-tile-color: var(--kpi-neutral); }
-.kpi-bento-tile--up-strong   { --kpi-tile-color: var(--kpi-very-positive); }
-.kpi-bento-tile--down-strong { --kpi-tile-color: var(--kpi-very-negative); }
+.kpi-bento-tile--positive    { --kpi-tile-color: var(--pa-positive); }
+.kpi-bento-tile--negative    { --kpi-tile-color: var(--pa-negative); }
+.kpi-bento-tile--neutral     { --kpi-tile-color: var(--pa-neutral); }
+.kpi-bento-tile--up-strong   { --kpi-tile-color: var(--pa-very-positive); }
+.kpi-bento-tile--down-strong { --kpi-tile-color: var(--pa-very-negative); }
 
 /* Top row: label + delta side-by-side, both sit above the chart.
    Both get z-index: 1 so they're not covered by the chart that fills
@@ -254,7 +236,7 @@
   gap: 1rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.2rem;
-  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  color: var(--pa-text-secondary);
 }
 .kpi-bento__footer strong {
   color: var(--pa-text-color-1);
@@ -271,14 +253,14 @@
   z-index: 9000;
   min-width: 24rem;
   max-width: 30rem;
-  background: var(--kpi-detail-bg);
-  color: var(--kpi-detail-text);
+  background: var(--pa-detail-bg);
+  color: var(--pa-detail-text);
   padding: 1.1rem 1.4rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.2rem;
   line-height: 1.5;
   border-radius: 0.4rem;
-  box-shadow: var(--kpi-detail-shadow);
+  box-shadow: var(--pa-detail-shadow);
 }
 .kpi-bento-detail[data-show] { visibility: visible; }
 .kpi-bento-detail-title {
@@ -286,7 +268,7 @@
   letter-spacing: 0.08em;
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--kpi-detail-title);
+  color: var(--pa-detail-title);
   margin-bottom: 0.6rem;
 }
 .kpi-bento-detail dl {
@@ -295,11 +277,11 @@
   gap: 0.35rem 1.6rem;
   margin: 0;
 }
-.kpi-bento-detail dt { margin: 0; color: var(--kpi-detail-row-label); font-weight: 400; }
+.kpi-bento-detail dt { margin: 0; color: var(--pa-detail-row-label); font-weight: 400; }
 .kpi-bento-detail dd { margin: 0; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-.kpi-bento-detail .pos { color: var(--kpi-positive); }
-.kpi-bento-detail .neg { color: var(--kpi-negative); }
-.kpi-bento-detail .warn { color: var(--kpi-warning); }
+.kpi-bento-detail .pos { color: var(--pa-positive); }
+.kpi-bento-detail .neg { color: var(--pa-negative); }
+.kpi-bento-detail .warn { color: var(--pa-warning); }
 </style>
 
 <!-- ============================================================
@@ -1007,11 +989,11 @@
             <li><code>kpi-bento-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
         </ul>
 
-        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome.</li>
+            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome.</li>
         </ul>
     </div>
 </div>

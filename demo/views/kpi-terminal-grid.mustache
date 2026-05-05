@@ -5,33 +5,6 @@
      ============================================================ -->
 
 <style>
-/* === KPI design tokens (shared across all KPI indicators) ===
-   Defined on :root so the .kpi-tile__detail popovers — which JS moves to <body>
-   to escape ancestor overflow:hidden — can still resolve them via inheritance.
-   A host app can override any of these on :root, body, or per-component to
-   retune semantics (e.g. --kpi-positive: orange for an air-quality surface,
-   --kpi-detail-bg: light for a non-Bloomberg integration). */
-:root {
-  /* Semantic 5-step scale: very-positive → positive → neutral → negative → very-negative.
-     Use --positive/--negative for ordinary deltas, --very-X for outliers (big jumps,
-     spikes, breakouts) where you want extra emphasis, --neutral for "no meaningful
-     change". Default greens/reds are Tailwind 500/600 + gray-400. */
-  --kpi-very-positive: #16a34a;   /* deep saturated green — strong gain */
-  --kpi-positive:      #22c55e;   /* gain */
-  --kpi-neutral:       #9ca3af;   /* flat / no change */
-  --kpi-negative:      #ef4444;   /* loss */
-  --kpi-very-negative: #dc2626;   /* deep saturated red — strong loss */
-
-  /* Hover detail popover chrome — intentionally dark by default for the
-     Bloomberg/terminal aesthetic, regardless of host theme. Override these to
-     adopt theme-aware popovers. */
-  --kpi-detail-bg: rgba(15, 17, 21, 0.97);
-  --kpi-detail-text: #ffffff;
-  --kpi-detail-row-label: rgba(255, 255, 255, 0.75);
-  --kpi-detail-title: rgba(255, 255, 255, 0.55);
-  --kpi-detail-shadow: 0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
-}
-
 .kpi-terminal {
   /* dark, dense look — relies on theme vars so it tracks light/dark + variant */
 }
@@ -88,8 +61,8 @@
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 50%;
-  background: var(--kpi-positive);
-  box-shadow: 0 0 6px var(--kpi-positive);
+  background: var(--pa-positive);
+  box-shadow: 0 0 6px var(--pa-positive);
   animation: kpiPulse 1.6s ease-in-out infinite;
 }
 @keyframes kpiPulse { 50% { opacity: 0.35; } }
@@ -151,7 +124,7 @@
   margin-bottom: 0.3rem;
 }
 .kpi-tile__id {
-  color: color-mix(in srgb, var(--pa-text-color-1) 42%, transparent);
+  color: var(--pa-text-tertiary);
   font-weight: 600;
 }
 .kpi-tile__status {
@@ -184,7 +157,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 72%, transparent);
+  color: var(--pa-text-strong);
   margin-bottom: 0.8rem;
 }
 
@@ -213,13 +186,13 @@
 .kpi-tile__unit {
   font-size: 1.6rem;
   font-weight: 500;
-  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  color: var(--pa-text-secondary);
 }
-.kpi-tile__value--very-positive .kpi-tile__num { color: var(--kpi-very-positive); }
-.kpi-tile__value--positive      .kpi-tile__num { color: var(--kpi-positive); }
-.kpi-tile__value--neutral       .kpi-tile__num { color: var(--kpi-neutral); }
-.kpi-tile__value--negative      .kpi-tile__num { color: var(--kpi-negative); }
-.kpi-tile__value--very-negative .kpi-tile__num { color: var(--kpi-very-negative); }
+.kpi-tile__value--very-positive .kpi-tile__num { color: var(--pa-very-positive); }
+.kpi-tile__value--positive      .kpi-tile__num { color: var(--pa-positive); }
+.kpi-tile__value--neutral       .kpi-tile__num { color: var(--pa-neutral); }
+.kpi-tile__value--negative      .kpi-tile__num { color: var(--pa-negative); }
+.kpi-tile__value--very-negative .kpi-tile__num { color: var(--pa-very-negative); }
 
 /* === prev / delta row === */
 .kpi-tile__prev {
@@ -230,13 +203,13 @@
   font-size: 1.3rem;
   margin-top: auto;          /* push to bottom of flex column */
   margin-bottom: 0.4rem;
-  color: color-mix(in srgb, var(--pa-text-color-1) 42%, transparent);
+  color: var(--pa-text-tertiary);
 }
-.kpi-tile__delta--very-positive { color: var(--kpi-very-positive); }
-.kpi-tile__delta--positive      { color: var(--kpi-positive); }
-.kpi-tile__delta--neutral       { color: var(--kpi-neutral); }
-.kpi-tile__delta--negative      { color: var(--kpi-negative); }
-.kpi-tile__delta--very-negative { color: var(--kpi-very-negative); }
+.kpi-tile__delta--very-positive { color: var(--pa-very-positive); }
+.kpi-tile__delta--positive      { color: var(--pa-positive); }
+.kpi-tile__delta--neutral       { color: var(--pa-neutral); }
+.kpi-tile__delta--negative      { color: var(--pa-negative); }
+.kpi-tile__delta--very-negative { color: var(--pa-very-negative); }
 
 /* === Sparkline ===
    The trailing dot (end-of-line marker) is a CSS-positioned <span>, not a
@@ -282,11 +255,11 @@
    class that matches the *sentiment of the change*, not the line shape.
    Color is set on both the SVG and the wrapper so currentColor resolves for
    the line/area (inside SVG) and the dot (inside wrapper). */
-.kpi-tile--up-strong   .kpi-tile__spark, .kpi-tile--up-strong   .kpi-tile__spark-wrap { color: var(--kpi-very-positive); }
-.kpi-tile--up          .kpi-tile__spark, .kpi-tile--up          .kpi-tile__spark-wrap { color: var(--kpi-positive); }
-.kpi-tile--flat        .kpi-tile__spark, .kpi-tile--flat        .kpi-tile__spark-wrap { color: var(--kpi-neutral); }
-.kpi-tile--down        .kpi-tile__spark, .kpi-tile--down        .kpi-tile__spark-wrap { color: var(--kpi-negative); }
-.kpi-tile--down-strong .kpi-tile__spark, .kpi-tile--down-strong .kpi-tile__spark-wrap { color: var(--kpi-very-negative); }
+.kpi-tile--up-strong   .kpi-tile__spark, .kpi-tile--up-strong   .kpi-tile__spark-wrap { color: var(--pa-very-positive); }
+.kpi-tile--up          .kpi-tile__spark, .kpi-tile--up          .kpi-tile__spark-wrap { color: var(--pa-positive); }
+.kpi-tile--flat        .kpi-tile__spark, .kpi-tile--flat        .kpi-tile__spark-wrap { color: var(--pa-neutral); }
+.kpi-tile--down        .kpi-tile__spark, .kpi-tile--down        .kpi-tile__spark-wrap { color: var(--pa-negative); }
+.kpi-tile--down-strong .kpi-tile__spark, .kpi-tile--down-strong .kpi-tile__spark-wrap { color: var(--pa-very-negative); }
 
 /* === Hover detail popover ===
    Positioned with Floating UI anchored to a *virtual element* at the cursor
@@ -305,14 +278,14 @@
   z-index: 9000;
   min-width: 26rem;
   max-width: 32rem;
-  background: var(--kpi-detail-bg);
-  color: var(--kpi-detail-text);
+  background: var(--pa-detail-bg);
+  color: var(--pa-detail-text);
   padding: 1.2rem 1.5rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.25rem;
   line-height: 1.5;
   border-radius: 0.4rem;
-  box-shadow: var(--kpi-detail-shadow);
+  box-shadow: var(--pa-detail-shadow);
 }
 .kpi-tile__detail[data-show] {
   visibility: visible;
@@ -322,7 +295,7 @@
   letter-spacing: 0.08em;
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--kpi-detail-title);
+  color: var(--pa-detail-title);
   margin-bottom: 0.6rem;
 }
 .kpi-tile__detail dl {
@@ -333,7 +306,7 @@
 }
 .kpi-tile__detail dt {
   margin: 0;
-  color: var(--kpi-detail-row-label);
+  color: var(--pa-detail-row-label);
   font-weight: 400;
 }
 .kpi-tile__detail dd {
@@ -342,8 +315,8 @@
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
-.kpi-tile__detail .pos { color: var(--kpi-positive); }
-.kpi-tile__detail .neg { color: var(--kpi-negative); }
+.kpi-tile__detail .pos { color: var(--pa-positive); }
+.kpi-tile__detail .neg { color: var(--pa-negative); }
 
 /* === Footer caption === */
 .kpi-terminal__footer {
@@ -1009,11 +982,11 @@
             <li><code>kpi-tile__detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
         </ul>
 
-        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome (intentionally Bloomberg-dark by default; override for theme-aware popovers).</li>
+            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome (intentionally Bloomberg-dark by default; override for theme-aware popovers).</li>
         </ul>
     </div>
 </div>

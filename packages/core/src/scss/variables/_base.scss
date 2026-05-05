@@ -108,7 +108,7 @@ $base-tooltip-text-color: #ffffff !default;
 // Success/positive semantic colors
 // =============================================================================
 
-$base-success-color: #28a745 !default;
+$base-success-color: #22c55e !default;  // Tailwind green-500 — aligns with --pa-positive in the sentiment scale
 $base-success-color-hover: color.adjust($base-success-color, $lightness: -10%) !default;
 $base-success-bg-light: rgba($base-success-color, 0.1) !default;
 $base-success-bg-subtle: rgba($base-success-color, 0.08) !default;
@@ -122,7 +122,7 @@ $base-text-on-success: #ffffff !default;
 // Danger/error semantic colors
 // =============================================================================
 
-$base-danger-color: #dc3545 !default;
+$base-danger-color: #ef4444 !default;  // Tailwind red-500 — aligns with --pa-negative in the sentiment scale
 $base-danger-color-hover: color.adjust($base-danger-color, $lightness: -10%) !default;
 $base-danger-bg-light: rgba($base-danger-color, 0.1) !default;
 $base-danger-bg-subtle: rgba($base-danger-color, 0.08) !default;
@@ -136,7 +136,7 @@ $base-text-on-danger: #ffffff !default;
 // Warning semantic colors
 // =============================================================================
 
-$base-warning-color: #ffc107 !default;
+$base-warning-color: #f97316 !default;  // Tailwind orange-500 — also serves as the off-target axis in KPI components
 $base-warning-color-hover: color.adjust($base-warning-color, $lightness: -10%) !default;
 $base-warning-bg-light: rgba($base-warning-color, 0.1) !default;
 $base-warning-bg-subtle: rgba($base-warning-color, 0.08) !default;
@@ -158,6 +158,18 @@ $base-info-border: rgba($base-info-color, 0.2) !default;
 $base-info-text: #0c5460 !default;
 $base-info-text-light: #d1ecf1 !default;
 $base-text-on-info: #ffffff !default;
+
+// =============================================================================
+// SENTIMENT SCALE — 5-step direction-of-change
+// Used by KPI / data-display components to indicate movement direction.
+// `--pa-positive` and `--pa-negative` alias the role colours above; the
+// outlier shades (`very-positive` / `very-negative`) are explicit darker
+// stops since they're not derivable cleanly via color.adjust.
+// =============================================================================
+
+$base-very-positive: #16a34a !default;  // Tailwind green-600 — outlier positive
+$base-very-negative: #dc2626 !default;  // Tailwind red-600 — outlier negative
+$base-neutral:       #9ca3af !default;  // Tailwind gray-400 — "no meaningful change"
 
 // =============================================================================
 // INTERACTIVE STATES

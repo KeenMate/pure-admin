@@ -245,6 +245,76 @@
   --pa-border-color: #{$border-color};
 
   // =========================================================================
+  // ROLE COLORS — single source of truth for the four semantic roles.
+  // Button surfaces (--pa-btn-{success,warning,danger,info}-bg) and
+  // contextual surfaces (--pa-{success,warning,danger,info}-bg) below
+  // both reference these via var() so a theme can override one place
+  // and the change cascades everywhere.
+  //
+  // --pa-warning here is also the "off-target / approaching-limit" axis
+  // colour used by KPI components — orange-500, deliberately distinct
+  // from the previous Bootstrap yellow.
+  // =========================================================================
+
+  --pa-success: #{$base-success-color};
+  --pa-warning: #{$base-warning-color};
+  --pa-danger:  #{$base-danger-color};
+  --pa-info:    #{$base-info-color};
+
+  // =========================================================================
+  // SENTIMENT SCALE — 5-step direction-of-change.
+  // Used by KPI / data-display components for indicating directional
+  // movement (delta colours, sparkline trend colours, etc.).
+  // The middle three values alias the role colours so a theme that
+  // retunes --pa-success / --pa-danger automatically retunes the
+  // matching sentiment positions; the outliers (very-positive /
+  // very-negative) are explicit darker shades.
+  //
+  // Sentiment is on a *different axis* from role colours — direction
+  // (ordinal: -2 to +2) vs. urgency (categorical: success / warning /
+  // danger / info). They coexist intentionally.
+  // =========================================================================
+
+  --pa-very-positive: #{$base-very-positive};
+  --pa-positive:      var(--pa-success);
+  --pa-neutral:       #{$base-neutral};
+  --pa-negative:      var(--pa-danger);
+  --pa-very-negative: #{$base-very-negative};
+
+  // =========================================================================
+  // TEXT CONTRAST TIERS — color-mix expressions so they invert cleanly
+  // across light / dark themes (the alpha is over --pa-text-color-1).
+  // Default expressions are sensible everywhere; override with flat
+  // colours per theme if you need something other than alpha-blended
+  // primary text.
+  // =========================================================================
+
+  --pa-text-strong:    color-mix(in srgb, var(--pa-text-color-1) 72%, transparent);
+  --pa-text-secondary: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  --pa-text-tertiary:  color-mix(in srgb, var(--pa-text-color-1) 42%, transparent);
+
+  // =========================================================================
+  // SURFACE TINTS — subtle bg layers derived from --pa-text-color-1
+  // so they invert with the theme. For hover washes and track / divider
+  // backgrounds.
+  // =========================================================================
+
+  --pa-surface-hover:  color-mix(in srgb, var(--pa-text-color-1) 4%, transparent);
+  --pa-surface-track:  color-mix(in srgb, var(--pa-text-color-1) 12%, transparent);
+
+  // =========================================================================
+  // DETAIL POPOVER — Bloomberg-dark by default, regardless of host
+  // theme, for the terminal/data-dashboard aesthetic. Override the
+  // five tokens to adopt a theme-aware popover instead.
+  // =========================================================================
+
+  --pa-detail-bg:        rgba(15, 17, 21, 0.97);
+  --pa-detail-text:      #ffffff;
+  --pa-detail-row-label: rgba(255, 255, 255, 0.75);
+  --pa-detail-title:     rgba(255, 255, 255, 0.55);
+  --pa-detail-shadow:    0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
+
+  // =========================================================================
   // LAYOUT COLORS
   // =========================================================================
 
@@ -283,23 +353,23 @@
   --pa-btn-secondary-text: #{$btn-secondary-text};
   --pa-btn-secondary-outline-color: #{$btn-secondary-text};
 
-  // Success
-  --pa-btn-success-bg: #{$btn-success-bg};
+  // Success — bg references role colour for runtime cascade
+  --pa-btn-success-bg: var(--pa-success);
   --pa-btn-success-bg-hover: #{$btn-success-bg-hover};
   --pa-btn-success-text: #{$btn-success-text};
 
-  // Danger
-  --pa-btn-danger-bg: #{$btn-danger-bg};
+  // Danger — bg references role colour for runtime cascade
+  --pa-btn-danger-bg: var(--pa-danger);
   --pa-btn-danger-bg-hover: #{$btn-danger-bg-hover};
   --pa-btn-danger-text: #{$btn-danger-text};
 
-  // Warning
-  --pa-btn-warning-bg: #{$btn-warning-bg};
+  // Warning — bg references role colour for runtime cascade
+  --pa-btn-warning-bg: var(--pa-warning);
   --pa-btn-warning-bg-hover: #{$btn-warning-bg-hover};
   --pa-btn-warning-text: #{$btn-warning-text};
 
-  // Info
-  --pa-btn-info-bg: #{$btn-info-bg};
+  // Info — bg references role colour for runtime cascade
+  --pa-btn-info-bg: var(--pa-info);
   --pa-btn-info-bg-hover: #{$btn-info-bg-hover};
   --pa-btn-info-text: #{$btn-info-text};
 
@@ -317,8 +387,8 @@
   // CONTEXTUAL/SEMANTIC COLORS
   // =========================================================================
 
-  // Success
-  --pa-success-bg: #{$success-bg};
+  // Success — bg references role colour for runtime cascade
+  --pa-success-bg: var(--pa-success);
   --pa-success-bg-hover: #{$success-bg-hover};
   --pa-success-bg-light: #{$success-bg-light};
   --pa-success-bg-subtle: #{$success-bg-subtle};
@@ -326,8 +396,8 @@
   --pa-success-text: #{$success-text};
   --pa-success-text-light: #{$success-text-light};
 
-  // Danger
-  --pa-danger-bg: #{$danger-bg};
+  // Danger — bg references role colour for runtime cascade
+  --pa-danger-bg: var(--pa-danger);
   --pa-danger-bg-hover: #{$danger-bg-hover};
   --pa-danger-bg-light: #{$danger-bg-light};
   --pa-danger-bg-subtle: #{$danger-bg-subtle};
@@ -335,8 +405,8 @@
   --pa-danger-text: #{$danger-text};
   --pa-danger-text-light: #{$danger-text-light};
 
-  // Warning
-  --pa-warning-bg: #{$warning-bg};
+  // Warning — bg references role colour for runtime cascade
+  --pa-warning-bg: var(--pa-warning);
   --pa-warning-bg-hover: #{$warning-bg-hover};
   --pa-warning-bg-light: #{$warning-bg-light};
   --pa-warning-bg-subtle: #{$warning-bg-subtle};
@@ -344,8 +414,8 @@
   --pa-warning-text: #{$warning-text};
   --pa-warning-text-light: #{$warning-text-light};
 
-  // Info
-  --pa-info-bg: #{$info-bg};
+  // Info — bg references role colour for runtime cascade
+  --pa-info-bg: var(--pa-info);
   --pa-info-bg-hover: #{$info-bg-hover};
   --pa-info-bg-light: #{$info-bg-light};
   --pa-info-bg-subtle: #{$info-bg-subtle};

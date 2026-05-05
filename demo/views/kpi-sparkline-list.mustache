@@ -1,27 +1,6 @@
 <p>Bloomberg-y "sparkline list" KPI indicator. Each KPI becomes one row: <strong>name · sparkline · value · Δ%</strong>. No view-mode toggle, no status pills, no prev row — built for fast vertical scanning and side-by-side comparison rather than per-tile depth. Sparkline gets a filled area under the line for stronger visual weight than the terminal-grid version. Hover any row for the structured detail breakdown.</p>
 
 <style>
-/* === KPI design tokens (shared across all KPI indicators) ===
-   Duplicated from kpi-terminal-grid.mustache; will be deduped to a shared
-   core-components/_kpi-tokens.scss when these designs stabilise and graduate
-   to the framework. For now each KPI page declares its own copy so it works
-   standalone. */
-:root {
-  /* Semantic 5-step scale */
-  --kpi-very-positive: #16a34a;
-  --kpi-positive:      #22c55e;
-  --kpi-neutral:       #9ca3af;
-  --kpi-negative:      #ef4444;
-  --kpi-very-negative: #dc2626;
-
-  /* Hover detail popover chrome — Bloomberg dark, theme-independent. */
-  --kpi-detail-bg: rgba(15, 17, 21, 0.97);
-  --kpi-detail-text: #ffffff;
-  --kpi-detail-row-label: rgba(255, 255, 255, 0.75);
-  --kpi-detail-title: rgba(255, 255, 255, 0.55);
-  --kpi-detail-shadow: 0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
-}
-
 /* === Card header: title + LIVE pulse (no view toggle in this design) === */
 .kpi-spark-list__header {
   display: flex;
@@ -38,14 +17,14 @@
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  color: var(--pa-text-secondary);
 }
 .kpi-spark-list__livedot {
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 50%;
-  background: var(--kpi-positive);
-  box-shadow: 0 0 6px var(--kpi-positive);
+  background: var(--pa-positive);
+  box-shadow: 0 0 6px var(--pa-positive);
   animation: kpiPulse 1.6s ease-in-out infinite;
 }
 @keyframes kpiPulse { 50% { opacity: 0.35; } }
@@ -196,11 +175,11 @@
    for the rationale). Color is set on .kpi-spark-row__chart so currentColor
    resolves for both the SVG content (line/area) and the dot inside the
    wrapper. Picks one of the 5 scale colors via currentColor. */
-.kpi-spark-row--up-strong   .kpi-spark-row__chart { color: var(--kpi-very-positive); }
-.kpi-spark-row--up          .kpi-spark-row__chart { color: var(--kpi-positive); }
-.kpi-spark-row--flat        .kpi-spark-row__chart { color: var(--kpi-neutral); }
-.kpi-spark-row--down        .kpi-spark-row__chart { color: var(--kpi-negative); }
-.kpi-spark-row--down-strong .kpi-spark-row__chart { color: var(--kpi-very-negative); }
+.kpi-spark-row--up-strong   .kpi-spark-row__chart { color: var(--pa-very-positive); }
+.kpi-spark-row--up          .kpi-spark-row__chart { color: var(--pa-positive); }
+.kpi-spark-row--flat        .kpi-spark-row__chart { color: var(--pa-neutral); }
+.kpi-spark-row--down        .kpi-spark-row__chart { color: var(--pa-negative); }
+.kpi-spark-row--down-strong .kpi-spark-row__chart { color: var(--pa-very-negative); }
 
 /* Value (col 3) — focal white number + muted unit, mono, right-aligned */
 .kpi-spark-row__value {
@@ -217,7 +196,7 @@
 .kpi-spark-row__unit {
   font-size: 1.3rem;
   font-weight: 500;
-  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  color: var(--pa-text-secondary);
   margin-left: 0.2rem;
 }
 
@@ -229,11 +208,11 @@
   text-align: end;
   font-variant-numeric: tabular-nums;
 }
-.kpi-spark-row__delta--very-positive { color: var(--kpi-very-positive); }
-.kpi-spark-row__delta--positive      { color: var(--kpi-positive); }
-.kpi-spark-row__delta--neutral       { color: var(--kpi-neutral); }
-.kpi-spark-row__delta--negative      { color: var(--kpi-negative); }
-.kpi-spark-row__delta--very-negative { color: var(--kpi-very-negative); }
+.kpi-spark-row__delta--very-positive { color: var(--pa-very-positive); }
+.kpi-spark-row__delta--positive      { color: var(--pa-positive); }
+.kpi-spark-row__delta--neutral       { color: var(--pa-neutral); }
+.kpi-spark-row__delta--negative      { color: var(--pa-negative); }
+.kpi-spark-row__delta--very-negative { color: var(--pa-very-negative); }
 
 /* === Footer caption === */
 .kpi-spark-list__footer {
@@ -244,7 +223,7 @@
   gap: 1rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.2rem;
-  color: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  color: var(--pa-text-secondary);
 }
 .kpi-spark-list__footer strong {
   color: var(--pa-text-color-1);
@@ -262,14 +241,14 @@
   z-index: 9000;
   min-width: 26rem;
   max-width: 32rem;
-  background: var(--kpi-detail-bg);
-  color: var(--kpi-detail-text);
+  background: var(--pa-detail-bg);
+  color: var(--pa-detail-text);
   padding: 1.2rem 1.5rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.25rem;
   line-height: 1.5;
   border-radius: 0.4rem;
-  box-shadow: var(--kpi-detail-shadow);
+  box-shadow: var(--pa-detail-shadow);
 }
 .kpi-spark-row__detail[data-show] { visibility: visible; }
 .kpi-spark-row__detail-title {
@@ -277,7 +256,7 @@
   letter-spacing: 0.08em;
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--kpi-detail-title);
+  color: var(--pa-detail-title);
   margin-bottom: 0.6rem;
 }
 .kpi-spark-row__detail dl {
@@ -286,10 +265,10 @@
   gap: 0.35rem 1.6rem;
   margin: 0;
 }
-.kpi-spark-row__detail dt { margin: 0; color: var(--kpi-detail-row-label); font-weight: 400; }
+.kpi-spark-row__detail dt { margin: 0; color: var(--pa-detail-row-label); font-weight: 400; }
 .kpi-spark-row__detail dd { margin: 0; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-.kpi-spark-row__detail .pos { color: var(--kpi-positive); }
-.kpi-spark-row__detail .neg { color: var(--kpi-negative); }
+.kpi-spark-row__detail .pos { color: var(--pa-positive); }
+.kpi-spark-row__detail .neg { color: var(--pa-negative); }
 </style>
 
 <div class="pa-card kpi-spark-list">
@@ -975,11 +954,11 @@
             <li><code>kpi-spark-row__detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
         </ul>
 
-        <h4 class="mt-4">Shared design tokens (all KPI showcases)</h4>
+        <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--kpi-very-positive</code> / <code>--kpi-positive</code> / <code>--kpi-neutral</code> / <code>--kpi-negative</code> / <code>--kpi-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--kpi-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--kpi-detail-bg</code> / <code>--kpi-detail-text</code> / <code>--kpi-detail-row-label</code> / <code>--kpi-detail-title</code> / <code>--kpi-detail-shadow</code> — popover chrome.</li>
+            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome.</li>
         </ul>
     </div>
 </div>
