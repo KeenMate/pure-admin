@@ -97,13 +97,13 @@
   gap: 0.4rem 1rem;
   /* Sparkline + delta sentiment colour cascades via currentColor.
      Override per-tile with the modifiers below. */
-  --kpi-tile-color: var(--pa-positive);
+  --kpi-accent: var(--pa-positive);
 }
-.kpi-bento-tile--positive    { --kpi-tile-color: var(--pa-positive); }
-.kpi-bento-tile--negative    { --kpi-tile-color: var(--pa-negative); }
-.kpi-bento-tile--neutral     { --kpi-tile-color: var(--pa-neutral); }
-.kpi-bento-tile--up-strong   { --kpi-tile-color: var(--pa-very-positive); }
-.kpi-bento-tile--down-strong { --kpi-tile-color: var(--pa-very-negative); }
+.kpi-bento-tile--positive    { --kpi-accent: var(--pa-positive); }
+.kpi-bento-tile--negative    { --kpi-accent: var(--pa-negative); }
+.kpi-bento-tile--neutral     { --kpi-accent: var(--pa-neutral); }
+.kpi-bento-tile--up-strong   { --kpi-accent: var(--pa-very-positive); }
+.kpi-bento-tile--down-strong { --kpi-accent: var(--pa-very-negative); }
 
 /* Top row: label + delta side-by-side, both sit above the chart.
    Both get z-index: 1 so they're not covered by the chart that fills
@@ -124,7 +124,7 @@
   font-family: var(--base-font-family-mono);
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--kpi-tile-color);
+  color: var(--kpi-accent);
   z-index: 1;
   align-self: start;
   line-height: 1.2;
@@ -197,7 +197,7 @@
   bottom: 0;
   height: 65%;
   pointer-events: none;
-  color: var(--kpi-tile-color);
+  color: var(--kpi-accent);
   z-index: 0;
   display: flex;
   align-items: flex-end;
@@ -983,15 +983,15 @@
 
         <h4 class="mt-4">Tiles</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-bento-tile</code> — single tile (declares its own <code>container-type: inline-size</code> for cqi-relative typography). Carries <code>--kpi-tile-color</code>.</li>
+            <li><code>kpi-bento-tile</code> — single tile (declares its own <code>container-type: inline-size</code> for cqi-relative typography). Carries <code>--kpi-accent</code>.</li>
             <li><code>kpi-bento-tile--hero</code> — hero modifier: bigger value (<code>22cqi</code>), bigger min-height in collapsed mode.</li>
-            <li><code>kpi-bento-tile--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> / <code>--down-strong</code> — sentiment modifiers setting <code>--kpi-tile-color</code> on the tile.</li>
+            <li><code>kpi-bento-tile--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> / <code>--down-strong</code> — sentiment modifiers setting <code>--kpi-accent</code> on the tile.</li>
         </ul>
 
         <h4 class="mt-4">Tile content</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>kpi-bento-tile__label</code> — uppercase mono caption (top-left of the internal 2-row grid).</li>
-            <li><code>kpi-bento-tile__delta</code> — coloured Δ% (top-right; reads <code>--kpi-tile-color</code>).</li>
+            <li><code>kpi-bento-tile__delta</code> — coloured Δ% (top-right; reads <code>--kpi-accent</code>).</li>
             <li><code>kpi-bento-tile__value</code> — focal number row (bottom span of the tile, layered over the chart at <code>z-index: 1</code>).</li>
             <li><code>kpi-bento-tile__num</code> / <code>kpi-bento-tile__unit</code> — numeric + unit spans inside <code>__value</code>.</li>
             <li><code>kpi-bento-tile__chart</code> — absolutely-positioned chart wrapper (<code>z-index: 0</code>, sits behind the value).</li>

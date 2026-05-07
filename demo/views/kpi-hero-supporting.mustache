@@ -65,12 +65,12 @@
   gap: 0.6rem;
   /* Sentiment colour cascades to the chart and any deltas via currentColor.
      Override per-tile via the .kpi-hero-main--positive/negative/etc modifiers. */
-  --kpi-hero-color: var(--pa-positive);
+  --kpi-accent: var(--pa-positive);
 }
-.kpi-hero-main--positive { --kpi-hero-color: var(--pa-positive); }
-.kpi-hero-main--negative { --kpi-hero-color: var(--pa-negative); }
-.kpi-hero-main--neutral  { --kpi-hero-color: var(--pa-neutral); }
-.kpi-hero-main--up-strong { --kpi-hero-color: var(--pa-very-positive); }
+.kpi-hero-main--positive { --kpi-accent: var(--pa-positive); }
+.kpi-hero-main--negative { --kpi-accent: var(--pa-negative); }
+.kpi-hero-main--neutral  { --kpi-accent: var(--pa-neutral); }
+.kpi-hero-main--up-strong { --kpi-accent: var(--pa-very-positive); }
 
 .kpi-hero-main__label {
   font-family: var(--base-font-family-mono);
@@ -119,7 +119,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0.4rem;
-  color: var(--kpi-hero-color);
+  color: var(--kpi-accent);
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 1.2;
@@ -146,7 +146,7 @@
   flex: 1 1 10rem;
   min-height: 10rem;
   margin-top: 0.6rem;
-  color: var(--kpi-hero-color);
+  color: var(--kpi-accent);
   display: flex;
   align-items: flex-end;     /* SVG wrap pinned to the bottom; extra space appears above */
 }
@@ -194,12 +194,12 @@
   column-gap: 1.2rem;
   row-gap: 0.4rem;
   align-items: center;
-  --kpi-side-color: var(--pa-positive);
+  --kpi-accent: var(--pa-positive);
 }
-.kpi-hero-side--positive { --kpi-side-color: var(--pa-positive); }
-.kpi-hero-side--negative { --kpi-side-color: var(--pa-negative); }
-.kpi-hero-side--neutral  { --kpi-side-color: var(--pa-neutral); }
-.kpi-hero-side--up-strong { --kpi-side-color: var(--pa-very-positive); }
+.kpi-hero-side--positive { --kpi-accent: var(--pa-positive); }
+.kpi-hero-side--negative { --kpi-accent: var(--pa-negative); }
+.kpi-hero-side--neutral  { --kpi-accent: var(--pa-neutral); }
+.kpi-hero-side--up-strong { --kpi-accent: var(--pa-very-positive); }
 
 .kpi-hero-side__label {
   grid-area: label;
@@ -239,7 +239,7 @@
   font-family: var(--base-font-family-mono);
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--kpi-side-color);
+  color: var(--kpi-accent);
 }
 
 /* === Footer caption === */
@@ -767,13 +767,13 @@
 
         <h4 class="mt-4">Hero (left column)</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-hero-main</code> — hero container. Carries <code>--kpi-hero-color</code>.</li>
-            <li><code>kpi-hero-main--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers setting <code>--kpi-hero-color</code>.</li>
+            <li><code>kpi-hero-main</code> — hero container. Carries <code>--kpi-accent</code>.</li>
+            <li><code>kpi-hero-main--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers setting <code>--kpi-accent</code>.</li>
             <li><code>kpi-hero-main__label</code> — uppercase mono caption.</li>
             <li><code>kpi-hero-main__value</code> — focal number (<code>clamp(4rem, 17cqi, 7rem)</code>).</li>
             <li><code>kpi-hero-main__num</code> / <code>kpi-hero-main__unit</code> — numeric + unit spans.</li>
             <li><code>kpi-hero-main__meta</code> — flex row carrying delta · period · target.</li>
-            <li><code>kpi-hero-main__delta</code> — coloured Δ% (reads <code>--kpi-hero-color</code>).</li>
+            <li><code>kpi-hero-main__delta</code> — coloured Δ% (reads <code>--kpi-accent</code>).</li>
             <li><code>kpi-hero-main__period</code> — period descriptor (e.g. "vs last month").</li>
             <li><code>kpi-hero-main__target</code> — target value pair.</li>
             <li><code>kpi-hero-main__chart</code> — chart wrapper (flex-grow to absorb extra height).</li>
@@ -782,7 +782,7 @@
 
         <h4 class="mt-4">Side rail tile (right column)</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-hero-side</code> — single supporting tile. Carries <code>--kpi-side-color</code>.</li>
+            <li><code>kpi-hero-side</code> — single supporting tile. Carries <code>--kpi-accent</code>.</li>
             <li><code>kpi-hero-side--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers.</li>
             <li><code>kpi-hero-side__label</code> — caption (top-left of internal 2×2 grid).</li>
             <li><code>kpi-hero-side__value</code> — value spanning both rows on the right column.</li>
