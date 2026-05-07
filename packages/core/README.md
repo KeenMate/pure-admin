@@ -2,6 +2,15 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.6.0
+
+- **Seven KPI showcase designs** under the new `KPI` sidebar group — Terminal grid (Bloomberg-style dense panel with view-mode toggle), Sparkline list (one-row-per-KPI with filled-area chart), Comparison gauges (progress bars with target tick), Hero + supporting (big focal metric + side rail), Bento (asymmetric grid with sparklines behind values), Numeric strip (tabular spreadsheet-style), and Editorial minimal (light-weight typography with hairline rules). Each page ships with a Usage Guide + CSS Classes Reference card so the markup is documented in-place.
+- **Framework token consolidation** — single source of truth for role colours (`--pa-success / --pa-warning / --pa-danger / --pa-info`), a new 5-step sentiment scale (`--pa-very-positive` through `--pa-very-negative`), text-contrast tiers (`--pa-text-strong / -secondary / -tertiary`), surface tints (`--pa-surface-hover / -track`), popover chrome (`--pa-detail-*`), and chart trendline tokens (`--pa-chart-trendline-height / -stroke`). Button + contextual surfaces rewired so a single override of `--pa-success` cascades through everything.
+- **Role colours migrated to Tailwind palette (Visual breaking)** — `$base-success-color` → `#22c55e`, `$base-warning-color` → `#f97316` (most visible: warning yellow → orange), `$base-danger-color` → `#ef4444`. Themes that override these via `!default` still win; consumers using stock defaults will see the shift on buttons, alerts, and contextual chips.
+- **`pa-stat--square` redesigned (Visual breaking)** — `__symbol` is now an inline 50%-sized companion next to `__number` (was a giant 12%-opacity watermark), markup order drives prefix-vs-suffix layout (`<symbol><number>` for `$847K`, `<number><symbol>` for `87%`), and font sizes are container-relative (`cqi`) so values track tile width instead of viewport. Multi-character units like `°C`, `¥`, `M` now render correctly at any tile size.
+- **Theme-aware dashboard chart + new `pa:theme-change` event** — the demo's D3 chart was reading CSS custom properties from `<html>` (always returned `:root` defaults) and snapshotting them once at draw time. Fixed both bugs and introduced a `pa:theme-change` window event that any consumer code with cached theme-dependent values can listen to and re-render.
+- **Progress ring / gauge dark-theme fixes** — `__inner` mask switched from compile-time `$card-bg` to runtime `var(--pa-card-bg)` so the percentage value stays readable in dark themes; track colours moved from `rgba(0,0,0,0.08)` to a `color-mix(... var(--pa-text-color-1) 12%, transparent)` so the unfilled portion is visible on both light and dark surfaces.
+
 ## What's New in 2.5.0
 
 - **Form Demo showcase page** (`/showcases/form-demo`) — Vanilla-JS CRUD form mirroring the LiveView form demo from `keen-pure-admin`: inline validation slots, edit/update flow, optimistic delete with toast-undo, and a `simulateServerSave()` failure path so error states are exercisable without any tooling.
@@ -9,13 +18,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **Snippets audit + gap pass** — Every snippet under `snippets/` cross-checked against its SCSS source (27 audit commits, tracked in `snippets/AUDIT.md`). Wrong attribute names, dead classes, and structural omissions corrected across the board. Four new gap-pass snippets: `filter-card`, `statistics`, `notifications`, `data-display`.
 - **Popconfirm position classes renamed (Breaking)** — `pa-popconfirm--right` / `--left` → `pa-popconfirm--end` / `--start`. SCSS uses logical properties so the popconfirm and its arrow mirror in `dir="rtl"`. No backwards-compatibility aliases — update markup directly.
 - **`pa-alert__heading` size now opt-in (Breaking)** — Was hardcoded `font-size-lg`; defaults to the alert's body font-size now. Add `pa-alert__heading--lg` on existing alerts to keep the previous bigger treatment.
-
-## What's New in 2.4.0
-
-- **`download-themes` bin removed** — Theme management now lives in the [`pureadmin` CLI](https://www.npmjs.com/package/@keenmate/pureadmin) (`npx pureadmin themes add/update/list`). README's Theme Setup section rewritten to match.
-- **Theme-aware charts** — Demo dashboard chart rewritten to source colors and fonts from Pure Admin CSS custom properties (`--pa-accent`, `--pa-text-color-*`, `--base-font-family`). Establishes the canonical pattern for SVG charts tracking the active theme.
-- **KPI square stats theme correctly** — `pa-stat--square` color variants now route through `--pa-accent` / `--pa-success-bg` / etc. instead of raw SCSS vars that resolved to Bootstrap defaults in every theme.
-- **Profile panel readable on colored headers** — Name, email, role badge, and tab icons now use `--pa-header-profile-name-color` (guaranteed to contrast with header bg) instead of body text vars, with opacity/color-mix for hierarchy.
 
 ## Installation
 
