@@ -208,6 +208,42 @@
 }
 
 // ============================================================================
+// DERIVED TOKENS — TEXT CONTRAST TIERS + SURFACE TINTS
+// ============================================================================
+// These tokens use `color-mix(... var(--pa-text-color-1) ...)` to derive
+// theme-aware contrast levels. They MUST be emitted at every selector that
+// could carry an override of --pa-text-color-1, because CSS custom property
+// substitution bakes nested var() references at the *defining element*, not
+// the using element. If we only defined these at `:root, .pa-mode-light`,
+// the light-mode text colour would be frozen into the value, and elements
+// inside `.pa-mode-dark` (which overrides --pa-text-color-1 at body) would
+// inherit the light-mode-baked tier values → low contrast on dark surfaces.
+//
+// Emitting at all three selectors causes each scope to recompute the tiers
+// against its own --pa-text-color-1. The selector list `:root, .pa-mode-light,
+// .pa-mode-dark` covers html, body in light mode, and body in dark mode —
+// regardless of which class layout each theme uses for mode switching.
+//
+// This is a TOP-LEVEL rule (not inside the mixin) because themes only call
+// the mixin from their light-mode block; they don't call it again in the
+// dark-mode block. Emitting at framework level means themes get correct
+// dark-mode tiers without changing any theme code.
+//
+// Override these per-theme by redefining them in the same scope you
+// override --pa-text-color-1.
+// ============================================================================
+
+:root,
+.pa-mode-light,
+.pa-mode-dark {
+  --pa-text-strong:    color-mix(in srgb, var(--pa-text-color-1) 85%, transparent);
+  --pa-text-secondary: color-mix(in srgb, var(--pa-text-color-1) 70%, transparent);
+  --pa-text-tertiary:  color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
+  --pa-surface-hover:  color-mix(in srgb, var(--pa-text-color-1) 4%, transparent);
+  --pa-surface-track:  color-mix(in srgb, var(--pa-text-color-1) 12%, transparent);
+}
+
+// ============================================================================
 // PURE ADMIN THEME CSS VARIABLES OUTPUT MIXIN
 // ============================================================================
 // This mixin outputs all themeable SCSS variables as --pa-* CSS custom properties.
@@ -281,26 +317,27 @@
   --pa-negative:      var(--pa-danger);
   --pa-very-negative: #{$base-very-negative};
 
-  // =========================================================================
-  // TEXT CONTRAST TIERS — color-mix expressions so they invert cleanly
-  // across light / dark themes (the alpha is over --pa-text-color-1).
-  // Default expressions are sensible everywhere; override with flat
-  // colours per theme if you need something other than alpha-blended
-  // primary text.
-  // =========================================================================
-
-  --pa-text-strong:    color-mix(in srgb, var(--pa-text-color-1) 72%, transparent);
-  --pa-text-secondary: color-mix(in srgb, var(--pa-text-color-1) 55%, transparent);
-  --pa-text-tertiary:  color-mix(in srgb, var(--pa-text-color-1) 42%, transparent);
+  // (Text contrast tiers and surface tints are emitted as a top-level rule
+  // OUTSIDE this mixin — see below — because their values use
+  // `var(--pa-text-color-1)` and CSS custom property substitution bakes
+  // nested var() at the *defining element*, not the using element. That
+  // means tier vars defined here at `:root, .pa-mode-light` would freeze
+  // the light-mode text colour into them; under `.pa-mode-dark` (which
+  // overrides --pa-text-color-1 at body) the tiers would still resolve
+  // against the light value. Emitting them at all three selectors
+  // simultaneously fixes the substitution scope.)
 
   // =========================================================================
-  // SURFACE TINTS — subtle bg layers derived from --pa-text-color-1
-  // so they invert with the theme. For hover washes and track / divider
-  // backgrounds.
+  // CHART / SPARKLINE
   // =========================================================================
+  // Single height token used by every KPI showcase that renders a sparkline
+  // / trendline (terminal grid, sparkline list, hero+supporting, bento).
+  // Centralised so the line proportions stay consistent across designs;
+  // override globally for taller or shorter trendlines, or per-component
+  // if a particular layout (e.g. a "hero" pattern) wants a different size.
 
-  --pa-surface-hover:  color-mix(in srgb, var(--pa-text-color-1) 4%, transparent);
-  --pa-surface-track:  color-mix(in srgb, var(--pa-text-color-1) 12%, transparent);
+  --pa-chart-trendline-height: 3rem;
+  --pa-chart-trendline-stroke: 2.1;     // SVG user-space units (viewBox-relative)
 
   // =========================================================================
   // DETAIL POPOVER — Bloomberg-dark by default, regardless of host

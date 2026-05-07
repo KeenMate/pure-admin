@@ -179,6 +179,17 @@
    the digits. Same currentColor cascade as elsewhere — the polyline gets
    the stroke, the polygon under it gets a low-alpha fill of the same
    colour for the soft area. */
+/* Chart container reserves the bottom band of the tile and pins its
+   inner SVG wrapper to the bottom edge. We can't let the SVG fill the
+   full container height (`height: 65%` of the tile) because the SVG
+   uses `preserveAspectRatio="none"` — taller tiles would stretch the
+   line's Y-amplitude proportionally to tile height, so the line shape
+   looks different on the hero (tall) vs. non-hero (short) tiles even
+   though they share the same viewBox data. Same fix as kpi-hero-
+   supporting's chart: outer container can grow with the tile, but the
+   SVG itself sits in a fixed-height inner span so its vertical
+   proportions stay constant. Empty space appears above the SVG when
+   the tile is tall, instead of compressing/stretching the line. */
 .kpi-bento-tile__chart {
   position: absolute;
   left: 0;
@@ -188,18 +199,23 @@
   pointer-events: none;
   color: var(--kpi-tile-color);
   z-index: 0;
+  display: flex;
+  align-items: flex-end;
 }
 .kpi-bento-tile--hero .kpi-bento-tile__chart {
   height: 70%;
 }
-/* Fixed-aspect SVG wrapper so future "trailing dot as HTML span" fixes
-   (same as the other KPI showcases) work cleanly — the HTML dot's
-   percentages resolve against this wrapper, not the outer absolute box. */
+/* Fixed-height SVG wrapper. Width still flexes with the tile; only the
+   *Y* dimension is constrained, which is what the preserveAspectRatio
+   bug is about. Height comes from the framework's
+   `--pa-chart-trendline-height` token so all KPI showcases share the
+   same line proportions. Override the var locally if a particular
+   bento layout wants a hero-sized line. */
 .kpi-bento-tile__chart-svg {
   position: relative;
   display: block;
   width: 100%;
-  height: 100%;
+  height: var(--pa-chart-trendline-height);
 }
 .kpi-bento-tile__chart svg {
   display: block;
@@ -217,7 +233,7 @@
   fill: none;
   stroke: currentColor;
   stroke-opacity: 0.55;
-  stroke-width: 1.4;
+  stroke-width: var(--pa-chart-trendline-stroke);
   stroke-linecap: round;
   stroke-linejoin: round;
 }

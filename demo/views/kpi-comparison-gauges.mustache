@@ -111,6 +111,7 @@
    inside the bar) — the tick will slide to that position. */
 .kpi-gauge__bar {
   --kpi-gauge-tick-pos: 100%;
+  --kpi-gauge-tick-color: var(--pa-text-color-1);
   position: relative;
   height: 0.7rem;
   background: var(--pa-surface-track);
@@ -123,11 +124,14 @@
   /* width set inline per tile via style="--fill: 95%" or width: X% directly */
   transition: width 0.3s ease;
 }
-/* Target tick — small lighter-coloured bar slightly taller than the
-   track, reading as a "you should be here" mark. Centered on
-   `--kpi-gauge-tick-pos` via the negative margin-left (matches half
-   the tick's width, so the position value names where the *centre*
-   of the tick sits, not its left edge). */
+/* Target tick — small bar slightly taller than the track, reading as a
+   "you should be here" mark. Centered on `--kpi-gauge-tick-pos` via the
+   negative margin-left (matches half the tick's width, so the position
+   value names where the *centre* of the tick sits, not its left edge).
+   Colour comes from `--kpi-gauge-tick-color` (default --pa-text-color-1
+   at full opacity, so the tick stays readable against any sentiment fill —
+   alpha-blended defaults wash out on dark themes against bright orange/green
+   fills). Override per-tile or globally for a quieter mark. */
 .kpi-gauge__bar::after {
   content: '';
   position: absolute;
@@ -136,7 +140,7 @@
   top: -0.2rem;
   bottom: -0.2rem;
   width: 0.3rem;
-  background: color-mix(in srgb, var(--pa-text-color-1) 45%, transparent);
+  background: var(--kpi-gauge-tick-color);
 }
 
 /* Scale row: 0 left, tgt XYZ right — both dim, mono */
@@ -630,6 +634,7 @@
             <li><code>kpi-gauge__bar</code> — track. Reads <code>--kpi-gauge-tick-pos</code> for tick position (default <code>100%</code>).</li>
             <li><code>kpi-gauge__fill</code> — coloured fill. Width set inline per tile via <code>style="width: X%"</code>.</li>
             <li><code>--kpi-gauge-tick-pos</code> — custom property on <code>.kpi-gauge__bar</code> setting the target tick's position. Default <code>100%</code> (right edge, matching 0→target scale). Override per-tile via <code>style="--kpi-gauge-tick-pos: 80%"</code> when the bar represents a wider scale (e.g. 0→100% capacity, target at 80%).</li>
+            <li><code>--kpi-gauge-tick-color</code> — custom property on <code>.kpi-gauge__bar</code> setting the target tick's colour. Default <code>var(--pa-text-color-1)</code> (full opacity body text, so the tick stays readable against any sentiment fill colour). Override globally or per-tile for a quieter mark.</li>
         </ul>
 
         <h4 class="mt-4">Hover detail popover</h4>
