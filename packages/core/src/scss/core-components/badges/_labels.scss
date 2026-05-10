@@ -74,17 +74,17 @@
   }
 
   &--secondary {
-    background-color: rgba($secondary-bg, $opacity-light);
-    color: $secondary-bg;
-    border-color: $secondary-bg;
+    background-color: color-mix(in srgb, var(--pa-btn-secondary-bg) #{$opacity-light * 100%}, transparent);
+    color: var(--pa-btn-secondary-bg);
+    border-color: var(--pa-btn-secondary-bg);
 
     &.pa-label--outline {
       background-color: transparent;
-      color: $secondary-bg;
-      border-color: $secondary-bg;
+      color: var(--pa-btn-secondary-bg);
+      border-color: var(--pa-btn-secondary-bg);
 
       &:hover {
-        background-color: rgba($secondary-bg, $opacity-light);
+        background-color: color-mix(in srgb, var(--pa-btn-secondary-bg) #{$opacity-light * 100%}, transparent);
       }
     }
   }

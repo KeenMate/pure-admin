@@ -106,14 +106,14 @@
   background: none;
   border: none;
   padding: 0;
-  color: $accent-color;
+  color: var(--pa-accent);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: color $transition-fast $easing-snappy;
 
   &:hover {
-    color: $accent-hover;
+    color: var(--pa-accent-hover);
   }
 }
 
@@ -145,10 +145,10 @@
 
   // Unread notification (darker background)
   &--unread {
-    background-color: rgba($accent-color, 0.05);
+    background-color: color-mix(in srgb, var(--pa-accent) 5%, transparent);
 
     &:hover {
-      background-color: rgba($accent-color, 0.1);
+      background-color: color-mix(in srgb, var(--pa-accent) 10%, transparent);
     }
   }
 }
@@ -161,33 +161,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   font-size: $font-size-base;
-  background-color: var(--pa-accent-light);
   color: var(--pa-accent);
+  border: 1px solid transparent;
+  border-radius: var(--pa-border-radius);
 
   &--primary {
-    background-color: rgba($btn-primary-bg, 0.1);
-    color: $btn-primary-bg;
+    border-color: var(--pa-btn-primary-bg);
+    color: var(--pa-btn-primary-bg);
   }
 
   &--success {
-    background-color: rgba($btn-success-bg, 0.1);
-    color: $btn-success-bg;
+    border-color: var(--pa-success);
+    color: var(--pa-success);
   }
 
   &--warning {
-    background-color: rgba($btn-warning-bg, 0.1);
-    color: $btn-warning-bg;
+    border-color: var(--pa-warning);
+    color: var(--pa-warning);
   }
 
   &--danger {
-    background-color: rgba($btn-danger-bg, 0.1);
-    color: $btn-danger-bg;
+    border-color: var(--pa-danger);
+    color: var(--pa-danger);
   }
 
   &--secondary {
-    background-color: rgba(var(--pa-text-color-2), 0.1);
+    border-color: var(--pa-text-color-2);
     color: var(--pa-text-color-2);
   }
 }
@@ -231,14 +231,14 @@
   text-align: center;
 
   a {
-    color: $accent-color;
+    color: var(--pa-accent);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     text-decoration: none;
     transition: color $transition-fast $easing-snappy;
 
     &:hover {
-      color: $accent-hover;
+      color: var(--pa-accent-hover);
     }
   }
 }

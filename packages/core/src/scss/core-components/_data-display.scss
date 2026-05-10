@@ -139,7 +139,7 @@
     .pa-field__value::after {
       content: 'Copied!' !important;
       opacity: 1 !important;
-      color: var(--pa-color-4, #28a745);
+      color: var(--pa-success);
     }
   }
 }
@@ -452,19 +452,28 @@
       border-radius: var(--pa-border-radius);
       font-size: $fields-chips-value-font-size;
 
+      // Status chips use role colours. The framework reliably defines all
+      // four --pa-{role} and --pa-{role}-bg-light tokens, so no fallback
+      // needed. (Previous --pa-success-color refs were broken — they didn't
+      // exist, so chips silently used the hardcoded RGB fallbacks below.)
       &--success {
-        background: var(--pa-success-bg-light, rgba(0, 200, 80, 0.12));
-        color: var(--pa-success-color, #28a745);
+        background: var(--pa-success-bg-light);
+        color: var(--pa-success);
       }
 
       &--warning {
-        background: var(--pa-warning-bg-light, rgba(255, 165, 0, 0.12));
-        color: var(--pa-warning-color, #e68a00);
+        background: var(--pa-warning-bg-light);
+        color: var(--pa-warning);
       }
 
       &--danger {
-        background: var(--pa-danger-bg-light, rgba(255, 0, 0, 0.12));
-        color: var(--pa-danger-color, #dc3545);
+        background: var(--pa-danger-bg-light);
+        color: var(--pa-danger);
+      }
+
+      &--info {
+        background: var(--pa-info-bg-light);
+        color: var(--pa-info);
       }
     }
   }
@@ -681,7 +690,7 @@
   &__value--copied::after {
     content: 'Copied!' !important;
     opacity: 1 !important;
-    color: var(--pa-color-4, #28a745);
+    color: var(--pa-success);
   }
 }
 
@@ -1010,7 +1019,7 @@
   &__row--copied &__value::after {
     content: 'Copied!' !important;
     opacity: 1 !important;
-    color: var(--pa-color-4, #28a745);
+    color: var(--pa-success);
   }
 }
 
@@ -1027,12 +1036,12 @@
   &__item {
     padding: $accent-grid-item-padding-v $accent-grid-item-padding-h;
     padding-inline-start: $accent-grid-item-padding-start;
-    border-inline-start: $accent-grid-border-width solid var(--pa-accent, #3b82f6);
+    border-inline-start: $accent-grid-border-width solid var(--pa-accent);
 
-    &--success { border-inline-start-color: var(--pa-success-color, #28a745); }
-    &--warning { border-inline-start-color: var(--pa-warning-color, #e68a00); }
-    &--danger  { border-inline-start-color: var(--pa-danger-color, #dc3545); }
-    &--info    { border-inline-start-color: var(--pa-info-color, #17a2b8); }
+    &--success { border-inline-start-color: var(--pa-success); }
+    &--warning { border-inline-start-color: var(--pa-warning); }
+    &--danger  { border-inline-start-color: var(--pa-danger); }
+    &--info    { border-inline-start-color: var(--pa-info); }
   }
 
   &__label {
@@ -1107,6 +1116,6 @@
   &__item--copied &__value::after {
     content: 'Copied!' !important;
     opacity: 1 !important;
-    color: var(--pa-color-4, #28a745);
+    color: var(--pa-success);
   }
 }

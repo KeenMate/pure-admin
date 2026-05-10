@@ -275,7 +275,17 @@
   // Accent colors
   --pa-accent: #{$accent-color};
   --pa-accent-hover: #{$accent-hover};
-  --pa-accent-light: #{$accent-light};
+  // -light derives from --pa-accent at runtime so theme overrides cascade.
+  // SCSS-only consumers still get $accent-light from variables/_base.scss via the !default chain.
+  --pa-accent-light: color-mix(in srgb, var(--pa-accent) 5%, transparent);
+
+  // Links — derive from accent so theme overrides cascade automatically.
+  // Hover mixes 25% toward currentColor (inherited text colour at the use site),
+  // so it auto-darkens on light themes and auto-lightens on dark themes
+  // without per-mode declarations.
+  --pa-link-color: var(--pa-accent);
+  --pa-link-color-hover: color-mix(in srgb, var(--pa-link-color), currentColor 50%);
+  --pa-link-color-visited: var(--pa-link-color);
 
   // Border
   --pa-border-color: #{$border-color};
@@ -381,14 +391,19 @@
   // Primary (uses accent color)
   --pa-btn-primary-bg: #{$btn-primary-bg};
   --pa-btn-primary-bg-hover: #{$btn-primary-bg-hover};
-  --pa-btn-primary-bg-light: #{$accent-light};
+  // -light derives from --pa-btn-primary-bg at runtime so theme overrides cascade.
+  --pa-btn-primary-bg-light: color-mix(in srgb, var(--pa-btn-primary-bg) 5%, transparent);
   --pa-btn-primary-text: #{$btn-primary-text};
 
   // Secondary
   --pa-btn-secondary-bg: #{$btn-secondary-bg};
   --pa-btn-secondary-bg-hover: #{$btn-secondary-bg-hover};
   --pa-btn-secondary-text: #{$btn-secondary-text};
-  --pa-btn-secondary-outline-color: #{$btn-secondary-text};
+  // Outline-variant border + text colour. Defaults to --pa-btn-secondary-bg
+  // so the resting outline matches the colour the hover fill animates to.
+  // Was previously $btn-secondary-text (#ffffff) which rendered invisible on
+  // any light theme — pre-existing bug, not a 2.7.0 regression.
+  --pa-btn-secondary-outline-color: var(--pa-btn-secondary-bg);
 
   // Success — bg references role colour for runtime cascade
   --pa-btn-success-bg: var(--pa-success);
@@ -424,39 +439,41 @@
   // CONTEXTUAL/SEMANTIC COLORS
   // =========================================================================
 
-  // Success — bg references role colour for runtime cascade
+  // Success — bg references role colour for runtime cascade.
+  // -light/-subtle/-border derive from --pa-success at runtime so theme overrides cascade.
+  // -hover stays compile-time (color.adjust-derived darker shade, not opacity-based).
   --pa-success-bg: var(--pa-success);
   --pa-success-bg-hover: #{$success-bg-hover};
-  --pa-success-bg-light: #{$success-bg-light};
-  --pa-success-bg-subtle: #{$success-bg-subtle};
-  --pa-success-border: #{$success-border};
+  --pa-success-bg-light: color-mix(in srgb, var(--pa-success) 10%, transparent);
+  --pa-success-bg-subtle: color-mix(in srgb, var(--pa-success) 8%, transparent);
+  --pa-success-border: color-mix(in srgb, var(--pa-success) 20%, transparent);
   --pa-success-text: #{$success-text};
   --pa-success-text-light: #{$success-text-light};
 
-  // Danger — bg references role colour for runtime cascade
+  // Danger — bg references role colour for runtime cascade.
   --pa-danger-bg: var(--pa-danger);
   --pa-danger-bg-hover: #{$danger-bg-hover};
-  --pa-danger-bg-light: #{$danger-bg-light};
-  --pa-danger-bg-subtle: #{$danger-bg-subtle};
-  --pa-danger-border: #{$danger-border};
+  --pa-danger-bg-light: color-mix(in srgb, var(--pa-danger) 10%, transparent);
+  --pa-danger-bg-subtle: color-mix(in srgb, var(--pa-danger) 8%, transparent);
+  --pa-danger-border: color-mix(in srgb, var(--pa-danger) 20%, transparent);
   --pa-danger-text: #{$danger-text};
   --pa-danger-text-light: #{$danger-text-light};
 
-  // Warning — bg references role colour for runtime cascade
+  // Warning — bg references role colour for runtime cascade.
   --pa-warning-bg: var(--pa-warning);
   --pa-warning-bg-hover: #{$warning-bg-hover};
-  --pa-warning-bg-light: #{$warning-bg-light};
-  --pa-warning-bg-subtle: #{$warning-bg-subtle};
-  --pa-warning-border: #{$warning-border};
+  --pa-warning-bg-light: color-mix(in srgb, var(--pa-warning) 10%, transparent);
+  --pa-warning-bg-subtle: color-mix(in srgb, var(--pa-warning) 8%, transparent);
+  --pa-warning-border: color-mix(in srgb, var(--pa-warning) 20%, transparent);
   --pa-warning-text: #{$warning-text};
   --pa-warning-text-light: #{$warning-text-light};
 
-  // Info — bg references role colour for runtime cascade
+  // Info — bg references role colour for runtime cascade.
   --pa-info-bg: var(--pa-info);
   --pa-info-bg-hover: #{$info-bg-hover};
-  --pa-info-bg-light: #{$info-bg-light};
-  --pa-info-bg-subtle: #{$info-bg-subtle};
-  --pa-info-border: #{$info-border};
+  --pa-info-bg-light: color-mix(in srgb, var(--pa-info) 10%, transparent);
+  --pa-info-bg-subtle: color-mix(in srgb, var(--pa-info) 8%, transparent);
+  --pa-info-border: color-mix(in srgb, var(--pa-info) 20%, transparent);
   --pa-info-text: #{$info-text};
   --pa-info-text-light: #{$info-text-light};
 

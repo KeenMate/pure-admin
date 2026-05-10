@@ -106,6 +106,7 @@
 .pa-modal__footer {
   padding: $modal-footer-padding;
   border-top: $border-width-base solid var(--pa-border-color);
+  border-radius: 0 0 var(--pa-border-radius) var(--pa-border-radius); // Match container's bottom corners
   display: flex;
   justify-content: flex-end;
   gap: $spacing-md;
@@ -151,6 +152,74 @@
   .pa-modal__title {
     color: var(--pa-btn-danger-text);
   }
+}
+
+// Banded variant — header AND footer wear the role colour as filled bands,
+// body and buttons stay neutral. Bands consume the alert tokens (15% mix
+// in light mode, 45% in dark) so banded modals stay in lock-step with the
+// alert palette across both themes — single source of truth.
+//
+// Compose with a role modifier to colour the bands:
+//   <div class="pa-modal pa-modal--success pa-modal--banded">
+//
+// Defined AFTER the role-only rules above so the compound selectors win on
+// source order (specificity is identical, last-rule wins).
+.pa-modal--banded {
+  .pa-modal__header {
+    background-color: var(--pa-modal-band-bg);
+    color: var(--pa-modal-band-text);
+    border-bottom-color: var(--pa-modal-band-border);
+
+    .pa-modal__title {
+      color: var(--pa-modal-band-text);
+    }
+  }
+
+  .pa-modal__footer {
+    background-color: var(--pa-modal-band-bg);
+    color: var(--pa-modal-band-text);
+    border-top-color: var(--pa-modal-band-border);
+  }
+
+  // Buttons inside the bands invert the modal's colour scheme so they
+  // pop against any role's band on either light or dark themes — using
+  // generic --light/--dark modifiers landed too close in luminance to
+  // the muted band on most themes.
+  .pa-modal__header .pa-btn,
+  .pa-modal__footer .pa-btn {
+    background-color: var(--pa-text-color-1);
+    color: var(--pa-modal-content-bg);
+    border-color: var(--pa-text-color-1);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--pa-text-color-1) 85%, transparent);
+      border-color: color-mix(in srgb, var(--pa-text-color-1) 85%, transparent);
+    }
+  }
+}
+
+.pa-modal--banded.pa-modal--success {
+  --pa-modal-band-bg: var(--pa-alert-success-bg);
+  --pa-modal-band-text: var(--pa-alert-success-text);
+  --pa-modal-band-border: var(--pa-alert-success-border);
+}
+
+.pa-modal--banded.pa-modal--warning {
+  --pa-modal-band-bg: var(--pa-alert-warning-bg);
+  --pa-modal-band-text: var(--pa-alert-warning-text);
+  --pa-modal-band-border: var(--pa-alert-warning-border);
+}
+
+.pa-modal--banded.pa-modal--danger {
+  --pa-modal-band-bg: var(--pa-alert-danger-bg);
+  --pa-modal-band-text: var(--pa-alert-danger-text);
+  --pa-modal-band-border: var(--pa-alert-danger-border);
+}
+
+.pa-modal--banded.pa-modal--info {
+  --pa-modal-band-bg: var(--pa-alert-info-bg);
+  --pa-modal-band-text: var(--pa-alert-info-text);
+  --pa-modal-band-border: var(--pa-alert-info-border);
 }
 
 // Modal scrollable content

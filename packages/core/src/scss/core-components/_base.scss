@@ -27,6 +27,23 @@ p {
   padding: 0;
 }
 
+// Links — global default. Wrapped in :where() so specificity is 0,
+// letting component scopes (alerts, navbar, sidebar) override with even a
+// single class without fighting the pseudo-class specificity raise that
+// `a:hover` / `a:visited` would otherwise add (0,1,1 vs a class's 0,1,0).
+:where(a) {
+  color: var(--pa-link-color);
+  text-decoration: underline;
+}
+
+:where(a:hover) {
+  color: var(--pa-link-color-hover);
+}
+
+:where(a:visited) {
+  color: var(--pa-link-color-visited);
+}
+
 // Lists - styled lists (default browser styling)
 ul, ol {
   margin: $list-margin-top 0 $list-margin-bottom 0;
@@ -101,8 +118,8 @@ body {
     right: 0;
     bottom: 0;
     background:
-      radial-gradient(circle at $bg-pattern-circle-1-x $bg-pattern-circle-1-y, rgba($accent-color, $bg-pattern-opacity) $bg-pattern-gradient-start, transparent $bg-pattern-gradient-stop),
-      radial-gradient(circle at $bg-pattern-circle-2-x $bg-pattern-circle-2-y, rgba($accent-color, $bg-pattern-opacity) $bg-pattern-gradient-start, transparent $bg-pattern-gradient-stop);
+      radial-gradient(circle at $bg-pattern-circle-1-x $bg-pattern-circle-1-y, color-mix(in srgb, var(--pa-accent) #{$bg-pattern-opacity * 100%}, transparent) $bg-pattern-gradient-start, transparent $bg-pattern-gradient-stop),
+      radial-gradient(circle at $bg-pattern-circle-2-x $bg-pattern-circle-2-y, color-mix(in srgb, var(--pa-accent) #{$bg-pattern-opacity * 100%}, transparent) $bg-pattern-gradient-start, transparent $bg-pattern-gradient-stop);
     pointer-events: none;
     z-index: -1;
   }

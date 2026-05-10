@@ -344,12 +344,12 @@
   // Live-data state — persistent tinted background reflecting latest change
   // JS swaps the class on each data update; color stays until next update
   &--live-up {
-    background-color: rgba($success-bg, 0.10);
+    background-color: color-mix(in srgb, var(--pa-positive) 10%, transparent);
     transition: background-color 0.3s ease;
   }
 
   &--live-down {
-    background-color: rgba($danger-bg, 0.10);
+    background-color: color-mix(in srgb, var(--pa-negative) 10%, transparent);
     transition: background-color 0.3s ease;
   }
 
@@ -398,7 +398,7 @@
 
     &:hover {
       color: var(--pa-text-color-1);
-      background-color: rgba($accent-color, $card-tab-hover-opacity);
+      background-color: color-mix(in srgb, var(--pa-accent) #{$card-tab-hover-opacity * 100%}, transparent);
     }
 
     &--active {
@@ -434,7 +434,7 @@
       transition: all $transition-fast $easing-snappy;
 
       &:hover {
-        background-color: rgba($accent-color, $card-tab-hover-opacity);
+        background-color: color-mix(in srgb, var(--pa-accent) #{$card-tab-hover-opacity * 100%}, transparent);
         color: var(--pa-text-color-1);
       }
 

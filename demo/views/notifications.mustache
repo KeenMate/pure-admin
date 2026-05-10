@@ -244,57 +244,160 @@
 </div>
 
 <script>
+const STATUS_FILTERS = ['all', 'unread', 'read'];
+const TYPE_FILTERS = ['info', 'warning', 'success', 'error'];
+
+let currentStatus = 'all';
+let currentType = 'all';
+
+// Map icon-wrapper variant → semantic type used by Type filters.
+function getItemType(item) {
+    const wrapper = item.querySelector('[class*="pa-notifications__icon-wrapper--"]');
+    if (!wrapper) return 'info';
+    const variantClass = [...wrapper.classList].find(c => c.startsWith('pa-notifications__icon-wrapper--'));
+    const variant = variantClass.replace('pa-notifications__icon-wrapper--', '');
+    if (variant === 'danger') return 'error';
+    if (variant === 'primary' || variant === 'secondary') return 'info';
+    return variant; // 'warning' or 'success'
+}
+
+function isItemVisible(item) {
+    return item.style.display !== 'none';
+}
+
+function applyFilter() {
+    document.querySelectorAll('.pa-notifications__list .pa-notifications__item').forEach(item => {
+        const isUnread = item.classList.contains('pa-notifications__item--unread');
+        const itemType = getItemType(item);
+        const statusOk = currentStatus === 'all'
+            || (currentStatus === 'unread' && isUnread)
+            || (currentStatus === 'read' && !isUnread);
+        const typeOk = currentType === 'all' || itemType === currentType;
+        item.style.display = (statusOk && typeOk) ? '' : 'none';
+    });
+
+    // Drop selection on items the filter just hid.
+    document.querySelectorAll('.notification-checkbox:checked').forEach(cb => {
+        if (!isItemVisible(cb.closest('.pa-notifications__item'))) cb.checked = false;
+    });
+
+    updateActiveFilterButtons();
+    updateSelection();
+}
+
+function updateActiveFilterButtons() {
+    document.querySelectorAll('button[onclick^="filterNotifications"]').forEach(btn => {
+        const m = btn.getAttribute('onclick').match(/filterNotifications\('([^']+)'\)/);
+        if (!m) return;
+        const value = m[1];
+        let isActive = false;
+        if (STATUS_FILTERS.includes(value)) isActive = value === currentStatus;
+        else if (TYPE_FILTERS.includes(value)) isActive = value === currentType;
+        btn.classList.toggle('pa-btn--primary', isActive);
+        btn.classList.toggle('pa-btn--secondary', !isActive);
+    });
+}
+
+function filterNotifications(value) {
+    if (STATUS_FILTERS.includes(value)) {
+        currentStatus = value;
+    } else if (TYPE_FILTERS.includes(value)) {
+        // Click active type → deselect (back to all types). No explicit "All" button for type.
+        currentType = currentType === value ? 'all' : value;
+    }
+    applyFilter();
+}
+
+function updateBadgeCount() {
+    const unreadCount = document.querySelectorAll('.pa-notifications__item--unread').length;
+    const badge = document.querySelector('.pa-card__header .pa-badge');
+    if (badge) badge.textContent = unreadCount + ' unread';
+}
+
+// Swap an item between read/unread, including the per-item button icon + title.
+function setItemReadState(item, makeRead) {
+    item.classList.toggle('pa-notifications__item--unread', !makeRead);
+    const firstBtn = item.querySelector('.pa-notifications__actions button:first-child');
+    if (firstBtn) {
+        if (makeRead) {
+            firstBtn.innerHTML = '○'; // ○
+            firstBtn.title = 'Mark as unread';
+        } else {
+            firstBtn.innerHTML = '✓'; // ✓
+            firstBtn.title = 'Mark as read';
+        }
+    }
+}
+
+// Per-item action buttons (delegated so the markup doesn't need onclicks on every <li>).
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pa-notifications__actions button');
+    if (!btn) return;
+    const item = btn.closest('.pa-notifications__item');
+    if (!item) return;
+    const action = btn.getAttribute('title');
+    if (action === 'Mark as read') setItemReadState(item, true);
+    else if (action === 'Mark as unread') setItemReadState(item, false);
+    else if (action === 'Delete') item.remove();
+    updateBadgeCount();
+    applyFilter();
+});
+
 function toggleSelectAll(checkbox) {
-    const checkboxes = document.querySelectorAll('.notification-checkbox');
-    checkboxes.forEach(cb => cb.checked = checkbox.checked);
+    document.querySelectorAll('.notification-checkbox').forEach(cb => {
+        if (isItemVisible(cb.closest('.pa-notifications__item'))) cb.checked = checkbox.checked;
+    });
     updateSelection();
 }
 
 function updateSelection() {
-    const checkboxes = document.querySelectorAll('.notification-checkbox');
-    const checked = document.querySelectorAll('.notification-checkbox:checked');
+    const visibleCheckboxes = [...document.querySelectorAll('.notification-checkbox')]
+        .filter(cb => isItemVisible(cb.closest('.pa-notifications__item')));
+    const checked = visibleCheckboxes.filter(cb => cb.checked);
     const selectAll = document.getElementById('selectAll');
     const bulkActions = document.getElementById('bulkActions');
     const selectedCount = document.getElementById('selectedCount');
 
-    // Update select all checkbox state
-    selectAll.checked = checked.length === checkboxes.length && checkboxes.length > 0;
-    selectAll.indeterminate = checked.length > 0 && checked.length < checkboxes.length;
-
-    // Show/hide bulk actions
-    if (checked.length > 0) {
-        bulkActions.style.display = 'flex';
-        selectedCount.textContent = checked.length;
-    } else {
-        bulkActions.style.display = 'none';
+    if (selectAll) {
+        selectAll.checked = visibleCheckboxes.length > 0 && checked.length === visibleCheckboxes.length;
+        selectAll.indeterminate = checked.length > 0 && checked.length < visibleCheckboxes.length;
+    }
+    if (bulkActions) {
+        if (checked.length > 0) {
+            bulkActions.style.display = 'flex';
+            if (selectedCount) selectedCount.textContent = checked.length;
+        } else {
+            bulkActions.style.display = 'none';
+        }
     }
 }
 
 function markSelectedRead() {
-    const checked = document.querySelectorAll('.notification-checkbox:checked');
-    checked.forEach(cb => {
-        cb.closest('.pa-notifications__item').classList.remove('pa-notifications__item--unread');
+    document.querySelectorAll('.notification-checkbox:checked').forEach(cb => {
+        setItemReadState(cb.closest('.pa-notifications__item'), true);
         cb.checked = false;
     });
-    updateSelection();
+    updateBadgeCount();
+    applyFilter();
 }
 
 function deleteSelected() {
-    const checked = document.querySelectorAll('.notification-checkbox:checked');
-    checked.forEach(cb => {
+    document.querySelectorAll('.notification-checkbox:checked').forEach(cb => {
         cb.closest('.pa-notifications__item').remove();
     });
-    updateSelection();
+    updateBadgeCount();
+    applyFilter();
 }
 
 function markAllRead() {
     document.querySelectorAll('.pa-notifications__item--unread').forEach(item => {
-        item.classList.remove('pa-notifications__item--unread');
+        setItemReadState(item, true);
     });
-    document.querySelector('.pa-badge').textContent = '0 unread';
+    updateBadgeCount();
+    applyFilter();
 }
 
-function filterNotifications(type) {
-    console.log('Filter:', type);
-}
+// Init
+updateBadgeCount();
+applyFilter();
 </script>

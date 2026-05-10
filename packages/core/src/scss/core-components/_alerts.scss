@@ -32,8 +32,8 @@
   // Basic alert variants - using theme colors with subtle backgrounds
   &--primary {
     color: var(--pa-accent);
-    background-color: rgba($accent-color, $opacity-subtle);
-    border-color: rgba($accent-color, $opacity-border);
+    background-color: color-mix(in srgb, var(--pa-accent) #{$opacity-subtle * 100%}, transparent);
+    border-color: color-mix(in srgb, var(--pa-accent) #{$opacity-border * 100%}, transparent);
   }
 
   &--secondary {

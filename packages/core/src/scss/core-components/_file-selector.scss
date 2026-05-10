@@ -45,13 +45,13 @@
   cursor: pointer;
 
   &:hover {
-    border-color: $accent-color;
-    background: rgba($accent-color, 0.05);
+    border-color: var(--pa-accent);
+    background: color-mix(in srgb, var(--pa-accent) 5%, transparent);
   }
 
   &--active {
-    border-color: $accent-color;
-    background: rgba($accent-color, 0.1);
+    border-color: var(--pa-accent);
+    background: color-mix(in srgb, var(--pa-accent) 10%, transparent);
     border-style: solid;
   }
 
@@ -81,7 +81,7 @@
     margin-bottom: $spacing-xs;
 
     strong {
-      color: $accent-color;
+      color: var(--pa-accent);
       font-weight: $font-weight-semibold;
     }
   }
@@ -127,7 +127,7 @@
     transition: all $transition-fast $easing-snappy;
 
     &:hover {
-      border-color: $accent-color;
+      border-color: var(--pa-accent);
       box-shadow: 0 1.6px 4.8px rgba(0, 0, 0, 0.1);
     }
 
@@ -159,7 +159,7 @@
       width: 2rem;
       height: 2rem;
       border: none;
-      background: $danger-bg;
+      background: var(--pa-danger);
       color: #ffffff;
       cursor: pointer;
       border-radius: 50%;
@@ -182,7 +182,7 @@
 
     &-remove:hover {
       transform: scale(1.1);
-      background: rgba($danger-bg, 0.9);
+      background: color-mix(in srgb, var(--pa-danger) 90%, transparent);
     }
   }
 
@@ -230,7 +230,7 @@
     }
 
     &-remove:hover {
-      background: $danger-bg;
+      background: var(--pa-danger);
       transform: scale(1.1);
     }
   }
@@ -252,7 +252,7 @@
       transition: background-color $transition-fast $easing-snappy;
 
       &:hover {
-        background-color: rgba($accent-color, 0.1);
+        background-color: color-mix(in srgb, var(--pa-accent) 10%, transparent);
       }
 
       &:not(:last-child)::after {
@@ -266,7 +266,7 @@
 
     &-count {
       font-weight: $font-weight-medium;
-      color: $accent-color;
+      color: var(--pa-accent);
     }
 
     &-size {
@@ -350,7 +350,7 @@
     justify-content: center;
 
     &:hover {
-      background: rgba(var(--pa-text-color-2), 0.1);
+      background: color-mix(in srgb, var(--pa-text-color-2) 10%, transparent);
       color: var(--pa-text-color-1);
     }
   }
@@ -391,11 +391,11 @@
 
     tbody tr {
       &:hover {
-        background: rgba($accent-color, 0.05);
+        background: color-mix(in srgb, var(--pa-accent) 5%, transparent);
       }
 
       &.uploading {
-        background: rgba($accent-color, 0.1);
+        background: color-mix(in srgb, var(--pa-accent) 10%, transparent);
       }
     }
   }
@@ -418,7 +418,7 @@
 
   &__progress-bar {
     height: 6.4px;
-    background: rgba($accent-color, 0.2);
+    background: color-mix(in srgb, var(--pa-accent) 20%, transparent);
     border-radius: var(--pa-border-radius-sm);
     overflow: hidden;
     margin-bottom: $spacing-xs;
@@ -426,7 +426,7 @@
 
   &__progress-fill {
     height: 100%;
-    background: $accent-color;
+    background: var(--pa-accent);
     border-radius: var(--pa-border-radius-sm);
     transition: width 0.48s ease;
   }
@@ -446,15 +446,15 @@
     }
 
     &--uploading {
-      color: $accent-color;
+      color: var(--pa-accent);
     }
 
     &--complete {
-      color: $success-bg;
+      color: var(--pa-success);
     }
 
     &--error {
-      color: $danger-bg;
+      color: var(--pa-danger);
     }
   }
 
@@ -469,7 +469,7 @@
     height: 3.2rem;
     border: $border-width-base solid var(--pa-border-color);
     background: var(--pa-card-bg);
-    color: $danger-bg;
+    color: var(--pa-danger);
     cursor: pointer;
     border-radius: var(--pa-border-radius-sm);
     font-size: $font-size-2xl;
@@ -481,9 +481,9 @@
     font-weight: $font-weight-bold;
 
     &:hover {
-      background: $danger-bg;
+      background: var(--pa-danger);
       color: #ffffff;
-      border-color: $danger-bg;
+      border-color: var(--pa-danger);
       transform: scale(1.1);
     }
   }
@@ -529,9 +529,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba($accent-color, 0.1);
+    background: color-mix(in srgb, var(--pa-accent) 10%, transparent);
     border-radius: var(--pa-border-radius);
-    color: $accent-color;
+    color: var(--pa-accent);
   }
 
   &__info {
@@ -571,8 +571,8 @@
     justify-content: center;
 
     &:hover {
-      background: rgba($danger-bg, 0.1);
-      color: $danger-bg;
+      background: color-mix(in srgb, var(--pa-danger) 10%, transparent);
+      color: var(--pa-danger);
     }
 
     &::before {
@@ -626,7 +626,7 @@
     justify-content: center;
 
     &:hover {
-      background: $danger-bg;
+      background: var(--pa-danger);
       transform: scale(1.1);
     }
 
@@ -656,14 +656,14 @@
 
   &__bar {
     height: 6.4px;
-    background: rgba($accent-color, 0.2);
+    background: color-mix(in srgb, var(--pa-accent) 20%, transparent);
     border-radius: var(--pa-border-radius-sm);
     overflow: hidden;
   }
 
   &__fill {
     height: 100%;
-    background: $accent-color;
+    background: var(--pa-accent);
     border-radius: var(--pa-border-radius-sm);
     transition: width 0.48s ease;
   }
@@ -682,11 +682,11 @@
     font-weight: $font-weight-semibold;
 
     &--complete {
-      color: $success-bg;
+      color: var(--pa-success);
     }
 
     &--error {
-      color: $danger-bg;
+      color: var(--pa-danger);
     }
   }
 }
@@ -753,9 +753,9 @@
 
 // Drag Overlay (for data-overlay-target feature)
 .pa-file-dropzone-overlay {
-  background: rgba($accent-color, 0.15);
+  background: color-mix(in srgb, var(--pa-accent) 15%, transparent);
   backdrop-filter: blur(3.2px);
-  border: 4.8px dashed $accent-color;
+  border: 4.8px dashed var(--pa-accent);
   border-radius: var(--pa-border-radius);
   display: flex;
   align-items: center;
@@ -775,6 +775,6 @@
   &__text {
     font-size: $font-size-xl;
     font-weight: $font-weight-semibold;
-    color: $accent-color;
+    color: var(--pa-accent);
   }
 }

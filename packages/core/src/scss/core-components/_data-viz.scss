@@ -11,7 +11,7 @@
 .pa-progress {
   width: 100%;
   height: $progress-height;
-  background: $progress-bg;
+  background: var(--pa-surface-track);
   border-radius: var(--pa-border-radius);
   overflow: hidden;
   position: relative;
@@ -20,7 +20,7 @@
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: $accent-color;
+    background: var(--pa-accent);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
@@ -53,10 +53,10 @@
   }
 
   // Color variants
-  &--success > .pa-progress__fill { background: $success-bg; }
-  &--warning > .pa-progress__fill { background: $warning-bg; }
-  &--danger > .pa-progress__fill  { background: $danger-bg; }
-  &--info > .pa-progress__fill    { background: $info-bg; }
+  &--success > .pa-progress__fill { background: var(--pa-success); }
+  &--warning > .pa-progress__fill { background: var(--pa-warning); }
+  &--danger > .pa-progress__fill  { background: var(--pa-danger); }
+  &--info > .pa-progress__fill    { background: var(--pa-info); }
 
   // Rounded (pill shape)
   &--rounded {
@@ -108,7 +108,7 @@
   height: $stacked-bar-height;
   border-radius: var(--pa-border-radius);
   overflow: hidden;
-  background: $progress-bg;
+  background: var(--pa-surface-track);
 
   &__segment {
     height: 100%;
@@ -116,13 +116,13 @@
     transition: width $transition-medium $easing-smooth;
 
     // Default color
-    background: $accent-color;
+    background: var(--pa-accent);
 
-    &--success { background: $success-bg; }
-    &--warning { background: $warning-bg; }
-    &--danger  { background: $danger-bg; }
-    &--info    { background: $info-bg; }
-    &--secondary { background: $btn-secondary-bg; }
+    &--success { background: var(--pa-success); }
+    &--warning { background: var(--pa-warning); }
+    &--danger  { background: var(--pa-danger); }
+    &--info    { background: var(--pa-info); }
+    &--secondary { background: var(--pa-btn-secondary-bg); }
   }
 
   // Legend
@@ -147,12 +147,12 @@
     border-radius: var(--pa-border-radius-sm);
     flex-shrink: 0;
 
-    &--primary   { background: $accent-color; }
-    &--success   { background: $success-bg; }
-    &--warning   { background: $warning-bg; }
-    &--danger    { background: $danger-bg; }
-    &--info      { background: $info-bg; }
-    &--secondary { background: $btn-secondary-bg; }
+    &--primary   { background: var(--pa-accent); }
+    &--success   { background: var(--pa-success); }
+    &--warning   { background: var(--pa-warning); }
+    &--danger    { background: var(--pa-danger); }
+    &--info      { background: var(--pa-info); }
+    &--secondary { background: var(--pa-btn-secondary-bg); }
   }
 
   // Size variants
@@ -173,8 +173,8 @@
   height: $progress-ring-size;
   border-radius: 50%;
   background: conic-gradient(
-    $accent-color calc(var(--value, 0) * 3.6deg),
-    $progress-ring-track-color 0deg
+    var(--pa-accent) calc(var(--value, 0) * 3.6deg),
+    var(--pa-surface-track) 0deg
   );
   display: flex;
   align-items: center;
@@ -235,29 +235,29 @@
   // Color variants
   &--success {
     background: conic-gradient(
-      $success-bg calc(var(--value, 0) * 3.6deg),
-      $progress-ring-track-color 0deg
+      var(--pa-success) calc(var(--value, 0) * 3.6deg),
+      var(--pa-surface-track) 0deg
     );
   }
 
   &--warning {
     background: conic-gradient(
-      $warning-bg calc(var(--value, 0) * 3.6deg),
-      $progress-ring-track-color 0deg
+      var(--pa-warning) calc(var(--value, 0) * 3.6deg),
+      var(--pa-surface-track) 0deg
     );
   }
 
   &--danger {
     background: conic-gradient(
-      $danger-bg calc(var(--value, 0) * 3.6deg),
-      $progress-ring-track-color 0deg
+      var(--pa-danger) calc(var(--value, 0) * 3.6deg),
+      var(--pa-surface-track) 0deg
     );
   }
 
   &--info {
     background: conic-gradient(
-      $info-bg calc(var(--value, 0) * 3.6deg),
-      $progress-ring-track-color 0deg
+      var(--pa-info) calc(var(--value, 0) * 3.6deg),
+      var(--pa-surface-track) 0deg
     );
   }
 }
@@ -268,32 +268,59 @@
 // ============================================================================
 
 .pa-gauge {
-  width: $gauge-size;
-  height: calc(#{$gauge-size} / 2);
-  border-radius: #{$gauge-size} #{$gauge-size} 0 0;
-  overflow: hidden;
-  background: conic-gradient(
-    from 0.75turn,
-    $accent-color calc(var(--value, 0) * 1.8deg),
-    $gauge-track-color 0deg
-  );
+  // Single token controls the active fill; colour variants override just this.
+  --pa-gauge-fill: var(--pa-accent);
+  // Total width of the gauge. Height auto-derives at half the width (the
+  // gauge is a top semi-circle, so aspect ratio is fixed 2:1). Override
+  // per instance via style="--pa-gauge-size: 16rem".
+  --pa-gauge-size: #{$gauge-size};
+
+  width: var(--pa-gauge-size);
+  height: calc(var(--pa-gauge-size) / 2);
+  // Reserve room for the absolutely-positioned __min / __max labels that
+  // sit below the baseline. Without this, parents see only the half-circle
+  // height (gauge-size / 2) and the labels collide with whatever's below.
+  margin-bottom: $spacing-base;
   position: relative;
   flex-shrink: 0;
 
-  // Inner mask (creates the donut shape)
+  // Ring is drawn on a pseudo so the mask carves out a true donut hole
+  // (transparent center) without affecting child content. The previous
+  // technique overlaid an opaque inner element with --pa-card-bg to fake
+  // the hole, which only worked when the gauge sat on a --pa-card-bg
+  // surface; on any other background the "hole" showed as a coloured fill.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--pa-gauge-size) var(--pa-gauge-size) 0 0;
+    // Conic and mask must share the same centre (50% 100% — bottom-centre)
+    // so the colour transitions and the ring boundaries are concentric.
+    // Without "at 50% 100%" on the conic, its centre defaults to the
+    // pseudo's geometric centre (50% 50%), pushing the inner edge upward
+    // and producing wedge-thicker bottom corners.
+    background: conic-gradient(
+      from 0.75turn at 50% 100%,
+      var(--pa-gauge-fill) calc(var(--value, 0) * 1.8deg),
+      var(--pa-surface-track) 0deg
+    );
+    -webkit-mask-image: radial-gradient(circle farthest-side at 50% 100%, transparent 0 70%, #000 70%);
+    mask-image: radial-gradient(circle farthest-side at 50% 100%, transparent 0 70%, #000 70%);
+  }
+
+  // Content container — holds the value, anchored at the baseline of the
+  // donut hole so it visually rests on the arc rather than floating in the
+  // middle. The gauge label moved out to the row below (alongside __min /
+  // __max), so the value gets the whole interior to itself.
   &__inner {
     position: absolute;
     bottom: 0;
     left: 15%;
     right: 15%;
     height: 70%;
-    border-radius: #{$gauge-size} #{$gauge-size} 0 0;
-    background: var(--pa-card-bg);
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    padding-bottom: $spacing-xs;
+    align-items: flex-end;
+    justify-content: center;
   }
 
   &__value {
@@ -303,68 +330,49 @@
     color: var(--pa-text-color-1);
   }
 
-  &__label {
-    font-size: $gauge-label-font-size;
-    color: var(--pa-text-color-2);
-    margin-top: $spacing-xs;
-  }
-
-  // Min/max labels at arc endpoints
+  // Axis row — gauge label (CPU / Memory / Temp / …) plus min/max
+  // endpoints all sit on one row just below the baseline. A shared
+  // line-height in rem (rather than the unitless 1) gives all three the
+  // same line-box height, so their text baselines align even though the
+  // gauge label uses a larger font than the min/max endpoints.
+  &__label,
   &__min,
   &__max {
     position: absolute;
-    bottom: 0;
+    top: 100%;
+    margin-top: $spacing-xs;
     font-size: $font-size-2xs;
+    line-height: 1.2rem;
     color: var(--pa-text-color-2);
+    white-space: nowrap;
+  }
+
+  &__label {
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: $gauge-label-font-size;
   }
 
   &__min { left: 0; }
   &__max { right: 0; }
 
-  // Color variants
-  &--success {
-    background: conic-gradient(
-      from 0.75turn,
-      $success-bg calc(var(--value, 0) * 1.8deg),
-      $gauge-track-color 0deg
-    );
-  }
+  // Colour variants override only the fill token.
+  &--success { --pa-gauge-fill: var(--pa-success); }
+  &--warning { --pa-gauge-fill: var(--pa-warning); }
+  &--danger  { --pa-gauge-fill: var(--pa-danger); }
+  &--info    { --pa-gauge-fill: var(--pa-info); }
 
-  &--warning {
+  // Multi-zone gauge replaces the entire gradient on the pseudo.
+  &--zones::before {
     background: conic-gradient(
-      from 0.75turn,
-      $warning-bg calc(var(--value, 0) * 1.8deg),
-      $gauge-track-color 0deg
-    );
-  }
-
-  &--danger {
-    background: conic-gradient(
-      from 0.75turn,
-      $danger-bg calc(var(--value, 0) * 1.8deg),
-      $gauge-track-color 0deg
-    );
-  }
-
-  &--info {
-    background: conic-gradient(
-      from 0.75turn,
-      $info-bg calc(var(--value, 0) * 1.8deg),
-      $gauge-track-color 0deg
-    );
-  }
-
-  // Multi-zone gauge (green/yellow/red)
-  &--zones {
-    background: conic-gradient(
-      from 0.75turn,
-      $success-bg 0deg,
-      $success-bg 90deg,
-      $warning-bg 90deg,
-      $warning-bg 135deg,
-      $danger-bg 135deg,
-      $danger-bg 180deg,
-      $gauge-track-color 180deg
+      from 0.75turn at 50% 100%,
+      var(--pa-success) 0deg,
+      var(--pa-success) 90deg,
+      var(--pa-warning) 90deg,
+      var(--pa-warning) 135deg,
+      var(--pa-danger) 135deg,
+      var(--pa-danger) 180deg,
+      var(--pa-surface-track) 180deg
     );
   }
 }
@@ -390,7 +398,7 @@
   &__track {
     width: 100%;
     height: $data-bar-height;
-    background: $data-bar-bg;
+    background: var(--pa-surface-track);
     border-radius: var(--pa-border-radius-sm);
     overflow: hidden;
   }
@@ -398,20 +406,20 @@
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: $accent-color;
+    background: var(--pa-accent);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
 
   // Color variants
-  &--success .pa-data-bar__fill { background: $success-bg; }
-  &--warning .pa-data-bar__fill { background: $warning-bg; }
-  &--danger .pa-data-bar__fill  { background: $danger-bg; }
-  &--info .pa-data-bar__fill    { background: $info-bg; }
+  &--success .pa-data-bar__fill { background: var(--pa-success); }
+  &--warning .pa-data-bar__fill { background: var(--pa-warning); }
+  &--danger .pa-data-bar__fill  { background: var(--pa-danger); }
+  &--info .pa-data-bar__fill    { background: var(--pa-info); }
 
   // Negative variant (red, right-aligned)
   &--negative .pa-data-bar__fill {
-    background: $danger-bg;
+    background: var(--pa-danger);
     margin-inline-start: auto;
   }
 }
@@ -429,27 +437,27 @@
 
   &__cell {
     border-radius: var(--pa-border-radius-sm);
-    background: $progress-bg;
+    background: var(--pa-surface-track);
 
-    &[data-level="1"] { background: rgba($accent-color, 0.2); }
-    &[data-level="2"] { background: rgba($accent-color, 0.4); }
-    &[data-level="3"] { background: rgba($accent-color, 0.65); }
-    &[data-level="4"] { background: $accent-color; }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pa-accent) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pa-accent) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pa-accent) 65%, transparent); }
+    &[data-level="4"] { background: var(--pa-accent); }
   }
 
   // Color variants
   &--success .pa-heatmap__cell {
-    &[data-level="1"] { background: rgba($success-bg, 0.2); }
-    &[data-level="2"] { background: rgba($success-bg, 0.4); }
-    &[data-level="3"] { background: rgba($success-bg, 0.65); }
-    &[data-level="4"] { background: $success-bg; }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pa-success) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pa-success) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pa-success) 65%, transparent); }
+    &[data-level="4"] { background: var(--pa-success); }
   }
 
   &--danger .pa-heatmap__cell {
-    &[data-level="1"] { background: rgba($danger-bg, 0.2); }
-    &[data-level="2"] { background: rgba($danger-bg, 0.4); }
-    &[data-level="3"] { background: rgba($danger-bg, 0.65); }
-    &[data-level="4"] { background: $danger-bg; }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pa-danger) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pa-danger) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pa-danger) 65%, transparent); }
+    &[data-level="4"] { background: var(--pa-danger); }
   }
 
   // Legend
@@ -466,12 +474,12 @@
     width: $heatmap-cell-size;
     height: $heatmap-cell-size;
     border-radius: var(--pa-border-radius-sm);
-    background: $progress-bg;
+    background: var(--pa-surface-track);
 
-    &[data-level="1"] { background: rgba($accent-color, 0.2); }
-    &[data-level="2"] { background: rgba($accent-color, 0.4); }
-    &[data-level="3"] { background: rgba($accent-color, 0.65); }
-    &[data-level="4"] { background: $accent-color; }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pa-accent) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pa-accent) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pa-accent) 65%, transparent); }
+    &[data-level="4"] { background: var(--pa-accent); }
   }
 
   // Compact variant (smaller cells, for inline use)
@@ -500,17 +508,17 @@
   &__bar {
     width: $sparkline-bar-width;
     height: var(--value, 50%);
-    background: $accent-color;
+    background: var(--pa-accent);
     border-radius: var(--pa-border-radius-sm) var(--pa-border-radius-sm) 0 0;
     transition: height $transition-medium $easing-smooth;
     min-height: 1px;
   }
 
   // Color variants
-  &--success .pa-sparkline__bar { background: $success-bg; }
-  &--warning .pa-sparkline__bar { background: $warning-bg; }
-  &--danger .pa-sparkline__bar  { background: $danger-bg; }
-  &--info .pa-sparkline__bar    { background: $info-bg; }
+  &--success .pa-sparkline__bar { background: var(--pa-success); }
+  &--warning .pa-sparkline__bar { background: var(--pa-warning); }
+  &--danger .pa-sparkline__bar  { background: var(--pa-danger); }
+  &--info .pa-sparkline__bar    { background: var(--pa-info); }
 
   // Size variants
   &--sm {
@@ -567,7 +575,7 @@
   &__bar {
     width: 100%;
     height: $bar-list-bar-height;
-    background: $bar-list-bar-bg;
+    background: var(--pa-surface-track);
     border-radius: var(--pa-border-radius-sm);
     overflow: hidden;
 
@@ -576,17 +584,17 @@
       display: block;
       height: 100%;
       width: var(--value, 0%);
-      background: $accent-color;
+      background: var(--pa-accent);
       border-radius: inherit;
       transition: width $transition-medium $easing-smooth;
     }
   }
 
   // Color variants
-  &--success .pa-bar-list__bar::after { background: $success-bg; }
-  &--warning .pa-bar-list__bar::after { background: $warning-bg; }
-  &--danger .pa-bar-list__bar::after  { background: $danger-bg; }
-  &--info .pa-bar-list__bar::after    { background: $info-bg; }
+  &--success .pa-bar-list__bar::after { background: var(--pa-success); }
+  &--warning .pa-bar-list__bar::after { background: var(--pa-warning); }
+  &--danger .pa-bar-list__bar::after  { background: var(--pa-danger); }
+  &--info .pa-bar-list__bar::after    { background: var(--pa-info); }
 
   // Compact modifier (tighter spacing)
   &--compact {

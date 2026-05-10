@@ -19,24 +19,32 @@
     justify-content: center;
     font-size: $font-size-xl;
 
+    // Colour variants resolve via CSS custom properties so theme overrides
+    // (--pa-success-bg, --pa-warning-bg, etc.) cascade at runtime instead of
+    // baking at SCSS compile time.
     &--primary {
-      background-color: rgba($accent-color, $opacity-light);
-      color: $accent-color;
+      background-color: var(--pa-accent-light);
+      color: var(--pa-accent);
     }
 
     &--success {
-      background-color: $success-bg-light;
-      color: $success-bg;
+      background-color: var(--pa-success-bg-light);
+      color: var(--pa-success-bg);
     }
 
     &--warning {
-      background-color: $warning-bg-light;
-      color: $warning-bg;
+      background-color: var(--pa-warning-bg-light);
+      color: var(--pa-warning-bg);
+    }
+
+    &--danger {
+      background-color: var(--pa-danger-bg-light);
+      color: var(--pa-danger-bg);
     }
 
     &--info {
-      background-color: $info-bg-light;
-      color: $info-bg;
+      background-color: var(--pa-info-bg-light);
+      color: var(--pa-info-bg);
     }
   }
 
@@ -80,21 +88,19 @@
       margin-bottom: $spacing-xs;
     }
 
+    // Delta indicator — uses the 5-step sentiment scale (direction of change),
+    // distinct from role colours. --positive / --negative alias the success /
+    // danger roles so themes that retune those automatically retune deltas;
+    // --very-* are explicit darker stops.
     .pa-stat__change {
       font-size: $font-size-xs;
       font-weight: $font-weight-semibold;
 
-      &--positive {
-        color: $success-bg;
-      }
-
-      &--negative {
-        color: $danger-bg;
-      }
-
-      &--neutral {
-        color: var(--pa-text-color-2);
-      }
+      &--very-positive { color: var(--pa-very-positive); }
+      &--positive      { color: var(--pa-positive); }
+      &--neutral       { color: var(--pa-neutral); }
+      &--negative      { color: var(--pa-negative); }
+      &--very-negative { color: var(--pa-very-negative); }
     }
   }
 

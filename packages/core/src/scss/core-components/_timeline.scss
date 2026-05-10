@@ -37,65 +37,65 @@
         width: $timeline-simple-dot-size;
         height: $timeline-simple-dot-size;
         background: var(--pa-main-bg);
-        border: $timeline-simple-dot-border solid $accent-color;
-        border-radius: 50%;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($accent-color, $timeline-simple-dot-shadow-opacity);
+        border: $timeline-simple-dot-border solid var(--pa-accent);
+        border-radius: $timeline-simple-dot-border-radius;
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-accent) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       // Marker color modifiers
       &--primary::before {
-        border-color: $btn-primary-bg;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($btn-primary-bg, $timeline-simple-dot-shadow-opacity);
+        border-color: var(--pa-btn-primary-bg);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-btn-primary-bg) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--success::before {
-        border-color: $success-bg;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($success-bg, $timeline-simple-dot-shadow-opacity);
+        border-color: var(--pa-success);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-success) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--warning::before {
-        border-color: $warning-bg;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($warning-bg, $timeline-simple-dot-shadow-opacity);
+        border-color: var(--pa-warning);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-warning) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--danger::before {
-        border-color: $danger-bg;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($danger-bg, $timeline-simple-dot-shadow-opacity);
+        border-color: var(--pa-danger);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-danger) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--info::before {
-        border-color: $info-bg;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba($info-bg, $timeline-simple-dot-shadow-opacity);
+        border-color: var(--pa-info);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-info) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--secondary::before {
         border-color: var(--pa-text-color-2);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur rgba(var(--pa-text-color-2), $timeline-simple-dot-shadow-opacity);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-text-color-2) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       // Filled/solid bullet modifier
       &--filled::before {
-        background: $accent-color;
+        background: var(--pa-accent);
       }
 
       &--filled.pa-timeline__item--primary::before {
-        background: $btn-primary-bg;
+        background: var(--pa-btn-primary-bg);
       }
 
       &--filled.pa-timeline__item--success::before {
-        background: $success-bg;
+        background: var(--pa-success);
       }
 
       &--filled.pa-timeline__item--warning::before {
-        background: $warning-bg;
+        background: var(--pa-warning);
       }
 
       &--filled.pa-timeline__item--danger::before {
-        background: $danger-bg;
+        background: var(--pa-danger);
       }
 
       &--filled.pa-timeline__item--info::before {
-        background: $info-bg;
+        background: var(--pa-info);
       }
 
       &--filled.pa-timeline__item--secondary::before {
@@ -131,7 +131,7 @@
       content: '';
       position: absolute;
       width: $timeline-block-line-width;
-      background: $accent-color;
+      background: var(--pa-accent);
       top: 0;
       bottom: 0;
       left: 50%;
@@ -184,7 +184,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           right: $timeline-block-connector-horizontal-offset;
-          background: $accent-color;
+          background: var(--pa-accent);
           z-index: 1;
         }
       }
@@ -229,7 +229,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           left: $timeline-block-connector-horizontal-offset;
-          background: $accent-color;
+          background: var(--pa-accent);
           z-index: 1;
         }
       }
@@ -242,7 +242,7 @@
       text-align: center;
       font-size: $font-size-sm;
       font-weight: $font-weight-bold;
-      color: $accent-color;
+      color: var(--pa-accent);
       text-transform: uppercase;
       letter-spacing: $timeline-block-date-letter-spacing;
       z-index: 1;
@@ -256,16 +256,16 @@
       width: $timeline-block-icon-size;
       height: $timeline-block-icon-size;
       top: $timeline-block-icon-top-offset;
-      background: $warning-bg;
-      border: $timeline-block-icon-border solid $accent-color;
+      background: var(--pa-warning);
+      border: $timeline-block-icon-border solid var(--pa-accent);
       border-radius: 50%;
       font-size: $font-size-lg;
-      color: $accent-color;
+      color: var(--pa-accent);
       z-index: 1;
     }
 
     .pa-timeline__content {
-      background: $warning-bg;
+      background: var(--pa-warning);
       position: relative;
 
       h3 {
@@ -279,7 +279,7 @@
         margin: 0;
         font-size: $font-size-base;
         line-height: $line-height-relaxed;
-        color: $warning-text;
+        color: var(--pa-warning-text);
       }
     }
 
@@ -475,7 +475,7 @@
       line-height: $line-height-relaxed;
 
       a {
-        color: $accent-color;
+        color: var(--pa-accent);
         text-decoration: none;
         font-weight: $font-weight-medium;
 

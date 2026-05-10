@@ -67,7 +67,10 @@
 
   // Changed value highlighting (pink/salmon background)
   &__changed {
-    background-color: rgba(244, 114, 182, 0.15); // Pink highlight
+    // Diff-specific accent (pink, distinct from role colours so it doesn't
+    // collide with status chips in the same row). All three intensities
+    // derive from $comparison-accent-pink so a theme override cascades.
+    background-color: color-mix(in srgb, $comparison-accent-pink 15%, transparent);
     position: relative;
 
     &::before {
@@ -82,7 +85,7 @@
 
     // Solid background variant (no left border accent)
     &--solid {
-      background-color: rgba(244, 114, 182, 0.25) !important; // More opaque pink
+      background-color: color-mix(in srgb, $comparison-accent-pink 25%, transparent) !important;
 
       &::before {
         content: none; // Remove left border accent
@@ -92,7 +95,7 @@
 
   // Conflict highlighting (orange background for 3-column merge conflicts)
   &__conflict {
-    background-color: rgba(251, 146, 60, 0.15); // Orange highlight
+    background-color: color-mix(in srgb, $comparison-accent-orange 15%, transparent);
 
     &::before {
       background-color: $comparison-accent-orange;
@@ -100,7 +103,7 @@
 
     // Solid background variant (no left border accent)
     &--solid {
-      background-color: rgba(251, 146, 60, 0.25) !important; // More opaque orange
+      background-color: color-mix(in srgb, $comparison-accent-orange 25%, transparent) !important;
 
       &::before {
         content: none; // Remove left border accent

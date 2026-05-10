@@ -36,8 +36,8 @@
 
   &__field {
     display: inline;
-    background-color: rgba($accent-color, 0.15);
-    color: $accent-color;
+    background-color: color-mix(in srgb, var(--pa-accent) 15%, transparent);
+    color: var(--pa-accent);
     padding: 0.2rem 0.4rem;
     border-radius: var(--pa-border-radius-sm);
     font-weight: $font-weight-medium;
@@ -45,8 +45,8 @@
 
   &__operator {
     display: inline;
-    background-color: rgba($success-bg, 0.15);
-    color: $success-bg;
+    background-color: color-mix(in srgb, var(--pa-success) 15%, transparent);
+    color: var(--pa-success);
     padding: 0.2rem 0.4rem;
     border-radius: var(--pa-border-radius-sm);
     font-weight: $font-weight-medium;
@@ -221,28 +221,28 @@
   font-weight: $font-weight-medium;
 
   &--field {
-    background-color: rgba($accent-color, 0.15);
+    background-color: color-mix(in srgb, var(--pa-accent) 15%, transparent);
     color: var(--pa-text-color-1);
 
     &.pa-inline-query-token--invalid {
-      background-color: rgba($danger-bg, 0.15);
+      background-color: color-mix(in srgb, var(--pa-danger) 15%, transparent);
       color: var(--pa-text-color-1);
       text-decoration: wavy underline;
     }
   }
 
   &--operator {
-    background-color: rgba(var(--pa-text-color-2), 0.15);
+    background-color: color-mix(in srgb, var(--pa-text-color-2) 15%, transparent);
     color: var(--pa-text-color-1);
   }
 
   &--value {
-    background-color: rgba($success-bg, 0.15);
+    background-color: color-mix(in srgb, var(--pa-success) 15%, transparent);
     color: var(--pa-text-color-1);
   }
 
   &--keyword {
-    background-color: rgba($warning-bg, 0.15);
+    background-color: color-mix(in srgb, var(--pa-warning) 15%, transparent);
     color: var(--pa-text-color-1);
     font-style: italic;
   }
@@ -304,7 +304,7 @@
       flex-shrink: 0;
       font-size: $font-size-xs;
       padding: 0.2rem 0.6rem;
-      background-color: rgba(var(--pa-text-color-2), 0.1);
+      background-color: color-mix(in srgb, var(--pa-text-color-2) 10%, transparent);
       color: var(--pa-text-color-2);
       border-radius: var(--pa-border-radius-sm);
       font-family: $body-font-family;
