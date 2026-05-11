@@ -461,16 +461,20 @@
 .pa-btn-split {
   position: relative;
   display: inline-flex;
-  border-radius: var(--pa-border-radius);
-  overflow: hidden;
 
-  // All buttons inside: no individual radius — container handles corners
-  .pa-btn {
-    border-radius: 0;
+  // Flatten the inner edges between the two trigger buttons; outer corners
+  // stay rounded from each .pa-btn's own border-radius. Avoids relying on
+  // overflow:hidden + container border-radius, which gets bypassed by hover
+  // background paint in some browsers/themes.
+  > .pa-btn:first-child {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-inline-end: none;
+  }
 
-    &:first-child {
-      border-inline-end: none;
-    }
+  > .pa-btn-split__toggle {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
   }
 
   // Toggle button (chevron) - fixed square width
