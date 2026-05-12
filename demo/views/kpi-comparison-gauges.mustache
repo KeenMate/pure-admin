@@ -1,238 +1,30 @@
 <p>"Comparison gauges" KPI indicator. Each KPI is a goal-oriented progress bar — <strong>label · value</strong> on top, <strong>bar with a target tick</strong> in the middle, <strong>0 · tgt</strong> scale below. Bar fill is value/target, capped at 100% (overshoots are signalled by colour, not by overflowing the bar). Colours: <code>--pa-positive</code> for "on track", new <code>--pa-warning</code> for "off-target / approaching limit", <code>--pa-neutral</code> for "no strong sentiment".</p>
 
-<style>
-/* === Card header: title + LIVE pulse === */
-.kpi-gauge-list {
-  container-type: inline-size;
-}
-.kpi-gauge-list__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.6rem;
-  flex-wrap: wrap;
-}
-.kpi-gauge-list__live {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--pa-text-secondary);
-}
-.kpi-gauge-list__livedot {
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  background: var(--pa-positive);
-  box-shadow: 0 0 6px var(--pa-positive);
-  animation: kpiPulse 1.6s ease-in-out infinite;
-}
-@keyframes kpiPulse { 50% { opacity: 0.35; } }
 
-/* === Body: 2-column internal grid by default; collapses to 1-col when card narrows === */
-.kpi-gauge-list__body { padding: 0; }
-
-.kpi-gauge-list__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-@container (max-width: 600px) {
-  .kpi-gauge-list__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* === Gauge tile: label+value head · bar · 0/tgt scale === */
-.kpi-gauge {
-  position: relative;
-  padding: 1.6rem 2rem;
-  border-bottom: 1px solid var(--pa-border-color);
-  border-right: 1px solid var(--pa-border-color);
-  /* Per-tile bar colour is set via this custom property; defaults to positive
-     and is overridden by .kpi-gauge--warning / --negative / --neutral below.
-     Cleaner than a dozen .kpi-gauge--X .kpi-gauge__fill { background: ... }
-     selectors and lets host apps override at the tile level too. */
-  --kpi-accent: var(--pa-positive);
-}
-.kpi-gauge:nth-child(2n) { border-right: 0; }
-.kpi-gauge:nth-last-child(-n+2) { border-bottom: 0; }
-@container (max-width: 600px) {
-  .kpi-gauge { border-right: 0; }
-  .kpi-gauge:nth-last-child(-n+2) { border-bottom: 1px solid var(--pa-border-color); }
-  .kpi-gauge:last-child { border-bottom: 0; }
-}
-
-.kpi-gauge--positive { --kpi-accent: var(--pa-positive); }
-.kpi-gauge--warning  { --kpi-accent: var(--pa-warning); }
-.kpi-gauge--negative { --kpi-accent: var(--pa-negative); }
-.kpi-gauge--neutral  { --kpi-accent: color-mix(in srgb, var(--pa-text-color-1) 70%, transparent); }
-
-/* Head: label left, value right (baseline-aligned) */
-.kpi-gauge__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1.2rem;
-  margin-bottom: 0.8rem;
-}
-.kpi-gauge__label {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
-}
-.kpi-gauge__value {
-  font-family: var(--base-font-family-mono);
-  line-height: 1;
-}
-.kpi-gauge__num {
-  font-size: 2.6rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--pa-text-color-1);
-}
-.kpi-gauge__unit {
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: var(--pa-text-secondary);
-  margin-left: 0.2rem;
-}
-
-/* Bar: subtle track + coloured fill + tick marking target position.
-   Tick position is author-controlled via `--kpi-gauge-tick-pos`
-   (default 100% = at the right edge, matching the bar's "0 → target"
-   scale). Override per-tile via `style="--kpi-gauge-tick-pos: 80%"`
-   if the bar represents a wider scale (e.g. 0→max where target sits
-   inside the bar) — the tick will slide to that position. */
-.kpi-gauge__bar {
-  --kpi-gauge-tick-pos: 100%;
-  --kpi-gauge-tick-color: var(--pa-text-color-1);
-  position: relative;
-  height: 0.7rem;
-  background: var(--pa-surface-track);
-  margin-bottom: 0.5rem;
-  overflow: visible;          /* tick can sit just outside the bar edges */
-}
-.kpi-gauge__fill {
-  height: 100%;
-  background: var(--kpi-accent);
-  /* width set inline per tile via style="--fill: 95%" or width: X% directly */
-  transition: width 0.3s ease;
-}
-/* Target tick — small bar slightly taller than the track, reading as a
-   "you should be here" mark. Centered on `--kpi-gauge-tick-pos` via the
-   negative margin-left (matches half the tick's width, so the position
-   value names where the *centre* of the tick sits, not its left edge).
-   Colour comes from `--kpi-gauge-tick-color` (default --pa-text-color-1
-   at full opacity, so the tick stays readable against any sentiment fill —
-   alpha-blended defaults wash out on dark themes against bright orange/green
-   fills). Override per-tile or globally for a quieter mark. */
-.kpi-gauge__bar::after {
-  content: '';
-  position: absolute;
-  left: var(--kpi-gauge-tick-pos);
-  margin-left: -0.15rem;
-  top: -0.2rem;
-  bottom: -0.2rem;
-  width: 0.3rem;
-  background: var(--kpi-gauge-tick-color);
-}
-
-/* Scale row: 0 left, tgt XYZ right — both dim, mono */
-.kpi-gauge__scale {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  color: var(--pa-text-tertiary);
-}
-
-/* === Footer caption === */
-.kpi-gauge-list__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  color: var(--pa-text-secondary);
-}
-.kpi-gauge-list__footer strong {
-  color: var(--pa-text-color-1);
-  font-weight: 700;
-}
-
-/* === Hover detail popover — same Floating UI / cursor-anchored recipe as
-   the other KPI showcases. === */
-.kpi-gauge__detail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 9000;
-  min-width: 26rem;
-  max-width: 32rem;
-  background: var(--pa-detail-bg);
-  color: var(--pa-detail-text);
-  padding: 1.2rem 1.5rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.25rem;
-  line-height: 1.5;
-  border-radius: 0.4rem;
-  box-shadow: var(--pa-detail-shadow);
-}
-.kpi-gauge__detail[data-show] { visibility: visible; }
-.kpi-gauge__detail-title {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--pa-detail-title);
-  margin-bottom: 0.6rem;
-}
-.kpi-gauge__detail dl {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.35rem 1.6rem;
-  margin: 0;
-}
-.kpi-gauge__detail dt { margin: 0; color: var(--pa-detail-row-label); font-weight: 400; }
-.kpi-gauge__detail dd { margin: 0; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-.kpi-gauge__detail .pos { color: var(--pa-positive); }
-.kpi-gauge__detail .neg { color: var(--pa-negative); }
-.kpi-gauge__detail .warn { color: var(--pa-warning); }
-</style>
 
 <!-- ============================================================
      1. Canonical full-width Comparison gauges card
      ============================================================ -->
 
-<div class="pa-card kpi-gauge-list">
-    <div class="pa-card__header kpi-gauge-list__header">
+<div class="pa-card pa-kpi-gauge-list">
+    <div class="pa-card__header pa-kpi-header">
         <h3>Key Performance Indicators</h3>
-        <span class="kpi-gauge-list__live"><span class="kpi-gauge-list__livedot"></span>LIVE</span>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
     </div>
 
-    <div class="pa-card__body kpi-gauge-list__body">
-        <div class="kpi-gauge-list__grid">
+    <div class="pa-card__body pa-kpi-gauge-list__body">
+        <div class="pa-kpi-gauge-list__grid">
 
             <!-- Completion Rate — under target → warning -->
-            <div class="kpi-gauge kpi-gauge--warning">
-                <div class="kpi-gauge__head">
-                    <div class="kpi-gauge__label">Completion Rate</div>
-                    <div class="kpi-gauge__value"><span class="kpi-gauge__num">88.1</span><span class="kpi-gauge__unit">%</span></div>
+            <div class="pa-kpi-gauge pa-kpi-gauge--warning">
+                <div class="pa-kpi-gauge__head">
+                    <div class="pa-kpi-gauge__label">Completion Rate</div>
+                    <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">88.1</span><span class="pa-kpi-gauge__unit">%</span></div>
                 </div>
-                <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 97.9%"></div></div>
-                <div class="kpi-gauge__scale"><span>0</span><span>tgt 90.0%</span></div>
-                <div class="kpi-gauge__detail" role="tooltip">
-                    <div class="kpi-gauge__detail-title">Completion Rate · 30D</div>
+                <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 97.9%"></div></div>
+                <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 90.0%</span></div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
                     <dl>
                         <dt>Current</dt><dd>88.1%</dd>
                         <dt>Target</dt><dd>90.0%</dd>
@@ -243,15 +35,15 @@
             </div>
 
             <!-- Monthly Revenue — close to target → positive -->
-            <div class="kpi-gauge kpi-gauge--positive">
-                <div class="kpi-gauge__head">
-                    <div class="kpi-gauge__label">Monthly Revenue</div>
-                    <div class="kpi-gauge__value"><span class="kpi-gauge__unit">$</span><span class="kpi-gauge__num">859</span><span class="kpi-gauge__unit">K</span></div>
+            <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                <div class="pa-kpi-gauge__head">
+                    <div class="pa-kpi-gauge__label">Monthly Revenue</div>
+                    <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__unit">$</span><span class="pa-kpi-gauge__num">859</span><span class="pa-kpi-gauge__unit">K</span></div>
                 </div>
-                <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 95.4%"></div></div>
-                <div class="kpi-gauge__scale"><span>0</span><span>tgt $900K</span></div>
-                <div class="kpi-gauge__detail" role="tooltip">
-                    <div class="kpi-gauge__detail-title">Monthly Revenue · 12MO</div>
+                <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 95.4%"></div></div>
+                <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt $900K</span></div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
                     <dl>
                         <dt>Current</dt><dd>$859K</dd>
                         <dt>Target</dt><dd>$900K</dd>
@@ -262,15 +54,15 @@
             </div>
 
             <!-- Server Temp — under max → positive -->
-            <div class="kpi-gauge kpi-gauge--positive">
-                <div class="kpi-gauge__head">
-                    <div class="kpi-gauge__label">Server Temp</div>
-                    <div class="kpi-gauge__value"><span class="kpi-gauge__num">23.8</span><span class="kpi-gauge__unit">°C</span></div>
+            <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                <div class="pa-kpi-gauge__head">
+                    <div class="pa-kpi-gauge__label">Server Temp</div>
+                    <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">23.8</span><span class="pa-kpi-gauge__unit">°C</span></div>
                 </div>
-                <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 95.2%"></div></div>
-                <div class="kpi-gauge__scale"><span>0</span><span>tgt 25.0°C</span></div>
-                <div class="kpi-gauge__detail" role="tooltip">
-                    <div class="kpi-gauge__detail-title">Server Temp · 24H</div>
+                <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 95.2%"></div></div>
+                <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 25.0°C</span></div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Temp · 24H</div>
                     <dl>
                         <dt>Current</dt><dd>23.8°C</dd>
                         <dt>Target (max)</dt><dd>25.0°C</dd>
@@ -281,20 +73,20 @@
             </div>
 
             <!-- Server Capacity — over target → warning.
-                 Demonstrates `--kpi-gauge-tick-pos`: bar's scale runs 0 → 100%,
+                 Demonstrates `--pa-kpi-gauge-tick-pos`: bar's scale runs 0 → 100%,
                  fill is the actual value (84.5%), tick sits at the target (80%).
                  The 4.5pp overshoot reads as "fill extends past the tick" —
                  more informative than the default "fill capped at 100%, tick
                  at right edge" pattern used by the other tiles. -->
-            <div class="kpi-gauge kpi-gauge--warning">
-                <div class="kpi-gauge__head">
-                    <div class="kpi-gauge__label">Server Capacity</div>
-                    <div class="kpi-gauge__value"><span class="kpi-gauge__num">84.5</span><span class="kpi-gauge__unit">%</span></div>
+            <div class="pa-kpi-gauge pa-kpi-gauge--warning">
+                <div class="pa-kpi-gauge__head">
+                    <div class="pa-kpi-gauge__label">Server Capacity</div>
+                    <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">84.5</span><span class="pa-kpi-gauge__unit">%</span></div>
                 </div>
-                <div class="kpi-gauge__bar" style="--kpi-gauge-tick-pos: 80%"><div class="kpi-gauge__fill" style="width: 84.5%"></div></div>
-                <div class="kpi-gauge__scale"><span>0</span><span>100% · tgt 80%</span></div>
-                <div class="kpi-gauge__detail" role="tooltip">
-                    <div class="kpi-gauge__detail-title">Server Capacity · 7D</div>
+                <div class="pa-kpi-gauge__bar" style="--pa-kpi-gauge-tick-pos: 80%"><div class="pa-kpi-gauge__fill" style="width: 84.5%"></div></div>
+                <div class="pa-kpi-gauge__scale"><span>0</span><span>100% · tgt 80%</span></div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
                     <dl>
                         <dt>Current</dt><dd>84.5%</dd>
                         <dt>Target (max)</dt><dd>80.0%</dd>
@@ -306,15 +98,15 @@
             </div>
 
             <!-- Error Rate — well under max → positive -->
-            <div class="kpi-gauge kpi-gauge--positive">
-                <div class="kpi-gauge__head">
-                    <div class="kpi-gauge__label">Error Rate</div>
-                    <div class="kpi-gauge__value"><span class="kpi-gauge__num">0.27</span><span class="kpi-gauge__unit">%</span></div>
+            <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                <div class="pa-kpi-gauge__head">
+                    <div class="pa-kpi-gauge__label">Error Rate</div>
+                    <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">0.27</span><span class="pa-kpi-gauge__unit">%</span></div>
                 </div>
-                <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 54%"></div></div>
-                <div class="kpi-gauge__scale"><span>0</span><span>tgt 0.50%</span></div>
-                <div class="kpi-gauge__detail" role="tooltip">
-                    <div class="kpi-gauge__detail-title">Error Rate · 24H</div>
+                <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 54%"></div></div>
+                <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 0.50%</span></div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
                     <dl>
                         <dt>Current</dt><dd>0.27%</dd>
                         <dt>Target (max)</dt><dd>0.50%</dd>
@@ -325,15 +117,15 @@
             </div>
 
             <!-- Tokyo Office — neutral pacing → neutral -->
-            <div class="kpi-gauge kpi-gauge--neutral">
-                <div class="kpi-gauge__head">
-                    <div class="kpi-gauge__label">Tokyo Office</div>
-                    <div class="kpi-gauge__value"><span class="kpi-gauge__unit">¥</span><span class="kpi-gauge__num">11.7</span><span class="kpi-gauge__unit">M</span></div>
+            <div class="pa-kpi-gauge pa-kpi-gauge--neutral">
+                <div class="pa-kpi-gauge__head">
+                    <div class="pa-kpi-gauge__label">Tokyo Office</div>
+                    <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__unit">¥</span><span class="pa-kpi-gauge__num">11.7</span><span class="pa-kpi-gauge__unit">M</span></div>
                 </div>
-                <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 90%"></div></div>
-                <div class="kpi-gauge__scale"><span>0</span><span>tgt ¥13.0M</span></div>
-                <div class="kpi-gauge__detail" role="tooltip">
-                    <div class="kpi-gauge__detail-title">Tokyo Office · 12MO</div>
+                <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 90%"></div></div>
+                <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt ¥13.0M</span></div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
                     <dl>
                         <dt>Current</dt><dd>¥11.7M</dd>
                         <dt>Target</dt><dd>¥13.0M</dd>
@@ -346,7 +138,7 @@
         </div>
     </div>
 
-    <div class="pa-card__footer kpi-gauge-list__footer">
+    <div class="pa-card__footer pa-kpi-footer">
         <span><strong>Comparison gauges</strong> — Progress bars vs target, with target tick. Goal-oriented dashboards.</span>
         <span>Hover any KPI for detail</span>
     </div>
@@ -362,30 +154,30 @@
 
 <div class="pa-row">
     <div class="pa-col-100 pa-col-md-1-3">
-        <div class="pa-card kpi-gauge-list">
-            <div class="pa-card__body kpi-gauge-list__body">
-                <div class="kpi-gauge-list__grid">
-                    <div class="kpi-gauge kpi-gauge--warning">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Completion Rate</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">88.1</span><span class="kpi-gauge__unit">%</span></div>
+        <div class="pa-card pa-kpi-gauge-list">
+            <div class="pa-card__body pa-kpi-gauge-list__body">
+                <div class="pa-kpi-gauge-list__grid">
+                    <div class="pa-kpi-gauge pa-kpi-gauge--warning">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Completion Rate</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">88.1</span><span class="pa-kpi-gauge__unit">%</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 97.9%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 90.0%</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Completion Rate · 30D</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 97.9%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 90.0%</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
                             <dl><dt>Current</dt><dd>88.1%</dd><dt>Target</dt><dd>90.0%</dd><dt>% of target</dt><dd>97.9%</dd></dl>
                         </div>
                     </div>
-                    <div class="kpi-gauge kpi-gauge--positive">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Monthly Revenue</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__unit">$</span><span class="kpi-gauge__num">859</span><span class="kpi-gauge__unit">K</span></div>
+                    <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Monthly Revenue</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__unit">$</span><span class="pa-kpi-gauge__num">859</span><span class="pa-kpi-gauge__unit">K</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 95.4%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt $900K</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Monthly Revenue · 12MO</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 95.4%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt $900K</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
                             <dl><dt>Current</dt><dd>$859K</dd><dt>Target</dt><dd>$900K</dd><dt>% of target</dt><dd>95.4%</dd></dl>
                         </div>
                     </div>
@@ -395,30 +187,30 @@
     </div>
 
     <div class="pa-col-100 pa-col-md-1-3">
-        <div class="pa-card kpi-gauge-list">
-            <div class="pa-card__body kpi-gauge-list__body">
-                <div class="kpi-gauge-list__grid">
-                    <div class="kpi-gauge kpi-gauge--positive">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Server Temp</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">23.8</span><span class="kpi-gauge__unit">°C</span></div>
+        <div class="pa-card pa-kpi-gauge-list">
+            <div class="pa-card__body pa-kpi-gauge-list__body">
+                <div class="pa-kpi-gauge-list__grid">
+                    <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Server Temp</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">23.8</span><span class="pa-kpi-gauge__unit">°C</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 95.2%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 25.0°C</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Server Temp · 24H</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 95.2%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 25.0°C</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Server Temp · 24H</div>
                             <dl><dt>Current</dt><dd>23.8°C</dd><dt>Target</dt><dd>25.0°C</dd><dt>% of target</dt><dd>95.2%</dd></dl>
                         </div>
                     </div>
-                    <div class="kpi-gauge kpi-gauge--warning">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Server Capacity</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">84.5</span><span class="kpi-gauge__unit">%</span></div>
+                    <div class="pa-kpi-gauge pa-kpi-gauge--warning">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Server Capacity</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">84.5</span><span class="pa-kpi-gauge__unit">%</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 100%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 80.0%</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Server Capacity · 7D</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 100%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 80.0%</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
                             <dl><dt>Current</dt><dd>84.5%</dd><dt>Target</dt><dd>80.0%</dd><dt>% of target</dt><dd class="warn">105.6%</dd></dl>
                         </div>
                     </div>
@@ -428,30 +220,30 @@
     </div>
 
     <div class="pa-col-100 pa-col-md-1-3">
-        <div class="pa-card kpi-gauge-list">
-            <div class="pa-card__body kpi-gauge-list__body">
-                <div class="kpi-gauge-list__grid">
-                    <div class="kpi-gauge kpi-gauge--positive">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Error Rate</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">0.27</span><span class="kpi-gauge__unit">%</span></div>
+        <div class="pa-card pa-kpi-gauge-list">
+            <div class="pa-card__body pa-kpi-gauge-list__body">
+                <div class="pa-kpi-gauge-list__grid">
+                    <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Error Rate</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">0.27</span><span class="pa-kpi-gauge__unit">%</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 54%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 0.50%</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Error Rate · 24H</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 54%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 0.50%</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Error Rate · 24H</div>
                             <dl><dt>Current</dt><dd>0.27%</dd><dt>Target</dt><dd>0.50%</dd><dt>% of target</dt><dd>54.0%</dd></dl>
                         </div>
                     </div>
-                    <div class="kpi-gauge kpi-gauge--neutral">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Tokyo Office</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__unit">¥</span><span class="kpi-gauge__num">11.7</span><span class="kpi-gauge__unit">M</span></div>
+                    <div class="pa-kpi-gauge pa-kpi-gauge--neutral">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Tokyo Office</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__unit">¥</span><span class="pa-kpi-gauge__num">11.7</span><span class="pa-kpi-gauge__unit">M</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 90%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt ¥13.0M</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Tokyo Office · 12MO</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 90%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt ¥13.0M</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
                             <dl><dt>Current</dt><dd>¥11.7M</dd><dt>Target</dt><dd>¥13.0M</dd><dt>% of target</dt><dd>90.0%</dd></dl>
                         </div>
                     </div>
@@ -471,42 +263,42 @@
 
 <div class="pa-row">
     <div class="pa-col-100 pa-col-md-25">
-        <div class="pa-card kpi-gauge-list">
-            <div class="pa-card__body kpi-gauge-list__body">
-                <div class="kpi-gauge-list__grid">
-                    <div class="kpi-gauge kpi-gauge--warning">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Completion Rate</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">88.1</span><span class="kpi-gauge__unit">%</span></div>
+        <div class="pa-card pa-kpi-gauge-list">
+            <div class="pa-card__body pa-kpi-gauge-list__body">
+                <div class="pa-kpi-gauge-list__grid">
+                    <div class="pa-kpi-gauge pa-kpi-gauge--warning">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Completion Rate</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">88.1</span><span class="pa-kpi-gauge__unit">%</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 97.9%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 90.0%</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Completion Rate · 30D</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 97.9%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 90.0%</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
                             <dl><dt>Current</dt><dd>88.1%</dd><dt>Target</dt><dd>90.0%</dd><dt>% of target</dt><dd>97.9%</dd></dl>
                         </div>
                     </div>
-                    <div class="kpi-gauge kpi-gauge--positive">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Server Temp</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">23.8</span><span class="kpi-gauge__unit">°C</span></div>
+                    <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Server Temp</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">23.8</span><span class="pa-kpi-gauge__unit">°C</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 95.2%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 25.0°C</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Server Temp · 24H</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 95.2%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 25.0°C</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Server Temp · 24H</div>
                             <dl><dt>Current</dt><dd>23.8°C</dd><dt>Target</dt><dd>25.0°C</dd><dt>% of target</dt><dd>95.2%</dd></dl>
                         </div>
                     </div>
-                    <div class="kpi-gauge kpi-gauge--positive">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Error Rate</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">0.27</span><span class="kpi-gauge__unit">%</span></div>
+                    <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Error Rate</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">0.27</span><span class="pa-kpi-gauge__unit">%</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 54%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 0.50%</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Error Rate · 24H</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 54%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 0.50%</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Error Rate · 24H</div>
                             <dl><dt>Current</dt><dd>0.27%</dd><dt>Target</dt><dd>0.50%</dd><dt>% of target</dt><dd>54.0%</dd></dl>
                         </div>
                     </div>
@@ -516,42 +308,42 @@
     </div>
 
     <div class="pa-col-100 pa-col-md-45">
-        <div class="pa-card kpi-gauge-list">
-            <div class="pa-card__body kpi-gauge-list__body">
-                <div class="kpi-gauge-list__grid">
-                    <div class="kpi-gauge kpi-gauge--positive">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Monthly Revenue</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__unit">$</span><span class="kpi-gauge__num">859</span><span class="kpi-gauge__unit">K</span></div>
+        <div class="pa-card pa-kpi-gauge-list">
+            <div class="pa-card__body pa-kpi-gauge-list__body">
+                <div class="pa-kpi-gauge-list__grid">
+                    <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Monthly Revenue</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__unit">$</span><span class="pa-kpi-gauge__num">859</span><span class="pa-kpi-gauge__unit">K</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 95.4%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt $900K</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Monthly Revenue · 12MO</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 95.4%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt $900K</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
                             <dl><dt>Current</dt><dd>$859K</dd><dt>Target</dt><dd>$900K</dd><dt>% of target</dt><dd>95.4%</dd></dl>
                         </div>
                     </div>
-                    <div class="kpi-gauge kpi-gauge--warning">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Server Capacity</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__num">84.5</span><span class="kpi-gauge__unit">%</span></div>
+                    <div class="pa-kpi-gauge pa-kpi-gauge--warning">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Server Capacity</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">84.5</span><span class="pa-kpi-gauge__unit">%</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 100%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt 80.0%</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Server Capacity · 7D</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 100%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt 80.0%</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
                             <dl><dt>Current</dt><dd>84.5%</dd><dt>Target</dt><dd>80.0%</dd><dt>% of target</dt><dd class="warn">105.6%</dd></dl>
                         </div>
                     </div>
-                    <div class="kpi-gauge kpi-gauge--neutral">
-                        <div class="kpi-gauge__head">
-                            <div class="kpi-gauge__label">Tokyo Office</div>
-                            <div class="kpi-gauge__value"><span class="kpi-gauge__unit">¥</span><span class="kpi-gauge__num">11.7</span><span class="kpi-gauge__unit">M</span></div>
+                    <div class="pa-kpi-gauge pa-kpi-gauge--neutral">
+                        <div class="pa-kpi-gauge__head">
+                            <div class="pa-kpi-gauge__label">Tokyo Office</div>
+                            <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__unit">¥</span><span class="pa-kpi-gauge__num">11.7</span><span class="pa-kpi-gauge__unit">M</span></div>
                         </div>
-                        <div class="kpi-gauge__bar"><div class="kpi-gauge__fill" style="width: 90%"></div></div>
-                        <div class="kpi-gauge__scale"><span>0</span><span>tgt ¥13.0M</span></div>
-                        <div class="kpi-gauge__detail" role="tooltip">
-                            <div class="kpi-gauge__detail-title">Tokyo Office · 12MO</div>
+                        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 90%"></div></div>
+                        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt ¥13.0M</span></div>
+                        <div class="pa-kpi-detail" role="tooltip">
+                            <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
                             <dl><dt>Current</dt><dd>¥11.7M</dd><dt>Target</dt><dd>¥13.0M</dd><dt>% of target</dt><dd>90.0%</dd></dl>
                         </div>
                     </div>
@@ -574,7 +366,7 @@
 
         <h4 class="mt-4">Bar semantics — two modes</h4>
         <p><strong>Default mode (0 → target scale):</strong> the bar's full width represents the target. Fill width = <code>value / target</code>, capped at 100%. Tick sits at the right edge marking target. Overshoots are signalled by the warning colour rather than by overflowing the bar. Best for metrics where "how close to target" is the only question.</p>
-        <p><strong>0 → max scale (override <code>--kpi-gauge-tick-pos</code>):</strong> the bar's full width represents some wider scale (e.g. 0–100% capacity). Fill width = the raw value; tick slides inside the bar to mark the target position. Overshoots become visible as fill extending past the tick. See "Server Capacity" in the canonical card for an example. Best for metrics with a natural upper bound (capacity, threshold-style targets, percentages).</p>
+        <p><strong>0 → max scale (override <code>--pa-kpi-gauge-tick-pos</code>):</strong> the bar's full width represents some wider scale (e.g. 0–100% capacity). Fill width = the raw value; tick slides inside the bar to mark the target position. Overshoots become visible as fill extending past the tick. See "Server Capacity" in the canonical card for an example. Best for metrics with a natural upper bound (capacity, threshold-style targets, percentages).</p>
 
         <h4 class="mt-4">Sentiment colours</h4>
         <ul>
@@ -583,7 +375,7 @@
             <li><strong>negative</strong> (red) — actively bad / failing target.</li>
             <li><strong>neutral</strong> (grey) — informational, no strong sentiment.</li>
         </ul>
-        <p>The bar fill colour is set per-tile via <code>--kpi-accent</code>; the four <code>.kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
+        <p>The bar fill colour is set per-tile via <code>--kpi-accent</code>; the four <code>.pa-kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
 
         <h4 class="mt-4">Layout</h4>
         <p>Internal 2-column grid for the canonical card; a container query at <code>max-width: 600px</code> collapses to single-column so the gauges stack vertically inside narrow page-grid cards (1×3 widths, 25% / 45% asymmetric placements). Same three-section layout testing pattern as the rest of the showcases — canonical full-width, 1×3 page-grid, 25/45/25 asymmetric — to surface how the design behaves at different host widths.</p>
@@ -603,45 +395,45 @@
     <div class="pa-card__body">
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-gauge-list</code> — page-namespace class on <code>.pa-card</code>.</li>
-            <li><code>kpi-gauge-list__header</code> — flex header with title + LIVE indicator.</li>
-            <li><code>kpi-gauge-list__live</code> / <code>kpi-gauge-list__livedot</code> — LIVE pill + animated dot.</li>
-            <li><code>kpi-gauge-list__body</code> — applies <code>padding: 0</code> so the inter-tile dividers go edge-to-edge.</li>
-            <li><code>kpi-gauge-list__grid</code> — internal 2-col grid (collapses to 1-col under 600px via container query).</li>
-            <li><code>kpi-gauge-list__footer</code> — flex footer caption.</li>
+            <li><code>pa-kpi-gauge-list</code> — page-namespace class on <code>.pa-card</code>.</li>
+            <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
+            <li><code>pa-kpi-gauge-list__body</code> — applies <code>padding: 0</code> so the inter-tile dividers go edge-to-edge.</li>
+            <li><code>pa-kpi-gauge-list__grid</code> — internal 2-col grid (collapses to 1-col under 600px via container query).</li>
+            <li><code>pa-kpi-footer</code> — flex footer caption.</li>
         </ul>
 
         <h4 class="mt-4">Gauge tile</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-gauge</code> — single gauge cell. Carries <code>--kpi-accent</code> (set by sentiment modifiers below).</li>
-            <li><code>kpi-gauge--positive</code> — green fill (on track).</li>
-            <li><code>kpi-gauge--warning</code> — orange fill (off-target / approaching limit).</li>
-            <li><code>kpi-gauge--negative</code> — red fill (actively bad).</li>
-            <li><code>kpi-gauge--neutral</code> — grey fill (no sentiment).</li>
+            <li><code>pa-kpi-gauge</code> — single gauge cell. Carries <code>--kpi-accent</code> (set by sentiment modifiers below).</li>
+            <li><code>pa-kpi-gauge--positive</code> — green fill (on track).</li>
+            <li><code>pa-kpi-gauge--warning</code> — orange fill (off-target / approaching limit).</li>
+            <li><code>pa-kpi-gauge--negative</code> — red fill (actively bad).</li>
+            <li><code>pa-kpi-gauge--neutral</code> — grey fill (no sentiment).</li>
         </ul>
 
         <h4 class="mt-4">Tile content</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-gauge__head</code> — flex row with label + value.</li>
-            <li><code>kpi-gauge__label</code> — uppercase mono caption.</li>
-            <li><code>kpi-gauge__value</code> — focal number + unit.</li>
-            <li><code>kpi-gauge__num</code> / <code>kpi-gauge__unit</code> — numeric + unit spans.</li>
-            <li><code>kpi-gauge__scale</code> — flex row with "0" left and "tgt {value}" right (mono, dim).</li>
+            <li><code>pa-kpi-gauge__head</code> — flex row with label + value.</li>
+            <li><code>pa-kpi-gauge__label</code> — uppercase mono caption.</li>
+            <li><code>pa-kpi-gauge__value</code> — focal number + unit.</li>
+            <li><code>pa-kpi-gauge__num</code> / <code>pa-kpi-gauge__unit</code> — numeric + unit spans.</li>
+            <li><code>pa-kpi-gauge__scale</code> — flex row with "0" left and "tgt {value}" right (mono, dim).</li>
         </ul>
 
         <h4 class="mt-4">Bar + target tick</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-gauge__bar</code> — track. Reads <code>--kpi-gauge-tick-pos</code> for tick position (default <code>100%</code>).</li>
-            <li><code>kpi-gauge__fill</code> — coloured fill. Width set inline per tile via <code>style="width: X%"</code>.</li>
-            <li><code>--kpi-gauge-tick-pos</code> — custom property on <code>.kpi-gauge__bar</code> setting the target tick's position. Default <code>100%</code> (right edge, matching 0→target scale). Override per-tile via <code>style="--kpi-gauge-tick-pos: 80%"</code> when the bar represents a wider scale (e.g. 0→100% capacity, target at 80%).</li>
-            <li><code>--kpi-gauge-tick-color</code> — custom property on <code>.kpi-gauge__bar</code> setting the target tick's colour. Default <code>var(--pa-text-color-1)</code> (full opacity body text, so the tick stays readable against any sentiment fill colour). Override globally or per-tile for a quieter mark.</li>
+            <li><code>pa-kpi-gauge__bar</code> — track. Reads <code>--pa-kpi-gauge-tick-pos</code> for tick position (default <code>100%</code>).</li>
+            <li><code>pa-kpi-gauge__fill</code> — coloured fill. Width set inline per tile via <code>style="width: X%"</code>.</li>
+            <li><code>--pa-kpi-gauge-tick-pos</code> — custom property on <code>.pa-kpi-gauge__bar</code> setting the target tick's position. Default <code>100%</code> (right edge, matching 0→target scale). Override per-tile via <code>style="--pa-kpi-gauge-tick-pos: 80%"</code> when the bar represents a wider scale (e.g. 0→100% capacity, target at 80%).</li>
+            <li><code>--pa-kpi-gauge-tick-color</code> — custom property on <code>.pa-kpi-gauge__bar</code> setting the target tick's colour. Default <code>var(--pa-text-color-1)</code> (full opacity body text, so the tick stays readable against any sentiment fill colour). Override globally or per-tile for a quieter mark.</li>
         </ul>
 
         <h4 class="mt-4">Hover detail popover</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-gauge__detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
-            <li><code>kpi-gauge__detail-title</code> — uppercase mono header.</li>
-            <li><code>kpi-gauge__detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+            <li><code>pa-kpi-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
+            <li><code>pa-kpi-detail__title</code> — uppercase mono header.</li>
+            <li><code>pa-kpi-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
         </ul>
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
@@ -653,56 +445,4 @@
     </div>
 </div>
 
-<script>
-// Hover detail popover — same Floating UI cursor-anchored recipe as the
-// other KPI showcases. Each gauge's detail is appended to <body> so
-// ancestor overflow:hidden doesn't clip; cursor coords drive a virtual
-// reference element that computePosition anchors against.
-document.addEventListener('DOMContentLoaded', function() {
-    if (!window.FloatingUIDOM) return;
-    const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
 
-    document.querySelectorAll('.kpi-gauge').forEach(gauge => {
-        const detail = gauge.querySelector('.kpi-gauge__detail');
-        if (!detail) return;
-        document.body.appendChild(detail);
-
-        let cursorX = 0, cursorY = 0;
-        const virtualEl = {
-            getBoundingClientRect() {
-                return {
-                    width: 0, height: 0,
-                    x: cursorX, y: cursorY,
-                    top: cursorY, left: cursorX,
-                    right: cursorX, bottom: cursorY
-                };
-            }
-        };
-
-        const reposition = () => {
-            computePosition(virtualEl, detail, {
-                strategy: 'fixed',
-                placement: 'top-start',
-                middleware: [offset(14), flip(), shift({ padding: 8 })]
-            }).then(({ x, y }) => {
-                Object.assign(detail.style, { left: `${x}px`, top: `${y}px` });
-            });
-        };
-
-        gauge.addEventListener('mouseenter', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            detail.setAttribute('data-show', '');
-            reposition();
-        });
-        gauge.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            reposition();
-        });
-        gauge.addEventListener('mouseleave', () => {
-            detail.removeAttribute('data-show');
-        });
-    });
-});
-</script>

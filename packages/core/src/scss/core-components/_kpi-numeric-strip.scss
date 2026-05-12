@@ -1,0 +1,154 @@
+/* ========================================
+   KPI · Numeric strip (densest)
+   Tabular "spreadsheet-style" table card with metric/now/prev/Δ%/vs target
+   columns — most data per pixel, no chart chrome. Each row is its own
+   grid sharing the same column template so cells align across rows
+   without needing subgrid. Wide-only by design — no responsive collapse;
+   narrow placements should use Comparison gauges instead.
+   ======================================== */
+@use '../variables' as *;
+
+.pa-kpi-strip__body { padding: 0; }
+
+/* ----- Table layout ----------------------------------------------------- */
+.pa-kpi-strip__row,
+.pa-kpi-strip__head-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 2fr)      /* metric */
+    minmax(0, 1.1fr)    /* now */
+    minmax(0, 1fr)      /* prev */
+    minmax(0, 1fr)      /* delta */
+    minmax(0, 1.6fr);   /* target (bar + pct stacked) */
+  column-gap: 1.6rem;
+  align-items: center;
+  position: relative;
+  padding: 1.1rem 1.6rem;
+}
+
+/* Divider between data rows / between head and first row only. */
+.pa-kpi-strip__row + .pa-kpi-strip__row,
+.pa-kpi-strip__head-row + .pa-kpi-strip__row {
+  border-top: 1px solid var(--pa-border-color);
+}
+
+/* Hover host: subtle row highlight so the cursor-anchored popover has a
+   clear "this row" anchor. */
+.pa-kpi-strip__row:hover {
+  background: var(--pa-surface-hover);
+}
+
+/* ----- Header cells (uppercase mono captions) --------------------------- */
+.pa-kpi-strip__head {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pa-text-tertiary);
+
+  &--num { text-align: end; }
+}
+
+/* ----- Metric label ----------------------------------------------------- */
+.pa-kpi-strip__metric {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 78%, transparent);
+  line-height: 1.2;
+}
+
+/* ----- NOW (focal value) ------------------------------------------------ */
+.pa-kpi-strip__now {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: end;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  color: var(--pa-text-color-1);
+  white-space: nowrap;
+  line-height: 1;
+
+  .pa-kpi-strip__num { font-weight: 700; }
+  .pa-kpi-strip__unit {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+    margin: 0 0.2rem;
+  }
+}
+
+/* ----- PREV (reference data, low contrast) ------------------------------ */
+.pa-kpi-strip__prev {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--pa-text-tertiary);
+  text-align: end;
+  white-space: nowrap;
+}
+
+/* ----- Δ% (sentiment-coloured) ------------------------------------------ */
+.pa-kpi-strip__delta {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: end;
+  white-space: nowrap;
+  color: var(--pa-positive);
+
+  &--positive    { color: var(--pa-positive); }
+  &--negative    { color: var(--pa-negative); }
+  &--neutral     { color: var(--pa-neutral); }
+  &--up-strong   { color: var(--pa-very-positive); }
+  &--down-strong { color: var(--pa-very-negative); }
+}
+
+/* ----- VS TARGET (bar + pct stacked, capped at 100% visual) -------------
+   Theme-neutral grey fill — the pct value itself signals overshoot /
+   undershoot ("97" vs "108" vs "54") so colour reinforcement isn't
+   needed. The bar visually caps at 100% via overflow: hidden so an
+   over-target metric reads as "fully filled" rather than overflowing. */
+.pa-kpi-strip__target {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.pa-kpi-strip__bar {
+  position: relative;
+  height: 0.5rem;
+  background: var(--pa-surface-track);
+  overflow: hidden;
+  border-radius: 0.1rem;
+}
+.pa-kpi-strip__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--pa-text-color-1) 40%, transparent);
+}
+.pa-kpi-strip__bar-pct {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--pa-text-secondary);
+  align-self: flex-end;
+  line-height: 1;
+}
+
+/* ----- --no-prev: 4-col layout (metric / now / Δ% / target) -------------
+   Useful for narrow placements; markup omits the prev cells. */
+.pa-kpi-strip--no-prev .pa-kpi-strip__row,
+.pa-kpi-strip--no-prev .pa-kpi-strip__head-row {
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(0, 1.1fr)
+    minmax(0, 1fr)
+    minmax(0, 1.6fr);
+}

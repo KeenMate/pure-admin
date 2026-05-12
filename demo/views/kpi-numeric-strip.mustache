@@ -1,285 +1,37 @@
 <p>"Numeric strip · densest" KPI indicator. <strong>Wide table-card layout — most data per pixel</strong>: metric / now / prev / Δ% / vs target columns. No sparkline, no chart chrome — a stripped-down 5-column grid for "spreadsheet-style" scanning when the operator wants the <em>numbers</em> and nothing else. Each row carries a tiny progress bar in the last column showing actual-vs-target as a percentage, with the percent value pinned below the bar. <strong>Wide-only by design</strong> — there's no narrow-card collapse because the row-stack form would duplicate the Comparison gauges showcase; if you need this data in a 1×3 or 25/45 cell, use Comparison gauges instead. Rendered as a <strong>table card</strong> (zero card-body padding, dividers extend edge-to-edge) so the table reads as the card's content rather than a table sitting inside another panel.</p>
 
-<style>
-/* === Card chrome === */
-.kpi-strip__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.6rem;
-  flex-wrap: wrap;
-}
-.kpi-strip__live {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--pa-text-secondary);
-}
-.kpi-strip__livedot {
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  background: var(--pa-positive);
-  box-shadow: 0 0 6px var(--pa-positive);
-  animation: kpiPulse 1.6s ease-in-out infinite;
-}
-@keyframes kpiPulse { 50% { opacity: 0.35; } }
 
-/* Table-card mode: zero card-body padding so the table goes edge-to-edge.
-   Each row carries its own horizontal padding (matches what would have
-   been the body's inline padding) so the row dividers extend full-width
-   to the card border. */
-.kpi-strip__body { padding: 0; }
-
-/* === Table layout ===
-   Each row is its own grid sharing the same column template — this gives
-   us per-row hover hosts (needed for the cursor-anchored detail popover)
-   while still keeping cells aligned across rows because every row uses
-   identical fr-units. Subgrid would be more semantically accurate but
-   subgrid + per-row hover hosts duplicate the same effective layout in
-   more lines, so we keep it simple. */
-.kpi-strip__row,
-.kpi-strip__head-row {
-  display: grid;
-  grid-template-columns:
-    minmax(0, 2fr)      /* metric — wraps to two lines for longer labels */
-    minmax(0, 1.1fr)    /* now */
-    minmax(0, 1fr)      /* prev */
-    minmax(0, 1fr)      /* delta */
-    minmax(0, 1.6fr);   /* target (bar + pct stacked) */
-  column-gap: 1.6rem;
-  align-items: center;
-  position: relative;
-  padding: 1.1rem 1.6rem;
-}
-/* Divider only between data rows / between head and first row.
-   Adjacent-sibling combinator keeps this resilient if a tile gets
-   added or reordered. */
-.kpi-strip__row + .kpi-strip__row,
-.kpi-strip__head-row + .kpi-strip__row {
-  border-top: 1px solid var(--pa-border-color);
-}
-
-/* Header cells — uppercase mono labels at low contrast.
-   Right-aligned for the numeric columns so the header matches the
-   right-aligned values below. */
-.kpi-strip__head {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--pa-text-tertiary);
-}
-.kpi-strip__head--num { text-align: end; }
-
-/* Metric label — uppercase mono, slightly less prominent than NOW.
-   Allowed to wrap to two lines so the column doesn't have to be
-   ridiculously wide for "MONTHLY REVENUE" vs "NPS". */
-.kpi-strip__metric {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 78%, transparent);
-  line-height: 1.2;
-}
-
-/* NOW — the focal value. Bigger than everything else in the row. */
-.kpi-strip__now {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.8rem;
-  font-weight: 700;
-  text-align: end;
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  color: var(--pa-text-color-1);
-  white-space: nowrap;
-  line-height: 1;
-}
-.kpi-strip__now .kpi-strip__num { font-weight: 700; }
-.kpi-strip__now .kpi-strip__unit {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
-  margin: 0 0.2rem;
-}
-
-/* PREV — same scale as Δ but at lower contrast (it's reference data,
-   the eye should jump past it to NOW and Δ). */
-.kpi-strip__prev {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--pa-text-tertiary);
-  text-align: end;
-  white-space: nowrap;
-}
-
-/* Δ% — coloured by sentiment, same 5-step palette as the rest of the
-   showcase pages. Same kpi-strip__delta--{positive | negative | up-strong | ...}
-   class surface. */
-.kpi-strip__delta {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: end;
-  white-space: nowrap;
-  color: var(--pa-positive);
-}
-.kpi-strip__delta--positive    { color: var(--pa-positive); }
-.kpi-strip__delta--negative    { color: var(--pa-negative); }
-.kpi-strip__delta--neutral     { color: var(--pa-neutral); }
-.kpi-strip__delta--up-strong   { color: var(--pa-very-positive); }
-.kpi-strip__delta--down-strong { color: var(--pa-very-negative); }
-
-/* VS TARGET — bar + percent stacked. Bar fills horizontally; percent
-   pinned to the bar's right edge below it. Fill is theme-neutral grey
-   (not sentiment-coloured) — the *pct value* signals overshoot/undershoot
-   and the eye reads "97" vs "108" vs "54" without needing colour to
-   reinforce it. Bar fill is capped at 100% visually so an over-target
-   metric still reads as "fully filled" rather than overflowing the
-   container; the actual pct value (e.g. 108%) shows in the label below. */
-.kpi-strip__target {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-.kpi-strip__bar {
-  position: relative;
-  height: 0.5rem;
-  background: var(--pa-surface-track);
-  overflow: hidden;
-  border-radius: 0.1rem;
-}
-.kpi-strip__fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  background: color-mix(in srgb, var(--pa-text-color-1) 40%, transparent);
-}
-.kpi-strip__bar-pct {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--pa-text-secondary);
-  align-self: flex-end;
-  line-height: 1;
-}
-
-/* Hover host: subtle highlight on a row when the cursor is over it,
-   so the popover that follows the cursor has a clear "this row" anchor. */
-.kpi-strip__row:hover {
-  background: var(--pa-surface-hover);
-}
-
-/* Modifier: drop the PREV column. 4-col layout (metric / now / Δ% / target).
-   Useful in narrow placements where there isn't room for prev *and* now
-   side-by-side. The card's markup omits the prev cells; this rule just
-   resets the column template so the remaining 4 cells fit cleanly. */
-.kpi-strip--no-prev .kpi-strip__row,
-.kpi-strip--no-prev .kpi-strip__head-row {
-  grid-template-columns:
-    minmax(0, 2fr)      /* metric */
-    minmax(0, 1.1fr)    /* now */
-    minmax(0, 1fr)      /* delta */
-    minmax(0, 1.6fr);   /* target */
-}
-
-/* === Footer caption === */
-.kpi-strip__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  color: var(--pa-text-secondary);
-}
-.kpi-strip__footer strong {
-  color: var(--pa-text-color-1);
-  font-weight: 700;
-}
-
-/* === Hover detail popover (cursor-anchored, same recipe as elsewhere) === */
-.kpi-strip-detail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 9000;
-  min-width: 24rem;
-  max-width: 30rem;
-  background: var(--pa-detail-bg);
-  color: var(--pa-detail-text);
-  padding: 1.1rem 1.4rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  line-height: 1.5;
-  border-radius: 0.4rem;
-  box-shadow: var(--pa-detail-shadow);
-}
-.kpi-strip-detail[data-show] { visibility: visible; }
-.kpi-strip-detail-title {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--pa-detail-title);
-  margin-bottom: 0.6rem;
-}
-.kpi-strip-detail dl {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.35rem 1.6rem;
-  margin: 0;
-}
-.kpi-strip-detail dt { margin: 0; color: var(--pa-detail-row-label); font-weight: 400; }
-.kpi-strip-detail dd { margin: 0; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-.kpi-strip-detail .pos { color: var(--pa-positive); }
-.kpi-strip-detail .neg { color: var(--pa-negative); }
-.kpi-strip-detail .warn { color: var(--pa-warning); }
-</style>
 
 <!-- ============================================================
      Canonical full-width Numeric strip — wide-only, table-card style
      ============================================================ -->
 
-<div class="pa-card kpi-strip">
-    <div class="pa-card__header kpi-strip__header">
+<div class="pa-card pa-kpi-strip">
+    <div class="pa-card__header pa-kpi-header">
         <h3>Key Performance Indicators</h3>
-        <span class="kpi-strip__live"><span class="kpi-strip__livedot"></span>LIVE</span>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
     </div>
 
-    <div class="pa-card__body kpi-strip__body">
-        <div class="kpi-strip__head-row">
-            <div class="kpi-strip__head">Metric</div>
-            <div class="kpi-strip__head kpi-strip__head--num">Now</div>
-            <div class="kpi-strip__head kpi-strip__head--num">Prev</div>
-            <div class="kpi-strip__head kpi-strip__head--num">Δ%</div>
-            <div class="kpi-strip__head">vs Target</div>
+    <div class="pa-card__body pa-kpi-strip__body">
+        <div class="pa-kpi-strip__head-row">
+            <div class="pa-kpi-strip__head">Metric</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Prev</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
+            <div class="pa-kpi-strip__head">vs Target</div>
         </div>
 
-        <div class="kpi-strip__row">
-            <div class="kpi-strip__metric">Completion Rate</div>
-            <div class="kpi-strip__now"><span class="kpi-strip__num">87.1</span><span class="kpi-strip__unit">%</span></div>
-            <div class="kpi-strip__prev">84.2%</div>
-            <div class="kpi-strip__delta kpi-strip__delta--positive">+3.4%</div>
-            <div class="kpi-strip__target">
-                <div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 97%"></div></div>
-                <div class="kpi-strip__bar-pct">97%</div>
+        <div class="pa-kpi-strip__row">
+            <div class="pa-kpi-strip__metric">Completion Rate</div>
+            <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">87.1</span><span class="pa-kpi-strip__unit">%</span></div>
+            <div class="pa-kpi-strip__prev">84.2%</div>
+            <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+3.4%</div>
+            <div class="pa-kpi-strip__target">
+                <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 97%"></div></div>
+                <div class="pa-kpi-strip__bar-pct">97%</div>
             </div>
-            <div class="kpi-strip-detail" role="tooltip">
-                <div class="kpi-strip-detail-title">Completion Rate · 30D</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
                 <dl>
                     <dt>Current</dt><dd>87.1%</dd>
                     <dt>Previous</dt><dd>84.2%</dd>
@@ -290,17 +42,17 @@
             </div>
         </div>
 
-        <div class="kpi-strip__row">
-            <div class="kpi-strip__metric">Monthly Revenue</div>
-            <div class="kpi-strip__now"><span class="kpi-strip__unit">$</span><span class="kpi-strip__num">862</span><span class="kpi-strip__unit">K</span></div>
-            <div class="kpi-strip__prev">$752K</div>
-            <div class="kpi-strip__delta kpi-strip__delta--positive">+14.6%</div>
-            <div class="kpi-strip__target">
-                <div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 96%"></div></div>
-                <div class="kpi-strip__bar-pct">96%</div>
+        <div class="pa-kpi-strip__row">
+            <div class="pa-kpi-strip__metric">Monthly Revenue</div>
+            <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">$</span><span class="pa-kpi-strip__num">862</span><span class="pa-kpi-strip__unit">K</span></div>
+            <div class="pa-kpi-strip__prev">$752K</div>
+            <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+14.6%</div>
+            <div class="pa-kpi-strip__target">
+                <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 96%"></div></div>
+                <div class="pa-kpi-strip__bar-pct">96%</div>
             </div>
-            <div class="kpi-strip-detail" role="tooltip">
-                <div class="kpi-strip-detail-title">Monthly Revenue · 12MO</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
                 <dl>
                     <dt>Current</dt><dd>$862K</dd>
                     <dt>Previous</dt><dd>$752K</dd>
@@ -312,17 +64,17 @@
             </div>
         </div>
 
-        <div class="kpi-strip__row">
-            <div class="kpi-strip__metric">Server Temp</div>
-            <div class="kpi-strip__now"><span class="kpi-strip__num">24.7</span><span class="kpi-strip__unit">°C</span></div>
-            <div class="kpi-strip__prev">24.5°C</div>
-            <div class="kpi-strip__delta kpi-strip__delta--positive">+0.8%</div>
-            <div class="kpi-strip__target">
-                <div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 99%"></div></div>
-                <div class="kpi-strip__bar-pct">99%</div>
+        <div class="pa-kpi-strip__row">
+            <div class="pa-kpi-strip__metric">Server Temp</div>
+            <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">24.7</span><span class="pa-kpi-strip__unit">°C</span></div>
+            <div class="pa-kpi-strip__prev">24.5°C</div>
+            <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+0.8%</div>
+            <div class="pa-kpi-strip__target">
+                <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 99%"></div></div>
+                <div class="pa-kpi-strip__bar-pct">99%</div>
             </div>
-            <div class="kpi-strip-detail" role="tooltip">
-                <div class="kpi-strip-detail-title">Server Temp · 24H</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Server Temp · 24H</div>
                 <dl>
                     <dt>Current</dt><dd>24.7°C</dd>
                     <dt>Previous</dt><dd>24.5°C</dd>
@@ -333,17 +85,17 @@
             </div>
         </div>
 
-        <div class="kpi-strip__row">
-            <div class="kpi-strip__metric">Server Capacity</div>
-            <div class="kpi-strip__now"><span class="kpi-strip__num">86.1</span><span class="kpi-strip__unit">%</span></div>
-            <div class="kpi-strip__prev">71.0%</div>
-            <div class="kpi-strip__delta kpi-strip__delta--up-strong">+21.3%</div>
-            <div class="kpi-strip__target">
-                <div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 100%"></div></div>
-                <div class="kpi-strip__bar-pct">108%</div>
+        <div class="pa-kpi-strip__row">
+            <div class="pa-kpi-strip__metric">Server Capacity</div>
+            <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">86.1</span><span class="pa-kpi-strip__unit">%</span></div>
+            <div class="pa-kpi-strip__prev">71.0%</div>
+            <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">+21.3%</div>
+            <div class="pa-kpi-strip__target">
+                <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 100%"></div></div>
+                <div class="pa-kpi-strip__bar-pct">108%</div>
             </div>
-            <div class="kpi-strip-detail" role="tooltip">
-                <div class="kpi-strip-detail-title">Server Capacity · 7D</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
                 <dl>
                     <dt>Current</dt><dd>86.1%</dd>
                     <dt>Previous</dt><dd>71.0%</dd>
@@ -354,17 +106,17 @@
             </div>
         </div>
 
-        <div class="kpi-strip__row">
-            <div class="kpi-strip__metric">Error Rate</div>
-            <div class="kpi-strip__now"><span class="kpi-strip__num">0.27</span><span class="kpi-strip__unit">%</span></div>
-            <div class="kpi-strip__prev">0.41%</div>
-            <div class="kpi-strip__delta kpi-strip__delta--up-strong">-34.6%</div>
-            <div class="kpi-strip__target">
-                <div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 54%"></div></div>
-                <div class="kpi-strip__bar-pct">54%</div>
+        <div class="pa-kpi-strip__row">
+            <div class="pa-kpi-strip__metric">Error Rate</div>
+            <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">0.27</span><span class="pa-kpi-strip__unit">%</span></div>
+            <div class="pa-kpi-strip__prev">0.41%</div>
+            <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">-34.6%</div>
+            <div class="pa-kpi-strip__target">
+                <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 54%"></div></div>
+                <div class="pa-kpi-strip__bar-pct">54%</div>
             </div>
-            <div class="kpi-strip-detail" role="tooltip">
-                <div class="kpi-strip-detail-title">Error Rate · 24H</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Error Rate · 24H</div>
                 <dl>
                     <dt>Current</dt><dd>0.27%</dd>
                     <dt>Previous</dt><dd>0.41%</dd>
@@ -375,17 +127,17 @@
             </div>
         </div>
 
-        <div class="kpi-strip__row">
-            <div class="kpi-strip__metric">Tokyo Office</div>
-            <div class="kpi-strip__now"><span class="kpi-strip__unit">¥</span><span class="kpi-strip__num">12.2</span><span class="kpi-strip__unit">M</span></div>
-            <div class="kpi-strip__prev">¥11.2M</div>
-            <div class="kpi-strip__delta kpi-strip__delta--positive">+8.5%</div>
-            <div class="kpi-strip__target">
-                <div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 93%"></div></div>
-                <div class="kpi-strip__bar-pct">93%</div>
+        <div class="pa-kpi-strip__row">
+            <div class="pa-kpi-strip__metric">Tokyo Office</div>
+            <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">¥</span><span class="pa-kpi-strip__num">12.2</span><span class="pa-kpi-strip__unit">M</span></div>
+            <div class="pa-kpi-strip__prev">¥11.2M</div>
+            <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+8.5%</div>
+            <div class="pa-kpi-strip__target">
+                <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 93%"></div></div>
+                <div class="pa-kpi-strip__bar-pct">93%</div>
             </div>
-            <div class="kpi-strip-detail" role="tooltip">
-                <div class="kpi-strip-detail-title">Tokyo Office · 12MO</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
                 <dl>
                     <dt>Current</dt><dd>¥12.2M</dd>
                     <dt>Previous</dt><dd>¥11.2M</dd>
@@ -397,7 +149,7 @@
         </div>
     </div>
 
-    <div class="pa-card__footer kpi-strip__footer">
+    <div class="pa-card__footer pa-kpi-footer">
         <span><strong>Numeric strip · densest</strong> — Tabular: now / prev / Δ% / vs target. Most data per pixel.</span>
         <span>Hover any KPI for detail</span>
     </div>
@@ -416,143 +168,143 @@
 
 <div class="pa-row">
     <div class="pa-col-100 pa-col-md-25">
-        <div class="pa-card kpi-strip kpi-strip--no-prev">
-            <div class="pa-card__header kpi-strip__header">
+        <div class="pa-card pa-kpi-strip pa-kpi-strip--no-prev">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Revenue</h3>
-                <span class="kpi-strip__live"><span class="kpi-strip__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-strip__body">
-                <div class="kpi-strip__head-row">
-                    <div class="kpi-strip__head">Metric</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Now</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Δ%</div>
-                    <div class="kpi-strip__head">Target</div>
+            <div class="pa-card__body pa-kpi-strip__body">
+                <div class="pa-kpi-strip__head-row">
+                    <div class="pa-kpi-strip__head">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
+                    <div class="pa-kpi-strip__head">Target</div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">MRR</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__unit">$</span><span class="kpi-strip__num">862</span><span class="kpi-strip__unit">K</span></div>
-                    <div class="kpi-strip__delta kpi-strip__delta--positive">+14.6%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 96%"></div></div><div class="kpi-strip__bar-pct">96%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">MRR</div><dl><dt>Now</dt><dd>$862K</dd><dt>Δ</dt><dd class="pos">+14.6%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">MRR</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">$</span><span class="pa-kpi-strip__num">862</span><span class="pa-kpi-strip__unit">K</span></div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+14.6%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 96%"></div></div><div class="pa-kpi-strip__bar-pct">96%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">MRR</div><dl><dt>Now</dt><dd>$862K</dd><dt>Δ</dt><dd class="pos">+14.6%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Bookings</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__unit">€</span><span class="kpi-strip__num">2.4</span><span class="kpi-strip__unit">M</span></div>
-                    <div class="kpi-strip__delta kpi-strip__delta--up-strong">+18%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 92%"></div></div><div class="kpi-strip__bar-pct">92%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Bookings</div><dl><dt>Now</dt><dd>€2.4M</dd><dt>Δ</dt><dd class="pos">+18%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Bookings</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">€</span><span class="pa-kpi-strip__num">2.4</span><span class="pa-kpi-strip__unit">M</span></div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">+18%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 92%"></div></div><div class="pa-kpi-strip__bar-pct">92%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Bookings</div><dl><dt>Now</dt><dd>€2.4M</dd><dt>Δ</dt><dd class="pos">+18%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Convert</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">5.7</span><span class="kpi-strip__unit">%</span></div>
-                    <div class="kpi-strip__delta kpi-strip__delta--positive">+1.2%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 81%"></div></div><div class="kpi-strip__bar-pct">81%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Conversion</div><dl><dt>Now</dt><dd>5.7%</dd><dt>Δ</dt><dd class="pos">+1.2%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Convert</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">5.7</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+1.2%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 81%"></div></div><div class="pa-kpi-strip__bar-pct">81%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Conversion</div><dl><dt>Now</dt><dd>5.7%</dd><dt>Δ</dt><dd class="pos">+1.2%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Tokyo</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__unit">¥</span><span class="kpi-strip__num">12.2</span><span class="kpi-strip__unit">M</span></div>
-                    <div class="kpi-strip__delta kpi-strip__delta--positive">+8.5%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 93%"></div></div><div class="kpi-strip__bar-pct">93%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Tokyo</div><dl><dt>Now</dt><dd>¥12.2M</dd><dt>Δ</dt><dd class="pos">+8.5%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Tokyo</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">¥</span><span class="pa-kpi-strip__num">12.2</span><span class="pa-kpi-strip__unit">M</span></div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+8.5%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 93%"></div></div><div class="pa-kpi-strip__bar-pct">93%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Tokyo</div><dl><dt>Now</dt><dd>¥12.2M</dd><dt>Δ</dt><dd class="pos">+8.5%</dd></dl></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="pa-col-100 pa-col-md-35">
-        <div class="pa-card kpi-strip">
-            <div class="pa-card__header kpi-strip__header">
+        <div class="pa-card pa-kpi-strip">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Infrastructure</h3>
-                <span class="kpi-strip__live"><span class="kpi-strip__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-strip__body">
-                <div class="kpi-strip__head-row">
-                    <div class="kpi-strip__head">Metric</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Now</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Prev</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Δ%</div>
-                    <div class="kpi-strip__head">Target</div>
+            <div class="pa-card__body pa-kpi-strip__body">
+                <div class="pa-kpi-strip__head-row">
+                    <div class="pa-kpi-strip__head">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Prev</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
+                    <div class="pa-kpi-strip__head">Target</div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Server Temp</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">24.7</span><span class="kpi-strip__unit">°C</span></div>
-                    <div class="kpi-strip__prev">24.5°C</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--positive">+0.8%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 99%"></div></div><div class="kpi-strip__bar-pct">99%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Server Temp</div><dl><dt>Now</dt><dd>24.7°C</dd><dt>Δ</dt><dd class="pos">+0.8%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Server Temp</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">24.7</span><span class="pa-kpi-strip__unit">°C</span></div>
+                    <div class="pa-kpi-strip__prev">24.5°C</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+0.8%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 99%"></div></div><div class="pa-kpi-strip__bar-pct">99%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Server Temp</div><dl><dt>Now</dt><dd>24.7°C</dd><dt>Δ</dt><dd class="pos">+0.8%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Capacity</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">86.1</span><span class="kpi-strip__unit">%</span></div>
-                    <div class="kpi-strip__prev">71.0%</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--up-strong">+21.3%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 100%"></div></div><div class="kpi-strip__bar-pct">108%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Capacity</div><dl><dt>Now</dt><dd>86.1%</dd><dt>Δ</dt><dd class="pos">+21.3%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Capacity</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">86.1</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">71.0%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">+21.3%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 100%"></div></div><div class="pa-kpi-strip__bar-pct">108%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Capacity</div><dl><dt>Now</dt><dd>86.1%</dd><dt>Δ</dt><dd class="pos">+21.3%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Error Rate</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">0.27</span><span class="kpi-strip__unit">%</span></div>
-                    <div class="kpi-strip__prev">0.41%</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--up-strong">-34.6%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 54%"></div></div><div class="kpi-strip__bar-pct">54%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Error Rate</div><dl><dt>Now</dt><dd>0.27%</dd><dt>Δ</dt><dd class="pos">−34.6%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Error Rate</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">0.27</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">0.41%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">-34.6%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 54%"></div></div><div class="pa-kpi-strip__bar-pct">54%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Error Rate</div><dl><dt>Now</dt><dd>0.27%</dd><dt>Δ</dt><dd class="pos">−34.6%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Uptime</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">99.99</span><span class="kpi-strip__unit">%</span></div>
-                    <div class="kpi-strip__prev">99.95%</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--up-strong">+0.04%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 100%"></div></div><div class="kpi-strip__bar-pct">100%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Uptime</div><dl><dt>Now</dt><dd>99.99%</dd><dt>Δ</dt><dd class="pos">+0.04%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Uptime</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">99.99</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">99.95%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">+0.04%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 100%"></div></div><div class="pa-kpi-strip__bar-pct">100%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Uptime</div><dl><dt>Now</dt><dd>99.99%</dd><dt>Δ</dt><dd class="pos">+0.04%</dd></dl></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="pa-col-100 pa-col-md-40">
-        <div class="pa-card kpi-strip">
-            <div class="pa-card__header kpi-strip__header">
+        <div class="pa-card pa-kpi-strip">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Customer Health</h3>
-                <span class="kpi-strip__live"><span class="kpi-strip__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-strip__body">
-                <div class="kpi-strip__head-row">
-                    <div class="kpi-strip__head">Metric</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Now</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Prev</div>
-                    <div class="kpi-strip__head kpi-strip__head--num">Δ%</div>
-                    <div class="kpi-strip__head">Target</div>
+            <div class="pa-card__body pa-kpi-strip__body">
+                <div class="pa-kpi-strip__head-row">
+                    <div class="pa-kpi-strip__head">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Prev</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
+                    <div class="pa-kpi-strip__head">Target</div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">NPS</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">62</span></div>
-                    <div class="kpi-strip__prev">58</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--positive">+4</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 89%"></div></div><div class="kpi-strip__bar-pct">89%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">NPS</div><dl><dt>Now</dt><dd>62</dd><dt>Δ</dt><dd class="pos">+4</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">NPS</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">62</span></div>
+                    <div class="pa-kpi-strip__prev">58</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+4</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 89%"></div></div><div class="pa-kpi-strip__bar-pct">89%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">NPS</div><dl><dt>Now</dt><dd>62</dd><dt>Δ</dt><dd class="pos">+4</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">CSAT</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">94.1</span><span class="kpi-strip__unit">%</span></div>
-                    <div class="kpi-strip__prev">94.1%</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--neutral">±0.0%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 99%"></div></div><div class="kpi-strip__bar-pct">99%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">CSAT</div><dl><dt>Now</dt><dd>94.1%</dd><dt>Δ</dt><dd>±0.0%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">CSAT</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">94.1</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">94.1%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--neutral">±0.0%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 99%"></div></div><div class="pa-kpi-strip__bar-pct">99%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">CSAT</div><dl><dt>Now</dt><dd>94.1%</dd><dt>Δ</dt><dd>±0.0%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">DAU</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">42.7</span><span class="kpi-strip__unit">k</span></div>
-                    <div class="kpi-strip__prev">40.2k</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--positive">+6.2%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 95%"></div></div><div class="kpi-strip__bar-pct">95%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">DAU</div><dl><dt>Now</dt><dd>42.7k</dd><dt>Δ</dt><dd class="pos">+6.2%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">DAU</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">42.7</span><span class="pa-kpi-strip__unit">k</span></div>
+                    <div class="pa-kpi-strip__prev">40.2k</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+6.2%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 95%"></div></div><div class="pa-kpi-strip__bar-pct">95%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">DAU</div><dl><dt>Now</dt><dd>42.7k</dd><dt>Δ</dt><dd class="pos">+6.2%</dd></dl></div>
                 </div>
-                <div class="kpi-strip__row">
-                    <div class="kpi-strip__metric">Churn</div>
-                    <div class="kpi-strip__now"><span class="kpi-strip__num">3.1</span><span class="kpi-strip__unit">%</span></div>
-                    <div class="kpi-strip__prev">2.7%</div>
-                    <div class="kpi-strip__delta kpi-strip__delta--negative">+0.4%</div>
-                    <div class="kpi-strip__target"><div class="kpi-strip__bar"><div class="kpi-strip__fill" style="width: 100%"></div></div><div class="kpi-strip__bar-pct">124%</div></div>
-                    <div class="kpi-strip-detail" role="tooltip"><div class="kpi-strip-detail-title">Churn</div><dl><dt>Now</dt><dd>3.1%</dd><dt>Δ</dt><dd class="neg">+0.4%</dd></dl></div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Churn</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">3.1</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">2.7%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--negative">+0.4%</div>
+                    <div class="pa-kpi-strip__target"><div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 100%"></div></div><div class="pa-kpi-strip__bar-pct">124%</div></div>
+                    <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Churn</div><dl><dt>Now</dt><dd>3.1%</dd><dt>Δ</dt><dd class="neg">+0.4%</dd></dl></div>
                 </div>
             </div>
         </div>
@@ -574,16 +326,16 @@
         <p>This showcase has no responsive collapse. The narrow-card "stack each row into a mini-card" pattern was tried first but converged visually with the Comparison gauges showcase. For narrow page-grid placements (1×3 cards, 25% asymmetric cells) route to Comparison gauges instead. The 25/35/40 page-grid row demonstrates how cramped the columns get below the design's comfortable width — values can wrap or push past the column tracks. End-developer's call whether that's acceptable.</p>
 
         <h4 class="mt-4">Table-card mode</h4>
-        <p><code>.kpi-strip__body</code> applies <code>padding: 0</code> so each row's <code>border-top</code> divider extends edge-to-edge. The horizontal inset lives on each row (<code>padding: 1.1rem 1.6rem</code>), matching what would have been the body's inline padding. Reads as the card's content rather than a table sitting inside another panel.</p>
+        <p><code>.pa-kpi-strip__body</code> applies <code>padding: 0</code> so each row's <code>border-top</code> divider extends edge-to-edge. The horizontal inset lives on each row (<code>padding: 1.1rem 1.6rem</code>), matching what would have been the body's inline padding. Reads as the card's content rather than a table sitting inside another panel.</p>
 
         <h4 class="mt-4">Per-row grid (not subgrid)</h4>
-        <p>Each <code>.kpi-strip__row</code> is its own grid sharing the same column template. This gives per-row hover hosts (needed for the cursor-anchored detail popover) while keeping cells aligned across rows because every row uses identical <code>fr</code>-units. CSS subgrid would be more semantically accurate but would duplicate the same effective layout in more lines.</p>
+        <p>Each <code>.pa-kpi-strip__row</code> is its own grid sharing the same column template. This gives per-row hover hosts (needed for the cursor-anchored detail popover) while keeping cells aligned across rows because every row uses identical <code>fr</code>-units. CSS subgrid would be more semantically accurate but would duplicate the same effective layout in more lines.</p>
 
         <h4 class="mt-4">Bar + percent in the target column</h4>
         <p>The "vs target" column carries a tiny progress bar with the percent value pinned below it. Bar fill is theme-neutral grey via <code>color-mix(in srgb, var(--pa-text-color-1) 40%, transparent)</code>; the percent value (e.g. "97%" vs "108%" vs "54%") signals overshoot/undershoot, so colour reinforcement isn't needed. Bar is visually capped at 100% so over-target metrics read as "fully filled" rather than overflowing.</p>
 
         <h4 class="mt-4">--no-prev modifier</h4>
-        <p>Add <code>kpi-strip--no-prev</code> on the card root and omit the <code>.kpi-strip__prev</code> cells in the markup to drop to a 4-col layout (metric / now / Δ% / target). Useful when there isn't room for prev <em>and</em> now side-by-side — typical at narrow page-grid widths or in dense dashboards where prev is redundant with the Δ%.</p>
+        <p>Add <code>pa-kpi-strip--no-prev</code> on the card root and omit the <code>.pa-kpi-strip__prev</code> cells in the markup to drop to a 4-col layout (metric / now / Δ% / target). Useful when there isn't room for prev <em>and</em> now side-by-side — typical at narrow page-grid widths or in dense dashboards where prev is redundant with the Δ%.</p>
     </div>
 </div>
 
@@ -597,49 +349,49 @@
     <div class="pa-card__body">
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-strip</code> — page-namespace class on <code>.pa-card</code>.</li>
-            <li><code>kpi-strip--no-prev</code> — modifier dropping the prev column (4-col layout).</li>
-            <li><code>kpi-strip__header</code> — flex header with title + LIVE indicator.</li>
-            <li><code>kpi-strip__live</code> / <code>kpi-strip__livedot</code> — LIVE pill + animated dot.</li>
-            <li><code>kpi-strip__body</code> — applies <code>padding: 0</code> so dividers go edge-to-edge.</li>
-            <li><code>kpi-strip__footer</code> — flex footer caption.</li>
+            <li><code>pa-kpi-strip</code> — page-namespace class on <code>.pa-card</code>.</li>
+            <li><code>pa-kpi-strip--no-prev</code> — modifier dropping the prev column (4-col layout).</li>
+            <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
+            <li><code>pa-kpi-strip__body</code> — applies <code>padding: 0</code> so dividers go edge-to-edge.</li>
+            <li><code>pa-kpi-footer</code> — flex footer caption.</li>
         </ul>
 
         <h4 class="mt-4">Rows</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-strip__head-row</code> — header row (uppercase mono labels).</li>
-            <li><code>kpi-strip__row</code> — data row. Carries hover host for the cursor-anchored popover and per-row inline padding so dividers extend edge-to-edge.</li>
-            <li><code>kpi-strip__head</code> — header cell (uppercase mono, 42% contrast).</li>
-            <li><code>kpi-strip__head--num</code> — right-aligned variant (matches the right-aligned numeric cells below).</li>
+            <li><code>pa-kpi-strip__head-row</code> — header row (uppercase mono labels).</li>
+            <li><code>pa-kpi-strip__row</code> — data row. Carries hover host for the cursor-anchored popover and per-row inline padding so dividers extend edge-to-edge.</li>
+            <li><code>pa-kpi-strip__head</code> — header cell (uppercase mono, 42% contrast).</li>
+            <li><code>pa-kpi-strip__head--num</code> — right-aligned variant (matches the right-aligned numeric cells below).</li>
         </ul>
 
         <h4 class="mt-4">Row cells</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-strip__metric</code> — uppercase mono metric label (78% contrast, allowed to wrap to two lines).</li>
-            <li><code>kpi-strip__now</code> — focal "now" value (largest text in the row, right-aligned).</li>
-            <li><code>kpi-strip__num</code> / <code>kpi-strip__unit</code> — numeric + unit spans inside <code>__now</code>.</li>
-            <li><code>kpi-strip__prev</code> — previous-period value (lower contrast than __now).</li>
-            <li><code>kpi-strip__delta</code> — coloured Δ% value (right-aligned).</li>
-            <li><code>kpi-strip__target</code> — vertical stack: bar + percent below.</li>
-            <li><code>kpi-strip__bar</code> — progress track (0.5rem tall, theme-neutral background).</li>
-            <li><code>kpi-strip__fill</code> — bar fill. Width set inline per row via <code>style="width: X%"</code>.</li>
-            <li><code>kpi-strip__bar-pct</code> — percent label pinned below the bar's right edge.</li>
+            <li><code>pa-kpi-strip__metric</code> — uppercase mono metric label (78% contrast, allowed to wrap to two lines).</li>
+            <li><code>pa-kpi-strip__now</code> — focal "now" value (largest text in the row, right-aligned).</li>
+            <li><code>pa-kpi-strip__num</code> / <code>pa-kpi-strip__unit</code> — numeric + unit spans inside <code>__now</code>.</li>
+            <li><code>pa-kpi-strip__prev</code> — previous-period value (lower contrast than __now).</li>
+            <li><code>pa-kpi-strip__delta</code> — coloured Δ% value (right-aligned).</li>
+            <li><code>pa-kpi-strip__target</code> — vertical stack: bar + percent below.</li>
+            <li><code>pa-kpi-strip__bar</code> — progress track (0.5rem tall, theme-neutral background).</li>
+            <li><code>pa-kpi-strip__fill</code> — bar fill. Width set inline per row via <code>style="width: X%"</code>.</li>
+            <li><code>pa-kpi-strip__bar-pct</code> — percent label pinned below the bar's right edge.</li>
         </ul>
 
         <h4 class="mt-4">Delta sentiment modifiers</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-strip__delta--positive</code> — ordinary positive movement.</li>
-            <li><code>kpi-strip__delta--negative</code> — ordinary negative movement.</li>
-            <li><code>kpi-strip__delta--neutral</code> — no meaningful change.</li>
-            <li><code>kpi-strip__delta--up-strong</code> — outlier positive (deeper green).</li>
-            <li><code>kpi-strip__delta--down-strong</code> — outlier negative (deeper red).</li>
+            <li><code>pa-kpi-strip__delta--positive</code> — ordinary positive movement.</li>
+            <li><code>pa-kpi-strip__delta--negative</code> — ordinary negative movement.</li>
+            <li><code>pa-kpi-strip__delta--neutral</code> — no meaningful change.</li>
+            <li><code>pa-kpi-strip__delta--up-strong</code> — outlier positive (deeper green).</li>
+            <li><code>pa-kpi-strip__delta--down-strong</code> — outlier negative (deeper red).</li>
         </ul>
 
         <h4 class="mt-4">Hover detail popover</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-strip-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
-            <li><code>kpi-strip-detail-title</code> — uppercase mono header.</li>
-            <li><code>kpi-strip-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
+            <li><code>pa-kpi-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
+            <li><code>pa-kpi-detail__title</code> — uppercase mono header.</li>
+            <li><code>pa-kpi-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text.</li>
         </ul>
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
@@ -651,53 +403,4 @@
     </div>
 </div>
 
-<script>
-// Cursor-anchored hover detail popovers — same recipe as the other KPI showcases.
-document.addEventListener('DOMContentLoaded', function() {
-    if (!window.FloatingUIDOM) return;
-    const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
 
-    document.querySelectorAll('.kpi-strip__row').forEach(host => {
-        const detail = host.querySelector('.kpi-strip-detail');
-        if (!detail) return;
-        document.body.appendChild(detail);
-
-        let cursorX = 0, cursorY = 0;
-        const virtualEl = {
-            getBoundingClientRect() {
-                return {
-                    width: 0, height: 0,
-                    x: cursorX, y: cursorY,
-                    top: cursorY, left: cursorX,
-                    right: cursorX, bottom: cursorY
-                };
-            }
-        };
-
-        const reposition = () => {
-            computePosition(virtualEl, detail, {
-                strategy: 'fixed',
-                placement: 'top-start',
-                middleware: [offset(14), flip(), shift({ padding: 8 })]
-            }).then(({ x, y }) => {
-                Object.assign(detail.style, { left: `${x}px`, top: `${y}px` });
-            });
-        };
-
-        host.addEventListener('mouseenter', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            detail.setAttribute('data-show', '');
-            reposition();
-        });
-        host.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            reposition();
-        });
-        host.addEventListener('mouseleave', () => {
-            detail.removeAttribute('data-show');
-        });
-    });
-});
-</script>

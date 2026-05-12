@@ -1,248 +1,28 @@
 <p>"Editorial minimal" KPI indicator. <strong>Magazine-cover restraint</strong> — six KPIs in a 2×3 grid, hairline rules between cells, light-weight numerals, no charts, no pills, no decorations. The whole design's expressive energy goes into <em>one</em> thing: a generous, low-weight number that owns the cell. The label is a tiny uppercase mono caption above it; the delta and target sit beneath as a small meta row. Built for executive dashboards / weekly review pages where the operator wants to see "how are we doing" at a glance and read the supporting context only on hover. Renders as a <strong>table card</strong> (zero card-body padding, dividers go edge-to-edge to the card border).</p>
 
-<style>
-/* === Card chrome === */
-.kpi-edit__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.6rem;
-  flex-wrap: wrap;
-}
-.kpi-edit__live {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--pa-text-secondary);
-}
-.kpi-edit__livedot {
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  background: var(--pa-positive);
-  box-shadow: 0 0 6px var(--pa-positive);
-  animation: kpiPulse 1.6s ease-in-out infinite;
-}
-@keyframes kpiPulse { 50% { opacity: 0.35; } }
 
-/* Table-card mode: zero card-body padding so the hairline rules go
-   edge-to-edge. Each tile carries its own padding, and the 1px
-   gap-as-divider trick (below) handles the inter-tile rules. */
-.kpi-edit__body { padding: 0; }
-
-/* === Grid + hairline rules ===
-   Using `gap: 1px` over `background: var(--pa-border-color)` with each
-   tile painting `background: var(--pa-card-bg)` on top — this paints
-   single-pixel hairlines on every interior boundary (vertical *and*
-   horizontal) for free, without per-cell border bookkeeping or
-   double-border seams. The card's outer border supplies the perimeter
-   so the rules stop cleanly at the card edge.
-
-   Container query (not media query) so the 3-col layout adapts based on
-   the *card's* width, not the viewport — so the same markup collapses
-   to 2-col at 1×3 page-grid widths and 1-col inside narrow 25% cells,
-   while the canonical full-width card stays 3-col. */
-.kpi-edit__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--pa-border-color);
-  container-type: inline-size;
-}
-@container (max-width: 640px) {
-  .kpi-edit__grid { grid-template-columns: repeat(2, 1fr); }
-}
-@container (max-width: 360px) {
-  .kpi-edit__grid { grid-template-columns: 1fr; }
-}
-
-/* Modifier: force 2-col regardless of card width. For placements
-   where the host wants a deterministic 2×N layout (e.g. 4 tiles
-   shown as a clean 2×2) instead of relying on the container query
-   to land in the right bucket — viewport width varies enough that
-   "1/3 of the page" can be 400px or 800px depending on monitor
-   size, and a forced 2-col removes that ambiguity. Placed after
-   the container queries so it wins by source order. */
-.kpi-edit__grid--2col { grid-template-columns: repeat(2, 1fr); }
-
-/* Tile — generous padding (2.4rem) is the "editorial space" the design
-   leans on. Background paints over the grid's border-color background
-   to leave only 1px showing as the hairline. */
-.kpi-edit__tile {
-  background: var(--pa-card-bg);
-  padding: 2.4rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  position: relative;
-  min-width: 0; /* allow long values to wrap rather than overflow the column */
-}
-
-/* Label — uppercase mono, two-line allowance for "MONTHLY REVENUE" /
-   "SERVER CAPACITY". Low contrast so it stays a caption, not a heading. */
-.kpi-edit__label {
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
-  line-height: 1.3;
-}
-
-/* Value — the editorial signature.
-   - NOT mono. Mono fonts rarely have a true 200 weight; using the body
-     sans gives us proper thin glyphs that read as "editorial" rather
-     than "monospace at low contrast".
-   - font-weight: 200 (extra-light). 300 was tested first but didn't
-     read distinctly enough as "light" against the body's 400 default.
-   - clamp() lets the number shrink in narrow page-grid cells (25%
-     column) without manual breakpoints. Capped at 5.6rem so it doesn't
-     get absurd at very wide canonical widths. */
-.kpi-edit__value {
-  font-family: var(--base-font-family);
-  font-size: clamp(3.2rem, 18cqi, 5.6rem);
-  font-weight: 200;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--pa-text-color-1);
-  display: flex;
-  align-items: baseline;
-  gap: 0.2rem;
-  flex-wrap: wrap;
-}
-.kpi-edit__num {
-  font-weight: 200;
-  font-variant-numeric: tabular-nums;
-}
-.kpi-edit__unit {
-  font-size: 0.4em;
-  font-weight: 300;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
-  letter-spacing: 0;
-}
-
-/* Meta row — delta + target sit on a single line below the value.
-   Mono so the numbers tabulate; small so they read as supporting,
-   not as another headline. */
-.kpi-edit__meta {
-  display: flex;
-  align-items: baseline;
-  gap: 1.4rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.3rem;
-  line-height: 1.3;
-  flex-wrap: wrap;
-}
-.kpi-edit__delta {
-  font-weight: 700;
-  white-space: nowrap;
-  color: var(--pa-positive);
-}
-.kpi-edit__delta--positive    { color: var(--pa-positive); }
-.kpi-edit__delta--negative    { color: var(--pa-negative); }
-.kpi-edit__delta--neutral     { color: var(--pa-neutral); }
-.kpi-edit__delta--up-strong   { color: var(--pa-very-positive); }
-.kpi-edit__delta--down-strong { color: var(--pa-very-negative); }
-.kpi-edit__target {
-  font-weight: 500;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
-  white-space: nowrap;
-}
-.kpi-edit__target em {
-  font-style: normal;
-  color: color-mix(in srgb, var(--pa-text-color-1) 38%, transparent);
-  margin-right: 0.5rem;
-}
-
-/* Hover host — a faint wash over the whole tile so the cursor-anchored
-   popover has a clear "this tile" anchor. */
-.kpi-edit__tile:hover {
-  background: color-mix(in srgb, var(--pa-text-color-1) 4%, var(--pa-card-bg));
-}
-
-/* === Footer caption === */
-.kpi-edit__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  color: var(--pa-text-secondary);
-}
-.kpi-edit__footer strong {
-  color: var(--pa-text-color-1);
-  font-weight: 700;
-}
-
-/* === Hover detail popover (cursor-anchored, same recipe as elsewhere) === */
-.kpi-edit-detail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 9000;
-  min-width: 24rem;
-  max-width: 30rem;
-  background: var(--pa-detail-bg);
-  color: var(--pa-detail-text);
-  padding: 1.1rem 1.4rem;
-  font-family: var(--base-font-family-mono);
-  font-size: 1.2rem;
-  line-height: 1.5;
-  border-radius: 0.4rem;
-  box-shadow: var(--pa-detail-shadow);
-}
-.kpi-edit-detail[data-show] { visibility: visible; }
-.kpi-edit-detail-title {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--pa-detail-title);
-  margin-bottom: 0.6rem;
-}
-.kpi-edit-detail dl {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.35rem 1.6rem;
-  margin: 0;
-}
-.kpi-edit-detail dt { margin: 0; color: var(--pa-detail-row-label); font-weight: 400; }
-.kpi-edit-detail dd { margin: 0; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-.kpi-edit-detail .pos { color: var(--pa-positive); }
-.kpi-edit-detail .neg { color: var(--pa-negative); }
-.kpi-edit-detail .warn { color: var(--pa-warning); }
-</style>
 
 <!-- ============================================================
      Canonical full-width Editorial minimal — 3 cols × 2 rows
      ============================================================ -->
 
-<div class="pa-card kpi-edit">
-    <div class="pa-card__header kpi-edit__header">
+<div class="pa-card pa-kpi-edit">
+    <div class="pa-card__header pa-kpi-header">
         <h3>Key Performance Indicators</h3>
-        <span class="kpi-edit__live"><span class="kpi-edit__livedot"></span>LIVE</span>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
     </div>
 
-    <div class="pa-card__body kpi-edit__body">
-        <div class="kpi-edit__grid">
-            <div class="kpi-edit__tile">
-                <div class="kpi-edit__label">Completion<br>Rate</div>
-                <div class="kpi-edit__value"><span class="kpi-edit__num">86.9</span><span class="kpi-edit__unit">%</span></div>
-                <div class="kpi-edit__meta">
-                    <span class="kpi-edit__delta kpi-edit__delta--positive">+3.3%</span>
-                    <span class="kpi-edit__target"><em>tgt</em>90.0%</span>
+    <div class="pa-card__body pa-kpi-edit__body">
+        <div class="pa-kpi-edit__grid">
+            <div class="pa-kpi-edit__tile">
+                <div class="pa-kpi-edit__label">Completion<br>Rate</div>
+                <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">86.9</span><span class="pa-kpi-edit__unit">%</span></div>
+                <div class="pa-kpi-edit__meta">
+                    <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+3.3%</span>
+                    <span class="pa-kpi-edit__target"><em>tgt</em>90.0%</span>
                 </div>
-                <div class="kpi-edit-detail" role="tooltip">
-                    <div class="kpi-edit-detail-title">Completion Rate · 30D</div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
                     <dl>
                         <dt>Current</dt><dd>86.9%</dd>
                         <dt>Previous</dt><dd>84.1%</dd>
@@ -253,15 +33,15 @@
                 </div>
             </div>
 
-            <div class="kpi-edit__tile">
-                <div class="kpi-edit__label">Monthly<br>Revenue</div>
-                <div class="kpi-edit__value"><span class="kpi-edit__unit">$</span><span class="kpi-edit__num">871</span><span class="kpi-edit__unit">K</span></div>
-                <div class="kpi-edit__meta">
-                    <span class="kpi-edit__delta kpi-edit__delta--up-strong">+15.8%</span>
-                    <span class="kpi-edit__target"><em>tgt</em>$900K</span>
+            <div class="pa-kpi-edit__tile">
+                <div class="pa-kpi-edit__label">Monthly<br>Revenue</div>
+                <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__unit">$</span><span class="pa-kpi-edit__num">871</span><span class="pa-kpi-edit__unit">K</span></div>
+                <div class="pa-kpi-edit__meta">
+                    <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+15.8%</span>
+                    <span class="pa-kpi-edit__target"><em>tgt</em>$900K</span>
                 </div>
-                <div class="kpi-edit-detail" role="tooltip">
-                    <div class="kpi-edit-detail-title">Monthly Revenue · 12MO</div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
                     <dl>
                         <dt>Current</dt><dd>$871K</dd>
                         <dt>Previous</dt><dd>$752K</dd>
@@ -273,15 +53,15 @@
                 </div>
             </div>
 
-            <div class="kpi-edit__tile">
-                <div class="kpi-edit__label">Server<br>Temp</div>
-                <div class="kpi-edit__value"><span class="kpi-edit__num">25.0</span><span class="kpi-edit__unit">°C</span></div>
-                <div class="kpi-edit__meta">
-                    <span class="kpi-edit__delta kpi-edit__delta--positive">+1.9%</span>
-                    <span class="kpi-edit__target"><em>tgt</em>25.0°C</span>
+            <div class="pa-kpi-edit__tile">
+                <div class="pa-kpi-edit__label">Server<br>Temp</div>
+                <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">25.0</span><span class="pa-kpi-edit__unit">°C</span></div>
+                <div class="pa-kpi-edit__meta">
+                    <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+1.9%</span>
+                    <span class="pa-kpi-edit__target"><em>tgt</em>25.0°C</span>
                 </div>
-                <div class="kpi-edit-detail" role="tooltip">
-                    <div class="kpi-edit-detail-title">Server Temp · 24H</div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Temp · 24H</div>
                     <dl>
                         <dt>Current</dt><dd>25.0°C</dd>
                         <dt>Previous</dt><dd>24.5°C</dd>
@@ -292,15 +72,15 @@
                 </div>
             </div>
 
-            <div class="kpi-edit__tile">
-                <div class="kpi-edit__label">Server<br>Capacity</div>
-                <div class="kpi-edit__value"><span class="kpi-edit__num">86.8</span><span class="kpi-edit__unit">%</span></div>
-                <div class="kpi-edit__meta">
-                    <span class="kpi-edit__delta kpi-edit__delta--up-strong">+22.2%</span>
-                    <span class="kpi-edit__target"><em>tgt</em>80.0%</span>
+            <div class="pa-kpi-edit__tile">
+                <div class="pa-kpi-edit__label">Server<br>Capacity</div>
+                <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">86.8</span><span class="pa-kpi-edit__unit">%</span></div>
+                <div class="pa-kpi-edit__meta">
+                    <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+22.2%</span>
+                    <span class="pa-kpi-edit__target"><em>tgt</em>80.0%</span>
                 </div>
-                <div class="kpi-edit-detail" role="tooltip">
-                    <div class="kpi-edit-detail-title">Server Capacity · 7D</div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
                     <dl>
                         <dt>Current</dt><dd>86.8%</dd>
                         <dt>Previous</dt><dd>71.0%</dd>
@@ -311,15 +91,15 @@
                 </div>
             </div>
 
-            <div class="kpi-edit__tile">
-                <div class="kpi-edit__label">Error<br>Rate</div>
-                <div class="kpi-edit__value"><span class="kpi-edit__num">0.28</span><span class="kpi-edit__unit">%</span></div>
-                <div class="kpi-edit__meta">
-                    <span class="kpi-edit__delta kpi-edit__delta--up-strong">-32.6%</span>
-                    <span class="kpi-edit__target"><em>tgt</em>0.50%</span>
+            <div class="pa-kpi-edit__tile">
+                <div class="pa-kpi-edit__label">Error<br>Rate</div>
+                <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">0.28</span><span class="pa-kpi-edit__unit">%</span></div>
+                <div class="pa-kpi-edit__meta">
+                    <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">-32.6%</span>
+                    <span class="pa-kpi-edit__target"><em>tgt</em>0.50%</span>
                 </div>
-                <div class="kpi-edit-detail" role="tooltip">
-                    <div class="kpi-edit-detail-title">Error Rate · 24H</div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
                     <dl>
                         <dt>Current</dt><dd>0.28%</dd>
                         <dt>Previous</dt><dd>0.42%</dd>
@@ -330,15 +110,15 @@
                 </div>
             </div>
 
-            <div class="kpi-edit__tile">
-                <div class="kpi-edit__label">Tokyo<br>Office</div>
-                <div class="kpi-edit__value"><span class="kpi-edit__unit">¥</span><span class="kpi-edit__num">12.1</span><span class="kpi-edit__unit">M</span></div>
-                <div class="kpi-edit__meta">
-                    <span class="kpi-edit__delta kpi-edit__delta--positive">+8.5%</span>
-                    <span class="kpi-edit__target"><em>tgt</em>¥13.0M</span>
+            <div class="pa-kpi-edit__tile">
+                <div class="pa-kpi-edit__label">Tokyo<br>Office</div>
+                <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__unit">¥</span><span class="pa-kpi-edit__num">12.1</span><span class="pa-kpi-edit__unit">M</span></div>
+                <div class="pa-kpi-edit__meta">
+                    <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+8.5%</span>
+                    <span class="pa-kpi-edit__target"><em>tgt</em>¥13.0M</span>
                 </div>
-                <div class="kpi-edit-detail" role="tooltip">
-                    <div class="kpi-edit-detail-title">Tokyo Office · 12MO</div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
                     <dl>
                         <dt>Current</dt><dd>¥12.1M</dd>
                         <dt>Previous</dt><dd>¥11.2M</dd>
@@ -351,7 +131,7 @@
         </div>
     </div>
 
-    <div class="pa-card__footer kpi-edit__footer">
+    <div class="pa-card__footer pa-kpi-footer">
         <span><strong>Editorial minimal</strong> — Light type, generous space, hairline rules. Editorial.</span>
         <span>Hover any KPI for detail</span>
     </div>
@@ -367,48 +147,48 @@
 
 <div class="pa-row">
     <div class="pa-col-100 pa-col-md-1-3">
-        <div class="pa-card kpi-edit">
-            <div class="pa-card__header kpi-edit__header">
+        <div class="pa-card pa-kpi-edit">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Performance</h3>
-                <span class="kpi-edit__live"><span class="kpi-edit__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-edit__body">
-                <div class="kpi-edit__grid kpi-edit__grid--2col">
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Completion<br>Rate</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">86.9</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+3.3%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>90.0%</span>
+            <div class="pa-card__body pa-kpi-edit__body">
+                <div class="pa-kpi-edit__grid pa-kpi-edit__grid--2col">
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Completion<br>Rate</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">86.9</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+3.3%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>90.0%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Completion Rate</div><dl><dt>Now</dt><dd>86.9%</dd><dt>Δ</dt><dd class="pos">+3.3%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Completion Rate</div><dl><dt>Now</dt><dd>86.9%</dd><dt>Δ</dt><dd class="pos">+3.3%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Error Rate</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">0.28</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--up-strong">-32.6%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>0.50%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Error Rate</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">0.28</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">-32.6%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>0.50%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Error Rate</div><dl><dt>Now</dt><dd>0.28%</dd><dt>Δ</dt><dd class="pos">−32.6%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Error Rate</div><dl><dt>Now</dt><dd>0.28%</dd><dt>Δ</dt><dd class="pos">−32.6%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Capacity</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">86.8</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--up-strong">+22.2%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>80.0%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Capacity</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">86.8</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+22.2%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>80.0%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Capacity</div><dl><dt>Now</dt><dd>86.8%</dd><dt>Δ</dt><dd class="pos">+22.2%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Capacity</div><dl><dt>Now</dt><dd>86.8%</dd><dt>Δ</dt><dd class="pos">+22.2%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Latency</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">142</span><span class="kpi-edit__unit">ms</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--negative">+8.0%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>120ms</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Latency</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">142</span><span class="pa-kpi-edit__unit">ms</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--negative">+8.0%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>120ms</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Latency</div><dl><dt>Now</dt><dd>142ms</dd><dt>Δ</dt><dd class="neg">+8.0%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Latency</div><dl><dt>Now</dt><dd>142ms</dd><dt>Δ</dt><dd class="neg">+8.0%</dd></dl></div>
                     </div>
                 </div>
             </div>
@@ -416,48 +196,48 @@
     </div>
 
     <div class="pa-col-100 pa-col-md-1-3">
-        <div class="pa-card kpi-edit">
-            <div class="pa-card__header kpi-edit__header">
+        <div class="pa-card pa-kpi-edit">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Revenue</h3>
-                <span class="kpi-edit__live"><span class="kpi-edit__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-edit__body">
-                <div class="kpi-edit__grid kpi-edit__grid--2col">
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">MRR</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__unit">$</span><span class="kpi-edit__num">871</span><span class="kpi-edit__unit">K</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--up-strong">+15.8%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>$900K</span>
+            <div class="pa-card__body pa-kpi-edit__body">
+                <div class="pa-kpi-edit__grid pa-kpi-edit__grid--2col">
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">MRR</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__unit">$</span><span class="pa-kpi-edit__num">871</span><span class="pa-kpi-edit__unit">K</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+15.8%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>$900K</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">MRR</div><dl><dt>Now</dt><dd>$871K</dd><dt>Δ</dt><dd class="pos">+15.8%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">MRR</div><dl><dt>Now</dt><dd>$871K</dd><dt>Δ</dt><dd class="pos">+15.8%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Bookings</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__unit">€</span><span class="kpi-edit__num">2.4</span><span class="kpi-edit__unit">M</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--up-strong">+18.0%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>€2.6M</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Bookings</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__unit">€</span><span class="pa-kpi-edit__num">2.4</span><span class="pa-kpi-edit__unit">M</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+18.0%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>€2.6M</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Bookings</div><dl><dt>Now</dt><dd>€2.4M</dd><dt>Δ</dt><dd class="pos">+18.0%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Bookings</div><dl><dt>Now</dt><dd>€2.4M</dd><dt>Δ</dt><dd class="pos">+18.0%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Convert</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">5.7</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+1.2%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>7.0%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Convert</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">5.7</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+1.2%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>7.0%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Conversion</div><dl><dt>Now</dt><dd>5.7%</dd><dt>Δ</dt><dd class="pos">+1.2%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Conversion</div><dl><dt>Now</dt><dd>5.7%</dd><dt>Δ</dt><dd class="pos">+1.2%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">CAC</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__unit">$</span><span class="kpi-edit__num">312</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">-4.5%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>$300</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">CAC</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__unit">$</span><span class="pa-kpi-edit__num">312</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">-4.5%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>$300</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">CAC</div><dl><dt>Now</dt><dd>$312</dd><dt>Δ</dt><dd class="pos">−4.5%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">CAC</div><dl><dt>Now</dt><dd>$312</dd><dt>Δ</dt><dd class="pos">−4.5%</dd></dl></div>
                     </div>
                 </div>
             </div>
@@ -465,48 +245,48 @@
     </div>
 
     <div class="pa-col-100 pa-col-md-1-3">
-        <div class="pa-card kpi-edit">
-            <div class="pa-card__header kpi-edit__header">
+        <div class="pa-card pa-kpi-edit">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Customer</h3>
-                <span class="kpi-edit__live"><span class="kpi-edit__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-edit__body">
-                <div class="kpi-edit__grid kpi-edit__grid--2col">
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">NPS</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">62</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+4.0</span>
-                            <span class="kpi-edit__target"><em>tgt</em>65</span>
+            <div class="pa-card__body pa-kpi-edit__body">
+                <div class="pa-kpi-edit__grid pa-kpi-edit__grid--2col">
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">NPS</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">62</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+4.0</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>65</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">NPS</div><dl><dt>Now</dt><dd>62</dd><dt>Δ</dt><dd class="pos">+4.0</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">NPS</div><dl><dt>Now</dt><dd>62</dd><dt>Δ</dt><dd class="pos">+4.0</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">CSAT</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">4.7</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--neutral">±0.0</span>
-                            <span class="kpi-edit__target"><em>tgt</em>4.8</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">CSAT</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">4.7</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--neutral">±0.0</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>4.8</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">CSAT</div><dl><dt>Now</dt><dd>4.7</dd><dt>Δ</dt><dd>±0.0</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">CSAT</div><dl><dt>Now</dt><dd>4.7</dd><dt>Δ</dt><dd>±0.0</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">DAU</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">42.7</span><span class="kpi-edit__unit">k</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+6.2%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>45k</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">DAU</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">42.7</span><span class="pa-kpi-edit__unit">k</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+6.2%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>45k</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">DAU</div><dl><dt>Now</dt><dd>42.7k</dd><dt>Δ</dt><dd class="pos">+6.2%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">DAU</div><dl><dt>Now</dt><dd>42.7k</dd><dt>Δ</dt><dd class="pos">+6.2%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Churn</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">3.1</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--negative">+0.4%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>2.5%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Churn</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">3.1</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--negative">+0.4%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>2.5%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Churn</div><dl><dt>Now</dt><dd>3.1%</dd><dt>Δ</dt><dd class="neg">+0.4%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Churn</div><dl><dt>Now</dt><dd>3.1%</dd><dt>Δ</dt><dd class="neg">+0.4%</dd></dl></div>
                     </div>
                 </div>
             </div>
@@ -526,30 +306,30 @@
 
 <div class="pa-row">
     <div class="pa-col-100 pa-col-md-25">
-        <div class="pa-card kpi-edit">
-            <div class="pa-card__header kpi-edit__header">
+        <div class="pa-card pa-kpi-edit">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Top line</h3>
-                <span class="kpi-edit__live"><span class="kpi-edit__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-edit__body">
-                <div class="kpi-edit__grid kpi-edit__grid--2col">
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Revenue</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__unit">$</span><span class="kpi-edit__num">871</span><span class="kpi-edit__unit">K</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--up-strong">+15.8%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>$900K</span>
+            <div class="pa-card__body pa-kpi-edit__body">
+                <div class="pa-kpi-edit__grid pa-kpi-edit__grid--2col">
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Revenue</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__unit">$</span><span class="pa-kpi-edit__num">871</span><span class="pa-kpi-edit__unit">K</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+15.8%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>$900K</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Revenue</div><dl><dt>Now</dt><dd>$871K</dd><dt>Δ</dt><dd class="pos">+15.8%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Revenue</div><dl><dt>Now</dt><dd>$871K</dd><dt>Δ</dt><dd class="pos">+15.8%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Convert</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">5.7</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+1.2%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>7.0%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Convert</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">5.7</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+1.2%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>7.0%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Conversion</div><dl><dt>Now</dt><dd>5.7%</dd><dt>Δ</dt><dd class="pos">+1.2%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Conversion</div><dl><dt>Now</dt><dd>5.7%</dd><dt>Δ</dt><dd class="pos">+1.2%</dd></dl></div>
                     </div>
                 </div>
             </div>
@@ -557,66 +337,66 @@
     </div>
 
     <div class="pa-col-100 pa-col-md-45">
-        <div class="pa-card kpi-edit">
-            <div class="pa-card__header kpi-edit__header">
+        <div class="pa-card pa-kpi-edit">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Operations</h3>
-                <span class="kpi-edit__live"><span class="kpi-edit__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-edit__body">
-                <div class="kpi-edit__grid">
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Capacity</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">86.8</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--up-strong">+22.2%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>80.0%</span>
+            <div class="pa-card__body pa-kpi-edit__body">
+                <div class="pa-kpi-edit__grid">
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Capacity</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">86.8</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+22.2%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>80.0%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Capacity</div><dl><dt>Now</dt><dd>86.8%</dd><dt>Δ</dt><dd class="pos">+22.2%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Capacity</div><dl><dt>Now</dt><dd>86.8%</dd><dt>Δ</dt><dd class="pos">+22.2%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Errors</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">0.28</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--up-strong">-32.6%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>0.50%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Errors</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">0.28</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">-32.6%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>0.50%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Errors</div><dl><dt>Now</dt><dd>0.28%</dd><dt>Δ</dt><dd class="pos">−32.6%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Errors</div><dl><dt>Now</dt><dd>0.28%</dd><dt>Δ</dt><dd class="pos">−32.6%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Latency</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">142</span><span class="kpi-edit__unit">ms</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--negative">+8.0%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>120ms</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Latency</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">142</span><span class="pa-kpi-edit__unit">ms</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--negative">+8.0%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>120ms</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Latency</div><dl><dt>Now</dt><dd>142ms</dd><dt>Δ</dt><dd class="neg">+8.0%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Latency</div><dl><dt>Now</dt><dd>142ms</dd><dt>Δ</dt><dd class="neg">+8.0%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Uptime</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">99.97</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--neutral">±0.00</span>
-                            <span class="kpi-edit__target"><em>tgt</em>99.95%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Uptime</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">99.97</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--neutral">±0.00</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>99.95%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Uptime</div><dl><dt>Now</dt><dd>99.97%</dd><dt>Δ</dt><dd>±0.00</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Uptime</div><dl><dt>Now</dt><dd>99.97%</dd><dt>Δ</dt><dd>±0.00</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Throughput</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">8.4</span><span class="kpi-edit__unit">k/s</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+11.2%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>9k/s</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Throughput</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">8.4</span><span class="pa-kpi-edit__unit">k/s</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+11.2%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>9k/s</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Throughput</div><dl><dt>Now</dt><dd>8.4k/s</dd><dt>Δ</dt><dd class="pos">+11.2%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Throughput</div><dl><dt>Now</dt><dd>8.4k/s</dd><dt>Δ</dt><dd class="pos">+11.2%</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">Memory</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">62.4</span><span class="kpi-edit__unit">%</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--neutral">+0.6%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>70%</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">Memory</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">62.4</span><span class="pa-kpi-edit__unit">%</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--neutral">+0.6%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>70%</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">Memory</div><dl><dt>Now</dt><dd>62.4%</dd><dt>Δ</dt><dd>+0.6%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">Memory</div><dl><dt>Now</dt><dd>62.4%</dd><dt>Δ</dt><dd>+0.6%</dd></dl></div>
                     </div>
                 </div>
             </div>
@@ -624,30 +404,30 @@
     </div>
 
     <div class="pa-col-100 pa-col-md-30">
-        <div class="pa-card kpi-edit">
-            <div class="pa-card__header kpi-edit__header">
+        <div class="pa-card pa-kpi-edit">
+            <div class="pa-card__header pa-kpi-header">
                 <h3>Customer</h3>
-                <span class="kpi-edit__live"><span class="kpi-edit__livedot"></span>LIVE</span>
+                <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
             </div>
-            <div class="pa-card__body kpi-edit__body">
-                <div class="kpi-edit__grid kpi-edit__grid--2col">
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">NPS</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">62</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+4.0</span>
-                            <span class="kpi-edit__target"><em>tgt</em>65</span>
+            <div class="pa-card__body pa-kpi-edit__body">
+                <div class="pa-kpi-edit__grid pa-kpi-edit__grid--2col">
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">NPS</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">62</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+4.0</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>65</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">NPS</div><dl><dt>Now</dt><dd>62</dd><dt>Δ</dt><dd class="pos">+4.0</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">NPS</div><dl><dt>Now</dt><dd>62</dd><dt>Δ</dt><dd class="pos">+4.0</dd></dl></div>
                     </div>
-                    <div class="kpi-edit__tile">
-                        <div class="kpi-edit__label">DAU</div>
-                        <div class="kpi-edit__value"><span class="kpi-edit__num">42.7</span><span class="kpi-edit__unit">k</span></div>
-                        <div class="kpi-edit__meta">
-                            <span class="kpi-edit__delta kpi-edit__delta--positive">+6.2%</span>
-                            <span class="kpi-edit__target"><em>tgt</em>45k</span>
+                    <div class="pa-kpi-edit__tile">
+                        <div class="pa-kpi-edit__label">DAU</div>
+                        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">42.7</span><span class="pa-kpi-edit__unit">k</span></div>
+                        <div class="pa-kpi-edit__meta">
+                            <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+6.2%</span>
+                            <span class="pa-kpi-edit__target"><em>tgt</em>45k</span>
                         </div>
-                        <div class="kpi-edit-detail" role="tooltip"><div class="kpi-edit-detail-title">DAU</div><dl><dt>Now</dt><dd>42.7k</dd><dt>Δ</dt><dd class="pos">+6.2%</dd></dl></div>
+                        <div class="pa-kpi-detail" role="tooltip"><div class="pa-kpi-detail__title">DAU</div><dl><dt>Now</dt><dd>42.7k</dd><dt>Δ</dt><dd class="pos">+6.2%</dd></dl></div>
                     </div>
                 </div>
             </div>
@@ -667,24 +447,24 @@
         <p>Executive dashboards / weekly review pages. The design's identity is restraint — one big light-weight number per tile, hairline rules, generous space, no chart chrome. Best when the operator wants "how are we doing" at a glance and reads the supporting context only on hover. If you need sparklines, status pills, or trend indication directly in the tile, pick a different showcase.</p>
 
         <h4 class="mt-4">Hairline rules</h4>
-        <p>Dividers between cells are painted by <code>gap: 1px</code> on <code>.kpi-edit__grid</code> over a <code>background: var(--pa-border-color)</code>; each tile paints <code>--pa-card-bg</code> over its own area. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. The card's outer border supplies the perimeter — render the card with <code>.kpi-edit__body</code> at zero padding (table-card mode) so the rules go edge-to-edge.</p>
+        <p>Dividers between cells are painted by <code>gap: 1px</code> on <code>.pa-kpi-edit__grid</code> over a <code>background: var(--pa-border-color)</code>; each tile paints <code>--pa-card-bg</code> over its own area. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. The card's outer border supplies the perimeter — render the card with <code>.pa-kpi-edit__body</code> at zero padding (table-card mode) so the rules go edge-to-edge.</p>
 
         <h4 class="mt-4">Picking the column count</h4>
-        <p>Default is 3-col with container queries collapsing to 2-col under 640px and 1-col under 360px. Add <code>kpi-edit__grid--2col</code> to force 2-col regardless of card width — useful when "1/3 of the page" varies enough across viewport widths that the breakpoint can't reliably catch the right bucket. Keep tile count a multiple of column count to avoid orphan rows.</p>
+        <p>Default is 3-col with container queries collapsing to 2-col under 640px and 1-col under 360px. Add <code>pa-kpi-edit__grid--2col</code> to force 2-col regardless of card width — useful when "1/3 of the page" varies enough across viewport widths that the breakpoint can't reliably catch the right bucket. Keep tile count a multiple of column count to avoid orphan rows.</p>
 
         <h4 class="mt-4">Authoring contract</h4>
         <ul>
             <li>Pick the column count (default 3-col, or <code>--2col</code>).</li>
             <li>Drop tiles in reading order — CSS Grid auto-flow handles row/column placement.</li>
-            <li>Each tile carries its own <code>.kpi-edit-detail</code> popover; the script moves it to <code>&lt;body&gt;</code> on init and anchors it to the cursor on hover.</li>
-            <li>Use <code>.kpi-edit__delta--{positive | negative | neutral | up-strong | down-strong}</code> on the delta to colour-code sentiment from the shared <code>--kpi-*</code> token surface.</li>
+            <li>Each tile carries its own <code>.pa-kpi-detail</code> popover; the script moves it to <code>&lt;body&gt;</code> on init and anchors it to the cursor on hover.</li>
+            <li>Use <code>.pa-kpi-edit__delta--{positive | negative | neutral | up-strong | down-strong}</code> on the delta to colour-code sentiment from the shared <code>--kpi-*</code> token surface.</li>
         </ul>
 
         <h4 class="mt-4">Light-weight typography</h4>
         <p>The headline value uses the body sans at <code>font-weight: 200</code>, not mono — mono fonts rarely ship a true thin weight, and the design's identity is the editorial thin numeral. Tabular numerals are preserved via <code>font-variant-numeric: tabular-nums</code> so column-aligned values still line up. Size is container-relative via <code>clamp(3.2rem, 18cqi, 5.6rem)</code> so the same markup shrinks gracefully into 25% page-grid cells without manual breakpoints.</p>
 
         <h4 class="mt-4">Hover detail popover</h4>
-        <p>Cursor-anchored via Floating UI's <code>computePosition</code> + a virtual reference element built from <code>e.clientX/clientY</code>. <code>position: fixed</code> + <code>strategy: 'fixed'</code> because cursor coords are viewport-relative; <code>pointer-events: none</code> so the cursor passes through to the tile (no oscillation). Each <code>.kpi-edit-detail</code> is moved to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>.</p>
+        <p>Cursor-anchored via Floating UI's <code>computePosition</code> + a virtual reference element built from <code>e.clientX/clientY</code>. <code>position: fixed</code> + <code>strategy: 'fixed'</code> because cursor coords are viewport-relative; <code>pointer-events: none</code> so the cursor passes through to the tile (no oscillation). Each <code>.pa-kpi-detail</code> is moved to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>.</p>
     </div>
 </div>
 
@@ -698,46 +478,46 @@
     <div class="pa-card__body">
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-edit</code> — page-namespace class on <code>.pa-card</code>. Optional anchor for theme-scoped overrides.</li>
-            <li><code>kpi-edit__header</code> — flex header with title + LIVE indicator.</li>
-            <li><code>kpi-edit__live</code> — LIVE pill (mono caps + animated dot).</li>
-            <li><code>kpi-edit__livedot</code> — pulsing dot inside the LIVE pill.</li>
-            <li><code>kpi-edit__body</code> — applies <code>padding: 0</code> to <code>.pa-card__body</code> so dividers go edge-to-edge.</li>
-            <li><code>kpi-edit__footer</code> — flex footer caption + "Hover any KPI for detail" hint.</li>
+            <li><code>pa-kpi-edit</code> — page-namespace class on <code>.pa-card</code>. Optional anchor for theme-scoped overrides.</li>
+            <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
+            <li><code>pa-kpi-live</code> — LIVE pill (mono caps + animated dot).</li>
+            <li><code>pa-kpi-live__dot</code> — pulsing dot inside the LIVE pill.</li>
+            <li><code>pa-kpi-edit__body</code> — applies <code>padding: 0</code> to <code>.pa-card__body</code> so dividers go edge-to-edge.</li>
+            <li><code>pa-kpi-footer</code> — flex footer caption + "Hover any KPI for detail" hint.</li>
         </ul>
 
         <h4 class="mt-4">Grid + tiles</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-edit__grid</code> — grid container (<code>display: grid</code>, default <code>repeat(3, 1fr)</code>, <code>gap: 1px</code> over <code>--pa-border-color</code> background).</li>
-            <li><code>kpi-edit__grid--2col</code> — modifier forcing <code>grid-template-columns: repeat(2, 1fr)</code> regardless of card width.</li>
-            <li><code>kpi-edit__tile</code> — single KPI cell (<code>2.4rem 2rem</code> padding, <code>--pa-card-bg</code> over the grid background).</li>
+            <li><code>pa-kpi-edit__grid</code> — grid container (<code>display: grid</code>, default <code>repeat(3, 1fr)</code>, <code>gap: 1px</code> over <code>--pa-border-color</code> background).</li>
+            <li><code>pa-kpi-edit__grid--2col</code> — modifier forcing <code>grid-template-columns: repeat(2, 1fr)</code> regardless of card width.</li>
+            <li><code>pa-kpi-edit__tile</code> — single KPI cell (<code>2.4rem 2rem</code> padding, <code>--pa-card-bg</code> over the grid background).</li>
         </ul>
 
         <h4 class="mt-4">Tile content</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-edit__label</code> — uppercase mono caption (50% contrast, allowed to wrap).</li>
-            <li><code>kpi-edit__value</code> — headline number row (body sans, <code>font-weight: 200</code>, <code>clamp(3.2rem, 18cqi, 5.6rem)</code>).</li>
-            <li><code>kpi-edit__num</code> — numeric span inside <code>__value</code> (tabular nums).</li>
-            <li><code>kpi-edit__unit</code> — currency / percent / unit span (40% size, dim).</li>
-            <li><code>kpi-edit__meta</code> — flex row carrying delta + target.</li>
-            <li><code>kpi-edit__delta</code> — coloured delta number.</li>
-            <li><code>kpi-edit__target</code> — dim "tgt {value}" pair; <code>em</code> inside is the literal "tgt" prefix.</li>
+            <li><code>pa-kpi-edit__label</code> — uppercase mono caption (50% contrast, allowed to wrap).</li>
+            <li><code>pa-kpi-edit__value</code> — headline number row (body sans, <code>font-weight: 200</code>, <code>clamp(3.2rem, 18cqi, 5.6rem)</code>).</li>
+            <li><code>pa-kpi-edit__num</code> — numeric span inside <code>__value</code> (tabular nums).</li>
+            <li><code>pa-kpi-edit__unit</code> — currency / percent / unit span (40% size, dim).</li>
+            <li><code>pa-kpi-edit__meta</code> — flex row carrying delta + target.</li>
+            <li><code>pa-kpi-edit__delta</code> — coloured delta number.</li>
+            <li><code>pa-kpi-edit__target</code> — dim "tgt {value}" pair; <code>em</code> inside is the literal "tgt" prefix.</li>
         </ul>
 
         <h4 class="mt-4">Delta sentiment modifiers</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-edit__delta--positive</code> — ordinary positive movement.</li>
-            <li><code>kpi-edit__delta--negative</code> — ordinary negative movement.</li>
-            <li><code>kpi-edit__delta--neutral</code> — no meaningful change (<code>±0.0</code>).</li>
-            <li><code>kpi-edit__delta--up-strong</code> — outlier positive (deeper green).</li>
-            <li><code>kpi-edit__delta--down-strong</code> — outlier negative (deeper red).</li>
+            <li><code>pa-kpi-edit__delta--positive</code> — ordinary positive movement.</li>
+            <li><code>pa-kpi-edit__delta--negative</code> — ordinary negative movement.</li>
+            <li><code>pa-kpi-edit__delta--neutral</code> — no meaningful change (<code>±0.0</code>).</li>
+            <li><code>pa-kpi-edit__delta--up-strong</code> — outlier positive (deeper green).</li>
+            <li><code>pa-kpi-edit__delta--down-strong</code> — outlier negative (deeper red).</li>
         </ul>
 
         <h4 class="mt-4">Hover detail popover</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>kpi-edit-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
-            <li><code>kpi-edit-detail-title</code> — uppercase mono header inside the popover.</li>
-            <li><code>kpi-edit-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text inside the detail's <code>&lt;dl&gt;</code>.</li>
+            <li><code>pa-kpi-detail</code> — popover root (moved to <code>&lt;body&gt;</code> on init; <code>position: fixed</code>, hidden until <code>data-show</code>).</li>
+            <li><code>pa-kpi-detail__title</code> — uppercase mono header inside the popover.</li>
+            <li><code>pa-kpi-detail .pos / .neg / .warn</code> — sentiment-coloured <code>&lt;dd&gt;</code> text inside the detail's <code>&lt;dl&gt;</code>.</li>
         </ul>
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
@@ -751,53 +531,4 @@
     </div>
 </div>
 
-<script>
-// Cursor-anchored hover detail popovers — same recipe as the other KPI showcases.
-document.addEventListener('DOMContentLoaded', function() {
-    if (!window.FloatingUIDOM) return;
-    const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
 
-    document.querySelectorAll('.kpi-edit__tile').forEach(host => {
-        const detail = host.querySelector('.kpi-edit-detail');
-        if (!detail) return;
-        document.body.appendChild(detail);
-
-        let cursorX = 0, cursorY = 0;
-        const virtualEl = {
-            getBoundingClientRect() {
-                return {
-                    width: 0, height: 0,
-                    x: cursorX, y: cursorY,
-                    top: cursorY, left: cursorX,
-                    right: cursorX, bottom: cursorY
-                };
-            }
-        };
-
-        const reposition = () => {
-            computePosition(virtualEl, detail, {
-                strategy: 'fixed',
-                placement: 'top-start',
-                middleware: [offset(14), flip(), shift({ padding: 8 })]
-            }).then(({ x, y }) => {
-                Object.assign(detail.style, { left: `${x}px`, top: `${y}px` });
-            });
-        };
-
-        host.addEventListener('mouseenter', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            detail.setAttribute('data-show', '');
-            reposition();
-        });
-        host.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            reposition();
-        });
-        host.addEventListener('mouseleave', () => {
-            detail.removeAttribute('data-show');
-        });
-    });
-});
-</script>

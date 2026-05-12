@@ -1,0 +1,128 @@
+/* ========================================
+   KPI · Editorial minimal
+   Six KPIs in a 2×3 / 3×2 grid with hairline rules between cells,
+   generous space, and an extra-light-weight number as the focal point per
+   tile. No charts, no pills — the design's whole identity is the thin
+   numeral. Renders as a table card (zero card-body padding) so hairlines
+   go edge-to-edge.
+   ======================================== */
+@use '../variables' as *;
+
+.pa-kpi-edit__body { padding: 0; }
+
+/* ----- Grid + hairline rules -------------------------------------------
+   `gap: 1px` over `background: var(--pa-border-color)` with each tile
+   painting `background: var(--pa-card-bg)` on top. Only the gap shows
+   through, giving perfect single-pixel hairlines on every interior
+   boundary (vertical and horizontal) for free, regardless of column
+   count. The card's outer border supplies the perimeter. */
+.pa-kpi-edit__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--pa-border-color);
+  container-type: inline-size;
+}
+@container (max-width: 640px) {
+  .pa-kpi-edit__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@container (max-width: 360px) {
+  .pa-kpi-edit__grid { grid-template-columns: 1fr; }
+}
+
+/* Modifier: force 2-col regardless of card width. For placements wanting
+   a deterministic 2×N layout (e.g. 4 tiles as clean 2×2) instead of
+   relying on the container query to land in the right bucket. */
+.pa-kpi-edit__grid--2col { grid-template-columns: repeat(2, 1fr); }
+
+/* ----- Tile (editorial spacing leans on the 2.4rem padding) ------------- */
+.pa-kpi-edit__tile {
+  background: var(--pa-card-bg);
+  padding: 2.4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  min-width: 0;
+
+  /* Hover host: faint wash so the cursor-anchored popover has a clear
+     "this tile" anchor. */
+  &:hover {
+    background: color-mix(in srgb, var(--pa-text-color-1) 4%, var(--pa-card-bg));
+  }
+}
+
+/* ----- Label (uppercase mono caption) ----------------------------------- */
+.pa-kpi-edit__label {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  line-height: 1.3;
+}
+
+/* ----- Value (the editorial signature) ---------------------------------
+   - NOT mono — mono fonts rarely have a true 200 weight; using the body
+     sans gives proper thin glyphs that read as "editorial" rather than
+     "monospace at low contrast".
+   - font-weight: 200 (extra-light). 300 was tested first but didn't read
+     distinctly enough as "light" against the body's 400 default.
+   - clamp() lets the number shrink in narrow 25% page-grid cells without
+     manual breakpoints. */
+.pa-kpi-edit__value {
+  font-family: var(--base-font-family);
+  font-size: clamp(3.2rem, 18cqi, 5.6rem);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--pa-text-color-1);
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  flex-wrap: wrap;
+}
+.pa-kpi-edit__num {
+  font-weight: 200;
+  font-variant-numeric: tabular-nums;
+}
+.pa-kpi-edit__unit {
+  font-size: 0.4em;
+  font-weight: 300;
+  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  letter-spacing: 0;
+}
+
+/* ----- Meta row (delta + tgt) ------------------------------------------ */
+.pa-kpi-edit__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1.4rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+  line-height: 1.3;
+  flex-wrap: wrap;
+}
+.pa-kpi-edit__delta {
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--pa-positive);
+
+  &--positive    { color: var(--pa-positive); }
+  &--negative    { color: var(--pa-negative); }
+  &--neutral     { color: var(--pa-neutral); }
+  &--up-strong   { color: var(--pa-very-positive); }
+  &--down-strong { color: var(--pa-very-negative); }
+}
+.pa-kpi-edit__target {
+  font-weight: 500;
+  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  white-space: nowrap;
+
+  em {
+    font-style: normal;
+    color: color-mix(in srgb, var(--pa-text-color-1) 38%, transparent);
+    margin-right: 0.5rem;
+  }
+}

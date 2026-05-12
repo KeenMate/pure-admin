@@ -1,0 +1,182 @@
+/* ========================================
+   KPI · Bento layout
+   Magazine-style asymmetric tile sizing with sparklines as soft background
+   fills behind the values. 6 tiles arranged on a 6-col × 3-row grid
+   (hero left-half × 2 rows, two stacked right-half × 2 rows, three equal
+   tiles bottom row). Tile placement by source order via :nth-child.
+   ======================================== */
+@use '../variables' as *;
+
+.pa-kpi-bento {
+  container-type: inline-size;
+}
+.pa-kpi-bento__body { padding: 1.6rem; }
+
+/* ----- Bento grid ------------------------------------------------------- */
+.pa-kpi-bento__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 12rem 12rem 12rem;
+  grid-template-areas:
+    "hero hero hero a    a    a"
+    "hero hero hero b    b    b"
+    "c    c    d    d    e    e";
+  gap: 1rem;
+
+  > :nth-child(1) { grid-area: hero; }
+  > :nth-child(2) { grid-area: a; }
+  > :nth-child(3) { grid-area: b; }
+  > :nth-child(4) { grid-area: c; }
+  > :nth-child(5) { grid-area: d; }
+  > :nth-child(6) { grid-area: e; }
+}
+
+/* Narrow card → stack everything single column. Hero modifier still
+   bumps the value font-size so it reads as the headline. */
+@container (max-width: 700px) {
+  .pa-kpi-bento__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: none;
+    gap: 0.8rem;
+
+    > :nth-child(n) { grid-area: auto; }
+  }
+  .pa-kpi-bento-tile        { min-height: 10rem; }
+  .pa-kpi-bento-tile--hero  { min-height: 14rem; }
+}
+
+/* ----- Tile (per-KPI bento cell) ---------------------------------------- */
+.pa-kpi-bento-tile {
+  /* Per-tile inline-size container so the value font-size scales with
+     *this* tile's width via cqi (not the outer card's width). The hero
+     and the smaller bottom tiles each scale to their own column. */
+  container-type: inline-size;
+  position: relative;
+  overflow: hidden;
+  padding: 1.3rem 1.5rem;
+  border: 1px solid var(--pa-border-color);
+  background: var(--pa-card-bg);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "label delta"
+    ".     .    "
+    "value value";
+  gap: 0.4rem 1rem;
+
+  /* Sparkline + delta sentiment cascade via currentColor. */
+  --pa-kpi-accent: var(--pa-positive);
+
+  &--positive    { --pa-kpi-accent: var(--pa-positive); }
+  &--negative    { --pa-kpi-accent: var(--pa-negative); }
+  &--neutral     { --pa-kpi-accent: var(--pa-neutral); }
+  &--up-strong   { --pa-kpi-accent: var(--pa-very-positive); }
+  &--down-strong { --pa-kpi-accent: var(--pa-very-negative); }
+
+  &--hero {
+    padding: 1.6rem 1.8rem;
+
+    .pa-kpi-bento-tile__num   { font-size: clamp(3.6rem, 22cqi, 7rem); }
+    .pa-kpi-bento-tile__unit  { font-size: clamp(1.6rem, 9cqi, 2.6rem); }
+    .pa-kpi-bento-tile__label,
+    .pa-kpi-bento-tile__delta { font-size: 1.4rem; }
+    .pa-kpi-bento-tile__chart { height: 70%; }
+  }
+}
+
+/* ----- Top row: label + delta, both layered over the chart -------------- */
+.pa-kpi-bento-tile__label {
+  grid-area: label;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  z-index: 1;
+  line-height: 1.2;
+}
+.pa-kpi-bento-tile__delta {
+  grid-area: delta;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--pa-kpi-accent);
+  z-index: 1;
+  align-self: start;
+  line-height: 1.2;
+}
+
+/* ----- Value (bottom of grid, layered over chart) ----------------------- */
+.pa-kpi-bento-tile__value {
+  grid-area: value;
+  align-self: end;
+  position: relative;
+  z-index: 1;
+  font-family: var(--base-font-family-mono);
+  display: inline-flex;
+  align-items: baseline;
+  line-height: 1;
+  white-space: nowrap;
+}
+.pa-kpi-bento-tile__num {
+  font-size: clamp(2rem, 14cqi, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pa-text-color-1);
+}
+.pa-kpi-bento-tile__unit {
+  font-size: clamp(1.2rem, 7cqi, 1.6rem);
+  font-weight: 500;
+  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  margin: 0 0.3rem;
+}
+
+/* ----- Sparkline background ---------------------------------------------
+   Absolutely positioned, fills the bottom 65% of the tile. The value sits
+   over it (z-index: 1 above). The line/area read through behind the
+   digits at lower opacity so the value remains the focal point. SVG is
+   nested in a fixed-height wrapper so taller tiles don't distort the line
+   shape (preserveAspectRatio="none" would otherwise stretch the Y axis). */
+.pa-kpi-bento-tile__chart {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 65%;
+  pointer-events: none;
+  color: var(--pa-kpi-accent);
+  z-index: 0;
+  display: flex;
+  align-items: flex-end;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  polyline {
+    fill: none;
+    stroke: currentColor;
+    stroke-opacity: 0.55;
+    stroke-width: var(--pa-chart-trendline-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  polygon {
+    fill: currentColor;
+    fill-opacity: 0.10;
+    stroke: none;
+  }
+}
+.pa-kpi-bento-tile__chart-svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--pa-chart-trendline-height);
+}

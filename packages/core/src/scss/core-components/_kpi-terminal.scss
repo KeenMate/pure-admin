@@ -1,0 +1,229 @@
+/* ========================================
+   KPI · Terminal grid
+   Bloomberg-style dense panel: mono numbers, status pills, inline SVG
+   sparklines, ▲▼ deltas, segmented view-mode toggle (VALUE/Δ%/TREND).
+   Shared chrome (header, live, footer, detail popover, spark-dot) is in
+   _kpi-base.scss.
+   ======================================== */
+@use '../variables' as *;
+
+/* ----- View-mode toggle (segmented button group) ------------------------ */
+.pa-kpi-terminal__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+.pa-kpi-terminal__viewtoggle {
+  display: inline-flex;
+  border: 1px solid var(--pa-border-color);
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+.pa-kpi-terminal__viewbtn {
+  background: transparent;
+  border: 0;
+  color: var(--pa-text-color-2);
+  padding: 0.4rem 1.1rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background-color 0.1s ease-out, color 0.1s ease-out;
+
+  &:hover {
+    color: var(--pa-text-color-1);
+  }
+
+  &.is-active {
+    background: var(--pa-text-color-1);
+    color: var(--pa-card-bg);
+  }
+}
+
+/* ----- Grid + tile borders ----------------------------------------------
+   Hairline 1px borders between tiles, no gap. Last-row/last-column
+   borders suppressed via :nth-last-child / :nth-child selectors. */
+.pa-kpi-terminal__body {
+  padding: 0;
+}
+.pa-kpi-terminal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  .pa-kpi-tile {
+    border-bottom: 1px solid var(--pa-border-color);
+    border-right: 1px solid var(--pa-border-color);
+  }
+}
+.pa-kpi-terminal__grid--2col {
+  .pa-kpi-tile:nth-child(2n)        { border-right: 0; }
+  .pa-kpi-tile:nth-last-child(-n+2) { border-bottom: 0; }
+}
+
+/* ----- Tile (per-KPI panel) --------------------------------------------- */
+.pa-kpi-tile {
+  position: relative;
+  padding: 1.4rem 1.8rem 1.6rem;
+  min-height: 16rem;
+  display: flex;
+  flex-direction: column;
+
+  /* Standalone modifier: tile lives directly inside a .pa-col-* (no
+     neighbour cells in a parent grid) — gets a full border + card bg so
+     it doesn't look orphaned. */
+  &--standalone {
+    background: var(--pa-card-bg);
+    border: 1px solid var(--pa-border-color);
+    margin-bottom: 1.2rem;
+
+    &:last-child { margin-bottom: 0; }
+  }
+}
+
+/* ----- Tile head: ID · period + status pill ----------------------------- */
+.pa-kpi-tile__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.3rem;
+}
+.pa-kpi-tile__id {
+  color: var(--pa-text-tertiary);
+  font-weight: 600;
+}
+.pa-kpi-tile__status {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.9rem;
+  line-height: 1.3;
+
+  &--warn {
+    background: var(--pa-warning-bg);
+    color: var(--pa-btn-warning-text);
+  }
+
+  /* GOOD is the "default" state — text-only, no chrome */
+  &--good {
+    background: transparent;
+    color: var(--pa-text-color-1);
+    padding: 0.2rem 0;
+  }
+
+  &--neutral {
+    background: color-mix(in srgb, var(--pa-text-color-2) 25%, transparent);
+    color: var(--pa-text-color-1);
+  }
+}
+
+/* ----- Label ------------------------------------------------------------ */
+.pa-kpi-tile__label {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pa-text-strong);
+  margin-bottom: 0.8rem;
+}
+
+/* ----- Big value with 3-mode swap --------------------------------------
+   Author renders three .pa-kpi-tile__value siblings (data-mode="value" /
+   "delta" / "trend"); the active mode is selected via the
+   .pa-kpi-terminal[data-view="X"] attribute. JS toggles that attribute
+   when the segmented control is clicked. */
+.pa-kpi-tile__values {
+  margin-bottom: 0.4rem;
+}
+.pa-kpi-tile__value {
+  display: none;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-family: var(--base-font-family-mono);
+  line-height: 1;
+
+  &--very-positive .pa-kpi-tile__num { color: var(--pa-very-positive); }
+  &--positive      .pa-kpi-tile__num { color: var(--pa-positive); }
+  &--neutral       .pa-kpi-tile__num { color: var(--pa-neutral); }
+  &--negative      .pa-kpi-tile__num { color: var(--pa-negative); }
+  &--very-negative .pa-kpi-tile__num { color: var(--pa-very-negative); }
+}
+.pa-kpi-terminal[data-view="value"] .pa-kpi-tile__value[data-mode="value"],
+.pa-kpi-terminal[data-view="delta"] .pa-kpi-tile__value[data-mode="delta"],
+.pa-kpi-terminal[data-view="trend"] .pa-kpi-tile__value[data-mode="trend"] {
+  display: inline-flex;
+}
+
+.pa-kpi-tile__num {
+  font-size: 3.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pa-text-color-1);
+}
+.pa-kpi-tile__unit {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--pa-text-secondary);
+}
+
+/* ----- Previous-value + delta row -------------------------------------- */
+.pa-kpi-tile__prev {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+  margin-top: auto;     /* push to bottom of flex column */
+  margin-bottom: 0.4rem;
+  color: var(--pa-text-tertiary);
+}
+.pa-kpi-tile__delta {
+  &--very-positive { color: var(--pa-very-positive); }
+  &--positive      { color: var(--pa-positive); }
+  &--neutral       { color: var(--pa-neutral); }
+  &--negative      { color: var(--pa-negative); }
+  &--very-negative { color: var(--pa-very-negative); }
+}
+
+/* ----- Sparkline -------------------------------------------------------- */
+.pa-kpi-tile__spark {
+  display: block;
+  width: 100%;
+  height: var(--pa-chart-trendline-height);
+  overflow: visible;
+
+  polyline {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--pa-chart-trendline-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+/* Sentiment-coloured sparkline. Class names use up/down wording but pick
+   colours from the sentiment-of-the-change axis, not line shape — so an
+   error-rate metric whose line is falling but the change is good uses
+   --up. See showcase docs for the rationale. Colour is set on both the
+   SVG and the JS-inserted .pa-kpi-spark-wrap so currentColor resolves
+   for the SVG content (line) and the HTML dot (inside the wrap). */
+.pa-kpi-tile {
+  &--up-strong   .pa-kpi-tile__spark,
+  &--up-strong   .pa-kpi-spark-wrap { color: var(--pa-very-positive); }
+
+  &--up          .pa-kpi-tile__spark,
+  &--up          .pa-kpi-spark-wrap { color: var(--pa-positive); }
+
+  &--flat        .pa-kpi-tile__spark,
+  &--flat        .pa-kpi-spark-wrap { color: var(--pa-neutral); }
+
+  &--down        .pa-kpi-tile__spark,
+  &--down        .pa-kpi-spark-wrap { color: var(--pa-negative); }
+
+  &--down-strong .pa-kpi-tile__spark,
+  &--down-strong .pa-kpi-spark-wrap { color: var(--pa-very-negative); }
+}

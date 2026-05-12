@@ -1,0 +1,210 @@
+/* ========================================
+   KPI · Hero + supporting
+   Marketing/exec dashboard pattern: one headline metric on the left (huge
+   container-query-relative value, inline meta row, big filled-area
+   sparkline), and a vertical rail of compact supporting tiles on the
+   right. Container query collapses to single column on narrow cards.
+   ======================================== */
+@use '../variables' as *;
+
+.pa-kpi-hero-list {
+  container-type: inline-size;
+}
+.pa-kpi-hero-list__body { padding: 1.6rem; }
+
+/* ----- Layout: hero left, rail right ------------------------------------ */
+.pa-kpi-hero-list__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+}
+@container (max-width: 700px) {
+  .pa-kpi-hero-list__layout {
+    grid-template-columns: 1fr;
+  }
+}
+.pa-kpi-hero-list__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ----- HERO panel (label · big value · meta row · sparkline) ------------ */
+.pa-kpi-hero-main {
+  position: relative;
+  padding: 1.8rem 2rem;
+  border: 1px solid var(--pa-border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  /* Sentiment cascade — chart and delta inherit via currentColor. */
+  --pa-kpi-accent: var(--pa-positive);
+
+  &--positive  { --pa-kpi-accent: var(--pa-positive); }
+  &--negative  { --pa-kpi-accent: var(--pa-negative); }
+  &--neutral   { --pa-kpi-accent: var(--pa-neutral); }
+  &--up-strong { --pa-kpi-accent: var(--pa-very-positive); }
+}
+
+.pa-kpi-hero-main__label {
+  font-family: var(--base-font-family-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+}
+
+.pa-kpi-hero-main__value {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--base-font-family-mono);
+  line-height: 1;
+  margin: 0.4rem 0 0.6rem;
+}
+.pa-kpi-hero-main__num {
+  /* Container-query-relative: scales with the hero panel's width.
+     Floor keeps it readable in narrow page-grid cards. */
+  font-size: clamp(4rem, 17cqi, 7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pa-text-color-1);
+}
+.pa-kpi-hero-main__unit {
+  font-size: clamp(1.8rem, 8cqi, 3rem);
+  font-weight: 500;
+  color: var(--pa-text-secondary);
+  margin: 0 0.1rem;
+}
+
+/* Meta row: inline delta + period text + target on one baseline. */
+.pa-kpi-hero-main__meta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.4rem 1.4rem;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+}
+.pa-kpi-hero-main__delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  color: var(--pa-kpi-accent);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+.pa-kpi-hero-main__period {
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  line-height: 1.3;
+}
+.pa-kpi-hero-main__target {
+  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  text-align: end;
+}
+
+/* Hero sparkline — chart container fills extra vertical space (when the
+   rail forces a tall row); SVG inside stays at fixed pixel height so the
+   line shape is never distorted along Y. The SVG uses
+   preserveAspectRatio="none", so any element that should keep its shape
+   needs to live outside that scaling or have fixed pixel dimensions. */
+.pa-kpi-hero-main__chart {
+  flex: 1 1 10rem;
+  min-height: 10rem;
+  margin-top: 0.6rem;
+  color: var(--pa-kpi-accent);
+  display: flex;
+  align-items: flex-end;     /* SVG wrap pinned to bottom */
+
+  polyline {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--pa-chart-trendline-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  polygon {
+    fill: currentColor;
+    fill-opacity: 0.18;
+    stroke: none;
+  }
+}
+.pa-kpi-hero-main__chart-svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--pa-chart-trendline-height);
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+}
+
+/* ----- SIDE rail tile (2×2 grid, value spans both rows on right) -------- */
+.pa-kpi-hero-side {
+  position: relative;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--pa-border-color);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "label  value"
+    "delta  value";
+  column-gap: 1.2rem;
+  row-gap: 0.4rem;
+  align-items: center;
+
+  --pa-kpi-accent: var(--pa-positive);
+
+  &--positive  { --pa-kpi-accent: var(--pa-positive); }
+  &--negative  { --pa-kpi-accent: var(--pa-negative); }
+  &--neutral   { --pa-kpi-accent: var(--pa-neutral); }
+  &--up-strong { --pa-kpi-accent: var(--pa-very-positive); }
+}
+
+.pa-kpi-hero-side__label {
+  grid-area: label;
+  align-self: end;     /* tucks against the vertically-centred value */
+  font-family: var(--base-font-family-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  line-height: 1.25;
+}
+.pa-kpi-hero-side__value {
+  grid-area: value;
+  align-self: center;
+  font-family: var(--base-font-family-mono);
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: baseline;
+}
+.pa-kpi-hero-side__num {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pa-text-color-1);
+}
+.pa-kpi-hero-side__unit {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--pa-text-secondary);
+  margin: 0 0.35rem;
+}
+.pa-kpi-hero-side__delta {
+  grid-area: delta;
+  align-self: start;
+  font-family: var(--base-font-family-mono);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--pa-kpi-accent);
+}
