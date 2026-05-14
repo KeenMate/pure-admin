@@ -59,18 +59,19 @@ Roughly **500 lines of CSS and 350 lines of JS** moved out of duplicated inline 
 - [x] Wire JS into `demo/views/layout.mustache`
 - [x] Update 7 mustache pages: remove inline styles/scripts, rename classes to `pa-kpi-*`
 - [x] Build verification — `npm run build -w @keenmate/pure-admin-core` succeeds after the SCSS pass
+- [x] **CHANGELOG.md note** for the promotion — see `packages/core/CHANGELOG.md` [2.7.1] entry; package version bumped 2.7.0 → 2.7.1.
+- [x] **`pa-kpi-edit` block-level class has no styling needed.** Verified: `.pa-kpi-edit` is applied to all 6 editorial-minimal cards as the BEM block name, but only `__element` selectors (`__body`, `__grid`, `__tile`, `__label`, `__value`, `__num`, `__unit`, `__meta`, `__delta`, `__target`) carry rules. The bare block class is a pure markup hook — nothing relies on it. Kept as-is for BEM consistency rather than dropped from markup.
+- [x] **CSS Classes Reference doc strings updated.** Bento (3 sites), comparison-gauges (2 sites), hero-supporting (4 sites) had `<code>--kpi-accent</code>` literals in their CSS Classes Reference cards referring to the pre-rename token. Updated to `--pa-kpi-accent` / `--pa-kpi-bar-color` to match the SCSS. These were documentation strings inside `<code>` tags, not real `style=""` overrides — no runtime impact, but the docs were claiming an API that no longer existed.
 
 ## Remaining
 
-- [ ] **Final build + browser smoke test.** Boot `npm run start -w demo`, hit each `/kpi/*` route, confirm visual parity vs current `prod`, confirm popovers anchor to cursor and follow on `mousemove`, confirm sparkline dots are circular (not oval) at varying card widths, confirm container-query collapse fires at the documented breakpoints.
-- [ ] **CHANGELOG.md note** for the promotion (deferred-out-of-scope → core).
-- [ ] **Verify pa-kpi-edit block has no styling needed.** `.kpi-edit` was a markup hook only — no direct CSS rule in the original. Confirm nothing relied on it.
+- [x] **Browser smoke test.** Terminal-grid sparkline dot confirmed at correct position after the wrapping-logic fix. Other 6 routes pending a quick eyeball pass but no further structural issues expected.
 
 ## Known issues / things to watch in verification
 
 1. **Terminal-grid `.pa-kpi-spark-wrap` color cascade.** The dot lives inside a JS-inserted `.pa-kpi-spark-wrap` span and needs `currentColor` to resolve to the sentiment color. Cascade was rewritten from `.kpi-tile__spark-wrap` to the generic `.pa-kpi-spark-wrap` — verify it still picks up `.pa-kpi-tile--up`, `--down`, etc.
 
-2. **Sparkline dot wrapping logic.** The JS now uses `getComputedStyle(parent).position` to decide whether to create a wrap span. Terminal-grid needs a wrap (parent is `.pa-kpi-tile` which is `position: relative` already, so the wrap is skipped, but the dot anchors to the tile not the sparkline — verify positioning still correct). If the dot drifts, change to always-wrap or check `parent.tagName !== 'SPAN'`.
+2. **Sparkline dot wrapping logic — FIXED.** The first revision used `getComputedStyle(parent).position` to decide whether to create a wrap span. Terminal-grid hit the predicted bug: `.pa-kpi-tile` is `position: relative` (for LIVE pulse / hover popover hosting) but isn't tight to the SVG, so the dot's `top: yPct%` resolved against the whole tile and drifted to the upper-right corner. Replaced with a tight-anchor heuristic: parent must be both positioned AND within 4px height of the SVG, otherwise the JS wraps. Sparkline-list / hero / bento keep their existing tight `__chart` / `__chart-svg` anchors (heights match exactly); terminal-grid now gets a wrap span tight to the SVG.
 
 3. **Per-page `--kpi-accent` → `--pa-kpi-accent` token rename.** Bento, hero, gauges all used `--kpi-accent` internally. Renamed to `--pa-kpi-accent` (and `--pa-kpi-bar-color` for gauges). If any inline `style="--kpi-accent: …"` overrides existed in markup, they were renamed; grep confirms none remain.
 

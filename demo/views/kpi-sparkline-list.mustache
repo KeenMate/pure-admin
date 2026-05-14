@@ -606,6 +606,119 @@
 
 <br>
 
+<!-- ============================================================
+     Custom chart library — Chart.js in the chart slot
+     ============================================================ -->
+
+<h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
+<p>The <code>pa-kpi-spark-row__chart</code> cell is just a positioned grid cell — the inline SVG sparkline is the lightweight default, not a requirement. Each row below drops a <code>&lt;canvas data-kpi-chart&gt;</code> into that cell instead, rendering a Chart.js <strong>bar chart</strong> ("sparkbars") so it reads as an obviously different chart from the line+area default. The row's sentiment modifier (<code>--up</code>, <code>--down</code>, …) still sets <code>color</code> on the chart cell, so the bars read <code>currentColor</code> and stay in sync with the sentiment scale and theme.</p>
+
+<div class="pa-card pa-kpi-spark-list">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-spark-list__body">
+
+        <!-- Row 1 — Completion Rate — Chart.js -->
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--up">
+            <div class="pa-kpi-spark-row__label">Completion Rate</div>
+            <div class="pa-kpi-spark-row__chart">
+                <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="6"
+                    data-kpi-points="[83, 84, 83.5, 85, 84.8, 86, 85.5, 87, 86.8, 87.5, 87.9]"></canvas>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__num">87.9</span><span class="pa-kpi-spark-row__unit">%</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--positive">+4.4%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                <dl>
+                    <dt>Current</dt><dd>87.9%</dd>
+                    <dt>Previous</dt><dd>84.2%</dd>
+                    <dt>Δ percent</dt><dd class="pos">+4.4%</dd>
+                    <dt>Target</dt><dd>90.0%</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 2 — Monthly Revenue — Chart.js -->
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--up-strong">
+            <div class="pa-kpi-spark-row__label">Monthly Revenue</div>
+            <div class="pa-kpi-spark-row__chart">
+                <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="6"
+                    data-kpi-points="[752, 760, 758, 778, 795, 802, 814, 828, 839, 851, 862]"></canvas>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__unit">$</span><span class="pa-kpi-spark-row__num">862</span><span class="pa-kpi-spark-row__unit">K</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--very-positive">+14.7%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>$862K</dd>
+                    <dt>Previous</dt><dd>$752K</dd>
+                    <dt>Δ percent</dt><dd class="pos">+14.7%</dd>
+                    <dt>Target</dt><dd>$900K</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 3 — Server Temp — Chart.js -->
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--down">
+            <div class="pa-kpi-spark-row__label">Server Temp</div>
+            <div class="pa-kpi-spark-row__chart">
+                <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="6"
+                    data-kpi-points="[23.4, 23.6, 23.5, 23.8, 24.0, 23.9, 24.2, 24.1, 24.4, 24.3, 24.5]"></canvas>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__num">24.5</span><span class="pa-kpi-spark-row__unit">°C</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--negative">-2.0%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>24.5°C</dd>
+                    <dt>Previous</dt><dd>24.0°C</dd>
+                    <dt>Δ percent</dt><dd class="neg">−2.0%</dd>
+                    <dt>Threshold</dt><dd>≤ 25°C</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Row 4 — Error Rate — Chart.js -->
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--up-strong">
+            <div class="pa-kpi-spark-row__label">Error Rate</div>
+            <div class="pa-kpi-spark-row__chart">
+                <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="6"
+                    data-kpi-points="[0.42, 0.41, 0.40, 0.38, 0.37, 0.35, 0.34, 0.32, 0.31, 0.29, 0.28]"></canvas>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__num">0.28</span><span class="pa-kpi-spark-row__unit">%</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--very-positive">-33.3%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>0.28%</dd>
+                    <dt>Previous</dt><dd>0.42%</dd>
+                    <dt>Δ percent</dt><dd class="pos">−33.3%</dd>
+                    <dt>Target</dt><dd>≤ 0.50%</dd>
+                </dl>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Chart.js bar charts</strong> — each row's chart cell is library-rendered, same grid cell.</span>
+        <span>Switch theme to see the bars re-colour</span>
+    </div>
+</div>
+
+<br>
+
 <!-- Usage Guide -->
 <div class="pa-card">
     <div class="pa-card__header">

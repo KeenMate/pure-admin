@@ -555,6 +555,98 @@
 
 <br>
 
+<!-- ============================================================
+     Custom chart library — Chart.js in the chart slot
+     ============================================================ -->
+
+<h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
+<p>The terminal sparkline is just a <code>&lt;svg class="pa-kpi-tile__spark"&gt;</code> — swap it for a <code>&lt;canvas class="pa-kpi-tile__spark" data-kpi-chart&gt;</code> and a real charting library renders into the same place, here a Chart.js <strong>bar chart</strong> so it's clearly not the default line sparkline. The <code>pa-kpi-tile__spark</code> class still carries the tile's sentiment <code>color</code>, so the bars read <code>currentColor</code> and track the sentiment scale + theme. The VALUE / Δ% / TREND toggle is unaffected — it only swaps the focal number.</p>
+
+<div class="pa-card pa-kpi-terminal" data-view="value">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <div class="pa-kpi-terminal__controls">
+            <div class="pa-kpi-terminal__viewtoggle" role="tablist" aria-label="View mode">
+                <button type="button" class="pa-kpi-terminal__viewbtn is-active" data-view="value" role="tab" aria-selected="true">VALUE</button>
+                <button type="button" class="pa-kpi-terminal__viewbtn" data-view="delta" role="tab" aria-selected="false">Δ%</button>
+                <button type="button" class="pa-kpi-terminal__viewbtn" data-view="trend" role="tab" aria-selected="false">TREND</button>
+            </div>
+            <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+        </div>
+    </div>
+
+    <div class="pa-card__body pa-kpi-terminal__body">
+        <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col">
+
+            <!-- KPI 01 — Completion Rate — Chart.js spark -->
+            <div class="pa-kpi-tile pa-kpi-tile--up">
+                <div class="pa-kpi-tile__head">
+                    <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
+                    <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+                </div>
+                <div class="pa-kpi-tile__label">Completion Rate</div>
+                <div class="pa-kpi-tile__values">
+                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
+                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 5.2</span><span class="pa-kpi-tile__unit">%</span></span>
+                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">98</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
+                </div>
+                <div class="pa-kpi-tile__prev">
+                    <span>prev 84.2%</span>
+                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
+                </div>
+                <canvas class="pa-kpi-tile__spark" data-kpi-chart data-kpi-type="bar" data-kpi-aspect="6"
+                    data-kpi-points="[84.2, 84.8, 84.5, 85.6, 85.2, 86.4, 86.0, 87.3, 87.0, 88.0, 88.6]"></canvas>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                    <dl>
+                        <dt>Current</dt><dd>88.6%</dd>
+                        <dt>Previous</dt><dd>84.2%</dd>
+                        <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
+                        <dt>Target</dt><dd>90.0%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- KPI 02 — Error Rate — Chart.js spark -->
+            <div class="pa-kpi-tile pa-kpi-tile--up-strong">
+                <div class="pa-kpi-tile__head">
+                    <span class="pa-kpi-tile__id">KPI.02 · 24h</span>
+                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+                </div>
+                <div class="pa-kpi-tile__label">Error Rate</div>
+                <div class="pa-kpi-tile__values">
+                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">0.28</span><span class="pa-kpi-tile__unit">%</span></span>
+                    <span class="pa-kpi-tile__value pa-kpi-tile__value--very-positive" data-mode="delta"><span class="pa-kpi-tile__num">▼ 33.3</span><span class="pa-kpi-tile__unit">%</span></span>
+                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">56</span><span class="pa-kpi-tile__unit">% of cap</span></span>
+                </div>
+                <div class="pa-kpi-tile__prev">
+                    <span>prev 0.42%</span>
+                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--very-positive">▼ 33.3%</span>
+                </div>
+                <canvas class="pa-kpi-tile__spark" data-kpi-chart data-kpi-type="bar" data-kpi-aspect="6"
+                    data-kpi-points="[0.42, 0.41, 0.40, 0.38, 0.37, 0.35, 0.34, 0.32, 0.31, 0.29, 0.28]"></canvas>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                    <dl>
+                        <dt>Current</dt><dd>0.28%</dd>
+                        <dt>Previous</dt><dd>0.42%</dd>
+                        <dt>Δ percent</dt><dd class="pos">−33.3%</dd>
+                        <dt>Target</dt><dd>≤ 0.50%</dd>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Chart.js bar charts</strong> — library-rendered into the <code>pa-kpi-tile__spark</code> slot.</span>
+        <span>Switch theme to see the bars re-colour</span>
+    </div>
+</div>
+
+<br>
+
 <!-- Usage Guide -->
 <div class="pa-card">
     <div class="pa-card__header">

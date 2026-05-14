@@ -423,6 +423,92 @@
 
 <br>
 
+<!-- ============================================================
+     4. Custom chart library — Chart.js in the chart slot
+     ============================================================ -->
+
+<h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
+<p>The <code>pa-kpi-hero-main__chart</code> slot is a plain container — the hand-authored inline SVG sparkline is just the lightweight default. Drop a real charting library in and render <em>any</em> chart type: the example below uses a Chart.js <strong>bar chart</strong> so the difference from the default sparkline is obvious. It still inherits the layout box and the sentiment cascade for free — the chart wrapper sets <code>color: var(--pa-kpi-accent)</code>, so Chart.js reading <code>currentColor</code> picks up the right hue and re-colours on theme change. Markup below swaps a <code>&lt;canvas data-kpi-chart&gt;</code> in where the <code>&lt;svg&gt;</code> was; everything else is unchanged.</p>
+
+<div class="pa-card pa-kpi-hero-list">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-hero-list__body">
+        <div class="pa-kpi-hero-list__layout">
+
+            <!-- HERO: Monthly Revenue — chart slot rendered by Chart.js -->
+            <div class="pa-kpi-hero-main pa-kpi-hero-main--positive">
+                <div class="pa-kpi-hero-main__label">Monthly Revenue</div>
+                <div class="pa-kpi-hero-main__value">
+                    <span class="pa-kpi-hero-main__unit">$</span><span class="pa-kpi-hero-main__num">852</span><span class="pa-kpi-hero-main__unit">K</span>
+                </div>
+                <div class="pa-kpi-hero-main__meta">
+                    <div class="pa-kpi-hero-main__delta">
+                        <span class="pa-kpi-hero-main__delta-arrow">▲</span>
+                        <span class="pa-kpi-hero-main__delta-pct">13.3%</span>
+                    </div>
+                    <div class="pa-kpi-hero-main__period">vs last month</div>
+                    <div class="pa-kpi-hero-main__target">tgt $900K</div>
+                </div>
+                <div class="pa-kpi-hero-main__chart">
+                    <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="4.5"
+                        data-kpi-points="[612, 640, 628, 671, 695, 682, 720, 744, 731, 778, 802, 796, 838, 852]"></canvas>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>$852K</dd>
+                        <dt>Previous</dt><dd>$752K</dd>
+                        <dt>Δ absolute</dt><dd class="pos">+$100K</dd>
+                        <dt>Δ percent</dt><dd class="pos">+13.3%</dd>
+                        <dt>Target</dt><dd>$900K</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- SIDE RAIL: supporting metrics (unchanged — no chart slot) -->
+            <div class="pa-kpi-hero-list__rail">
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--positive">
+                        <div class="pa-kpi-hero-side__label">Completion Rate</div>
+                        <div class="pa-kpi-hero-side__value">
+                            <span class="pa-kpi-hero-side__num">88.5</span><span class="pa-kpi-hero-side__unit">%</span>
+                        </div>
+                    <div class="pa-kpi-hero-side__delta">+5.1% vs prev</div>
+                </div>
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--negative">
+                        <div class="pa-kpi-hero-side__label">Server Temp</div>
+                        <div class="pa-kpi-hero-side__value">
+                            <span class="pa-kpi-hero-side__num">24.3</span><span class="pa-kpi-hero-side__unit">°C</span>
+                        </div>
+                    <div class="pa-kpi-hero-side__delta">-1.0% vs prev</div>
+                </div>
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--up-strong">
+                        <div class="pa-kpi-hero-side__label">Error Rate</div>
+                        <div class="pa-kpi-hero-side__value">
+                            <span class="pa-kpi-hero-side__num">0.28</span><span class="pa-kpi-hero-side__unit">%</span>
+                        </div>
+                    <div class="pa-kpi-hero-side__delta">-32.0% vs prev</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Chart.js bar chart</strong> — same slot, same sentiment cascade, a different chart type entirely.</span>
+        <span>Switch theme to see the bars re-colour</span>
+    </div>
+</div>
+
+<br>
+
 <!-- Usage Guide -->
 <div class="pa-card">
     <div class="pa-card__header">
@@ -470,13 +556,13 @@
 
         <h4 class="mt-4">Hero (left column)</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-hero-main</code> — hero container. Carries <code>--kpi-accent</code>.</li>
-            <li><code>pa-kpi-hero-main--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers setting <code>--kpi-accent</code>.</li>
+            <li><code>pa-kpi-hero-main</code> — hero container. Carries <code>--pa-kpi-accent</code>.</li>
+            <li><code>pa-kpi-hero-main--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers setting <code>--pa-kpi-accent</code>.</li>
             <li><code>pa-kpi-hero-main__label</code> — uppercase mono caption.</li>
             <li><code>pa-kpi-hero-main__value</code> — focal number (<code>clamp(4rem, 17cqi, 7rem)</code>).</li>
             <li><code>pa-kpi-hero-main__num</code> / <code>pa-kpi-hero-main__unit</code> — numeric + unit spans.</li>
             <li><code>pa-kpi-hero-main__meta</code> — flex row carrying delta · period · target.</li>
-            <li><code>pa-kpi-hero-main__delta</code> — coloured Δ% (reads <code>--kpi-accent</code>).</li>
+            <li><code>pa-kpi-hero-main__delta</code> — coloured Δ% (reads <code>--pa-kpi-accent</code>).</li>
             <li><code>pa-kpi-hero-main__period</code> — period descriptor (e.g. "vs last month").</li>
             <li><code>pa-kpi-hero-main__target</code> — target value pair.</li>
             <li><code>pa-kpi-hero-main__chart</code> — chart wrapper (flex-grow to absorb extra height).</li>
@@ -485,7 +571,7 @@
 
         <h4 class="mt-4">Side rail tile (right column)</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-hero-side</code> — single supporting tile. Carries <code>--kpi-accent</code>.</li>
+            <li><code>pa-kpi-hero-side</code> — single supporting tile. Carries <code>--pa-kpi-accent</code>.</li>
             <li><code>pa-kpi-hero-side--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers.</li>
             <li><code>pa-kpi-hero-side__label</code> — caption (top-left of internal 2×2 grid).</li>
             <li><code>pa-kpi-hero-side__value</code> — value spanning both rows on the right column.</li>

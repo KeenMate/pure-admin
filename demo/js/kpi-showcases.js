@@ -101,15 +101,19 @@
             const xPct = (cx - vb.x) / vb.width * 100;
             const yPct = (cy - vb.y) / vb.height * 100;
 
-            // The dot is positioned absolutely against the SVG's parent. If
-            // that parent already provides a positioned anchor (e.g. the
-            // .__chart wrapper that the design's CSS sets to relative),
-            // append directly. Otherwise wrap the SVG in a .pa-kpi-spark-wrap
-            // span so the dot has something to anchor against.
+            // The dot is positioned absolutely against the SVG's parent. The
+            // parent works as the anchor only when it is BOTH positioned AND
+            // tight around the SVG — otherwise the dot's `top: yPct%` resolves
+            // against the larger parent box and drifts (terminal-grid hit
+            // this: the tile is `position: relative` for LIVE / popover
+            // reasons but is much taller than the SVG). Compare heights and
+            // wrap when the parent isn't tight, regardless of its position.
             let wrap = svg.parentElement;
             if (!wrap.classList.contains('pa-kpi-spark-wrap')) {
                 const pos = getComputedStyle(wrap).position;
-                if (pos === 'static' || pos === '') {
+                const tightAnchor = pos !== 'static' && pos !== ''
+                    && Math.abs(wrap.getBoundingClientRect().height - svg.getBoundingClientRect().height) < 4;
+                if (!tightAnchor) {
                     const newWrap = document.createElement('span');
                     newWrap.className = 'pa-kpi-spark-wrap';
                     wrap.insertBefore(newWrap, svg);

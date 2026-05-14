@@ -375,7 +375,7 @@
             <li><strong>negative</strong> (red) — actively bad / failing target.</li>
             <li><strong>neutral</strong> (grey) — informational, no strong sentiment.</li>
         </ul>
-        <p>The bar fill colour is set per-tile via <code>--kpi-accent</code>; the four <code>.pa-kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
+        <p>The bar fill colour is set per-tile via <code>--pa-kpi-bar-color</code>; the four <code>.pa-kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
 
         <h4 class="mt-4">Layout</h4>
         <p>Internal 2-column grid for the canonical card; a container query at <code>max-width: 600px</code> collapses to single-column so the gauges stack vertically inside narrow page-grid cards (1×3 widths, 25% / 45% asymmetric placements). Same three-section layout testing pattern as the rest of the showcases — canonical full-width, 1×3 page-grid, 25/45/25 asymmetric — to surface how the design behaves at different host widths.</p>
@@ -405,7 +405,7 @@
 
         <h4 class="mt-4">Gauge tile</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-gauge</code> — single gauge cell. Carries <code>--kpi-accent</code> (set by sentiment modifiers below).</li>
+            <li><code>pa-kpi-gauge</code> — single gauge cell. Carries <code>--pa-kpi-bar-color</code> (set by sentiment modifiers below).</li>
             <li><code>pa-kpi-gauge--positive</code> — green fill (on track).</li>
             <li><code>pa-kpi-gauge--warning</code> — orange fill (off-target / approaching limit).</li>
             <li><code>pa-kpi-gauge--negative</code> — red fill (actively bad).</li>

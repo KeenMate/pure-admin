@@ -639,6 +639,160 @@
 
 <br>
 
+<!-- ============================================================
+     Custom chart library — Chart.js in the chart slot
+     ============================================================ -->
+
+<h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
+<p>The <code>pa-kpi-bento-tile__chart</code> slot is a plain positioned container — the inline SVG sparkline is just the lightweight default. Each tile below swaps a <code>&lt;canvas data-kpi-chart&gt;</code> in where the <code>&lt;svg&gt;</code> was, rendering a Chart.js <strong>bar chart</strong> as the tile background instead of the area sparkline — visibly a different chart, same slot. The tile still sets <code>color: var(--pa-kpi-accent)</code>, so the bars read <code>currentColor</code> for their sentiment hue and re-colour on theme change — no per-tile chart config needed.</p>
+
+<div class="pa-card pa-kpi-bento">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-bento__body">
+        <div class="pa-kpi-bento__grid">
+
+            <!-- HERO: Monthly Revenue — Chart.js -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--hero pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Monthly Revenue</div>
+                <div class="pa-kpi-bento-tile__delta">+12.8%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__unit">$</span><span class="pa-kpi-bento-tile__num">849</span><span class="pa-kpi-bento-tile__unit">K</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="4"
+                        data-kpi-points="[612, 640, 628, 671, 695, 682, 720, 744, 731, 778, 802, 796, 838, 849]"></canvas>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>$849K</dd>
+                        <dt>Previous</dt><dd>$753K</dd>
+                        <dt>Δ percent</dt><dd class="pos">+12.8%</dd>
+                        <dt>Target</dt><dd>$900K</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- TOP-A: Completion Rate — Chart.js -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Completion Rate</div>
+                <div class="pa-kpi-bento-tile__delta">+2.8%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">86.5</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="5"
+                        data-kpi-points="[80, 81, 80.5, 82, 83, 82.5, 84, 84.2, 85, 85.4, 86, 86.5]"></canvas>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                    <dl>
+                        <dt>Current</dt><dd>86.5%</dd>
+                        <dt>Δ percent</dt><dd class="pos">+2.8%</dd>
+                        <dt>Target</dt><dd>90.0%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- TOP-B: Server Capacity — Chart.js -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--up-strong">
+                <div class="pa-kpi-bento-tile__label">Server Capacity</div>
+                <div class="pa-kpi-bento-tile__delta">+21.0%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">85.9</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="5"
+                        data-kpi-points="[71, 72, 73.5, 75, 77, 78.5, 80, 79.5, 83, 84, 85, 85.9]"></canvas>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
+                    <dl>
+                        <dt>Current</dt><dd>85.9%</dd>
+                        <dt>Δ percent</dt><dd class="pos">+21.0%</dd>
+                        <dt>Headroom</dt><dd>14.1%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-C: Server Temp — Chart.js -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--negative">
+                <div class="pa-kpi-bento-tile__label">Server Temp</div>
+                <div class="pa-kpi-bento-tile__delta">-2.1%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">24.0</span><span class="pa-kpi-bento-tile__unit">°C</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="5"
+                        data-kpi-points="[24.6, 24.5, 24.55, 24.4, 24.3, 24.45, 24.2, 24.1, 24.25, 23.9, 24.0, 24.0]"></canvas>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                    <dl>
+                        <dt>Current</dt><dd>24.0°C</dd>
+                        <dt>Δ percent</dt><dd class="neg">−2.1%</dd>
+                        <dt>Threshold</dt><dd>≤ 25°C</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-D: Error Rate — Chart.js -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--up-strong">
+                <div class="pa-kpi-bento-tile__label">Error Rate</div>
+                <div class="pa-kpi-bento-tile__delta">-30.9%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">0.28</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="5"
+                        data-kpi-points="[0.41, 0.40, 0.38, 0.37, 0.36, 0.34, 0.33, 0.31, 0.30, 0.29, 0.28, 0.28]"></canvas>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                    <dl>
+                        <dt>Current</dt><dd>0.28%</dd>
+                        <dt>Δ percent</dt><dd class="pos">−30.9%</dd>
+                        <dt>Target</dt><dd>≤ 0.50%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-E: Tokyo Office — Chart.js -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Tokyo Office</div>
+                <div class="pa-kpi-bento-tile__delta">+8.1%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__unit">¥</span><span class="pa-kpi-bento-tile__num">12.1</span><span class="pa-kpi-bento-tile__unit">M</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <canvas data-kpi-chart data-kpi-type="bar" data-kpi-aspect="5"
+                        data-kpi-points="[11.2, 11.3, 11.25, 11.5, 11.4, 11.65, 11.6, 11.8, 11.9, 12.0, 12.05, 12.1]"></canvas>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>¥12.1M</dd>
+                        <dt>Δ percent</dt><dd class="pos">+8.1%</dd>
+                        <dt>Target</dt><dd>¥13.0M</dd>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Chart.js bar charts</strong> — every tile background is library-rendered, same sentiment cascade.</span>
+        <span>Switch theme to see the bars re-colour</span>
+    </div>
+</div>
+
+<br>
+
 <!-- Usage Guide -->
 <div class="pa-card">
     <div class="pa-card__header">
@@ -685,15 +839,15 @@
 
         <h4 class="mt-4">Tiles</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-bento-tile</code> — single tile (declares its own <code>container-type: inline-size</code> for cqi-relative typography). Carries <code>--kpi-accent</code>.</li>
+            <li><code>pa-kpi-bento-tile</code> — single tile (declares its own <code>container-type: inline-size</code> for cqi-relative typography). Carries <code>--pa-kpi-accent</code>.</li>
             <li><code>pa-kpi-bento-tile--hero</code> — hero modifier: bigger value (<code>22cqi</code>), bigger min-height in collapsed mode.</li>
-            <li><code>pa-kpi-bento-tile--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> / <code>--down-strong</code> — sentiment modifiers setting <code>--kpi-accent</code> on the tile.</li>
+            <li><code>pa-kpi-bento-tile--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> / <code>--down-strong</code> — sentiment modifiers setting <code>--pa-kpi-accent</code> on the tile.</li>
         </ul>
 
         <h4 class="mt-4">Tile content</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-kpi-bento-tile__label</code> — uppercase mono caption (top-left of the internal 2-row grid).</li>
-            <li><code>pa-kpi-bento-tile__delta</code> — coloured Δ% (top-right; reads <code>--kpi-accent</code>).</li>
+            <li><code>pa-kpi-bento-tile__delta</code> — coloured Δ% (top-right; reads <code>--pa-kpi-accent</code>).</li>
             <li><code>pa-kpi-bento-tile__value</code> — focal number row (bottom span of the tile, layered over the chart at <code>z-index: 1</code>).</li>
             <li><code>pa-kpi-bento-tile__num</code> / <code>pa-kpi-bento-tile__unit</code> — numeric + unit spans inside <code>__value</code>.</li>
             <li><code>pa-kpi-bento-tile__chart</code> — absolutely-positioned chart wrapper (<code>z-index: 0</code>, sits behind the value).</li>
