@@ -5,6 +5,17 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **`.pa-kpi-edit__grid` redesigned as a cell-min-driven auto-fit grid (Visual breaking)**. Previously a fixed `repeat(3, 1fr)` with three discrete `@container` breakpoints collapsing to 2-col under 640px and 1-col under 360px. Replaced with `repeat(auto-fit, minmax(var(--pa-kpi-edit-cell-min, 14rem), 1fr))` — cells stay at least the configured minimum wide, the grid fits as many columns as the container allows, and the responsive cascade is now intrinsic to the grid template. No `@container` queries on `__grid` anymore. Authors get a CSS variable knob for density without touching breakpoints.
+    - **New `--pa-kpi-edit-cell-min` CSS variable** (default `14rem`) controls the minimum cell width. Smaller → more columns at the same container width; larger → fewer. Override per instance: `<div class="pa-kpi-edit__grid" style="--pa-kpi-edit-cell-min: 18rem">`.
+    - **Five new cap-at-N modifiers**: `pa-kpi-edit__grid--max-2` / `--max-3` / `--max-4` / `--max-5` / `--max-6`. Each caps the column count at N but still collapses below the `cell-min × N` threshold — a ceiling, not a force. Implemented as `minmax(max(cell-min, calc((100% - gap × (N-1)) / N)), 1fr)` so cell-min wins on narrow widths and the per-N calc wins on wide widths. The cap exists because `auto-fit` only collapses tracks that are empty across the *whole* grid — with 6 items at 4-col auto-fit, tracks 1–4 all have row-1 items, so row 2's tracks 3–4 remain and show the gap background as a gray void on the right side of row 2. Capping at 3 makes 6 items pack 3×2 cleanly.
+    - **`--2col` modifier unchanged.** Still forces exactly 2 columns regardless of cell-min or container width — for placements wanting a deterministic 2×N layout.
+    - **`container-type: inline-size` moved from `__grid` to `__tile`.** The value's `cqi`-based font-size now measures per-cell instead of per-grid, so typography tracks each cell's actual width as the grid packs more columns into a wider container. Value clamp middle bumped from `18cqi` to `22cqi` to compensate for the smaller reference width (per-cell rather than full-grid).
+    - **Migration**: authors using bare `.pa-kpi-edit__grid` with a fixed item count will see different breakpoint behavior — on a wide container the old layout was always 3×2 for 6 items; the new layout may produce uneven rows at widths that fit 4+ columns. Add `.pa-kpi-edit__grid--max-3` to restore an always-3-col rhythm without giving up the cell-min collapse on narrow widths. Authors using `.pa-kpi-edit__grid--2col` are unaffected.
+
 ## [2.7.1] - 2026-05-14 [PUBLISHED]
 
 ### Added

@@ -1,6 +1,6 @@
 /* ========================================
    KPI · Editorial minimal
-   Six KPIs in a 2×3 / 3×2 grid with hairline rules between cells,
+   KPI tiles in a responsive grid with hairline rules between cells,
    generous space, and an extra-light-weight number as the focal point per
    tile. No charts, no pills — the design's whole identity is the thin
    numeral. Renders as a table card (zero card-body padding) so hairlines
@@ -11,32 +11,73 @@
 .pa-kpi-edit__body { padding: 0; }
 
 /* ----- Grid + hairline rules -------------------------------------------
+   Cell-min-driven responsive layout: cells stay at least
+   --pa-kpi-edit-cell-min wide; the grid fits as many columns as the
+   container allows. No @container queries — `auto-fit + minmax` handles
+   the cascade intrinsically. Override the min per instance to change
+   density (smaller min → more columns at the same container width).
+
    `gap: 1px` over `background: var(--pa-border-color)` with each tile
-   painting `background: var(--pa-card-bg)` on top. Only the gap shows
-   through, giving perfect single-pixel hairlines on every interior
-   boundary (vertical and horizontal) for free, regardless of column
-   count. The card's outer border supplies the perimeter. */
+   painting `background: var(--pa-card-bg)` on top — only the gap shows
+   through, giving single-pixel hairlines on every interior boundary
+   regardless of column count. The card's outer border supplies the
+   perimeter. */
 .pa-kpi-edit__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(var(--pa-kpi-edit-cell-min, 14rem), 1fr));
   gap: 1px;
   background: var(--pa-border-color);
-  container-type: inline-size;
-}
-@container (max-width: 640px) {
-  .pa-kpi-edit__grid { grid-template-columns: repeat(2, 1fr); }
-}
-@container (max-width: 360px) {
-  .pa-kpi-edit__grid { grid-template-columns: 1fr; }
 }
 
-/* Modifier: force 2-col regardless of card width. For placements wanting
-   a deterministic 2×N layout (e.g. 4 tiles as clean 2×2) instead of
-   relying on the container query to land in the right bucket. */
+/* Modifier: force exactly 2 columns regardless of cell-min or container
+   width. For placements wanting a deterministic 2×N layout (e.g. 4 tiles
+   as a clean 2×2 even when the container is wide enough for more). */
 .pa-kpi-edit__grid--2col { grid-template-columns: repeat(2, 1fr); }
 
-/* ----- Tile (editorial spacing leans on the 2.4rem padding) ------------- */
+/* Cap-at-N modifiers: combine auto-fit with a ceiling on the column
+   count. Cells stay at least --pa-kpi-edit-cell-min wide, but the grid
+   never exceeds N columns even when the container is wide enough to fit
+   more. Below the cell-min × N threshold the grid still collapses
+   responsively — these modifiers cap the maximum, not the minimum.
+
+   How the calc reads: each track's effective min is
+     max(cell-min, (container − total-gap) / N)
+   On a wide container the calc wins (so tracks grow, you stay at N).
+   On a narrow container cell-min wins (so the grid collapses).
+
+   Why this matters for the gray-void edge case: `auto-fit` keeps as many
+   tracks as fit the container, then only collapses tracks empty across
+   the *whole* grid. With 6 items at 4-col auto-fit, tracks 1–4 all have
+   row-1 items, so row 2's tracks 3–4 stay (and show the gap background).
+   Capping at 3 makes 6 items pack 3×2 cleanly. Pick the cap so your item
+   count divides into clean rows. */
+.pa-kpi-edit__grid--max-2 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px) / 2)), 1fr));
+}
+.pa-kpi-edit__grid--max-3 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 2) / 3)), 1fr));
+}
+.pa-kpi-edit__grid--max-4 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 3) / 4)), 1fr));
+}
+.pa-kpi-edit__grid--max-5 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 4) / 5)), 1fr));
+}
+.pa-kpi-edit__grid--max-6 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 5) / 6)), 1fr));
+}
+
+/* ----- Tile (editorial spacing leans on the 2.4rem padding) -------------
+   Per-cell container: the value's `cqi`-based font-size scales with
+   *this* tile's width, not the whole grid's. Keeps typography legible as
+   the grid packs more cells into the same row. */
 .pa-kpi-edit__tile {
+  container-type: inline-size;
   background: var(--pa-card-bg);
   padding: 2.4rem 2rem;
   display: flex;
@@ -69,11 +110,13 @@
      "monospace at low contrast".
    - font-weight: 200 (extra-light). 300 was tested first but didn't read
      distinctly enough as "light" against the body's 400 default.
-   - clamp() lets the number shrink in narrow 25% page-grid cells without
-     manual breakpoints. */
+   - clamp() lets the number shrink in narrow cells without manual
+     breakpoints. `cqi` measures per-cell (tile is a container) so the
+     value tracks each cell's actual width as the grid packs more
+     columns into a wider container. */
 .pa-kpi-edit__value {
   font-family: var(--base-font-family);
-  font-size: clamp(3.2rem, 18cqi, 5.6rem);
+  font-size: clamp(3.2rem, 22cqi, 5.6rem);
   font-weight: 200;
   letter-spacing: -0.02em;
   line-height: 1;
