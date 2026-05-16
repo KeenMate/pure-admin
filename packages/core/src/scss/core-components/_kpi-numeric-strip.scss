@@ -1,12 +1,26 @@
 /* ========================================
    KPI · Numeric strip (densest)
-   Tabular "spreadsheet-style" table card with metric/now/prev/Δ%/vs target
-   columns — most data per pixel, no chart chrome. Each row is its own
-   grid sharing the same column template so cells align across rows
+   Tabular "spreadsheet-style" table card with metric / now / prev / Δ% /
+   target columns — most data per pixel, no chart chrome. Each row is its
+   own grid sharing the same column template so cells align across rows
    without needing subgrid. Wide-only by design — no responsive collapse;
    narrow placements should use Comparison gauges instead.
+
+   Column contract: `metric` + `now` are always present; `prev`, `delta`,
+   and `target` are independently optional via toggle modifiers on the
+   strip (`--no-prev`, `--no-delta`, `--no-target`). Modifiers compose, so
+   the visible column count ranges from 2 (all three optional columns
+   dropped) to 5 (none dropped). Each combination has its own template
+   selector below so the grid tracks always match the visible cell count.
    ======================================== */
 @use '../variables' as *;
+
+/* Per-column track widths — referenced from every template selector. */
+$strip-col-metric: minmax(0, 2fr);
+$strip-col-now:    minmax(0, 1.1fr);
+$strip-col-prev:   minmax(0, 1fr);
+$strip-col-delta:  minmax(0, 1fr);
+$strip-col-target: minmax(0, 1.6fr);
 
 .pa-kpi-strip__body { padding: 0; }
 
@@ -15,11 +29,11 @@
 .pa-kpi-strip__head-row {
   display: grid;
   grid-template-columns:
-    minmax(0, 2fr)      /* metric */
-    minmax(0, 1.1fr)    /* now */
-    minmax(0, 1fr)      /* prev */
-    minmax(0, 1fr)      /* delta */
-    minmax(0, 1.6fr);   /* target (bar + pct stacked) */
+    $strip-col-metric
+    $strip-col-now
+    $strip-col-prev
+    $strip-col-delta
+    $strip-col-target;
   column-gap: 1.6rem;
   align-items: center;
   position: relative;
@@ -142,13 +156,58 @@
   line-height: 1;
 }
 
-/* ----- --no-prev: 4-col layout (metric / now / Δ% / target) -------------
-   Useful for narrow placements; markup omits the prev cells. */
+/* ----- Toggle modifiers ------------------------------------------------
+   `--no-prev`, `--no-delta`, `--no-target` are independently composable.
+   Each hides its column's cells (data + header) and the matching template
+   selector below adjusts `grid-template-columns` to the visible cell
+   count, so source order (metric, now, prev, delta, target) is preserved
+   and the remaining cells slot into the right tracks.
+
+   `metric` and `now` are mandatory — no toggle drops them. If a strip
+   doesn't need a focal value, it's a different design (use comparison
+   gauges or editorial-minimal). */
+.pa-kpi-strip--no-prev   .pa-kpi-strip__prev,
+.pa-kpi-strip--no-prev   .pa-kpi-strip__head--prev   { display: none; }
+.pa-kpi-strip--no-delta  .pa-kpi-strip__delta,
+.pa-kpi-strip--no-delta  .pa-kpi-strip__head--delta  { display: none; }
+.pa-kpi-strip--no-target .pa-kpi-strip__target,
+.pa-kpi-strip--no-target .pa-kpi-strip__head--target { display: none; }
+
+/* ----- Grid templates per visible-column combination -------------------
+   8 combos (1 default + 3 single-drops + 3 double-drops + 1 triple-drop).
+   Each lists the visible columns in source order with their declared
+   `$strip-col-*` width. */
+
+/* 4-col: one optional column dropped */
 .pa-kpi-strip--no-prev .pa-kpi-strip__row,
 .pa-kpi-strip--no-prev .pa-kpi-strip__head-row {
-  grid-template-columns:
-    minmax(0, 2fr)
-    minmax(0, 1.1fr)
-    minmax(0, 1fr)
-    minmax(0, 1.6fr);
+  grid-template-columns: $strip-col-metric $strip-col-now $strip-col-delta $strip-col-target;
+}
+.pa-kpi-strip--no-delta .pa-kpi-strip__row,
+.pa-kpi-strip--no-delta .pa-kpi-strip__head-row {
+  grid-template-columns: $strip-col-metric $strip-col-now $strip-col-prev $strip-col-target;
+}
+.pa-kpi-strip--no-target .pa-kpi-strip__row,
+.pa-kpi-strip--no-target .pa-kpi-strip__head-row {
+  grid-template-columns: $strip-col-metric $strip-col-now $strip-col-prev $strip-col-delta;
+}
+
+/* 3-col: two optional columns dropped */
+.pa-kpi-strip--no-prev.pa-kpi-strip--no-delta .pa-kpi-strip__row,
+.pa-kpi-strip--no-prev.pa-kpi-strip--no-delta .pa-kpi-strip__head-row {
+  grid-template-columns: $strip-col-metric $strip-col-now $strip-col-target;
+}
+.pa-kpi-strip--no-prev.pa-kpi-strip--no-target .pa-kpi-strip__row,
+.pa-kpi-strip--no-prev.pa-kpi-strip--no-target .pa-kpi-strip__head-row {
+  grid-template-columns: $strip-col-metric $strip-col-now $strip-col-delta;
+}
+.pa-kpi-strip--no-delta.pa-kpi-strip--no-target .pa-kpi-strip__row,
+.pa-kpi-strip--no-delta.pa-kpi-strip--no-target .pa-kpi-strip__head-row {
+  grid-template-columns: $strip-col-metric $strip-col-now $strip-col-prev;
+}
+
+/* 2-col: all three optional columns dropped (metric + now only) */
+.pa-kpi-strip--no-prev.pa-kpi-strip--no-delta.pa-kpi-strip--no-target .pa-kpi-strip__row,
+.pa-kpi-strip--no-prev.pa-kpi-strip--no-delta.pa-kpi-strip--no-target .pa-kpi-strip__head-row {
+  grid-template-columns: $strip-col-metric $strip-col-now;
 }

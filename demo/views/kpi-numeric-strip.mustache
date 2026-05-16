@@ -14,11 +14,11 @@
 
     <div class="pa-card__body pa-kpi-strip__body">
         <div class="pa-kpi-strip__head-row">
-            <div class="pa-kpi-strip__head">Metric</div>
-            <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
-            <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Prev</div>
-            <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
-            <div class="pa-kpi-strip__head">vs Target</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--now">Now</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev">Prev</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta">Δ%</div>
+            <div class="pa-kpi-strip__head pa-kpi-strip__head--target">vs Target</div>
         </div>
 
         <div class="pa-kpi-strip__row">
@@ -175,10 +175,10 @@
             </div>
             <div class="pa-card__body pa-kpi-strip__body">
                 <div class="pa-kpi-strip__head-row">
-                    <div class="pa-kpi-strip__head">Metric</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
-                    <div class="pa-kpi-strip__head">Target</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--now">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta">Δ%</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--target">Target</div>
                 </div>
                 <div class="pa-kpi-strip__row">
                     <div class="pa-kpi-strip__metric">MRR</div>
@@ -219,11 +219,11 @@
             </div>
             <div class="pa-card__body pa-kpi-strip__body">
                 <div class="pa-kpi-strip__head-row">
-                    <div class="pa-kpi-strip__head">Metric</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Prev</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
-                    <div class="pa-kpi-strip__head">Target</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--now">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev">Prev</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta">Δ%</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--target">Target</div>
                 </div>
                 <div class="pa-kpi-strip__row">
                     <div class="pa-kpi-strip__metric">Server Temp</div>
@@ -268,11 +268,11 @@
             </div>
             <div class="pa-card__body pa-kpi-strip__body">
                 <div class="pa-kpi-strip__head-row">
-                    <div class="pa-kpi-strip__head">Metric</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Now</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Prev</div>
-                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num">Δ%</div>
-                    <div class="pa-kpi-strip__head">Target</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--now">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev">Prev</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta">Δ%</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--target">Target</div>
                 </div>
                 <div class="pa-kpi-strip__row">
                     <div class="pa-kpi-strip__metric">NPS</div>
@@ -313,6 +313,147 @@
 
 <br>
 
+<!-- ============================================================
+     Column variations — composable --no-* toggle modifiers, showing
+     the 3-col (metric / now / target) and 2-col (metric / now) shapes
+     alongside an explicit 4-col variant.
+     ============================================================ -->
+
+<h3>Column variations · composable <code>--no-*</code> toggles</h3>
+<p><code>--no-prev</code>, <code>--no-delta</code>, and <code>--no-target</code> compose. <code>metric</code> and <code>now</code> are mandatory; any combination of the other three can be dropped to land on a 2-, 3-, or 4-column shape. Templates and cell-hiding rules are precomputed in the framework, so consumers just toggle the modifier classes.</p>
+
+<div class="pa-row">
+
+    <!-- 4-col: --no-target (metric / now / prev / Δ%) -->
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card pa-kpi-strip pa-kpi-strip--no-target">
+            <div class="pa-card__header pa-kpi-header">
+                <h3>4-col · <code>--no-target</code></h3>
+            </div>
+            <div class="pa-card__body pa-kpi-strip__body">
+                <div class="pa-kpi-strip__head-row">
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--now">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev">Prev</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta">Δ%</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--target">Target</div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Revenue</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">$</span><span class="pa-kpi-strip__num">862</span><span class="pa-kpi-strip__unit">K</span></div>
+                    <div class="pa-kpi-strip__prev">$752K</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">+14.6%</div>
+                    <div class="pa-kpi-strip__target"></div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Sessions</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">48.2</span><span class="pa-kpi-strip__unit">K</span></div>
+                    <div class="pa-kpi-strip__prev">44.0K</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+9.5%</div>
+                    <div class="pa-kpi-strip__target"></div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Churn</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">3.1</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">2.7%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--negative">+14.8%</div>
+                    <div class="pa-kpi-strip__target"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3-col: --no-prev --no-delta (metric / now / target) -->
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card pa-kpi-strip pa-kpi-strip--no-prev pa-kpi-strip--no-delta">
+            <div class="pa-card__header pa-kpi-header">
+                <h3>3-col · <code>--no-prev --no-delta</code></h3>
+            </div>
+            <div class="pa-card__body pa-kpi-strip__body">
+                <div class="pa-kpi-strip__head-row">
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--now">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev">Prev</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta">Δ%</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--target">Target</div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Revenue</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">$</span><span class="pa-kpi-strip__num">862</span><span class="pa-kpi-strip__unit">K</span></div>
+                    <div class="pa-kpi-strip__prev">$752K</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">+14.6%</div>
+                    <div class="pa-kpi-strip__target">
+                        <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 96%;"></div></div>
+                        <div class="pa-kpi-strip__bar-pct">96%</div>
+                    </div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Sessions</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">48.2</span><span class="pa-kpi-strip__unit">K</span></div>
+                    <div class="pa-kpi-strip__prev">44.0K</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+9.5%</div>
+                    <div class="pa-kpi-strip__target">
+                        <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 80%;"></div></div>
+                        <div class="pa-kpi-strip__bar-pct">80%</div>
+                    </div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Churn</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">3.1</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">2.7%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--negative">+14.8%</div>
+                    <div class="pa-kpi-strip__target">
+                        <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 62%;"></div></div>
+                        <div class="pa-kpi-strip__bar-pct">62%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2-col: --no-prev --no-delta --no-target (metric / now only) -->
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-card pa-kpi-strip pa-kpi-strip--no-prev pa-kpi-strip--no-delta pa-kpi-strip--no-target">
+            <div class="pa-card__header pa-kpi-header">
+                <h3>2-col · all three dropped</h3>
+            </div>
+            <div class="pa-card__body pa-kpi-strip__body">
+                <div class="pa-kpi-strip__head-row">
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--now">Now</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--prev">Prev</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--num pa-kpi-strip__head--delta">Δ%</div>
+                    <div class="pa-kpi-strip__head pa-kpi-strip__head--target">Target</div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Revenue</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__unit">$</span><span class="pa-kpi-strip__num">862</span><span class="pa-kpi-strip__unit">K</span></div>
+                    <div class="pa-kpi-strip__prev">$752K</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">+14.6%</div>
+                    <div class="pa-kpi-strip__target"></div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Sessions</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">48.2</span><span class="pa-kpi-strip__unit">K</span></div>
+                    <div class="pa-kpi-strip__prev">44.0K</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+9.5%</div>
+                    <div class="pa-kpi-strip__target"></div>
+                </div>
+                <div class="pa-kpi-strip__row">
+                    <div class="pa-kpi-strip__metric">Churn</div>
+                    <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">3.1</span><span class="pa-kpi-strip__unit">%</span></div>
+                    <div class="pa-kpi-strip__prev">2.7%</div>
+                    <div class="pa-kpi-strip__delta pa-kpi-strip__delta--negative">+14.8%</div>
+                    <div class="pa-kpi-strip__target"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
 <!-- Usage Guide -->
 <div class="pa-card">
     <div class="pa-card__header">
@@ -334,8 +475,10 @@
         <h4 class="mt-4">Bar + percent in the target column</h4>
         <p>The "vs target" column carries a tiny progress bar with the percent value pinned below it. Bar fill is theme-neutral grey via <code>color-mix(in srgb, var(--pa-text-color-1) 40%, transparent)</code>; the percent value (e.g. "97%" vs "108%" vs "54%") signals overshoot/undershoot, so colour reinforcement isn't needed. Bar is visually capped at 100% so over-target metrics read as "fully filled" rather than overflowing.</p>
 
-        <h4 class="mt-4">--no-prev modifier</h4>
-        <p>Add <code>pa-kpi-strip--no-prev</code> on the card root and omit the <code>.pa-kpi-strip__prev</code> cells in the markup to drop to a 4-col layout (metric / now / Δ% / target). Useful when there isn't room for prev <em>and</em> now side-by-side — typical at narrow page-grid widths or in dense dashboards where prev is redundant with the Δ%.</p>
+        <h4 class="mt-4">Column toggle modifiers</h4>
+        <p><code>metric</code> and <code>now</code> are mandatory. <code>prev</code>, <code>delta</code>, and <code>target</code> are independently optional via <code>pa-kpi-strip--no-prev</code>, <code>--no-delta</code>, <code>--no-target</code> on the card root. The modifiers compose freely, so the visible column count lands anywhere from 5 (no toggles) down to 2 (all three optional columns dropped: metric + now only). The framework precomputes a <code>grid-template-columns</code> selector for every combination, so consumers only toggle the classes — no manual track-width tuning.</p>
+        <p><strong>How it works:</strong> markup always includes all five cells (data and header) in canonical source order — metric, now, prev, delta, target. Each toggle modifier applies <code>display: none</code> to its column's cells (the framework targets <code>.pa-kpi-strip__prev</code>, <code>__delta</code>, <code>__target</code> data cells and <code>__head--prev</code>, <code>--delta</code>, <code>--target</code> header cells), and a matching compound selector adjusts <code>grid-template-columns</code> to the new visible column count. Source order is preserved so CSS Grid auto-flow places the remaining cells into the right tracks.</p>
+        <p><strong>Headers need per-column modifier classes</strong> for hiding to work — <code>pa-kpi-strip__head--metric</code>, <code>--now</code>, <code>--prev</code>, <code>--delta</code>, <code>--target</code>. Data cells already carry their column-specific class (<code>__metric</code>, <code>__now</code>, etc.) so the data side works without changes.</p>
     </div>
 </div>
 
@@ -350,7 +493,7 @@
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-kpi-strip</code> — page-namespace class on <code>.pa-card</code>.</li>
-            <li><code>pa-kpi-strip--no-prev</code> — modifier dropping the prev column (4-col layout).</li>
+            <li><code>pa-kpi-strip--no-prev</code> / <code>--no-delta</code> / <code>--no-target</code> — composable column toggle modifiers. Each hides its column's cells (data + header) and adjusts <code>grid-template-columns</code> via a precomputed compound selector. Visible columns range from 5 (no toggles) to 2 (all three toggles — metric + now only).</li>
             <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
             <li><code>pa-kpi-strip__body</code> — applies <code>padding: 0</code> so dividers go edge-to-edge.</li>
@@ -363,6 +506,7 @@
             <li><code>pa-kpi-strip__row</code> — data row. Carries hover host for the cursor-anchored popover and per-row inline padding so dividers extend edge-to-edge.</li>
             <li><code>pa-kpi-strip__head</code> — header cell (uppercase mono, 42% contrast).</li>
             <li><code>pa-kpi-strip__head--num</code> — right-aligned variant (matches the right-aligned numeric cells below).</li>
+            <li><code>pa-kpi-strip__head--metric</code> / <code>--now</code> / <code>--prev</code> / <code>--delta</code> / <code>--target</code> — per-column modifier classes on header cells. Required for the <code>--no-*</code> toggles to hide the matching header cell along with its data column.</li>
         </ul>
 
         <h4 class="mt-4">Row cells</h4>
