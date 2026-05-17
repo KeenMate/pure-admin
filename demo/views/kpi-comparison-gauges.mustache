@@ -1,4 +1,5 @@
-<p>"Comparison gauges" KPI indicator. Each KPI is a goal-oriented progress bar — <strong>label · value</strong> on top, <strong>bar with a target tick</strong> in the middle, <strong>0 · tgt</strong> scale below. Bar fill is value/target, capped at 100% (overshoots are signalled by colour, not by overflowing the bar). Colours: <code>--pa-positive</code> for "on track", new <code>--pa-warning</code> for "off-target / approaching limit", <code>--pa-neutral</code> for "no strong sentiment".</p>
+<p>"Comparison gauges" KPI indicator. Each KPI is a goal-oriented progress bar — <strong>label · value</strong> on top, <strong>bar with a target tick</strong> in the middle, <strong>0 · tgt</strong> scale below. Bar fill is value/target, capped at 100% (overshoots are signalled by colour, not by overflowing the bar). Colours: <code>--pa-positive</code> for "on track", <code>--pa-warning</code> for "off-target / approaching limit", <code>--pa-neutral</code> for "no strong sentiment".</p>
+<p>Layout is a cell-min-driven <code>auto-fit</code> grid: cells stay at least <code>--pa-kpi-gauge-cell-min</code> wide (default <code>20rem</code>), the grid fits as many columns as the container allows, and the responsive cascade is intrinsic. <code>--max-2</code>…<code>--max-6</code> modifiers cap the column count while still collapsing on narrow containers. The canonical card below uses <code>--max-3</code> for a deterministic 2-row layout.</p>
 
 
 
@@ -13,7 +14,7 @@
     </div>
 
     <div class="pa-card__body pa-kpi-gauge-list__body">
-        <div class="pa-kpi-gauge-list__grid">
+        <div class="pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-3">
 
             <!-- Completion Rate — under target → warning -->
             <div class="pa-kpi-gauge pa-kpi-gauge--warning">
@@ -150,7 +151,7 @@
      ============================================================ -->
 
 <h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
-<p>Three smaller cards side-by-side. The internal 2-col grid auto-collapses to 1-col via container query when the card drops below 600px wide, so each card stacks its 2 gauges vertically.</p>
+<p>Three smaller cards side-by-side. Each card uses the default <code>pa-kpi-gauge-list__grid</code> (no cap modifier) — at ~400px wide the cell-min threshold forces a single column, so each card stacks its 2 gauges vertically.</p>
 
 <div class="pa-row">
     <div class="pa-col-100 pa-col-md-1-3">
@@ -259,7 +260,7 @@
      ============================================================ -->
 
 <h3>2×3 stack · <code>.pa-col-25</code> + <code>.pa-col-45</code> (asymmetric, 30% empty)</h3>
-<p>Two page-grid columns: 25% wide on the left (narrow stress test — each gauge gets ~280–320px), 45% on the right. Each holds three gauges. The container query forces single-column gauge stacking inside both cards (since both are well below 600px).</p>
+<p>Two page-grid columns: 25% wide on the left (narrow stress test — each gauge gets ~280–320px), 45% on the right. Each holds three gauges with the default <code>pa-kpi-gauge-list__grid</code>. Both cards sit below the cell-min × 2 threshold, so the grid collapses to a single column inside both.</p>
 
 <div class="pa-row">
     <div class="pa-col-100 pa-col-md-25">
@@ -378,7 +379,9 @@
         <p>The bar fill colour is set per-tile via <code>--pa-kpi-bar-color</code>; the four <code>.pa-kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
 
         <h4 class="mt-4">Layout</h4>
-        <p>Internal 2-column grid for the canonical card; a container query at <code>max-width: 600px</code> collapses to single-column so the gauges stack vertically inside narrow page-grid cards (1×3 widths, 25% / 45% asymmetric placements). Same three-section layout testing pattern as the rest of the showcases — canonical full-width, 1×3 page-grid, 25/45/25 asymmetric — to surface how the design behaves at different host widths.</p>
+        <p><strong>Cell-min-driven <code>auto-fit</code> grid.</strong> The default <code>.pa-kpi-gauge-list__grid</code> packs as many columns as fit while keeping each cell at least <code>--pa-kpi-gauge-cell-min</code> wide (default <code>20rem</code>). No <code>@container</code> queries — the responsive cascade is intrinsic to the grid template. Override the cell-min per instance to change density: <code>style="--pa-kpi-gauge-cell-min: 24rem"</code> for fewer, wider columns; <code>16rem</code> for more, narrower ones.</p>
+        <p><strong>Cap-at-N modifiers.</strong> <code>--max-2</code>, <code>--max-3</code>, <code>--max-4</code>, <code>--max-5</code>, <code>--max-6</code> each cap the column count at N while still collapsing below the cell-min × N threshold (a ceiling, not a force). Pick the cap so your item count divides into clean rows. <code>--2col</code> is a separate deterministic modifier — exactly 2 columns regardless of cell-min or container width.</p>
+        <p><strong>Hairline dividers.</strong> The inter-tile dividers are <code>gap: 1px</code> on the grid over <code>background: var(--pa-border-color)</code>, with each tile painting <code>background: var(--pa-card-bg)</code> on top. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. Replaces the previous per-tile <code>border-right</code> + <code>border-bottom</code> + nth-child suppression, which only worked for the hardcoded 2-col layout. The card's outer border supplies the perimeter; the body still uses <code>padding: 0</code> so the dividers go edge-to-edge.</p>
 
         <h4 class="mt-4">Hover detail popover</h4>
         <p>Cursor-anchored via Floating UI's <code>computePosition</code> + a virtual reference element built from <code>e.clientX/clientY</code>. Same recipe as the other KPI showcases: <code>position: fixed</code>, <code>pointer-events: none</code>, popover moved to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>.</p>
@@ -398,9 +401,20 @@
             <li><code>pa-kpi-gauge-list</code> — page-namespace class on <code>.pa-card</code>.</li>
             <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
-            <li><code>pa-kpi-gauge-list__body</code> — applies <code>padding: 0</code> so the inter-tile dividers go edge-to-edge.</li>
-            <li><code>pa-kpi-gauge-list__grid</code> — internal 2-col grid (collapses to 1-col under 600px via container query).</li>
+            <li><code>pa-kpi-gauge-list__body</code> — applies <code>padding: 0</code> so the inter-tile hairlines go edge-to-edge.</li>
+            <li><code>pa-kpi-gauge-list__grid</code> — cell-min-driven <code>auto-fit</code> grid (default cell-min <code>20rem</code>). Hairlines come from <code>gap: 1px</code> over the grid's border-coloured background.</li>
             <li><code>pa-kpi-footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Grid layout modifiers</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-kpi-gauge-list__grid--2col</code> — force exactly 2 columns regardless of cell-min or container width.</li>
+            <li><code>pa-kpi-gauge-list__grid--max-2</code> / <code>--max-3</code> / <code>--max-4</code> / <code>--max-5</code> / <code>--max-6</code> — cap the column count at N while still collapsing below the cell-min × N threshold. The canonical card uses <code>--max-3</code> for a clean 3-column layout.</li>
+        </ul>
+
+        <h4 class="mt-4">Layout CSS variables</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--pa-kpi-gauge-cell-min</code> — minimum cell width for the <code>auto-fit</code> grid (default <code>20rem</code>). Smaller → more columns at the same container width; larger → fewer. Override per instance via <code>style="--pa-kpi-gauge-cell-min: 24rem"</code>.</li>
         </ul>
 
         <h4 class="mt-4">Gauge tile</h4>

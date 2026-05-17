@@ -3,53 +3,90 @@
    Goal-oriented progress bars. Each KPI shows label · value, a bar with a
    target tick, and a 0 · tgt scale below. Bar fill = value/target * 100%,
    capped visually so overshoots are signalled by colour, not overflow.
+
+   Layout is a cell-min-driven `auto-fit` grid — cells stay at least
+   `--pa-kpi-gauge-cell-min` wide, the grid fits as many columns as the
+   container allows, and the responsive cascade is intrinsic to the grid
+   template (no `@container` queries). `--max-N` cap modifiers cap the
+   column count at N while still collapsing below the cell-min × N
+   threshold. Same pattern as `_kpi-editorial-minimal.scss`.
    ======================================== */
 @use '../variables' as *;
 
-.pa-kpi-gauge-list {
-  container-type: inline-size;
-}
 .pa-kpi-gauge-list__body { padding: 0; }
 
-/* 2-column internal grid by default; collapses to 1-col when card narrows. */
+/* ----- Grid + hairline rules -------------------------------------------
+   Cell-min-driven responsive layout. Override `--pa-kpi-gauge-cell-min`
+   per instance to change density (smaller min → more columns at the same
+   container width).
+
+   `gap: 1px` over `background: var(--pa-border-color)` with each tile
+   painting `background: var(--pa-card-bg)` on top — only the gap shows
+   through, giving single-pixel hairlines on every interior boundary
+   regardless of column count. The card's outer border supplies the
+   perimeter. Replaces the previous per-tile `border-right` +
+   `border-bottom` + nth-child suppression machinery, which only worked
+   for the hardcoded 2-col layout. */
 .pa-kpi-gauge-list__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(var(--pa-kpi-gauge-cell-min, 20rem), 1fr));
+  gap: 1px;
+  background: var(--pa-border-color);
 }
-@container (max-width: 600px) {
-  .pa-kpi-gauge-list__grid {
-    grid-template-columns: 1fr;
-  }
+
+/* Modifier: force exactly 2 columns regardless of cell-min or container
+   width. For placements wanting a deterministic 2×N layout. */
+.pa-kpi-gauge-list__grid--2col { grid-template-columns: repeat(2, 1fr); }
+
+/* Cap-at-N modifiers: combine auto-fit with a ceiling on the column
+   count. Cells stay at least --pa-kpi-gauge-cell-min wide, but the grid
+   never exceeds N columns even when the container is wide enough to fit
+   more. Below the cell-min × N threshold the grid still collapses
+   responsively — these modifiers cap the maximum, not the minimum.
+
+   How the calc reads: each track's effective min is
+     max(cell-min, (container − total-gap) / N)
+   On a wide container the calc wins (so tracks grow, you stay at N).
+   On a narrow container cell-min wins (so the grid collapses).
+
+   Pick the cap so your item count divides into clean rows. */
+.pa-kpi-gauge-list__grid--max-2 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px) / 2)), 1fr));
+}
+.pa-kpi-gauge-list__grid--max-3 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 2) / 3)), 1fr));
+}
+.pa-kpi-gauge-list__grid--max-4 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 3) / 4)), 1fr));
+}
+.pa-kpi-gauge-list__grid--max-5 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 4) / 5)), 1fr));
+}
+.pa-kpi-gauge-list__grid--max-6 {
+  grid-template-columns:
+    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 5) / 6)), 1fr));
 }
 
 /* ----- Gauge tile (label/value head · bar · 0/tgt scale) ---------------- */
 .pa-kpi-gauge {
   position: relative;
+  background: var(--pa-card-bg);
   padding: 1.6rem 2rem;
-  border-bottom: 1px solid var(--pa-border-color);
-  border-right: 1px solid var(--pa-border-color);
+  min-width: 0;
 
   /* Per-tile bar colour cascade — modifiers below set the var, the fill
      reads it. Cleaner than per-modifier-per-element rules; host apps can
      override at the tile level via inline style="--pa-kpi-bar-color: …". */
   --pa-kpi-bar-color: var(--pa-positive);
 
-  &:nth-child(2n)            { border-right: 0; }
-  &:nth-last-child(-n+2)     { border-bottom: 0; }
-
   &--positive { --pa-kpi-bar-color: var(--pa-positive); }
   &--warning  { --pa-kpi-bar-color: var(--pa-warning); }
   &--negative { --pa-kpi-bar-color: var(--pa-negative); }
   &--neutral  { --pa-kpi-bar-color: color-mix(in srgb, var(--pa-text-color-1) 70%, transparent); }
-}
-
-@container (max-width: 600px) {
-  .pa-kpi-gauge {
-    border-right: 0;
-
-    &:nth-last-child(-n+2) { border-bottom: 1px solid var(--pa-border-color); }
-    &:last-child           { border-bottom: 0; }
-  }
 }
 
 /* ----- Head: label left, value right (baseline-aligned) ----------------- */
