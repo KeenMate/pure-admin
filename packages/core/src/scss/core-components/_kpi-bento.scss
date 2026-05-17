@@ -1,22 +1,32 @@
 /* ========================================
    KPI · Bento layout
    Magazine-style asymmetric tile sizing with sparklines as soft background
-   fills behind the values. 6 tiles arranged on a 6-col × 3-row grid
+   fills behind the values. Default 6-tile layout on a 6-col × 3-row grid
    (hero left-half × 2 rows, two stacked right-half × 2 rows, three equal
-   tiles bottom row). Tile placement by source order via :nth-child.
+   tiles bottom row). Tile placement is by source order via :nth-child, so
+   markup stays identical across layout modifiers.
+
+   Layout modifiers (below) swap `grid-template-areas` to provide
+   alternative compositions:
+     · default (no modifier) — 6 tiles, hero on the left
+     · `--hero-right`         — 6 tiles, mirror of default (hero on right)
+     · `--5-tile`             — 5 tiles, hero + 4 supporting
+   Row height is a CSS variable (`--pa-kpi-bento-row-height`, default
+   `12rem`) so authors can dial tile height per instance.
    ======================================== */
 @use '../variables' as *;
 
 .pa-kpi-bento {
   container-type: inline-size;
+  --pa-kpi-bento-row-height: 12rem;
 }
 .pa-kpi-bento__body { padding: 1.6rem; }
 
-/* ----- Bento grid ------------------------------------------------------- */
+/* ----- Bento grid (default: 6 tiles, hero on left) ---------------------- */
 .pa-kpi-bento__grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 12rem 12rem 12rem;
+  grid-template-rows: repeat(3, var(--pa-kpi-bento-row-height));
   grid-template-areas:
     "hero hero hero a    a    a"
     "hero hero hero b    b    b"
@@ -31,8 +41,33 @@
   > :nth-child(6) { grid-area: e; }
 }
 
-/* Narrow card → stack everything single column. Hero modifier still
-   bumps the value font-size so it reads as the headline. */
+/* Modifier: --hero-right — mirror of default. Hero on the right half,
+   two stacked tiles on the left of rows 1-2, three equal tiles below.
+   Same 6-tile contract as default; only the template flips. Source
+   order stays unchanged (1st = hero, 2nd = a, …). */
+.pa-kpi-bento__grid--hero-right {
+  grid-template-areas:
+    "a    a    a    hero hero hero"
+    "b    b    b    hero hero hero"
+    "c    c    d    d    e    e";
+}
+
+/* Modifier: --5-tile — hero + 4 supporting. Hero spans the left half ×
+   2 rows, two stacked tiles on the right (rows 1-2), two equal halves on
+   the bottom row. Requires exactly 5 tiles — a 6th tile (if present)
+   would be auto-placed in a new row and break the layout. */
+.pa-kpi-bento__grid--5-tile {
+  grid-template-areas:
+    "hero hero hero a    a    a"
+    "hero hero hero b    b    b"
+    "c    c    c    d    d    d";
+}
+
+/* Narrow card → stack everything single column. Resets `grid-area: auto`
+   on every tile so the same markup works regardless of which layout
+   modifier the grid carries (the @container override sets
+   `grid-template-areas: none` and the `grid-area: auto` on nth-child
+   together neutralise any modifier's template). */
 @container (max-width: 700px) {
   .pa-kpi-bento__grid {
     grid-template-columns: 1fr;

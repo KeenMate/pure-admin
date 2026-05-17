@@ -1,4 +1,5 @@
 <p>"Bento layout" KPI indicator. <strong>Asymmetric tile sizes, sparkline as a low-opacity background</strong> on each tile, big numerals layered over the chart in the lower-left corner. Hero (Monthly Revenue) spans two rows on the left; two stacked tiles on the right (top); three equal tiles below — magazine-style mixed sizes rather than a uniform grid. Card-level container query collapses the whole bento to a single-column stack when the host card narrows below 700px so the same markup works in narrow page-grid cells.</p>
+<p>Layout modifiers on <code>.pa-kpi-bento__grid</code> swap the named-area template without changing markup: default (no modifier) puts the hero on the left, <code>--hero-right</code> mirrors it, <code>--5-tile</code> drops to 5 tiles (hero + 4 supporting). Row height is a CSS variable (<code>--pa-kpi-bento-row-height</code>, default <code>12rem</code>) for taller/shorter tile rows per instance.</p>
 
 
 
@@ -178,7 +179,336 @@
 <br>
 
 <!-- ============================================================
-     2. 1×3 page-grid layout
+     2. Layout variant: hero on the right (--hero-right)
+     ============================================================ -->
+
+<h3>Layout variant · <code>pa-kpi-bento__grid--hero-right</code></h3>
+<p>Mirror of the default layout — hero spans the right half × 2 rows, two stacked supporting tiles on the left of rows 1-2, three equal tiles below. Same 6-tile contract; source order is unchanged (1st = hero, 2nd–3rd = upper supporting, 4th–6th = bottom row). Only the named-area template flips.</p>
+
+<div class="pa-card pa-kpi-bento">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-bento__body">
+        <div class="pa-kpi-bento__grid pa-kpi-bento__grid--hero-right">
+
+            <!-- HERO: Monthly Revenue -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--hero pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Monthly Revenue</div>
+                <div class="pa-kpi-bento-tile__delta">+12.8%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__unit">$</span><span class="pa-kpi-bento-tile__num">849</span><span class="pa-kpi-bento-tile__unit">K</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,22 8,20 16,18 24,15 32,17 40,13 48,15 56,11 64,9 72,10 80,6 88,4 96,5 100,30 0,30" />
+                        <polyline points="0,22 8,20 16,18 24,15 32,17 40,13 48,15 56,11 64,9 72,10 80,6 88,4 96,5" />
+                        <circle cx="96" cy="5" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>$849K</dd>
+                        <dt>Previous</dt><dd>$753K</dd>
+                        <dt>Δ percent</dt><dd class="pos">+12.8%</dd>
+                        <dt>Target</dt><dd>$900K</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- TOP-A: Completion Rate (now upper-left in mirror) -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Completion Rate</div>
+                <div class="pa-kpi-bento-tile__delta">+2.8%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">86.5</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,18 10,16 20,17 30,14 40,15 50,12 60,13 70,11 80,9 90,10 100,8 100,30 0,30" />
+                        <polyline points="0,18 10,16 20,17 30,14 40,15 50,12 60,13 70,11 80,9 90,10 100,8" />
+                        <circle cx="100" cy="8" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                    <dl>
+                        <dt>Current</dt><dd>86.5%</dd>
+                        <dt>Previous</dt><dd>84.2%</dd>
+                        <dt>Δ percent</dt><dd class="pos">+2.8%</dd>
+                        <dt>Target</dt><dd>90.0%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- TOP-B: Server Capacity (now middle-left in mirror) -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--up-strong">
+                <div class="pa-kpi-bento-tile__label">Server Capacity</div>
+                <div class="pa-kpi-bento-tile__delta">+21.0%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">85.9</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,22 10,20 20,18 30,15 40,12 50,10 60,8 70,9 80,5 90,6 100,3 100,30 0,30" />
+                        <polyline points="0,22 10,20 20,18 30,15 40,12 50,10 60,8 70,9 80,5 90,6 100,3" />
+                        <circle cx="100" cy="3" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
+                    <dl>
+                        <dt>Current</dt><dd>85.9%</dd>
+                        <dt>Previous</dt><dd>71.0%</dd>
+                        <dt>Δ percent</dt><dd class="pos">+21.0%</dd>
+                        <dt>Headroom</dt><dd>14.1%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-C: Server Temp -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--negative">
+                <div class="pa-kpi-bento-tile__label">Server Temp</div>
+                <div class="pa-kpi-bento-tile__delta">-2.1%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">24.0</span><span class="pa-kpi-bento-tile__unit">°C</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,8 10,10 20,9 30,12 40,14 50,11 60,16 70,18 80,15 90,21 100,19 100,30 0,30" />
+                        <polyline points="0,8 10,10 20,9 30,12 40,14 50,11 60,16 70,18 80,15 90,21 100,19" />
+                        <circle cx="100" cy="19" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                    <dl>
+                        <dt>Current</dt><dd>24.0°C</dd>
+                        <dt>Previous</dt><dd>24.5°C</dd>
+                        <dt>Δ percent</dt><dd class="neg">−2.1%</dd>
+                        <dt>Threshold</dt><dd>≤ 25°C</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-D: Error Rate -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--up-strong">
+                <div class="pa-kpi-bento-tile__label">Error Rate</div>
+                <div class="pa-kpi-bento-tile__delta">-30.9%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">0.28</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,5 10,7 20,9 30,11 40,13 50,15 60,17 70,19 80,22 90,24 100,25 100,30 0,30" />
+                        <polyline points="0,5 10,7 20,9 30,11 40,13 50,15 60,17 70,19 80,22 90,24 100,25" />
+                        <circle cx="100" cy="25" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                    <dl>
+                        <dt>Current</dt><dd>0.28%</dd>
+                        <dt>Previous</dt><dd>0.41%</dd>
+                        <dt>Δ percent</dt><dd class="pos">−30.9%</dd>
+                        <dt>Target</dt><dd>≤ 0.50%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-E: Tokyo Office -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Tokyo Office</div>
+                <div class="pa-kpi-bento-tile__delta">+8.1%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__unit">¥</span><span class="pa-kpi-bento-tile__num">12.1</span><span class="pa-kpi-bento-tile__unit">M</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,18 10,16 20,17 30,13 40,15 50,12 60,14 70,10 80,11 90,8 100,6 100,30 0,30" />
+                        <polyline points="0,18 10,16 20,17 30,13 40,15 50,12 60,14 70,10 80,11 90,8 100,6" />
+                        <circle cx="100" cy="6" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>¥12.1M</dd>
+                        <dt>Previous</dt><dd>¥11.2M</dd>
+                        <dt>Δ percent</dt><dd class="pos">+8.1%</dd>
+                        <dt>Target</dt><dd>¥13.0M</dd>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Bento layout · <code>--hero-right</code></strong> — Hero on the right, mirror of the default 6-tile composition.</span>
+        <span>Hover any KPI for detail</span>
+    </div>
+</div>
+
+<br>
+
+<!-- ============================================================
+     3. Layout variant: 5 tiles (--5-tile)
+     ============================================================ -->
+
+<h3>Layout variant · <code>pa-kpi-bento__grid--5-tile</code></h3>
+<p>Five-tile composition — hero spans left × 2 rows, two stacked supporting tiles on the right of rows 1-2, two equal halves on the bottom row. Use this when you have exactly 5 KPIs and don't want to force a 6th. The modifier requires exactly 5 source-order tiles; a 6th tile (if present) would be auto-placed in a new row and break the layout.</p>
+
+<div class="pa-card pa-kpi-bento">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-bento__body">
+        <div class="pa-kpi-bento__grid pa-kpi-bento__grid--5-tile">
+
+            <!-- HERO: Monthly Revenue -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--hero pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Monthly Revenue</div>
+                <div class="pa-kpi-bento-tile__delta">+12.8%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__unit">$</span><span class="pa-kpi-bento-tile__num">849</span><span class="pa-kpi-bento-tile__unit">K</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,22 8,20 16,18 24,15 32,17 40,13 48,15 56,11 64,9 72,10 80,6 88,4 96,5 100,30 0,30" />
+                        <polyline points="0,22 8,20 16,18 24,15 32,17 40,13 48,15 56,11 64,9 72,10 80,6 88,4 96,5" />
+                        <circle cx="96" cy="5" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>$849K</dd>
+                        <dt>Previous</dt><dd>$753K</dd>
+                        <dt>Δ percent</dt><dd class="pos">+12.8%</dd>
+                        <dt>Target</dt><dd>$900K</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- TOP-A: Completion Rate -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--positive">
+                <div class="pa-kpi-bento-tile__label">Completion Rate</div>
+                <div class="pa-kpi-bento-tile__delta">+2.8%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">86.5</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,18 10,16 20,17 30,14 40,15 50,12 60,13 70,11 80,9 90,10 100,8 100,30 0,30" />
+                        <polyline points="0,18 10,16 20,17 30,14 40,15 50,12 60,13 70,11 80,9 90,10 100,8" />
+                        <circle cx="100" cy="8" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                    <dl>
+                        <dt>Current</dt><dd>86.5%</dd>
+                        <dt>Previous</dt><dd>84.2%</dd>
+                        <dt>Δ percent</dt><dd class="pos">+2.8%</dd>
+                        <dt>Target</dt><dd>90.0%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- TOP-B: Server Capacity -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--up-strong">
+                <div class="pa-kpi-bento-tile__label">Server Capacity</div>
+                <div class="pa-kpi-bento-tile__delta">+21.0%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">85.9</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,22 10,20 20,18 30,15 40,12 50,10 60,8 70,9 80,5 90,6 100,3 100,30 0,30" />
+                        <polyline points="0,22 10,20 20,18 30,15 40,12 50,10 60,8 70,9 80,5 90,6 100,3" />
+                        <circle cx="100" cy="3" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
+                    <dl>
+                        <dt>Current</dt><dd>85.9%</dd>
+                        <dt>Previous</dt><dd>71.0%</dd>
+                        <dt>Δ percent</dt><dd class="pos">+21.0%</dd>
+                        <dt>Headroom</dt><dd>14.1%</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-C: Server Temp (half-width) -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--negative">
+                <div class="pa-kpi-bento-tile__label">Server Temp</div>
+                <div class="pa-kpi-bento-tile__delta">-2.1%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">24.0</span><span class="pa-kpi-bento-tile__unit">°C</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,8 10,10 20,9 30,12 40,14 50,11 60,16 70,18 80,15 90,21 100,19 100,30 0,30" />
+                        <polyline points="0,8 10,10 20,9 30,12 40,14 50,11 60,16 70,18 80,15 90,21 100,19" />
+                        <circle cx="100" cy="19" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                    <dl>
+                        <dt>Current</dt><dd>24.0°C</dd>
+                        <dt>Previous</dt><dd>24.5°C</dd>
+                        <dt>Δ percent</dt><dd class="neg">−2.1%</dd>
+                        <dt>Threshold</dt><dd>≤ 25°C</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- BOT-D: Error Rate (half-width) -->
+            <div class="pa-kpi-bento-tile pa-kpi-bento-tile--up-strong">
+                <div class="pa-kpi-bento-tile__label">Error Rate</div>
+                <div class="pa-kpi-bento-tile__delta">-30.9%</div>
+                <div class="pa-kpi-bento-tile__value">
+                    <span class="pa-kpi-bento-tile__num">0.28</span><span class="pa-kpi-bento-tile__unit">%</span>
+                </div>
+                <div class="pa-kpi-bento-tile__chart">
+                    <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <polygon points="0,5 10,7 20,9 30,11 40,13 50,15 60,17 70,19 80,22 90,24 100,25 100,30 0,30" />
+                        <polyline points="0,5 10,7 20,9 30,11 40,13 50,15 60,17 70,19 80,22 90,24 100,25" />
+                        <circle cx="100" cy="25" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                    <dl>
+                        <dt>Current</dt><dd>0.28%</dd>
+                        <dt>Previous</dt><dd>0.41%</dd>
+                        <dt>Δ percent</dt><dd class="pos">−30.9%</dd>
+                        <dt>Target</dt><dd>≤ 0.50%</dd>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Bento layout · <code>--5-tile</code></strong> — Five-tile variant for cases without a 6th supporting KPI.</span>
+        <span>Hover any KPI for detail</span>
+    </div>
+</div>
+
+<br>
+
+<!-- ============================================================
+     4. 1×3 page-grid layout
      ============================================================ -->
 
 <div class="pa-row">
@@ -409,7 +739,7 @@
 <br>
 
 <!-- ============================================================
-     3. Asymmetric 25 + 45 + 25 page-grid layout
+     5. Asymmetric 25 + 45 + 25 page-grid layout
      ============================================================ -->
 
 <div class="pa-row">
@@ -802,8 +1132,17 @@
         <h4>When to use</h4>
         <p>Magazine-cover dashboards where one headline KPI deserves disproportionate visual weight, with supporting metrics arranged around it. Sparklines sit <em>behind</em> the values rather than alongside them. Best for marketing pages, exec summaries, and "today at a glance" hero panels. If you want even visual weight across all KPIs, pick Editorial minimal or Numeric strip.</p>
 
-        <h4 class="mt-4">6-tile asymmetric grid</h4>
-        <p>The grid uses CSS <code>grid-template-areas</code> arranged as a 6-col × 3-row layout: hero takes the left half across the top two rows; two stacked tiles fill the right half of those rows; three equal tiles span the bottom row. Tile placement is by <em>source order</em> via <code>:nth-child</code> rules — authoring just lists six tiles in reading order. To rearrange, edit the named-area template; the markup stays unchanged.</p>
+        <h4 class="mt-4">Layout modifiers</h4>
+        <p>The grid uses CSS <code>grid-template-areas</code> on a 6-col × 3-row layout. Tile placement is by <em>source order</em> via <code>:nth-child</code> rules, so the markup stays identical across layout modifiers — authors only list tiles in reading order and pick a modifier. Three layouts ship today:</p>
+        <ul>
+            <li><strong>Default</strong> (no modifier): 6 tiles — hero spans the left half × 2 rows, two stacked tiles on the right of rows 1-2, three equal tiles on the bottom row.</li>
+            <li><strong><code>--hero-right</code></strong>: mirror of default — hero on the right half, two stacked tiles on the left of rows 1-2, three equal tiles below. Same 6-tile contract.</li>
+            <li><strong><code>--5-tile</code></strong>: hero + 4 supporting — hero spans the left half × 2 rows, two stacked tiles on the right of rows 1-2, two equal halves on the bottom row. Requires exactly 5 source-order tiles; a 6th would auto-place into a new row.</li>
+        </ul>
+        <p>To add a new layout, declare a sibling modifier with a different <code>grid-template-areas</code> using the same area names (<code>hero</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>) and the existing nth-child assignments map source order to those areas automatically.</p>
+
+        <h4 class="mt-4">Row height as a CSS variable</h4>
+        <p>The grid's row height is exposed as <code>--pa-kpi-bento-row-height</code> (default <code>12rem</code>) on <code>.pa-kpi-bento</code>. Override per instance for taller or shorter tiles: <code>style="--pa-kpi-bento-row-height: 14rem"</code>. The three rows of the default layout share the same height (= total grid height is 3× the row variable), so the variable controls both the per-row tile height and the overall card body height.</p>
 
         <h4 class="mt-4">Sparkline-behind-value layering</h4>
         <p>Each tile is an internal 2-row grid (<code>"label delta" / "value value"</code>). The value sits at the bottom-left layered over an absolutely-positioned chart underneath it (<code>z-index: 1</code> on the value, <code>z-index: 0</code> on the chart). The sparkline reads <em>through</em> behind the digits rather than living in its own column. Polygon fill is <code>opacity: 0.10</code> and polyline is <code>stroke-opacity: 0.55</code> so the chart doesn't compete with the headline number.</p>
@@ -829,12 +1168,23 @@
     <div class="pa-card__body">
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-bento</code> — page-namespace class on <code>.pa-card</code>.</li>
+            <li><code>pa-kpi-bento</code> — page-namespace class on <code>.pa-card</code>. Declares <code>--pa-kpi-bento-row-height</code> (default <code>12rem</code>).</li>
             <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
             <li><code>pa-kpi-bento__body</code> — card body with internal padding (the bento's outer breathing room).</li>
-            <li><code>pa-kpi-bento__grid</code> — 6×3 named-area grid; <code>:nth-child</code> rules assign each tile to its area.</li>
+            <li><code>pa-kpi-bento__grid</code> — 6×3 named-area grid; <code>:nth-child</code> rules assign each tile to its area. Default layout puts the hero on the left.</li>
             <li><code>pa-kpi-footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Layout modifiers</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-kpi-bento__grid--hero-right</code> — mirror of default; hero on the right half. Same 6-tile contract.</li>
+            <li><code>pa-kpi-bento__grid--5-tile</code> — 5-tile variant (hero + 4 supporting; two equal halves on bottom row). Requires exactly 5 tiles.</li>
+        </ul>
+
+        <h4 class="mt-4">Layout CSS variables</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--pa-kpi-bento-row-height</code> — row height for all three rows of the grid (default <code>12rem</code>). Override per instance via <code>style="--pa-kpi-bento-row-height: 14rem"</code>.</li>
         </ul>
 
         <h4 class="mt-4">Tiles</h4>
