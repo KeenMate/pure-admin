@@ -12,12 +12,26 @@
 }
 .pa-kpi-hero-list__body { padding: 1.6rem; }
 
-/* ----- Layout: hero left, rail right ------------------------------------ */
+/* ----- Layout: hero left, rail right ------------------------------------
+   Default split is 1:1 (50% hero / 50% rail). Modifiers below shift the
+   weight to the hero, which is the more common "executive dashboard"
+   shape — one big headline, supporting tiles compressed into a narrower
+   rail. Pick a modifier per instance; the markup stays unchanged. */
 .pa-kpi-hero-list__layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.4rem;
 }
+/* Hero 2/3, rail 1/3. */
+.pa-kpi-hero-list__layout--hero-2-3 {
+  grid-template-columns: 2fr 1fr;
+}
+/* Hero 3/4, rail 1/4 — hero-dominant; rail is a thin sidebar. */
+.pa-kpi-hero-list__layout--hero-3-4 {
+  grid-template-columns: 3fr 1fr;
+}
+/* Narrow card → stack to single column. Overrides any --hero-N-M modifier
+   that lives on the same element. */
 @container (max-width: 700px) {
   .pa-kpi-hero-list__layout {
     grid-template-columns: 1fr;

@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`.pa-kpi-hero-list__layout` gained split-ratio modifiers**. Previously the hero/rail split was hardcoded to `1fr 1fr` (50/50) on the layout grid — anything else required forking the SCSS. Default 1:1 is preserved; two new modifiers shift weight to the hero without touching markup.
+    - **New `pa-kpi-hero-list__layout--hero-2-3` modifier**: hero gets 2/3 of the width, rail 1/3. Common in exec layouts where the supporting tiles are reference rather than focal.
+    - **New `pa-kpi-hero-list__layout--hero-3-4` modifier**: hero gets 3/4 of the width, rail 1/4 — hero-dominant; the rail becomes a thin sidebar.
+    - **`@container (max-width: 700px)` collapse** override still matches the base `__layout` class selector and overrides any modifier's `grid-template-columns` at narrow widths. Collapse behaviour is identical regardless of which split-ratio modifier the layout carries.
+
 - **`.pa-kpi-bento__grid` gained layout modifiers + row-height variable**. Previously the bento was locked to exactly 6 tiles in a single fixed `grid-template-areas` template (hero left-half × 2 rows, two stacked right-half × 2 rows, three equal tiles bottom row) — anything else required forking the SCSS. The default layout is unchanged; two new modifiers swap the named-area template without touching markup, and the row height is now author-configurable.
     - **New `pa-kpi-bento__grid--hero-right` modifier**: mirror of the default layout — hero on the right half, two stacked supporting tiles on the left of rows 1-2, three equal tiles on the bottom row. Same 6-tile contract; source order stays unchanged because the underlying `:nth-child → grid-area` mapping is preserved.
     - **New `pa-kpi-bento__grid--5-tile` modifier**: 5-tile composition — hero spans the left half × 2 rows, two stacked tiles on the right of rows 1-2, two equal halves on the bottom row. Requires exactly 5 source-order tiles; a 6th would auto-place into a new row and break the layout.

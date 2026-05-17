@@ -1,4 +1,5 @@
 <p>"Hero + supporting" KPI indicator. <strong>One headline metric on the left</strong> (huge value, delta + period + target meta row, big sparkline) — the marketing/exec story you want at a glance. <strong>A vertical side rail of supporting metrics on the right</strong> (compact tiles, each with label · value · delta-vs-prev). Card-level container query collapses the side-by-side layout to stacked when the card narrows below 700px so the same markup works in narrow page-grid cells.</p>
+<p>Split-ratio modifiers on <code>.pa-kpi-hero-list__layout</code> shift weight to the hero without touching markup: default is <code>1:1</code> (50/50), <code>--hero-2-3</code> gives the hero 2/3 of the width, <code>--hero-3-4</code> makes the rail a thin sidebar. Pick the proportion that fits your hero's visual weight need.</p>
 
 
 
@@ -147,9 +148,205 @@
     </div>
 </div>
 
+<br>
 
 <!-- ============================================================
-     2. Layout test — 1×3 page grid (.pa-col-1-3)
+     2. Layout variant: hero 2/3, rail 1/3 (--hero-2-3)
+     ============================================================ -->
+
+<h3>Layout variant · <code>pa-kpi-hero-list__layout--hero-2-3</code></h3>
+<p>Hero gets 2/3 of the width, rail 1/3. Pushes more visual weight onto the headline metric — common in marketing/exec layouts where the supporting tiles are reference rather than focal. Source markup is identical to the canonical; only the modifier on <code>__layout</code> changes.</p>
+
+<div class="pa-card pa-kpi-hero-list">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-hero-list__body">
+        <div class="pa-kpi-hero-list__layout pa-kpi-hero-list__layout--hero-2-3">
+
+            <div class="pa-kpi-hero-main pa-kpi-hero-main--positive">
+                <div class="pa-kpi-hero-main__label">Monthly Revenue</div>
+                <div class="pa-kpi-hero-main__value">
+                    <span class="pa-kpi-hero-main__unit">$</span><span class="pa-kpi-hero-main__num">852</span><span class="pa-kpi-hero-main__unit">K</span>
+                </div>
+                <div class="pa-kpi-hero-main__meta">
+                    <div class="pa-kpi-hero-main__delta">
+                        <span class="pa-kpi-hero-main__delta-arrow">▲</span>
+                        <span class="pa-kpi-hero-main__delta-pct">13.3%</span>
+                    </div>
+                    <div class="pa-kpi-hero-main__period">vs last month</div>
+                    <div class="pa-kpi-hero-main__target">tgt $900K</div>
+                </div>
+                <div class="pa-kpi-hero-main__chart">
+                    <span class="pa-kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polygon points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13 100,24 0,24" />
+                        <polyline points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13" />
+                        <circle cx="96" cy="13" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>$852K</dd>
+                        <dt>Previous</dt><dd>$752K</dd>
+                        <dt>Δ percent</dt><dd class="pos">+13.3%</dd>
+                        <dt>Target</dt><dd>$900K</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="pa-kpi-hero-list__rail">
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--positive">
+                    <div class="pa-kpi-hero-side__label">Completion Rate</div>
+                    <div class="pa-kpi-hero-side__value">
+                        <span class="pa-kpi-hero-side__num">88.5</span><span class="pa-kpi-hero-side__unit">%</span>
+                    </div>
+                    <div class="pa-kpi-hero-side__delta">+5.1% vs prev</div>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                        <dl><dt>Current</dt><dd>88.5%</dd><dt>Δ percent</dt><dd class="pos">+5.1%</dd><dt>Target</dt><dd>90.0%</dd></dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--up-strong">
+                    <div class="pa-kpi-hero-side__label">Error Rate</div>
+                    <div class="pa-kpi-hero-side__value">
+                        <span class="pa-kpi-hero-side__num">0.28</span><span class="pa-kpi-hero-side__unit">%</span>
+                    </div>
+                    <div class="pa-kpi-hero-side__delta">-32.0% vs prev</div>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                        <dl><dt>Current</dt><dd>0.28%</dd><dt>Δ percent</dt><dd class="pos">−32.0%</dd><dt>Target</dt><dd>≤ 0.50%</dd></dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--positive">
+                    <div class="pa-kpi-hero-side__label">Tokyo Office</div>
+                    <div class="pa-kpi-hero-side__value">
+                        <span class="pa-kpi-hero-side__unit">¥</span><span class="pa-kpi-hero-side__num">12.0</span><span class="pa-kpi-hero-side__unit">M</span>
+                    </div>
+                    <div class="pa-kpi-hero-side__delta">+7.0% vs prev</div>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                        <dl><dt>Current</dt><dd>¥12.0M</dd><dt>Δ percent</dt><dd class="pos">+7.0%</dd><dt>Target</dt><dd>¥13.0M</dd></dl>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Hero + supporting · <code>--hero-2-3</code></strong> — Hero gets 2/3 of the width.</span>
+        <span>Hover any KPI for detail</span>
+    </div>
+</div>
+
+<br>
+
+<!-- ============================================================
+     3. Layout variant: hero 3/4, rail 1/4 (--hero-3-4)
+     ============================================================ -->
+
+<h3>Layout variant · <code>pa-kpi-hero-list__layout--hero-3-4</code></h3>
+<p>Hero gets 3/4 of the width, rail 1/4 (a thin sidebar). The hero-dominant shape — the rail becomes a quick reference column rather than an equal-weight partner. At narrow card widths the same <code>@container</code> breakpoint applies, so the layout still collapses to a stack below 700px regardless of which split-ratio modifier the layout carries.</p>
+
+<div class="pa-card pa-kpi-hero-list">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-hero-list__body">
+        <div class="pa-kpi-hero-list__layout pa-kpi-hero-list__layout--hero-3-4">
+
+            <div class="pa-kpi-hero-main pa-kpi-hero-main--positive">
+                <div class="pa-kpi-hero-main__label">Monthly Revenue</div>
+                <div class="pa-kpi-hero-main__value">
+                    <span class="pa-kpi-hero-main__unit">$</span><span class="pa-kpi-hero-main__num">852</span><span class="pa-kpi-hero-main__unit">K</span>
+                </div>
+                <div class="pa-kpi-hero-main__meta">
+                    <div class="pa-kpi-hero-main__delta">
+                        <span class="pa-kpi-hero-main__delta-arrow">▲</span>
+                        <span class="pa-kpi-hero-main__delta-pct">13.3%</span>
+                    </div>
+                    <div class="pa-kpi-hero-main__period">vs last month</div>
+                    <div class="pa-kpi-hero-main__target">tgt $900K</div>
+                </div>
+                <div class="pa-kpi-hero-main__chart">
+                    <span class="pa-kpi-hero-main__chart-svg"><svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polygon points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13 100,24 0,24" />
+                        <polyline points="0,16 8,12 16,9 24,7 32,8 40,10 48,9 56,11 64,14 72,18 80,15 88,17 96,13" />
+                        <circle cx="96" cy="13" r="2" />
+                    </svg></span>
+                </div>
+                <div class="pa-kpi-detail" role="tooltip">
+                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                    <dl>
+                        <dt>Current</dt><dd>$852K</dd>
+                        <dt>Previous</dt><dd>$752K</dd>
+                        <dt>Δ percent</dt><dd class="pos">+13.3%</dd>
+                        <dt>Target</dt><dd>$900K</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="pa-kpi-hero-list__rail">
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--positive">
+                    <div class="pa-kpi-hero-side__label">Completion Rate</div>
+                    <div class="pa-kpi-hero-side__value">
+                        <span class="pa-kpi-hero-side__num">88.5</span><span class="pa-kpi-hero-side__unit">%</span>
+                    </div>
+                    <div class="pa-kpi-hero-side__delta">+5.1% vs prev</div>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                        <dl><dt>Current</dt><dd>88.5%</dd><dt>Δ percent</dt><dd class="pos">+5.1%</dd><dt>Target</dt><dd>90.0%</dd></dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--up-strong">
+                    <div class="pa-kpi-hero-side__label">Error Rate</div>
+                    <div class="pa-kpi-hero-side__value">
+                        <span class="pa-kpi-hero-side__num">0.28</span><span class="pa-kpi-hero-side__unit">%</span>
+                    </div>
+                    <div class="pa-kpi-hero-side__delta">-32.0% vs prev</div>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                        <dl><dt>Current</dt><dd>0.28%</dd><dt>Δ percent</dt><dd class="pos">−32.0%</dd><dt>Target</dt><dd>≤ 0.50%</dd></dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-hero-side pa-kpi-hero-side--positive">
+                    <div class="pa-kpi-hero-side__label">Tokyo Office</div>
+                    <div class="pa-kpi-hero-side__value">
+                        <span class="pa-kpi-hero-side__unit">¥</span><span class="pa-kpi-hero-side__num">12.0</span><span class="pa-kpi-hero-side__unit">M</span>
+                    </div>
+                    <div class="pa-kpi-hero-side__delta">+7.0% vs prev</div>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                        <dl><dt>Current</dt><dd>¥12.0M</dd><dt>Δ percent</dt><dd class="pos">+7.0%</dd><dt>Target</dt><dd>¥13.0M</dd></dl>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Hero + supporting · <code>--hero-3-4</code></strong> — Hero gets 3/4 of the width; rail becomes a thin sidebar.</span>
+        <span>Hover any KPI for detail</span>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     4. Layout test — 1×3 page grid (.pa-col-1-3)
      ============================================================ -->
 
 <h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
@@ -306,7 +503,7 @@
 
 
 <!-- ============================================================
-     3. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
+     5. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
      ============================================================ -->
 
 <h3>2-card stack · <code>.pa-col-25</code> + <code>.pa-col-45</code> (asymmetric, 30% empty)</h3>
@@ -424,7 +621,7 @@
 <br>
 
 <!-- ============================================================
-     4. Custom chart library — Chart.js in the chart slot
+     6. Custom chart library — Chart.js in the chart slot
      ============================================================ -->
 
 <h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
@@ -519,7 +716,12 @@
         <p>Marketing / executive dashboards where one headline metric carries the page and a small set of supporting metrics provide context. The hero gets disproportionate visual weight (huge number + filled-area sparkline + meta row); the side rail is compact tile rows. Best for "today's top number, with a few supporting figures alongside" rather than even-weight grids of KPIs.</p>
 
         <h4 class="mt-4">Layout</h4>
-        <p>Card body is a 2-column grid: hero on the left, supporting tile rail on the right. A container query at <code>max-width: 700px</code> collapses to single column on narrow page-grid cards (1×3, 25/45 widths) so the same markup works at multiple host widths.</p>
+        <p>Card body is a 2-column grid: hero on the left, supporting tile rail on the right. The default split is <strong>1:1</strong> (50/50). Two modifiers shift weight to the hero:</p>
+        <ul>
+            <li><strong><code>--hero-2-3</code></strong>: hero 2/3, rail 1/3. Pushes more visual weight onto the headline metric — common in exec layouts where the supporting tiles are reference rather than focal.</li>
+            <li><strong><code>--hero-3-4</code></strong>: hero 3/4, rail 1/4. Hero-dominant — the rail becomes a thin sidebar.</li>
+        </ul>
+        <p>A container query at <code>max-width: 700px</code> collapses any of the splits to single column on narrow page-grid cards (1×3, 25/45 widths). The collapse override matches the base <code>__layout</code> class so it neutralises whichever split modifier the layout carries.</p>
 
         <h4 class="mt-4">Side-rail tile structure</h4>
         <p>Each side tile is a 2×2 internal grid with the value spanning both rows on the right column. Left column has label (row 1, <code>align-self: end</code>) and delta (row 2, <code>align-self: start</code>), so they tuck against the vertically-centred value rather than each having a full-width row. Looks balanced when the label is one line and still reads cleanly when it wraps to two.</p>
@@ -549,9 +751,15 @@
             <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
             <li><code>pa-kpi-hero-list__body</code> — card body with internal padding.</li>
-            <li><code>pa-kpi-hero-list__layout</code> — 2-col grid (hero left, rail right). Collapses to 1-col under 700px via container query.</li>
+            <li><code>pa-kpi-hero-list__layout</code> — 2-col grid (hero left, rail right). Default split is 1:1. Collapses to 1-col under 700px via container query.</li>
             <li><code>pa-kpi-hero-list__rail</code> — vertical stack of side-tiles (right column).</li>
             <li><code>pa-kpi-footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">Layout split-ratio modifiers</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-kpi-hero-list__layout--hero-2-3</code> — hero gets 2/3 of the width, rail 1/3.</li>
+            <li><code>pa-kpi-hero-list__layout--hero-3-4</code> — hero gets 3/4 of the width, rail 1/4 (thin sidebar).</li>
         </ul>
 
         <h4 class="mt-4">Hero (left column)</h4>
