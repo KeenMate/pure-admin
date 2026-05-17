@@ -1,342 +1,508 @@
-<p>Bloomberg-y "terminal grid" KPI panel — mono numbers, status tags, sparklines, ▲▼ deltas. Three view modes (Value / Δ% / Trend) swap the focal number per tile. Hover any tile for the detail breakdown.</p>
+<p>Bloomberg-y "terminal grid" KPI panel — mono numbers, status tags, sparklines, ▲▼ deltas. The header strip is a <strong>tab control</strong>: each tab swaps in a separate pane with its own tile set and grid layout (different tile counts allowed). Hover any tile for the detail breakdown.</p>
 
 <!-- ============================================================
-     1. Terminal grid · dense KPI panel
+     1. Terminal grid · canonical card with three tabs
+     Different tile counts per pane demonstrate the new pattern:
+       · OVERVIEW   6 tiles (3×2)
+       · FINANCE    2 tiles (1×2)
+       · OPERATIONS 4 tiles (2×2)
+     All panes use the same `--2col` grid modifier — the n-th-child
+     border suppressors handle the last-row/last-column edges
+     correctly regardless of row count.
      ============================================================ -->
 
-
-
-<div class="pa-card pa-kpi-terminal" data-view="value">
+<div class="pa-card pa-kpi-terminal">
     <div class="pa-card__header pa-kpi-header">
         <h3>Key Performance Indicators</h3>
         <div class="pa-kpi-terminal__controls">
-            <div class="pa-kpi-terminal__viewtoggle" role="tablist" aria-label="View mode">
-                <button type="button" class="pa-kpi-terminal__viewbtn is-active" data-view="value" role="tab" aria-selected="true">VALUE</button>
-                <button type="button" class="pa-kpi-terminal__viewbtn" data-view="delta" role="tab" aria-selected="false">Δ%</button>
-                <button type="button" class="pa-kpi-terminal__viewbtn" data-view="trend" role="tab" aria-selected="false">TREND</button>
+            <div class="pa-kpi-terminal__tabs" role="tablist" aria-label="Dashboard view">
+                <button type="button" class="pa-kpi-terminal__tab is-active" data-tab="overview" role="tab" aria-selected="true">OVERVIEW</button>
+                <button type="button" class="pa-kpi-terminal__tab" data-tab="finance" role="tab" aria-selected="false">FINANCE</button>
+                <button type="button" class="pa-kpi-terminal__tab" data-tab="ops" role="tab" aria-selected="false">OPERATIONS</button>
             </div>
             <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
         </div>
     </div>
 
     <div class="pa-card__body pa-kpi-terminal__body">
-        <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col">
 
-            <!-- KPI 01 — Completion Rate · WARN -->
-            <div class="pa-kpi-tile pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+        <!-- Pane · OVERVIEW — all 6 KPIs -->
+        <div class="pa-kpi-terminal__pane is-active" data-tab="overview">
+            <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col">
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Completion Rate</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 84.2%</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                        <circle cx="96" cy="5" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                        <dl>
+                            <dt>Current</dt><dd>88.6%</dd>
+                            <dt>Previous</dt><dd>84.2%</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
+                            <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
+                            <dt>Target</dt><dd>90.0%</dd>
+                        </dl>
+                    </div>
                 </div>
-                <div class="pa-kpi-tile__label">Completion Rate</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 5.2</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">98</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Monthly Revenue</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev $752K</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
+                        <circle cx="96" cy="11" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>$835K</dd>
+                            <dt>Previous</dt><dd>$752K</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+$83K</dd>
+                            <dt>Δ percent</dt><dd class="pos">+11.0%</dd>
+                            <dt>Target</dt><dd>$900K</dd>
+                        </dl>
+                    </div>
                 </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 84.2%</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
+
+                <div class="pa-kpi-tile pa-kpi-tile--down">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.03 · 24h</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Server Temp</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">22.9</span><span class="pa-kpi-tile__unit">°C</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 24.5°C</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--negative">▼ 6.5%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,18 12,17 24,15 36,14 48,12 60,11 72,10 84,9 96,11" />
+                        <circle cx="96" cy="11" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>22.9°C</dd>
+                            <dt>Previous</dt><dd>24.5°C</dd>
+                            <dt>Δ absolute</dt><dd class="neg">−1.6°C</dd>
+                            <dt>Δ percent</dt><dd class="neg">−6.5%</dd>
+                            <dt>Target</dt><dd>≤ 23°C</dd>
+                        </dl>
+                    </div>
                 </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
-                    <circle cx="96" cy="5" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
-                    <dl>
-                        <dt>Current</dt><dd>88.6%</dd>
-                        <dt>Previous</dt><dd>84.2%</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
-                        <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
-                        <dt>Target</dt><dd>90.0%</dd>
-                    </dl>
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.04 · 7d</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Server Capacity</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">81.6</span><span class="pa-kpi-tile__unit">%</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 71.0%</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 14.9%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,17 12,15 24,12 36,10 48,8 60,9 72,11 84,13 96,12" />
+                        <circle cx="96" cy="12" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
+                        <dl>
+                            <dt>Current</dt><dd>81.6%</dd>
+                            <dt>Previous</dt><dd>71.0%</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+10.6pp</dd>
+                            <dt>Δ percent</dt><dd class="pos">+14.9%</dd>
+                            <dt>Target</dt><dd>≤ 75%</dd>
+                        </dl>
+                    </div>
                 </div>
+
+                <div class="pa-kpi-tile pa-kpi-tile--up-strong">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.05 · 24h</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Error Rate</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">0.24</span><span class="pa-kpi-tile__unit">%</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 0.41%</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--very-positive">▼ 41.0%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,8 12,10 24,9 36,12 48,11 60,14 72,12 84,15 96,17" />
+                        <circle cx="96" cy="17" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>0.24%</dd>
+                            <dt>Previous</dt><dd>0.41%</dd>
+                            <dt>Δ absolute</dt><dd class="pos">−0.17pp</dd>
+                            <dt>Δ percent</dt><dd class="pos">−41.0%</dd>
+                            <dt>Target</dt><dd>≤ 0.50%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.06 · 12mo</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--neutral">NEUTRAL</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Tokyo Office</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">¥</span><span class="pa-kpi-tile__num">11.6</span><span class="pa-kpi-tile__unit">M</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev ¥11.2M</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 3.5%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
+                        <circle cx="96" cy="10" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>¥11.6M</dd>
+                            <dt>Previous</dt><dd>¥11.2M</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+0.39M</dd>
+                            <dt>Δ percent</dt><dd class="pos">+3.5%</dd>
+                            <dt>Target</dt><dd>¥13.0M</dd>
+                        </dl>
+                    </div>
+                </div>
+
             </div>
-
-            <!-- KPI 02 — Monthly Revenue · GOOD -->
-            <div class="pa-kpi-tile pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
-                </div>
-                <div class="pa-kpi-tile__label">Monthly Revenue</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 11.0</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">93</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev $752K</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
-                    <circle cx="96" cy="11" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
-                    <dl>
-                        <dt>Current</dt><dd>$835K</dd>
-                        <dt>Previous</dt><dd>$752K</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+$83K</dd>
-                        <dt>Δ percent</dt><dd class="pos">+11.0%</dd>
-                        <dt>Target</dt><dd>$900K</dd>
-                    </dl>
-                </div>
-            </div>
-
-            <!-- KPI 03 — Server Temp · GOOD (sparkline trends red — temps rose pre-correction) -->
-            <div class="pa-kpi-tile pa-kpi-tile--down">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.03 · 24h</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
-                </div>
-                <div class="pa-kpi-tile__label">Server Temp</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">22.9</span><span class="pa-kpi-tile__unit">°C</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--negative" data-mode="delta"><span class="pa-kpi-tile__num">▼ 6.5</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">100</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 24.5°C</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--negative">▼ 6.5%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,18 12,17 24,15 36,14 48,12 60,11 72,10 84,9 96,11" />
-                    <circle cx="96" cy="11" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Server Temp · 24H</div>
-                    <dl>
-                        <dt>Current</dt><dd>22.9°C</dd>
-                        <dt>Previous</dt><dd>24.5°C</dd>
-                        <dt>Δ absolute</dt><dd class="neg">−1.6°C</dd>
-                        <dt>Δ percent</dt><dd class="neg">−6.5%</dd>
-                        <dt>Target</dt><dd>≤ 23°C</dd>
-                    </dl>
-                </div>
-            </div>
-
-            <!-- KPI 04 — Server Capacity · WARN -->
-            <div class="pa-kpi-tile pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.04 · 7d</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
-                </div>
-                <div class="pa-kpi-tile__label">Server Capacity</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">81.6</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 14.9</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">111</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 71.0%</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 14.9%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,17 12,15 24,12 36,10 48,8 60,9 72,11 84,13 96,12" />
-                    <circle cx="96" cy="12" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
-                    <dl>
-                        <dt>Current</dt><dd>81.6%</dd>
-                        <dt>Previous</dt><dd>71.0%</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+10.6pp</dd>
-                        <dt>Δ percent</dt><dd class="pos">+14.9%</dd>
-                        <dt>Target</dt><dd>≤ 75%</dd>
-                    </dl>
-                </div>
-            </div>
-
-            <!-- KPI 05 — Error Rate · GOOD (41% drop = strong positive change → demos --very-positive / --up-strong) -->
-            <div class="pa-kpi-tile pa-kpi-tile--up-strong">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.05 · 24h</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
-                </div>
-                <div class="pa-kpi-tile__label">Error Rate</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">0.24</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--very-positive" data-mode="delta"><span class="pa-kpi-tile__num">▼ 41.0</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">52</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 0.41%</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--very-positive">▼ 41.0%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,8 12,10 24,9 36,12 48,11 60,14 72,12 84,15 96,17" />
-                    <circle cx="96" cy="17" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
-                    <dl>
-                        <dt>Current</dt><dd>0.24%</dd>
-                        <dt>Previous</dt><dd>0.41%</dd>
-                        <dt>Δ absolute</dt><dd class="pos">−0.17pp</dd>
-                        <dt>Δ percent</dt><dd class="pos">−41.0%</dd>
-                        <dt>Target</dt><dd>≤ 0.50%</dd>
-                    </dl>
-                </div>
-            </div>
-
-            <!-- KPI 06 — Tokyo Office · NEUTRAL -->
-            <div class="pa-kpi-tile pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.06 · 12mo</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--neutral">NEUTRAL</span>
-                </div>
-                <div class="pa-kpi-tile__label">Tokyo Office</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__unit">¥</span><span class="pa-kpi-tile__num">11.6</span><span class="pa-kpi-tile__unit">M</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 3.5</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">90</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev ¥11.2M</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 3.5%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
-                    <circle cx="96" cy="10" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
-                    <dl>
-                        <dt>Current</dt><dd>¥11.6M</dd>
-                        <dt>Previous</dt><dd>¥11.2M</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+0.39M</dd>
-                        <dt>Δ percent</dt><dd class="pos">+3.5%</dd>
-                        <dt>Target</dt><dd>¥13.0M</dd>
-                    </dl>
-                </div>
-            </div>
-
         </div>
+
+        <!-- Pane · FINANCE — 2 tiles only -->
+        <div class="pa-kpi-terminal__pane" data-tab="finance">
+            <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col">
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Monthly Revenue</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev $752K</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
+                        <circle cx="96" cy="11" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>$835K</dd>
+                            <dt>Previous</dt><dd>$752K</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+$83K</dd>
+                            <dt>Δ percent</dt><dd class="pos">+11.0%</dd>
+                            <dt>Target</dt><dd>$900K</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.06 · 12mo</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--neutral">NEUTRAL</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Tokyo Office</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">¥</span><span class="pa-kpi-tile__num">11.6</span><span class="pa-kpi-tile__unit">M</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev ¥11.2M</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 3.5%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
+                        <circle cx="96" cy="10" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                        <dl>
+                            <dt>Current</dt><dd>¥11.6M</dd>
+                            <dt>Previous</dt><dd>¥11.2M</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+0.39M</dd>
+                            <dt>Δ percent</dt><dd class="pos">+3.5%</dd>
+                            <dt>Target</dt><dd>¥13.0M</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Pane · OPERATIONS — 4 tiles -->
+        <div class="pa-kpi-terminal__pane" data-tab="ops">
+            <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col">
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Completion Rate</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 84.2%</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                        <circle cx="96" cy="5" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                        <dl>
+                            <dt>Current</dt><dd>88.6%</dd>
+                            <dt>Previous</dt><dd>84.2%</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
+                            <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
+                            <dt>Target</dt><dd>90.0%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-tile pa-kpi-tile--down">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.03 · 24h</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Server Temp</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">22.9</span><span class="pa-kpi-tile__unit">°C</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 24.5°C</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--negative">▼ 6.5%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,18 12,17 24,15 36,14 48,12 60,11 72,10 84,9 96,11" />
+                        <circle cx="96" cy="11" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>22.9°C</dd>
+                            <dt>Previous</dt><dd>24.5°C</dd>
+                            <dt>Δ absolute</dt><dd class="neg">−1.6°C</dd>
+                            <dt>Δ percent</dt><dd class="neg">−6.5%</dd>
+                            <dt>Target</dt><dd>≤ 23°C</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-tile pa-kpi-tile--up">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.04 · 7d</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Server Capacity</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">81.6</span><span class="pa-kpi-tile__unit">%</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 71.0%</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 14.9%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,17 12,15 24,12 36,10 48,8 60,9 72,11 84,13 96,12" />
+                        <circle cx="96" cy="12" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
+                        <dl>
+                            <dt>Current</dt><dd>81.6%</dd>
+                            <dt>Previous</dt><dd>71.0%</dd>
+                            <dt>Δ absolute</dt><dd class="pos">+10.6pp</dd>
+                            <dt>Δ percent</dt><dd class="pos">+14.9%</dd>
+                            <dt>Target</dt><dd>≤ 75%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="pa-kpi-tile pa-kpi-tile--up-strong">
+                    <div class="pa-kpi-tile__head">
+                        <span class="pa-kpi-tile__id">KPI.05 · 24h</span>
+                        <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+                    </div>
+                    <div class="pa-kpi-tile__label">Error Rate</div>
+                    <div class="pa-kpi-tile__values">
+                        <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">0.24</span><span class="pa-kpi-tile__unit">%</span></span>
+                    </div>
+                    <div class="pa-kpi-tile__prev">
+                        <span>prev 0.41%</span>
+                        <span class="pa-kpi-tile__delta pa-kpi-tile__delta--very-positive">▼ 41.0%</span>
+                    </div>
+                    <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline points="0,8 12,10 24,9 36,12 48,11 60,14 72,12 84,15 96,17" />
+                        <circle cx="96" cy="17" r="2" />
+                    </svg>
+                    <div class="pa-kpi-detail" role="tooltip">
+                        <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                        <dl>
+                            <dt>Current</dt><dd>0.24%</dd>
+                            <dt>Previous</dt><dd>0.41%</dd>
+                            <dt>Δ absolute</dt><dd class="pos">−0.17pp</dd>
+                            <dt>Δ percent</dt><dd class="pos">−41.0%</dd>
+                            <dt>Target</dt><dd>≤ 0.50%</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
     <div class="pa-card__footer pa-kpi-footer">
         <span><strong>Terminal grid · dense</strong> — Mono numbers, status tags, sparklines, ▲▼ deltas. Bloomberg-y.</span>
-        <span>Hover any KPI for detail</span>
+        <span>Hover any KPI for detail · Click a tab to swap the pane</span>
     </div>
 </div>
 
 <!-- ============================================================
      2. Layout test — 1×3 using page grid (.pa-col-1-3)
+     Standalone tiles in page-grid columns — no terminal-grid chrome,
+     no tabs. Tests how a single tile renders at one-third of the
+     viewport width (typical "stat strip" placement).
      ============================================================ -->
 
 <h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
-<p>Each tile in its own <code>.pa-col-1-3</code> (33% page-grid column) as a <em>standalone</em> mini-card — no shared terminal-grid chrome. Tests how a single tile renders at one-third of the viewport width, the typical "stat strip" placement.</p>
+<p>Each tile in its own <code>.pa-col-1-3</code> (33% page-grid column) as a <em>standalone</em> mini-card — no shared terminal-grid chrome, no tabs. Tests how a single tile renders at one-third of the viewport width, the typical "stat strip" placement.</p>
 
-<div class="pa-kpi-terminal" data-view="value">
-    <div class="pa-kpi-sectionhead">
-        <div class="pa-kpi-terminal__viewtoggle" role="tablist" aria-label="View mode">
-            <button type="button" class="pa-kpi-terminal__viewbtn is-active" data-view="value" role="tab" aria-selected="true">VALUE</button>
-            <button type="button" class="pa-kpi-terminal__viewbtn" data-view="delta" role="tab" aria-selected="false">Δ%</button>
-            <button type="button" class="pa-kpi-terminal__viewbtn" data-view="trend" role="tab" aria-selected="false">TREND</button>
+<div class="pa-row">
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+            </div>
+            <div class="pa-kpi-tile__label">Completion Rate</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
+            </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev 84.2%</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                <circle cx="96" cy="5" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                <dl>
+                    <dt>Current</dt><dd>88.6%</dd>
+                    <dt>Previous</dt><dd>84.2%</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
+                    <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
+                    <dt>Target</dt><dd>90.0%</dd>
+                </dl>
+            </div>
         </div>
-        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
     </div>
 
-    <div class="pa-row">
-        <div class="pa-col-100 pa-col-md-1-3">
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
-                </div>
-                <div class="pa-kpi-tile__label">Completion Rate</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 5.2</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">98</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 84.2%</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
-                    <circle cx="96" cy="5" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
-                    <dl>
-                        <dt>Current</dt><dd>88.6%</dd>
-                        <dt>Previous</dt><dd>84.2%</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
-                        <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
-                        <dt>Target</dt><dd>90.0%</dd>
-                    </dl>
-                </div>
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+            </div>
+            <div class="pa-kpi-tile__label">Monthly Revenue</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
+            </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev $752K</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
+                <circle cx="96" cy="11" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>$835K</dd>
+                    <dt>Previous</dt><dd>$752K</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+$83K</dd>
+                    <dt>Δ percent</dt><dd class="pos">+11.0%</dd>
+                    <dt>Target</dt><dd>$900K</dd>
+                </dl>
             </div>
         </div>
+    </div>
 
-        <div class="pa-col-100 pa-col-md-1-3">
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
-                </div>
-                <div class="pa-kpi-tile__label">Monthly Revenue</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 11.0</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">93</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev $752K</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
-                    <circle cx="96" cy="11" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
-                    <dl>
-                        <dt>Current</dt><dd>$835K</dd>
-                        <dt>Previous</dt><dd>$752K</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+$83K</dd>
-                        <dt>Δ percent</dt><dd class="pos">+11.0%</dd>
-                        <dt>Target</dt><dd>$900K</dd>
-                    </dl>
-                </div>
+    <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.06 · 12mo</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--neutral">NEUTRAL</span>
             </div>
-        </div>
-
-        <div class="pa-col-100 pa-col-md-1-3">
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.06 · 12mo</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--neutral">NEUTRAL</span>
-                </div>
-                <div class="pa-kpi-tile__label">Tokyo Office</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__unit">¥</span><span class="pa-kpi-tile__num">11.6</span><span class="pa-kpi-tile__unit">M</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 3.5</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">90</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev ¥11.2M</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 3.5%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
-                    <circle cx="96" cy="10" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
-                    <dl>
-                        <dt>Current</dt><dd>¥11.6M</dd>
-                        <dt>Previous</dt><dd>¥11.2M</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+0.39M</dd>
-                        <dt>Δ percent</dt><dd class="pos">+3.5%</dd>
-                        <dt>Target</dt><dd>¥13.0M</dd>
-                    </dl>
-                </div>
+            <div class="pa-kpi-tile__label">Tokyo Office</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">¥</span><span class="pa-kpi-tile__num">11.6</span><span class="pa-kpi-tile__unit">M</span></span>
+            </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev ¥11.2M</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 3.5%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
+                <circle cx="96" cy="10" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>¥11.6M</dd>
+                    <dt>Previous</dt><dd>¥11.2M</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+0.39M</dd>
+                    <dt>Δ percent</dt><dd class="pos">+3.5%</dd>
+                    <dt>Target</dt><dd>¥13.0M</dd>
+                </dl>
             </div>
         </div>
     </div>
@@ -344,210 +510,188 @@
 
 
 <!-- ============================================================
-     3. Layout test — page grid 25% + 45% columns, 3 tiles stacked per column
+     3. Layout test — page grid 25% + 45% columns, 3 tiles stacked
+     per column. No terminal-grid chrome, no tabs.
      ============================================================ -->
 
 <h3>2×3 stack · <code>.pa-col-25</code> + <code>.pa-col-45</code> (asymmetric, 30% empty)</h3>
 <p>Two page-grid columns: 25% wide on the left (narrow stress test), 45% wide on the right (mid-width). Each holds three standalone tiles stacked vertically. The remaining 30% of the row is intentionally empty — this is the "what does my KPI look like in a sidebar widget" test.</p>
 
-<div class="pa-kpi-terminal" data-view="value">
-    <div class="pa-kpi-sectionhead">
-        <div class="pa-kpi-terminal__viewtoggle" role="tablist" aria-label="View mode">
-            <button type="button" class="pa-kpi-terminal__viewbtn is-active" data-view="value" role="tab" aria-selected="true">VALUE</button>
-            <button type="button" class="pa-kpi-terminal__viewbtn" data-view="delta" role="tab" aria-selected="false">Δ%</button>
-            <button type="button" class="pa-kpi-terminal__viewbtn" data-view="trend" role="tab" aria-selected="false">TREND</button>
+<div class="pa-row">
+    <div class="pa-col-100 pa-col-md-25">
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+            </div>
+            <div class="pa-kpi-tile__label">Completion Rate</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
+            </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev 84.2%</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                <circle cx="96" cy="5" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                <dl>
+                    <dt>Current</dt><dd>88.6%</dd>
+                    <dt>Previous</dt><dd>84.2%</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
+                    <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
+                    <dt>Target</dt><dd>90.0%</dd>
+                </dl>
+            </div>
         </div>
-        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+            </div>
+            <div class="pa-kpi-tile__label">Monthly Revenue</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
+            </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev $752K</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
+                <circle cx="96" cy="11" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>$835K</dd>
+                    <dt>Previous</dt><dd>$752K</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+$83K</dd>
+                    <dt>Δ percent</dt><dd class="pos">+11.0%</dd>
+                    <dt>Target</dt><dd>$900K</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--down">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.03 · 24h</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+            </div>
+            <div class="pa-kpi-tile__label">Server Temp</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">22.9</span><span class="pa-kpi-tile__unit">°C</span></span>
+            </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev 24.5°C</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--negative">▼ 6.5%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,18 12,17 24,15 36,14 48,12 60,11 72,10 84,9 96,11" />
+                <circle cx="96" cy="11" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>22.9°C</dd>
+                    <dt>Previous</dt><dd>24.5°C</dd>
+                    <dt>Δ absolute</dt><dd class="neg">−1.6°C</dd>
+                    <dt>Δ percent</dt><dd class="neg">−6.5%</dd>
+                    <dt>Target</dt><dd>≤ 23°C</dd>
+                </dl>
+            </div>
+        </div>
     </div>
 
-    <div class="pa-row">
-        <div class="pa-col-100 pa-col-md-25">
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
-                </div>
-                <div class="pa-kpi-tile__label">Completion Rate</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 5.2</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">98</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 84.2%</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
-                    <circle cx="96" cy="5" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
-                    <dl>
-                        <dt>Current</dt><dd>88.6%</dd>
-                        <dt>Previous</dt><dd>84.2%</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
-                        <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
-                        <dt>Target</dt><dd>90.0%</dd>
-                    </dl>
-                </div>
+    <div class="pa-col-100 pa-col-md-45">
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.04 · 7d</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
             </div>
-
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
-                </div>
-                <div class="pa-kpi-tile__label">Monthly Revenue</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 11.0</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">93</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev $752K</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
-                    <circle cx="96" cy="11" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
-                    <dl>
-                        <dt>Current</dt><dd>$835K</dd>
-                        <dt>Previous</dt><dd>$752K</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+$83K</dd>
-                        <dt>Δ percent</dt><dd class="pos">+11.0%</dd>
-                        <dt>Target</dt><dd>$900K</dd>
-                    </dl>
-                </div>
+            <div class="pa-kpi-tile__label">Server Capacity</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">81.6</span><span class="pa-kpi-tile__unit">%</span></span>
             </div>
-
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--down">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.03 · 24h</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
-                </div>
-                <div class="pa-kpi-tile__label">Server Temp</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">22.9</span><span class="pa-kpi-tile__unit">°C</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--negative" data-mode="delta"><span class="pa-kpi-tile__num">▼ 6.5</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">100</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 24.5°C</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--negative">▼ 6.5%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,18 12,17 24,15 36,14 48,12 60,11 72,10 84,9 96,11" />
-                    <circle cx="96" cy="11" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Server Temp · 24H</div>
-                    <dl>
-                        <dt>Current</dt><dd>22.9°C</dd>
-                        <dt>Previous</dt><dd>24.5°C</dd>
-                        <dt>Δ absolute</dt><dd class="neg">−1.6°C</dd>
-                        <dt>Δ percent</dt><dd class="neg">−6.5%</dd>
-                        <dt>Target</dt><dd>≤ 23°C</dd>
-                    </dl>
-                </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev 71.0%</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 14.9%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,17 12,15 24,12 36,10 48,8 60,9 72,11 84,13 96,12" />
+                <circle cx="96" cy="12" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
+                <dl>
+                    <dt>Current</dt><dd>81.6%</dd>
+                    <dt>Previous</dt><dd>71.0%</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+10.6pp</dd>
+                    <dt>Δ percent</dt><dd class="pos">+14.9%</dd>
+                    <dt>Target</dt><dd>≤ 75%</dd>
+                </dl>
             </div>
         </div>
 
-        <div class="pa-col-100 pa-col-md-45">
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.04 · 7d</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
-                </div>
-                <div class="pa-kpi-tile__label">Server Capacity</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">81.6</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 14.9</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">111</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 71.0%</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 14.9%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,17 12,15 24,12 36,10 48,8 60,9 72,11 84,13 96,12" />
-                    <circle cx="96" cy="12" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
-                    <dl>
-                        <dt>Current</dt><dd>81.6%</dd>
-                        <dt>Previous</dt><dd>71.0%</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+10.6pp</dd>
-                        <dt>Δ percent</dt><dd class="pos">+14.9%</dd>
-                        <dt>Target</dt><dd>≤ 75%</dd>
-                    </dl>
-                </div>
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up-strong">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.05 · 24h</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
             </div>
-
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up-strong">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.05 · 24h</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
-                </div>
-                <div class="pa-kpi-tile__label">Error Rate</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">0.24</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--very-positive" data-mode="delta"><span class="pa-kpi-tile__num">▼ 41.0</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">52</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev 0.41%</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--very-positive">▼ 41.0%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,8 12,10 24,9 36,12 48,11 60,14 72,12 84,15 96,17" />
-                    <circle cx="96" cy="17" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Error Rate · 24H</div>
-                    <dl>
-                        <dt>Current</dt><dd>0.24%</dd>
-                        <dt>Previous</dt><dd>0.41%</dd>
-                        <dt>Δ absolute</dt><dd class="pos">−0.17pp</dd>
-                        <dt>Δ percent</dt><dd class="pos">−41.0%</dd>
-                        <dt>Target</dt><dd>≤ 0.50%</dd>
-                    </dl>
-                </div>
+            <div class="pa-kpi-tile__label">Error Rate</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">0.24</span><span class="pa-kpi-tile__unit">%</span></span>
             </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev 0.41%</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--very-positive">▼ 41.0%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,8 12,10 24,9 36,12 48,11 60,14 72,12 84,15 96,17" />
+                <circle cx="96" cy="17" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>0.24%</dd>
+                    <dt>Previous</dt><dd>0.41%</dd>
+                    <dt>Δ absolute</dt><dd class="pos">−0.17pp</dd>
+                    <dt>Δ percent</dt><dd class="pos">−41.0%</dd>
+                    <dt>Target</dt><dd>≤ 0.50%</dd>
+                </dl>
+            </div>
+        </div>
 
-            <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
-                <div class="pa-kpi-tile__head">
-                    <span class="pa-kpi-tile__id">KPI.06 · 12mo</span>
-                    <span class="pa-kpi-tile__status pa-kpi-tile__status--neutral">NEUTRAL</span>
-                </div>
-                <div class="pa-kpi-tile__label">Tokyo Office</div>
-                <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__unit">¥</span><span class="pa-kpi-tile__num">11.6</span><span class="pa-kpi-tile__unit">M</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 3.5</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">90</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
-                </div>
-                <div class="pa-kpi-tile__prev">
-                    <span>prev ¥11.2M</span>
-                    <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 3.5%</span>
-                </div>
-                <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
-                    <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
-                    <circle cx="96" cy="10" r="2" />
-                </svg>
-                <div class="pa-kpi-detail" role="tooltip">
-                    <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
-                    <dl>
-                        <dt>Current</dt><dd>¥11.6M</dd>
-                        <dt>Previous</dt><dd>¥11.2M</dd>
-                        <dt>Δ absolute</dt><dd class="pos">+0.39M</dd>
-                        <dt>Δ percent</dt><dd class="pos">+3.5%</dd>
-                        <dt>Target</dt><dd>¥13.0M</dd>
-                    </dl>
-                </div>
+        <div class="pa-kpi-tile pa-kpi-tile--standalone pa-kpi-tile--up">
+            <div class="pa-kpi-tile__head">
+                <span class="pa-kpi-tile__id">KPI.06 · 12mo</span>
+                <span class="pa-kpi-tile__status pa-kpi-tile__status--neutral">NEUTRAL</span>
+            </div>
+            <div class="pa-kpi-tile__label">Tokyo Office</div>
+            <div class="pa-kpi-tile__values">
+                <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__unit">¥</span><span class="pa-kpi-tile__num">11.6</span><span class="pa-kpi-tile__unit">M</span></span>
+            </div>
+            <div class="pa-kpi-tile__prev">
+                <span>prev ¥11.2M</span>
+                <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 3.5%</span>
+            </div>
+            <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                <polyline points="0,15 12,16 24,14 36,13 48,15 60,12 72,13 84,11 96,10" />
+                <circle cx="96" cy="10" r="2" />
+            </svg>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Tokyo Office · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>¥11.6M</dd>
+                    <dt>Previous</dt><dd>¥11.2M</dd>
+                    <dt>Δ absolute</dt><dd class="pos">+0.39M</dd>
+                    <dt>Δ percent</dt><dd class="pos">+3.5%</dd>
+                    <dt>Target</dt><dd>¥13.0M</dd>
+                </dl>
             </div>
         </div>
     </div>
@@ -556,21 +700,20 @@
 <br>
 
 <!-- ============================================================
-     Custom chart library — Chart.js in the chart slot
+     4. Custom chart library — Chart.js in the chart slot
+     Single-pane card (no tabs needed) — shows that a `<canvas
+     class="pa-kpi-tile__spark" data-kpi-chart>` swap renders a real
+     charting library into the same slot, picking up tile sentiment
+     via `currentColor`.
      ============================================================ -->
 
 <h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
-<p>The terminal sparkline is just a <code>&lt;svg class="pa-kpi-tile__spark"&gt;</code> — swap it for a <code>&lt;canvas class="pa-kpi-tile__spark" data-kpi-chart&gt;</code> and a real charting library renders into the same place, here a Chart.js <strong>bar chart</strong> so it's clearly not the default line sparkline. The <code>pa-kpi-tile__spark</code> class still carries the tile's sentiment <code>color</code>, so the bars read <code>currentColor</code> and track the sentiment scale + theme. The VALUE / Δ% / TREND toggle is unaffected — it only swaps the focal number.</p>
+<p>The terminal sparkline is just a <code>&lt;svg class="pa-kpi-tile__spark"&gt;</code> — swap it for a <code>&lt;canvas class="pa-kpi-tile__spark" data-kpi-chart&gt;</code> and a real charting library renders into the same place, here a Chart.js <strong>bar chart</strong> so it's clearly not the default line sparkline. The <code>pa-kpi-tile__spark</code> class still carries the tile's sentiment <code>color</code>, so the bars read <code>currentColor</code> and track the sentiment scale + theme.</p>
 
-<div class="pa-card pa-kpi-terminal" data-view="value">
+<div class="pa-card pa-kpi-terminal">
     <div class="pa-card__header pa-kpi-header">
         <h3>Key Performance Indicators</h3>
         <div class="pa-kpi-terminal__controls">
-            <div class="pa-kpi-terminal__viewtoggle" role="tablist" aria-label="View mode">
-                <button type="button" class="pa-kpi-terminal__viewbtn is-active" data-view="value" role="tab" aria-selected="true">VALUE</button>
-                <button type="button" class="pa-kpi-terminal__viewbtn" data-view="delta" role="tab" aria-selected="false">Δ%</button>
-                <button type="button" class="pa-kpi-terminal__viewbtn" data-view="trend" role="tab" aria-selected="false">TREND</button>
-            </div>
             <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
         </div>
     </div>
@@ -578,7 +721,6 @@
     <div class="pa-card__body pa-kpi-terminal__body">
         <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col">
 
-            <!-- KPI 01 — Completion Rate — Chart.js spark -->
             <div class="pa-kpi-tile pa-kpi-tile--up">
                 <div class="pa-kpi-tile__head">
                     <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
@@ -586,9 +728,7 @@
                 </div>
                 <div class="pa-kpi-tile__label">Completion Rate</div>
                 <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--positive" data-mode="delta"><span class="pa-kpi-tile__num">▲ 5.2</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">98</span><span class="pa-kpi-tile__unit">% of tgt</span></span>
+                    <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
                 </div>
                 <div class="pa-kpi-tile__prev">
                     <span>prev 84.2%</span>
@@ -607,7 +747,6 @@
                 </div>
             </div>
 
-            <!-- KPI 02 — Error Rate — Chart.js spark -->
             <div class="pa-kpi-tile pa-kpi-tile--up-strong">
                 <div class="pa-kpi-tile__head">
                     <span class="pa-kpi-tile__id">KPI.02 · 24h</span>
@@ -615,9 +754,7 @@
                 </div>
                 <div class="pa-kpi-tile__label">Error Rate</div>
                 <div class="pa-kpi-tile__values">
-                    <span class="pa-kpi-tile__value" data-mode="value"><span class="pa-kpi-tile__num">0.28</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value pa-kpi-tile__value--very-positive" data-mode="delta"><span class="pa-kpi-tile__num">▼ 33.3</span><span class="pa-kpi-tile__unit">%</span></span>
-                    <span class="pa-kpi-tile__value" data-mode="trend"><span class="pa-kpi-tile__num">56</span><span class="pa-kpi-tile__unit">% of cap</span></span>
+                    <span class="pa-kpi-tile__value"><span class="pa-kpi-tile__num">0.28</span><span class="pa-kpi-tile__unit">%</span></span>
                 </div>
                 <div class="pa-kpi-tile__prev">
                     <span>prev 0.42%</span>
@@ -654,10 +791,11 @@
     </div>
     <div class="pa-card__body">
         <h4>When to use</h4>
-        <p>Bloomberg-style dense KPI panels: per-tile depth (id, status pill, label, focal value, prev row, sparkline) with a view-mode toggle to swap the focal value between absolute, Δ%, and trend-only readings. Best for trading floor / NOC / operations dashboards where a single tile must carry a lot of context. If you want even-weight grids with less per-tile chrome, pick Sparkline list or Editorial minimal.</p>
+        <p>Bloomberg-style dense KPI panels: per-tile depth (id, status pill, label, focal value, prev row, sparkline) with an optional tab strip on top that swaps in a different pane (different tile set, different grid layout) per tab. Best for trading floor / NOC / operations dashboards where a single panel must carry several distinct views. If you want even-weight grids with less per-tile chrome, pick Sparkline list or Editorial minimal.</p>
 
-        <h4 class="mt-4">View-mode toggle</h4>
-        <p>Each <code>.pa-kpi-terminal</code> is independent — its <code>data-view</code> attribute (set by the toggle buttons) drives which <code>.pa-kpi-tile__value[data-mode="..."]</code> is visible. Authoring lists all three values per tile (one each for value / delta / trend) and CSS attribute selectors show only the active one. The page has three sections (canonical 2-col grid, 1×3 page-grid, 25/45 asymmetric) and each carries its own toggle.</p>
+        <h4 class="mt-4">Tab strip (optional)</h4>
+        <p>Each <code>.pa-kpi-terminal</code> can hold a <code>.pa-kpi-terminal__tabs</code> with one or more <code>.pa-kpi-terminal__tab</code> buttons, each carrying a <code>data-tab="…"</code> slug. The body then holds one <code>.pa-kpi-terminal__pane[data-tab="…"]</code> per slug; CSS hides every pane that doesn't have <code>.is-active</code>, and the shared JS toggles <code>.is-active</code> on the clicked tab + matching pane on click. Panes are completely independent — each holds its own <code>__grid</code>, its own modifier, its own tile count. The page's first section shows three tabs with 6 / 2 / 4 tiles respectively, all using the same <code>--2col</code> grid modifier (the n-th-child border suppressors handle the last-row/last-column edges regardless of row count).</p>
+        <p>Sections without tabs simply omit the <code>__tabs</code> / <code>__pane</code> markup and place a <code>__grid</code> directly in the body — the page's layout-test sections (1×3 and 25/45) and the Chart.js demo do this.</p>
 
         <h4 class="mt-4">Status pills (different axis from sentiment)</h4>
         <p>Three pill styles for tile-level status: <code>WARN</code> (filled orange — needs attention), <code>GOOD</code> (text-only — passing, no chrome by design), <code>NEUTRAL</code> (filled grey — informational). Filled-vs-text is a deliberate hierarchy: filled for "act on this", text-only for "this is fine, just confirming".</p>
@@ -687,16 +825,20 @@
     <div class="pa-card__body">
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-terminal</code> — page-namespace class on <code>.pa-card</code>. Carries the <code>data-view="value | delta | trend"</code> attribute that drives the view-mode toggle.</li>
+            <li><code>pa-kpi-terminal</code> — page-namespace class on <code>.pa-card</code> (or a bare wrapper). Scopes the tab + pane DOM contract so multiple terminals on one page don't cross-fire.</li>
             <li><code>pa-kpi-header</code> — flex header with title + controls + LIVE indicator.</li>
-            <li><code>pa-kpi-terminal__controls</code> — controls group (currently the view-mode toggle).</li>
-            <li><code>pa-kpi-terminal__viewtoggle</code> — segmented toggle container.</li>
-            <li><code>pa-kpi-terminal__viewbtn</code> — individual VALUE / Δ% / TREND button. Add <code>is-active</code> for the selected one.</li>
+            <li><code>pa-kpi-terminal__controls</code> — controls group (tabs + LIVE indicator side by side).</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
             <li><code>pa-kpi-terminal__body</code> — card body with internal padding.</li>
             <li><code>pa-kpi-terminal__grid</code> — internal tile grid.</li>
             <li><code>pa-kpi-terminal__grid--2col</code> — 2-col layout modifier (canonical dense grid).</li>
-            <li><code>pa-kpi-sectionhead</code> — section heading inside a card (used in the layout test sections).</li>
+        </ul>
+
+        <h4 class="mt-4">Tab strip</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-kpi-terminal__tabs</code> — segmented tab container (<code>role="tablist"</code>).</li>
+            <li><code>pa-kpi-terminal__tab</code> — individual tab button. Carries <code>data-tab="&lt;slug&gt;"</code> matching a pane. Add <code>is-active</code> for the selected one.</li>
+            <li><code>pa-kpi-terminal__pane</code> — pane container. Carries <code>data-tab="&lt;slug&gt;"</code> matching a tab. Hidden by default; add <code>is-active</code> for the visible one.</li>
         </ul>
 
         <h4 class="mt-4">Tile structure</h4>
@@ -717,10 +859,10 @@
             <li><code>pa-kpi-tile__label</code> — uppercase mono caption below the head.</li>
         </ul>
 
-        <h4 class="mt-4">Tile values + view-mode swap</h4>
+        <h4 class="mt-4">Tile value</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-tile__values</code> — wrapper for the three value-mode variants.</li>
-            <li><code>pa-kpi-tile__value</code> — single value variant. Carries <code>data-mode="value | delta | trend"</code> matched against the parent's <code>data-view</code> attribute.</li>
+            <li><code>pa-kpi-tile__values</code> — wrapper for the focal value.</li>
+            <li><code>pa-kpi-tile__value</code> — focal value element.</li>
             <li><code>pa-kpi-tile__num</code> / <code>pa-kpi-tile__unit</code> — numeric + unit spans.</li>
             <li><code>pa-kpi-tile__value--very-positive</code> / <code>--positive</code> / <code>--neutral</code> / <code>--negative</code> / <code>--very-negative</code> — coloured-number sentiment modifiers (apply to <code>__num</code> via descendant selector).</li>
         </ul>
@@ -733,7 +875,7 @@
 
         <h4 class="mt-4">Sparkline</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-tile__spark</code> — chart SVG.</li>
+            <li><code>pa-kpi-tile__spark</code> — chart SVG (or <code>&lt;canvas data-kpi-chart&gt;</code> for library-rendered charts).</li>
             <li><code>pa-kpi-spark-wrap</code> — wrapper containing the SVG + the JS-injected dot span.</li>
             <li><code>pa-kpi-spark-dot</code> — HTML span replacing the SVG circle (CSS-pixel sized so it stays circular).</li>
         </ul>
@@ -753,5 +895,3 @@
         </ul>
     </div>
 </div>
-
-

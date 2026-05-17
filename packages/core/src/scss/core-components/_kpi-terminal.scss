@@ -1,25 +1,31 @@
 /* ========================================
    KPI · Terminal grid
    Bloomberg-style dense panel: mono numbers, status pills, inline SVG
-   sparklines, ▲▼ deltas, segmented view-mode toggle (VALUE/Δ%/TREND).
+   sparklines, ▲▼ deltas, optional segmented tab strip for swapping
+   the body content (different tile sets / grids per tab).
    Shared chrome (header, live, footer, detail popover, spark-dot) is in
    _kpi-base.scss.
    ======================================== */
 @use '../variables' as *;
 
-/* ----- View-mode toggle (segmented button group) ------------------------ */
+/* ----- Tab strip (segmented button group) ------------------------------
+   Generalised tabs — each `.pa-kpi-terminal__tab` carries a `data-tab`
+   slug that matches a `.pa-kpi-terminal__pane[data-tab="…"]` in the body.
+   JS toggles `.is-active` on the clicked tab + matching pane; tabs and
+   panes are otherwise independent so each pane can hold a completely
+   different grid (different tile count, different grid modifier). */
 .pa-kpi-terminal__controls {
   display: inline-flex;
   align-items: center;
   gap: 1.6rem;
 }
-.pa-kpi-terminal__viewtoggle {
+.pa-kpi-terminal__tabs {
   display: inline-flex;
   border: 1px solid var(--pa-border-color);
   border-radius: 0.4rem;
   overflow: hidden;
 }
-.pa-kpi-terminal__viewbtn {
+.pa-kpi-terminal__tab {
   background: transparent;
   border: 0;
   color: var(--pa-text-color-2);
@@ -39,6 +45,13 @@
     background: var(--pa-text-color-1);
     color: var(--pa-card-bg);
   }
+}
+
+/* ----- Pane visibility ------------------------------------------------- */
+.pa-kpi-terminal__pane {
+  display: none;
+
+  &.is-active { display: block; }
 }
 
 /* ----- Grid + tile borders ----------------------------------------------
@@ -132,16 +145,15 @@
   margin-bottom: 0.8rem;
 }
 
-/* ----- Big value with 3-mode swap --------------------------------------
-   Author renders three .pa-kpi-tile__value siblings (data-mode="value" /
-   "delta" / "trend"); the active mode is selected via the
-   .pa-kpi-terminal[data-view="X"] attribute. JS toggles that attribute
-   when the segmented control is clicked. */
+/* ----- Big value -------------------------------------------------------
+   One value per tile — sentiment colour set via `--very-positive` /
+   `--positive` / `--neutral` / `--negative` / `--very-negative` modifier
+   on the value element. */
 .pa-kpi-tile__values {
   margin-bottom: 0.4rem;
 }
 .pa-kpi-tile__value {
-  display: none;
+  display: inline-flex;
   align-items: baseline;
   gap: 0.3rem;
   font-family: var(--base-font-family-mono);
@@ -152,11 +164,6 @@
   &--neutral       .pa-kpi-tile__num { color: var(--pa-neutral); }
   &--negative      .pa-kpi-tile__num { color: var(--pa-negative); }
   &--very-negative .pa-kpi-tile__num { color: var(--pa-very-negative); }
-}
-.pa-kpi-terminal[data-view="value"] .pa-kpi-tile__value[data-mode="value"],
-.pa-kpi-terminal[data-view="delta"] .pa-kpi-tile__value[data-mode="delta"],
-.pa-kpi-terminal[data-view="trend"] .pa-kpi-tile__value[data-mode="trend"] {
-  display: inline-flex;
 }
 
 .pa-kpi-tile__num {

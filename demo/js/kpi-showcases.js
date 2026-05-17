@@ -11,8 +11,10 @@
  *      fill the cell width — but the same non-uniform scaling turns an
  *      SVG <circle> into an oval. Render the dot as a CSS-pixel-sized
  *      span instead so it stays circular regardless of chart aspect ratio.
- *   3. Terminal-grid view-mode toggle (VALUE / Δ% / TREND segmented
- *      button group). Each .pa-kpi-terminal acts independently.
+ *   3. Terminal-grid tab strip. Each .pa-kpi-terminal__tab carries a
+ *      data-tab slug; clicking it activates that tab + the matching
+ *      .pa-kpi-terminal__pane (different tile sets / grid modifiers per
+ *      pane). Each .pa-kpi-terminal scopes its own tabs + panes.
  *
  * No-op when the page contains no pa-kpi-* elements, so it's safe to load
  * globally from layout.mustache (same pattern as tooltips-popovers.js).
@@ -23,7 +25,7 @@
     function init() {
         initPopovers();
         initSparklineDots();
-        initTerminalViewToggle();
+        initTerminalTabs();
     }
 
     /* ---- Cursor-anchored hover detail popovers --------------------------- */
@@ -132,21 +134,39 @@
         });
     }
 
-    /* ---- Terminal-grid view-mode toggle (VALUE / Δ% / TREND) ------------- */
-    function initTerminalViewToggle() {
+    /* ---- Terminal-grid tab strip ----------------------------------------
+       Each .pa-kpi-terminal scopes its own tabs + panes. Clicking a tab
+       activates that tab and the pane whose data-tab matches. Tabs
+       directly nested in another .pa-kpi-terminal are ignored so nested
+       terminals (none today, but cheap to support) don't cross-fire. */
+    function initTerminalTabs() {
         document.querySelectorAll('.pa-kpi-terminal').forEach(terminal => {
-            const buttons = terminal.querySelectorAll('.pa-kpi-terminal__viewbtn');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const view = btn.dataset.view;
-                    terminal.setAttribute('data-view', view);
-                    buttons.forEach(b => {
-                        const active = b === btn;
-                        b.classList.toggle('is-active', active);
-                        b.setAttribute('aria-selected', active ? 'true' : 'false');
+            const tabs = scopedChildren(terminal, '.pa-kpi-terminal__tab');
+            const panes = scopedChildren(terminal, '.pa-kpi-terminal__pane');
+            if (!tabs.length) return;
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const slug = tab.dataset.tab;
+                    tabs.forEach(t => {
+                        const active = t === tab;
+                        t.classList.toggle('is-active', active);
+                        t.setAttribute('aria-selected', active ? 'true' : 'false');
+                    });
+                    panes.forEach(p => {
+                        p.classList.toggle('is-active', p.dataset.tab === slug);
                     });
                 });
             });
+        });
+    }
+
+    /* Collect descendants of `root` that match `selector` but exclude any
+       living inside a nested .pa-kpi-terminal — keeps each terminal's
+       tabs/panes isolated from any future nested instances. */
+    function scopedChildren(root, selector) {
+        return Array.from(root.querySelectorAll(selector)).filter(el => {
+            return el.closest('.pa-kpi-terminal') === root;
         });
     }
 
