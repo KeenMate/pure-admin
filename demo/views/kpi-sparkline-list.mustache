@@ -1,4 +1,5 @@
 <p>Bloomberg-y "sparkline list" KPI indicator. Each KPI becomes one row: <strong>name · sparkline · value · Δ%</strong>. No view-mode toggle, no status pills, no prev row — built for fast vertical scanning and side-by-side comparison rather than per-tile depth. Sparkline gets a filled area under the line for stronger visual weight than the terminal-grid version. Hover any row for the structured detail breakdown.</p>
+<p>Two list-level modifiers on <code>.pa-kpi-spark-list</code> are independently composable: <code>--chart-first</code> flips the value/chart stacking order at narrow widths, and <code>--no-delta</code> drops the rightmost (Δ%) column when the chart's slope already conveys direction. Source markup stays the same; pick modifiers per instance.</p>
 
 
 
@@ -174,9 +175,130 @@
     </div>
 </div>
 
+<br>
 
 <!-- ============================================================
-     2. Layout test — 1×3 page grid (.pa-col-1-3)
+     2. Layout variant: --no-delta (3-col rows)
+     ============================================================ -->
+
+<h3>Layout variant · <code>pa-kpi-spark-list--no-delta</code></h3>
+<p>Drops the rightmost (Δ%) column — each row reads as <strong>label · sparkline · value</strong>. Useful when the sparkline's slope already conveys direction and the percentage delta would be redundant chrome. The row template shrinks from 4 columns to 3 at wide widths; at narrow widths the responsive 2-row / 3-row layouts also collapse to a 2-cell / single-cell shape.</p>
+
+<div class="pa-card pa-kpi-spark-list pa-kpi-spark-list--no-delta">
+    <div class="pa-card__header pa-kpi-header">
+        <h3>Key Performance Indicators</h3>
+        <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+
+    <div class="pa-card__body pa-kpi-spark-list__body">
+
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--up">
+            <div class="pa-kpi-spark-row__label">Completion Rate</div>
+            <div class="pa-kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5 100,24 0,24" />
+                    <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+                    <circle cx="96" cy="5" r="2" />
+                </svg>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__num">87.9</span><span class="pa-kpi-spark-row__unit">%</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--positive">+4.4%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+                <dl>
+                    <dt>Current</dt><dd>87.9%</dd>
+                    <dt>Previous</dt><dd>84.2%</dd>
+                    <dt>Δ percent</dt><dd class="pos">+4.4%</dd>
+                    <dt>Target</dt><dd>90.0%</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--up">
+            <div class="pa-kpi-spark-row__label">Monthly Revenue</div>
+            <div class="pa-kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4 100,24 0,24" />
+                    <polyline points="0,20 12,19 24,17 36,14 48,11 60,9 72,7 84,5 96,4" />
+                    <circle cx="96" cy="4" r="2" />
+                </svg>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__unit">$</span><span class="pa-kpi-spark-row__num">862</span><span class="pa-kpi-spark-row__unit">K</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--positive">+14.7%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Monthly Revenue · 12MO</div>
+                <dl>
+                    <dt>Current</dt><dd>$862K</dd>
+                    <dt>Previous</dt><dd>$752K</dd>
+                    <dt>Δ percent</dt><dd class="pos">+14.7%</dd>
+                    <dt>Target</dt><dd>$900K</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--down">
+            <div class="pa-kpi-spark-row__label">Server Temp</div>
+            <div class="pa-kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6 100,24 0,24" />
+                    <polyline points="0,17 12,16 24,15 36,13 48,12 60,10 72,9 84,7 96,6" />
+                    <circle cx="96" cy="6" r="2" />
+                </svg>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__num">23.8</span><span class="pa-kpi-spark-row__unit">°C</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--negative">-2.7%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Server Temp · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>23.8°C</dd>
+                    <dt>Previous</dt><dd>24.5°C</dd>
+                    <dt>Δ percent</dt><dd class="neg">−2.7%</dd>
+                    <dt>Target</dt><dd>≤ 23°C</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="pa-kpi-spark-row pa-kpi-spark-row--up-strong">
+            <div class="pa-kpi-spark-row__label">Error Rate</div>
+            <div class="pa-kpi-spark-row__chart">
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                    <polygon points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15 100,24 0,24" />
+                    <polyline points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15" />
+                    <circle cx="96" cy="15" r="2" />
+                </svg>
+            </div>
+            <div class="pa-kpi-spark-row__value">
+                <span class="pa-kpi-spark-row__num">0.25</span><span class="pa-kpi-spark-row__unit">%</span>
+            </div>
+            <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--very-positive">-38.1%</div>
+            <div class="pa-kpi-detail" role="tooltip">
+                <div class="pa-kpi-detail__title">Error Rate · 24H</div>
+                <dl>
+                    <dt>Current</dt><dd>0.25%</dd>
+                    <dt>Previous</dt><dd>0.40%</dd>
+                    <dt>Δ percent</dt><dd class="pos">−38.1%</dd>
+                    <dt>Target</dt><dd>≤ 0.50%</dd>
+                </dl>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pa-card__footer pa-kpi-footer">
+        <span><strong>Sparkline list · <code>--no-delta</code></strong> — Drops the Δ% column; the sparkline carries direction.</span>
+        <span>Δ% row left in markup so the same data shows on hover</span>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     3. Layout test — 1×3 page grid (.pa-col-1-3)
      ============================================================ -->
 
 <h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
@@ -354,7 +476,7 @@
 
 
 <!-- ============================================================
-     3. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
+     4. Layout test — page grid 25% + 45% (asymmetric, 30% empty)
      ============================================================ -->
 
 <h3>3×3 stack · <code>.pa-col-25</code> + <code>.pa-col-45</code> + <code>.pa-col-25</code></h3>
@@ -737,8 +859,16 @@
         </ul>
         <p>A canonical card at 1200px stays 4-col while a 1×3 card at 400px stacks — both on the same page at the same viewport width. This is the right axis for a layout that lives in different surfaces at different sizes.</p>
 
-        <h4 class="mt-4">--chart-first modifier</h4>
-        <p>Add <code>pa-kpi-spark-list--chart-first</code> on the card root to flip the 2-row collapsed layout from "value-above-chart" to "label / chart / value+delta", which preserves the canonical L→R reading order (label → chart → value → delta) when rotated 90°. Default keeps the "summary line + supporting visual" pattern. The very-narrow ≤360px fallback always uses the 3-row layout regardless of modifier — at that width neither variant has horizontal room for label+value+delta on one line.</p>
+        <h4 class="mt-4">List-level modifiers</h4>
+        <p>Two independently composable modifiers on <code>.pa-kpi-spark-list</code>:</p>
+        <ul>
+            <li><strong><code>--chart-first</code></strong>: flips the mid-narrow 2-row collapsed layout from "value-above-chart" to "label / chart / value+delta", preserving the canonical L→R reading order when rotated 90°. The very-narrow ≤360px fallback always uses the 3-row layout regardless of modifier — neither variant has room for label+value+delta on one line at that width.</li>
+            <li><strong><code>--no-delta</code></strong>: drops the rightmost Δ% column. At wide widths the row shrinks from 4 cols to 3 (<code>label · chart · value</code>); at mid-narrow the top row becomes <code>label value</code> only; at very-narrow the bottom row becomes a single full-width <code>value</code> cell. The delta element is hidden via <code>display: none</code> so the markup can stay identical to default rows (the popover's <code>&lt;dl&gt;</code> still surfaces the delta on hover).</li>
+        </ul>
+        <p>Composing both (<code>--chart-first.--no-delta</code>) at mid-narrow gives a clean 3-row single-column stack: <code>label / chart / value</code>.</p>
+
+        <h4 class="mt-4">Column track widths via SCSS variables</h4>
+        <p>The four track widths are local SCSS variables in <code>_kpi-sparkline-list.scss</code>: <code>$spark-col-label</code> (<code>minmax(14rem, 28%)</code>), <code>$spark-col-chart</code> (<code>minmax(10rem, 1fr)</code>), <code>$spark-col-value</code> (<code>minmax(8rem, 18%)</code>), <code>$spark-col-delta</code> (<code>minmax(7rem, 12%)</code>). The default 4-col template and the <code>--no-delta</code> 3-col template both reference these, so changing one value updates both shapes in lock-step. Override in a theme by setting these variables before <code>@import</code>ing the component.</p>
 
         <h4 class="mt-4">Sparkline trend colours</h4>
         <p>Apply <code>pa-kpi-spark-row--{up-strong | up | flat | down | down-strong}</code> on the row to colour the sparkline (and trailing dot) via <code>currentColor</code>. The 5-step semantic palette comes from the shared <code>--kpi-*</code> tokens. Note these are <em>direction-sentiment</em> classes, not line-shape classes — "error rate dropping" uses <code>--up</code> despite the line going down, because the sentiment is positive.</p>
@@ -759,11 +889,16 @@
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-kpi-spark-list</code> — page-namespace class on <code>.pa-card</code>. Declares <code>container-type: inline-size</code> for the layout collapse.</li>
-            <li><code>pa-kpi-spark-list--chart-first</code> — modifier flipping the collapsed 2-row layout to "label / chart / value+delta".</li>
             <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
             <li><code>pa-kpi-spark-list__body</code> — applies <code>padding: 0</code> so row dividers go edge-to-edge.</li>
             <li><code>pa-kpi-footer</code> — flex footer caption.</li>
+        </ul>
+
+        <h4 class="mt-4">List-level modifiers (composable)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-kpi-spark-list--chart-first</code> — flips the mid-narrow collapsed layout to "label / chart / value+delta".</li>
+            <li><code>pa-kpi-spark-list--no-delta</code> — drops the rightmost Δ% column; row template shrinks from 4 to 3 cols (with matching narrow-width adjustments). Independently composable with <code>--chart-first</code>.</li>
         </ul>
 
         <h4 class="mt-4">Row structure</h4>

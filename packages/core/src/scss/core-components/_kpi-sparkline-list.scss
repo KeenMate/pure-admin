@@ -4,8 +4,22 @@
    scanning rather than per-tile depth — no view-mode toggle, no status
    pills. Container queries collapse 4-col → 2-row → 3-row as the card
    narrows.
+
+   Row template uses local SCSS variables for the four column widths
+   (`$spark-col-label`, `$spark-col-chart`, `$spark-col-value`,
+   `$spark-col-delta`) so all responsive overrides reference the same
+   widths — change one and every breakpoint follows. The `--no-delta`
+   modifier drops the rightmost column; the other three are load-bearing
+   (a sparkline list without label, chart, or value is a different
+   design).
    ======================================== */
 @use '../variables' as *;
+
+/* Per-column track widths — referenced from every template selector. */
+$spark-col-label: minmax(14rem, 28%);
+$spark-col-chart: minmax(10rem, 1fr);
+$spark-col-value: minmax(8rem, 18%);
+$spark-col-delta: minmax(7rem, 12%);
 
 /* Card is a query container so rows react to *card* width, not viewport. */
 .pa-kpi-spark-list {
@@ -17,10 +31,10 @@
 .pa-kpi-spark-row {
   display: grid;
   grid-template-columns:
-    minmax(14rem, 28%)
-    minmax(10rem, 1fr)
-    minmax(8rem, 18%)
-    minmax(7rem, 12%);
+    $spark-col-label
+    $spark-col-chart
+    $spark-col-value
+    $spark-col-delta;
   align-items: center;
   gap: 1.6rem;
   padding: 1.4rem 2rem;
@@ -28,6 +42,18 @@
 
   &:last-child { border-bottom: 0; }
 }
+
+/* Modifier: --no-delta — drops the rightmost column. label · chart ·
+   value only. Useful when the chart's slope already conveys direction
+   and the delta would be redundant. Hides the delta element and shrinks
+   the row template to 3 columns. */
+.pa-kpi-spark-list--no-delta .pa-kpi-spark-row {
+  grid-template-columns:
+    $spark-col-label
+    $spark-col-chart
+    $spark-col-value;
+}
+.pa-kpi-spark-list--no-delta .pa-kpi-spark-row__delta { display: none; }
 
 /* Mid-narrow card (1×3 page-grid + 45% column): stack to 2 rows.
    Label/value/delta on top, full-width chart below. Default order is
@@ -66,6 +92,23 @@
   .pa-kpi-spark-list--chart-first .pa-kpi-spark-row__label { align-self: start; }
   .pa-kpi-spark-list--chart-first .pa-kpi-spark-row__value { text-align: start; align-self: baseline; }
   .pa-kpi-spark-list--chart-first .pa-kpi-spark-row__delta { align-self: baseline; }
+
+  /* --no-delta at mid-narrow: 2-row layout, top row is label+value only. */
+  .pa-kpi-spark-list--no-delta .pa-kpi-spark-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "label value"
+      "chart chart";
+  }
+
+  /* --no-delta + --chart-first: 3-row single-column stack. */
+  .pa-kpi-spark-list--no-delta.pa-kpi-spark-list--chart-first .pa-kpi-spark-row {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "label"
+      "chart"
+      "value";
+  }
 }
 
 /* Very narrow card (~280–360px, 25% page-grid stress test): force the
@@ -86,6 +129,15 @@
   .pa-kpi-spark-row__chart  { grid-area: chart; }
   .pa-kpi-spark-row__value  { grid-area: value; text-align: start; align-self: baseline; }
   .pa-kpi-spark-row__delta  { grid-area: delta; align-self: baseline; }
+
+  /* --no-delta at very-narrow: 3-row single-column stack (no delta cell). */
+  .pa-kpi-spark-list--no-delta .pa-kpi-spark-row {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "label"
+      "chart"
+      "value";
+  }
 }
 
 /* ----- Cell typography -------------------------------------------------- */

@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`.pa-kpi-spark-list` gained `--no-delta` modifier + track-width SCSS variables**. Previously the row template was a hardcoded 4-col grid (label · chart · value · delta) with inline `minmax(…)` track widths repeated across every responsive override. Refactored: track widths extracted to local SCSS variables (`$spark-col-label`, `$spark-col-chart`, `$spark-col-value`, `$spark-col-delta`) so the default 4-col template and the new `--no-delta` 3-col template share one source of truth.
+    - **New `pa-kpi-spark-list--no-delta` modifier**: drops the rightmost Δ% column. Useful when the sparkline's slope already conveys direction. At wide widths the row shrinks from 4 cols to 3 (`label · chart · value`); at mid-narrow the top row becomes `label value` only; at very-narrow the bottom row becomes a single full-width `value` cell. The delta element is hidden via `display: none` so the markup can stay identical to default rows — the popover's `<dl>` still surfaces the delta on hover.
+    - **Composable with `--chart-first`**: `--no-delta.--chart-first` at mid-narrow yields a clean 3-row single-column stack (`label / chart / value`); covered by an explicit compound selector in the SCSS.
+    - **Track widths as variables, not modifier-prefixed declarations**: only `--no-delta` toggles a column today, so a numeric-strip-style "8 precomputed templates for all combinations" wasn't worth the cost. If a `--no-label` or `--no-chart` lands later the same pattern extends.
+
 - **`.pa-kpi-hero-list__layout` gained split-ratio modifiers**. Previously the hero/rail split was hardcoded to `1fr 1fr` (50/50) on the layout grid — anything else required forking the SCSS. Default 1:1 is preserved; two new modifiers shift weight to the hero without touching markup.
     - **New `pa-kpi-hero-list__layout--hero-2-3` modifier**: hero gets 2/3 of the width, rail 1/3. Common in exec layouts where the supporting tiles are reference rather than focal.
     - **New `pa-kpi-hero-list__layout--hero-3-4` modifier**: hero gets 3/4 of the width, rail 1/4 — hero-dominant; the rail becomes a thin sidebar.
