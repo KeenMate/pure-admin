@@ -2,6 +2,9 @@
 
 // Forward variables so they're available to files that @use this module
 @forward 'variables/index';
+// Also @use locally so the sentiment-scale defaults block at the bottom of
+// this file can reference $base-very-positive, $base-success-color, etc.
+@use 'variables/index' as *;
 
 // RTL (Right-to-Left) helper mixins
 // Provides mixins for transforms, rotations, and complex positioning in RTL
@@ -130,3 +133,22 @@
 
 // Utility classes and helpers
 @use 'core-components/utilities' as *;
+
+// ============================================================================
+// SENTIMENT SCALE DEFAULTS
+// Emitted at :root in the bundled CSS so the 5-step directional colour
+// cascade (KPI deltas, sparkline trend colours, banded sentiment cells, etc.)
+// resolves even when the lib is consumed without a theme stylesheet — or
+// before a theme stylesheet has loaded. Themes that include
+// `output-pa-css-variables` at :root override these from their own emit.
+// Values intentionally hardcoded (not `var(--pa-success)`) so they resolve
+// standalone — themes still re-alias positive/negative to their tuned
+// success/danger via the mixin.
+// ============================================================================
+:root {
+  --pa-very-positive: #{$base-very-positive};
+  --pa-positive:      #{$base-success-color};
+  --pa-neutral:       #{$base-neutral};
+  --pa-negative:      #{$base-danger-color};
+  --pa-very-negative: #{$base-very-negative};
+}
