@@ -15,16 +15,23 @@ pure-admin/                        # Workspace root
 ├── packages/
 │   └── core/                      # @keenmate/pure-admin-core (npm package)
 │       ├── src/scss/              # SCSS source (single source of truth)
-│       │   ├── _variables.scss    # Framework variables with !default
-│       │   ├── _core.scss         # Core framework imports
-│       │   ├── main.scss          # Main entry point
-│       │   ├── core-components/   # All framework components (31 files)
-│       │   └── themes/            # 9 themes + _dark-base.scss
-│       ├── dist/                  # Built files
-│       │   ├── css/main.css       # Compiled default theme
-│       │   ├── css/themes/        # All compiled themes
-│       │   └── fonts/             # Font files
-│       ├── snippets/              # HTML snippet library (30 files)
+│       │   ├── variables/         # !default SCSS variables (base, typography,
+│       │   │                      #   spacing, colors, layout, system, components)
+│       │   ├── _core.scss         # Component imports — consumed by main.scss
+│       │   │                      #   AND by themes via @import
+│       │   ├── _base-css-variables.scss
+│       │   │                      # Mixins: output-base-css-variables,
+│       │   │                      #   output-pa-css-variables,
+│       │   │                      #   output-pa-alert-variables-{light,dark}
+│       │   ├── main.scss          # Unthemed bundle entry. Includes _core,
+│       │   │                      #   utilities, AND emits the CSS variable
+│       │   │                      #   defaults at :root.
+│       │   ├── utilities.scss     # Utility classes
+│       │   ├── _rtl-helpers.scss  # RTL transform/positioning mixins
+│       │   ├── _fonts.scss        # Font face declarations
+│       │   └── core-components/   # ~47 component partials
+│       ├── dist/css/main.css      # Built unthemed bundle (Tailwind-default palette)
+│       ├── snippets/              # HTML snippet library (~35 files)
 │       ├── fonts/                 # Source font files
 │       ├── scripts/               # Build scripts
 │       ├── package.json           # npm package configuration
@@ -32,22 +39,17 @@ pure-admin/                        # Workspace root
 │
 ├── demo/                          # Demo site (NOT published to npm)
 │   ├── server.js                  # Express.js server (port 3000)
-│   ├── views/                     # Mustache templates (40+ files)
-│   │   ├── layout.mustache        # Master layout
-│   │   ├── dashboard.mustache     # Dashboard page
-│   │   └── partials/              # Shared partials
-│   ├── js/                        # Demo JavaScript (12 files)
-│   │   ├── command-palette.js
-│   │   ├── modal-dialogs.js
-│   │   ├── toast-service.js
-│   │   └── ...
+│   ├── views/                     # Mustache templates (~67 files)
+│   ├── js/                        # Demo JavaScript (~20 files)
 │   ├── assets/                    # Demo assets
 │   └── package.json               # Depends on @keenmate/pure-admin-core
 │
-├── pure-admin-visual/             # (Legacy - kept for reference)
-├── pure-admin-core/               # (Legacy - kept for reference)
 └── docs/                          # Documentation
 ```
+
+Themes live in a **separate repository** at `../pure-admin-themes`, which
+depends on `@keenmate/pure-admin-core` via `file:` link. See that repo's
+CLAUDE.md for theme-specific guidance.
 
 ## Quick Start
 
@@ -95,57 +97,63 @@ npm install @keenmate/pure-admin-core
 <link rel="stylesheet" href="node_modules/@keenmate/pure-admin-core/dist/css/main.css">
 ```
 
-**With Theme:**
+**With Theme:** Install themes via the `pureadmin` CLI and link the built theme CSS:
+```bash
+npm install -g @keenmate/pureadmin
+pureadmin themes audi
+```
 ```html
-<link rel="stylesheet" href="node_modules/@keenmate/pure-admin-core/dist/css/themes/audi.css">
+<link rel="stylesheet" href="static/themes/audi/audi.css">
 ```
 
 **SCSS Customization:**
 ```scss
-// Override variables BEFORE import
-$primary-bg: #your-color;
+// Override SCSS variables BEFORE @import (legacy @import flow,
+// matching how themes are written).
+$base-accent-color: #your-color;
 $btn-primary-bg: #your-button-color;
 
-@import '@keenmate/pure-admin-core/src/scss/main';
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+@import '@keenmate/pure-admin-core/src/scss/core';
+@import '@keenmate/pure-admin-core/src/scss/utilities';
+
+// Optional: emit --pa-* / --base-* defaults at :root for runtime theming.
+@import '@keenmate/pure-admin-core/src/scss/base-css-variables';
+:root {
+  @include output-base-css-variables;
+  @include output-pa-css-variables;
+  @include output-pa-alert-variables-light;
+}
 ```
 
 ### Available Themes
-Themes are maintained in the separate `pure-admin-themes` repo:
-- `corporate` - Professional blue/gray
-- `audi` - Audi red with Fira Sans Condensed
-- `dark` - Dark mode with color variants (blue, green, red)
-- `express` - Bold yellow/red logistics
-- `minimal` - Clean minimal
+15 themes maintained in the separate `pure-admin-themes` repo:
+audi, ayu, cafeindustrial, cobalt2, **corporate** (default), dark, darkmatter,
+dracula, express, gruvbox, minimal, nato, night-owl, one-dark, tokyo-night.
+Browse at [pureadmin.io](https://pureadmin.io).
 
 ---
 
 ## Component System
 
-### Core Components (packages/core/src/scss/core-components/)
-- **Alerts** - Alert messages with variants and dismissible states
-- **Badges** - Standard badges and composite badges with three-part structure
-- **Buttons** - Complete button system with sizes, variants, icons, alignment
-- **Cards** - Card layouts with header/body/footer
-- **Forms** - Form elements with validation states
-- **Grid** - Flexbox grid system (pa-row, pa-col-*)
-- **Layout** - Header, sidebar, footer, responsive layouts
-- **Lists** - List components
-- **Loaders** - Loading spinners and animations
-- **Modals** - Modal dialogs with sizes and themed headers
-- **Pagers** - Pagination and load more components
-- **Profile** - Profile panel components
-- **Statistics** - Statistics display components
-- **Tables** - Table variants (striped, hover, compact)
-- **Toasts** - Toast notification system
-- **Tooltips** - Tooltip and popover components
-- **Command Palette** - Spotlight-style search (Ctrl+K)
-- **Utilities** - Utility classes and helpers
+Component partials live in `packages/core/src/scss/core-components/` and are
+imported in `_core.scss`. Categories (non-exhaustive):
+
+- **Layout & structure** — base, layout (header/sidebar/footer), grid, scrollbars
+- **Surfaces** — cards, modals, tabs, callouts, detail-panel, settings-panel
+- **Forms** — forms, checkbox-lists, file-selector, filter-card, query-editor
+- **Data display** — tables, comparison, lists, code, statistics, data-display, data-viz
+- **KPI showcases** — kpi-base + seven designs (terminal, sparkline-list,
+  comparison-gauges, hero-supporting, bento, numeric-strip, editorial-minimal)
+- **Feedback** — alerts, toasts, notifications, popconfirm, tooltips, loaders
+- **Interactive** — buttons, badges, command-palette, logic-tree, profile, timeline, pagers
+
+Authoritative list: `ls packages/core/src/scss/core-components/`.
 
 ### HTML Snippets
-Clean HTML patterns for all components in `packages/core/snippets/`:
-- alerts.html, badges.html, buttons.html, cards.html
-- forms.html, grid.html, layout.html, modals.html
-- tables.html, toasts.html, tooltips.html, etc.
+Clean HTML patterns under `packages/core/snippets/` (~35 files). One file per
+component category. Use them as the reference shape when generating markup
+for a component.
 
 ---
 
@@ -161,30 +169,80 @@ Clean HTML patterns for all components in `packages/core/snippets/`:
 </button>
 ```
 
-### SCSS Variable System
-Components use semantic base variables. Themes control the values.
+### Two-layer token system: SCSS variables + `--pa-*` / `--base-*` CSS variables
+
+Pure Admin uses **both** SCSS variables and CSS custom properties on purpose.
+They serve different roles and components mix them freely:
+
+- **SCSS variables (`$badge-padding-h`, `$font-size-xs`, etc.)** — compile-time
+  tokens for structural and non-themeable values. Themes override via
+  `!default` before `@import`-ing the framework.
+- **CSS variables (`--pa-*` framework, `--base-*` web-component bridge)** —
+  runtime theming surface. Components consume via `var(--pa-X)`. Themes emit
+  values via `output-pa-css-variables` / `output-base-css-variables` mixins at
+  `:root`. Enables runtime light/dark mode switching, data-driven colours
+  (sparkline trend tints set inline by JS), and web-component theming
+  (`<ms-multiselect>` etc. read `--base-*` from shadow DOM).
 
 ```scss
-// In component
+// In a component — both layers coexist
 .pa-badge {
-  padding: $badge-padding-v $badge-padding-h;
-  font-size: $font-size-xs;
+  padding: $badge-padding-v $badge-padding-h;        // SCSS — structural
+  font-size: $font-size-xs;                          // SCSS — structural
+  background-color: var(--pa-badge-success-bg);      // CSS var — themable at runtime
 }
-
-// In theme
-$badge-padding-h: 0.375rem;  // Theme decides the value
 ```
 
-### Theme Architecture
+### Architectural split: `main.scss` vs `_core.scss`
+
+- **`_core.scss`** — `@use`s every component partial. Consumed by both
+  `main.scss` (the unthemed bundle) and themes (via legacy `@import`).
+  Does NOT emit any `:root` block on its own — purely component CSS.
+- **`main.scss`** — entry that compiles to `dist/css/main.css`. Calls the
+  three emit mixins at `:root` so the unthemed bundle ships a complete set
+  of neutral defaults. Consumers using `@keenmate/pure-admin-core/css`
+  standalone get a working cascade; pages waiting for a theme link get
+  reasonable FOUC values.
+- **Themes** — written against the legacy `@import` flow:
+  `@import core` + `@import base-css-variables` + their own `:root` block
+  that re-emits the mixins with theme-overridden values.
+
+### Theme file pattern (actual current syntax)
+
 ```scss
-// Theme file pattern (e.g., audi.scss)
-@import '../variables';           // Load defaults
+// theme.scss — e.g. ../pure-admin-themes/corporate/src/scss/corporate.scss
 
-$primary-bg: #bb0a30;             // Override variables
-$body-font-family: 'Fira Sans Condensed', sans-serif;
+// 1. Override $base-* SCSS variables (single source of truth)
+$base-accent-color: #0ea5e9;
+$base-success-color: #10b981;
+// ... other $base-* overrides
 
-@import url('...');               // Add custom fonts
-@import '../core';                // Import core with overrides
+// 2. Import variables/index — !default flags skip already-set values
+@import '@keenmate/pure-admin-core/src/scss/variables/index';
+
+// 3. (Optional) override derived $* variables for layout-specific tuning
+$main-bg: #f4f6f9;
+$header-bg: #1e293b;
+// ...
+
+// 4. Import core (components) + utilities + base-css-variables (mixins)
+@import '@keenmate/pure-admin-core/src/scss/core';
+@import '@keenmate/pure-admin-core/src/scss/utilities';
+@import '@keenmate/pure-admin-core/src/scss/base-css-variables';
+
+// 5. Emit CSS variables at :root, light-mode by default
+:root, .pa-mode-light {
+  @include output-base-css-variables;
+  @include output-pa-css-variables;
+  @include output-pa-alert-variables-light;
+}
+
+// 6. Dark mode block — overrides --pa-* values at .pa-mode-dark
+.pa-mode-dark {
+  --pa-main-bg: #{$dark-bg};
+  // ... per-token dark overrides
+  @include output-pa-alert-variables-dark;
+}
 ```
 
 ---
@@ -231,33 +289,56 @@ $font-size-2xl:  2.4rem;    // 24px
 
 ## Critical Rules
 
-1. **ALWAYS use SCSS variables** - NO CSS variables (`var(--*)`) anywhere
-2. **ONLY use `pa-` prefixed classes** - No demo-specific classes
-3. **Follow BEM strictly** - Components must be reusable framework elements
-4. **Themes override SCSS variables only** - All themes import `_variables.scss` and override
-5. **Font inheritance is global** - Never add `font-family: inherit` to components
+1. **Pick the right token layer.** Themable runtime values → `var(--pa-X)`
+   (framework) or `var(--base-X)` (web-component bridge). Structural /
+   compile-time values (spacing scales, font sizes, border radii on
+   non-themable components) → SCSS variables. When in doubt: if a theme,
+   a JS mode-switch, or inline data-driven styling would want to change
+   it without a recompile, it's a CSS variable. Most role-coloured surfaces
+   (`--pa-success`, `--pa-danger`, etc.) and the sentiment scale are CSS vars.
+2. **Use `pa-` prefixed BEM classes only.** No demo-specific classes in core.
+   Components must be reusable framework elements.
+3. **Follow BEM strictly.** `pa-[block]__[element]--[modifier]`.
+4. **Themes override BOTH SCSS variables and CSS variables.** SCSS overrides
+   set values before `@import` (compile-time, via `!default`); the
+   `output-pa-css-variables` / `output-base-css-variables` mixins emit them
+   as `--pa-*` / `--base-*` at `:root` (runtime). Don't pick one or the
+   other — both are part of the contract.
+5. **Don't cross-reference component SCSS variables.** Each component owns
+   its own variables; never reuse a sibling component's variable as a
+   shortcut. Reuse via the shared `$base-*` / `$font-size-*` / `$spacing-*`
+   tokens or via the runtime `--pa-*` cascade.
+6. **No `min-height` on form elements** — causes inconsistent layouts.
+7. **Font inheritance is global** — never add `font-family: inherit` to
+   components.
 
 ---
 
 ## Base CSS Variables for Web Components
 
-Pure Admin exports `--base-*` CSS custom properties for web component theming.
+`--base-*` CSS custom properties are the public theming API for the
+`@keenmate/web-multiselect` and `@keenmate/web-daterangepicker` web
+components (shadow-DOM children outside the SCSS compile boundary).
 
 ```css
 /* Web components consume via fallback chains */
 --ms-accent-color: var(--base-accent-color, #3b82f6);
 ```
 
-45 variables covering colors, inputs, dropdowns, typography, and border-radius.
+~80 variables covering accent + text colours, semantic backgrounds, borders,
+input fields + size heights, dropdowns, tooltip, contextual colours
+(success/danger/warning/info × 8 each), focus ring, typography, and border
+radii. Authoritative list and emit mixin: `_base-css-variables.scss`.
 
 ---
 
 ## Resources
 
-- **Detailed Documentation:** `demo/views/` (component demos)
-- **Snippets Reference:** `packages/core/snippets/*.html`
-- **Theme Examples:** See `pure-admin-themes` repo
-- **Legacy Docs:** `pure-admin-visual/CLAUDE.md`
+- **Component demos:** `demo/views/` (mustache templates)
+- **Snippets reference:** `packages/core/snippets/*.html`
+- **Theme implementations:** `../pure-admin-themes` (separate repo)
+- **CSS variable contract:** `packages/core/CSS-VARIABLES.md`
+  + `_base-css-variables.scss`
 
 ---
 
@@ -278,6 +359,6 @@ Toast positions use logical names: `top-start`, `top-end`, `bottom-start`, `bott
 
 ---
 
-**Last Updated:** 2026-03-29
-**Framework Version:** 2.3.1
+**Last Updated:** 2026-05-28
+**Framework Version:** 2.8.0
 **Default Theme:** Corporate
