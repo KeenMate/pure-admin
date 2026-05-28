@@ -5,3 +5,14 @@
 
 // Core framework (includes variables and all core-components)
 @use 'core' as *;
+
+// CSS variable defaults at :root. Themes don't go through main.scss — they
+// @import core + base-css-variables and emit their own values — so this only
+// affects the unthemed bundle (dist/css/main.css) and the FOUC window before
+// a theme stylesheet resolves.
+@use 'base-css-variables' as bcv;
+:root {
+  @include bcv.output-base-css-variables;
+  @include bcv.output-pa-css-variables;
+  @include bcv.output-pa-alert-variables-light;
+}
