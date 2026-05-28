@@ -5,9 +5,15 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.8.0] - 2026-05-28 [PUBLISHED]
 
 ### Changed
+
+- **CSS variable defaults now emitted at `:root` in the bundled `dist/css/main.css`**. Previously the `--pa-*` and `--base-*` tokens were only emitted by themes via the `output-pa-css-variables` / `output-base-css-variables` mixins. Consumers importing `@keenmate/pure-admin-core/css` standalone — or any page before its theme stylesheet finished loading — had `var(--pa-positive)` / `--pa-success-bg` / `--base-accent-color` / etc. resolve to invalid values, causing KPI sparklines and deltas to render near-black via inherited text colour, and web components (multiselect, daterangepicker) to fall back to hardcoded literals. The unthemed bundle now ships a complete neutral default for every themable token, so the lib works standalone and the FOUC window before a theme link resolves is covered.
+    - **Where the emit lives**: `main.scss` (the entry compiled to `dist/css/main.css`) now calls `output-base-css-variables`, `output-pa-css-variables`, and `output-pa-alert-variables-light` at `:root`. `_core.scss` no longer emits any `:root` block of its own — it's purely component CSS.
+    - **Themes are unaffected.** Themes don't go through `main.scss` — they `@import 'core'` + `@import 'base-css-variables'` and emit their own `:root` from their theme file. All 15 themes rebuild to byte-identical output. No theme repo changes required.
+    - **One-line tweak to `_base-css-variables.scss`**: added `@use 'variables/index' as *` at the top so the file can be loaded as a `@use` module by `main.scss`. Legacy `@import` callers (themes) are unaffected because `@use`'d members land in the importing file's global scope where theme-set overrides already live.
+    - **Supersedes the 2.7.1-era partial fix** (commit a76d195) that hardcoded only the 5-step sentiment scale at `:root` from `_core.scss`. That 22-line block is removed; the full mixin output is now what runs.
 
 - **`.pa-kpi-spark-list` gained `--no-delta` modifier + track-width SCSS variables**. Previously the row template was a hardcoded 4-col grid (label · chart · value · delta) with inline `minmax(…)` track widths repeated across every responsive override. Refactored: track widths extracted to local SCSS variables (`$spark-col-label`, `$spark-col-chart`, `$spark-col-value`, `$spark-col-delta`) so the default 4-col template and the new `--no-delta` 3-col template share one source of truth.
     - **New `pa-kpi-spark-list--no-delta` modifier**: drops the rightmost Δ% column. Useful when the sparkline's slope already conveys direction. At wide widths the row shrinks from 4 cols to 3 (`label · chart · value`); at mid-narrow the top row becomes `label value` only; at very-narrow the bottom row becomes a single full-width `value` cell. The delta element is hidden via `display: none` so the markup can stay identical to default rows — the popover's `<dl>` still surfaces the delta on hover.
