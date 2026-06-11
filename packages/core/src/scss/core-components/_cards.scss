@@ -23,8 +23,13 @@
   &__header {
     padding: $card-header-padding-v $card-header-padding-h;
     min-height: $card-header-min-height;
-    border-top-left-radius: $card-border-radius;
-    border-top-right-radius: $card-border-radius;
+    // No own border-top-radius — the card's `overflow: hidden` + outer
+    // border-radius clips the header's square top corners to match. Setting
+    // a radius here makes the header curve at 8px while the card's INNER
+    // corner is ~7px (outer 8px minus the 1px border), leaving a thin
+    // wedge of card background visible at each top corner — most obvious
+    // on coloured variants (--primary/--success/--warning/--danger/--color-*)
+    // where the wedge shows as a white sliver against the variant colour.
     border-bottom: $border-width-base solid var(--pa-border-color);
     background: var(--pa-card-header-bg);
     display: flex;
@@ -240,11 +245,15 @@
   }
 
   // Card variants
+  // Coloured variants override the header's border-bottom-color to match the
+  // variant — otherwise the default light-gray hairline shows as a visible
+  // strip against the coloured surroundings (header bg + card border above).
   &--primary {
     border-color: var(--pa-accent);
 
     .pa-card__header {
       background-color: var(--pa-accent);
+      border-bottom-color: var(--pa-accent);
       color: var(--pa-btn-primary-text);
 
       h1,
@@ -263,6 +272,7 @@
 
     .pa-card__header {
       background-color: var(--pa-success-bg);
+      border-bottom-color: var(--pa-success-bg);
       color: var(--pa-btn-success-text);
 
       h1,
@@ -281,6 +291,7 @@
 
     .pa-card__header {
       background-color: var(--pa-warning-bg);
+      border-bottom-color: var(--pa-warning-bg);
       color: var(--pa-btn-warning-text);
 
       h1,
@@ -299,6 +310,7 @@
 
     .pa-card__header {
       background-color: var(--pa-danger-bg);
+      border-bottom-color: var(--pa-danger-bg);
       color: var(--pa-btn-danger-text);
 
       h1,
@@ -366,6 +378,7 @@
 
       .pa-card__header {
         background-color: var(--pa-color-#{$i});
+        border-bottom-color: var(--pa-color-#{$i});
         color: var(--pa-color-#{$i}-text);
 
         h1,

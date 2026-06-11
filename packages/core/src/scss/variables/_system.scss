@@ -3,6 +3,14 @@
 // Z-index, opacity, transitions, animations, shadows
 // ============================================================================
 
+// Theme color-scheme signal to the browser. Drives native UA elements
+// (scrollbars, form controls) and the `light-dark()` CSS function. Themes
+// override BEFORE `@import variables/index`. Values: `light`, `dark`,
+// `light dark` (let OS preference decide), or `only light` / `only dark`
+// to ignore OS preference. Per-mode overrides (e.g. `color-scheme: dark;`
+// inside a `.pa-mode-dark` block) take precedence via the cascade.
+$theme-color-scheme: light !default;
+
 // Z-index scale (increments of 1000 for easy adjustment)
 $z-index-base: 0 !default;
 $z-index-content: 1000 !default;

@@ -58,7 +58,7 @@ to save horizontal space in the navbar.
                 <!-- title= attrs give a tooltip when the text truncates with ellipsis -->
                 <h3 class="pa-profile-panel__name"  title="John Doe">John Doe</h3>
                 <p  class="pa-profile-panel__email" title="john.doe@company.com">john.doe@company.com</p>
-                <span class="pa-profile-panel__role">Administrator</span>
+                <span class="pa-badge">Administrator</span>
             </div>
             <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">
                 ✕
@@ -124,7 +124,7 @@ to save horizontal space in the navbar.
             <div class="pa-profile-panel__info">
                 <h3 class="pa-profile-panel__name">John Doe</h3>
                 <p  class="pa-profile-panel__email">john.doe@company.com</p>
-                <span class="pa-profile-panel__role">Administrator</span>
+                <span class="pa-badge">Administrator</span>
             </div>
             <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">✕</button>
         </div>
@@ -170,7 +170,7 @@ to save horizontal space in the navbar.
             <div class="pa-profile-panel__info">
                 <h3 class="pa-profile-panel__name">Jane Smith</h3>
                 <p  class="pa-profile-panel__email">jane.smith@corp.example</p>
-                <span class="pa-profile-panel__role">Analyst</span>
+                <span class="pa-badge">Analyst</span>
             </div>
             <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">✕</button>
         </div>
@@ -207,7 +207,7 @@ to save horizontal space in the navbar.
             <div class="pa-profile-panel__info">
                 <h3 class="pa-profile-panel__name">John Doe</h3>
                 <p  class="pa-profile-panel__email">john.doe@company.com</p>
-                <span class="pa-profile-panel__role">Administrator</span>
+                <span class="pa-badge">Administrator</span>
             </div>
             <button class="pa-profile-panel__close" onclick="closeProfilePanel()" aria-label="Close Profile">✕</button>
         </div>
@@ -425,7 +425,10 @@ HEADER:
 - .pa-profile-panel__info               Text column (name + email + role).
 - .pa-profile-panel__name               User name (ellipsis on overflow).
 - .pa-profile-panel__email              Email (ellipsis on overflow).
-- .pa-profile-panel__role               Role badge (uppercase, tinted bg).
+- .pa-badge                             Role chip (standard badge component;
+                                        add `.pa-badge--primary` / `--info` /
+                                        `--success` / `--warning` / `--danger`
+                                        / `--light` for variant styling).
 - .pa-profile-panel__close              Close button (top-end corner).
 
 Theme-colour design choices (why they're like this):
@@ -433,11 +436,13 @@ Theme-colour design choices (why they're like this):
   colour the header uses for the user's name. This guarantees contrast
   against dark / coloured header backgrounds across all themes (body
   text colours would read wrong on a dark header).
-- __role paints its background with color-mix(in srgb,
-  var(--pa-header-profile-name-color) 15%, transparent) so the tint is
-  derived from the header colour and works on any theme. An older
-  --pa-accent-light fallback is declared first for browsers without
-  color-mix.
+- Role uses the standard `.pa-badge` component (var(--pa-btn-secondary-bg)
+  / -text by default), which themes already tune for both light and dark
+  modes. Previously this was a custom `.pa-profile-panel__role` element
+  coupled to --pa-header-profile-name-color — that token is sized for the
+  header (e.g. black on yellow in Express) and went invisible on dark
+  panel bodies. Migrated to `.pa-badge` in 2.9.0; older snippet markup
+  using `pa-profile-panel__role` needs the class swap.
 
 TABS (optional — sits between __header and __body):
 - .pa-profile-panel__tabs               Tabs container (border-bottom + header-bg).

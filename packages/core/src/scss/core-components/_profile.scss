@@ -162,20 +162,12 @@
     white-space: nowrap;
   }
 
-  &__role {
-    display: inline-block;
-    padding: $btn-padding-v $btn-padding-h;
-    // Tinted bg derived from the header's name color so it reads on any
-    // header — dark or light. Fallback kept for older browsers.
-    background-color: var(--pa-accent-light);
-    background-color: color-mix(in srgb, var(--pa-header-profile-name-color) 15%, transparent);
-    color: var(--pa-header-profile-name-color);
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-    border-radius: var(--pa-border-radius);
-    text-transform: uppercase;
-    letter-spacing: $profile-role-letter-spacing;
-  }
+  // Role badge: use the standard `.pa-badge` component in markup instead of
+  // a custom `__role` element. Previously this declared its own bg/colour/
+  // padding/uppercase styling — duplicating badge work that already existed
+  // in the framework, and coupling to `--pa-header-profile-name-color` which
+  // went invisible inside dark-mode panel bodies. Snippets and demo markup
+  // updated accordingly in 2.9.0.
 
   &__close {
     position: absolute;

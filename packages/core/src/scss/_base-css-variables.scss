@@ -47,14 +47,6 @@
   --base-disabled-bg: #{$base-disabled-bg};
   --base-elevated-bg: #{$base-elevated-bg};
 
-  // === Background Colors (legacy aliases) ===
-  --base-surface-1: #{$base-surface-1};
-  --base-surface-2: #{$base-surface-2};
-  --base-surface-3: #{$base-surface-3};
-  --base-surface-inverse: #{$base-surface-inverse};
-  --base-primary-bg: #{$base-primary-bg};
-  --base-primary-bg-hover: #{$base-primary-bg-hover};
-
   // === Border Colors ===
   --base-border-color: #{$base-border-color};
   --base-border: #{$base-border};
@@ -265,6 +257,18 @@
 // ============================================================================
 
 @mixin output-pa-css-variables {
+  // =========================================================================
+  // COLOR SCHEME SIGNAL
+  // Tells the browser whether this scope is light or dark so native UA
+  // elements (scrollbars, form controls) and `light-dark()` resolve
+  // correctly. Drives web components (e.g. <web-multiselect>) that ship
+  // adaptive palettes via `light-dark()`. Override $theme-color-scheme
+  // before importing variables for always-dark themes; for dual-mode
+  // themes leave default `light` here and add `color-scheme: dark;` to
+  // the `.pa-mode-dark` block.
+  // =========================================================================
+  color-scheme: #{$theme-color-scheme};
+
   // =========================================================================
   // CORE COLORS
   // =========================================================================
