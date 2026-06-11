@@ -1,7 +1,7 @@
 # Pure Admin Workspace - Makefile
 # Root workspace commands for development and build
 
-.PHONY: help setup install build watch clean demo dev themes-install package publish publish-dry verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
+.PHONY: help setup install build watch clean demo dev themes-install treeview-app package publish publish-rc publish-dry publish-dry-rc verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
 
 # === Configuration ===
 # Docker image settings
@@ -25,8 +25,9 @@ help:
 	@echo "  Development:"
 	@echo "    make install         - Install all workspace dependencies"
 	@echo "    make themes-install  - Snapshot themes into ./themes/ (per pureadmin.json + .pureadmin.json)"
-	@echo "    make dev             - Snapshot themes, then run demo server with SCSS watch"
+	@echo "    make dev             - Snapshot themes, build Svelte treeview app, then run demo server with SCSS watch"
 	@echo "    make demo            - Snapshot themes, then run demo server only"
+	@echo "    make treeview-app    - Build the embedded Svelte treeview demo bundle (auto-runs as part of make dev)"
 	@echo ""
 	@echo "  Build:"
 	@echo "    make build        - Build core CSS"
@@ -36,9 +37,11 @@ help:
 	@echo "  Package:"
 	@echo "    make package      - Create npm tarball for core"
 	@echo "    make verify       - Clean, build, and verify package"
-	@echo "    make publish-dry  - Dry-run publish (verify what would be published)"
-	@echo "    make publish      - Publish core package to npm"
-	@echo "    make publish TAG=rc  - Publish with --tag rc (for pre-releases)"
+	@echo "    make publish-dry    - Dry-run publish as 'latest' (verify what would be published)"
+	@echo "    make publish-dry-rc - Dry-run publish under --tag rc (for pre-releases)"
+	@echo "    make publish        - Publish core package to npm as 'latest'"
+	@echo "    make publish-rc     - Publish core package under --tag rc (canonical for X.Y.Z-rcN)"
+	@echo "    make publish TAG=<x> - Publish under arbitrary dist-tag (e.g. TAG=beta, TAG=next)"
 	@echo ""
 	@echo "  Docker:"
 	@echo "    make docker-build   - Build container image locally (podman)"
@@ -81,8 +84,20 @@ themes-install:
 demo: themes-install
 	npm run start -w demo
 
+# Build the embedded Svelte treeview demo app. First run installs deps in
+# demo/svelte-apps/treeview/node_modules/ (~38 packages, ~8 s); subsequent
+# runs only rebuild the bundle (~1.5 s). Skipped if no node_modules guard
+# isn't tripped; otherwise always rebuilds so source edits land in dist/.
+treeview-app:
+	@if [ ! -d demo/svelte-apps/treeview/node_modules ]; then \
+		echo "Installing treeview-app dependencies (first run)..."; \
+		cd demo/svelte-apps/treeview && npm install; \
+	fi
+	@echo "Building treeview-app bundle..."
+	@cd demo/svelte-apps/treeview && npm run build
+
 # Development mode (demo server)
-dev: themes-install
+dev: themes-install treeview-app
 	npm run dev -w demo
 
 # Clean dist directories
@@ -98,13 +113,23 @@ verify: clean build
 	npm pack -w @keenmate/pure-admin-core
 	@echo "Package verified and ready!"
 
-# Dry-run publish (clean + build + verify what would be published)
+# Dry-run publish as 'latest' (clean + build + verify what would be published)
 publish-dry: clean build
 	npm publish -w @keenmate/pure-admin-core --dry-run $(NPM_TAG)
 
-# Publish core package to npm (clean + build first)
+# Dry-run publish under --tag rc (for pre-release versions like X.Y.Z-rcN)
+publish-dry-rc: clean build
+	npm publish -w @keenmate/pure-admin-core --dry-run --tag rc
+
+# Publish core package to npm as 'latest' (clean + build first)
 publish: clean build
 	npm publish -w @keenmate/pure-admin-core $(NPM_TAG)
+
+# Publish core package under --tag rc (canonical for X.Y.Z-rcN pre-releases).
+# Keeps 'latest' dist-tag untouched; consumers opt in via @rc or by pinning the
+# exact version. Equivalent to `make publish TAG=rc` but harder to forget.
+publish-rc: clean build
+	npm publish -w @keenmate/pure-admin-core --tag rc
 
 # === Docker Commands ===
 

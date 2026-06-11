@@ -1,0 +1,37 @@
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h2>Svelte Treeview Component</h2>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      Hierarchical tree component from <code>@keenmate/svelte-treeview</code> — a Svelte 5 library
+      with keyboard navigation, multi-select, checkboxes, drag-and-drop, and customizable styling
+      via <code>--ltree-*</code> CSS variables.
+    </p>
+    <p>
+      <strong>Demo:</strong> a small Svelte 5 app mounted into the page below. Theme switching
+      affects both the pure-admin chrome (form controls, cards) and the treeview's own surfaces
+      where its <code>--ltree-*</code> tokens fall back to <code>--base-*</code> / <code>--pa-*</code> tokens.
+    </p>
+    <p>
+      <strong>Note:</strong> unlike <code>web-multiselect</code>, this is NOT a custom element —
+      it requires a Svelte runtime. The demo bundles a small mount app via Vite; consumers in
+      production would import <code>&lt;Tree /&gt;</code> directly into their own Svelte app.
+    </p>
+  </div>
+</div>
+
+<!-- Interactive demo -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Interactive Demo</h3>
+  </div>
+  <div class="pa-card__body">
+    <!-- Mount point for the Svelte app. main.ts mounts <App /> here. -->
+    <div id="treeview-app"></div>
+  </div>
+</div>
+
+<!-- Treeview-specific styles bundled by the Svelte app's Vite build -->
+<link rel="stylesheet" href="/svelte-apps/treeview/dist/treeview-app.css">
+<script type="module" src="/svelte-apps/treeview/dist/treeview-app.js"></script>

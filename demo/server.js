@@ -326,6 +326,10 @@ app.get('/components/data-grid', (req, res) => {
     renderWithLayout(res, 'data-grid', { pageTitle: 'Data Grid', currentPage: 'data-grid', isDataGrid: true });
 });
 
+app.get('/components/svelte-treeview', (req, res) => {
+    renderWithLayout(res, 'svelte-treeview', { pageTitle: 'Svelte Treeview', currentPage: 'svelte-treeview', isSvelteTreeview: true });
+});
+
 app.get('/components/file-selector', (req, res) => {
     renderWithLayout(res, 'file-selector', { pageTitle: 'File Selector', currentPage: 'file-selector', isFileSelector: true });
 });
@@ -659,6 +663,12 @@ app.use('/snippets', express.static(path.join(corePackagePath, 'snippets'), {
 }));
 
 // Node modules (workspace root)
+// Svelte apps (compiled treeview bundle, etc.)
+app.use('/svelte-apps', express.static(path.join(__dirname, 'svelte-apps'), {
+    maxAge: '0',
+    etag: true
+}));
+
 app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules'), {
     maxAge: 120000 // 2 minutes
 }));
