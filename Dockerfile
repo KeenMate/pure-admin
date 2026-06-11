@@ -27,6 +27,16 @@ COPY demo/ ./demo/
 # Build core CSS
 RUN npm run build -w @keenmate/pure-admin-core
 
+# Build the embedded Svelte treeview demo bundle.
+# demo/svelte-apps/treeview/ is not a workspace member (deliberately — it's a
+# Svelte 5 + Vite IIFE bundle built as a private demo artifact, with its own
+# package-lock), so we install + build it in-place, then drop its node_modules
+# so only the built dist/ ships in the runtime layer.
+RUN cd demo/svelte-apps/treeview && \
+    npm ci && \
+    npm run build && \
+    rm -rf node_modules
+
 # Download and extract theme bundle from pureadmin.io
 RUN apk add --no-cache curl unzip && \
     curl -fsSL -o /tmp/themes.zip "${THEMES_URL}" && \
