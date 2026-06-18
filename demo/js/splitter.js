@@ -9,10 +9,15 @@
  *   data-pa-splitter-max-start="60%" | "800px"
  *   data-pa-splitter-default="280px" | "30%"   (initial size if no saved state)
  *   data-pa-splitter-step="10"        (keyboard step in px; default 10)
- *   data-pa-splitter-minimize="start" (opt-in: collapse goes to rail width
- *                                      instead of 0, with a vertical card
- *                                      header rendered in the pane)
+ *   data-pa-splitter-minimize="start" | "end"
+ *                                     (opt-in: collapse goes to rail width
+ *                                      on the named side instead of 0)
  *   data-pa-splitter-rail-size="40"   (rail width in px; default 40)
+ *   data-pa-splitter-minimize-threshold="0.40"
+ *                                     (drag snaps to rail when requested
+ *                                      size drops below this fraction of
+ *                                      the minimized side's natural min;
+ *                                      default 0.40; floored at rail × 1.5)
  *
  * Required markup:
  *   .pa-splitter.pa-splitter--horizontal | --vertical
@@ -100,8 +105,14 @@
         var minRaw = root.getAttribute('data-pa-splitter-min-start');
         var maxRaw = root.getAttribute('data-pa-splitter-max-start');
         var defaultRaw = root.getAttribute('data-pa-splitter-default');
-        var canMinimize = root.getAttribute('data-pa-splitter-minimize') === 'start';
+        var minimizeRaw = root.getAttribute('data-pa-splitter-minimize');
+        var minimizeSide = (minimizeRaw === 'start' || minimizeRaw === 'end') ? minimizeRaw : null;
+        var canMinimize = minimizeSide !== null;
         var railSizePx = parseInt(root.getAttribute('data-pa-splitter-rail-size'), 10) || 40;
+        var minimizeThresholdRatio = parseFloat(root.getAttribute('data-pa-splitter-minimize-threshold'));
+        if (isNaN(minimizeThresholdRatio) || minimizeThresholdRatio <= 0 || minimizeThresholdRatio >= 1) {
+            minimizeThresholdRatio = 0.40;
+        }
 
         // Diagnostic logging — opt in by setting window.PA_SPLITTER_DEBUG = true.
         var DEBUG = window.PA_SPLITTER_DEBUG === true;
@@ -169,7 +180,8 @@
             var collapsed = !minimized && size === 0;
             root.classList.toggle('pa-splitter--collapsed', collapsed);
             root.classList.toggle('pa-splitter--minimized', minimized);
-            startPane.classList.toggle('pa-splitter__pane--minimized', minimized);
+            startPane.classList.toggle('pa-splitter__pane--minimized', minimized && minimizeSide === 'start');
+            endPane.classList.toggle('pa-splitter__pane--minimized', minimized && minimizeSide === 'end');
 
             gutter.setAttribute('aria-valuenow', String(Math.round(size)));
             gutter.setAttribute('aria-valuemin', String(Math.round(c.min)));
@@ -183,9 +195,11 @@
         }
 
         function minimize() {
-            log('minimize() called', { currentSize: currentSize, lastNonZero: lastNonZero });
+            log('minimize() called', { currentSize: currentSize, lastNonZero: lastNonZero, side: minimizeSide });
             minimized = true;
-            applySize(railSizePx, { raw: true });
+            var c = constraints();
+            var target = minimizeSide === 'end' ? c.total - railSizePx : railSizePx;
+            applySize(target, { raw: true });
         }
 
         function restoreFromMinimized() {
@@ -233,7 +247,9 @@
             log('rAF apply, rootSize=', root[clientAxis]);
             if (startMinimized) {
                 minimized = true;
-                applySize(railSizePx, { raw: true, persist: false });
+                var c0 = constraints();
+                var railTarget = minimizeSide === 'end' ? c0.total - railSizePx : railSizePx;
+                applySize(railTarget, { raw: true, persist: false });
             } else if (initialSize === 0) {
                 applySize(0, { raw: true, persist: false });
             } else {
@@ -269,7 +285,31 @@
         function onPointerMove(e) {
             if (e.pointerId !== activePointerId) return;
             var delta = e[clientCoord] - dragStartCoord;
-            applySize(dragStartSize + delta, { persist: false });
+            var requested = dragStartSize + delta;
+
+            // Drag-into-minimize: hysteresis snap. Threshold checks the
+            // *minimized side's* size, not the start pane's directly.
+            if (canMinimize) {
+                var c = constraints();
+                var minimizedSideMin = minimizeSide === 'end' ? (c.total - c.max) : c.min;
+                var snapThreshold = Math.max(minimizedSideMin * minimizeThresholdRatio, railSizePx * 1.5);
+                var requestedMinimizedSize = minimizeSide === 'end' ? c.total - requested : requested;
+                var railTarget = minimizeSide === 'end' ? c.total - railSizePx : railSizePx;
+
+                if (!minimized && requestedMinimizedSize < snapThreshold) {
+                    minimized = true;
+                    applySize(railTarget, { raw: true, persist: false });
+                    return;
+                }
+                if (minimized && requestedMinimizedSize >= snapThreshold) {
+                    minimized = false;
+                    applySize(requested, { persist: false });
+                    return;
+                }
+                if (minimized) return;
+            }
+
+            applySize(requested, { persist: false });
         }
 
         function onPointerUp(e) {
@@ -282,13 +322,14 @@
             gutter.removeEventListener('pointermove', onPointerMove);
             gutter.removeEventListener('pointerup', onPointerUp);
             gutter.removeEventListener('pointercancel', onPointerUp);
-            if (id) writeStorage(id, { size: currentSize, last: lastNonZero });
+            if (id) writeStorage(id, { size: currentSize, last: lastNonZero, minimized: minimized });
         }
 
         gutter.addEventListener('pointerdown', onPointerDown);
 
         // ---- Click rail to restore ----
-        startPane.addEventListener('click', function () {
+        var railPane = minimizeSide === 'end' ? endPane : startPane;
+        railPane.addEventListener('click', function () {
             if (minimized) restoreFromMinimized();
         });
 

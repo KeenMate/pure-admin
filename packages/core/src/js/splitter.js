@@ -9,10 +9,18 @@
  *   data-pa-splitter-max-start="60%" | "800px"
  *   data-pa-splitter-default="280px" | "30%"   (initial size if no saved state)
  *   data-pa-splitter-step="10"        (keyboard step in px; default 10)
- *   data-pa-splitter-minimize="start" (opt-in: collapse goes to rail width
- *                                      instead of 0, with a vertical card
- *                                      header rendered in the pane)
+ *   data-pa-splitter-minimize="start" | "end"
+ *                                     (opt-in: collapse goes to rail width
+ *                                      on the named side instead of 0, with
+ *                                      a vertical card header in the rail)
  *   data-pa-splitter-rail-size="40"   (rail width in px; default 40)
+ *   data-pa-splitter-minimize-threshold="0.40"
+ *                                     (drag snaps to rail when requested
+ *                                      size drops below this fraction of
+ *                                      the minimized side's natural min;
+ *                                      default 0.40; floored at rail × 1.5
+ *                                      so the deadband is always wider than
+ *                                      the rail itself)
  *
  * Required markup:
  *   .pa-splitter.pa-splitter--horizontal | --vertical
@@ -101,8 +109,14 @@
         var minRaw = root.getAttribute('data-pa-splitter-min-start');
         var maxRaw = root.getAttribute('data-pa-splitter-max-start');
         var defaultRaw = root.getAttribute('data-pa-splitter-default');
-        var canMinimize = root.getAttribute('data-pa-splitter-minimize') === 'start';
+        var minimizeRaw = root.getAttribute('data-pa-splitter-minimize');
+        var minimizeSide = (minimizeRaw === 'start' || minimizeRaw === 'end') ? minimizeRaw : null;
+        var canMinimize = minimizeSide !== null;
         var railSizePx = parseInt(root.getAttribute('data-pa-splitter-rail-size'), 10) || 40;
+        var minimizeThresholdRatio = parseFloat(root.getAttribute('data-pa-splitter-minimize-threshold'));
+        if (isNaN(minimizeThresholdRatio) || minimizeThresholdRatio <= 0 || minimizeThresholdRatio >= 1) {
+            minimizeThresholdRatio = 0.40;
+        }
 
         // Diagnostic logging — opt in by setting window.PA_SPLITTER_DEBUG = true.
         var DEBUG = window.PA_SPLITTER_DEBUG === true;
@@ -178,7 +192,10 @@
             var collapsed = !minimized && size === 0;
             root.classList.toggle('pa-splitter--collapsed', collapsed);
             root.classList.toggle('pa-splitter--minimized', minimized);
-            startPane.classList.toggle('pa-splitter__pane--minimized', minimized);
+            // Apply the rail class to whichever side is being minimized; clear
+            // the other so a side-swap (or stale state) can't leave it dangling.
+            startPane.classList.toggle('pa-splitter__pane--minimized', minimized && minimizeSide === 'start');
+            endPane.classList.toggle('pa-splitter__pane--minimized', minimized && minimizeSide === 'end');
 
             // ARIA value
             gutter.setAttribute('aria-valuenow', String(Math.round(size)));
@@ -195,9 +212,14 @@
         }
 
         function minimize() {
-            log('minimize() called', { currentSize: currentSize, lastNonZero: lastNonZero });
+            log('minimize() called', { currentSize: currentSize, lastNonZero: lastNonZero, side: minimizeSide });
             minimized = true;
-            applySize(railSizePx, { raw: true });
+            // For end-side minimize, push start pane to (total − rail) so the
+            // flex:1 end pane shrinks to exactly the rail width. For start-side,
+            // start pane goes to railSize directly.
+            var c = constraints();
+            var target = minimizeSide === 'end' ? c.total - railSizePx : railSizePx;
+            applySize(target, { raw: true });
         }
 
         function restoreFromMinimized() {
@@ -250,7 +272,9 @@
             log('rAF apply, rootSize=', root[clientAxis]);
             if (startMinimized) {
                 minimized = true;
-                applySize(railSizePx, { raw: true, persist: false });
+                var c0 = constraints();
+                var railTarget = minimizeSide === 'end' ? c0.total - railSizePx : railSizePx;
+                applySize(railTarget, { raw: true, persist: false });
             } else if (initialSize === 0) {
                 // Preserve an explicitly-collapsed state across reloads.
                 applySize(0, { raw: true, persist: false });
@@ -291,7 +315,38 @@
         function onPointerMove(e) {
             if (e.pointerId !== activePointerId) return;
             var delta = e[clientCoord] - dragStartCoord;
-            applySize(dragStartSize + delta, { persist: false });
+            var requested = dragStartSize + delta;
+
+            // Drag-into-minimize: hysteresis snap. The threshold applies to
+            // the *minimized side's* size, not the start pane's directly —
+            // for end-side minimize, that's (total − requested).
+            if (canMinimize) {
+                var c = constraints();
+                // For end-side minimize, the minimized pane is the *end* pane,
+                // whose natural min equals `total - max-start`. Using c.min
+                // (start-side min) would put the snap point way too far inward.
+                var minimizedSideMin = minimizeSide === 'end' ? (c.total - c.max) : c.min;
+                var snapThreshold = Math.max(minimizedSideMin * minimizeThresholdRatio, railSizePx * 1.5);
+                var requestedMinimizedSize = minimizeSide === 'end' ? c.total - requested : requested;
+                var railTarget = minimizeSide === 'end' ? c.total - railSizePx : railSizePx;
+
+                if (!minimized && requestedMinimizedSize < snapThreshold) {
+                    minimized = true;
+                    applySize(railTarget, { raw: true, persist: false });
+                    return;
+                }
+                if (minimized && requestedMinimizedSize >= snapThreshold) {
+                    minimized = false;
+                    applySize(requested, { persist: false });
+                    return;
+                }
+                if (minimized) {
+                    // Inside the rail zone — pane stays at rail, ignore drag.
+                    return;
+                }
+            }
+
+            applySize(requested, { persist: false });
         }
 
         function onPointerUp(e) {
@@ -305,15 +360,18 @@
             gutter.removeEventListener('pointerup', onPointerUp);
             gutter.removeEventListener('pointercancel', onPointerUp);
             // Persist final size at end of drag (not on every move — cuts down on
-            // localStorage writes during rapid drags).
-            if (id) writeStorage(id, { size: currentSize, last: lastNonZero });
+            // localStorage writes during rapid drags). Include `minimized` so a
+            // drag that ends in rail mode survives reload.
+            if (id) writeStorage(id, { size: currentSize, last: lastNonZero, minimized: minimized });
         }
 
         gutter.addEventListener('pointerdown', onPointerDown);
 
         // ---- Click rail to restore ----
-        // When minimized, the whole start pane acts as a restore affordance.
-        startPane.addEventListener('click', function () {
+        // When minimized, the rail pane (whichever side it is) acts as a
+        // restore affordance.
+        var railPane = minimizeSide === 'end' ? endPane : startPane;
+        railPane.addEventListener('click', function () {
             if (minimized) restoreFromMinimized();
         });
 

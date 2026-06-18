@@ -139,7 +139,7 @@ console.log(greet('Pure Admin'));</code></pre>
                     <h3>Minimize to rail <small class="text-secondary">— vertical header instead of collapse</small></h3>
                 </div>
                 <div class="pa-card__body">
-                    <p class="mb-3">Opt in with <code>data-pa-splitter-minimize="start"</code>. Now the gutter's collapse action (double-click, <kbd>Enter</kbd>/<kbd>Space</kbd>, the toggle button in the header, or pressing the gutter while minimized) toggles the start pane to a thin rail with a vertical card title — instead of disappearing. Click the rail or press the gutter to restore. Rail width is configurable via <code>data-pa-splitter-rail-size</code> (default 40px).</p>
+                    <p class="mb-3">Opt in with <code>data-pa-splitter-minimize="start"</code>. The gutter's collapse action (double-click, <kbd>Enter</kbd>/<kbd>Space</kbd>, the toggle button in the header, or pressing the gutter while minimized) toggles the start pane to a thin rail with a vertical card title — instead of disappearing. Click the rail or press the gutter to restore. Rail width is configurable via <code>data-pa-splitter-rail-size</code> (default 40px). <strong>You can also just drag the gutter inward</strong> — once the requested width drops below 40% of the minimized side's natural min (configurable via <code>data-pa-splitter-minimize-threshold</code>) it snaps to rail; dragging back outward across the same threshold pops it back to min.</p>
 
                     <label class="mb-3" style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer;">
                         <input type="checkbox"
@@ -232,7 +232,71 @@ console.log(greet('Pure Admin'));</code></pre>
                 </div>
             </div>
 
-            <!-- Demo 5 — Persistence reset -->
+            <!-- Demo 5 — Minimize end pane to rail -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>Minimize <em>end</em> pane to rail <small class="text-secondary">— right-edge inspector pattern</small></h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">Set <code>data-pa-splitter-minimize="end"</code> to collapse the right pane to a vertical-title rail on the right edge. Same restore paths as the start variant (rail click, gutter press, toggle button, dblclick, <kbd>Enter</kbd>/<kbd>Space</kbd>, or drag the gutter outward past the threshold). Useful for inspector / detail / properties panels.</p>
+
+                    <div class="pa-splitter pa-splitter--horizontal"
+                         data-pa-splitter
+                         data-pa-splitter-id="demo-minimize-end"
+                         data-pa-splitter-minimize="end"
+                         data-pa-splitter-min-start="40%"
+                         data-pa-splitter-max-start="80%"
+                         data-pa-splitter-default="65%"
+                         data-pa-splitter-rail-size="44"
+                         style="height: 320px; gap: 1.2rem;">
+                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0;">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title">
+                                        <i class="pa-card__title-icon fa-solid fa-code" aria-hidden="true"></i>
+                                        <h4 class="pa-card__title-text">Editor</h4>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <p class="mb-3">Drag the gutter to the right (shrinking the inspector) — once the inspector's width drops below 75% of its implied min, it snaps to a rail on the right edge.</p>
+                                    <pre class="pa-code"><code>// The inspector on the right is the
+// rail-side here. Press the rail, the
+// gutter, or the toggle button to
+// restore it.</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pa-splitter__gutter"
+                             role="separator"
+                             aria-orientation="vertical"
+                             tabindex="0"
+                             aria-label="Resize inspector"></div>
+                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0;">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title">
+                                        <i class="pa-card__title-icon fa-solid fa-circle-info" aria-hidden="true"></i>
+                                        <h4 class="pa-card__title-text">Inspector</h4>
+                                    </div>
+                                    <div class="pa-card__actions">
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary"
+                                                data-pa-splitter-toggle
+                                                aria-label="Minimize inspector"
+                                                title="Minimize inspector">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <p class="text-sm text-secondary mb-0">Properties, outlines, references, etc. live here. Click the chevron, double-click the gutter, or drag the gutter rightward to collapse.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 6 — Persistence reset -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
                     <h3>localStorage persistence</h3>
@@ -296,6 +360,9 @@ console.log(greet('Pure Admin'));</code></pre>
                                     <tr><td><code>data-pa-splitter-max-start</code></td><td>available</td><td><code>px</code> or <code>%</code></td></tr>
                                     <tr><td><code>data-pa-splitter-default</code></td><td><code>30%</code></td><td>Initial size if no saved state</td></tr>
                                     <tr><td><code>data-pa-splitter-step</code></td><td><code>10</code></td><td>Keyboard step in px</td></tr>
+                                    <tr><td><code>data-pa-splitter-minimize</code></td><td>off</td><td><code>"start"</code> or <code>"end"</code> opts into rail collapse on that side</td></tr>
+                                    <tr><td><code>data-pa-splitter-rail-size</code></td><td><code>40</code></td><td>Rail width in px (minimized state)</td></tr>
+                                    <tr><td><code>data-pa-splitter-minimize-threshold</code></td><td><code>0.40</code></td><td>Drag snaps to rail below this fraction of the minimized side's natural min</td></tr>
                                 </tbody>
                             </table>
                         </div>
