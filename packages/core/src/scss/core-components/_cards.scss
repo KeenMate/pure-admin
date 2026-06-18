@@ -100,6 +100,24 @@
       flex-shrink: 0;
     }
 
+    // …unless it's the progressive-overflow variant, which intentionally
+    // shrinks below content so the JS can read `scrollWidth > clientWidth`
+    // as the "needs overflow" signal. Nested under `&__header` so the
+    // selector matches `.pa-card__header .pa-card__actions--overflow` —
+    // the same specificity as the rule above, but later in source order
+    // and explicit on the modifier.
+    .pa-card__actions--overflow {
+      flex-shrink: 1;
+    }
+
+    // When the actions wrapper can shrink (overflow variant), give the title
+    // a floor so it can't be squeezed to 0 — icon + a few chars + ellipsis
+    // stay visible no matter how narrow. `:has()` scopes the override so
+    // ordinary cards keep `min-width: 0` and their full ellipsis range.
+    &:has(> .pa-card__actions--overflow) > .pa-card__title {
+      min-width: 6rem;
+    }
+
     // Buttons in card headers - negative margin to prevent header height growth
     .pa-btn {
       margin-top: -0.25rem;
@@ -237,6 +255,61 @@
     display: flex;
     gap: $spacing-sm;
     align-items: center;
+
+    // Responsive actions — render both the spread button list AND a
+    // collapsed split-button form; a container query on the header swaps
+    // which is visible. Stays CSS-only (no ResizeObserver / layout reads)
+    // but the markup carries both forms.
+    //
+    //   <div class="pa-card__header">
+    //     <div class="pa-card__title">…</div>
+    //     <div class="pa-card__actions pa-card__actions--responsive">
+    //       <div class="pa-card__actions-full">
+    //         …spread buttons…
+    //       </div>
+    //       <div class="pa-card__actions-collapsed">
+    //         <div class="pa-btn-split">…same actions as a menu…</div>
+    //       </div>
+    //     </div>
+    //   </div>
+    //
+    // Container is the header; threshold is $card-actions-collapse-at.
+    // Wired up via :has() (Baseline 2023) so authors don't need a second
+    // modifier on the header.
+    &--responsive {
+      > .pa-card__actions-full {
+        display: flex;
+        gap: $spacing-sm;
+        align-items: center;
+      }
+      > .pa-card__actions-collapsed {
+        display: none;
+      }
+    }
+
+    // Progressive overflow variant — driven by card-actions-overflow.js.
+    // `min-width: 0` lets flex shrink the wrapper below its content; with
+    // `overflow: hidden` the wrapper clips its children when narrow, which
+    // is what makes `scrollWidth > clientWidth` a reliable overflow signal
+    // for the JS. Buttons themselves get `flex-shrink: 0` so they don't
+    // squeeze to fit — they either fit fully or get moved to the menu.
+    &--overflow {
+      min-width: 0;
+      overflow: hidden;
+
+      > * {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  // Enable the container query on any header that contains a responsive
+  // actions wrapper. Container query rule itself is emitted at the bottom
+  // of this file (outside the .pa-card block) since `@container` can't
+  // hide inside an arbitrarily-nested selector cleanly.
+  &__header:has(> .pa-card__actions--responsive) {
+    container-type: inline-size;
+    container-name: pa-card-header;
   }
 
   &__meta {
@@ -498,4 +571,20 @@ a.pa-card {
   margin-bottom: $spacing-base;
   border-bottom: $border-width-medium solid var(--pa-accent);
   padding-bottom: $spacing-sm;
+}
+
+// Responsive card actions — container query for the spread/collapsed swap.
+// Container context set by `.pa-card__header:has(> .pa-card__actions--responsive)`
+// above. Threshold needs explicit interpolation in `@container` (the Sass
+// auto-interpolation that works in `@media` doesn't apply here).
+@container pa-card-header (max-width: #{$card-actions-collapse-at}) {
+  .pa-card__actions--responsive {
+    > .pa-card__actions-full {
+      display: none;
+    }
+    > .pa-card__actions-collapsed {
+      display: flex;
+      align-items: center;
+    }
+  }
 }

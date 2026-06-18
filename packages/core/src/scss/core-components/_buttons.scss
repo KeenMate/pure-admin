@@ -44,6 +44,21 @@
     }
   }
 
+  // Chromeless action button — no fill, no border, just the label / icon.
+  // Used for inline affordances inside dense surfaces (card-header actions,
+  // notification dismiss, toast close, splitter minimize) where a full button
+  // would compete with the content.
+  &--ghost {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--pa-text-secondary);
+
+    &:hover {
+      background-color: var(--pa-surface-hover);
+      color: var(--pa-text-color-1);
+    }
+  }
+
   &--xs {
     height: $btn-height-xs;
     padding: $btn-padding-xs-v $btn-padding-xs-h;

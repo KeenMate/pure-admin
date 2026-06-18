@@ -1,5 +1,5 @@
         <div class="pa-layout-container">
-            <p class="mb-6">Two-pane resizable container with a draggable gutter. Drag to resize, double-click the gutter to collapse / restore, and use arrow keys (or <kbd>Home</kbd> / <kbd>End</kbd>) when the gutter is focused. Sizes can be constrained and persisted to localStorage.</p>
+            <p class="mb-6">Resizable container with two or more panes and draggable gutters. Drag to resize, double-click a gutter to collapse / restore, and use arrow keys (or <kbd>Home</kbd> / <kbd>End</kbd>) when a gutter is focused. Sizes can be constrained per pane and persisted to localStorage.</p>
 
             <!-- Demo 1 — Horizontal -->
             <div class="pa-card mb-4">
@@ -141,6 +141,8 @@ console.log(greet('Pure Admin'));</code></pre>
                 <div class="pa-card__body">
                     <p class="mb-3">Opt in with <code>data-pa-splitter-minimize="start"</code>. The gutter's collapse action (double-click, <kbd>Enter</kbd>/<kbd>Space</kbd>, the toggle button in the header, or pressing the gutter while minimized) toggles the start pane to a thin rail with a vertical card title — instead of disappearing. Click the rail or press the gutter to restore. Rail width is configurable via <code>data-pa-splitter-rail-size</code> (default 40px). <strong>You can also just drag the gutter inward</strong> — once the requested width drops below 40% of the minimized side's natural min (configurable via <code>data-pa-splitter-minimize-threshold</code>) it snaps to rail; dragging back outward across the same threshold pops it back to min.</p>
 
+                    <p class="mb-3 text-sm"><strong>Bonus:</strong> the Editor card's actions use the new <code>pa-card__actions--responsive</code> pattern — drag the gutter rightward to shrink the Editor pane, and once the header drops below <code>$card-actions-collapse-at</code> (28rem ≈ 280px) the spread buttons collapse into a single split button. Pure CSS container query, no JS observer.</p>
+
                     <label class="mb-3" style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer;">
                         <input type="checkbox"
                                onchange="document.getElementById('demoMinimizeSplitter').classList.toggle('pa-splitter--minimize-mirror', this.checked)">
@@ -153,7 +155,7 @@ console.log(greet('Pure Admin'));</code></pre>
                          data-pa-splitter-id="demo-minimize"
                          data-pa-splitter-minimize="start"
                          data-pa-splitter-min-start="220px"
-                         data-pa-splitter-max-start="60%"
+                         data-pa-splitter-max-start="80%"
                          data-pa-splitter-default="320px"
                          data-pa-splitter-rail-size="44"
                          style="height: 320px; gap: 1.2rem;">
@@ -206,16 +208,40 @@ console.log(greet('Pure Admin'));</code></pre>
                                         <i class="pa-card__title-icon fa-solid fa-code" aria-hidden="true"></i>
                                         <h4 class="pa-card__title-text">Editor</h4>
                                     </div>
-                                    <div class="pa-card__actions">
-                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" title="Save" aria-label="Save">
-                                            <i class="fa-solid fa-floppy-disk"></i>
-                                        </button>
-                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" title="Format" aria-label="Format code">
-                                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                        </button>
-                                        <button class="pa-btn pa-btn--xs pa-btn--primary" title="Run" aria-label="Run">
-                                            <i class="fa-solid fa-play"></i>
-                                        </button>
+                                    <div class="pa-card__actions pa-card__actions--responsive">
+                                        <div class="pa-card__actions-full">
+                                            <button class="pa-btn pa-btn--xs pa-btn--secondary" title="Save" aria-label="Save">
+                                                <i class="fa-solid fa-floppy-disk"></i>
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--secondary" title="Format" aria-label="Format code">
+                                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--primary" title="Run" aria-label="Run">
+                                                <i class="fa-solid fa-play"></i>
+                                            </button>
+                                        </div>
+                                        <div class="pa-card__actions-collapsed">
+                                            <div class="pa-btn-split">
+                                                <button class="pa-btn pa-btn--xs pa-btn--primary" title="Run" aria-label="Run">
+                                                    <i class="fa-solid fa-play"></i>
+                                                </button>
+                                                <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" aria-label="More actions">
+                                                    <i class="fa-solid fa-chevron-down pa-btn-split__chevron"></i>
+                                                </button>
+                                                <div class="pa-btn-split__menu">
+                                                    <div class="pa-btn-split__menu-inner">
+                                                        <button class="pa-btn-split__item" type="button">
+                                                            <i class="fa-solid fa-floppy-disk"></i>
+                                                            Save
+                                                        </button>
+                                                        <button class="pa-btn-split__item" type="button">
+                                                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                                            Format
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="pa-card__body">
@@ -225,6 +251,84 @@ console.log(greet('Pure Admin'));</code></pre>
 //   - focus gutter + press Enter / Space
 //   - click the rail (while minimized)
 //   - press the gutter (while minimized)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 4b — Progressive overflow -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>Progressive overflow <small class="text-secondary">— buttons drop into a "More" menu one at a time</small></h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">A second collapse model, complementing <code>--responsive</code>. Mark the actions wrapper with <code>pa-card__actions--overflow</code> and the JS module (<code>card-actions-overflow.js</code>) measures each button on init. A <code>ResizeObserver</code> watches the wrapper; when the row can't fit, the lowest-priority button moves into a "..." menu (appended to <code>&lt;body&gt;</code> so card <code>overflow: hidden</code> can't clip it).</p>
+                    <ul class="mb-3">
+                        <li>Priority via <code>data-pa-actions-priority="N"</code> — higher stays longer.</li>
+                        <li>Tiebreak direction via <code>data-pa-actions-overflow-from="end"</code> (default — rightmost drops first) or <code>"start"</code> (leftmost drops first).</li>
+                    </ul>
+
+                    <label class="mb-3" style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+                        <input type="checkbox"
+                               onchange="document.getElementById('demoOverflowActions').setAttribute('data-pa-actions-overflow-from', this.checked ? 'start' : 'end');">
+                        <span>Drop from the start (left) instead of the end (right)</span>
+                    </label>
+
+                    <div class="pa-splitter pa-splitter--horizontal"
+                         data-pa-splitter
+                         data-pa-splitter-id="demo-overflow"
+                         data-pa-splitter-default="40%"
+                         data-pa-splitter-min-start="160px"
+                         data-pa-splitter-max-start="80%"
+                         data-pa-splitter-minimize="start"
+                         data-pa-splitter-rail-size="44"
+                         style="height: 220px; gap: 1.2rem;">
+                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0;">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title">
+                                        <i class="pa-card__title-icon fa-solid fa-toolbox" aria-hidden="true"></i>
+                                        <h4 class="pa-card__title-text">Editor</h4>
+                                    </div>
+                                    <div id="demoOverflowActions" class="pa-card__actions pa-card__actions--overflow" data-pa-actions-overflow-from="end">
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                                            <i class="fa-solid fa-floppy-disk"></i>
+                                            <span>Save</span>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                            <span>Format</span>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                                            <i class="fa-solid fa-arrows-rotate"></i>
+                                            <span>Refresh</span>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                                            <i class="fa-solid fa-file-export"></i>
+                                            <span>Export</span>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--primary" type="button" data-pa-actions-priority="10">
+                                            <i class="fa-solid fa-play"></i>
+                                            <span>Run</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <p class="text-sm text-secondary mb-0">Shrink me — buttons collapse into the "..." menu by ascending priority. <code>Run</code> has <code>data-pa-actions-priority="10"</code> and stays last.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pa-splitter__gutter"
+                             role="separator"
+                             aria-orientation="vertical"
+                             tabindex="0"
+                             aria-label="Resize editor"></div>
+                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0; background: var(--pa-subtle-bg);">
+                                <div class="pa-card__body">
+                                    <p class="text-sm text-secondary mb-0">Drag the gutter left/right to shrink and grow the editor card. Watch the action row in its header.</p>
                                 </div>
                             </div>
                         </div>
@@ -296,7 +400,28 @@ console.log(greet('Pure Admin'));</code></pre>
                 </div>
             </div>
 
-            <!-- Demo 6 — Persistence reset -->
+            <!-- Demo 6 — N-pane (configurable 3–6) -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>N panes <small class="text-secondary">— pick a count, both edges minimizable</small></h3>
+                    <div class="pa-card__actions" style="display: flex; gap: 0.6rem; align-items: center;">
+                        <label for="multiPaneCount" class="text-sm">Panes:</label>
+                        <select id="multiPaneCount" class="pa-input pa-input--sm" style="width: auto;">
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">N-pane markup uses per-pane <code>data-pa-splitter-size</code> / <code>-min</code> / <code>-max</code> attributes instead of root-level <code>-min-start</code> / <code>-max-start</code>. The first and last panes opt into rail collapse with <code>data-pa-splitter-minimize</code> (a marker — no <code>start</code>/<code>end</code> value needed, the edge is implied by position). Middle panes can't minimize. Drag any gutter and either neighbour will snap to rail below the threshold. Each pane count remembers its own layout in localStorage.</p>
+
+                    <div id="multiPaneContainer"></div>
+                </div>
+            </div>
+
+            <!-- Demo 7 — Persistence reset -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
                     <h3>localStorage persistence</h3>
@@ -315,7 +440,7 @@ console.log(greet('Pure Admin'));</code></pre>
                 <div class="pa-col-100 pa-col-lg-50">
                     <div class="pa-card mb-4">
                         <div class="pa-card__header">
-                            <h3>Markup</h3>
+                            <h3>Markup — two panes (legacy shorthand)</h3>
                         </div>
                         <div class="pa-card__body">
                             <pre class="pa-code"><code>&lt;div class="pa-splitter pa-splitter--horizontal"
@@ -337,7 +462,33 @@ console.log(greet('Pure Admin'));</code></pre>
     B
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-                            <p class="text-sm mt-3 mb-0">The splitter takes its parent's full width and height. For <code>--horizontal</code>, give the parent a fixed <code>height</code>; for <code>--vertical</code>, a fixed <code>width</code> (usually inherited).</p>
+                            <p class="text-sm mt-3 mb-0">Triggered by the <code>--start</code> / <code>--end</code> modifiers. The end pane fills the leftover via <code>flex: 1</code>; only the start pane carries an explicit size.</p>
+                        </div>
+                    </div>
+
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Markup — N panes</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <pre class="pa-code"><code>&lt;div class="pa-splitter pa-splitter--horizontal"
+     data-pa-splitter
+     data-pa-splitter-id="my-id"&gt;
+  &lt;div class="pa-splitter__pane"
+       data-pa-splitter-size="240px"
+       data-pa-splitter-min="180px"
+       data-pa-splitter-minimize&gt;A&lt;/div&gt;
+  &lt;div class="pa-splitter__gutter"
+       role="separator" tabindex="0"&gt;&lt;/div&gt;
+  &lt;div class="pa-splitter__pane"
+       data-pa-splitter-min="240px"&gt;B&lt;/div&gt;
+  &lt;div class="pa-splitter__gutter"
+       role="separator" tabindex="0"&gt;&lt;/div&gt;
+  &lt;div class="pa-splitter__pane"
+       data-pa-splitter-size="280px"
+       data-pa-splitter-minimize&gt;C&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            <p class="text-sm mt-3 mb-0">Any N ≥ 2. Panes and gutters must alternate. Per-pane <code>data-pa-splitter-size</code> / <code>-min</code> / <code>-max</code> replace the root-level <code>-start</code> attributes. Only pane 0 and pane N-1 honour <code>data-pa-splitter-minimize</code>. Panes without an explicit <code>data-pa-splitter-size</code> share leftover space equally.</p>
                         </div>
                     </div>
                 </div>
@@ -349,6 +500,7 @@ console.log(greet('Pure Admin'));</code></pre>
                             <h3>Data attributes</h3>
                         </div>
                         <div class="pa-card__body">
+                            <p class="text-sm mb-2"><strong>On root</strong> (both modes):</p>
                             <table class="pa-table pa-table--compact">
                                 <thead>
                                     <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
@@ -356,13 +508,35 @@ console.log(greet('Pure Admin'));</code></pre>
                                 <tbody>
                                     <tr><td><code>data-pa-splitter</code></td><td>—</td><td>Marker. Required.</td></tr>
                                     <tr><td><code>data-pa-splitter-id</code></td><td>none</td><td>Enables persistence under <code>pa-splitter:&lt;id&gt;</code></td></tr>
+                                    <tr><td><code>data-pa-splitter-step</code></td><td><code>10</code></td><td>Keyboard step in px</td></tr>
+                                    <tr><td><code>data-pa-splitter-rail-size</code></td><td><code>40</code></td><td>Rail width in px (minimized state)</td></tr>
+                                    <tr><td><code>data-pa-splitter-minimize-threshold</code></td><td><code>0.40</code></td><td>Drag snaps to rail below this fraction of the minimized side's natural min</td></tr>
+                                </tbody>
+                            </table>
+
+                            <p class="text-sm mt-3 mb-2"><strong>On root</strong> (legacy 2-pane only):</p>
+                            <table class="pa-table pa-table--compact">
+                                <thead>
+                                    <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
+                                </thead>
+                                <tbody>
                                     <tr><td><code>data-pa-splitter-min-start</code></td><td><code>0</code></td><td><code>px</code> or <code>%</code></td></tr>
                                     <tr><td><code>data-pa-splitter-max-start</code></td><td>available</td><td><code>px</code> or <code>%</code></td></tr>
                                     <tr><td><code>data-pa-splitter-default</code></td><td><code>30%</code></td><td>Initial size if no saved state</td></tr>
-                                    <tr><td><code>data-pa-splitter-step</code></td><td><code>10</code></td><td>Keyboard step in px</td></tr>
                                     <tr><td><code>data-pa-splitter-minimize</code></td><td>off</td><td><code>"start"</code> or <code>"end"</code> opts into rail collapse on that side</td></tr>
-                                    <tr><td><code>data-pa-splitter-rail-size</code></td><td><code>40</code></td><td>Rail width in px (minimized state)</td></tr>
-                                    <tr><td><code>data-pa-splitter-minimize-threshold</code></td><td><code>0.40</code></td><td>Drag snaps to rail below this fraction of the minimized side's natural min</td></tr>
+                                </tbody>
+                            </table>
+
+                            <p class="text-sm mt-3 mb-2"><strong>On each pane</strong> (N-pane only):</p>
+                            <table class="pa-table pa-table--compact">
+                                <thead>
+                                    <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><code>data-pa-splitter-size</code></td><td>shared</td><td>Initial size (<code>px</code> or <code>%</code>). Unsized panes split the leftover.</td></tr>
+                                    <tr><td><code>data-pa-splitter-min</code></td><td><code>0</code></td><td><code>px</code> or <code>%</code></td></tr>
+                                    <tr><td><code>data-pa-splitter-max</code></td><td>available</td><td><code>px</code> or <code>%</code></td></tr>
+                                    <tr><td><code>data-pa-splitter-minimize</code></td><td>—</td><td>Marker. Only honoured on the first and last panes.</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -376,13 +550,14 @@ console.log(greet('Pure Admin'));</code></pre>
                             <table class="pa-table pa-table--compact">
                                 <thead><tr><th>Key</th><th>Action</th></tr></thead>
                                 <tbody>
-                                    <tr><td><kbd>←</kbd> <kbd>↑</kbd></td><td>Shrink start pane (by step)</td></tr>
-                                    <tr><td><kbd>→</kbd> <kbd>↓</kbd></td><td>Grow start pane (by step)</td></tr>
-                                    <tr><td><kbd>Home</kbd></td><td>Jump to minimum</td></tr>
-                                    <tr><td><kbd>End</kbd></td><td>Jump to maximum</td></tr>
-                                    <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Toggle collapse / restore</td></tr>
+                                    <tr><td><kbd>←</kbd> <kbd>↑</kbd></td><td>Move boundary toward start (shrink left pane)</td></tr>
+                                    <tr><td><kbd>→</kbd> <kbd>↓</kbd></td><td>Move boundary toward end (grow left pane)</td></tr>
+                                    <tr><td><kbd>Home</kbd></td><td>Jump left pane to its minimum</td></tr>
+                                    <tr><td><kbd>End</kbd></td><td>Jump left pane to its maximum</td></tr>
+                                    <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Toggle minimize on the nearest minimizable neighbour</td></tr>
                                 </tbody>
                             </table>
+                            <p class="text-sm mt-3 mb-0">Each gutter handles its own keyboard input. Tab focuses the next gutter; the "left pane" is whichever pane sits before the focused gutter.</p>
                         </div>
                     </div>
 
@@ -410,6 +585,102 @@ PaSplitter.initAll(someContainer);</code></pre>
             </style>
 
             <script>
+                // N-pane demo — rebuild the splitter inside #multiPaneContainer
+                // whenever the count changes. Each N persists under its own id
+                // so switching back and forth restores per-N layouts.
+                (function () {
+                    var container = document.getElementById('multiPaneContainer');
+                    var select = document.getElementById('multiPaneCount');
+                    if (!container || !select) return;
+
+                    var ICONS = ['fa-folder-tree', 'fa-code', 'fa-terminal', 'fa-flask', 'fa-chart-line', 'fa-circle-info'];
+                    var FIRST_LAST_ICONS = { first: 'fa-folder-tree', last: 'fa-circle-info' };
+
+                    function buildPane(i, n) {
+                        var isFirst = i === 0, isLast = i === n - 1;
+                        var pane = document.createElement('div');
+                        pane.className = 'pa-splitter__pane';
+                        if (isFirst) {
+                            pane.setAttribute('data-pa-splitter-size', '220px');
+                            pane.setAttribute('data-pa-splitter-min', '160px');
+                            pane.setAttribute('data-pa-splitter-max', '360px');
+                            pane.setAttribute('data-pa-splitter-minimize', '');
+                        } else if (isLast) {
+                            pane.setAttribute('data-pa-splitter-size', '240px');
+                            pane.setAttribute('data-pa-splitter-min', '180px');
+                            pane.setAttribute('data-pa-splitter-max', '380px');
+                            pane.setAttribute('data-pa-splitter-minimize', '');
+                        } else {
+                            pane.setAttribute('data-pa-splitter-min', '160px');
+                        }
+
+                        var icon = isFirst ? FIRST_LAST_ICONS.first
+                            : isLast ? FIRST_LAST_ICONS.last
+                            : ICONS[(i % (ICONS.length - 2)) + 1];
+                        var title = isFirst ? 'Sidebar'
+                            : isLast ? 'Inspector'
+                            : 'Workspace ' + i;
+
+                        var actions = (isFirst || isLast)
+                            ? '<div class="pa-card__actions"><button class="pa-btn pa-btn--ghost pa-btn--sm" title="Minimize" data-pa-splitter-toggle><i class="fa fa-window-minimize"></i></button></div>'
+                            : '';
+
+                        var body = isFirst
+                            ? '<ul class="pa-list"><li>📁 src/</li><li>📁 demo/</li><li>📄 main.scss</li><li>📄 README.md</li></ul>'
+                            : isLast
+                            ? '<dl class="pa-list"><dt>Type</dt><dd>function</dd><dt>Args</dt><dd>name: string</dd><dt>Returns</dt><dd>string</dd></dl>'
+                            : '<p class="text-secondary mb-2">Workspace ' + i + ' of ' + (n - 2) + '</p>'
+                              + '<pre class="pa-code"><code>// Pane ' + (i + 1) + '\nconsole.log("hi");</code></pre>';
+
+                        pane.innerHTML =
+                            '<div class="pa-card" style="height: 100%; margin: 0;">'
+                          +   '<div class="pa-card__header">'
+                          +     '<div class="pa-card__title">'
+                          +       '<i class="pa-card__title-icon fa ' + icon + '"></i>'
+                          +       '<span class="pa-card__title-text">' + title + '</span>'
+                          +     '</div>'
+                          +     actions
+                          +   '</div>'
+                          +   '<div class="pa-card__body">' + body + '</div>'
+                          + '</div>';
+                        return pane;
+                    }
+
+                    function buildSplitter(n) {
+                        container.innerHTML = '';
+                        var sp = document.createElement('div');
+                        sp.className = 'pa-splitter pa-splitter--horizontal pa-splitter--minimize-mirror';
+                        sp.setAttribute('data-pa-splitter', '');
+                        sp.setAttribute('data-pa-splitter-id', 'demo-multi-pane-' + n);
+                        sp.style.cssText = 'height: 420px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius); column-gap: 0.8rem; padding: 0.8rem; background: var(--pa-subtle-bg);';
+
+                        for (var i = 0; i < n; i++) {
+                            if (i > 0) {
+                                var gut = document.createElement('div');
+                                gut.className = 'pa-splitter__gutter';
+                                gut.setAttribute('role', 'separator');
+                                gut.setAttribute('aria-orientation', 'vertical');
+                                gut.setAttribute('tabindex', '0');
+                                sp.appendChild(gut);
+                            }
+                            sp.appendChild(buildPane(i, n));
+                        }
+                        container.appendChild(sp);
+                        if (window.PaSplitter) PaSplitter.init(sp);
+                    }
+
+                    var COUNT_KEY = 'pa-splitter:multi-pane-count';
+                    var saved = parseInt(localStorage.getItem(COUNT_KEY), 10);
+                    if (saved >= 3 && saved <= 6) select.value = String(saved);
+
+                    select.addEventListener('change', function () {
+                        var n = parseInt(select.value, 10);
+                        try { localStorage.setItem(COUNT_KEY, String(n)); } catch (e) { /* quota / privacy mode */ }
+                        buildSplitter(n);
+                    });
+                    buildSplitter(parseInt(select.value, 10));
+                })();
+
                 function clearSplitterStorage() {
                     var cleared = 0;
                     for (var i = localStorage.length - 1; i >= 0; i--) {
