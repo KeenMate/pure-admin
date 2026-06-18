@@ -410,6 +410,10 @@ app.get('/components/detail-panel', (req, res) => {
     renderWithLayout(res, 'detail-panel', { pageTitle: 'Detail Panel', currentPage: 'detail-panel', isDetailPanel: true });
 });
 
+app.get('/components/splitter', (req, res) => {
+    renderWithLayout(res, 'splitter', { pageTitle: 'Splitter', currentPage: 'splitter', isSplitter: true });
+});
+
 app.get('/components/data-display', (req, res) => {
     renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
 });

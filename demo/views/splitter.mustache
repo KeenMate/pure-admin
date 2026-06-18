@@ -1,0 +1,361 @@
+        <div class="pa-layout-container">
+            <p class="mb-6">Two-pane resizable container with a draggable gutter. Drag to resize, double-click the gutter to collapse / restore, and use arrow keys (or <kbd>Home</kbd> / <kbd>End</kbd>) when the gutter is focused. Sizes can be constrained and persisted to localStorage.</p>
+
+            <!-- Demo 1 — Horizontal -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>Horizontal split <small class="text-secondary">— side-by-side, vertical gutter</small></h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">Sidebar + main content. Start pane is constrained to <code>min: 200px</code> and <code>max: 60%</code>, with a default of <code>280px</code>. Size persists to <code>localStorage</code> under the id <code>demo-horizontal</code>.</p>
+
+                    <div class="pa-splitter pa-splitter--horizontal"
+                         data-pa-splitter
+                         data-pa-splitter-id="demo-horizontal"
+                         data-pa-splitter-min-start="200px"
+                         data-pa-splitter-max-start="60%"
+                         data-pa-splitter-default="280px"
+                         style="height: 360px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius);">
+                        <div class="pa-splitter__pane pa-splitter__pane--start"
+                             style="background: var(--pa-subtle-bg); padding: 1.6rem;">
+                            <h4 class="mb-3" style="margin-top: 0;">Files</h4>
+                            <ul class="pa-list">
+                                <li>📁 components/</li>
+                                <li>📁 utils/</li>
+                                <li>📄 main.scss</li>
+                                <li>📄 README.md</li>
+                                <li>📄 package.json</li>
+                                <li>📄 .gitignore</li>
+                                <li>📄 LICENSE</li>
+                            </ul>
+                        </div>
+                        <div class="pa-splitter__gutter"
+                             role="separator"
+                             aria-orientation="vertical"
+                             tabindex="0"
+                             aria-label="Resize sidebar"></div>
+                        <div class="pa-splitter__pane pa-splitter__pane--end"
+                             style="padding: 1.6rem;">
+                            <h4 class="mb-3" style="margin-top: 0;">main.scss</h4>
+                            <p class="text-secondary mb-3">Drag the gutter, double-click it to collapse, or focus it and use arrow keys.</p>
+                            <pre class="pa-code"><code>@use 'variables/index' as *;
+@use 'core' as *;
+@use 'utilities' as *;
+
+:root {
+  @include output-base-css-variables;
+  @include output-pa-css-variables;
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 2 — Vertical -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>Vertical split <small class="text-secondary">— stacked, horizontal gutter</small></h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">Editor over console. Constraints: <code>min: 80px</code>, <code>max: 80%</code>, default <code>60%</code>. Persists under <code>demo-vertical</code>.</p>
+
+                    <div class="pa-splitter pa-splitter--vertical"
+                         data-pa-splitter
+                         data-pa-splitter-id="demo-vertical"
+                         data-pa-splitter-min-start="80px"
+                         data-pa-splitter-max-start="80%"
+                         data-pa-splitter-default="60%"
+                         style="height: 420px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius);">
+                        <div class="pa-splitter__pane pa-splitter__pane--start"
+                             style="padding: 1.6rem;">
+                            <h4 class="mb-3" style="margin-top: 0;">Editor</h4>
+                            <pre class="pa-code"><code>function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet('Pure Admin'));</code></pre>
+                        </div>
+                        <div class="pa-splitter__gutter"
+                             role="separator"
+                             aria-orientation="horizontal"
+                             tabindex="0"
+                             aria-label="Resize editor"></div>
+                        <div class="pa-splitter__pane pa-splitter__pane--end"
+                             style="background: var(--pa-subtle-bg); padding: 1.6rem; font-family: var(--pa-font-mono, monospace); font-size: 1.3rem;">
+                            <div class="mb-2" style="opacity: 0.6;">$ node demo.js</div>
+                            <div>Hello, Pure Admin!</div>
+                            <div class="mb-2" style="opacity: 0.6;">$ npm test</div>
+                            <div>✓ 42 tests passed</div>
+                            <div>✓ 0 failures</div>
+                            <div style="opacity: 0.6;">$ <span style="border-right: 1px solid currentColor; animation: pa-blink 1s steps(2) infinite;">&nbsp;</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 3 — Spaced cards -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>Spaced cards <small class="text-secondary">— gutter with breathing room</small></h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">Use native <code>gap</code> on the splitter root to add space between the panes and the gutter — the JS subtracts it from the available space so percent constraints stay accurate. A thicker gutter is opt-in via <code>--pa-splitter-gutter-size</code>.</p>
+
+                    <div class="pa-splitter pa-splitter--horizontal"
+                         data-pa-splitter
+                         data-pa-splitter-id="demo-spaced"
+                         data-pa-splitter-min-start="25%"
+                         data-pa-splitter-max-start="75%"
+                         data-pa-splitter-default="40%"
+                         style="height: 280px; gap: 1.6rem; --pa-splitter-gutter-size: 1rem;">
+                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0;">
+                                <div class="pa-card__header"><h4 style="margin: 0;">Left card</h4></div>
+                                <div class="pa-card__body">
+                                    <p class="mb-0">This pane holds a card. The flex <code>gap</code> on the splitter keeps the card from touching the gutter — no per-pane padding hack needed.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pa-splitter__gutter"
+                             role="separator"
+                             aria-orientation="vertical"
+                             tabindex="0"
+                             aria-label="Resize cards"></div>
+                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0;">
+                                <div class="pa-card__header"><h4 style="margin: 0;">Right card</h4></div>
+                                <div class="pa-card__body">
+                                    <p class="mb-0">Drag the gutter — both cards reflow. The 10px gutter is set inline via <code>--pa-splitter-gutter-size</code>; the default is 6px.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 4 — Minimize to rail -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>Minimize to rail <small class="text-secondary">— vertical header instead of collapse</small></h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">Opt in with <code>data-pa-splitter-minimize="start"</code>. Now the gutter's collapse action (double-click, <kbd>Enter</kbd>/<kbd>Space</kbd>, the toggle button in the header, or pressing the gutter while minimized) toggles the start pane to a thin rail with a vertical card title — instead of disappearing. Click the rail or press the gutter to restore. Rail width is configurable via <code>data-pa-splitter-rail-size</code> (default 40px).</p>
+
+                    <label class="mb-3" style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+                        <input type="checkbox"
+                               onchange="document.getElementById('demoMinimizeSplitter').classList.toggle('pa-splitter--minimize-mirror', this.checked)">
+                        <span>Mirror title (apply <code>transform: scale(-1, -1)</code> to the heading)</span>
+                    </label>
+
+                    <div id="demoMinimizeSplitter"
+                         class="pa-splitter pa-splitter--horizontal"
+                         data-pa-splitter
+                         data-pa-splitter-id="demo-minimize"
+                         data-pa-splitter-minimize="start"
+                         data-pa-splitter-min-start="220px"
+                         data-pa-splitter-max-start="60%"
+                         data-pa-splitter-default="320px"
+                         data-pa-splitter-rail-size="44"
+                         style="height: 320px; gap: 1.2rem;">
+                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0;">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title">
+                                        <i class="pa-card__title-icon fa-solid fa-folder-tree" aria-hidden="true"></i>
+                                        <h4 class="pa-card__title-text">File explorer</h4>
+                                    </div>
+                                    <div class="pa-card__actions">
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" title="New file" aria-label="New file">
+                                            <i class="fa-solid fa-file-circle-plus"></i>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" title="New folder" aria-label="New folder">
+                                            <i class="fa-solid fa-folder-plus"></i>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" title="Refresh" aria-label="Refresh">
+                                            <i class="fa-solid fa-arrows-rotate"></i>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary"
+                                                data-pa-splitter-toggle
+                                                aria-label="Minimize panel"
+                                                title="Minimize panel">
+                                            <i class="fa-solid fa-chevron-left"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <ul class="pa-list">
+                                        <li>📁 src/</li>
+                                        <li>📁 dist/</li>
+                                        <li>📄 main.scss</li>
+                                        <li>📄 splitter.js</li>
+                                        <li>📄 README.md</li>
+                                    </ul>
+                                    <p class="text-sm text-secondary mt-3 mb-0">Click the chevron in the header to minimize. Click the rail (or press the gutter) to restore.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pa-splitter__gutter"
+                             role="separator"
+                             aria-orientation="vertical"
+                             tabindex="0"
+                             aria-label="Resize or minimize file explorer"></div>
+                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                            <div class="pa-card" style="height: 100%; margin: 0;">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title">
+                                        <i class="pa-card__title-icon fa-solid fa-code" aria-hidden="true"></i>
+                                        <h4 class="pa-card__title-text">Editor</h4>
+                                    </div>
+                                    <div class="pa-card__actions">
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" title="Save" aria-label="Save">
+                                            <i class="fa-solid fa-floppy-disk"></i>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--secondary" title="Format" aria-label="Format code">
+                                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        </button>
+                                        <button class="pa-btn pa-btn--xs pa-btn--primary" title="Run" aria-label="Run">
+                                            <i class="fa-solid fa-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <p class="mb-3">When the file explorer minimizes, this card stays put and the gutter slides next to the rail.</p>
+                                    <pre class="pa-code"><code>// Toggle the minimize state:
+//   - double-click the gutter
+//   - focus gutter + press Enter / Space
+//   - click the rail (while minimized)
+//   - press the gutter (while minimized)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 5 — Persistence reset -->
+            <div class="pa-card mb-4">
+                <div class="pa-card__header">
+                    <h3>localStorage persistence</h3>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-3">Both demos above persist their size under <code>pa-splitter:&lt;id&gt;</code>. Reload the page — your drag positions stick. Clear them with the button below.</p>
+                    <button class="pa-btn pa-btn--secondary" onclick="clearSplitterStorage()">
+                        Clear saved splitter sizes
+                    </button>
+                    <div id="splitterStorageStatus" class="mt-3 text-sm text-secondary"></div>
+                </div>
+            </div>
+
+            <div class="pa-row">
+                <!-- Markup reference -->
+                <div class="pa-col-100 pa-col-lg-50">
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Markup</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <pre class="pa-code"><code>&lt;div class="pa-splitter pa-splitter--horizontal"
+     data-pa-splitter
+     data-pa-splitter-id="my-id"
+     data-pa-splitter-min-start="200px"
+     data-pa-splitter-max-start="60%"
+     data-pa-splitter-default="280px"&gt;
+  &lt;div class="pa-splitter__pane
+              pa-splitter__pane--start"&gt;
+    A
+  &lt;/div&gt;
+  &lt;div class="pa-splitter__gutter"
+       role="separator"
+       aria-orientation="vertical"
+       tabindex="0"&gt;&lt;/div&gt;
+  &lt;div class="pa-splitter__pane
+              pa-splitter__pane--end"&gt;
+    B
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            <p class="text-sm mt-3 mb-0">The splitter takes its parent's full width and height. For <code>--horizontal</code>, give the parent a fixed <code>height</code>; for <code>--vertical</code>, a fixed <code>width</code> (usually inherited).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API -->
+                <div class="pa-col-100 pa-col-lg-50">
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Data attributes</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <table class="pa-table pa-table--compact">
+                                <thead>
+                                    <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><code>data-pa-splitter</code></td><td>—</td><td>Marker. Required.</td></tr>
+                                    <tr><td><code>data-pa-splitter-id</code></td><td>none</td><td>Enables persistence under <code>pa-splitter:&lt;id&gt;</code></td></tr>
+                                    <tr><td><code>data-pa-splitter-min-start</code></td><td><code>0</code></td><td><code>px</code> or <code>%</code></td></tr>
+                                    <tr><td><code>data-pa-splitter-max-start</code></td><td>available</td><td><code>px</code> or <code>%</code></td></tr>
+                                    <tr><td><code>data-pa-splitter-default</code></td><td><code>30%</code></td><td>Initial size if no saved state</td></tr>
+                                    <tr><td><code>data-pa-splitter-step</code></td><td><code>10</code></td><td>Keyboard step in px</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>Keyboard</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <table class="pa-table pa-table--compact">
+                                <thead><tr><th>Key</th><th>Action</th></tr></thead>
+                                <tbody>
+                                    <tr><td><kbd>←</kbd> <kbd>↑</kbd></td><td>Shrink start pane (by step)</td></tr>
+                                    <tr><td><kbd>→</kbd> <kbd>↓</kbd></td><td>Grow start pane (by step)</td></tr>
+                                    <tr><td><kbd>Home</kbd></td><td>Jump to minimum</td></tr>
+                                    <tr><td><kbd>End</kbd></td><td>Jump to maximum</td></tr>
+                                    <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Toggle collapse / restore</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="pa-card mb-4">
+                        <div class="pa-card__header">
+                            <h3>JavaScript API</h3>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="mb-2">Auto-initializes on <code>[data-pa-splitter]</code> at <code>DOMContentLoaded</code>. For dynamically inserted splitters:</p>
+                            <pre class="pa-code"><code>// Init a single element
+PaSplitter.init(document.getElementById('my-splitter'));
+
+// Init all uninitialized splitters in a subtree
+PaSplitter.initAll(someContainer);</code></pre>
+                            <p class="text-sm mt-3 mb-0"><code>init()</code> is idempotent — calling it twice on the same element is a no-op.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                @keyframes pa-blink {
+                    50% { border-color: transparent; }
+                }
+            </style>
+
+            <script>
+                function clearSplitterStorage() {
+                    var cleared = 0;
+                    for (var i = localStorage.length - 1; i >= 0; i--) {
+                        var key = localStorage.key(i);
+                        if (key && key.indexOf('pa-splitter:') === 0) {
+                            localStorage.removeItem(key);
+                            cleared++;
+                        }
+                    }
+                    document.getElementById('splitterStorageStatus').textContent =
+                        cleared === 0
+                            ? 'No saved splitter sizes found.'
+                            : 'Cleared ' + cleared + ' saved size(s). Reload the page to see the defaults.';
+                }
+            </script>
+        </div>

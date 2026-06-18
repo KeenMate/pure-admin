@@ -1,0 +1,128 @@
+<!-- ================================
+     SPLITTER
+     Pure Admin Visual Framework
+
+     Two-pane resizable container. Drag the gutter to resize, double-click
+     to collapse / restore, arrow keys nudge size when the gutter is focused.
+
+     CSS + structure here; drag, keyboard, persistence behaviour is wired up
+     by packages/core/src/js/splitter.js. The script auto-initializes on
+     [data-pa-splitter] at DOMContentLoaded.
+
+     Orientation modifiers (match flexbox direction of the panes):
+       --horizontal   panes side-by-side, vertical gutter (default)
+       --vertical     panes stacked, horizontal gutter
+
+     The splitter takes whatever width/height its parent gives it — make
+     sure the parent has a sized cross axis (height for --horizontal,
+     width for --vertical) or the panes will collapse.
+     ================================ -->
+
+
+<!-- ================================
+     HORIZONTAL SPLIT
+     Side-by-side panes; vertical gutter. Start pane has a 200px floor
+     and 60% ceiling, defaults to 280px, persists under "demo-sidebar".
+     ================================ -->
+
+<div class="pa-splitter pa-splitter--horizontal"
+     data-pa-splitter
+     data-pa-splitter-id="demo-sidebar"
+     data-pa-splitter-min-start="200px"
+     data-pa-splitter-max-start="60%"
+     data-pa-splitter-default="280px"
+     style="height: 400px;">
+    <div class="pa-splitter__pane pa-splitter__pane--start">
+        <!-- Your sidebar / list / nav content -->
+    </div>
+    <div class="pa-splitter__gutter"
+         role="separator"
+         aria-orientation="vertical"
+         tabindex="0"></div>
+    <div class="pa-splitter__pane pa-splitter__pane--end">
+        <!-- Your main / detail content -->
+    </div>
+</div>
+
+
+<!-- ================================
+     VERTICAL SPLIT
+     Stacked panes; horizontal gutter. Useful for editor + console / log
+     pane patterns.
+     ================================ -->
+
+<div class="pa-splitter pa-splitter--vertical"
+     data-pa-splitter
+     data-pa-splitter-id="demo-console"
+     data-pa-splitter-min-start="80px"
+     data-pa-splitter-max-start="80%"
+     data-pa-splitter-default="60%"
+     style="height: 400px;">
+    <div class="pa-splitter__pane pa-splitter__pane--start">
+        <!-- Editor / primary content -->
+    </div>
+    <div class="pa-splitter__gutter"
+         role="separator"
+         aria-orientation="horizontal"
+         tabindex="0"></div>
+    <div class="pa-splitter__pane pa-splitter__pane--end">
+        <!-- Console / log / secondary -->
+    </div>
+</div>
+
+
+<!-- ================================
+     SPACED CARDS
+     Set `gap` on the splitter root to put breathing room between the
+     panes and the gutter — the JS subtracts it from the available
+     space so percent constraints still resolve correctly. Override
+     gutter thickness via the --pa-splitter-gutter-size custom property.
+     ================================ -->
+
+<div class="pa-splitter pa-splitter--horizontal"
+     data-pa-splitter
+     style="height: 280px; gap: 1.6rem; --pa-splitter-gutter-size: 1rem;">
+    <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+        <div class="pa-card" style="height: 100%; margin: 0;">…</div>
+    </div>
+    <div class="pa-splitter__gutter"
+         role="separator"
+         aria-orientation="vertical"
+         tabindex="0"></div>
+    <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+        <div class="pa-card" style="height: 100%; margin: 0;">…</div>
+    </div>
+</div>
+
+
+<!-- ================================
+     DATA ATTRIBUTES (on splitter root)
+       data-pa-splitter             marker; required
+       data-pa-splitter-id          enables localStorage persistence under
+                                    "pa-splitter:<id>"
+       data-pa-splitter-min-start   "200px" or "20%" (default: 0)
+       data-pa-splitter-max-start   "60%" or "800px" (default: available)
+       data-pa-splitter-default     initial size when no saved state
+       data-pa-splitter-step        keyboard step in px (default: 10)
+       data-pa-splitter-minimize    "start" to opt into rail-mode collapse
+       data-pa-splitter-rail-size   rail width in px (default: 40)
+
+     CHILD ATTRIBUTES
+       data-pa-splitter-toggle      put on any element inside the splitter
+                                    (typically a button in the card header)
+                                    to trigger collapse / restore on click
+
+     CSS CUSTOMIZATION
+       --pa-splitter-gutter-size    gutter thickness (default: 6px)
+       gap                          space between panes and gutter
+                                    (native flexbox property)
+
+     MODIFIER CLASSES
+       pa-splitter--minimize-mirror flip the minimized title 180°
+                                    (transform: scale(-1,-1) on the heading)
+
+     JAVASCRIPT API (window.PaSplitter)
+       PaSplitter.init(el)          initialize a single element (idempotent)
+       PaSplitter.initAll(root?)    initialize all uninitialized splitters
+                                    under root (default: document)
+     ================================ -->

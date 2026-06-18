@@ -1,0 +1,204 @@
+/* ========================================
+   Splitter Component
+   Two-pane resizable container with draggable gutter.
+   Modifiers:
+     --horizontal  panes side-by-side, vertical gutter (default)
+     --vertical    panes stacked, horizontal gutter
+     --dragging    applied to root while user is dragging
+     --collapsed   start pane has been collapsed to 0
+   ======================================== */
+@use '../variables' as *;
+
+.pa-splitter {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+
+  // Horizontal split: panes laid out as a row, gutter is a vertical bar.
+  // Gutter thickness is overridable per-instance via --pa-splitter-gutter-size;
+  // breathing room around the gutter via native `gap` (the JS subtracts it
+  // from the available space, so percent constraints stay accurate).
+  &--horizontal {
+    flex-direction: row;
+
+    > .pa-splitter__gutter {
+      cursor: col-resize;
+      width: var(--pa-splitter-gutter-size, #{$splitter-gutter-size});
+      height: auto;
+      align-self: stretch;
+
+      &::before {
+        width: $splitter-gutter-grip-thickness;
+        height: $splitter-gutter-grip-length;
+      }
+    }
+  }
+
+  // Vertical split: panes stacked as a column, gutter is a horizontal bar.
+  &--vertical {
+    flex-direction: column;
+
+    > .pa-splitter__gutter {
+      cursor: row-resize;
+      width: auto;
+      height: var(--pa-splitter-gutter-size, #{$splitter-gutter-size});
+      align-self: stretch;
+
+      &::before {
+        width: $splitter-gutter-grip-length;
+        height: $splitter-gutter-grip-thickness;
+      }
+    }
+  }
+
+  // While dragging: kill text selection and transitions, neutralize pane content
+  // pointer events so dragging over an iframe/embedded widget doesn't get hijacked.
+  &--dragging {
+    user-select: none;
+
+    > .pa-splitter__pane {
+      pointer-events: none;
+    }
+
+    > .pa-splitter__gutter {
+      background-color: $splitter-gutter-active-bg;
+
+      &::before {
+        background-color: $splitter-gutter-grip-hover-color;
+      }
+    }
+  }
+
+  &__pane {
+    overflow: auto;
+    min-width: 0;
+    min-height: 0;
+
+    // Start pane carries the explicit size set inline by JS (flex-basis).
+    // flex-grow: 0 keeps it from absorbing free space; flex-shrink: 0 stops
+    // the browser from squishing it below the JS-applied size when content
+    // overflows.
+    &--start {
+      flex: 0 0 auto;
+    }
+
+    // End pane fills whatever's left over.
+    &--end {
+      flex: 1 1 0;
+    }
+
+    // Minimized state — pane locks to rail width, content collapses to a
+    // vertical title. Opt-in via data-pa-splitter-minimize="start"; the JS
+    // adds this class on collapse / restores via gutter click or rail click.
+    &--minimized {
+      cursor: pointer;
+      overflow: hidden;
+
+      // Card adaptation: header rotates to a vertical title, body / footer
+      // hide, action buttons hide (rotating buttons looks wrong).
+      > .pa-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+
+        > .pa-card__body,
+        > .pa-card__footer {
+          display: none;
+        }
+
+        > .pa-card__header {
+          flex: 1 1 auto;
+          // sideways-rl: text reads top-to-bottom, glyphs rotated 90° clockwise
+          // (tilt head right). For Latin text this matches vertical-rl visually
+          // but is script-agnostic.
+          writing-mode: sideways-rl;
+          // Pin title to the top of the rail (inline-start = top in sideways-rl).
+          justify-content: flex-start;
+
+          // Keep icons upright — they inherit the parent writing-mode by
+          // default, which rotates the glyph along with the title. Resetting
+          // to initial (horizontal-tb) keeps them in their natural orientation.
+          // Descendant combinator on purpose: with the BEM card structure
+          // (pa-card__title wrapping icon + text) the icon is no longer a
+          // direct child of pa-card__header.
+          i,
+          svg {
+            writing-mode: initial;
+          }
+
+          // Vertically align the icon between expanded and minimized states.
+          // In expanded mode, `align-items: center` on the header centers the
+          // title vertically (icon center at header-min-height / 2 from top).
+          // In minimized mode, `justify-content: flex-start` pins the title to
+          // the rail's top edge (icon at the very top, plus header padding-v).
+          // Push the title down by the difference so the icon sits at the same
+          // visual y-position in both states — no "jump" when toggling.
+          .pa-card__title {
+            padding-top: calc((#{$card-header-min-height} - #{$font-size-base}) / 2 - #{$card-header-padding-v});
+          }
+
+          // Hide any interactive controls — they'd be sideways and weird.
+          .pa-btn,
+          .pa-btn-group,
+          button,
+          input {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  // Optional: mirror the minimized title 180° (scale -1, -1 = rotate 180°),
+  // so the text reads bottom-to-top with upside-down glyphs. Applied to the
+  // heading element only — padding, alignment, and the hidden action buttons
+  // are unaffected. Opt in by adding the modifier to the splitter root.
+  // Descendant combinator before the heading so it matches both flat
+  // (heading direct in __header) and BEM (heading inside __title) markup.
+  &--minimize-mirror {
+    .pa-splitter__pane--minimized > .pa-card > .pa-card__header :is(h1, h2, h3, h4, h5, h6) {
+      transform: scale(-1, -1);
+    }
+  }
+
+  &__gutter {
+    position: relative;
+    flex: 0 0 auto;
+    background-color: $splitter-gutter-bg;
+    transition: $splitter-transition;
+    touch-action: none; // prevents browser scroll/zoom while dragging on touch
+    outline: none;
+
+    // Centered grip indicator. Width/height per orientation modifier above.
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $splitter-gutter-grip-color;
+      border-radius: $border-radius-sm;
+      transition: $splitter-transition;
+    }
+
+    &:hover {
+      background-color: $splitter-gutter-hover-bg;
+
+      &::before {
+        background-color: $splitter-gutter-grip-hover-color;
+      }
+    }
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 $splitter-focus-ring-width $splitter-focus-ring-color;
+
+      &::before {
+        background-color: $splitter-gutter-grip-hover-color;
+      }
+    }
+  }
+}

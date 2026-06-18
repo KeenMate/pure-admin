@@ -316,6 +316,20 @@ $font-size-2xl:  2.4rem;    // 24px
 .pa-col-sm-*, md-*, lg-*, xl-*  → Responsive variants
 ```
 
+### Card header icon alignment (FA glyph metrics)
+
+`pa-card__title-icon` uses `font-size: $font-size-base` with `line-height: 1`,
+which sets the icon's font-box height to 16px. Font Awesome glyphs sit ~1px
+below the font-box center — so a "mathematically centered" icon (e.g. computed
+from `(header-min-height − icon-size) / 2`) looks ~1px too high to the eye.
+
+When you need pixel-perfect alignment (e.g. comparing icon position across two
+header states like the splitter's expanded ↔ minimized rail), the cleanest
+knob is **`$card-header-padding-v`** — bumping it by **0.05rem** shifts both
+states down together by ½px, splitting the visual error symmetrically. Don't
+hardcode a magic 0.8rem offset on a single child element; that creates a
+debt that drifts when other header metrics change.
+
 ---
 
 ## Critical Rules
