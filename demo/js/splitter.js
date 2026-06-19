@@ -346,20 +346,38 @@
             var dragStartLeft = 0;
             var dragStartRight = 0;
             var activePointerId = null;
+            // When the user grabs the gutter while a neighbour is railed,
+            // we don't insta-restore — we start a drag from the rail size
+            // so they can grow the pane manually. These flags carry that
+            // intent through the move handler and pointerup.
+            var leftStartedMin = false;
+            var rightStartedMin = false;
+            // Tracks whether the pointer ever moved meaningfully during the
+            // drag. Used at pointerup to distinguish a tap (no movement →
+            // restore the railed pane) from a real drag, even if the user
+            // dragged out and back to the same size.
+            var everMoved = false;
+            var TAP_PX = 2; // a few px of jitter tolerance for touch / pen
 
             function leftIdx() { return g; }
             function rightIdx() { return g + 1; }
 
             function onPointerDown(e) {
                 if (e.button != null && e.button !== 0) return;
-                // If either neighbour is currently rail-minimized, pressing
-                // the gutter restores it (same affordance as 2-pane).
-                if (isMin[leftIdx()]) { e.preventDefault(); restorePane(leftIdx()); return; }
-                if (isMin[rightIdx()]) { e.preventDefault(); restorePane(rightIdx()); return; }
+                var li = leftIdx(), ri = rightIdx();
+                // Remember the rail state at drag start; clear isMin so the
+                // normal drag math runs (the user is now driving the size,
+                // not the rail latch). Tap-without-drag is detected at
+                // pointerup and restores via the same path as click-on-rail.
+                leftStartedMin = isMin[li];
+                rightStartedMin = isMin[ri];
+                if (leftStartedMin) isMin[li] = false;
+                if (rightStartedMin) isMin[ri] = false;
+                everMoved = false;
                 activePointerId = e.pointerId;
                 dragStartCoord = e[clientCoord];
-                dragStartLeft = sizes[leftIdx()];
-                dragStartRight = sizes[rightIdx()];
+                dragStartLeft = sizes[li];
+                dragStartRight = sizes[ri];
                 try { gut.setPointerCapture(e.pointerId); } catch (err) { /* iOS */ }
                 root.classList.add('pa-splitter--dragging');
                 gut.addEventListener('pointermove', onPointerMove);
@@ -393,8 +411,11 @@
                 var newRight = dragStartRight - delta;
                 var li = leftIdx(), ri = rightIdx();
 
-                // Drag-into-minimize on either neighbour.
-                if (canMin[li] && !isMin[li]) {
+                // Drag-into-minimize on either neighbour — but only for sides
+                // that DIDN'T start this drag from rail. Otherwise pulling
+                // a railed pane out and back in would re-snap mid-drag, which
+                // surprises users who're trying to manually size from rail.
+                if (canMin[li] && !leftStartedMin) {
                     if (newLeft < snapThreshold(dragStartLeft)) {
                         isMin[li] = true;
                         sizes[li] = railSizePx;
@@ -403,7 +424,7 @@
                         return;
                     }
                 }
-                if (canMin[ri] && !isMin[ri]) {
+                if (canMin[ri] && !rightStartedMin) {
                     if (newRight < snapThreshold(dragStartRight)) {
                         isMin[ri] = true;
                         sizes[ri] = railSizePx;
@@ -412,32 +433,19 @@
                         return;
                     }
                 }
-                // Drag-out-of-minimize when a neighbour is currently rail.
-                // Anchor on lastNonZero so the threshold reflects "what size
-                // are we restoring to?" not "what size are we at now?" (rail).
-                if (isMin[li]) {
-                    var anchorLO = lastNonZero[li] > 0 ? lastNonZero[li] : railSizePx * 4;
-                    if (newLeft >= snapThreshold(anchorLO)) {
-                        isMin[li] = false;
-                    } else {
-                        return;
-                    }
-                }
-                if (isMin[ri]) {
-                    var anchorRO = lastNonZero[ri] > 0 ? lastNonZero[ri] : railSizePx * 4;
-                    if (newRight >= snapThreshold(anchorRO)) {
-                        isMin[ri] = false;
-                    } else {
-                        return;
-                    }
-                }
 
                 // Stop-at-min: clamp each side to its own [min, max]. If one
                 // clamps, reflect the clamped value back into the other side
-                // so the moving boundary doesn't drift past the wall.
-                if (newLeft < mins[li]) { newLeft = mins[li]; newRight = dragStartLeft + dragStartRight - newLeft; }
+                // so the moving boundary doesn't drift past the wall. For
+                // sides that started from rail, the effective minimum during
+                // drag is `railSizePx` (not `mins[i]`) so the pane can grow
+                // smoothly from rail; the real `mins[i]` clamp is applied on
+                // pointerup if the final size landed below it.
+                var leftFloor = leftStartedMin ? railSizePx : mins[li];
+                var rightFloor = rightStartedMin ? railSizePx : mins[ri];
+                if (newLeft < leftFloor) { newLeft = leftFloor; newRight = dragStartLeft + dragStartRight - newLeft; }
                 if (newLeft > maxes[li]) { newLeft = maxes[li]; newRight = dragStartLeft + dragStartRight - newLeft; }
-                if (newRight < mins[ri]) { newRight = mins[ri]; newLeft = dragStartLeft + dragStartRight - newRight; }
+                if (newRight < rightFloor) { newRight = rightFloor; newLeft = dragStartLeft + dragStartRight - newRight; }
                 if (newRight > maxes[ri]) { newRight = maxes[ri]; newLeft = dragStartLeft + dragStartRight - newRight; }
 
                 sizes[li] = newLeft;
@@ -447,6 +455,9 @@
 
             function onPointerMove(e) {
                 if (e.pointerId !== activePointerId) return;
+                if (!everMoved && Math.abs(e[clientCoord] - dragStartCoord) >= TAP_PX) {
+                    everMoved = true;
+                }
                 pendingMove = e[clientCoord];
                 if (rafScheduled) return;
                 rafScheduled = true;
@@ -461,6 +472,38 @@
                 gut.removeEventListener('pointermove', onPointerMove);
                 gut.removeEventListener('pointerup', onPointerUp);
                 gut.removeEventListener('pointercancel', onPointerUp);
+                var li = leftIdx(), ri = rightIdx();
+
+                // Tap-without-drag on the gutter while a neighbour was railed
+                // is the "restore" affordance — same UX as clicking the rail
+                // pane itself. `everMoved` is set only when the pointer crosses
+                // a small jitter threshold, so this works for both "no movement
+                // at all" and "drag out and back to start" cases.
+                if (!everMoved) {
+                    if (leftStartedMin) { isMin[li] = true; restorePane(li); leftStartedMin = false; rightStartedMin = false; return; }
+                    if (rightStartedMin) { isMin[ri] = true; restorePane(ri); leftStartedMin = false; rightStartedMin = false; return; }
+                }
+
+                // Drag-and-released-below-min on a side that started from rail:
+                // snap up to the configured min so the pane settles at a sane
+                // resting size. During the drag we let it go below min for the
+                // smooth-grow feel; the clamp at release is what the user asked
+                // for ("if expanded to less than min-width, set min-width on
+                // drag stop"). Take the slack from the neighbour.
+                if (leftStartedMin && sizes[li] < mins[li]) {
+                    var deficit = mins[li] - sizes[li];
+                    sizes[li] = mins[li];
+                    sizes[ri] -= deficit;
+                    applySizes({ persist: false });
+                }
+                if (rightStartedMin && sizes[ri] < mins[ri]) {
+                    var deficitR = mins[ri] - sizes[ri];
+                    sizes[ri] = mins[ri];
+                    sizes[li] -= deficitR;
+                    applySizes({ persist: false });
+                }
+                leftStartedMin = false;
+                rightStartedMin = false;
                 if (id) writeStorage(id, { v: 2, sizes: sizes.slice(), lasts: lastNonZero.slice(), minimized: isMin.slice() });
             }
 
