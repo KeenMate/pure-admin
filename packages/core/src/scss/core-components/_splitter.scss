@@ -1,13 +1,29 @@
 /* ========================================
    Splitter Component
-   Two-pane resizable container with draggable gutter.
+   Resizable container with draggable gutters (2 or more panes).
    Modifiers:
-     --horizontal  panes side-by-side, vertical gutter (default)
-     --vertical    panes stacked, horizontal gutter
-     --dragging    applied to root while user is dragging
-     --collapsed   start pane has been collapsed to 0
+     --horizontal       panes side-by-side, vertical gutter (default)
+     --vertical         panes stacked, horizontal gutter
+     --dragging         applied to root while user is dragging
+     --collapsed        start pane has been collapsed to 0
+     --minimize-mirror  flip rail-title text 180° (bottom-to-top reading)
+
+   Rail mode is fully decoupled from any specific component. The splitter
+   only rotates elements marked `[data-pa-splitter-rail-title]` inside a
+   minimized pane; per-component adaptation (e.g. card body / footer
+   hiding) lives in that component's SCSS, keyed off
+   `.pa-splitter__pane--minimized > .pa-foo`. Card integration is in
+   `_cards.scss`.
    ======================================== */
 @use '../variables' as *;
+
+// Default rail width — exposed as a runtime token so themes and per-instance
+// inline styles can override without having to set both the SCSS variable
+// (compile-time) and the JS attribute. The JS reads this same custom
+// property via getComputedStyle to keep its default in sync.
+:root {
+  --pa-splitter-rail-size: #{$splitter-rail-size};
+}
 
 .pa-splitter {
   display: flex;
@@ -90,79 +106,43 @@
       flex: 1 1 0;
     }
 
-    // Minimized state — pane locks to rail width, content collapses to a
-    // vertical title. Opt-in via data-pa-splitter-minimize="start"; the JS
-    // adds this class on collapse / restores via gutter click or rail click.
+    // Minimized state — pane locks to rail width via flex-basis (JS-set).
+    // The splitter's only job here is providing the rail-title rotation hook;
+    // it does NOT hide sibling content or know about specific components.
+    // Per-component adaptation (e.g. hiding card body / footer) lives in
+    // that component's SCSS, see `_cards.scss` for the card integration.
     &--minimized {
       cursor: pointer;
       overflow: hidden;
-
-      // Card adaptation: header rotates to a vertical title, body / footer
-      // hide, action buttons hide (rotating buttons looks wrong).
-      > .pa-card {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-
-        > .pa-card__body,
-        > .pa-card__footer {
-          display: none;
-        }
-
-        > .pa-card__header {
-          flex: 1 1 auto;
-          // sideways-rl: text reads top-to-bottom, glyphs rotated 90° clockwise
-          // (tilt head right). For Latin text this matches vertical-rl visually
-          // but is script-agnostic.
-          writing-mode: sideways-rl;
-          // Pin title to the top of the rail (inline-start = top in sideways-rl).
-          justify-content: flex-start;
-
-          // Keep icons upright — they inherit the parent writing-mode by
-          // default, which rotates the glyph along with the title. Resetting
-          // to initial (horizontal-tb) keeps them in their natural orientation.
-          // Descendant combinator on purpose: with the BEM card structure
-          // (pa-card__title wrapping icon + text) the icon is no longer a
-          // direct child of pa-card__header.
-          i,
-          svg {
-            writing-mode: initial;
-          }
-
-          // Vertically align the icon between expanded and minimized states.
-          // In expanded mode, `align-items: center` on the header centers the
-          // title vertically (icon center at header-min-height / 2 from top).
-          // In minimized mode, `justify-content: flex-start` pins the title to
-          // the rail's top edge (icon at the very top, plus header padding-v).
-          // Push the title down by the difference so the icon sits at the same
-          // visual y-position in both states — no "jump" when toggling.
-          .pa-card__title {
-            padding-top: calc((#{$card-header-min-height} - #{$font-size-base}) / 2 - #{$card-header-padding-v});
-          }
-
-          // Hide any interactive controls — they'd be sideways and weird.
-          .pa-btn,
-          .pa-btn-group,
-          button,
-          input {
-            display: none;
-          }
-        }
-      }
     }
   }
 
-  // Optional: mirror the minimized title 180° (scale -1, -1 = rotate 180°),
-  // so the text reads bottom-to-top with upside-down glyphs. Applied to the
-  // heading element only — padding, alignment, and the hidden action buttons
-  // are unaffected. Opt in by adding the modifier to the splitter root.
-  // Descendant combinator before the heading so it matches both flat
-  // (heading direct in __header) and BEM (heading inside __title) markup.
-  &--minimize-mirror {
-    .pa-splitter__pane--minimized > .pa-card > .pa-card__header :is(h1, h2, h3, h4, h5, h6) {
-      transform: scale(-1, -1);
+  // Generic rail-title hook. Any element marked `[data-pa-splitter-rail-title]`
+  // inside a minimized pane rotates to vertical writing. Consumers can put
+  // this attribute on a card header, a plain heading, a div with an icon —
+  // anything they want shown rotated when the pane is railed.
+  //
+  // sideways-rl: text reads top-to-bottom, glyphs rotated 90° clockwise
+  // (tilt head right). Script-agnostic — for Latin text this matches
+  // vertical-rl visually.
+  &__pane--minimized [data-pa-splitter-rail-title] {
+    writing-mode: sideways-rl;
+
+    // Keep icons upright — they inherit the parent writing-mode by default,
+    // which rotates the glyph along with the title. Resetting to initial
+    // (horizontal-tb) keeps them in their natural orientation.
+    i,
+    svg {
+      writing-mode: initial;
     }
+  }
+
+  // Optional: mirror the minimized title 180° so the text reads bottom-to-top
+  // with upside-down glyphs. Applied to the heading element inside any
+  // rail-title element — padding, alignment, and sibling content are
+  // unaffected.
+  &--minimize-mirror .pa-splitter__pane--minimized [data-pa-splitter-rail-title] :is(h1, h2, h3, h4, h5, h6) {
+    transform: scale(-1, -1);
   }
 
   &__gutter {

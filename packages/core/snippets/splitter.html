@@ -172,14 +172,36 @@
                                     In N-pane mode, toggles the enclosing
                                     pane (if it's minimizable).
 
+     RAIL-TITLE HOOK (non-card content)
+       Any element marked with `[data-pa-splitter-rail-title]` inside a
+       minimized pane rotates to vertical writing (sideways-rl). Use this
+       when you put plain content (not a `.pa-card`) in a minimizable pane:
+
+         <div class="pa-splitter__pane" data-pa-splitter-minimize>
+           <div data-pa-splitter-rail-title>📁 Files</div>
+           <!-- The rest of your pane content here -->
+         </div>
+
+       Cards adapt automatically — `_cards.scss` rotates the card header
+       inside any `.pa-splitter__pane--minimized` without needing the
+       attribute. No markup change needed for the card snippets above.
+
      CSS CUSTOMIZATION
        --pa-splitter-gutter-size    gutter thickness (default: 6px)
+       --pa-splitter-rail-size      rail width when a pane is minimized
+                                    (default: 40px / $splitter-rail-size).
+                                    JS picks this up via getComputedStyle, so
+                                    setting it on `:root` or per-instance via
+                                    inline style overrides the rail width
+                                    without also setting the data-attr.
        gap                          space between panes and gutter
                                     (native flexbox property)
 
      MODIFIER CLASSES
        pa-splitter--minimize-mirror flip the minimized title 180°
-                                    (transform: scale(-1,-1) on the heading)
+                                    (transform: scale(-1,-1) on the heading
+                                     inside any `[data-pa-splitter-rail-title]`
+                                     or `.pa-card__header`)
 
      JAVASCRIPT API (window.PaSplitter)
        PaSplitter.init(el)          initialize a single element (idempotent)

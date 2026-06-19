@@ -1,31 +1,29 @@
 /**
  * Pure Admin Splitter
  * Resizable container with two or more panes. Auto-initializes on
- * [data-pa-splitter]. Two markup flavours coexist:
+ * [data-pa-splitter]. Single implementation path — the legacy 2-pane
+ * shorthand (`--start` / `--end` modifiers, root-level constraints) is
+ * normalized into per-pane attributes at init time and runs through the
+ * same code as N-pane.
  *
- *   1. Legacy 2-pane — start/end modifiers, root-level constraints.
- *      Used when both .pa-splitter__pane--start and .pa-splitter__pane--end
- *      exist with exactly one gutter.
- *
- *   2. N-pane — N panes + N-1 gutters in alternating DOM order, per-pane
- *      constraints. Used otherwise.
- *
- * --- Common attributes (on root) ---
+ * --- Attributes on root ---
  *   data-pa-splitter                 (marker; required)
  *   data-pa-splitter-id="key"        (enables localStorage persistence)
  *   data-pa-splitter-step="10"        (keyboard step in px; default 10)
- *   data-pa-splitter-rail-size="40"   (rail width in px; default 40)
+ *   data-pa-splitter-rail-size="40"   (rail width in px; default reads
+ *                                      --pa-splitter-rail-size from
+ *                                      getComputedStyle, then 40 literal)
  *   data-pa-splitter-minimize-threshold="0.40"
- *                                     (drag-to-minimize snap ratio; default 0.40,
- *                                      floored at rail × 1.5)
+ *                                     (drag-to-minimize snap ratio of the
+ *                                      drag-start size, floored at rail × 1.5)
  *
- * --- Legacy 2-pane attributes (on root) ---
- *   data-pa-splitter-min-start="200px" | "20%"
- *   data-pa-splitter-max-start="60%" | "800px"
- *   data-pa-splitter-default="280px" | "30%"   (initial start-pane size)
- *   data-pa-splitter-minimize="start" | "end"  (which side rolls up to rail)
+ * --- Legacy 2-pane root attributes (normalized into per-pane) ---
+ *   data-pa-splitter-min-start="200px" | "20%"   → start pane data-pa-splitter-min
+ *   data-pa-splitter-max-start="60%" | "800px"   → start pane data-pa-splitter-max
+ *   data-pa-splitter-default="280px" | "30%"     → start pane data-pa-splitter-size
+ *   data-pa-splitter-minimize="start" | "end"    → marker on the named pane
  *
- * --- N-pane attributes (on each .pa-splitter__pane) ---
+ * --- Attributes on each .pa-splitter__pane ---
  *   data-pa-splitter-size="200px" | "30%"  (initial size; unspecified panes
  *                                            share leftover equally — or the
  *                                            last pane absorbs if all sized)
@@ -71,6 +69,25 @@
         return value;
     }
 
+    // Rail size resolution: per-instance attribute wins, then the
+    // --pa-splitter-rail-size CSS variable (themes / inline-style overrides),
+    // then a hardcoded 40px floor. Without the CSS-var path the SCSS variable
+    // $splitter-rail-size was effectively dead — themes could rename it and
+    // nothing happened at the JS layer.
+    function readRailSize(root) {
+        var attr = root.getAttribute('data-pa-splitter-rail-size');
+        if (attr != null && attr !== '') {
+            var px = parseInt(attr, 10);
+            if (!isNaN(px) && px > 0) return px;
+        }
+        var cssVar = getComputedStyle(root).getPropertyValue('--pa-splitter-rail-size');
+        if (cssVar) {
+            var v = parseFloat(cssVar);
+            if (!isNaN(v) && v > 0) return v;
+        }
+        return 40;
+    }
+
     function readStorage(id) {
         if (!id) return null;
         try {
@@ -95,382 +112,49 @@
 
     function init(root) {
         if (!root || root[INIT_FLAG]) return;
+        normalizeLegacyMarkup(root);
+        initNPane(root);
+    }
 
+    // Translate the legacy 2-pane shorthand into per-pane attributes so the
+    // single N-pane code path handles both forms. The old root-level
+    // -min-start / -max-start / -default move onto the start pane;
+    // -minimize="start|end" becomes the marker attribute on the named pane.
+    // Existing per-pane attributes win (consumer-set values not overwritten),
+    // so a mixed-style markup still resolves predictably.
+    function normalizeLegacyMarkup(root) {
         var startPane = root.querySelector(':scope > .pa-splitter__pane--start');
         var endPane = root.querySelector(':scope > .pa-splitter__pane--end');
-        var gutters = root.querySelectorAll(':scope > .pa-splitter__gutter');
+        if (!startPane || !endPane) return;
 
-        // Legacy 2-pane markup wins when explicitly tagged so users on
-        // 2.9.0-rc01 see exactly the same behaviour. Anything else goes
-        // through the N-pane path (which also handles two unlabelled panes).
-        if (startPane && endPane && gutters.length === 1) {
-            initLegacyTwoPane(root, startPane, endPane, gutters[0]);
-        } else {
-            initNPane(root);
-        }
-    }
-
-    function initLegacyTwoPane(root, startPane, endPane, gutter) {
-        var isVertical = root.classList.contains('pa-splitter--vertical');
-        var axis = isVertical ? 'height' : 'width';
-        var clientAxis = isVertical ? 'clientHeight' : 'clientWidth';
-        var clientCoord = isVertical ? 'clientY' : 'clientX';
-
-        root[INIT_FLAG] = true;
-
-        var id = root.getAttribute('data-pa-splitter-id') || null;
-        var stepPx = parseInt(root.getAttribute('data-pa-splitter-step'), 10) || 10;
-        var minRaw = root.getAttribute('data-pa-splitter-min-start');
-        var maxRaw = root.getAttribute('data-pa-splitter-max-start');
+        var minStart = root.getAttribute('data-pa-splitter-min-start');
+        var maxStart = root.getAttribute('data-pa-splitter-max-start');
         var defaultRaw = root.getAttribute('data-pa-splitter-default');
-        var minimizeRaw = root.getAttribute('data-pa-splitter-minimize');
-        var minimizeSide = (minimizeRaw === 'start' || minimizeRaw === 'end') ? minimizeRaw : null;
-        var canMinimize = minimizeSide !== null;
-        var railSizePx = parseInt(root.getAttribute('data-pa-splitter-rail-size'), 10) || 40;
-        var minimizeThresholdRatio = parseFloat(root.getAttribute('data-pa-splitter-minimize-threshold'));
-        if (isNaN(minimizeThresholdRatio) || minimizeThresholdRatio <= 0 || minimizeThresholdRatio >= 1) {
-            minimizeThresholdRatio = 0.40;
+        var minimize = root.getAttribute('data-pa-splitter-minimize');
+
+        if (minStart != null && !startPane.hasAttribute('data-pa-splitter-min')) {
+            startPane.setAttribute('data-pa-splitter-min', minStart);
         }
-
-        // Diagnostic logging — opt in by setting window.PA_SPLITTER_DEBUG = true.
-        var DEBUG = window.PA_SPLITTER_DEBUG === true;
-        var label = '[pa-splitter:' + (id || 'anon') + ']';
-        function log() {
-            if (!DEBUG) return;
-            var args = Array.prototype.slice.call(arguments);
-            console.log.apply(console, [label].concat(args));
+        if (maxStart != null && !startPane.hasAttribute('data-pa-splitter-max')) {
+            startPane.setAttribute('data-pa-splitter-max', maxStart);
         }
-
-        // Per-splitter state (in px, on the main axis)
-        var currentSize = 0;
-        var lastNonZero = 0;
-        var minimized = false;
-
-        log('init', {
-            orientation: isVertical ? 'vertical' : 'horizontal',
-            rootClientSize: root[clientAxis],
-            attrs: { minRaw: minRaw, maxRaw: maxRaw, defaultRaw: defaultRaw, canMinimize: canMinimize, railSizePx: railSizePx, stepPx: stepPx }
-        });
-
-        // Set ARIA scaffolding
-        gutter.setAttribute('role', gutter.getAttribute('role') || 'separator');
-        gutter.setAttribute('aria-orientation', isVertical ? 'horizontal' : 'vertical');
-        if (!gutter.hasAttribute('tabindex')) gutter.setAttribute('tabindex', '0');
-
-        function gapPx() {
-            // `gap` on the flex container appears twice (start↔gutter, gutter↔end).
-            // Read computed style so users can set it via `gap: 1rem` inline or in CSS.
-            var cs = getComputedStyle(root);
-            var raw = isVertical ? cs.rowGap : cs.columnGap;
-            var px = parseFloat(raw);
-            return isNaN(px) ? 0 : px;
+        if (defaultRaw != null && !startPane.hasAttribute('data-pa-splitter-size')) {
+            startPane.setAttribute('data-pa-splitter-size', defaultRaw);
         }
-
-        function totalAvailable() {
-            // Gutter + 2× gap take their own size; the two panes share the rest.
-            return root[clientAxis] - gutter[clientAxis] - (2 * gapPx());
-        }
-
-        function constraints() {
-            var rootSize = root[clientAxis];
-            var gutterSize = gutter[clientAxis];
-            var gap = gapPx();
-            var total = rootSize - gutterSize - (2 * gap);
-            var min = parseSize(minRaw, rootSize);
-            var max = parseSize(maxRaw, rootSize);
-            if (min == null) min = 0;
-            if (max == null) max = total;
-            // Don't let max exceed available, or min exceed max.
-            if (max > total) max = total;
-            if (min > max) min = max;
-            log('constraints', { rootSize: rootSize, gutterSize: gutterSize, gap: gap, total: total, min: min, max: max });
-            return { min: min, max: max, total: total };
-        }
-
-        function applySize(px, opts) {
-            opts = opts || {};
-            var c = constraints();
-            var size = px;
-            // opts.raw bypasses clamping — used when intentionally going
-            // below min (rail size for minimize, 0 for collapse). In normal
-            // mode, always clamp to [min, max] — negative requests (drag
-            // math when pointer moves past the start coord) must clamp to
-            // min, not fall through to 0.
-            if (!opts.raw) {
-                size = clamp(size, c.min, c.max);
-            }
-            log('applySize', { requested: px, opts: opts, minimizedFlag: minimized, resolved: size });
-            currentSize = size;
-            startPane.style.flexBasis = size + 'px';
-
-            var collapsed = !minimized && size === 0;
-            root.classList.toggle('pa-splitter--collapsed', collapsed);
-            root.classList.toggle('pa-splitter--minimized', minimized);
-            // Apply the rail class to whichever side is being minimized; clear
-            // the other so a side-swap (or stale state) can't leave it dangling.
-            startPane.classList.toggle('pa-splitter__pane--minimized', minimized && minimizeSide === 'start');
-            endPane.classList.toggle('pa-splitter__pane--minimized', minimized && minimizeSide === 'end');
-
-            // ARIA value
-            gutter.setAttribute('aria-valuenow', String(Math.round(size)));
-            gutter.setAttribute('aria-valuemin', String(Math.round(c.min)));
-            gutter.setAttribute('aria-valuemax', String(Math.round(c.max)));
-
-            // lastNonZero tracks the last *expanded* size (above rail/min) — used
-            // to restore from minimize/collapse. Don't overwrite it with rail size.
-            if (size > 0 && !minimized) lastNonZero = size;
-
-            if (opts.persist !== false && id) {
-                writeStorage(id, { size: size, last: lastNonZero, minimized: minimized });
-            }
-        }
-
-        function minimize() {
-            log('minimize() called', { currentSize: currentSize, lastNonZero: lastNonZero, side: minimizeSide });
-            minimized = true;
-            // For end-side minimize, push start pane to (total − rail) so the
-            // flex:1 end pane shrinks to exactly the rail width. For start-side,
-            // start pane goes to railSize directly.
-            var c = constraints();
-            var target = minimizeSide === 'end' ? c.total - railSizePx : railSizePx;
-            applySize(target, { raw: true });
-        }
-
-        function restoreFromMinimized() {
-            log('restoreFromMinimized() called', { lastNonZero: lastNonZero });
-            minimized = false;
-            var target = lastNonZero;
-            if (!(target > 0)) {
-                var c = constraints();
-                target = c.min > 0 ? c.min : Math.max(railSizePx * 4, 200);
-            }
-            applySize(target);
-        }
-
-        function collapseToggle() {
-            if (canMinimize) {
-                if (minimized) restoreFromMinimized();
-                else minimize();
-                return;
-            }
-            // Default behavior: hard collapse to 0. Use raw mode to bypass the
-            // min clamp — collapse is the one normal-mode path that wants 0.
-            if (currentSize === 0) {
-                applySize(lastNonZero || constraints().min || 200);
-            } else {
-                applySize(0, { raw: true });
-            }
-        }
-
-        // ---- Initial size ----
-        var saved = readStorage(id);
-        log('storage read', saved);
-        var initialSize;
-        var startMinimized = false;
-        if (saved && typeof saved.size === 'number') {
-            initialSize = saved.size;
-            if (typeof saved.last === 'number' && saved.last > 0) lastNonZero = saved.last;
-            if (saved.minimized === true && canMinimize) startMinimized = true;
-        } else {
-            initialSize = parseSize(defaultRaw, root[clientAxis]);
-            if (initialSize == null) {
-                // Reasonable fallback: 30% of container on main axis.
-                initialSize = root[clientAxis] * 0.3;
-            }
-        }
-        if (lastNonZero === 0 && initialSize > 0) lastNonZero = initialSize;
-        log('initial resolved', { initialSize: initialSize, startMinimized: startMinimized, lastNonZero: lastNonZero, rootSizeAtThisPoint: root[clientAxis] });
-        // Defer applySize until layout settles (root may have 0 size at DOMContentLoaded
-        // if it's inside a hidden parent). requestAnimationFrame is sufficient.
-        requestAnimationFrame(function () {
-            log('rAF apply, rootSize=', root[clientAxis]);
-            if (startMinimized) {
-                minimized = true;
-                var c0 = constraints();
-                var railTarget = minimizeSide === 'end' ? c0.total - railSizePx : railSizePx;
-                applySize(railTarget, { raw: true, persist: false });
-            } else if (initialSize === 0) {
-                // Preserve an explicitly-collapsed state across reloads.
-                applySize(0, { raw: true, persist: false });
-            } else {
-                applySize(initialSize, { persist: false });
-            }
-        });
-
-        // ---- Pointer drag ----
-        var dragStartCoord = 0;
-        var dragStartSize = 0;
-        var activePointerId = null;
-
-        function onPointerDown(e) {
-            // Only respond to primary button (mouse) or any pointer for touch/pen
-            if (e.button != null && e.button !== 0) return;
-            // From minimized state, a press on the gutter is a "restore" action,
-            // not a drag — gives the user something to grab even when the pane
-            // is just a thin rail.
-            if (minimized) {
-                e.preventDefault();
-                restoreFromMinimized();
-                return;
-            }
-            activePointerId = e.pointerId;
-            dragStartCoord = e[clientCoord];
-            dragStartSize = currentSize;
-            try {
-                gutter.setPointerCapture(e.pointerId);
-            } catch (err) { /* iOS Safari can throw on some elements */ }
-            root.classList.add('pa-splitter--dragging');
-            gutter.addEventListener('pointermove', onPointerMove);
-            gutter.addEventListener('pointerup', onPointerUp);
-            gutter.addEventListener('pointercancel', onPointerUp);
-            e.preventDefault();
-        }
-
-        function onPointerMove(e) {
-            if (e.pointerId !== activePointerId) return;
-            var delta = e[clientCoord] - dragStartCoord;
-            var requested = dragStartSize + delta;
-
-            // Drag-into-minimize: hysteresis snap. The threshold applies to
-            // the *minimized side's* size, not the start pane's directly —
-            // for end-side minimize, that's (total − requested).
-            if (canMinimize) {
-                var c = constraints();
-                // For end-side minimize, the minimized pane is the *end* pane,
-                // whose natural min equals `total - max-start`. Using c.min
-                // (start-side min) would put the snap point way too far inward.
-                var minimizedSideMin = minimizeSide === 'end' ? (c.total - c.max) : c.min;
-                var snapThreshold = Math.max(minimizedSideMin * minimizeThresholdRatio, railSizePx * 1.5);
-                var requestedMinimizedSize = minimizeSide === 'end' ? c.total - requested : requested;
-                var railTarget = minimizeSide === 'end' ? c.total - railSizePx : railSizePx;
-
-                if (!minimized && requestedMinimizedSize < snapThreshold) {
-                    minimized = true;
-                    applySize(railTarget, { raw: true, persist: false });
-                    return;
-                }
-                if (minimized && requestedMinimizedSize >= snapThreshold) {
-                    minimized = false;
-                    applySize(requested, { persist: false });
-                    return;
-                }
-                if (minimized) {
-                    // Inside the rail zone — pane stays at rail, ignore drag.
-                    return;
-                }
-            }
-
-            applySize(requested, { persist: false });
-        }
-
-        function onPointerUp(e) {
-            if (e.pointerId !== activePointerId) return;
-            try {
-                gutter.releasePointerCapture(e.pointerId);
-            } catch (err) { /* no-op */ }
-            activePointerId = null;
-            root.classList.remove('pa-splitter--dragging');
-            gutter.removeEventListener('pointermove', onPointerMove);
-            gutter.removeEventListener('pointerup', onPointerUp);
-            gutter.removeEventListener('pointercancel', onPointerUp);
-            // Persist final size at end of drag (not on every move — cuts down on
-            // localStorage writes during rapid drags). Include `minimized` so a
-            // drag that ends in rail mode survives reload.
-            if (id) writeStorage(id, { size: currentSize, last: lastNonZero, minimized: minimized });
-        }
-
-        gutter.addEventListener('pointerdown', onPointerDown);
-
-        // ---- Click rail to restore ----
-        // When minimized, the rail pane (whichever side it is) acts as a
-        // restore affordance.
-        var railPane = minimizeSide === 'end' ? endPane : startPane;
-        railPane.addEventListener('click', function () {
-            if (minimized) restoreFromMinimized();
-        });
-
-        // ---- Toggle button delegation ----
-        // Any element with [data-pa-splitter-toggle] inside this splitter
-        // (typically a button in the card header) triggers collapseToggle on
-        // click. Scoped to the *closest* enclosing splitter so nested splitters
-        // don't fire each other's toggles.
-        root.addEventListener('click', function (e) {
-            var toggle = e.target.closest && e.target.closest('[data-pa-splitter-toggle]');
-            if (!toggle || toggle.closest('[data-pa-splitter]') !== root) return;
-            e.preventDefault();
-            e.stopPropagation();
-            collapseToggle();
-        });
-
-        // ---- Double-click to collapse / restore ----
-        gutter.addEventListener('dblclick', function (e) {
-            e.preventDefault();
-            collapseToggle();
-        });
-
-        // ---- Keyboard ----
-        gutter.addEventListener('keydown', function (e) {
-            var c = constraints();
-            var handled = false;
-
-            switch (e.key) {
-                case 'ArrowLeft':
-                case 'ArrowUp':
-                    // Always shrinks the start pane regardless of orientation —
-                    // most users intuit Up/Left as "less".
-                    applySize(currentSize - stepPx);
-                    handled = true;
-                    break;
-                case 'ArrowRight':
-                case 'ArrowDown':
-                    applySize(currentSize + stepPx);
-                    handled = true;
-                    break;
-                case 'Home':
-                    applySize(c.min);
-                    handled = true;
-                    break;
-                case 'End':
-                    applySize(c.max);
-                    handled = true;
-                    break;
-                case 'Enter':
-                case ' ':
-                    collapseToggle();
-                    handled = true;
-                    break;
-            }
-
-            if (handled) e.preventDefault();
-        });
-
-        // ---- Container resize ----
-        // Re-clamp on container resize so percent-based constraints stay valid
-        // and the start pane doesn't exceed available space.
-        if (typeof ResizeObserver !== 'undefined') {
-            var ro = new ResizeObserver(function () {
-                var c = constraints();
-                log('ResizeObserver fire', { currentSize: currentSize, minimized: minimized, newConstraints: c });
-                if (minimized) return;
-                if (currentSize === 0 && c.min === 0) return; // genuinely collapsed
-                if (currentSize < c.min || currentSize > c.max) {
-                    log('ResizeObserver re-clamping', currentSize, '→ within', c.min, c.max);
-                    applySize(currentSize, { persist: false });
-                }
-            });
-            ro.observe(root);
+        if (minimize === 'start' && !startPane.hasAttribute('data-pa-splitter-minimize')) {
+            startPane.setAttribute('data-pa-splitter-minimize', '');
+        } else if (minimize === 'end' && !endPane.hasAttribute('data-pa-splitter-minimize')) {
+            endPane.setAttribute('data-pa-splitter-minimize', '');
         }
     }
 
-    // ====================================================================
-    // N-pane code path
     // ====================================================================
     // Per-pane state lives in parallel arrays (sizes[i], mins[i], …) so the
     // hot drag loop avoids object churn. Each gutter `g` owns the boundary
     // between pane g and pane g+1 — pointer drag only ever moves those two
     // (no cascade). Minimize is only honoured on pane 0 and pane N-1: pane 0
     // rolls toward the start edge ("start" rail), pane N-1 toward the end
-    // edge ("end" rail). Middle panes can't minimize — the rotated card
+    // edge ("end" rail). Middle panes can't minimize — the rotated rail
     // header only reads cleanly against a container edge.
 
     function initNPane(root) {
@@ -507,7 +191,7 @@
 
         var id = root.getAttribute('data-pa-splitter-id') || null;
         var stepPx = parseInt(root.getAttribute('data-pa-splitter-step'), 10) || 10;
-        var railSizePx = parseInt(root.getAttribute('data-pa-splitter-rail-size'), 10) || 40;
+        var railSizePx = readRailSize(root);
         var minimizeThresholdRatio = parseFloat(root.getAttribute('data-pa-splitter-minimize-threshold'));
         if (isNaN(minimizeThresholdRatio) || minimizeThresholdRatio <= 0 || minimizeThresholdRatio >= 1) {
             minimizeThresholdRatio = 0.40;
@@ -684,18 +368,34 @@
                 e.preventDefault();
             }
 
-            function onPointerMove(e) {
-                if (e.pointerId !== activePointerId) return;
-                var delta = e[clientCoord] - dragStartCoord;
+            // rAF-throttle the move handler so each frame coalesces all
+            // pending pointermove events into a single applySizes. Without
+            // this, a 120 Hz trackpad fires move at ~8 ms and every event
+            // triggers flex-basis writes + reflow — measurable jank on a
+            // pane containing a chart canvas or iframe.
+            var pendingMove = null;
+            var rafScheduled = false;
+            function snapThreshold(anchor) {
+                // Rebase on the drag-start size of the affected pane so the
+                // threshold is meaningful even when min is 0 (the common case
+                // for unconstrained panes). At ratio=0.4 the user has to drag
+                // below 40% of the anchor to commit. Floored at rail × 1.5 so
+                // a pane already near rail doesn't insta-snap on first move.
+                return Math.max(railSizePx * 1.5, railSizePx + (anchor - railSizePx) * minimizeThresholdRatio);
+            }
+            function processMove() {
+                rafScheduled = false;
+                if (pendingMove == null) return;
+                var coord = pendingMove;
+                pendingMove = null;
+                var delta = coord - dragStartCoord;
                 var newLeft = dragStartLeft + delta;
                 var newRight = dragStartRight - delta;
                 var li = leftIdx(), ri = rightIdx();
 
-                // Drag-into-minimize on either neighbour (end-pane variant
-                // for ri, start-pane variant for li).
+                // Drag-into-minimize on either neighbour.
                 if (canMin[li] && !isMin[li]) {
-                    var snapL = Math.max(mins[li] * minimizeThresholdRatio, railSizePx * 1.5);
-                    if (newLeft < snapL) {
+                    if (newLeft < snapThreshold(dragStartLeft)) {
                         isMin[li] = true;
                         sizes[li] = railSizePx;
                         sizes[ri] = dragStartLeft + dragStartRight - railSizePx;
@@ -704,8 +404,7 @@
                     }
                 }
                 if (canMin[ri] && !isMin[ri]) {
-                    var snapR = Math.max(mins[ri] * minimizeThresholdRatio, railSizePx * 1.5);
-                    if (newRight < snapR) {
+                    if (newRight < snapThreshold(dragStartRight)) {
                         isMin[ri] = true;
                         sizes[ri] = railSizePx;
                         sizes[li] = dragStartLeft + dragStartRight - railSizePx;
@@ -714,18 +413,19 @@
                     }
                 }
                 // Drag-out-of-minimize when a neighbour is currently rail.
+                // Anchor on lastNonZero so the threshold reflects "what size
+                // are we restoring to?" not "what size are we at now?" (rail).
                 if (isMin[li]) {
-                    var snapLO = Math.max(mins[li] * minimizeThresholdRatio, railSizePx * 1.5);
-                    if (newLeft >= snapLO) {
+                    var anchorLO = lastNonZero[li] > 0 ? lastNonZero[li] : railSizePx * 4;
+                    if (newLeft >= snapThreshold(anchorLO)) {
                         isMin[li] = false;
-                        // continue to apply below
                     } else {
                         return;
                     }
                 }
                 if (isMin[ri]) {
-                    var snapRO = Math.max(mins[ri] * minimizeThresholdRatio, railSizePx * 1.5);
-                    if (newRight >= snapRO) {
+                    var anchorRO = lastNonZero[ri] > 0 ? lastNonZero[ri] : railSizePx * 4;
+                    if (newRight >= snapThreshold(anchorRO)) {
                         isMin[ri] = false;
                     } else {
                         return;
@@ -743,6 +443,14 @@
                 sizes[li] = newLeft;
                 sizes[ri] = newRight;
                 applySizes({ persist: false });
+            }
+
+            function onPointerMove(e) {
+                if (e.pointerId !== activePointerId) return;
+                pendingMove = e[clientCoord];
+                if (rafScheduled) return;
+                rafScheduled = true;
+                requestAnimationFrame(processMove);
             }
 
             function onPointerUp(e) {
@@ -855,40 +563,65 @@
         log('storage read', saved);
 
         var startupMinimized = new Array(N);
-        if (saved && saved.v === 2 && Array.isArray(saved.sizes) && saved.sizes.length === N) {
-            for (var s = 0; s < N; s++) {
-                sizes[s] = saved.sizes[s];
-                lastNonZero[s] = (saved.lasts && saved.lasts[s]) || sizes[s];
-                startupMinimized[s] = !!(saved.minimized && saved.minimized[s]) && canMin[s];
+        // Storage merge is forgiving: matching-index entries are trusted,
+        // missing slots fall through to attribute resolution, extra slots are
+        // ignored. Survives markup drift (consumer adds / removes a pane
+        // without nuking everyone else's saved layout).
+        var savedSizes = null, savedLasts = null, savedMin = null;
+        if (saved && saved.v === 2 && Array.isArray(saved.sizes)) {
+            savedSizes = saved.sizes;
+            savedLasts = Array.isArray(saved.lasts) ? saved.lasts : null;
+            savedMin = Array.isArray(saved.minimized) ? saved.minimized : null;
+        } else if (saved && typeof saved.size === 'number') {
+            // Legacy 2-pane shape — migrate to v:2 if the splitter has 2 panes
+            // (the only shape it could have produced). Saved blob from a
+            // different N falls through; defaults take over.
+            if (N === 2) {
+                var legacyRemainder = initialTotal - saved.size;
+                if (!(legacyRemainder >= 0)) legacyRemainder = 0;
+                savedSizes = [saved.size, legacyRemainder];
+                var legacyLast = (typeof saved.last === 'number' && saved.last > 0) ? saved.last : saved.size;
+                savedLasts = [legacyLast, legacyRemainder];
+                savedMin = [!!saved.minimized && canMin[0], false];
             }
-        } else {
-            // Pass 1: assign explicit sizes; collect unspecified pane indices.
-            var rootSizeRef = root[clientAxis];
-            var explicitSum = 0;
-            var unspecified = [];
-            for (var p = 0; p < N; p++) {
-                var v = parseSize(sizeRaws[p], rootSizeRef);
-                if (v == null) {
-                    sizes[p] = 0;
-                    unspecified.push(p);
-                } else {
-                    sizes[p] = v;
-                    explicitSum += v;
-                }
-                startupMinimized[p] = false;
+        }
+
+        // Pass 1: assign explicit sizes from attributes, collect unspecified.
+        var rootSizeRef = root[clientAxis];
+        var explicitSum = 0;
+        var unspecified = [];
+        for (var p = 0; p < N; p++) {
+            var v = parseSize(sizeRaws[p], rootSizeRef);
+            if (v == null) {
+                sizes[p] = 0;
+                unspecified.push(p);
+            } else {
+                sizes[p] = v;
+                explicitSum += v;
             }
-            // Pass 2: distribute leftover.
-            var leftover = initialTotal - explicitSum;
-            if (unspecified.length > 0) {
-                var share = leftover / unspecified.length;
-                for (var u = 0; u < unspecified.length; u++) sizes[unspecified[u]] = Math.max(0, share);
-            } else if (Math.abs(leftover) > 0.5) {
-                // All panes sized but they don't sum to total — give the
-                // delta to the last pane (matches the "content absorbs" UX
-                // most admin layouts expect).
-                sizes[N - 1] += leftover;
+            startupMinimized[p] = false;
+        }
+        // Pass 2: distribute leftover across unspecified panes.
+        var leftover = initialTotal - explicitSum;
+        if (unspecified.length > 0) {
+            var share = leftover / unspecified.length;
+            for (var u = 0; u < unspecified.length; u++) sizes[unspecified[u]] = Math.max(0, share);
+        } else if (Math.abs(leftover) > 0.5) {
+            // All panes sized but they don't sum to total — give the
+            // delta to the last pane (matches the "content absorbs" UX
+            // most admin layouts expect).
+            sizes[N - 1] += leftover;
+        }
+        for (var z = 0; z < N; z++) lastNonZero[z] = sizes[z];
+
+        // Pass 3: overlay saved state on matching-index slots, leaving the
+        // rest at their attribute-derived defaults.
+        if (savedSizes) {
+            for (var s = 0; s < Math.min(N, savedSizes.length); s++) {
+                if (typeof savedSizes[s] === 'number') sizes[s] = savedSizes[s];
+                if (savedLasts && typeof savedLasts[s] === 'number' && savedLasts[s] > 0) lastNonZero[s] = savedLasts[s];
+                if (savedMin && savedMin[s]) startupMinimized[s] = !!canMin[s];
             }
-            for (var z = 0; z < N; z++) lastNonZero[z] = sizes[z];
         }
 
         setupGutters();

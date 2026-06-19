@@ -588,3 +588,63 @@ a.pa-card {
     }
   }
 }
+
+// Card adaptation inside a minimized splitter pane.
+// Lives here (not in `_splitter.scss`) so the splitter stays unaware of card
+// internals — the rotation hook on the splitter side is `[data-pa-splitter-rail-title]`
+// and this rule applies that attribute's contract to the card header.
+//
+// Layout: pa-card already has `height: 100%` etc., we just hide body/footer,
+// promote the header to fill the rail, and pin the title to the top.
+.pa-splitter__pane--minimized > .pa-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  > .pa-card__body,
+  > .pa-card__footer {
+    display: none;
+  }
+
+  > .pa-card__header {
+    flex: 1 1 auto;
+    // Pin title to the rail's top (inline-start in sideways-rl writing mode).
+    justify-content: flex-start;
+    writing-mode: sideways-rl;
+
+    // Icons reset to natural orientation (descendant combinator covers both
+    // flat markup and the BEM `pa-card__title > i` nesting).
+    i,
+    svg {
+      writing-mode: initial;
+    }
+
+    // Vertically align the icon between expanded and minimized states.
+    // In expanded mode, `align-items: center` centers the title vertically
+    // (icon center at header-min-height / 2 from top). In minimized mode,
+    // `justify-content: flex-start` pins the title to the rail's top edge.
+    // Push the title down by the difference so the icon sits at the same
+    // visual y-position in both states — no "jump" when toggling.
+    .pa-card__title {
+      padding-top: calc((#{$card-header-min-height} - #{$font-size-base}) / 2 - #{$card-header-padding-v});
+    }
+
+    // Hide interactive controls inside the header — they'd be sideways and
+    // unreadable. The list here is intentional: cards know their own header
+    // contents better than the splitter ever could.
+    .pa-btn,
+    .pa-btn-group,
+    button,
+    input {
+      display: none;
+    }
+  }
+}
+
+// Mirror modifier — when the splitter root carries `pa-splitter--minimize-mirror`,
+// the card heading flips 180° (matches the generic mirror behaviour, scoped
+// to the card title heading).
+.pa-splitter--minimize-mirror .pa-splitter__pane--minimized > .pa-card > .pa-card__header :is(h1, h2, h3, h4, h5, h6) {
+  transform: scale(-1, -1);
+}
