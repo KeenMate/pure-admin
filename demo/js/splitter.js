@@ -311,13 +311,25 @@
         function applySizes(opts) {
             opts = opts || {};
             var anyMin = false;
+            var lastNonZeroChanged = [];
             for (var i = 0; i < N; i++) {
                 panes[i].style.flexBasis = sizes[i] + 'px';
                 panes[i].classList.toggle('pa-splitter__pane--minimized', isMin[i]);
                 if (isMin[i]) anyMin = true;
-                if (sizes[i] > 0 && !isMin[i]) lastNonZero[i] = sizes[i];
+                if (sizes[i] > 0 && !isMin[i]) {
+                    if (lastNonZero[i] !== sizes[i]) lastNonZeroChanged.push({ i: i, from: lastNonZero[i], to: sizes[i] });
+                    lastNonZero[i] = sizes[i];
+                }
             }
             root.classList.toggle('pa-splitter--minimized', anyMin);
+            if (DEBUG) {
+                log('applySizes', {
+                    sizes: sizes.slice(),
+                    isMin: isMin.slice(),
+                    lastNonZeroChanged: lastNonZeroChanged.length ? lastNonZeroChanged : '-',
+                    persist: opts.persist !== false
+                });
+            }
 
             // Update each gutter's ARIA (uses left-pane size as the value).
             for (var g = 0; g < gutters.length; g++) {
@@ -378,6 +390,17 @@
                 dragStartCoord = e[clientCoord];
                 dragStartLeft = sizes[li];
                 dragStartRight = sizes[ri];
+                log('pointerdown g=' + g, {
+                    leftStartedMin: leftStartedMin,
+                    rightStartedMin: rightStartedMin,
+                    dragStartLeft: dragStartLeft,
+                    dragStartRight: dragStartRight,
+                    mins_li: mins[li],
+                    mins_ri: mins[ri],
+                    railSizePx: railSizePx,
+                    lastNonZero_li: lastNonZero[li],
+                    lastNonZero_ri: lastNonZero[ri]
+                });
                 try { gut.setPointerCapture(e.pointerId); } catch (err) { /* iOS */ }
                 root.classList.add('pa-splitter--dragging');
                 gut.addEventListener('pointermove', onPointerMove);
@@ -417,6 +440,7 @@
                 // surprises users who're trying to manually size from rail.
                 if (canMin[li] && !leftStartedMin) {
                     if (newLeft < snapThreshold(dragStartLeft)) {
+                        log('move g=' + g + ' SNAP-INTO-RAIL (left)', { newLeft: newLeft, threshold: snapThreshold(dragStartLeft) });
                         isMin[li] = true;
                         sizes[li] = railSizePx;
                         sizes[ri] = dragStartLeft + dragStartRight - railSizePx;
@@ -426,12 +450,35 @@
                 }
                 if (canMin[ri] && !rightStartedMin) {
                     if (newRight < snapThreshold(dragStartRight)) {
+                        log('move g=' + g + ' SNAP-INTO-RAIL (right)', { newRight: newRight, threshold: snapThreshold(dragStartRight) });
                         isMin[ri] = true;
                         sizes[ri] = railSizePx;
                         sizes[li] = dragStartLeft + dragStartRight - railSizePx;
                         applySizes({ persist: false });
                         return;
                     }
+                }
+
+                // Drag-out-of-mid-drag-rail: if a pane snapped to rail earlier
+                // in this drag session and the user has now dragged back past
+                // the snap threshold, release the rail commitment. Without
+                // this, isMin[i] stays true for the rest of the drag, the
+                // `pa-splitter__pane--minimized` class keeps getting re-set
+                // by applySizes every frame, and the card stays in rail
+                // layout visually even though sizes[i] is growing.
+                // Promoting leftStartedMin to true switches the floor used
+                // below to railSizePx — the rest of this drag now feels like
+                // a normal "started from rail" drag (smooth growth from rail,
+                // clamp-to-min on pointerup if below mins[i]).
+                if (isMin[li] && !leftStartedMin && newLeft >= snapThreshold(dragStartLeft)) {
+                    log('move g=' + g + ' DRAG-OUT-OF-RAIL (left)', { newLeft: newLeft, threshold: snapThreshold(dragStartLeft) });
+                    isMin[li] = false;
+                    leftStartedMin = true;
+                }
+                if (isMin[ri] && !rightStartedMin && newRight >= snapThreshold(dragStartRight)) {
+                    log('move g=' + g + ' DRAG-OUT-OF-RAIL (right)', { newRight: newRight, threshold: snapThreshold(dragStartRight) });
+                    isMin[ri] = false;
+                    rightStartedMin = true;
                 }
 
                 // Stop-at-min: clamp each side to its own [min, max]. If one
@@ -443,6 +490,7 @@
                 // pointerup if the final size landed below it.
                 var leftFloor = leftStartedMin ? railSizePx : mins[li];
                 var rightFloor = rightStartedMin ? railSizePx : mins[ri];
+                var preLeft = newLeft, preRight = newRight;
                 if (newLeft < leftFloor) { newLeft = leftFloor; newRight = dragStartLeft + dragStartRight - newLeft; }
                 if (newLeft > maxes[li]) { newLeft = maxes[li]; newRight = dragStartLeft + dragStartRight - newLeft; }
                 if (newRight < rightFloor) { newRight = rightFloor; newLeft = dragStartLeft + dragStartRight - newRight; }
@@ -450,6 +498,15 @@
 
                 sizes[li] = newLeft;
                 sizes[ri] = newRight;
+                if (DEBUG) {
+                    log('move g=' + g, {
+                        delta: delta,
+                        preClamp: { left: preLeft, right: preRight },
+                        floor: { left: leftFloor, right: rightFloor },
+                        postClamp: { left: newLeft, right: newRight },
+                        startedMin: { left: leftStartedMin, right: rightStartedMin }
+                    });
+                }
                 applySizes({ persist: false });
             }
 
@@ -473,6 +530,17 @@
                 gut.removeEventListener('pointerup', onPointerUp);
                 gut.removeEventListener('pointercancel', onPointerUp);
                 var li = leftIdx(), ri = rightIdx();
+                log('pointerup g=' + g, {
+                    everMoved: everMoved,
+                    leftStartedMin: leftStartedMin,
+                    rightStartedMin: rightStartedMin,
+                    sizes_li: sizes[li],
+                    sizes_ri: sizes[ri],
+                    mins_li: mins[li],
+                    mins_ri: mins[ri],
+                    isMin_li: isMin[li],
+                    isMin_ri: isMin[ri]
+                });
 
                 // Tap-without-drag on the gutter while a neighbour was railed
                 // is the "restore" affordance — same UX as clicking the rail
@@ -480,8 +548,20 @@
                 // a small jitter threshold, so this works for both "no movement
                 // at all" and "drag out and back to start" cases.
                 if (!everMoved) {
-                    if (leftStartedMin) { isMin[li] = true; restorePane(li); leftStartedMin = false; rightStartedMin = false; return; }
-                    if (rightStartedMin) { isMin[ri] = true; restorePane(ri); leftStartedMin = false; rightStartedMin = false; return; }
+                    if (leftStartedMin) {
+                        log('pointerup g=' + g + ' TAP-RESTORE (left)');
+                        isMin[li] = true;
+                        restorePane(li);
+                        leftStartedMin = false; rightStartedMin = false;
+                        return;
+                    }
+                    if (rightStartedMin) {
+                        log('pointerup g=' + g + ' TAP-RESTORE (right)');
+                        isMin[ri] = true;
+                        restorePane(ri);
+                        leftStartedMin = false; rightStartedMin = false;
+                        return;
+                    }
                 }
 
                 // Drag-and-released-below-min on a side that started from rail:
@@ -492,12 +572,14 @@
                 // drag stop"). Take the slack from the neighbour.
                 if (leftStartedMin && sizes[li] < mins[li]) {
                     var deficit = mins[li] - sizes[li];
+                    log('pointerup g=' + g + ' CLAMP-TO-MIN (left)', { from: sizes[li], to: mins[li], deficit: deficit });
                     sizes[li] = mins[li];
                     sizes[ri] -= deficit;
                     applySizes({ persist: false });
                 }
                 if (rightStartedMin && sizes[ri] < mins[ri]) {
                     var deficitR = mins[ri] - sizes[ri];
+                    log('pointerup g=' + g + ' CLAMP-TO-MIN (right)', { from: sizes[ri], to: mins[ri], deficit: deficitR });
                     sizes[ri] = mins[ri];
                     sizes[li] -= deficitR;
                     applySizes({ persist: false });
@@ -513,6 +595,7 @@
                 e.preventDefault();
                 // Double-click toggles the nearest minimizable neighbour.
                 var li = leftIdx(), ri = rightIdx();
+                log('dblclick g=' + g, { canMin_li: canMin[li], canMin_ri: canMin[ri] });
                 if (canMin[li]) togglePane(li);
                 else if (canMin[ri]) togglePane(ri);
             });
@@ -570,10 +653,20 @@
         }
 
         function minimizePane(i) {
-            if (!canMin[i] || isMin[i]) return;
+            if (!canMin[i] || isMin[i]) {
+                log('minimizePane i=' + i + ' NOOP', { canMin: canMin[i], isMin: isMin[i] });
+                return;
+            }
             var neighbour = i === 0 ? 1 : (i === N - 1 ? N - 2 : -1);
             if (neighbour < 0) return;
             var combined = sizes[i] + sizes[neighbour];
+            log('minimizePane i=' + i, {
+                neighbour: neighbour,
+                sizes_i: sizes[i],
+                sizes_neighbour: sizes[neighbour],
+                combined: combined,
+                lastNonZero_i_before: lastNonZero[i]
+            });
             isMin[i] = true;
             sizes[i] = railSizePx;
             sizes[neighbour] = combined - railSizePx;
@@ -581,20 +674,33 @@
         }
 
         function restorePane(i) {
-            if (!isMin[i]) return;
+            if (!isMin[i]) {
+                log('restorePane i=' + i + ' NOOP (not minimized)');
+                return;
+            }
             var neighbour = i === 0 ? 1 : (i === N - 1 ? N - 2 : -1);
             if (neighbour < 0) return;
             isMin[i] = false;
             var combined = sizes[i] + sizes[neighbour];
             var target = lastNonZero[i] > 0 ? lastNonZero[i] : Math.max(mins[i], railSizePx * 4);
-            if (target > combined - mins[neighbour]) target = combined - mins[neighbour];
+            var capByNeighbourMin = combined - mins[neighbour];
+            if (target > capByNeighbourMin) target = capByNeighbourMin;
             if (target < mins[i]) target = mins[i];
+            log('restorePane i=' + i, {
+                neighbour: neighbour,
+                lastNonZero_i: lastNonZero[i],
+                combined: combined,
+                capByNeighbourMin: capByNeighbourMin,
+                mins_i: mins[i],
+                target: target
+            });
             sizes[i] = target;
             sizes[neighbour] = combined - target;
             applySizes();
         }
 
         function togglePane(i) {
+            log('togglePane i=' + i, { currentlyMin: isMin[i] });
             if (isMin[i]) restorePane(i);
             else minimizePane(i);
         }
@@ -698,6 +804,7 @@
             var idx = panes.indexOf(pane);
             if (idx < 0) return;
             if (!canMin[idx]) return;
+            log('toggle-button click i=' + idx);
             e.preventDefault();
             e.stopPropagation();
             togglePane(idx);
@@ -707,6 +814,7 @@
         for (var rp = 0; rp < N; rp++) {
             (function (idx) {
                 panes[idx].addEventListener('click', function () {
+                    log('rail click i=' + idx, { isMin: isMin[idx] });
                     if (isMin[idx]) restorePane(idx);
                 });
             })(rp);
@@ -719,6 +827,12 @@
                 var total = resolveConstraints();
                 if (Math.abs(total - lastTotal) < 0.5) return;
                 if (lastTotal <= 0) { lastTotal = total; return; }
+                log('ResizeObserver fire', {
+                    oldTotal: lastTotal,
+                    newTotal: total,
+                    sizesBefore: sizes.slice(),
+                    isMin: isMin.slice()
+                });
                 // Scale only the non-minimized pool. Minimized panes hold at
                 // railSize and don't participate — their fraction of the
                 // container intentionally drifts as the container grows.
