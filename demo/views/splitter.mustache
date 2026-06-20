@@ -612,6 +612,10 @@ PaSplitter.initAll(someContainer);</code></pre>
                             pane.setAttribute('data-pa-splitter-minimize', '');
                         } else {
                             pane.setAttribute('data-pa-splitter-min', '160px');
+                            // Middle panes can now also collapse to rail
+                            // (post-edge-only-restriction lift). The slack
+                            // released splits between both neighbours.
+                            pane.setAttribute('data-pa-splitter-minimize', '');
                         }
 
                         var icon = isFirst ? FIRST_LAST_ICONS.first
@@ -621,9 +625,7 @@ PaSplitter.initAll(someContainer);</code></pre>
                             : isLast ? 'Inspector'
                             : 'Workspace ' + i;
 
-                        var actions = (isFirst || isLast)
-                            ? '<div class="pa-card__actions"><button class="pa-btn pa-btn--ghost pa-btn--sm" title="Minimize" data-pa-splitter-toggle><i class="fa fa-window-minimize"></i></button></div>'
-                            : '';
+                        var actions = '<div class="pa-card__actions"><button class="pa-btn pa-btn--ghost pa-btn--sm" title="Minimize" data-pa-splitter-toggle><i class="fa fa-window-minimize"></i></button></div>';
 
                         var body = isFirst
                             ? '<ul class="pa-list"><li>📁 src/</li><li>📁 demo/</li><li>📄 main.scss</li><li>📄 README.md</li></ul>'
