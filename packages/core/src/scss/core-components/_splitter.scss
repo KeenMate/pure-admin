@@ -72,6 +72,11 @@
 
   // While dragging: kill text selection and transitions, neutralize pane content
   // pointer events so dragging over an iframe/embedded widget doesn't get hijacked.
+  // Only the gutter that's actually being dragged gets the "active" highlight —
+  // siblings stay in their resting state. The JS adds `--active` on the dragged
+  // gutter in pointerdown and removes it in pointerup. Sibling gutters also get
+  // `pointer-events: none` so their `:hover` doesn't fire as the cursor passes
+  // over them during the drag (otherwise they'd light up via hover).
   &--dragging {
     user-select: none;
 
@@ -79,12 +84,29 @@
       pointer-events: none;
     }
 
-    > .pa-splitter__gutter {
-      background-color: $splitter-gutter-active-bg;
+    // Sibling gutters during drag: kill pointer events (no hover firing as
+    // cursor passes over them) AND override any lingering focus-visible
+    // styling (a previous keyboard focus on a non-active gutter would
+    // otherwise look identical to the active state — both colour the
+    // gutter blue).
+    > .pa-splitter__gutter:not(.pa-splitter__gutter--active) {
+      pointer-events: none;
 
-      &::before {
-        background-color: $splitter-gutter-grip-hover-color;
+      &:focus-visible {
+        box-shadow: none;
+
+        &::before {
+          background-color: $splitter-gutter-grip-color;
+        }
       }
+    }
+  }
+
+  &__gutter--active {
+    background-color: $splitter-gutter-active-bg;
+
+    &::before {
+      background-color: $splitter-gutter-grip-hover-color;
     }
   }
 
