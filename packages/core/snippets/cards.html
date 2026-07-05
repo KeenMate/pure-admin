@@ -152,13 +152,37 @@
 </div>
 
 
-<!-- CARD WITH ACTIONS IN HEADER -->
+<!-- CARD WITH ACTIONS IN HEADER
+     .pa-card__actions is THE canonical wrapper for header controls: it is a
+     documented card sub-element, carries its own gap + vertical centering, and
+     the header flex rules pin it to flex-shrink: 0 so it never gets squeezed.
+     Reach for this by default. -->
 <div class="pa-card">
   <div class="pa-card__header">
     <h3>Card with Actions</h3>
-    <div class="pa-btn-group">
+    <div class="pa-card__actions">
       <button class="pa-btn pa-btn--sm pa-btn--secondary">Cancel</button>
       <button class="pa-btn pa-btn--sm pa-btn--success">Save</button>
+    </div>
+  </div>
+  <div class="pa-card__body">Card content.</div>
+</div>
+
+<!-- …want the SEGMENTED (joined-corner) button look? Nest .pa-btn-group
+     INSIDE .pa-card__actions. Don't use .pa-btn-group as the direct header
+     child — it's a general-purpose button-cluster component, not the card's
+     actions slot; putting it straight in the header only "works" because the
+     header happens to also pin .pa-btn-group to flex-shrink: 0, and it drags
+     the attached-button styling in whether you want it or not. -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Card with Segmented Actions</h3>
+    <div class="pa-card__actions">
+      <div class="pa-btn-group">
+        <button class="pa-btn pa-btn--sm pa-btn--secondary">Day</button>
+        <button class="pa-btn pa-btn--sm pa-btn--secondary">Week</button>
+        <button class="pa-btn pa-btn--sm pa-btn--secondary">Month</button>
+      </div>
     </div>
   </div>
   <div class="pa-card__body">Card content.</div>
@@ -480,8 +504,14 @@ SUB-ELEMENTS:
                                reset so they inherit the header layout cleanly.
 - .pa-card__body               flex: 1; standard padding.
 - .pa-card__footer             Border-top + footer background; flex row.
-- .pa-card__actions            Button/control container (gap + align-center).
-                               flex-shrink: 0 inside header.
+- .pa-card__actions            THE canonical header actions slot. Button/
+                               control container (gap + align-center);
+                               flex-shrink: 0 inside header. Use this for any
+                               set of header controls. For the segmented
+                               (joined-corner) look, nest a .pa-btn-group
+                               INSIDE it — don't put .pa-btn-group straight in
+                               the header (it's a generic button cluster, not
+                               the actions slot).
 - .pa-card__meta               Muted secondary text (dates, byline, etc.).
 
 TITLE SUB-COMPONENT:

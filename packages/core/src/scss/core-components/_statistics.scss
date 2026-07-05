@@ -118,6 +118,7 @@
     padding: $spacing-lg;
     min-height: $stat-square-min-size;
     min-width: $stat-square-min-size;
+    max-height: $stat-square-max-height;   // keep full-width tiles from growing into page-dominating banners
     position: relative;
     border-radius: var(--pa-border-radius);
     box-shadow: $shadow-md;
@@ -183,6 +184,17 @@
     &.pa-stat--warning {
       background-color: var(--pa-warning-bg);
       color: var(--pa-btn-warning-text);
+
+      // Warning is the one square variant with DARK text (on a light amber
+      // surface). The number's default black text-shadow + drop-shadow stack is
+      // tuned for the white-text variants; against a dark glyph it has no
+      // contrast and smears into an "ink-blot" halo. Dial it to a whisper and
+      // drop the costly drop-shadow layer. Covers classic AND fit mode, since
+      // both render the number through .pa-stat__number.
+      .pa-stat__number {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, $opacity-light);
+        filter: none;
+      }
     }
 
     &.pa-stat--danger {
@@ -193,6 +205,175 @@
     &.pa-stat--secondary {
       background-color: var(--pa-text-color-2);
       color: var(--pa-btn-primary-text);
+    }
+
+    // Compact half-height variant — same layout & colour modifiers, tighter
+    // metrics. Use for dense full-width stat strips where the full square reads
+    // as an oversized banner.
+    &.pa-stat--square-sm {
+      padding: $stat-square-sm-padding;
+      min-height: $stat-square-sm-min-size;
+      max-height: $stat-square-sm-max-height;
+      min-width: $stat-square-sm-min-size;   // shrink to fit narrow KPI columns instead of overflowing + overlapping the neighbour
+
+      .pa-stat__number {
+        font-size: clamp($stat-square-sm-number-min, $stat-square-sm-number-scale, $stat-square-sm-number-max);
+      }
+
+      .pa-stat__symbol {
+        font-size: clamp($stat-square-sm-symbol-min, $stat-square-sm-symbol-scale, $stat-square-sm-symbol-max);
+      }
+    }
+
+    // ----------------------------------------------------------------
+    // FIT + PROGRESSIVE DISCLOSURE mode  (opt-in: [data-pa-stat-fit])
+    // The number is sized to fill the tile by pa-stat-fit.js, which also
+    // wraps __number + __symbol into a __slot > __group at runtime. Lower-
+    // priority rows (label → change → context) reveal as the tile earns
+    // both width and height.
+    //
+    // REQUIRES A HEIGHT SOURCE on the tile (grid cell with a set height,
+    // explicit height, or aspect-ratio): container-type: size makes the
+    // box size independently of its content, so without a height it falls
+    // back to the $stat-square-min-size floor.
+    // ----------------------------------------------------------------
+    &[data-pa-stat-fit] {
+      container-type: size;
+      container-name: #{$stat-square-fit-container-name};
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-content: stretch;
+      align-items: stretch;
+      max-height: none;          // fit height is container-driven; undo the base cap.
+                                 // min-height (the base $stat-square-min-size) stays as
+                                 // the default height when none is set + collapse floor.
+
+      // __slot grows to take the room not used by the metadata rows; the
+      // number is fit into it. ResizeObserver watches this element.
+      .pa-stat__slot {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      // font-size is set inline (px) on __group by the JS; children scale via em.
+      .pa-stat__group {
+        display: inline-flex;
+        align-items: baseline;
+        column-gap: $stat-square-symbol-gap;
+        line-height: 1;
+        white-space: nowrap;
+        font-weight: $font-weight-bold;
+
+        .pa-stat__number { font-size: 1em; }
+        .pa-stat__symbol {
+          font-size: #{$stat-square-fit-symbol-ratio}em;
+          opacity: $stat-symbol-opacity;
+        }
+      }
+
+      // pa-stat-fit.js wraps the metadata rows into this column so the whole
+      // group can move beside the number in the horizontal (banner) layout.
+      // The number is the HERO; the metadata is subordinate — pa-stat-fit.js sets
+      // this column's font-size to a small fraction of the fitted number size
+      // (META_RATIO), so the rows below stay "supersmall" relative to the number at
+      // every tile size. The rows are em-relative so that one font-size cascades to
+      // all three. The value here is only the no-JS fallback.
+      .pa-stat__meta {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;            // let children ellipsis instead of overflowing
+        flex: 0 0 auto;          // vertical layout: natural height below the slot
+        font-size: $stat-square-fit-meta-size;   // JS overrides inline (px); this is the fallback
+      }
+
+      // metadata rows sit below the slot, each on its own line — all em-relative to
+      // __meta's (JS-driven) font-size so they scale with the hero number.
+      .pa-stat__label {
+        flex: 0 0 auto;          // undo the base square's flex-basis:100%
+        margin-top: 0.35em;
+        font-size: 1em;          // the meta base — the largest metadata line
+      }
+      .pa-stat__change {
+        flex: 0 0 auto;
+        margin-top: 0.35em;
+        font-size: 0.9em;
+        font-weight: $font-weight-semibold;
+        line-height: 1.2;
+        color: inherit;          // default to the tile's text colour…
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        // …opt-in sentiment tints (same scale as the hero variant's __change)
+        &--positive { color: var(--pa-positive); }
+        &--neutral  { color: var(--pa-neutral); }
+        &--negative { color: var(--pa-negative); }
+      }
+      .pa-stat__context {
+        flex: 0 0 auto;
+        margin-top: 0.35em;
+        font-size: 0.8em;
+        opacity: 0.7;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      // ---- priority ladder: P0 number always; reveal P1–P4 with space ----
+      .pa-stat__symbol,
+      .pa-stat__label,
+      .pa-stat__change,
+      .pa-stat__context { display: none; }
+
+      @container #{$stat-square-fit-container-name} (min-width: #{$stat-square-fit-symbol-min-w}) and (min-height: #{$stat-square-fit-symbol-min-h}) {
+        .pa-stat__symbol { display: inline; }
+      }
+      @container #{$stat-square-fit-container-name} (min-width: #{$stat-square-fit-label-min-w}) and (min-height: #{$stat-square-fit-label-min-h}) {
+        .pa-stat__label { display: block; }
+      }
+      @container #{$stat-square-fit-container-name} (min-width: #{$stat-square-fit-change-min-w}) and (min-height: #{$stat-square-fit-change-min-h}) {
+        .pa-stat__change { display: block; }
+      }
+      @container #{$stat-square-fit-container-name} (min-width: #{$stat-square-fit-context-min-w}) and (min-height: #{$stat-square-fit-context-min-h}) {
+        .pa-stat__context { display: block; }
+      }
+
+      // ---- HORIZONTAL "banner" layout for wide tiles ----
+      // Toggled by pa-stat-fit.js (.pa-stat--fit-wide) when the tile is at least
+      // $stat-square-fit-horizontal-min-w wide. This CANNOT be a `@container`
+      // query: the tile is its own size container, and a container query only
+      // restyles a container's DESCENDANTS — never the container element itself,
+      // so the tile's own `flex-direction` would never flip. A JS class on the
+      // tile sidesteps that.
+      //
+      // Number on the LEFT (__slot is first in DOM → first flex item), filling
+      // the height so it stays big; the metadata column sits to its RIGHT,
+      // vertically centred. All meta rows are revealed here regardless of height
+      // — stacked beside the number they don't need vertical room — so a short
+      // wide banner still shows trend + context.
+      &.pa-stat--fit-wide {
+        flex-direction: row;
+        align-items: stretch;
+        column-gap: $spacing-lg;
+
+        .pa-stat__slot {
+          flex: 0 0 #{$stat-square-fit-number-width};
+          min-width: 0;                // never let the number push past its column
+          justify-content: center;     // centre the number within its column
+        }
+        .pa-stat__meta {
+          flex: 1 1 auto;
+          min-width: 0;                // allow the rows to ellipsis
+          justify-content: center;     // centre the rows vertically beside the number
+        }
+        .pa-stat__symbol { display: inline; }
+        .pa-stat__label,
+        .pa-stat__change,
+        .pa-stat__context { display: block; }
+      }
     }
   }
 }

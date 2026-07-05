@@ -414,6 +414,10 @@ app.get('/components/splitter', (req, res) => {
     renderWithLayout(res, 'splitter', { pageTitle: 'Splitter', currentPage: 'splitter', isSplitter: true });
 });
 
+app.get('/components/overflow', (req, res) => {
+    renderWithLayout(res, 'overflow', { pageTitle: 'Overflow', currentPage: 'overflow', isOverflow: true });
+});
+
 app.get('/components/data-display', (req, res) => {
     renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
 });
@@ -513,6 +517,10 @@ app.get('/virtual-scroll/code', (req, res) => {
 // Showcases
 app.get('/showcases/kpi-dashboard', (req, res) => {
     renderWithLayout(res, 'kpi-dashboard', { pageTitle: 'KPI Dashboard', currentPage: 'kpi-dashboard', isKpiDashboard: true });
+});
+
+app.get('/showcases/stat-fit-lab', (req, res) => {
+    renderWithLayout(res, 'stat-fit-lab', { pageTitle: 'Stat Fit Lab', currentPage: 'stat-fit-lab', isStatFitLab: true });
 });
 
 app.get('/showcases/movies', (req, res) => {
@@ -651,9 +659,11 @@ app.use('/src/scss', express.static(path.join(corePackagePath, 'src', 'scss'), {
     maxAge: 120000 // 2 minutes
 }));
 
-// JavaScript files from demo (local)
+// JavaScript files from demo (local) — no-cache + revalidate so edits show up on a
+// normal reload instead of surviving 2 minutes and masquerading as "the fix didn't work".
 app.use('/src/js', express.static(path.join(__dirname, 'js'), {
-    maxAge: 120000 // 2 minutes
+    maxAge: 0,
+    etag: true
 }));
 
 // Assets (images, icons) from demo (local)

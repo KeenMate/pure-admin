@@ -10,12 +10,10 @@
      by packages/core/src/js/splitter.js. The script auto-initializes on
      [data-pa-splitter] at DOMContentLoaded.
 
-     Two markup flavours:
-       * 2-pane shorthand — uses --start / --end modifiers and root-level
-         min-start / max-start / default attributes (sections 1–3 below).
-       * N-pane (N ≥ 2) — generic panes with per-pane size / min / max
-         attributes (section 4 below). Use this when you have 3+ panes
-         or want more than one minimizable pane.
+     Markup model: panes and gutters alternate (pane, gutter, pane, gutter,
+     …, pane). Each pane carries its own sizing attributes — there's no
+     "start" / "end" shorthand, every pane is generic. Works for any
+     N ≥ 2.
 
      Orientation modifiers (match flexbox direction of the panes):
        --horizontal   panes side-by-side, vertical gutter (default)
@@ -28,33 +26,34 @@
 
 
 <!-- ================================
-     HORIZONTAL SPLIT
-     Side-by-side panes; vertical gutter. Start pane has a 200px floor
-     and 60% ceiling, defaults to 280px, persists under "demo-sidebar".
+     HORIZONTAL SPLIT (2 panes)
+     Side-by-side panes; vertical gutter. The first pane has a 200px
+     floor and 60% ceiling, defaults to 280px; the second pane absorbs
+     the leftover. Persists under "demo-sidebar".
      ================================ -->
 
 <div class="pa-splitter pa-splitter--horizontal"
      data-pa-splitter
      data-pa-splitter-id="demo-sidebar"
-     data-pa-splitter-min-start="200px"
-     data-pa-splitter-max-start="60%"
-     data-pa-splitter-default="280px"
      style="height: 400px;">
-    <div class="pa-splitter__pane pa-splitter__pane--start">
+    <div class="pa-splitter__pane"
+         data-pa-splitter-size="280px"
+         data-pa-splitter-min="200px"
+         data-pa-splitter-max="60%">
         <!-- Your sidebar / list / nav content -->
     </div>
     <div class="pa-splitter__gutter"
          role="separator"
          aria-orientation="vertical"
          tabindex="0"></div>
-    <div class="pa-splitter__pane pa-splitter__pane--end">
-        <!-- Your main / detail content -->
+    <div class="pa-splitter__pane">
+        <!-- Your main / detail content (absorbs the leftover) -->
     </div>
 </div>
 
 
 <!-- ================================
-     VERTICAL SPLIT
+     VERTICAL SPLIT (2 panes)
      Stacked panes; horizontal gutter. Useful for editor + console / log
      pane patterns.
      ================================ -->
@@ -62,18 +61,18 @@
 <div class="pa-splitter pa-splitter--vertical"
      data-pa-splitter
      data-pa-splitter-id="demo-console"
-     data-pa-splitter-min-start="80px"
-     data-pa-splitter-max-start="80%"
-     data-pa-splitter-default="60%"
      style="height: 400px;">
-    <div class="pa-splitter__pane pa-splitter__pane--start">
+    <div class="pa-splitter__pane"
+         data-pa-splitter-size="60%"
+         data-pa-splitter-min="80px"
+         data-pa-splitter-max="80%">
         <!-- Editor / primary content -->
     </div>
     <div class="pa-splitter__gutter"
          role="separator"
          aria-orientation="horizontal"
          tabindex="0"></div>
-    <div class="pa-splitter__pane pa-splitter__pane--end">
+    <div class="pa-splitter__pane">
         <!-- Console / log / secondary -->
     </div>
 </div>
@@ -90,14 +89,18 @@
 <div class="pa-splitter pa-splitter--horizontal"
      data-pa-splitter
      style="height: 280px; gap: 1.6rem; --pa-splitter-gutter-size: 1rem;">
-    <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+    <div class="pa-splitter__pane"
+         data-pa-splitter-size="40%"
+         data-pa-splitter-min="25%"
+         data-pa-splitter-max="75%"
+         style="padding: 0;">
         <div class="pa-card" style="height: 100%; margin: 0;">…</div>
     </div>
     <div class="pa-splitter__gutter"
          role="separator"
          aria-orientation="vertical"
          tabindex="0"></div>
-    <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+    <div class="pa-splitter__pane" style="padding: 0;">
         <div class="pa-card" style="height: 100%; margin: 0;">…</div>
     </div>
 </div>
@@ -105,8 +108,8 @@
 
 <!-- ================================
      N-PANE LAYOUT (3 panes — sidebar + content + inspector)
-     Per-pane attributes replace the root-level --start ones. Only the
-     first and last panes honour the minimize marker. Panes without a
+     Per-pane attributes drive sizing. The first and last panes opt into
+     rail collapse via the minimize marker. Panes without a
      data-pa-splitter-size share the leftover equally.
      ================================ -->
 
@@ -144,7 +147,7 @@
 
 
 <!-- ================================
-     DATA ATTRIBUTES — root (both modes)
+     DATA ATTRIBUTES — root
        data-pa-splitter                     marker; required
        data-pa-splitter-id                  enables localStorage persistence
                                             under "pa-splitter:<id>"
@@ -152,25 +155,22 @@
        data-pa-splitter-rail-size           rail width in px (default: 40)
        data-pa-splitter-minimize-threshold  drag-to-rail snap ratio (default: 0.40)
 
-     DATA ATTRIBUTES — root (legacy 2-pane only)
-       data-pa-splitter-min-start   "200px" or "20%" (default: 0)
-       data-pa-splitter-max-start   "60%" or "800px" (default: available)
-       data-pa-splitter-default     initial size when no saved state
-       data-pa-splitter-minimize    "start" or "end" — opt into rail collapse
-
-     DATA ATTRIBUTES — per pane (N-pane only)
+     DATA ATTRIBUTES — per pane
        data-pa-splitter-size        "240px" or "30%" (default: shared leftover)
        data-pa-splitter-min         "150px" or "10%" (default: 0)
        data-pa-splitter-max         "400px" or "50%" (default: available)
-       data-pa-splitter-minimize    marker — only honoured on the first
-                                    and last panes
+       data-pa-splitter-minimize    marker — pane can collapse to a rail.
+                                    First / last panes dock against the
+                                    container edge; middle panes collapse
+                                    in place and split released slack
+                                    between both neighbours.
 
-     CHILD ATTRIBUTES (both modes)
+     CHILD ATTRIBUTES
        data-pa-splitter-toggle      put on any element inside the splitter
                                     (typically a button in the card header)
                                     to trigger collapse / restore on click.
-                                    In N-pane mode, toggles the enclosing
-                                    pane (if it's minimizable).
+                                    Toggles the enclosing pane if it's
+                                    minimizable.
 
      RAIL-TITLE HOOK (non-card content)
        Any element marked with `[data-pa-splitter-rail-title]` inside a
@@ -202,6 +202,12 @@
                                     (transform: scale(-1,-1) on the heading
                                      inside any `[data-pa-splitter-rail-title]`
                                      or `.pa-card__header`)
+       pa-splitter--accordion       (auto, JS-managed) added when the
+                                    container is narrower than the sum of
+                                    all pane mins + gutters/gaps/padding
+                                    AND there are 2+ minimizable panes.
+                                    While active, restoring one pane
+                                    auto-rails the others.
 
      JAVASCRIPT API (window.PaSplitter)
        PaSplitter.init(el)          initialize a single element (idempotent)

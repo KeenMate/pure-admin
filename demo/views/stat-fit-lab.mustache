@@ -1,0 +1,301 @@
+<!-- ============================================================
+     pa-stat — fit & priority LAB  (prototype, not framework code)
+     Prototypes: (1) container-query priority disclosure,
+                 (2) JS fit-to-box for the primary number,
+                 (3) why pure cqi can't guarantee the fit.
+     All styles/scripts are scoped with the `sfl-` prefix so nothing
+     leaks into the framework. Port the winning bits into
+     core-components/_statistics.scss once the behaviour is agreed.
+     ============================================================ -->
+
+<style>
+  /* ---------- THE TILE (the bit we're prototyping) ---------- */
+  .sfl-tile{
+    container-type:size;            /* width AND height @container queries */
+    container-name:sfltile;
+    display:flex; flex-direction:column;
+    padding:1.4rem 1.6rem;
+    border-radius:1rem;
+    color:#fff;
+    box-shadow:0 4px 10px rgba(0,0,0,.18);
+    overflow:hidden;                /* required for resize handle + clipping */
+  }
+  .sfl-tile--primary  { background:var(--pa-accent); }
+  .sfl-tile--success  { background:var(--pa-success-bg); }
+  .sfl-tile--info     { background:var(--pa-info-bg); }
+  .sfl-tile--secondary{ background:var(--pa-text-color-2); }
+  .sfl-tile--danger   { background:var(--pa-danger-bg); }
+
+  /* slot = space the number may fill. flex:1 → grows when the label hides.
+     The ResizeObserver watches THIS element. */
+  .sfl-slot{
+    flex:1 1 auto; min-height:0;
+    display:flex; align-items:center; justify-content:flex-start;
+  }
+  /* number + symbol move as one unit; JS sets font-size on .sfl-group,
+     children use em so the symbol tracks the number. */
+  .sfl-group{
+    white-space:nowrap; line-height:1;
+    display:inline-flex; align-items:baseline; gap:.12em;
+    font-weight:800;
+  }
+  .sfl-group .sfl-num{ font-size:1em; }
+  .sfl-group .sfl-sym{ font-size:.5em; font-weight:700; opacity:.85; }
+
+  .sfl-label{
+    margin-top:.8rem;
+    font-size:1.2rem; font-weight:600; text-transform:uppercase; letter-spacing:.05em;
+    opacity:.85; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .sfl-change{
+    margin-top:.4rem; font-size:1.3rem; font-weight:700; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis;
+  }
+  .sfl-change--up::before{ content:"▲ "; }
+  .sfl-context{
+    margin-top:.4rem; font-size:1.1rem; font-weight:500; opacity:.7; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis;
+  }
+
+  /* ---------- PRIORITY DISCLOSURE (pure CSS, container queries) ----------
+     Reveal-based ladder. Everything below P0 is hidden by default and
+     REVEALED as the container earns enough width AND height. Drop order
+     (shrinking) is the reverse: context → trend → label → symbol → number.
+     Gated on BOTH dimensions so a wide-but-short banner doesn't show the
+     tall-only tiers. Tune the rem thresholds live. */
+  .sfl-tile .sfl-sym,
+  .sfl-tile .sfl-label,
+  .sfl-tile .sfl-change,
+  .sfl-tile .sfl-context{ display:none; }       /* P0 number only by default */
+
+  @container sfltile (min-width: 8rem) and (min-height: 4.5rem){
+    .sfl-tile .sfl-sym{ display:inline; }        /* + P1 symbol */
+  }
+  @container sfltile (min-width: 13rem) and (min-height: 6.5rem){
+    .sfl-tile .sfl-label{ display:block; }        /* + P2 label */
+  }
+  @container sfltile (min-width: 18rem) and (min-height: 9.5rem){
+    .sfl-tile .sfl-change{ display:block; }       /* + P3 trend */
+  }
+  @container sfltile (min-width: 24rem) and (min-height: 13rem){
+    .sfl-tile .sfl-context{ display:block; }      /* + P4 context */
+  }
+
+  /* ---------- lab chrome ---------- */
+  .sfl-playground{ display:flex; gap:2.4rem; flex-wrap:wrap; align-items:flex-start; }
+  .sfl-resizable{ resize:both; overflow:hidden; min-width:4.8rem; min-height:4rem; width:40rem; height:22rem; }
+  .sfl-tiers{ margin-top:.4rem; font-size:1.2rem; }
+  .sfl-tiers .on{ color:var(--pa-success-bg); font-weight:700; }
+  .sfl-tiers .off{ color:var(--pa-text-color-2); text-decoration:line-through; opacity:.6; }
+  .sfl-dims{ font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--pa-text-color-2); margin-top:.8rem; }
+  .sfl-controls{ margin-top:1rem; display:flex; gap:.8rem; flex-wrap:wrap; }
+
+  .sfl-matrix{ display:flex; gap:1.6rem; flex-wrap:wrap; align-items:flex-start; }
+  .sfl-matrix figure{ margin:0; }
+  .sfl-matrix figcaption{ font-family:ui-monospace,monospace; font-size:1.2rem; color:var(--pa-text-color-2); margin-top:.6rem; text-align:center; }
+  .sfl-lg{ width:30rem; height:14rem; } .sfl-md{ width:20rem; height:9.6rem; }
+  .sfl-sm{ width:13rem; height:7rem; }  .sfl-xs{ width:7.8rem; height:4.8rem; } .sfl-banner{ width:52rem; height:8rem; }
+
+  /* cqi comparison (pure CSS, no JS) */
+  .sfl-cqi{
+    container-type:inline-size;
+    display:flex; align-items:center; justify-content:flex-start;
+    padding:1.4rem 1.6rem; border-radius:1rem; color:#fff; background:var(--pa-text-color-2); overflow:hidden;
+    width:16rem; height:9rem;
+  }
+  .sfl-cqi .sfl-num{ font-size:clamp(2rem, 42cqi, 20rem); font-weight:800; line-height:1; white-space:nowrap; }
+</style>
+
+<p class="mb-4">
+  Prototyping <strong>priority disclosure + fit-to-box</strong> for <code>pa-stat--square</code> before touching the framework.
+  Primary number = <code>P0</code> (always shown, maxed, never overflows) → symbol <code>P1</code> → label <code>P2</code>.
+  All styles/scripts here are <code>sfl-</code> scoped and throwaway.
+</p>
+
+<!-- 1 · PLAYGROUND -->
+<div class="pa-card mb-4">
+  <div class="pa-card__header"><h3 class="pa-card__title">1 · Playground — drag the bottom-right corner</h3></div>
+  <div class="pa-card__body">
+    <p class="text-muted mb-3">Resize to <strong>any</strong> width/height. The label drops, then the symbol, while the number always
+       fits and stays as large as possible. Swap content to confirm it's char-count independent.</p>
+    <div class="sfl-playground">
+      <div>
+        <div class="sfl-tile sfl-tile--success sfl-resizable" id="sflPlay">
+          <div class="sfl-slot">
+            <span class="sfl-group"><span class="sfl-sym">$</span><span class="sfl-num">847K</span></span>
+          </div>
+          <div class="sfl-label">Monthly Revenue</div>
+          <div class="sfl-change sfl-change--up">12.5% vs last month</div>
+          <div class="sfl-context">Updated 2 min ago · FY2026 Q2</div>
+        </div>
+        <div class="sfl-dims" id="sflPlayDims">—</div>
+        <div class="sfl-tiers" id="sflPlayTiers">—</div>
+        <div class="sfl-controls">
+          <button class="pa-btn pa-btn--sm pa-btn--outline-secondary" data-num="1" data-sym="">1</button>
+          <button class="pa-btn pa-btn--sm pa-btn--outline-secondary" data-num="92" data-sym="">92</button>
+          <button class="pa-btn pa-btn--sm pa-btn--outline-secondary" data-num="847K" data-sym="$" data-pre="1">$847K</button>
+          <button class="pa-btn pa-btn--sm pa-btn--outline-secondary" data-num="12.4M" data-sym="¥" data-pre="1">¥12.4M</button>
+          <button class="pa-btn pa-btn--sm pa-btn--outline-secondary" data-num="100" data-sym="%">100%</button>
+          <button class="pa-btn pa-btn--sm pa-btn--outline-secondary" data-num="23" data-sym="°C">23°C</button>
+        </div>
+      </div>
+      <div class="text-muted" style="max-width:30rem">
+        <p class="mb-1"><strong>What to look for</strong></p>
+        <ul style="padding-left:1.8rem;margin:.6rem 0;">
+          <li>Grow the box → tiers appear in priority order:
+              <code>number → symbol → label → trend → context</code>.</li>
+          <li>Shrink it → they drop in reverse. The live readout below the tile
+              shows which tiers are currently on.</li>
+          <li>Disclosure needs <strong>both</strong> enough width and height — a wide
+              but short banner won't show the tall-only tiers (trend / context).</li>
+          <li>The number always fits and stays maxed, whatever survives around it.</li>
+          <li>Swap content → fit is char-count independent.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 1b · REAL COMPONENT -->
+<div class="pa-card mb-4">
+  <div class="pa-card__header"><h3 class="pa-card__title">1b · Real component — <code>pa-stat--square[data-pa-stat-fit]</code></h3></div>
+  <div class="pa-card__body">
+    <p class="text-muted mb-3">
+      The actual framework component (theme CSS + <code>pa-stat-fit.js</code>), not the <code>sfl-</code> prototype.
+      Minimal authored markup — the JS wraps <code>__number</code> + <code>__symbol</code> into the fit group at runtime.
+      Drag the corner; behaviour should match the playground above.
+    </p>
+    <div class="pa-stat pa-stat--square pa-stat--info" data-pa-stat-fit
+         style="resize:both; overflow:hidden; width:40rem; height:22rem; min-width:5rem; min-height:4rem; max-height:none;">
+      <span class="pa-stat__symbol">$</span>
+      <span class="pa-stat__number">847K</span>
+      <div class="pa-stat__label">Monthly Revenue</div>
+      <div class="pa-stat__change pa-stat__change--positive">▲ 12.5% vs last month</div>
+      <div class="pa-stat__context">Updated 2 min ago · FY2026 Q2</div>
+    </div>
+    <p class="text-muted mt-3 mb-0" style="font-size:1.2rem">
+      Authored markup (5 children, flat — JS does the wrapping):
+    </p>
+<pre class="pa-code" style="margin-top:.6rem"><code>&lt;div class="pa-stat pa-stat--square pa-stat--info" data-pa-stat-fit&gt;
+  &lt;span class="pa-stat__symbol"&gt;$&lt;/span&gt;
+  &lt;span class="pa-stat__number"&gt;847K&lt;/span&gt;
+  &lt;div class="pa-stat__label"&gt;Monthly Revenue&lt;/div&gt;
+  &lt;div class="pa-stat__change pa-stat__change--positive"&gt;▲ 12.5% vs last month&lt;/div&gt;
+  &lt;div class="pa-stat__context"&gt;Updated 2 min ago&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+
+<!-- 2 · FIXED-SIZE MATRIX -->
+<div class="pa-card mb-4">
+  <div class="pa-card__header"><h3 class="pa-card__title">2 · Fixed-size matrix — eyeball the disclosure tiers</h3></div>
+  <div class="pa-card__body">
+    <p class="text-muted mb-3">Identical content at decreasing box sizes. Note where label / symbol drop, and that the number is always maxed.</p>
+    <div class="sfl-matrix">
+      <figure><div class="sfl-tile sfl-tile--info sfl-lg">    <div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Monthly Revenue</div></div><figcaption>300×140 (lg)</figcaption></figure>
+      <figure><div class="sfl-tile sfl-tile--info sfl-md">    <div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Monthly Revenue</div></div><figcaption>200×96 (md)</figcaption></figure>
+      <figure><div class="sfl-tile sfl-tile--info sfl-sm">    <div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Monthly Revenue</div></div><figcaption>130×70 (sm)</figcaption></figure>
+      <figure><div class="sfl-tile sfl-tile--info sfl-xs">    <div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Monthly Revenue</div></div><figcaption>78×48 (xs)</figcaption></figure>
+      <figure><div class="sfl-tile sfl-tile--info sfl-banner"><div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Monthly Revenue</div></div><figcaption>520×80 (banner)</figcaption></figure>
+    </div>
+  </div>
+</div>
+
+<!-- 3 · CHAR-COUNT INDEPENDENCE -->
+<div class="pa-card mb-4">
+  <div class="pa-card__header"><h3 class="pa-card__title">3 · Char-count independence — same box, different content</h3></div>
+  <div class="pa-card__body">
+    <p class="text-muted mb-3">All <code>200×96</code>. With JS fit each number fills its box at the max size that fits — regardless of character count.</p>
+    <div class="sfl-matrix">
+      <figure><div class="sfl-tile sfl-tile--secondary sfl-md"><div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">1</span></span></div><div class="sfl-label">Res Version</div></div><figcaption>"1"</figcaption></figure>
+      <figure><div class="sfl-tile sfl-tile--secondary sfl-md"><div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">92</span></span></div><div class="sfl-label">Contracts</div></div><figcaption>"92"</figcaption></figure>
+      <figure><div class="sfl-tile sfl-tile--secondary sfl-md"><div class="sfl-slot"><span class="sfl-group"><span class="sfl-num">847K</span><span class="sfl-sym">$</span></span></div><div class="sfl-label">Revenue</div></div><figcaption>"847K$"</figcaption></figure>
+      <figure><div class="sfl-tile sfl-tile--secondary sfl-md"><div class="sfl-slot"><span class="sfl-group"><span class="sfl-sym">¥</span><span class="sfl-num">12.4M</span></span></div><div class="sfl-label">Tokyo Office</div></div><figcaption>"¥12.4M"</figcaption></figure>
+    </div>
+  </div>
+</div>
+
+<!-- 4 · WHY PURE CQI CAN'T DO IT -->
+<div class="pa-card mb-4">
+  <div class="pa-card__header"><h3 class="pa-card__title">4 · Why pure <code>cqi</code> can't do it</h3></div>
+  <div class="pa-card__body">
+    <p class="text-muted mb-3">Both boxes are <code>160×90</code> with a pure-CSS <code>clamp(2rem, 42cqi, 20rem)</code> font.
+       Short content is fine; longer content <strong>overflows</strong> — the font size knows the box width but not the character count.</p>
+    <div class="sfl-matrix">
+      <figure><div class="sfl-cqi"><span class="sfl-num">92</span></div><figcaption>cqi · "92" ✓</figcaption></figure>
+      <figure><div class="sfl-cqi"><span class="sfl-num">847K</span></div><figcaption>cqi · "847K" ~</figcaption></figure>
+      <figure><div class="sfl-cqi"><span class="sfl-num">12.4M</span></div><figcaption>cqi · "12.4M" ✗ spills</figcaption></figure>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    /* fit-to-box: size the .sfl-group so it fills .sfl-slot, never overflows */
+    var SAFETY = 0.92, BASE = 200;
+
+    function fit(slot){
+      var group = slot.querySelector('.sfl-group');
+      if(!group) return;
+      group.style.fontSize = BASE + 'px';
+      var gw = group.offsetWidth, gh = group.offsetHeight;
+      var sw = slot.clientWidth, sh = slot.clientHeight;
+      if(!gw || !gh || !sw || !sh) return;
+      var scale = Math.min(sw / gw, sh / gh) * SAFETY;
+      group.style.fontSize = (BASE * scale) + 'px';
+    }
+
+    // Re-fit on any slot size change. Hiding the label (container query) grows
+    // the slot → fires here → number re-maxes. The same tile-resize event also
+    // hides the symbol, so the measure already reflects the dropped symbol.
+    var ro = new ResizeObserver(function(entries){
+      entries.forEach(function(e){ fit(e.target); });
+    });
+    document.querySelectorAll('.sfl-slot').forEach(function(s){ ro.observe(s); });
+
+    /* playground: live dims + visible-tier readout */
+    var play = document.getElementById('sflPlay');
+    var dims = document.getElementById('sflPlayDims');
+    var tiers = document.getElementById('sflPlayTiers');
+    if(play && dims){
+      // priority order, highest-priority first (number always on)
+      var TIERS = [
+        { label:'P0 number',  sel:'.sfl-num' },
+        { label:'P1 symbol',  sel:'.sfl-sym' },
+        { label:'P2 label',   sel:'.sfl-label' },
+        { label:'P3 trend',   sel:'.sfl-change' },
+        { label:'P4 context', sel:'.sfl-context' }
+      ];
+      function renderTiers(){
+        if(!tiers) return;
+        tiers.innerHTML = TIERS.map(function(t){
+          var el = play.querySelector(t.sel);
+          var on = el && getComputedStyle(el).display !== 'none';
+          return '<span class="' + (on ? 'on' : 'off') + '">' + t.label + '</span>';
+        }).join('  ·  ');
+      }
+      new ResizeObserver(function(){
+        var r = play.getBoundingClientRect();
+        dims.textContent = Math.round(r.width) + ' × ' + Math.round(r.height) + ' px';
+        renderTiers();
+      }).observe(play);
+
+      /* playground: content switcher */
+      var slotEl = play.querySelector('.sfl-slot');
+      var groupEl = play.querySelector('.sfl-group');
+      var numEl = play.querySelector('.sfl-num');
+      var symEl = play.querySelector('.sfl-sym');
+      play.parentElement.querySelectorAll('.sfl-controls button').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          numEl.textContent = btn.dataset.num;
+          var sym = btn.dataset.sym || '';
+          symEl.textContent = sym;
+          symEl.style.display = sym ? '' : 'none';
+          if(btn.dataset.pre) groupEl.prepend(symEl); else groupEl.append(symEl);
+          fit(slotEl);
+          renderTiers();
+        });
+      });
+    }
+  })();
+</script>

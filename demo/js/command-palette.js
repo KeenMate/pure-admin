@@ -120,6 +120,55 @@
       );
     };
 
+    // ── Go-to-page list — derived from the sidebar nav so it never drifts ──
+    // The sidebar (rendered on every page) is the canonical navigation, so
+    // scraping it here means new / renamed / removed routes show up in the
+    // palette automatically — no hand-maintained list, no build step. Hash-only
+    // demo links (#test1, Level 1.x placeholders) and duplicates are skipped.
+    let pageListCache = null;
+    function getPages() {
+      if (pageListCache) return pageListCache;
+
+      const pages = [];
+      const seen = new Set();
+      const links = document.querySelectorAll('.pa-layout__sidebar .pa-sidebar__link[href]');
+
+      links.forEach((link) => {
+        const href = (link.getAttribute('href') || '').trim();
+        if (!href || href.charAt(0) === '#') return; // skip anchor-only demo items
+        const path = href.split('?')[0].split('#')[0]; // normalise for dedupe
+        if (seen.has(path)) return;
+        seen.add(path);
+
+        const labelEl = link.querySelector('.pa-sidebar__label');
+        const label = labelEl ? labelEl.textContent.trim() : '';
+        if (!label) return;
+
+        // Section name + icon come from the nearest ancestor submenu's toggle.
+        let group = '';
+        let groupIcon = '';
+        const submenu = link.closest('.pa-sidebar__submenu');
+        const toggle = submenu && submenu.previousElementSibling;
+        if (toggle && toggle.classList.contains('pa-sidebar__toggle')) {
+          const gl = toggle.querySelector('.pa-sidebar__label');
+          const gi = toggle.querySelector('.pa-sidebar__icon');
+          group = gl ? gl.textContent.trim() : '';
+          groupIcon = gi ? gi.textContent.trim() : '';
+        }
+
+        // Prefer the item's own icon; ignore bullet placeholders and fall back
+        // to the section icon, then a generic page glyph.
+        const iconEl = link.querySelector('.pa-sidebar__icon');
+        let icon = iconEl ? iconEl.textContent.trim() : '';
+        if (!icon || icon === '•') icon = (groupIcon && groupIcon !== '•') ? groupIcon : '📄';
+
+        pages.push({ id: 'page-' + path, label: label, description: group, icon: icon, value: href });
+      });
+
+      pageListCache = pages;
+      return pages;
+    }
+
     const commands = [
       {
         shortcut: '/deploy',
@@ -211,27 +260,7 @@
             id: 'page',
             placeholder: 'Type page name...',
             freeText: true,
-            getOptions: (query) => filterOpts([
-              { id: 'dashboard', label: 'Dashboard', code: '01', icon: '📊', value: '/' },
-              { id: 'changelog', label: 'Changelog', code: '02', icon: '📋', value: '/changelog' },
-              { id: 'forms', label: 'Forms', code: '10', icon: '📝', value: '/forms' },
-              { id: 'theme-vars', label: 'Theme Variables', code: '11', icon: '🎨', value: '/design/theme-variables' },
-              { id: 'colors', label: 'Colors', code: '12', icon: '🌈', value: '/design/colors' },
-              { id: 'helpers', label: 'Helpers', code: '13', icon: '🔧', value: '/design/helpers' },
-              { id: 'buttons', label: 'Buttons', code: '20', icon: '🔘', value: '/components/buttons' },
-              { id: 'inputs', label: 'Inputs', code: '21', icon: '✏️', value: '/components/inputs' },
-              { id: 'cards', label: 'Cards', code: '22', icon: '🃏', value: '/components/cards' },
-              { id: 'tables', label: 'Tables', code: '23', icon: '📊', value: '/tables/standard' },
-              { id: 'alerts', label: 'Alerts', code: '24', icon: '⚠️', value: '/components/alerts' },
-              { id: 'toasts', label: 'Toasts', code: '25', icon: '🔔', value: '/components/toasts' },
-              { id: 'modals', label: 'Modals', code: '26', icon: '🔳', value: '/components/modals' },
-              { id: 'tabs', label: 'Tabs', code: '27', icon: '📑', value: '/components/tabs' },
-              { id: 'badges', label: 'Badges', code: '28', icon: '🏷️', value: '/components/badges' },
-              { id: 'tooltips', label: 'Tooltips', code: '29', icon: '💬', value: '/components/tooltips' },
-              { id: 'command-palette', label: 'Command Palette', code: '30', icon: '🔍', value: '/components/command-palette' },
-              { id: 'font-test', label: 'Font Tuning', code: '90', icon: '🔤', value: '/tools/font-test' },
-              { id: 'rtl-test', label: 'RTL Test', code: '91', icon: '↔️', value: '/tools/rtl-test' },
-            ], query),
+            getOptions: (query) => filterOpts(getPages(), query),
           },
         ],
         onComplete: (sel) => {

@@ -1,0 +1,50 @@
+/* ========================================
+   Overflow (progressive-collapse row)
+
+   Generic primitive: a horizontal flex row whose children get walked into
+   a "more" menu when the row can't fit, driven by `overflow.js`. Use
+   anywhere you want a button toolbar, breadcrumb row, chip row, or tab bar
+   to collapse gracefully on narrow widths.
+
+     <div class="pa-overflow" data-pa-actions-overflow-from="end">
+       <button class="pa-btn pa-btn--xs">Save</button>
+       <button class="pa-btn pa-btn--xs" data-pa-actions-priority="10">Run</button>
+     </div>
+
+   The card-flavoured alias `pa-card__actions--overflow` carries equivalent
+   rules under `.pa-card__header` (see `_cards.scss`); both wire into the
+   same JS module. ======================================== */
+@use '../variables' as *;
+
+.pa-overflow {
+  // Flex row by default. The JS pulls children out and appends a trigger
+  // button at the end; both the row and the trigger inherit normal flex
+  // layout from this block. Consumers override gap / alignment per-instance
+  // via inline style or a local class.
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  // Layout contract for the truthful-overflow signal: the wrapper has to
+  // shrink below its content (`min-width: 0`) and clip when it does
+  // (`overflow: hidden`) so `scrollWidth > clientWidth` reliably means
+  // "the row doesn't fit". Without these, modern flex defaults keep the
+  // wrapper at intrinsic content width and the JS sees no overflow.
+  // `flex-shrink: 1` so a parent flex layout can compress the row.
+  min-width: 0;
+  overflow: hidden;
+  flex-shrink: 1;
+
+  // Items themselves stay at intrinsic width — they either fit fully or
+  // get moved to the menu. Without this they'd squeeze unevenly as the
+  // wrapper narrows, defeating the "drop one at a time" UX.
+  > * {
+    flex-shrink: 0;
+  }
+
+  // Trigger button has no dedicated styling here — it ships with
+  // `pa-btn pa-btn--xs pa-btn--ghost` so it picks up the ghost button
+  // appearance automatically. The `__trigger` element class is set by
+  // the JS as a stable hook for consumers who want to retheme it
+  // (e.g. swap the ellipsis icon, change padding).
+}

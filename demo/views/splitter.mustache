@@ -12,14 +12,14 @@
                     <div class="pa-splitter pa-splitter--horizontal"
                          data-pa-splitter
                          data-pa-splitter-id="demo-horizontal"
-                         data-pa-splitter-min-start="200px"
-                         data-pa-splitter-max-start="60%"
-                         data-pa-splitter-default="280px"
                          style="height: 360px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius);">
-                        <div class="pa-splitter__pane pa-splitter__pane--start"
+                        <div class="pa-splitter__pane"
+                             data-pa-splitter-size="280px"
+                             data-pa-splitter-min="200px"
+                             data-pa-splitter-max="60%"
                              style="background: var(--pa-subtle-bg); padding: 1.6rem;">
                             <h4 class="mb-3" style="margin-top: 0;">Files</h4>
-                            <ul class="pa-list">
+                            <ul class="pa-list-basic">
                                 <li>📁 components/</li>
                                 <li>📁 utils/</li>
                                 <li>📄 main.scss</li>
@@ -34,7 +34,7 @@
                              aria-orientation="vertical"
                              tabindex="0"
                              aria-label="Resize sidebar"></div>
-                        <div class="pa-splitter__pane pa-splitter__pane--end"
+                        <div class="pa-splitter__pane"
                              style="padding: 1.6rem;">
                             <h4 class="mb-3" style="margin-top: 0;">main.scss</h4>
                             <p class="text-secondary mb-3">Drag the gutter, double-click it to collapse, or focus it and use arrow keys.</p>
@@ -62,11 +62,11 @@
                     <div class="pa-splitter pa-splitter--vertical"
                          data-pa-splitter
                          data-pa-splitter-id="demo-vertical"
-                         data-pa-splitter-min-start="80px"
-                         data-pa-splitter-max-start="80%"
-                         data-pa-splitter-default="60%"
                          style="height: 420px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius);">
-                        <div class="pa-splitter__pane pa-splitter__pane--start"
+                        <div class="pa-splitter__pane"
+                             data-pa-splitter-size="60%"
+                             data-pa-splitter-min="80px"
+                             data-pa-splitter-max="80%"
                              style="padding: 1.6rem;">
                             <h4 class="mb-3" style="margin-top: 0;">Editor</h4>
                             <pre class="pa-code"><code>function greet(name) {
@@ -80,7 +80,7 @@ console.log(greet('Pure Admin'));</code></pre>
                              aria-orientation="horizontal"
                              tabindex="0"
                              aria-label="Resize editor"></div>
-                        <div class="pa-splitter__pane pa-splitter__pane--end"
+                        <div class="pa-splitter__pane"
                              style="background: var(--pa-subtle-bg); padding: 1.6rem; font-family: var(--pa-font-mono, monospace); font-size: 1.3rem;">
                             <div class="mb-2" style="opacity: 0.6;">$ node demo.js</div>
                             <div>Hello, Pure Admin!</div>
@@ -104,11 +104,12 @@ console.log(greet('Pure Admin'));</code></pre>
                     <div class="pa-splitter pa-splitter--horizontal"
                          data-pa-splitter
                          data-pa-splitter-id="demo-spaced"
-                         data-pa-splitter-min-start="25%"
-                         data-pa-splitter-max-start="75%"
-                         data-pa-splitter-default="40%"
                          style="height: 280px; gap: 1.6rem; --pa-splitter-gutter-size: 1rem;">
-                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                        <div class="pa-splitter__pane"
+                             data-pa-splitter-size="40%"
+                             data-pa-splitter-min="25%"
+                             data-pa-splitter-max="75%"
+                             style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header"><h4 style="margin: 0;">Left card</h4></div>
                                 <div class="pa-card__body">
@@ -121,7 +122,7 @@ console.log(greet('Pure Admin'));</code></pre>
                              aria-orientation="vertical"
                              tabindex="0"
                              aria-label="Resize cards"></div>
-                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                        <div class="pa-splitter__pane" style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header"><h4 style="margin: 0;">Right card</h4></div>
                                 <div class="pa-card__body">
@@ -139,7 +140,7 @@ console.log(greet('Pure Admin'));</code></pre>
                     <h3>Minimize to rail <small class="text-secondary">— vertical header instead of collapse</small></h3>
                 </div>
                 <div class="pa-card__body">
-                    <p class="mb-3">Opt in with <code>data-pa-splitter-minimize="start"</code>. The gutter's collapse action (double-click, <kbd>Enter</kbd>/<kbd>Space</kbd>, the toggle button in the header, or pressing the gutter while minimized) toggles the start pane to a thin rail with a vertical card title — instead of disappearing. Click the rail or press the gutter to restore. Rail width is configurable via <code>data-pa-splitter-rail-size</code> (default 40px). <strong>You can also just drag the gutter inward</strong> — once the requested width drops below 40% of the minimized side's natural min (configurable via <code>data-pa-splitter-minimize-threshold</code>) it snaps to rail; dragging back outward across the same threshold pops it back to min.</p>
+                    <p class="mb-3">Opt in by putting <code>data-pa-splitter-minimize</code> on the pane you want collapsible (here, the first pane). The gutter's collapse action (double-click, <kbd>Enter</kbd>/<kbd>Space</kbd>, or the toggle button in the header) toggles the pane to a thin rail with a vertical card title — instead of disappearing. Click the rail to restore. Rail width is configurable via <code>data-pa-splitter-rail-size</code> (default 40px). <strong>You can also just drag the gutter inward</strong> — once the requested width drops below 40% of the minimized side's natural min (configurable via <code>data-pa-splitter-minimize-threshold</code>) it snaps to rail; dragging back outward across the same threshold pops it back to min. <strong>Dragging the gutter inward while the pane is already rail'd is inert</strong> — only outward drags (the direction that would grow the pane) release the rail.</p>
 
                     <p class="mb-3 text-sm"><strong>Bonus:</strong> the Editor card's actions use the new <code>pa-card__actions--responsive</code> pattern — drag the gutter rightward to shrink the Editor pane, and once the header drops below <code>$card-actions-collapse-at</code> (28rem ≈ 280px) the spread buttons collapse into a single split button. Pure CSS container query, no JS observer.</p>
 
@@ -153,13 +154,14 @@ console.log(greet('Pure Admin'));</code></pre>
                          class="pa-splitter pa-splitter--horizontal"
                          data-pa-splitter
                          data-pa-splitter-id="demo-minimize"
-                         data-pa-splitter-minimize="start"
-                         data-pa-splitter-min-start="220px"
-                         data-pa-splitter-max-start="80%"
-                         data-pa-splitter-default="320px"
                          data-pa-splitter-rail-size="44"
                          style="height: 320px; gap: 1.2rem;">
-                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                        <div class="pa-splitter__pane"
+                             data-pa-splitter-size="320px"
+                             data-pa-splitter-min="220px"
+                             data-pa-splitter-max="80%"
+                             data-pa-splitter-minimize
+                             style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header">
                                     <div class="pa-card__title">
@@ -185,14 +187,14 @@ console.log(greet('Pure Admin'));</code></pre>
                                     </div>
                                 </div>
                                 <div class="pa-card__body">
-                                    <ul class="pa-list">
+                                    <ul class="pa-list-basic">
                                         <li>📁 src/</li>
                                         <li>📁 dist/</li>
                                         <li>📄 main.scss</li>
                                         <li>📄 splitter.js</li>
                                         <li>📄 README.md</li>
                                     </ul>
-                                    <p class="text-sm text-secondary mt-3 mb-0">Click the chevron in the header to minimize. Click the rail (or press the gutter) to restore.</p>
+                                    <p class="text-sm text-secondary mt-3 mb-0">Click the chevron in the header to minimize. Click the rail to restore.</p>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +203,7 @@ console.log(greet('Pure Admin'));</code></pre>
                              aria-orientation="vertical"
                              tabindex="0"
                              aria-label="Resize or minimize file explorer"></div>
-                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                        <div class="pa-splitter__pane" style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header">
                                     <div class="pa-card__title">
@@ -250,7 +252,7 @@ console.log(greet('Pure Admin'));</code></pre>
 //   - double-click the gutter
 //   - focus gutter + press Enter / Space
 //   - click the rail (while minimized)
-//   - press the gutter (while minimized)</code></pre>
+//   - drag the gutter outward past the snap threshold</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -279,13 +281,14 @@ console.log(greet('Pure Admin'));</code></pre>
                     <div class="pa-splitter pa-splitter--horizontal"
                          data-pa-splitter
                          data-pa-splitter-id="demo-overflow"
-                         data-pa-splitter-default="40%"
-                         data-pa-splitter-min-start="160px"
-                         data-pa-splitter-max-start="80%"
-                         data-pa-splitter-minimize="start"
                          data-pa-splitter-rail-size="44"
                          style="height: 220px; gap: 1.2rem;">
-                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                        <div class="pa-splitter__pane"
+                             data-pa-splitter-size="40%"
+                             data-pa-splitter-min="160px"
+                             data-pa-splitter-max="80%"
+                             data-pa-splitter-minimize
+                             style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header">
                                     <div class="pa-card__title">
@@ -325,7 +328,7 @@ console.log(greet('Pure Admin'));</code></pre>
                              aria-orientation="vertical"
                              tabindex="0"
                              aria-label="Resize editor"></div>
-                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                        <div class="pa-splitter__pane" style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0; background: var(--pa-subtle-bg);">
                                 <div class="pa-card__body">
                                     <p class="text-sm text-secondary mb-0">Drag the gutter left/right to shrink and grow the editor card. Watch the action row in its header.</p>
@@ -342,18 +345,18 @@ console.log(greet('Pure Admin'));</code></pre>
                     <h3>Minimize <em>end</em> pane to rail <small class="text-secondary">— right-edge inspector pattern</small></h3>
                 </div>
                 <div class="pa-card__body">
-                    <p class="mb-3">Set <code>data-pa-splitter-minimize="end"</code> to collapse the right pane to a vertical-title rail on the right edge. Same restore paths as the start variant (rail click, gutter press, toggle button, dblclick, <kbd>Enter</kbd>/<kbd>Space</kbd>, or drag the gutter outward past the threshold). Useful for inspector / detail / properties panels.</p>
+                    <p class="mb-3">Put <code>data-pa-splitter-minimize</code> on the last pane to collapse it to a vertical-title rail on the right edge. Same restore paths as collapsing the first pane (rail click, toggle button, dblclick, <kbd>Enter</kbd>/<kbd>Space</kbd>, or drag the gutter outward past the threshold). Useful for inspector / detail / properties panels.</p>
 
                     <div class="pa-splitter pa-splitter--horizontal"
                          data-pa-splitter
                          data-pa-splitter-id="demo-minimize-end"
-                         data-pa-splitter-minimize="end"
-                         data-pa-splitter-min-start="40%"
-                         data-pa-splitter-max-start="80%"
-                         data-pa-splitter-default="65%"
                          data-pa-splitter-rail-size="44"
                          style="height: 320px; gap: 1.2rem;">
-                        <div class="pa-splitter__pane pa-splitter__pane--start" style="padding: 0;">
+                        <div class="pa-splitter__pane"
+                             data-pa-splitter-size="65%"
+                             data-pa-splitter-min="40%"
+                             data-pa-splitter-max="80%"
+                             style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header">
                                     <div class="pa-card__title">
@@ -375,7 +378,9 @@ console.log(greet('Pure Admin'));</code></pre>
                              aria-orientation="vertical"
                              tabindex="0"
                              aria-label="Resize inspector"></div>
-                        <div class="pa-splitter__pane pa-splitter__pane--end" style="padding: 0;">
+                        <div class="pa-splitter__pane"
+                             data-pa-splitter-minimize
+                             style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
                                 <div class="pa-card__header">
                                     <div class="pa-card__title">
@@ -415,7 +420,7 @@ console.log(greet('Pure Admin'));</code></pre>
                     </div>
                 </div>
                 <div class="pa-card__body">
-                    <p class="mb-3">N-pane markup uses per-pane <code>data-pa-splitter-size</code> / <code>-min</code> / <code>-max</code> attributes instead of root-level <code>-min-start</code> / <code>-max-start</code>. The first and last panes opt into rail collapse with <code>data-pa-splitter-minimize</code> (a marker — no <code>start</code>/<code>end</code> value needed, the edge is implied by position). Middle panes can't minimize. Drag any gutter and either neighbour will snap to rail below the threshold. Each pane count remembers its own layout in localStorage.</p>
+                    <p class="mb-3">Per-pane <code>data-pa-splitter-size</code> / <code>-min</code> / <code>-max</code> drive sizing; any pane with <code>data-pa-splitter-minimize</code> can collapse to a rail. Drag any gutter and either neighbour will snap to rail below the threshold. Each pane count remembers its own layout in localStorage.</p>
 
                     <div id="multiPaneContainer"></div>
                 </div>
@@ -440,35 +445,7 @@ console.log(greet('Pure Admin'));</code></pre>
                 <div class="pa-col-100 pa-col-lg-50">
                     <div class="pa-card mb-4">
                         <div class="pa-card__header">
-                            <h3>Markup — two panes (legacy shorthand)</h3>
-                        </div>
-                        <div class="pa-card__body">
-                            <pre class="pa-code"><code>&lt;div class="pa-splitter pa-splitter--horizontal"
-     data-pa-splitter
-     data-pa-splitter-id="my-id"
-     data-pa-splitter-min-start="200px"
-     data-pa-splitter-max-start="60%"
-     data-pa-splitter-default="280px"&gt;
-  &lt;div class="pa-splitter__pane
-              pa-splitter__pane--start"&gt;
-    A
-  &lt;/div&gt;
-  &lt;div class="pa-splitter__gutter"
-       role="separator"
-       aria-orientation="vertical"
-       tabindex="0"&gt;&lt;/div&gt;
-  &lt;div class="pa-splitter__pane
-              pa-splitter__pane--end"&gt;
-    B
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-                            <p class="text-sm mt-3 mb-0">Triggered by the <code>--start</code> / <code>--end</code> modifiers. The end pane fills the leftover via <code>flex: 1</code>; only the start pane carries an explicit size.</p>
-                        </div>
-                    </div>
-
-                    <div class="pa-card mb-4">
-                        <div class="pa-card__header">
-                            <h3>Markup — N panes</h3>
+                            <h3>Markup</h3>
                         </div>
                         <div class="pa-card__body">
                             <pre class="pa-code"><code>&lt;div class="pa-splitter pa-splitter--horizontal"
@@ -488,7 +465,7 @@ console.log(greet('Pure Admin'));</code></pre>
        data-pa-splitter-size="280px"
        data-pa-splitter-minimize&gt;C&lt;/div&gt;
 &lt;/div&gt;</code></pre>
-                            <p class="text-sm mt-3 mb-0">Any N ≥ 2. Panes and gutters must alternate. Per-pane <code>data-pa-splitter-size</code> / <code>-min</code> / <code>-max</code> replace the root-level <code>-start</code> attributes. Only pane 0 and pane N-1 honour <code>data-pa-splitter-minimize</code>. Panes without an explicit <code>data-pa-splitter-size</code> share leftover space equally.</p>
+                            <p class="text-sm mt-3 mb-0">Any N ≥ 2. Panes and gutters must alternate. Each pane carries its own <code>data-pa-splitter-size</code> / <code>-min</code> / <code>-max</code>. Any pane with <code>data-pa-splitter-minimize</code> can collapse to a rail — first / last panes dock against the container edge; middle panes collapse in place and split released slack between both neighbours. Panes without an explicit <code>data-pa-splitter-size</code> share leftover space equally.</p>
                         </div>
                     </div>
                 </div>
@@ -500,7 +477,7 @@ console.log(greet('Pure Admin'));</code></pre>
                             <h3>Data attributes</h3>
                         </div>
                         <div class="pa-card__body">
-                            <p class="text-sm mb-2"><strong>On root</strong> (both modes):</p>
+                            <p class="text-sm mb-2"><strong>On root:</strong></p>
                             <table class="pa-table pa-table--compact">
                                 <thead>
                                     <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
@@ -514,20 +491,7 @@ console.log(greet('Pure Admin'));</code></pre>
                                 </tbody>
                             </table>
 
-                            <p class="text-sm mt-3 mb-2"><strong>On root</strong> (legacy 2-pane only):</p>
-                            <table class="pa-table pa-table--compact">
-                                <thead>
-                                    <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td><code>data-pa-splitter-min-start</code></td><td><code>0</code></td><td><code>px</code> or <code>%</code></td></tr>
-                                    <tr><td><code>data-pa-splitter-max-start</code></td><td>available</td><td><code>px</code> or <code>%</code></td></tr>
-                                    <tr><td><code>data-pa-splitter-default</code></td><td><code>30%</code></td><td>Initial size if no saved state</td></tr>
-                                    <tr><td><code>data-pa-splitter-minimize</code></td><td>off</td><td><code>"start"</code> or <code>"end"</code> opts into rail collapse on that side</td></tr>
-                                </tbody>
-                            </table>
-
-                            <p class="text-sm mt-3 mb-2"><strong>On each pane</strong> (N-pane only):</p>
+                            <p class="text-sm mt-3 mb-2"><strong>On each pane:</strong></p>
                             <table class="pa-table pa-table--compact">
                                 <thead>
                                     <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
@@ -536,9 +500,12 @@ console.log(greet('Pure Admin'));</code></pre>
                                     <tr><td><code>data-pa-splitter-size</code></td><td>shared</td><td>Initial size (<code>px</code> or <code>%</code>). Unsized panes split the leftover.</td></tr>
                                     <tr><td><code>data-pa-splitter-min</code></td><td><code>0</code></td><td><code>px</code> or <code>%</code></td></tr>
                                     <tr><td><code>data-pa-splitter-max</code></td><td>available</td><td><code>px</code> or <code>%</code></td></tr>
-                                    <tr><td><code>data-pa-splitter-minimize</code></td><td>—</td><td>Marker. Only honoured on the first and last panes.</td></tr>
+                                    <tr><td><code>data-pa-splitter-minimize</code></td><td>—</td><td>Marker. Pane can collapse to a rail (first / last dock at the edge; middle panes collapse in place).</td></tr>
                                 </tbody>
                             </table>
+
+                            <p class="text-sm mt-3 mb-2"><strong>Accordion mode (auto):</strong></p>
+                            <p class="text-sm mb-0">When the container is too narrow to fit all panes at their minimums AND there are 2+ minimizable panes, the splitter switches to single-pane-expanded mode — restoring one pane auto-rails the others. Engages and disengages automatically as the container resizes; adds <code>pa-splitter--accordion</code> to the root as a styling hook.</p>
                         </div>
                     </div>
 
@@ -625,12 +592,12 @@ PaSplitter.initAll(someContainer);</code></pre>
                             : isLast ? 'Inspector'
                             : 'Workspace ' + i;
 
-                        var actions = '<div class="pa-card__actions"><button class="pa-btn pa-btn--ghost pa-btn--sm" title="Minimize" data-pa-splitter-toggle><i class="fa fa-window-minimize"></i></button></div>';
+                        var actions = '<div class="pa-card__actions"><button class="pa-btn pa-btn--xs pa-btn--secondary" title="Minimize" aria-label="Minimize" data-pa-splitter-toggle><i class="fa-solid fa-window-minimize" aria-hidden="true"></i></button></div>';
 
                         var body = isFirst
-                            ? '<ul class="pa-list"><li>📁 src/</li><li>📁 demo/</li><li>📄 main.scss</li><li>📄 README.md</li></ul>'
+                            ? '<ul class="pa-list-basic"><li>📁 src/</li><li>📁 demo/</li><li>📄 main.scss</li><li>📄 README.md</li></ul>'
                             : isLast
-                            ? '<dl class="pa-list"><dt>Type</dt><dd>function</dd><dt>Args</dt><dd>name: string</dd><dt>Returns</dt><dd>string</dd></dl>'
+                            ? '<dl><dt>Type</dt><dd>function</dd><dt>Args</dt><dd>name: string</dd><dt>Returns</dt><dd>string</dd></dl>'
                             : '<p class="text-secondary mb-2">Workspace ' + i + ' of ' + (n - 2) + '</p>'
                               + '<pre class="pa-code"><code>// Pane ' + (i + 1) + '\nconsole.log("hi");</code></pre>';
 
@@ -638,8 +605,8 @@ PaSplitter.initAll(someContainer);</code></pre>
                             '<div class="pa-card" style="height: 100%; margin: 0;">'
                           +   '<div class="pa-card__header">'
                           +     '<div class="pa-card__title">'
-                          +       '<i class="pa-card__title-icon fa ' + icon + '"></i>'
-                          +       '<span class="pa-card__title-text">' + title + '</span>'
+                          +       '<i class="pa-card__title-icon fa-solid ' + icon + '" aria-hidden="true"></i>'
+                          +       '<h4 class="pa-card__title-text">' + title + '</h4>'
                           +     '</div>'
                           +     actions
                           +   '</div>'

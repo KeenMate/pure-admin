@@ -140,6 +140,33 @@
   </div>
 </div>
 
+<!-- Compact half-height variant (--square-sm)
+     Same layout & colour modifiers, ~half the height with smaller number
+     and tighter padding. Use for dense full-width stat strips where the
+     full square reads as an oversized banner. Stack with a colour modifier. -->
+<div class="pa-stat pa-stat--square pa-stat--square-sm pa-stat--primary">
+  <div class="pa-stat__number">92</div>
+  <div class="pa-stat__symbol">%</div>
+  <div class="pa-stat__label">Completion Rate</div>
+</div>
+
+<!-- Fit + progressive-disclosure mode (--square[data-pa-stat-fit])
+     Opt in with the data-pa-stat-fit attribute and load pa-stat-fit.js.
+     The number is sized to fill the tile (never overflows, any char count);
+     lower-priority rows reveal as the tile earns BOTH width and height:
+       number → symbol → label → change → context.
+     Authored markup stays flat — the JS wraps __number + __symbol into a
+     __slot > __group at runtime. REQUIRES a height source on the tile
+     (grid cell with a set height / explicit height / aspect-ratio), because
+     container-type: size makes the box size independently of its content. -->
+<div class="pa-stat pa-stat--square pa-stat--info" data-pa-stat-fit style="height: 16rem;">
+  <span class="pa-stat__symbol">$</span>
+  <span class="pa-stat__number">847K</span>
+  <div class="pa-stat__label">Monthly Revenue</div>
+  <div class="pa-stat__change pa-stat__change--positive">▲ 12.5% vs last month</div>
+  <div class="pa-stat__context">Updated 2 min ago</div>
+</div>
+
 <!-- All six square colour variants -->
 <div class="pa-stat pa-stat--square pa-stat--primary">  <div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Primary</div>  </div>
 <div class="pa-stat pa-stat--square pa-stat--success">  <div class="pa-stat__number">…</div><div class="pa-stat__symbol">…</div><div class="pa-stat__label">Success</div>  </div>
@@ -169,6 +196,13 @@ SUB-ELEMENTS:
                             (red), --neutral (muted).
   .pa-stat__symbol         Square variant only — the decorative
                             watermark symbol on the inline-end side.
+  .pa-stat__context        Square fit-mode only — lowest-priority
+                            (P4) caption row (e.g. "Updated 2m ago").
+  .pa-stat__slot           Square fit-mode only — created by
+                            pa-stat-fit.js; wraps the fit group.
+  .pa-stat__group          Square fit-mode only — created by
+                            pa-stat-fit.js; holds __number + __symbol
+                            and carries the JS-computed font-size.
 
 VARIANTS (mutually exclusive):
   (default)                Icon + content row. Pair with
@@ -180,6 +214,17 @@ VARIANTS (mutually exclusive):
   --square                 Coloured tile, big __number, decorative
                             __symbol, bottom-pinned __label. Apply
                             a colour modifier on the same element.
+  --square-sm              Combine WITH --square. Compact half-height
+                            tile (smaller number, tighter padding,
+                            ~64px min-height vs 128px). For dense
+                            full-width stat strips.
+  [data-pa-stat-fit]       Attribute (not a class), combine WITH
+                            --square. Fit-to-box number + priority
+                            disclosure ladder (number → symbol →
+                            label → change → context, revealed as the
+                            tile gains width AND height). Needs
+                            pa-stat-fit.js loaded and a height source
+                            on the tile.
 
 SQUARE COLOUR MODIFIERS (apply with --square):
   --primary, --success, --info, --warning, --danger, --secondary

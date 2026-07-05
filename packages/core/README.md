@@ -2,6 +2,13 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.9.0-rc04
+
+- **`.pa-splitter` — `pa-splitter:resize` / `:collapse` / `:expand` `CustomEvent`s.** Three bubbling events fire from the affected pane (`resize.detail = { index, pane, size }`, collapse / expand detail = `{ index, pane }`) so consumers can wire sidebars, analytics, or persistence-coupled toolbars on the splitter root with a single delegated listener. `resize` is unfiltered — debounce in the handler. `collapse` / `expand` fire only on user-initiated transitions; init from saved state stays silent.
+- **`.pa-splitter` — drag against a rail'd primary is now asymmetric.** Dragging outward (the direction that would grow the pane) releases the rail and follows the cursor; dragging inward (into the rail, would shrink further) is fully inert. Previously the drag-from-rail path pre-cleared `isMin` on `pointerdown` regardless of direction, so the card visually flashed out of its rail state before the user could express expand intent in the opposite direction — read as the splitter "guessing wrong". Mirrors `svelte-fluentui/MultiSplitter`'s drag-to-be-explicit gate.
+- **`.pa-splitter` — tap-without-drag on the gutter no longer restores a rail'd pane.** Restore gestures are now: rail-body click, dblclick on the gutter, focus + `Enter`/`Space`, `[data-pa-splitter-toggle]` button, or drag outward past the snap threshold. Users expected drag-to-be-explicit and didn't connect "tap the gutter" with the rail-pane body as a restore surface.
+- **`.pa-splitter` — per-pane orientation class** (`pa-splitter__pane--horizontal` / `--vertical`) stamped at registration. Forward-compat hook for theme authors writing nested-splitter-safe rail CSS without walking the DOM to figure out the enclosing splitter's orientation.
+
 ## What's New in 2.9.0-rc03
 
 - **`.pa-splitter` drag model reworked to "rebalance-on-drag".** Each gutter now resizes only its primary neighbour (edge-closer side, LTR/RTL tiebreaker on ties); the matching delta is absorbed by the immediate adjacent non-rail pane (classic boundary feel), or — when the adjacent pane is rail — tunnels through the rail wall to the contiguous non-rail block beyond. Eliminates the "boundary locks when both sides are rail" deadlock from the prior model — drag-from-rail with a railed neighbour now grows the primary by pulling room from the next section.
@@ -10,14 +17,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **Rail width in `--pa-splitter-rail-size` now correctly resolves `rem` / non-px units.** Previously `parseFloat("4rem")` returned `4` and snapped rail panes to 4px-wide strips; rebuilt via a hidden probe element so the browser does the unit resolution. The three-step fallback chain (per-instance attribute → CSS var → literal 40) still applies.
 - **Gutter highlighting now isolates the dragged gutter only.** During a drag, the splitter `--dragging` modifier suppresses `:hover` / `:focus-visible` on sibling gutters so they don't light up as the cursor passes over them or as a stale focus ring lingers — only the active gutter carries the highlight.
 - **Splitter padding subtracted from available space.** Flex children sit inside the splitter's content box but `clientWidth` includes padding — without subtracting it the last pane's `flex-basis` overflowed and got clipped by `overflow: hidden`. Visible in the N-pane demo where the rightmost rail's right edge touched the splitter border.
-
-## What's New in 2.9.0-rc02
-
-- **`.pa-splitter` — resizable container with optional collapse-to-rail.** Vanilla JS + SCSS, two orientations (`--horizontal` / `--vertical`), per-instance constraints (`min-start` / `max-start` accept px or %), and `localStorage` persistence via `data-pa-splitter-id`. Pointer-event drag (mouse / touch / pen), `gap`-aware constraint math, keyboard a11y on the gutter (`role="separator"`, arrow keys, `Home`/`End`, `Enter`/`Space` to toggle), and a `ResizeObserver`-driven re-clamp on container resize. Opt-in `data-pa-splitter-minimize="start" | "end"` collapses a pane to a thin sideways-rotated header rail; dragging past a snap threshold commits, dragging back outward restores.
-- **`.pa-splitter` N-pane mode (3+ panes).** `init()` is now a dispatcher: the legacy 2-pane path (selected by `pane--start` + `pane--end` markup) is preserved byte-identical; everything else goes through `initNPane()`. Per-pane API: `data-pa-splitter-size="240px|30%"` for initial sizing, `-min` / `-max` for per-pane clamps, `data-pa-splitter-minimize` as presence marker (first / last pane only — middle-pane rail rotation has nowhere clean to dock). Drag math is per-gutter stop-at-min (Split.js basic-mode semantics). Container-resize redistributes proportionally to unminimized panes; minimized panes stay pinned to rail. Storage shape versioned under the same `pa-splitter:<id>` key.
-- **`pa-card__actions--responsive` — CSS-only collapse to a split button when the header runs out of space.** Render both forms inline (`pa-card__actions-full` + `pa-card__actions-collapsed`, the latter hosting a `pa-btn-split`); a container query on `.pa-card__header:has(> .pa-card__actions--responsive)` swaps which is visible. Threshold lives in one SCSS variable (`$card-actions-collapse-at`, default `28rem`). No JS, no `ResizeObserver` — but action data is duplicated in the DOM.
-- **`pa-card__actions--overflow` — JS-driven progressive collapse into a "..." menu.** Complement to `--responsive`: walks buttons into an overflow menu one at a time as space shrinks, restoring them in original DOM order as it grows. `data-pa-actions-overflow-from="end" | "start"` controls drop direction; `data-pa-actions-priority="N"` per button pins primary actions. Menu reuses `pa-btn-split__menu` styling (one menu source across split-button and overflow). Positioning via Floating UI (`computePosition` + `offset` + `flip` + `shift` + `autoUpdate`), with a hand-rolled fallback when `FloatingUIDOM` isn't loaded. Auto-closes on any wrapper resize or when the trigger goes `display: none` (e.g. splitter rail mode).
-- **`pa-btn--ghost` variant defined in core.** Previously referenced by demo files (`alerts`, `notifications`, `splitter`) but had no SCSS rule — every usage silently rendered as a base `.pa-btn`. Now defined in `_buttons.scss`: transparent background and border, `var(--pa-text-secondary)` text, hover snaps to `var(--pa-surface-hover)` + `--pa-text-color-1`. No new tokens introduced; themes need a rebuild to pick up the variant.
 
 ## Installation
 
@@ -64,6 +63,45 @@ $btn-primary-bg: #your-button-color;
 // Import the framework
 @import '@keenmate/pure-admin-core/src/scss/main';
 ```
+
+### JavaScript (Interactive Components)
+
+The framework is CSS-first, but several components need a small vanilla-JS
+behavior to work (no framework runtime, no build step required). These ship
+in `src/js/` and are exposed under the `./js/*` export:
+
+```js
+// Split buttons + the auto-absorb button toolbar
+import '@keenmate/pure-admin-core/js/split-button.js';       // toggleSplitMenu()
+import '@keenmate/pure-admin-core/js/btn-split-auto-absorb.js';
+```
+
+Or via a plain script tag:
+
+```html
+<script src="node_modules/@keenmate/pure-admin-core/src/js/split-button.js"></script>
+```
+
+Each file is a self-contained IIFE that wires itself up on load (and exposes a
+small global / `window.Pa*` API for re-init after dynamic markup injection).
+Pull in only the files for the components you use:
+
+| Component | File(s) |
+|---|---|
+| Split button dropdown | `split-button.js` (defines `toggleSplitMenu`) |
+| Auto-absorb toolbar (`.pa-btn-toolbar`) | `split-button.js` **+** `btn-split-auto-absorb.js` |
+| Tooltips / popovers | `tooltips-popovers.js` |
+| Splitter | `splitter.js` |
+| Toasts | `toast-service.js` |
+| Command palette | `command-palette.js` |
+| Progressive overflow | `overflow.js` |
+| Fit-to-box stat | `pa-stat-fit.js` |
+| Modal dialogs | `modal-dialogs.js` |
+
+**Positioning dependency:** `split-button.js` and `tooltips-popovers.js` use
+[Floating UI](https://floating-ui.com) for dropdown/tooltip placement and
+expect it on the page as the `window.FloatingUIDOM` global (e.g. the
+`@floating-ui/dom` UMD build). Load it before those scripts.
 
 ## Using HTML Snippets
 

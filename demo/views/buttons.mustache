@@ -697,6 +697,281 @@
                 </div>
             </div>
 
+            <!-- Auto-Absorb Split Button -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h3>Auto-Absorb Split Button</h3>
+                    <p>Sibling buttons sitting next to <code>.pa-btn-split--auto-absorb</code> automatically collapse into the split menu when the row runs out of horizontal space, and pop back out as room returns.</p>
+                </div>
+                <div class="pa-card__body">
+                    <p class="text-muted mb-1">Drag the resize handle in the bottom-right of the box below to shrink the bar. Lowest <code>data-pa-absorb-priority</code> (default <code>0</code>) drops first; ties broken by the sibling closest to the split button. Pin "Publish" with <code>data-pa-absorb-priority="10"</code>.</p>
+                    <div class="resizable-wrapper" style="overflow: auto; resize: horizontal; min-width: 200px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
+                        <div class="pa-btn-toolbar">
+                            <button class="pa-btn pa-btn--secondary" onclick="alert('Save clicked')">
+                                <span class="pa-btn__icon"><i class="fas fa-floppy-disk"></i></span>
+                                Save
+                            </button>
+                            <button class="pa-btn pa-btn--info" onclick="alert('Format clicked')">
+                                <span class="pa-btn__icon"><i class="fas fa-wand-magic-sparkles"></i></span>
+                                Format
+                            </button>
+                            <button class="pa-btn pa-btn--ghost" onclick="alert('Refresh clicked')">
+                                <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
+                                Refresh
+                            </button>
+                            <button class="pa-btn pa-btn--success" data-pa-absorb-priority="10" onclick="alert('Publish clicked')">
+                                <span class="pa-btn__icon"><i class="fas fa-cloud-arrow-up"></i></span>
+                                Publish
+                            </button>
+                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                <button class="pa-btn pa-btn--primary" onclick="alert('Run clicked')">
+                                    <span class="pa-btn__icon"><i class="fas fa-play"></i></span>
+                                    Run
+                                </button>
+                                <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                </button>
+                                <div class="pa-btn-split__menu">
+                                    <div class="pa-btn-split__menu-inner">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-gear"></i></span>
+                                        Run with options&hellip;
+                                    </button>
+                                    <button class="pa-btn-split__item pa-btn-split__item--danger">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-stop"></i></span>
+                                        Stop all jobs
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Drop direction</h4>
+                    <p class="text-muted mb-1">Default <code>data-pa-absorb-from="end"</code> drops the sibling nearest the split button first. Set to <code>"start"</code> to drop the leftmost sibling first instead.</p>
+                    <div class="resizable-wrapper" style="overflow: auto; resize: horizontal; min-width: 200px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
+                        <div class="pa-btn-toolbar">
+                            <button class="pa-btn pa-btn--outline-info">
+                                <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                Filter
+                            </button>
+                            <button class="pa-btn pa-btn--outline-secondary">
+                                <span class="pa-btn__icon"><i class="fas fa-arrow-down-wide-short"></i></span>
+                                Sort
+                            </button>
+                            <button class="pa-btn pa-btn--outline-warning">
+                                <span class="pa-btn__icon"><i class="fas fa-layer-group"></i></span>
+                                Group
+                            </button>
+                            <button class="pa-btn pa-btn--outline-primary">
+                                <span class="pa-btn__icon"><i class="fas fa-table-cells"></i></span>
+                                Pivot
+                            </button>
+                            <div class="pa-btn-split pa-btn-split--auto-absorb" data-pa-absorb-from="start">
+                                <button class="pa-btn pa-btn--primary">
+                                    <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
+                                    Export
+                                </button>
+                                <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                </button>
+                                <div class="pa-btn-split__menu">
+                                    <div class="pa-btn-split__menu-inner">
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-file-csv"></i></span>
+                                        Export as CSV
+                                    </button>
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-file-code"></i></span>
+                                        Export as JSON
+                                    </button>
+                                    <button class="pa-btn-split__item">
+                                        <span class="pa-btn-split__item-icon"><i class="fas fa-file-pdf"></i></span>
+                                        Export as PDF
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">In card headers</h4>
+                    <p class="text-muted mb-1">In a card header the toolbar goes inside <code>.pa-card__actions</code> — the canonical header actions slot — exactly like a plain button row or a <code>.pa-btn-group</code>. <code>.pa-btn-toolbar</code> brings its own <code>flex-shrink: 1</code>/<code>overflow: hidden</code>, and <code>_cards.scss</code> makes the hosting <code>.pa-card__actions</code> shrinkable so the overflow signal still fires. Laid out three-up (<code>pa-col-lg-1-3</code>) so each card is already narrow — resize the browser window to watch each toolbar consume and spit out action buttons live, each collapsing at its own breakpoint.</p>
+
+                    <div class="pa-row mt-2">
+                    <div class="pa-col-100 pa-col-lg-1-3">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3 class="minw-45">Quarterly Performance &amp; Customer Engagement Analytics Dashboard</h3>
+                            <div class="pa-card__actions">
+                            <div class="pa-btn-toolbar">
+                                <button class="pa-btn pa-btn--xs pa-btn--ghost" title="Refresh">
+                                    <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
+                                    Refresh
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--outline-info">
+                                    <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                    Filter
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--outline-secondary">
+                                    <span class="pa-btn__icon"><i class="fas fa-gear"></i></span>
+                                    Configure
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--success" data-pa-absorb-priority="10">
+                                    <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
+                                    Export
+                                </button>
+                                <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                    <button class="pa-btn pa-btn--xs pa-btn--primary">
+                                        <span class="pa-btn__icon"><i class="fas fa-plus"></i></span>
+                                        Add widget
+                                    </button>
+                                    <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                    </button>
+                                    <div class="pa-btn-split__menu">
+                                        <div class="pa-btn-split__menu-inner">
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-chart-line"></i></span>
+                                            Add chart
+                                        </button>
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-table"></i></span>
+                                            Add table
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="text-muted">Card body. The actions bar in the header carries the auto-absorb behavior — narrow the window to watch Configure, Filter, and Refresh fold into the Add-widget menu in that order (lowest priority first; Export is pinned).</p>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="pa-col-100 pa-col-lg-1-3">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3>Database Migration Tasks &mdash; Production Environment Schema Updates</h3>
+                            <div class="pa-card__actions">
+                            <div class="pa-btn-toolbar">
+                                <button class="pa-btn pa-btn--xs pa-btn--info">
+                                    <span class="pa-btn__icon"><i class="fas fa-circle-check"></i></span>
+                                    Validate
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--warning">
+                                    <span class="pa-btn__icon"><i class="fas fa-database"></i></span>
+                                    Backup
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--outline-danger">
+                                    <span class="pa-btn__icon"><i class="fas fa-rotate-left"></i></span>
+                                    Rollback
+                                </button>
+                                <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                    <button class="pa-btn pa-btn--xs pa-btn--success">
+                                        <span class="pa-btn__icon"><i class="fas fa-rocket"></i></span>
+                                        Deploy
+                                    </button>
+                                    <button class="pa-btn pa-btn--xs pa-btn--success pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                    </button>
+                                    <div class="pa-btn-split__menu">
+                                        <div class="pa-btn-split__menu-inner">
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-flask"></i></span>
+                                            Dry-run only
+                                        </button>
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-vial"></i></span>
+                                            Deploy to staging
+                                        </button>
+                                        <button class="pa-btn-split__item pa-btn-split__item--danger">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-fire"></i></span>
+                                            Force deploy (skip checks)
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="text-muted">No pinning here — siblings collapse in default order (rightmost first: Rollback &rarr; Backup &rarr; Validate).</p>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="pa-col-100 pa-col-lg-1-3">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <h3 class="minw-60">Team Members &amp; Permissions Management &mdash; Enterprise Console</h3>
+                            <div class="pa-card__actions">
+                            <div class="pa-btn-toolbar">
+                                <button class="pa-btn pa-btn--xs pa-btn--ghost">
+                                    <span class="pa-btn__icon"><i class="fas fa-magnifying-glass"></i></span>
+                                    Search
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--outline-secondary">
+                                    <span class="pa-btn__icon"><i class="fas fa-arrow-down-wide-short"></i></span>
+                                    Sort
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--outline-info">
+                                    <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                    Filter
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--secondary">
+                                    <span class="pa-btn__icon"><i class="fas fa-file-import"></i></span>
+                                    Import CSV
+                                </button>
+                                <button class="pa-btn pa-btn--xs pa-btn--info" data-pa-absorb-priority="5">
+                                    <span class="pa-btn__icon"><i class="fas fa-envelope"></i></span>
+                                    Invite
+                                </button>
+                                <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                    <button class="pa-btn pa-btn--xs pa-btn--primary">
+                                        <span class="pa-btn__icon"><i class="fas fa-user-plus"></i></span>
+                                        Add user
+                                    </button>
+                                    <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                    </button>
+                                    <div class="pa-btn-split__menu">
+                                        <div class="pa-btn-split__menu-inner">
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-user-tag"></i></span>
+                                            Add user with role&hellip;
+                                        </button>
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-users"></i></span>
+                                            Bulk add from team
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="pa-card__body">
+                            <p class="text-muted">Six siblings here — Invite is pinned with priority 5, so it survives the first wave of collapses but still folds away before Add user. The title yields first (truncating to a min-width floor) so the action bar keeps its buttons; only when the header is genuinely tiny does the split button fold its own primary action into the menu, leaving just the toggle.</p>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+
+                    <h4 class="mt-4">How it works</h4>
+                    <ul class="text-muted">
+                        <li><code>.pa-btn-toolbar</code> wraps the row; provides <code>min-width: 0; overflow: hidden; flex-shrink: 1</code>. Works standalone in any flex context; in a card header, nest it inside <code>.pa-card__actions</code> (which <code>_cards.scss</code> then makes shrinkable).</li>
+                        <li><code>.pa-btn-split--auto-absorb</code> opts the split button into auto-absorb. <code>btn-split-auto-absorb.js</code> snapshots its previous siblings at init.</li>
+                        <li><code>ResizeObserver</code> on the bar fires <code>relayout()</code>: restore all siblings, check <code>scrollWidth &gt; clientWidth</code>, move siblings into the menu by drop order until it fits.</li>
+                        <li>Absorbed items get <code>className = 'pa-btn-split__item'</code>; the original classList is stashed on the element and restored on the way back.</li>
+                        <li>Static menu items (rendered server-side) stay BELOW absorbed items.</li>
+                        <li>Click handlers survive — the DOM node moves but is preserved.</li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- Text Truncation -->
             <div class="pa-card">
                 <div class="pa-card__header">

@@ -1,0 +1,252 @@
+<!-- Overflow (progressive-collapse row) Examples -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3 class="pa-card__title"><span class="pa-card__title-text">Overflow — progressive collapse row</span></h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Generic primitive lifted out of <code>pa-card__actions--overflow</code>. Mark any flex row of children with <code>pa-overflow</code> and the JS module (<code>overflow.js</code>) walks the lowest-priority items into a "..." menu when the row can't fit, restoring them as space comes back. Works on toolbars, breadcrumb rows, chip rows, tab bars, anything horizontally laid out.</p>
+        <ul class="pa-list-basic mb-3">
+            <li>Priority via <code>data-pa-actions-priority="N"</code> on a child — higher stays longer (default 0).</li>
+            <li>Tiebreak direction via <code>data-pa-actions-overflow-from="end"</code> (default — rightmost drops first) or <code>"start"</code> (leftmost drops first).</li>
+            <li>Same SCSS contract as the card variant: <code>min-width: 0; overflow: hidden; flex-shrink: 1</code> on the wrapper makes <code>scrollWidth &gt; clientWidth</code> a truthful signal.</li>
+            <li>The card-flavoured alias <code>pa-card__actions--overflow</code> still works — the JS auto-inits on both selectors.</li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- ================================================================
+     1. Resizable toolbar — native CSS resize handle
+     ================================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3 class="pa-card__title"><span class="pa-card__title-text">1. Resizable toolbar</span></h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Drag the bottom-right corner of the framed wrapper below to shrink it. Buttons collapse into "..." by ascending priority; <code>Run</code> is pinned with <code>data-pa-actions-priority="10"</code> and stays last. Flip the drop direction with the checkbox.</p>
+
+        <label class="mb-3" style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+            <input type="checkbox"
+                   onchange="document.getElementById('demoToolbar').setAttribute('data-pa-actions-overflow-from', this.checked ? 'start' : 'end');">
+            <span>Drop from start (leftmost goes to menu first)</span>
+        </label>
+
+        <div style="resize: horizontal; overflow: hidden; min-width: 12rem; max-width: 100%; width: 36rem; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: 0.4rem; background: var(--pa-surface-bg);">
+            <div id="demoToolbar" class="pa-overflow" data-pa-actions-overflow-from="end">
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                    <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                    <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Format
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                    <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                    <i class="fa-solid fa-file-export" aria-hidden="true"></i> Export
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--primary" type="button" data-pa-actions-priority="10">
+                    <i class="fa-solid fa-play" aria-hidden="true"></i> Run
+                </button>
+            </div>
+        </div>
+        <p class="text-sm text-secondary mt-3 mb-0">No card scaffolding — the <code>pa-overflow</code> row is sitting directly inside an inline-resizable wrapper.</p>
+    </div>
+</div>
+
+
+<!-- ================================================================
+     2. Mixed priorities — primary actions pinned, helpers drop first
+     ================================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3 class="pa-card__title"><span class="pa-card__title-text">2. Mixed priorities</span></h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Priority lets you keep the actions that matter visible no matter how narrow the row gets. Here <code>Publish</code> (priority 20) and <code>Save draft</code> (priority 10) stay last; helpers (Preview, History, Settings) drop in DOM order from the right.</p>
+
+        <div style="resize: horizontal; overflow: hidden; min-width: 10rem; max-width: 100%; width: 30rem; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: 0.4rem; background: var(--pa-surface-bg);">
+            <div class="pa-overflow">
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                    <i class="fa-solid fa-eye" aria-hidden="true"></i> Preview
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> History
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                    <i class="fa-solid fa-gear" aria-hidden="true"></i> Settings
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button" data-pa-actions-priority="10">
+                    <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save draft
+                </button>
+                <button class="pa-btn pa-btn--xs pa-btn--primary" type="button" data-pa-actions-priority="20">
+                    <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Publish
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================================================
+     3. Chip / tag row — content-agnostic
+     ================================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3 class="pa-card__title"><span class="pa-card__title-text">3. Chip row</span></h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Same primitive, different children. Here the row is filled with <code>pa-badge</code> chips — the JS doesn't care what the children are, as long as they're inline-block. No priorities means pure DOM order with the default "end" tiebreaker (rightmost drops first).</p>
+
+        <div style="resize: horizontal; overflow: hidden; min-width: 10rem; max-width: 100%; width: 32rem; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: 0.4rem; background: var(--pa-surface-bg);">
+            <div class="pa-overflow">
+                <span class="pa-badge pa-badge--primary">Frontend</span>
+                <span class="pa-badge pa-badge--success">TypeScript</span>
+                <span class="pa-badge pa-badge--warning">Performance</span>
+                <span class="pa-badge pa-badge--info">Accessibility</span>
+                <span class="pa-badge pa-badge--danger">Bug</span>
+                <span class="pa-badge">Documentation</span>
+                <span class="pa-badge pa-badge--secondary">Refactor</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================================================
+     4. Inside a splitter pane — drives the resize via drag, not corner-handle
+     ================================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3 class="pa-card__title"><span class="pa-card__title-text">4. Inside a splitter pane</span></h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">Drag the splitter gutter to shrink the left pane — its toolbar collapses the same way. Demonstrates that the primitive doesn't need a card wrapper; the toolbar is plain markup inside the pane.</p>
+
+        <div class="pa-splitter pa-splitter--horizontal"
+             data-pa-splitter
+             data-pa-splitter-id="demo-overflow-splitter"
+             style="height: 14rem; border: 1px solid var(--pa-border-color); border-radius: 0.4rem;">
+            <div class="pa-splitter__pane"
+                 data-pa-splitter-size="60%"
+                 data-pa-splitter-min="180px"
+                 style="padding: 1rem;">
+                <h4 class="mb-3">Toolbar (resizable pane)</h4>
+                <div class="pa-overflow">
+                    <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                        <i class="fa-solid fa-bold" aria-hidden="true"></i> Bold
+                    </button>
+                    <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                        <i class="fa-solid fa-italic" aria-hidden="true"></i> Italic
+                    </button>
+                    <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                        <i class="fa-solid fa-underline" aria-hidden="true"></i> Underline
+                    </button>
+                    <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                        <i class="fa-solid fa-link" aria-hidden="true"></i> Link
+                    </button>
+                    <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                        <i class="fa-solid fa-image" aria-hidden="true"></i> Image
+                    </button>
+                    <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">
+                        <i class="fa-solid fa-quote-right" aria-hidden="true"></i> Quote
+                    </button>
+                    <button class="pa-btn pa-btn--xs pa-btn--primary" type="button" data-pa-actions-priority="10">
+                        <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save
+                    </button>
+                </div>
+            </div>
+            <div class="pa-splitter__gutter"
+                 role="separator"
+                 aria-orientation="vertical"
+                 tabindex="0"></div>
+            <div class="pa-splitter__pane" style="padding: 1rem;">
+                <h4 class="mb-2">Preview pane</h4>
+                <p class="text-sm text-secondary mb-0">Drag the gutter leftward to watch the toolbar collapse buttons into "...". Drag rightward to restore.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================================================
+     5. Card-flavoured alias — back-compat path
+     ================================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3 class="pa-card__title"><span class="pa-card__title-text">5. Card-flavoured alias (back-compat)</span></h3>
+    </div>
+    <div class="pa-card__body">
+        <p class="mb-3">The existing <code>pa-card__actions--overflow</code> variant still works unchanged — same JS module auto-inits on both selectors. Use it when you want the overflow row to sit inside a <code>pa-card__header</code> (which carries the matching SCSS rules under <code>_cards.scss</code>).</p>
+
+        <div style="resize: horizontal; overflow: hidden; min-width: 14rem; max-width: 100%; width: 32rem;">
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <h4 class="pa-card__title">
+                        <i class="pa-card__title-icon fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                        <span class="pa-card__title-text">Document.md</span>
+                    </h4>
+                    <div class="pa-card__actions pa-card__actions--overflow" data-pa-actions-overflow-from="end">
+                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">Save</button>
+                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">Format</button>
+                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">Refresh</button>
+                        <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">Export</button>
+                        <button class="pa-btn pa-btn--xs pa-btn--primary" type="button" data-pa-actions-priority="10">Run</button>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <p class="text-sm text-secondary mb-0">Shrink the framed wrapper above this card — the actions row in the card header collapses identically to the generic <code>pa-overflow</code> rows.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================================================
+     6. API reference
+     ================================================================ -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3 class="pa-card__title"><span class="pa-card__title-text">API</span></h3>
+    </div>
+    <div class="pa-card__body">
+        <h4 class="mb-2">Markup</h4>
+        <pre class="pa-code mb-3"><code>&lt;div class="pa-overflow" data-pa-actions-overflow-from="end"&gt;
+  &lt;button class="pa-btn pa-btn--xs"&gt;Save&lt;/button&gt;
+  &lt;button class="pa-btn pa-btn--xs"&gt;Format&lt;/button&gt;
+  &lt;button class="pa-btn pa-btn--xs" data-pa-actions-priority="10"&gt;Run&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+        <h4 class="mb-2">Attributes</h4>
+        <table class="pa-table pa-table--striped mb-3">
+            <thead>
+                <tr><th>Attribute</th><th>Where</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-pa-actions-overflow-from</code></td>
+                    <td>Wrapper</td>
+                    <td><code>"end"</code> (default) drops rightmost first; <code>"start"</code> drops leftmost first. Live-flip safe via <code>MutationObserver</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>data-pa-actions-priority</code></td>
+                    <td>Child</td>
+                    <td>Integer (default 0). Higher priority stays visible longer; ties broken by DOM order and the <code>-overflow-from</code> tiebreaker.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4 class="mb-2">JS API</h4>
+        <pre class="pa-code mb-3"><code>// Auto-inits on .pa-overflow + .pa-card__actions--overflow at DOMContentLoaded.
+// After injecting dynamic markup, re-scan a subtree:
+window.PaOverflow.initAll(document.getElementById('inserted-wrapper'));
+
+// Diagnostics (set before page load):
+window.PA_OVERFLOW_DEBUG = true;</code></pre>
+
+        <h4 class="mb-2">Layout contract</h4>
+        <p class="mb-0">The wrapper must have <code>min-width: 0; overflow: hidden; flex-shrink: 1</code> so the row actually shrinks below its content (otherwise the browser keeps the wrapper at intrinsic content width and the overflow signal never fires). The <code>pa-overflow</code> class supplies these via <code>_overflow.scss</code>; the card alias supplies them under <code>.pa-card__header</code> in <code>_cards.scss</code>. If you want the row to live somewhere else with different layout rules, replicate those three properties on whatever wrapper you put around it.</p>
+    </div>
+</div>

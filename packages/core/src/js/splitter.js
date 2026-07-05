@@ -1,10 +1,8 @@
 /**
  * Pure Admin Splitter
  * Resizable container with two or more panes. Auto-initializes on
- * [data-pa-splitter]. Single implementation path — the legacy 2-pane
- * shorthand (`--start` / `--end` modifiers, root-level constraints) is
- * normalized into per-pane attributes at init time and runs through the
- * same code as N-pane.
+ * [data-pa-splitter]. Panes and gutters alternate (pane, gutter, pane,
+ * gutter, …, pane); each pane carries its own sizing attributes.
  *
  * --- Attributes on root ---
  *   data-pa-splitter                 (marker; required)
@@ -17,11 +15,13 @@
  *                                     (drag-to-minimize snap ratio of the
  *                                      drag-start size, floored at rail × 1.5)
  *
- * --- Legacy 2-pane root attributes (normalized into per-pane) ---
- *   data-pa-splitter-min-start="200px" | "20%"   → start pane data-pa-splitter-min
- *   data-pa-splitter-max-start="60%" | "800px"   → start pane data-pa-splitter-max
- *   data-pa-splitter-default="280px" | "30%"     → start pane data-pa-splitter-size
- *   data-pa-splitter-minimize="start" | "end"    → marker on the named pane
+ * --- Accordion mode (auto) ---
+ *   When the container is narrower than the sum of all pane mins + gutters
+ *   + gaps + padding AND there are 2+ minimizable panes, the splitter
+ *   switches into single-pane-expanded mode: restoring one minimizable pane
+ *   auto-rails the others. Engages/disengages automatically as the
+ *   container resizes. Adds the class `pa-splitter--accordion` to the root
+ *   as a styling hook.
  *
  * --- Attributes on each .pa-splitter__pane ---
  *   data-pa-splitter-size="200px" | "30%"  (initial size; unspecified panes
@@ -33,6 +33,23 @@
  *                                             first and last panes — they
  *                                             roll up against the closest
  *                                             container edge)
+ *
+ * --- Drag-from-rail asymmetry ---
+ *   When the gutter's primary neighbour is already railed, drag direction
+ *   matters: dragging OUTWARD (the direction that would grow the pane)
+ *   releases the rail and follows the cursor; dragging INWARD (into the
+ *   rail, would shrink the pane further) is inert — the rail stays put and
+ *   the gutter doesn't move. Tap-without-drag on the gutter does nothing.
+ *   Restore gestures: rail-body click, dblclick on the gutter, focus the
+ *   gutter and press Enter/Space, click a [data-pa-splitter-toggle], or
+ *   drag the gutter outward past the snap threshold.
+ *
+ * --- Events (CustomEvent, bubbles from the pane) ---
+ *   pa-splitter:resize    detail: { index, pane, size }   per pane on every applySizes
+ *   pa-splitter:collapse  detail: { index, pane }         when a pane is railed
+ *   pa-splitter:expand    detail: { index, pane }         when a pane is restored
+ *   Resize fires unconditionally per pane during drag — debounce in the listener.
+ *   Init does NOT fire collapse for panes that started rail'd from saved state.
  *
  * Public API (window.PaSplitter):
  *   init(el)        - initialize a single splitter element (idempotent)
@@ -122,40 +139,7 @@
 
     function init(root) {
         if (!root || root[INIT_FLAG]) return;
-        normalizeLegacyMarkup(root);
         initNPane(root);
-    }
-
-    // Translate the legacy 2-pane shorthand into per-pane attributes so the
-    // single N-pane code path handles both forms. The old root-level
-    // -min-start / -max-start / -default move onto the start pane;
-    // -minimize="start|end" becomes the marker attribute on the named pane.
-    // Existing per-pane attributes win (consumer-set values not overwritten),
-    // so a mixed-style markup still resolves predictably.
-    function normalizeLegacyMarkup(root) {
-        var startPane = root.querySelector(':scope > .pa-splitter__pane--start');
-        var endPane = root.querySelector(':scope > .pa-splitter__pane--end');
-        if (!startPane || !endPane) return;
-
-        var minStart = root.getAttribute('data-pa-splitter-min-start');
-        var maxStart = root.getAttribute('data-pa-splitter-max-start');
-        var defaultRaw = root.getAttribute('data-pa-splitter-default');
-        var minimize = root.getAttribute('data-pa-splitter-minimize');
-
-        if (minStart != null && !startPane.hasAttribute('data-pa-splitter-min')) {
-            startPane.setAttribute('data-pa-splitter-min', minStart);
-        }
-        if (maxStart != null && !startPane.hasAttribute('data-pa-splitter-max')) {
-            startPane.setAttribute('data-pa-splitter-max', maxStart);
-        }
-        if (defaultRaw != null && !startPane.hasAttribute('data-pa-splitter-size')) {
-            startPane.setAttribute('data-pa-splitter-size', defaultRaw);
-        }
-        if (minimize === 'start' && !startPane.hasAttribute('data-pa-splitter-minimize')) {
-            startPane.setAttribute('data-pa-splitter-minimize', '');
-        } else if (minimize === 'end' && !endPane.hasAttribute('data-pa-splitter-minimize')) {
-            endPane.setAttribute('data-pa-splitter-minimize', '');
-        }
     }
 
     // ====================================================================
@@ -231,6 +215,14 @@
         var lastNonZero = new Array(N);
         var isMin = new Array(N);
 
+        // Per-pane orientation class — defensive against nested splitters
+        // with mixed orientations. Downstream CSS that only wants to act on
+        // panes inside a horizontal (or vertical) splitter can key off the
+        // class on the pane itself instead of walking up to find an
+        // orientation modifier (which, with nesting, returns the outer
+        // splitter's orientation for inner panes).
+        var paneOrientationClass = isVertical ? 'pa-splitter__pane--vertical' : 'pa-splitter__pane--horizontal';
+
         // Read per-pane attributes. Sizes are resolved later (against total).
         var sizeRaws = new Array(N);
         var minRaws = new Array(N);
@@ -250,6 +242,32 @@
             lastNonZero[i] = 0;
             // Flex setup: every pane is fully JS-controlled, no fill via flex-grow.
             panes[i].style.flex = '0 0 auto';
+            panes[i].classList.add(paneOrientationClass);
+        }
+
+        // CustomEvent dispatch helpers. Events bubble from the pane element
+        // so consumers can listen on the splitter root (or higher) with a
+        // single handler. resize fires per pane per applySizes — unfiltered;
+        // debounce in the listener if needed. collapse/expand fire only on
+        // user-initiated transitions (toggle, dblclick, drag snap, rail
+        // click) — NOT on init from saved state.
+        function fireResize(i) {
+            panes[i].dispatchEvent(new CustomEvent('pa-splitter:resize', {
+                bubbles: true,
+                detail: { index: i, pane: panes[i], size: sizes[i] }
+            }));
+        }
+        function fireCollapse(i) {
+            panes[i].dispatchEvent(new CustomEvent('pa-splitter:collapse', {
+                bubbles: true,
+                detail: { index: i, pane: panes[i] }
+            }));
+        }
+        function fireExpand(i) {
+            panes[i].dispatchEvent(new CustomEvent('pa-splitter:expand', {
+                bubbles: true,
+                detail: { index: i, pane: panes[i] }
+            }));
         }
 
         function gapPx() {
@@ -360,6 +378,7 @@
                     if (lastNonZero[i] !== sizes[i]) lastNonZeroChanged.push({ i: i, from: lastNonZero[i], to: sizes[i] });
                     lastNonZero[i] = sizes[i];
                 }
+                fireResize(i);
             }
             root.classList.toggle('pa-splitter--minimized', anyMin);
             // Only log applySizes when a pane's minimized class actually
@@ -465,12 +484,14 @@
                 }
                 primaryIdx = primaryNeighbour(g);
                 primarySign = (primaryIdx === g) ? 1 : -1;
-                // Snapshot rail state at drag start; clear isMin so the
-                // normal drag math runs (the user is now driving size, not
-                // the rail latch). Tap-without-drag is detected at pointerup
-                // and restores via the same path as click-on-rail.
+                // Snapshot rail state at drag start. Crucially DO NOT clear
+                // isMin here — the user might be dragging INTO the rail (no
+                // expand intent), and pre-clearing would visually flash the
+                // card out of its rail state before we know which direction
+                // they're going. Rail release is deferred to onPointerMove,
+                // where it gates on outward direction (primarySign * delta
+                // > 0). Tap-without-drag is therefore inert on the gutter.
                 primaryStartedMin = isMin[primaryIdx];
-                if (primaryStartedMin) isMin[primaryIdx] = false;
                 primaryInEscape = false;
                 primaryCanSnap = !primaryStartedMin;
                 everMoved = false;
@@ -539,6 +560,7 @@
                         var totalSnap = totalAvailable();
                         clampToConstraints(sizes, totalSnap, pinnedForAbsorbers(snapAbsorbers));
                         applySizes({ persist: false });
+                        fireCollapse(primaryIdx);
                         return;
                     }
                 }
@@ -553,6 +575,7 @@
                         { newPrimary: newPrimary, threshold: snapThreshold(primaryMaxReached) });
                     isMin[primaryIdx] = false;
                     primaryInEscape = true;
+                    fireExpand(primaryIdx);
                 }
 
                 // If primary is still railed (cursor in the snap zone), the
@@ -617,8 +640,24 @@
 
             function onPointerMove(e) {
                 if (e.pointerId !== activePointerId) return;
-                if (!everMoved && Math.abs(e[clientCoord] - dragStartCoord) >= TAP_PX) {
+                var delta = e[clientCoord] - dragStartCoord;
+                if (!everMoved && Math.abs(delta) >= TAP_PX) {
                     everMoved = true;
+                }
+                // Asymmetric drag against a primary that started rail'd:
+                //   outward (primarySign * delta > 0, would grow primary) →
+                //     release the rail, fire expand, fall through to drag math.
+                //   inward  (primarySign * delta <= 0, would shrink further) →
+                //     no-op for the frame. Pane stays rail'd, gutter doesn't
+                //     move, no applySizes call. Stay inert until either the
+                //     direction flips outward or the user releases.
+                if (primaryStartedMin && isMin[primaryIdx]) {
+                    if (primarySign * delta <= 0) return;
+                    if (Math.abs(delta) < TAP_PX) return;
+                    log('move g=' + g + ' DRAG-OUT-OF-RAIL-AT-START primary i=' + primaryIdx);
+                    isMin[primaryIdx] = false;
+                    primaryInEscape = true;
+                    fireExpand(primaryIdx);
                 }
                 pendingMove = e[clientCoord];
                 if (rafScheduled) return;
@@ -654,28 +693,23 @@
                     isMin_primary: isMin[primaryIdx]
                 });
 
-                // TAP-RESTORE: pointer never moved (within jitter) AND
-                // primary started railed → restore the primary, just like
-                // click-on-rail. In rebalance model, the secondary
-                // neighbour's rail state is not the user's intent — they
-                // grabbed THIS gutter to act on its primary.
-                if (!everMoved && primaryStartedMin) {
-                    log('pointerup g=' + g + ' TAP-RESTORE i=' + primaryIdx);
-                    isMin[primaryIdx] = true;
-                    restorePane(primaryIdx);
-                    primaryStartedMin = false;
-                    primaryIdx = -1;
-                    return;
-                }
+                // Tap-without-drag on the gutter is intentionally inert.
+                // Restore gestures: rail-body click (handler below), dblclick
+                // on the gutter, focus + Enter/Space, toggle button, or drag
+                // the gutter outward past the snap threshold.
 
-                // RAIL-STAYED: primary started rail and never grew above
-                // rail (no absorbers had headroom, or threshold not crossed).
-                // Restore isMin so the visual state matches.
+                // RAIL-STAYED: primary started rail, the user dragged
+                // outward enough to release isMin (set in onPointerMove),
+                // but the size never grew meaningfully above rail (absorbers
+                // had no headroom, or the user dragged back into the snap
+                // zone before release). Restore isMin so the visual state
+                // matches and fire collapse so consumers see the round-trip.
                 var anyChange = false;
                 if (primaryStartedMin && Math.abs(sizes[primaryIdx] - railSizePx) < 1 && !isMin[primaryIdx]) {
                     log('pointerup g=' + g + ' RAIL-STAYED primary i=' + primaryIdx);
                     isMin[primaryIdx] = true;
                     anyChange = true;
+                    fireCollapse(primaryIdx);
                 }
 
                 // CLAMP-TO-MIN: any non-rail pane sitting below its mins
@@ -897,12 +931,29 @@
             var total = totalAvailable();
             clampToConstraints(sizes, total, isMin);
             applySizes();
+            fireCollapse(i);
         }
 
         function restorePane(i) {
             if (!isMin[i]) {
                 log('restorePane i=' + i + ' NOOP (not minimized)');
                 return;
+            }
+            // ACCORDION SWEEP: when accordion mode is engaged, restoring a
+            // pane auto-rails any other currently-expanded minimizable
+            // panes so exactly one stays open. `lastNonZero` for the
+            // panes being railed was already captured on their last
+            // applySizes while they were expanded — no extra bookkeeping
+            // needed for a future restore to recover their size.
+            if (accordionActive) {
+                for (var ai = 0; ai < N; ai++) {
+                    if (ai !== i && canMin[ai] && !isMin[ai]) {
+                        log('restorePane accordion-rail i=' + ai + ' (sweep for restore of i=' + i + ')');
+                        isMin[ai] = true;
+                        sizes[ai] = railSizePx;
+                        fireCollapse(ai);
+                    }
+                }
             }
             isMin[i] = false;
             // Target: remembered "expanded" size, but never below mins[i].
@@ -956,20 +1007,123 @@
             // a previously-restored pane suddenly grows when another pane
             // is restored. Visible empty space is the lesser evil here:
             // it goes away naturally as the user restores more panes.
+            //
+            // Accordion mode is the explicit opposite — only one pane is
+            // expanded so a gap to its right is just dead space. Fill it.
             var newSum = 0;
             for (var ns = 0; ns < N; ns++) newSum += sizes[ns];
             if (newSum > total + 0.5) {
                 var pinned = isMin.slice();
                 pinned[i] = true;
                 clampToConstraints(sizes, total, pinned);
+            } else if (accordionActive) {
+                expandNonMinToFill();
             }
             applySizes();
+            fireExpand(i);
         }
 
         function togglePane(i) {
             log('togglePane i=' + i, { currentlyMin: isMin[i] });
             if (isMin[i]) restorePane(i);
             else minimizePane(i);
+        }
+
+        // ---- Accordion mode (auto, viewport-driven) ----
+        // Engaged when container width is below the sum of all panes'
+        // mins + gutters + gaps + padding AND there are 2+ minimizable
+        // panes (otherwise there's nothing to switch between). While
+        // active, restoring one pane auto-rails the others — see the
+        // ACCORDION SWEEP block in restorePane().
+        var accordionActive = false;
+
+        function requiredForAllExpanded() {
+            // mins[] are in px (resolved by resolveConstraints against the
+            // current container). gutterTotal/gapPx/paddingPx mirror
+            // totalAvailable()'s deductions so the comparison is apples-
+            // to-apples with root[clientAxis].
+            var sum = 0;
+            for (var i = 0; i < N; i++) sum += mins[i];
+            var gapCount = 2 * (N - 1);
+            return sum + gutterTotal() + (gapCount * gapPx()) + paddingPx();
+        }
+
+        function shouldBeAccordion() {
+            var minimizableCount = 0;
+            for (var i = 0; i < N; i++) if (canMin[i]) minimizableCount++;
+            if (minimizableCount < 2) return false;
+            return root[clientAxis] < requiredForAllExpanded();
+        }
+
+        function enterAccordion() {
+            if (accordionActive) return;
+            accordionActive = true;
+            root.classList.add('pa-splitter--accordion');
+            // Pick what to keep expanded. Priority:
+            //   1. A non-minimizable pane (it has to stay expanded anyway)
+            //   2. The first currently-expanded minimizable pane (user's
+            //      current focus survives the transition)
+            //   3. Pane 0 as fallback
+            var keepIdx = -1;
+            for (var i = 0; i < N; i++) {
+                if (!canMin[i]) { keepIdx = i; break; }
+            }
+            if (keepIdx === -1) {
+                for (var j = 0; j < N; j++) {
+                    if (canMin[j] && !isMin[j]) { keepIdx = j; break; }
+                }
+            }
+            if (keepIdx === -1) keepIdx = 0;
+            log('enterAccordion keepIdx=' + keepIdx);
+            for (var k = 0; k < N; k++) {
+                if (k !== keepIdx && canMin[k] && !isMin[k]) {
+                    isMin[k] = true;
+                    sizes[k] = railSizePx;
+                    fireCollapse(k);
+                }
+            }
+            expandNonMinToFill();
+            applySizes();
+        }
+
+        // In accordion mode the expanded pane(s) consume all remaining
+        // space, IGNORING their declared `max` constraints. Rationale:
+        // `max` is a "share fairly with siblings" ceiling that stops
+        // making sense once the siblings are all railed — strictly
+        // honouring it just leaves a visible gap to the right of the
+        // expanded pane. Mins are still respected.
+        function expandNonMinToFill() {
+            var total = totalAvailable();
+            var sum = 0;
+            var flexable = [];
+            var flexableWeight = 0;
+            for (var i = 0; i < N; i++) {
+                sum += sizes[i];
+                if (!isMin[i]) {
+                    flexable.push(i);
+                    flexableWeight += sizes[i] > 0 ? sizes[i] : 1;
+                }
+            }
+            var diff = total - sum;
+            if (flexable.length === 0 || Math.abs(diff) < 0.5) return;
+            for (var k = 0; k < flexable.length; k++) {
+                var idx = flexable[k];
+                var weight = (sizes[idx] > 0 ? sizes[idx] : 1) / flexableWeight;
+                var next = sizes[idx] + diff * weight;
+                if (next < mins[idx]) next = mins[idx];
+                sizes[idx] = next;
+            }
+        }
+
+        function exitAccordion() {
+            if (!accordionActive) return;
+            accordionActive = false;
+            root.classList.remove('pa-splitter--accordion');
+            log('exitAccordion');
+            // Don't auto-restore panes. The user railed them implicitly
+            // by going narrow; restoring them on widen would surprise
+            // anyone who narrowed/widened during a single session. They
+            // click a rail when they want it back.
         }
 
         // ---- Initial size resolution ----
@@ -988,18 +1142,6 @@
             savedSizes = saved.sizes;
             savedLasts = Array.isArray(saved.lasts) ? saved.lasts : null;
             savedMin = Array.isArray(saved.minimized) ? saved.minimized : null;
-        } else if (saved && typeof saved.size === 'number') {
-            // Legacy 2-pane shape — migrate to v:2 if the splitter has 2 panes
-            // (the only shape it could have produced). Saved blob from a
-            // different N falls through; defaults take over.
-            if (N === 2) {
-                var legacyRemainder = initialTotal - saved.size;
-                if (!(legacyRemainder >= 0)) legacyRemainder = 0;
-                savedSizes = [saved.size, legacyRemainder];
-                var legacyLast = (typeof saved.last === 'number' && saved.last > 0) ? saved.last : saved.size;
-                savedLasts = [legacyLast, legacyRemainder];
-                savedMin = [!!saved.minimized && canMin[0], false];
-            }
         }
 
         // Pass 1: assign explicit sizes from attributes, collect unspecified.
@@ -1074,6 +1216,11 @@
             }
             clampToConstraints(sizes, total, isMin);
             applySizes({ persist: false });
+            // If the startup viewport is already too narrow to fit all
+            // panes at their mins, engage accordion immediately so the
+            // user never sees the cramped all-rails-except-one-natural
+            // state.
+            if (shouldBeAccordion()) enterAccordion();
         });
 
         // ---- Toggle delegation ----
@@ -1115,6 +1262,20 @@
                     sizesBefore: sizes.slice(),
                     isMin: isMin.slice()
                 });
+                // Accordion mode toggles BEFORE the scale pass. Entering
+                // accordion rails most panes (large layout change); exiting
+                // is a flag-only flip and falls through to the normal
+                // scale so the remaining expanded panes reflow into the
+                // new width.
+                var wantAccordion = shouldBeAccordion();
+                if (wantAccordion && !accordionActive) {
+                    enterAccordion();
+                    lastTotal = total;
+                    return;
+                }
+                if (!wantAccordion && accordionActive) {
+                    exitAccordion();
+                }
                 // Scale only the non-minimized pool. Minimized panes hold at
                 // railSize and don't participate — their fraction of the
                 // container intentionally drifts as the container grows.
@@ -1131,7 +1292,14 @@
                         if (!isMin[j]) sizes[j] *= scale;
                     }
                 }
-                clampToConstraints(sizes, total, isMin);
+                // In accordion mode the expanded pane(s) ignore max and
+                // consume all remaining space — clampToConstraints would
+                // re-clip to max and leave a gap.
+                if (accordionActive) {
+                    expandNonMinToFill();
+                } else {
+                    clampToConstraints(sizes, total, isMin);
+                }
                 applySizes({ persist: false });
                 lastTotal = total;
             });

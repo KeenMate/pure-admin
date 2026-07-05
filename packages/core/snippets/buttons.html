@@ -283,6 +283,57 @@
 </div>
 
 
+<!-- Auto-Absorb Split Button (sibling buttons collapse into menu on resize) -->
+<!-- The .pa-btn-toolbar wrapper provides the constrained-width flex row;
+     btn-split-auto-absorb.js moves overflowing siblings into the menu.
+     Standalone form (any flex context): -->
+<div class="pa-btn-toolbar">
+  <button class="pa-btn pa-btn--primary">Save</button>
+  <button class="pa-btn pa-btn--primary">Format</button>
+  <button class="pa-btn pa-btn--primary">Refresh</button>
+  <button class="pa-btn pa-btn--primary" data-pa-absorb-priority="10">Publish</button>
+  <div class="pa-btn-split pa-btn-split--auto-absorb">
+    <button class="pa-btn pa-btn--primary">Run</button>
+    <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+      <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+    </button>
+    <div class="pa-btn-split__menu">
+      <div class="pa-btn-split__menu-inner">
+        <button class="pa-btn-split__item">Run with options&hellip;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- In a card header, nest the toolbar inside .pa-card__actions (the canonical
+     header actions slot) — same as a plain button row or a .pa-btn-group. The
+     framework makes that actions wrapper shrinkable so overflow detection still
+     works, and the header title yields before the toolbar collapses. -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <h3>Team Members</h3>
+    <div class="pa-card__actions">
+      <div class="pa-btn-toolbar">
+        <button class="pa-btn pa-btn--secondary">Search</button>
+        <button class="pa-btn pa-btn--secondary">Filter</button>
+        <div class="pa-btn-split pa-btn-split--auto-absorb">
+          <button class="pa-btn pa-btn--primary">Add user</button>
+          <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+            <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+          </button>
+          <div class="pa-btn-split__menu">
+            <div class="pa-btn-split__menu-inner">
+              <button class="pa-btn-split__item">Add user with role&hellip;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pa-card__body">Card content.</div>
+</div>
+
+
 <!-- BUTTONS WITH ICONS -->
 
 <!-- Button with Icon (Text Icon) -->

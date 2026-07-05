@@ -1,8 +1,17 @@
 /**
- * Pure Admin — Card Actions Overflow
+ * Pure Admin — Overflow (progressive-collapse row)
  *
- * Progressive collapse of card-header action buttons into a "more" menu when
- * the actions row can't fit. Auto-inits on `.pa-card__actions--overflow`.
+ * Generic progressive-collapse primitive: a horizontal row of children that
+ * walks the lowest-priority items into a "more" menu when the row can't fit,
+ * and restores them as space comes back. Originally lived as the
+ * `pa-card__actions--overflow` variant in `_cards.scss`; promoted to a
+ * standalone block (`pa-overflow`) so toolbars, button bars, breadcrumbs,
+ * tab rows, chip rows — anything with a flex row of inline-block children —
+ * can reuse it without the card scaffolding.
+ *
+ * Auto-inits on:
+ *   .pa-overflow                 — the generic primitive (preferred)
+ *   .pa-card__actions--overflow  — the card-flavoured alias (back-compat)
  *
  * Drop order: lowest `data-pa-actions-priority` (default 0) drops first.
  * Ties broken by DOM order, with the tiebreak direction set on the wrapper:
@@ -12,8 +21,7 @@
  *
  * Pin a button so it never collapses by giving it a high priority (e.g. 10).
  *
- *   <div class="pa-card__actions pa-card__actions--overflow"
- *        data-pa-actions-overflow-from="end">
+ *   <div class="pa-overflow" data-pa-actions-overflow-from="end">
  *     <button class="pa-btn pa-btn--xs">Save</button>
  *     <button class="pa-btn pa-btn--xs">Format</button>
  *     <button class="pa-btn pa-btn--xs"
@@ -25,17 +33,37 @@
  * the cached-width math entirely — what the browser thinks fits is the
  * source of truth.
  *
- * Opt in to console diagnostics: `window.PA_CARD_ACTIONS_OVERFLOW_DEBUG = true`
- * before page load.
+ * Layout contract: the wrapper needs `min-width: 0; overflow: hidden;
+ * flex-shrink: 1` so the row actually shrinks below its content (otherwise
+ * `scrollWidth > clientWidth` never becomes truthful). `_overflow.scss`
+ * supplies that for `.pa-overflow`; the card variant carries equivalent
+ * rules in `_cards.scss` under `.pa-card__header`.
  *
- * Public API (window.PaCardActionsOverflow):
+ * Opt in to console diagnostics: `window.PA_OVERFLOW_DEBUG = true`
+ * before page load. (`window.PA_CARD_ACTIONS_OVERFLOW_DEBUG` still works.)
+ *
+ * Public API (window.PaOverflow):
  *   init(el)       — idempotent single-element init
  *   initAll(scope) — initialize all uninitialized overflow wrappers under scope
+ *
+ * `window.PaCardActionsOverflow` is preserved as a back-compat alias.
  */
 (function () {
     'use strict';
 
-    var INIT_FLAG = '__paActionsOverflowInit';
+    var INIT_FLAG = '__paOverflowInit';
+
+    // Selectors we auto-init on. The card-actions modifier stays in the
+    // list so existing markup keeps working without having to add the
+    // generic class manually.
+    var SELECTOR = '.pa-overflow, .pa-card__actions--overflow';
+
+    function matchesContract(el) {
+        return el && el.classList && (
+            el.classList.contains('pa-overflow') ||
+            el.classList.contains('pa-card__actions--overflow')
+        );
+    }
 
     // Floating UI (optional) — used to position the overflow menu. Mirrors
     // the helpers `split-button.js` pulls from `window.FloatingUIDOM`. We
@@ -46,7 +74,7 @@
 
     function init(root) {
         if (!root || root[INIT_FLAG]) return;
-        if (!root.classList.contains('pa-card__actions--overflow')) return;
+        if (!matchesContract(root)) return;
         root[INIT_FLAG] = true;
 
         var items = Array.prototype.slice.call(root.children).filter(function (el) {
@@ -75,20 +103,24 @@
         }
         buildDropOrder();
 
-        // Opt-in diagnostics — set `window.PA_CARD_ACTIONS_OVERFLOW_DEBUG = true`
-        // before page load to see init / relayout / move-to-menu traces.
-        var DEBUG = window.PA_CARD_ACTIONS_OVERFLOW_DEBUG === true;
-        var instanceLabel = '[pa-card-actions-overflow#' + (root.id || ordered.map(function (i) { return i.el.tagName; }).join('-')).slice(0, 40) + ']';
+        // Opt-in diagnostics — set `window.PA_OVERFLOW_DEBUG = true` (or the
+        // pre-rename `PA_CARD_ACTIONS_OVERFLOW_DEBUG`) before page load to
+        // see init / relayout / move-to-menu traces.
+        var DEBUG = window.PA_OVERFLOW_DEBUG === true || window.PA_CARD_ACTIONS_OVERFLOW_DEBUG === true;
+        var instanceLabel = '[pa-overflow#' + (root.id || ordered.map(function (i) { return i.el.tagName; }).join('-')).slice(0, 40) + ']';
         function log() {
             if (!DEBUG) return;
             var args = Array.prototype.slice.call(arguments);
             console.log.apply(console, [instanceLabel].concat(args));
         }
 
-        // Trigger button — the "..." affordance.
+        // Trigger button — the "..." affordance. Carries both the generic
+        // and the card-flavoured class so any existing SCSS targeting the
+        // old `.pa-card__actions-overflow-trigger` selector keeps working
+        // (themes / consumer overrides) without forcing a coordinated update.
         var trigger = document.createElement('button');
         trigger.type = 'button';
-        trigger.className = 'pa-btn pa-btn--xs pa-btn--ghost pa-card__actions-overflow-trigger';
+        trigger.className = 'pa-btn pa-btn--xs pa-btn--ghost pa-overflow__trigger pa-card__actions-overflow-trigger';
         trigger.setAttribute('aria-label', 'More actions');
         trigger.setAttribute('aria-haspopup', 'menu');
         trigger.setAttribute('aria-expanded', 'false');
@@ -319,11 +351,17 @@
     }
 
     function initAll(scope) {
-        var nodes = (scope || document).querySelectorAll('.pa-card__actions--overflow');
+        var nodes = (scope || document).querySelectorAll(SELECTOR);
         for (var i = 0; i < nodes.length; i++) init(nodes[i]);
     }
 
-    window.PaCardActionsOverflow = { init: init, initAll: initAll };
+    var api = { init: init, initAll: initAll };
+    window.PaOverflow = api;
+    // Back-compat: `card-actions-overflow.js` exported this global; keep
+    // pointing at the same { init, initAll } pair so existing consumers
+    // calling `window.PaCardActionsOverflow.initAll(scope)` (after
+    // injecting dynamic markup) keep working.
+    window.PaCardActionsOverflow = api;
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { initAll(); });
