@@ -1,0 +1,338 @@
+/* ========================================
+   Range Group
+   A compact multi-range filter: one toggle that summarises several
+   numeric range filters (e.g. "Age / Salary / Children") inline, and
+   expands into a floating panel with one slider per dimension.
+
+   Two blocks live here, on purpose:
+
+   - .pa-range        — the slider primitive. Single- OR dual-thumb,
+                        driven entirely by CSS custom properties that JS
+                        sets (--_pos on each thumb, --_fill-start /
+                        --_fill-end on the fill). Positioning uses LOGICAL
+                        properties (inset-inline-*) so RTL mirrors for
+                        free — JS only ever deals in 0–100 percentages.
+   - .pa-range-group  — the compact control: a __toggle summarising the
+                        rows, and a floating __panel of .pa-range rows.
+                        The panel is anchored with Floating UI (see the
+                        demo's range-group.js, mirroring split-button.js).
+
+   The group is meant to drop into a filter-card __filters row as a
+   single control that stands in for N sliders. See snippets/range-group.html.
+   ======================================== */
+
+@use '../variables' as *;
+
+/* ----------------------------------------
+   Slider primitive — pa-range
+   ---------------------------------------- */
+
+// Structural (compile-time) tokens — not themable, so plain SCSS vars.
+$range-track-height:   0.4rem;
+$range-thumb-size:     1.6rem;
+$range-thumb-border:   0.2rem;
+$range-fill-height:    $range-track-height;
+
+// Tallest handle shape (the bar) drives the reserved height so no shape
+// overflows the row.
+$range-thumb-tall:     2.2rem;
+
+.pa-range {
+  position: relative;
+  // Reserve the tallest handle's height so absolutely-positioned thumbs
+  // never clip against the row above/below. The rail centres itself, so
+  // circle handles stay centred regardless.
+  height: $range-thumb-tall;
+  touch-action: none;              // let JS own the drag gesture
+  user-select: none;
+}
+
+// The inner rail the thumbs travel along. Inset half a thumb on each inline
+// side so a thumb centred at 0% / 100% sits fully on the track without
+// overhanging the ends. Everything (track, fill, thumbs) positions against
+// this, so JS only ever works in 0–100% of the rail width.
+.pa-range__rail {
+  position: absolute;
+  inset-inline: calc(#{$range-thumb-size} / 2);
+  top: 50%;
+  transform: translateY(-50%);
+  height: $range-track-height;
+}
+
+.pa-range__track {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background-color: var(--pa-surface-track);
+}
+
+.pa-range__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: $range-fill-height;
+  border-radius: 999px;
+  background-color: var(--pa-accent);
+  // JS sets these as 0–100% — logical, so RTL flips automatically.
+  inset-inline-start: var(--_fill-start, 0%);
+  inset-inline-end: var(--_fill-end, 0%);
+}
+
+.pa-range__thumb {
+  // Handle dimensions come from private props so the centring margin (and
+  // the shape modifiers below) stay in one place. Default = round handle.
+  --_thumb-w: #{$range-thumb-size};
+  --_thumb-h: #{$range-thumb-size};
+
+  position: absolute;
+  top: 50%;
+  // --_pos is the thumb centre as a 0–100% offset along the rail. Logical
+  // inset + a logical negative margin of half the handle keeps it centred
+  // and RTL-correct without any transform flip.
+  inset-inline-start: var(--_pos, 0%);
+  margin-inline-start: calc(var(--_thumb-w) / -2);
+  transform: translateY(-50%);
+
+  width: var(--_thumb-w);
+  height: var(--_thumb-h);
+  padding: 0;
+  border: $range-thumb-border solid var(--pa-accent);
+  border-radius: 50%;
+  background-color: var(--pa-card-bg);
+  cursor: grab;
+  touch-action: none;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--pa-accent-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.3rem var(--pa-accent-light);
+  }
+
+  &:active,
+  &.pa-range__thumb--grabbing {
+    cursor: grabbing;
+    box-shadow: 0 0 0 0.3rem var(--pa-accent-light);
+  }
+}
+
+/* ---- Handle shapes ----
+   Modifiers on .pa-range that restyle its thumbs. Purely cosmetic — no JS
+   involvement — so a shape can be mixed per row. Each just overrides the
+   private size props + border-radius; centring follows automatically. */
+
+// Rounded rectangle.
+.pa-range--handle-rect .pa-range__thumb {
+  --_thumb-w: 1.2rem;
+  --_thumb-h: 1.9rem;
+  border-radius: var(--pa-border-radius-sm);
+}
+
+// Thin vertical bar ("|") — solid accent, reads as a divider.
+.pa-range--handle-bar .pa-range__thumb {
+  --_thumb-w: 0.6rem;
+  --_thumb-h: 2.2rem;
+  border-radius: 999px;
+  background-color: var(--pa-accent);
+
+  &:hover { background-color: var(--pa-accent-hover); }
+}
+
+// Chevron handles ("‹ ›"). A rounded-rect grip with a CSS chevron drawn on
+// top via ::before. Handles point outward (drag me to widen the range); the
+// single-thumb variant keeps the max handle only, pointing at its bound.
+// A 2-border corner only inks one half of its box, so after the 45° rotation
+// the "›" sits toward its point. Nudge it back toward the handle centre by
+// half its post-rotation reach (size / (2·√2)). The nudge is the OUTERMOST
+// transform so it's a screen-space shift, unaffected by the inner rotate.
+$range-chevron-size:  0.5rem;
+$range-chevron-nudge: $range-chevron-size * 0.354;   // ≈ size / (2√2)
+
+.pa-range--handle-arrow .pa-range__thumb {
+  --_thumb-w: 1.6rem;
+  --_thumb-h: 2rem;
+  border-radius: var(--pa-border-radius-sm);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    inset-inline-start: 50%;
+    width: $range-chevron-size;
+    height: $range-chevron-size;
+    // top+end borders rotated 45° form a "›" (points toward inline-end).
+    border-block-start: $range-thumb-border solid var(--pa-accent);
+    border-inline-end: $range-thumb-border solid var(--pa-accent);
+    transform: translateX(#{-$range-chevron-nudge}) translate(-50%, -50%) rotate(45deg);
+  }
+}
+// Min handle points the other way ("‹") — nudge the opposite direction.
+.pa-range--handle-arrow .pa-range__thumb--min::before {
+  transform: translateX(#{$range-chevron-nudge}) translate(-50%, -50%) rotate(-135deg);
+}
+
+// Single-thumb variant — hide the unused min thumb. JS reads the modifier
+// to decide how many handles to wire up and how the fill is anchored.
+.pa-range--single {
+  .pa-range__thumb--min {
+    display: none;
+  }
+}
+
+.pa-range--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ----------------------------------------
+   Compact control — pa-range-group
+   ---------------------------------------- */
+
+$range-group-toggle-padding-v: $spacing-sm;
+$range-group-toggle-padding-h: $spacing-md;
+$range-group-panel-min-width:  32rem;
+$range-group-panel-padding:    $spacing-base;
+$range-group-panel-row-gap:    $spacing-lg;
+
+.pa-range-group {
+  position: relative;
+  display: inline-flex;
+}
+
+.pa-range-group__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-md;
+  width: 100%;
+  padding: $range-group-toggle-padding-v $range-group-toggle-padding-h;
+  border: $border-width-base solid var(--pa-border-color);
+  border-radius: var(--pa-border-radius);
+  background-color: var(--pa-input-bg);
+  color: var(--pa-text-color-1);
+  font-size: $font-size-sm;
+  line-height: 1.3;
+  text-align: start;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: var(--pa-accent-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--pa-accent);
+    box-shadow: 0 0 0 0.3rem var(--pa-accent-light);
+  }
+}
+
+// Single line: "LABEL value / LABEL value / …". Keeps the toggle the same
+// height as sibling inputs; truncates with an ellipsis when it runs out of
+// room. JS builds the segments (see updateSummary in range-group.js).
+.pa-range-group__summary {
+  flex: 1;
+  min-width: 0;
+  font-size: $font-size-sm;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// One dimension's "LABEL value" pair.
+.pa-range-group__seg-label {
+  font-size: $font-size-2xs;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--pa-text-tertiary);
+}
+
+.pa-range-group__seg-value {
+  font-weight: $font-weight-medium;
+  color: var(--pa-text-color-1);
+  font-variant-numeric: tabular-nums;
+}
+
+// "Any" placeholder value — muted so active dimensions read as the signal.
+.pa-range-group__seg-value--empty {
+  color: var(--pa-text-tertiary);
+  font-weight: $font-weight-normal;
+}
+
+// The " / " separators between segments.
+.pa-range-group__seg-sep {
+  color: var(--pa-text-tertiary);
+  margin-inline: 0.4rem;
+}
+
+.pa-range-group__caret {
+  flex-shrink: 0;
+  font-size: $font-size-xs;
+  color: var(--pa-text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.pa-range-group--open .pa-range-group__caret {
+  transform: rotate(180deg);
+}
+
+/* ---- Floating panel ---- */
+
+.pa-range-group__panel {
+  display: none;
+  flex-direction: column;
+  gap: $range-group-panel-row-gap;
+  min-width: $range-group-panel-min-width;
+  padding: $range-group-panel-padding;
+  border: $border-width-base solid var(--pa-border-color);
+  border-radius: var(--pa-border-radius-lg);
+  background-color: var(--pa-card-bg);
+  box-shadow: var(--pa-detail-shadow);
+  z-index: $z-index-dropdown;
+
+  &.pa-range-group__panel--open {
+    display: flex;
+  }
+}
+
+.pa-range-group__row {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.pa-range-group__row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.pa-range-group__row-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--pa-text-color-1);
+}
+
+.pa-range-group__row-value {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  font-variant-numeric: tabular-nums;
+  color: var(--pa-accent);
+
+  &.pa-range-group__row-value--empty {
+    color: var(--pa-text-tertiary);
+  }
+}
+
+.pa-range-group__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-xs;
+  padding-top: $range-group-panel-row-gap;
+  border-top: $border-width-base solid var(--pa-border-color);
+}

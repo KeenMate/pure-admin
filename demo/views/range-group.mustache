@@ -1,0 +1,330 @@
+<!-- Range Group Component Examples -->
+
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>Range Group</h3>
+        <p>A compact multi-range filter. One toggle summarises several numeric range filters inline
+           (<code>Age / Salary / Children</code>) and expands into a floating panel with one slider per
+           dimension — instead of spreading three separate sliders across a filter bar. Each row is
+           dual-thumb (min–max) or single-thumb (a <code>&ge;</code> / <code>&le;</code> threshold),
+           configured per-row via data attributes.</p>
+    </div>
+    <div class="pa-card__body">
+
+        <!-- ============ In a filter card ============ -->
+        <h4>In a filter bar</h4>
+        <p class="text-secondary">The range group drops into a <code>.pa-filter-card__filters</code> row as a
+           single control standing in for three sliders. Open it, drag, and Apply.</p>
+
+        <div class="pa-card pa-filter-card mt-2">
+            <div class="pa-card__body">
+                <div class="pa-filter-card__row">
+                    <div class="pa-filter-card__filters">
+                        <div class="pa-input-group">
+                            <span class="pa-input-group__prepend"><i class="fas fa-search"></i></span>
+                            <input type="text" class="pa-input" placeholder="Search people by name">
+                        </div>
+
+                        <div class="pa-input-wrapper">
+                            <select class="pa-select">
+                                <option>Any department</option>
+                                <option>Engineering</option>
+                                <option>Sales</option>
+                                <option>Support</option>
+                            </select>
+                        </div>
+
+                        <!-- The compact multi-range filter -->
+                        <div class="pa-range-group" data-range-group id="people-filters">
+                            <button type="button" class="pa-range-group__toggle" data-range-group-toggle aria-expanded="false">
+                                <span class="pa-range-group__summary" data-range-group-summary></span>
+                                <i class="fas fa-chevron-down pa-range-group__caret" aria-hidden="true"></i>
+                            </button>
+
+                            <div class="pa-range-group__panel" data-range-group-panel role="dialog" aria-label="Numeric filters">
+                                <div class="pa-range-group__row">
+                                    <div class="pa-range-group__row-head">
+                                        <span class="pa-range-group__row-label">Age</span>
+                                        <span class="pa-range-group__row-value" data-range-output></span>
+                                    </div>
+                                    <div class="pa-range" data-range
+                                         data-key="age" data-label="Age"
+                                         data-min="18" data-max="80" data-step="1"
+                                         data-value-min="25" data-value-max="60">
+                                        <div class="pa-range__rail">
+                                            <div class="pa-range__track"></div>
+                                            <div class="pa-range__fill" data-range-fill></div>
+                                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Minimum age"></button>
+                                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Maximum age"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pa-range-group__row">
+                                    <div class="pa-range-group__row-head">
+                                        <span class="pa-range-group__row-label">Salary</span>
+                                        <span class="pa-range-group__row-value" data-range-output></span>
+                                    </div>
+                                    <div class="pa-range" data-range
+                                         data-key="salary" data-label="Salary"
+                                         data-min="0" data-max="200000" data-step="5000"
+                                         data-value-min="40000" data-value-max="200000"
+                                         data-prefix="$" data-thousands>
+                                        <div class="pa-range__rail">
+                                            <div class="pa-range__track"></div>
+                                            <div class="pa-range__fill" data-range-fill></div>
+                                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Minimum salary"></button>
+                                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Maximum salary"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pa-range-group__row">
+                                    <div class="pa-range-group__row-head">
+                                        <span class="pa-range-group__row-label">Children</span>
+                                        <span class="pa-range-group__row-value" data-range-output></span>
+                                    </div>
+                                    <div class="pa-range pa-range--single" data-range
+                                         data-key="children" data-label="Children"
+                                         data-min="0" data-max="8" data-step="1"
+                                         data-mode="single" data-bound="gte" data-value="2">
+                                        <div class="pa-range__rail">
+                                            <div class="pa-range__track"></div>
+                                            <div class="pa-range__fill" data-range-fill></div>
+                                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-hidden="true"></button>
+                                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Minimum children"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pa-range-group__actions">
+                                    <button type="button" class="pa-btn pa-btn--sm pa-btn--ghost" data-range-group-reset>Reset</button>
+                                    <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" data-range-group-apply>Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pa-filter-card__actions">
+                        <button class="pa-btn pa-btn--primary pa-btn--icon-only" title="Search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event output -->
+        <h4 class="mt-4">Emitted values</h4>
+        <p class="text-secondary">The group dispatches <code>pa-range-group:change</code> live and
+           <code>pa-range-group:apply</code> / <code>:reset</code> on the buttons. Payload is keyed by
+           <code>data-key</code>; a bound at its extent reports <code>null</code> (i.e. “Any”).</p>
+        <pre class="pa-code pa-code--compact" id="range-group-output"><code>// interact with the filter above…</code></pre>
+    </div>
+</div>
+
+<!-- ============ Single-thumb thresholds ============ -->
+<div class="pa-card mt-4">
+    <div class="pa-card__header">
+        <h3>Single-thumb thresholds</h3>
+        <p>Set <code>data-mode="single"</code> for a one-handle threshold. <code>data-bound="gte"</code>
+           reads as “<code>value+</code>”, <code>data-bound="lte"</code> as “<code>&le; value</code>”.</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-range-group" data-range-group>
+            <button type="button" class="pa-range-group__toggle" data-range-group-toggle aria-expanded="false">
+                <span class="pa-range-group__summary" data-range-group-summary></span>
+                <i class="fas fa-chevron-down pa-range-group__caret" aria-hidden="true"></i>
+            </button>
+            <div class="pa-range-group__panel" data-range-group-panel role="dialog" aria-label="Threshold filters">
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Min rating</span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range pa-range--single" data-range
+                         data-key="rating" data-label="Rating"
+                         data-min="0" data-max="5" data-step="0.5"
+                         data-mode="single" data-bound="gte" data-value="4"
+                         data-suffix="★">
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-hidden="true"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Minimum rating"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Max distance</span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range pa-range--single" data-range
+                         data-key="distance" data-label="Distance"
+                         data-min="1" data-max="50" data-step="1"
+                         data-mode="single" data-bound="lte" data-value="20"
+                         data-suffix=" km">
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-hidden="true"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Maximum distance"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-range-group__actions">
+                    <button type="button" class="pa-btn pa-btn--sm pa-btn--ghost" data-range-group-reset>Reset</button>
+                    <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" data-range-group-apply>Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ Handle shapes ============ -->
+<div class="pa-card mt-4">
+    <div class="pa-card__header">
+        <h3>Handle shapes</h3>
+        <p>Add a <code>pa-range--handle-*</code> modifier to any <code>.pa-range</code> row to restyle its
+           handles. Purely cosmetic (no JS), so you can mix shapes per row. Open the filter to compare —
+           <code>circle</code> (default), <code>rect</code>, <code>bar</code>, and <code>arrow</code>.</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-range-group" data-range-group>
+            <button type="button" class="pa-range-group__toggle" data-range-group-toggle aria-expanded="false">
+                <span class="pa-range-group__summary" data-range-group-summary></span>
+                <i class="fas fa-chevron-down pa-range-group__caret" aria-hidden="true"></i>
+            </button>
+            <div class="pa-range-group__panel" data-range-group-panel role="dialog" aria-label="Handle shapes">
+                {{! circle (default) }}
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Circle</span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range" data-range data-key="circle" data-label="Circle"
+                         data-min="0" data-max="100" data-value-min="20" data-value-max="70">
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Min"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Max"></button>
+                        </div>
+                    </div>
+                </div>
+                {{! rect }}
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Rectangle <code>handle-rect</code></span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range pa-range--handle-rect" data-range data-key="rect" data-label="Rectangle"
+                         data-min="0" data-max="100" data-value-min="20" data-value-max="70">
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Min"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Max"></button>
+                        </div>
+                    </div>
+                </div>
+                {{! bar }}
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Bar <code>handle-bar</code></span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range pa-range--handle-bar" data-range data-key="bar" data-label="Bar"
+                         data-min="0" data-max="100" data-value-min="20" data-value-max="70">
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Min"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Max"></button>
+                        </div>
+                    </div>
+                </div>
+                {{! arrow }}
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Chevron <code>handle-arrow</code></span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range pa-range--handle-arrow" data-range data-key="arrow" data-label="Chevron"
+                         data-min="0" data-max="100" data-value-min="20" data-value-max="70">
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Min"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Max"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pa-range-group__actions">
+                    <button type="button" class="pa-btn pa-btn--sm pa-btn--ghost" data-range-group-reset>Reset</button>
+                    <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" data-range-group-apply>Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ Markup reference ============ -->
+<div class="pa-card mt-4">
+    <div class="pa-card__header">
+        <h3>Markup</h3>
+        <p>One <code>[data-range]</code> row per dimension. Positioning is driven in 0–100% via CSS custom
+           properties on logical inset properties, so RTL mirrors automatically.</p>
+    </div>
+    <div class="pa-card__body">
+<pre class="pa-code"><code>&lt;div class="pa-range-group" data-range-group&gt;
+  &lt;button class="pa-range-group__toggle" data-range-group-toggle aria-expanded="false"&gt;
+    &lt;!-- range-group.js fills this with "LABEL value / …" segments --&gt;
+    &lt;span class="pa-range-group__summary" data-range-group-summary&gt;&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down pa-range-group__caret"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+
+  &lt;div class="pa-range-group__panel" data-range-group-panel&gt;
+    &lt;div class="pa-range-group__row"&gt;
+      &lt;div class="pa-range-group__row-head"&gt;
+        &lt;span class="pa-range-group__row-label"&gt;Age&lt;/span&gt;
+        &lt;span class="pa-range-group__row-value" data-range-output&gt;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="pa-range" data-range
+           data-key="age" data-min="18" data-max="80"
+           data-value-min="25" data-value-max="60"&gt;
+        &lt;div class="pa-range__rail"&gt;
+          &lt;div class="pa-range__track"&gt;&lt;/div&gt;
+          &lt;div class="pa-range__fill" data-range-fill&gt;&lt;/div&gt;
+          &lt;button class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min"&gt;&lt;/button&gt;
+          &lt;button class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max"&gt;&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- …more rows… --&gt;
+    &lt;div class="pa-range-group__actions"&gt;
+      &lt;button class="pa-btn pa-btn--sm pa-btn--ghost" data-range-group-reset&gt;Reset&lt;/button&gt;
+      &lt;button class="pa-btn pa-btn--sm pa-btn--primary" data-range-group-apply&gt;Apply&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var out = document.getElementById('range-group-output');
+        var group = document.getElementById('people-filters');
+        if (!out || !group) return;
+
+        function log(type, e) {
+            out.querySelector('code').textContent =
+                type + '  →  ' + JSON.stringify(e.detail.values, null, 2);
+        }
+        group.addEventListener('pa-range-group:change', function (e) { log('change', e); });
+        group.addEventListener('pa-range-group:apply',  function (e) { log('apply ', e); });
+        group.addEventListener('pa-range-group:reset',  function (e) { log('reset ', e); });
+    })();
+</script>

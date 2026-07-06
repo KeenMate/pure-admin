@@ -1,0 +1,109 @@
+<!-- ================================
+     RANGE GROUP
+     A compact multi-range filter. One toggle summarises several numeric
+     range filters inline ("Age / Salary / Children") and expands into a
+     floating panel with one slider per dimension — instead of laying three
+     separate sliders out across a filter bar.
+
+     Source: core-components/_range-group.scss (two blocks: the .pa-range
+     slider primitive + the .pa-range-group compact control).
+     Behaviour:  demo/js/range-group.js (Floating UI panel, pointer/keyboard
+     dragging, live summary, Apply / Reset + custom events).
+
+     PER-ROW CONFIG (data attributes on each .pa-range-group__row > .pa-range):
+       data-key / data-label     identity + label
+       data-min / data-max       bounds (required)
+       data-step                 increment (default 1)
+       data-mode                 "range" (dual-thumb, default) | "single"
+       data-bound                single only: "gte" (default) | "lte"
+       data-value                single initial value
+       data-value-min/-max       range initial low / high
+       data-prefix / data-suffix strings wrapping the formatted number
+       data-thousands            present → group integer with , separators
+
+     HANDLE SHAPE (cosmetic modifier on the .pa-range element — mix per row):
+       (none)                    round handle (default)
+       pa-range--handle-rect     rounded rectangle
+       pa-range--handle-bar      thin vertical bar "|"
+       pa-range--handle-arrow    chevron handles "‹ ›"
+
+     Drop it into a .pa-filter-card__filters row as one control that stands
+     in for N sliders. See filter-card.html.
+     ================================ -->
+
+<div class="pa-range-group" data-range-group>
+
+  <!-- Toggle: single-line "LABEL value / …" summary + caret. range-group.js
+       builds the segments from each row's data-label + current value. -->
+  <button type="button" class="pa-range-group__toggle" data-range-group-toggle aria-expanded="false">
+    <span class="pa-range-group__summary" data-range-group-summary></span>
+    <i class="fas fa-chevron-down pa-range-group__caret" aria-hidden="true"></i>
+  </button>
+
+  <!-- Floating panel: one row per dimension. -->
+  <div class="pa-range-group__panel" data-range-group-panel role="dialog" aria-label="Numeric filters">
+
+    <!-- Dual-thumb range -->
+    <div class="pa-range-group__row">
+      <div class="pa-range-group__row-head">
+        <span class="pa-range-group__row-label">Age</span>
+        <span class="pa-range-group__row-value" data-range-output>25&#8211;60</span>
+      </div>
+      <div class="pa-range" data-range
+           data-key="age" data-label="Age"
+           data-min="18" data-max="80" data-step="1"
+           data-value-min="25" data-value-max="60">
+        <div class="pa-range__rail">
+          <div class="pa-range__track"></div>
+          <div class="pa-range__fill" data-range-fill></div>
+          <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Minimum age"></button>
+          <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Maximum age"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dual-thumb range, currency-formatted -->
+    <div class="pa-range-group__row">
+      <div class="pa-range-group__row-head">
+        <span class="pa-range-group__row-label">Salary</span>
+        <span class="pa-range-group__row-value" data-range-output>$40,000+</span>
+      </div>
+      <div class="pa-range" data-range
+           data-key="salary" data-label="Salary"
+           data-min="0" data-max="200000" data-step="5000"
+           data-value-min="40000" data-value-max="200000"
+           data-prefix="$" data-thousands>
+        <div class="pa-range__rail">
+          <div class="pa-range__track"></div>
+          <div class="pa-range__fill" data-range-fill></div>
+          <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Minimum salary"></button>
+          <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Maximum salary"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single-thumb threshold (>=) -->
+    <div class="pa-range-group__row">
+      <div class="pa-range-group__row-head">
+        <span class="pa-range-group__row-label">Children</span>
+        <span class="pa-range-group__row-value" data-range-output>2+</span>
+      </div>
+      <div class="pa-range pa-range--single" data-range
+           data-key="children" data-label="Children"
+           data-min="0" data-max="8" data-step="1"
+           data-mode="single" data-bound="gte" data-value="2">
+        <div class="pa-range__rail">
+          <div class="pa-range__track"></div>
+          <div class="pa-range__fill" data-range-fill></div>
+          <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-hidden="true"></button>
+          <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Minimum children"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pa-range-group__actions">
+      <button type="button" class="pa-btn pa-btn--sm pa-btn--ghost" data-range-group-reset>Reset</button>
+      <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" data-range-group-apply>Apply</button>
+    </div>
+  </div>
+</div>

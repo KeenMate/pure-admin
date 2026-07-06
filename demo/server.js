@@ -418,6 +418,10 @@ app.get('/components/overflow', (req, res) => {
     renderWithLayout(res, 'overflow', { pageTitle: 'Overflow', currentPage: 'overflow', isOverflow: true });
 });
 
+app.get('/components/range-group', (req, res) => {
+    renderWithLayout(res, 'range-group', { pageTitle: 'Range Group', currentPage: 'range-group', isRangeGroup: true });
+});
+
 app.get('/components/data-display', (req, res) => {
     renderWithLayout(res, 'data-display', { pageTitle: 'Data Display', currentPage: 'data-display', isDataDisplay: true });
 });
