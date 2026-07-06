@@ -20,6 +20,13 @@
  *   data-prefix       string prepended to formatted numbers (e.g. "$")
  *   data-suffix       string appended to formatted numbers (e.g. " kg")
  *   data-thousands    present → group the integer part with thousands separators
+ *   data-ticks        major tick interval (value units) → draws tick marks
+ *   data-ticks-minor  minor tick interval (value units) → finer marks
+ *   data-tick-labels  present → render numeric labels under the major ticks
+ *   data-snap-ticks   present → thumbs settle on the nearest tick, not the step
+ *
+ * The track is click-to-seek: a pointerdown anywhere on a row (off the thumbs)
+ * moves the nearest thumb to that point and continues the drag from there.
  *
  * Positioning is done entirely in 0–100% of the rail via CSS custom
  * properties (--_pos on thumbs, --_fill-start / --_fill-end on the fill).
@@ -86,10 +93,33 @@
     }
 
     function snap(row, v) {
+        // With data-snap-ticks, settle on the nearest tick value instead of the
+        // (possibly finer) step grid. Tick values are pre-clamped to bounds.
+        if (row.snapTicks && row.tickValues && row.tickValues.length) {
+            return nearestIn(row.tickValues, v);
+        }
         var stepped = row.min + Math.round((v - row.min) / row.step) * row.step;
         // Clean float dust from the division.
         stepped = Math.round(stepped * 1e6) / 1e6;
         return Math.min(row.max, Math.max(row.min, stepped));
+    }
+
+    function nearestIn(arr, v) {
+        var best = arr[0], bestD = Math.abs(v - arr[0]);
+        for (var i = 1; i < arr.length; i++) {
+            var d = Math.abs(v - arr[i]);
+            if (d < bestD) { bestD = d; best = arr[i]; }
+        }
+        return best;
+    }
+
+    function nearestTickIndex(row, v) {
+        var arr = row.tickValues, best = 0, bestD = Math.abs(v - arr[0]);
+        for (var i = 1; i < arr.length; i++) {
+            var d = Math.abs(v - arr[i]);
+            if (d < bestD) { bestD = d; best = i; }
+        }
+        return best;
     }
 
     function render(row) {
@@ -201,9 +231,14 @@
             prefix: el.getAttribute('data-prefix') || '',
             suffix: el.getAttribute('data-suffix') || '',
             thousands: el.hasAttribute('data-thousands'),
+            snapTicks: el.hasAttribute('data-snap-ticks'),
             thumbMin: el.querySelector('[data-range-thumb="min"]'),
             thumbMax: el.querySelector('[data-range-thumb="max"]')
         };
+
+        // Compute tick values up front so the initial value snap (below) can
+        // honour data-snap-ticks; the DOM marks are drawn later by renderTicks.
+        computeTicks(row);
 
         if (mode === 'single') {
             row.value = numAttr(el, 'data-value', bound === 'lte' ? max : min);
@@ -217,8 +252,127 @@
 
         wireThumb(row, row.thumbMin, 'min');
         wireThumb(row, row.thumbMax, 'max');
+        wireTrackSeek(row);
+        renderTicks(row);
         render(row);
         return row;
+    }
+
+    // Compute a row's tick values from data-ticks / data-ticks-minor. Stores a
+    // sorted, de-duped list on row.tickValues (used for snapping + rendering)
+    // and a set of the major positions on row.tickMajorAt. No DOM here.
+    function computeTicks(row) {
+        var majorStep = numAttr(row.el, 'data-ticks', 0);
+        if (!(majorStep > 0)) { row.tickValues = null; return; }
+        var minorStep = numAttr(row.el, 'data-ticks-minor', 0);
+        var EPS = row.step ? row.step * 1e-4 : 1e-6;
+        var key = function (v) { return Math.round(v * 1e6); };
+
+        var majorAt = {}, seen = {}, vals = [];
+        var v, cv;
+        for (v = row.min; v <= row.max + EPS; v += majorStep) {
+            majorAt[key(Math.min(v, row.max))] = true;
+        }
+        function add(v) {
+            cv = Math.min(v, row.max);
+            if (!seen[key(cv)]) { seen[key(cv)] = true; vals.push(cv); }
+        }
+        if (minorStep > 0) {
+            for (v = row.min; v <= row.max + EPS; v += minorStep) add(v);
+        }
+        for (v = row.min; v <= row.max + EPS; v += majorStep) add(v);
+        vals.sort(function (a, b) { return a - b; });
+
+        row.tickValues = vals;
+        row.tickMajorAt = majorAt;
+        row.tickLabels = row.el.hasAttribute('data-tick-labels');
+    }
+
+    // Draw the tick marks (and optional labels) computed by computeTicks. The
+    // container is the rail's FIRST child, so marks paint behind the track/fill
+    // and align with thumb travel.
+    function renderTicks(row) {
+        if (!row.tickValues) return;
+        var rail = row.el.querySelector('.pa-range__rail');
+        if (!rail) return;
+        var key = function (v) { return Math.round(v * 1e6); };
+
+        var ticks = document.createElement('div');
+        ticks.className = 'pa-range__ticks';
+        var labels = null;
+        if (row.tickLabels) {
+            labels = document.createElement('div');
+            labels.className = 'pa-range__tick-labels';
+            row.el.classList.add('pa-range--ticks-labeled');
+        }
+
+        row.tickValues.forEach(function (v) {
+            var major = !!row.tickMajorAt[key(v)];
+            var m = document.createElement('span');
+            m.className = major ? 'pa-range__tick pa-range__tick--major' : 'pa-range__tick';
+            m.style.setProperty('--_pos', pct(row, v) + '%');
+            ticks.appendChild(m);
+            if (major && labels) {
+                var l = document.createElement('span');
+                l.className = 'pa-range__tick-label';
+                l.style.setProperty('--_pos', pct(row, v) + '%');
+                l.textContent = formatValue(row, v);
+                labels.appendChild(l);
+            }
+        });
+
+        rail.insertBefore(ticks, rail.firstChild);
+        if (labels) rail.appendChild(labels);
+    }
+
+    // Which thumb should a click/drag at value `v` drive? Single → the lone
+    // (max) thumb. Range → the nearer thumb, with the bounds biased so a click
+    // beyond a thumb always grabs that thumb.
+    function nearestWhich(row, v) {
+        if (row.mode === 'single') return 'max';
+        if (v <= row.valueMin) return 'min';
+        if (v >= row.valueMax) return 'max';
+        return (v - row.valueMin) <= (row.valueMax - v) ? 'min' : 'max';
+    }
+
+    // Shared drag driver for both thumb-grabs and track-seeks. Moves `which`
+    // to the pointer immediately, then follows the pointer via document-level
+    // listeners until release (works even if the pointer leaves the thumb).
+    function beginDrag(row, which, e) {
+        var thumb = which === 'min' ? row.thumbMin : row.thumbMax;
+        if (!thumb) return;
+        e.preventDefault();
+        thumb.focus();
+        thumb.classList.add('pa-range__thumb--grabbing');
+        row._drag = which;
+        setThumb(row, which, pointerToValue(row, e.clientX));
+
+        function move(ev) {
+            if (row._drag == null) return;
+            ev.preventDefault();
+            setThumb(row, row._drag, pointerToValue(row, ev.clientX));
+        }
+        function up() {
+            if (row._drag == null) return;
+            thumb.classList.remove('pa-range__thumb--grabbing');
+            row._drag = null;
+            document.removeEventListener('pointermove', move);
+            document.removeEventListener('pointerup', up);
+            document.removeEventListener('pointercancel', up);
+        }
+        document.addEventListener('pointermove', move);
+        document.addEventListener('pointerup', up);
+        document.addEventListener('pointercancel', up);
+    }
+
+    // Click anywhere on the track (not on a thumb) seeks the nearest thumb to
+    // that point and lets the drag continue from there.
+    function wireTrackSeek(row) {
+        row.el.addEventListener('pointerdown', function (e) {
+            if (e.target.closest('.pa-range__thumb')) return;   // thumb owns its own
+            var v = snap(row, pointerToValue(row, e.clientX));
+            beginDrag(row, nearestWhich(row, v), e);
+        });
     }
 
     function wireThumb(row, thumb, which) {
@@ -229,42 +383,40 @@
         thumb.setAttribute('role', 'slider');
         thumb.setAttribute('tabindex', '0');
 
-        var dragging = false;
-
-        function onMove(e) {
-            if (!dragging) return;
-            e.preventDefault();
-            setThumb(row, which, pointerToValue(row, e.clientX));
-        }
-        function onUp(e) {
-            if (!dragging) return;
-            dragging = false;
-            thumb.classList.remove('pa-range__thumb--grabbing');
-            if (thumb.releasePointerCapture && e.pointerId != null) {
-                try { thumb.releasePointerCapture(e.pointerId); } catch (_) {}
-            }
-        }
-
         thumb.addEventListener('pointerdown', function (e) {
-            e.preventDefault();
-            thumb.focus();
-            dragging = true;
-            thumb.classList.add('pa-range__thumb--grabbing');
-            if (thumb.setPointerCapture && e.pointerId != null) {
-                try { thumb.setPointerCapture(e.pointerId); } catch (_) {}
-            }
-            setThumb(row, which, pointerToValue(row, e.clientX));
+            beginDrag(row, which, e);
         });
-        thumb.addEventListener('pointermove', onMove);
-        thumb.addEventListener('pointerup', onUp);
-        thumb.addEventListener('pointercancel', onUp);
 
         thumb.addEventListener('keydown', function (e) {
             var cur = row.mode === 'single'
                 ? row.value
                 : (which === 'min' ? row.valueMin : row.valueMax);
-            var big = row.step * 10;
             var next = null;
+
+            // Snap-to-ticks rows navigate tick-to-tick: a step-sized delta could
+            // be smaller than a tick gap and get swallowed by the snap, freezing
+            // the handle. Arrows = ±1 tick, Page = ±3 ticks.
+            if (row.snapTicks && row.tickValues && row.tickValues.length) {
+                var arr = row.tickValues;
+                var idx = nearestTickIndex(row, cur);
+                var clamp = function (i) { return Math.min(arr.length - 1, Math.max(0, i)); };
+                switch (e.key) {
+                    case 'ArrowRight':
+                    case 'ArrowUp':   next = arr[clamp(idx + 1)]; break;
+                    case 'ArrowLeft':
+                    case 'ArrowDown': next = arr[clamp(idx - 1)]; break;
+                    case 'PageUp':    next = arr[clamp(idx + 3)]; break;
+                    case 'PageDown':  next = arr[clamp(idx - 3)]; break;
+                    case 'Home':      next = row.min; break;
+                    case 'End':       next = row.max; break;
+                    default: return;
+                }
+                e.preventDefault();
+                setThumb(row, which, next);
+                return;
+            }
+
+            var big = row.step * 10;
             switch (e.key) {
                 case 'ArrowRight':
                 case 'ArrowUp':   next = cur + row.step; break;

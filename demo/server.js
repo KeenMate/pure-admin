@@ -669,6 +669,12 @@ app.use('/src/js', express.static(path.join(__dirname, 'js'), {
     maxAge: 0,
     etag: true
 }));
+// …then fall back to the core package's published src/js for any component whose
+// JS lives only in core (single source of truth — no demo copy to keep in sync).
+app.use('/src/js', express.static(path.join(corePackagePath, 'src', 'js'), {
+    maxAge: 0,
+    etag: true
+}));
 
 // Assets (images, icons) from demo (local)
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {

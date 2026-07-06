@@ -40,6 +40,8 @@
 //   --pa-range-thumb-border         handle ring/bar/chevron (→ --pa-accent)
 //   --pa-range-thumb-border-hover   handle on hover         (→ --pa-accent-hover)
 //   --pa-range-focus-ring           thumb focus/active ring (→ --pa-accent-light)
+//   --pa-range-tick                 minor tick-mark colour  (→ --pa-border-color)
+//   --pa-range-tick-major           major tick-mark colour  (→ --pa-text-tertiary)
 //   --pa-range-track-height         track/fill thickness    (→ 0.4rem)
 //   --pa-range-thumb-size           default round handle Ø  (→ 1.6rem)
 //   --pa-range-group-panel-min-width  floating panel width  (→ 32rem)
@@ -57,6 +59,17 @@ $range-fill-height:    $range-track-height;
 // overflows the row.
 $range-thumb-tall:     2.2rem;
 
+// Tick marks. A tick is a short line centred on the track and drawn BEHIND
+// it, so only the ends protrude above/below — major ticks reach further out
+// than minor ones. Sitting behind the track/fill sidesteps any contrast
+// problem over the accent fill. Labels (opt-in) sit in a reserved band below.
+$range-tick-width:        0.1rem;
+$range-tick-major-width:  0.2rem;
+$range-tick-minor-height: 0.9rem;   // 0.25rem protrudes each side of a 0.4rem track
+$range-tick-major-height: 1.4rem;   // 0.5rem protrudes each side
+$range-tick-label-gap:    0.3rem;   // track bottom → label top
+$range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
+
 .pa-range {
   position: relative;
   // Reserve the tallest handle's height so absolutely-positioned thumbs
@@ -65,6 +78,20 @@ $range-thumb-tall:     2.2rem;
   height: $range-thumb-tall;
   touch-action: none;              // let JS own the drag gesture
   user-select: none;
+  // The track is click-to-seek (range-group.js moves the nearest thumb), so
+  // the whole row reads as clickable; thumbs override with grab/grabbing.
+  cursor: pointer;
+}
+
+// Labelled ticks reserve a band below the track. Grow the row and keep the
+// rail anchored to the top so the labels drop into the reserved space rather
+// than pushing the track off-centre from its sibling rows.
+.pa-range--ticks-labeled {
+  height: calc(#{$range-thumb-tall} + #{$range-tick-label-space});
+
+  .pa-range__rail {
+    top: calc(#{$range-thumb-tall} / 2);
+  }
 }
 
 // The inner rail the thumbs travel along. Inset half a thumb on each inline
@@ -98,6 +125,59 @@ $range-thumb-tall:     2.2rem;
   // JS sets these as 0–100% — logical, so RTL flips automatically.
   inset-inline-start: var(--_fill-start, 0%);
   inset-inline-end: var(--_fill-end, 0%);
+}
+
+/* ---- Tick marks ----
+   Built by range-group.js when a row has data-ticks. The container lives
+   INSIDE the rail (so 0–100% maps to the same travel as the thumbs) and is
+   the rail's first child — painted behind the track/fill, so each tick shows
+   only as protruding ends. Marks are pointer-events:none, so a track click
+   still reaches the .pa-range click-to-seek handler. */
+.pa-range__ticks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pa-range__tick {
+  position: absolute;
+  top: 50%;
+  // --_pos is a 0–100% offset along the rail, set inline by JS. Logical
+  // inset + logical negative margin centres the mark, RTL-correct.
+  inset-inline-start: var(--_pos, 0%);
+  width: $range-tick-width;
+  height: $range-tick-minor-height;
+  margin-inline-start: calc(#{$range-tick-width} / -2);
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background-color: var(--pa-range-tick, var(--pa-border-color));
+}
+
+.pa-range__tick--major {
+  width: $range-tick-major-width;
+  height: $range-tick-major-height;
+  margin-inline-start: calc(#{$range-tick-major-width} / -2);
+  background-color: var(--pa-range-tick-major, var(--pa-text-tertiary));
+}
+
+// Labels (opt-in via data-tick-labels). Sit in a band below the track; JS
+// adds .pa-range--ticks-labeled to the row to reserve the height.
+.pa-range__tick-labels {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(100% + #{$range-tick-label-gap});
+  height: 0;
+  pointer-events: none;
+}
+
+.pa-range__tick-label {
+  position: absolute;
+  inset-inline-start: var(--_pos, 0%);
+  transform: translateX(-50%);   // symmetric box centring; position flips via inset
+  font-size: $font-size-2xs;
+  color: var(--pa-text-tertiary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .pa-range__thumb {
@@ -155,7 +235,7 @@ $range-thumb-tall:     2.2rem;
 
 // Thin vertical bar ("|") — solid accent, reads as a divider.
 .pa-range--handle-bar .pa-range__thumb {
-  --_thumb-w: 0.6rem;
+  --_thumb-w: 0.35rem;
   --_thumb-h: 2.2rem;
   border-radius: 999px;
   background-color: var(--pa-range-thumb-border, var(--pa-accent));
@@ -194,6 +274,39 @@ $range-chevron-nudge: $range-chevron-size * 0.354;   // ≈ size / (2√2)
 // Min handle points the other way ("‹") — nudge the opposite direction.
 .pa-range--handle-arrow .pa-range__thumb--min::before {
   transform: translateX(#{$range-chevron-nudge}) translate(-50%, -50%) rotate(-135deg);
+}
+
+// Needle ("▽") — a downward triangle balancing its point on the track, like a
+// gauge needle marking the value. The thumb box goes invisible (it stays as the
+// grab/focus target, full row height) and a filled triangle is drawn via
+// ::before with clip-path — apex at the track centre, body rising above. Pure
+// CSS, no glyph/SVG, matching the other shapes.
+$range-needle-width:  1.2rem;
+$range-needle-height: 1.1rem;   // fits above the track centre within the row
+
+.pa-range--handle-needle .pa-range__thumb {
+  --_thumb-w: #{$range-needle-width};
+  --_thumb-h: #{$range-thumb-tall};
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: var(--pa-border-radius-sm);   // shapes the focus halo only
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 50%;
+    bottom: 50%;                                // apex rests on the track centre
+    width: $range-needle-width;
+    height: $range-needle-height;
+    margin-inline-start: calc(#{$range-needle-width} / -2);
+    background-color: var(--pa-range-thumb-border, var(--pa-accent));
+    clip-path: polygon(50% 100%, 0 0, 100% 0);  // flat top, point down
+    transition: background-color 0.15s ease;
+  }
+
+  &:hover::before {
+    background-color: var(--pa-range-thumb-border-hover, var(--pa-accent-hover));
+  }
 }
 
 // Single-thumb variant — hide the unused min thumb. JS reads the modifier

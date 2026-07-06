@@ -4,6 +4,11 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 
 ## What's New in 2.9.0-rc04
 
+- **New: Range Group — a compact multi-range filter (`.pa-range-group` + a reusable `.pa-range` slider).** One toggle summarises several numeric filters inline (`AGE 25–60 / SALARY $40,000–$200,000 / CHILDREN 2+`) and expands into a Floating-UI panel with one slider per dimension — standing in for a row of separate sliders in a filter bar. Per-row dual-thumb range or single-thumb threshold, RTL-correct by construction, with a `--pa-range-*` theming token namespace and a bubbling `change` / `apply` / `reset` event contract keyed by dimension.
+- **Range Group sliders are richly interactive.** Major/minor tick marks with optional value labels, opt-in snap-to-tick, click-anywhere-to-seek tracks that grab the nearest handle, and five selectable handle shapes (circle, rectangle, bar, chevron, needle) — all pure CSS, mixable per row. Behaviour ships in the package as `range-group.js` (exposed via the `./js/*` export).
+- **The package now ships the components' JavaScript (`src/js/`, via the `./js/*` export).** Interactive behaviours (split-button dropdowns, splitter drag, tooltips/popovers, toasts, command palette, …) were previously referenced in markup but never published; consumers now get the actual implementations instead of dangling handlers.
+- **Stat square — fit-to-box mode (`data-pa-stat-fit` + `pa-stat-fit.js`).** The primary number scales to fill the tile at the largest font that still fits, and supporting rows (symbol, label, change, context) reveal by priority as the tile earns both width and height — one tile that adapts across dashboard sizes instead of a fixed layout.
+- **Auto-absorb split-button toolbars (`.pa-btn-toolbar` + `pa-btn-split--auto-absorb`).** Sibling buttons fold into a split button's dropdown when the row runs out of width and pop back out as space returns, with per-button drop priority — progressive collapse without a parallel "more" menu.
 - **`.pa-splitter` — `pa-splitter:resize` / `:collapse` / `:expand` `CustomEvent`s.** Three bubbling events fire from the affected pane (`resize.detail = { index, pane, size }`, collapse / expand detail = `{ index, pane }`) so consumers can wire sidebars, analytics, or persistence-coupled toolbars on the splitter root with a single delegated listener. `resize` is unfiltered — debounce in the handler. `collapse` / `expand` fire only on user-initiated transitions; init from saved state stays silent.
 - **`.pa-splitter` — drag against a rail'd primary is now asymmetric.** Dragging outward (the direction that would grow the pane) releases the rail and follows the cursor; dragging inward (into the rail, would shrink further) is fully inert. Previously the drag-from-rail path pre-cleared `isMin` on `pointerdown` regardless of direction, so the card visually flashed out of its rail state before the user could express expand intent in the opposite direction — read as the splitter "guessing wrong". Mirrors `svelte-fluentui/MultiSplitter`'s drag-to-be-explicit gate.
 - **`.pa-splitter` — tap-without-drag on the gutter no longer restores a rail'd pane.** Restore gestures are now: rail-body click, dblclick on the gutter, focus + `Enter`/`Space`, `[data-pa-splitter-toggle]` button, or drag outward past the snap threshold. Users expected drag-to-be-explicit and didn't connect "tap the gutter" with the rail-pane body as a restore surface.
@@ -97,8 +102,10 @@ Pull in only the files for the components you use:
 | Progressive overflow | `overflow.js` |
 | Fit-to-box stat | `pa-stat-fit.js` |
 | Modal dialogs | `modal-dialogs.js` |
+| Range group (`.pa-range-group` / `.pa-range`) | `range-group.js` |
 
-**Positioning dependency:** `split-button.js` and `tooltips-popovers.js` use
+**Positioning dependency:** `split-button.js`, `tooltips-popovers.js`, and
+`range-group.js` use
 [Floating UI](https://floating-ui.com) for dropdown/tooltip placement and
 expect it on the page as the `window.FloatingUIDOM` global (e.g. the
 `@floating-ui/dom` UMD build). Load it before those scripts.

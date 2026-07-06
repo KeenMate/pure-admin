@@ -20,18 +20,27 @@
        data-value-min/-max       range initial low / high
        data-prefix / data-suffix strings wrapping the formatted number
        data-thousands            present → group integer with , separators
+       data-ticks                major tick interval (value units)
+       data-ticks-minor          minor tick interval (value units)
+       data-tick-labels          present → print major values under the ticks
+       data-snap-ticks           present → thumbs settle on nearest tick, not step
+
+     The track is CLICK-TO-SEEK: pressing anywhere on a row off the handles
+     moves the nearest thumb there and continues the drag from that point.
 
      HANDLE SHAPE (cosmetic modifier on the .pa-range element — mix per row):
        (none)                    round handle (default)
        pa-range--handle-rect     rounded rectangle
        pa-range--handle-bar      thin vertical bar "|"
        pa-range--handle-arrow    chevron handles "‹ ›"
+       pa-range--handle-needle   downward-triangle needles "▽"
 
      THEMING — runtime tokens (fall back to the shared cascade; override at
      :root, on .pa-mode-*, or per-instance). NB: the __panel reparents to
      <body> while open, so a per-instance override belongs on the __panel or
      the .pa-range rows, not the group root. See CSS-VARIABLES.md.
        --pa-range-track / -fill / -thumb-bg / -thumb-border[-hover] / -focus-ring
+       --pa-range-tick / -tick-major
        --pa-range-track-height / -thumb-size / --pa-range-group-panel-min-width
 
      Drop it into a .pa-filter-card__filters row as one control that stands
