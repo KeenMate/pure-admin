@@ -366,19 +366,6 @@ $stat-square-symbol-max: 3.6rem !default;    // 36px ceiling (~50% of number-max
 // flex layout gets before the label is pushed to the bottom edge.
 $stat-square-max-height: 16rem !default;     // 160px
 
-// Compact "--square-sm" budget — roughly half the height of the full square.
-// Same cqi-driven scaling, smaller min-height / padding / clamps so a row of
-// these reads as a tight stat strip rather than a stack of banners.
-$stat-square-sm-min-size: 6.4rem !default;   // 64px (half of $stat-square-min-size)
-$stat-square-sm-max-height: 8rem !default;   // 80px
-$stat-square-sm-padding: $spacing-md !default; // 12px (was $spacing-lg / 24px on the full tile)
-$stat-square-sm-number-min: 2.4rem !default; // 24px floor
-$stat-square-sm-number-scale: 16cqi !default;// 16% of tile width
-$stat-square-sm-number-max: 4rem !default;   // 40px ceiling
-$stat-square-sm-symbol-min: 1.2rem !default; // 12px floor
-$stat-square-sm-symbol-scale: 8cqi !default; // 8% of tile width
-$stat-square-sm-symbol-max: 2rem !default;   // 20px ceiling
-
 // Stat square FIT mode (opt-in via [data-pa-stat-fit]) — progressive disclosure.
 // The number is sized to fill the box by pa-stat-fit.js (ResizeObserver); the
 // lower-priority rows reveal as the tile earns BOTH enough width and height.

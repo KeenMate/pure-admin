@@ -207,24 +207,6 @@
       color: var(--pa-btn-primary-text);
     }
 
-    // Compact half-height variant — same layout & colour modifiers, tighter
-    // metrics. Use for dense full-width stat strips where the full square reads
-    // as an oversized banner.
-    &.pa-stat--square-sm {
-      padding: $stat-square-sm-padding;
-      min-height: $stat-square-sm-min-size;
-      max-height: $stat-square-sm-max-height;
-      min-width: $stat-square-sm-min-size;   // shrink to fit narrow KPI columns instead of overflowing + overlapping the neighbour
-
-      .pa-stat__number {
-        font-size: clamp($stat-square-sm-number-min, $stat-square-sm-number-scale, $stat-square-sm-number-max);
-      }
-
-      .pa-stat__symbol {
-        font-size: clamp($stat-square-sm-symbol-min, $stat-square-sm-symbol-scale, $stat-square-sm-symbol-max);
-      }
-    }
-
     // ----------------------------------------------------------------
     // FIT + PROGRESSIVE DISCLOSURE mode  (opt-in: [data-pa-stat-fit])
     // The number is sized to fill the tile by pa-stat-fit.js, which also
