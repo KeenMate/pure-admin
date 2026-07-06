@@ -271,6 +271,77 @@
     </div>
 </div>
 
+<!-- ============ Custom tokens ============ -->
+<div class="pa-card mt-4">
+    <div class="pa-card__header">
+        <h3>Theming with <code>--pa-range-*</code> tokens</h3>
+        <p>Every colour and key dimension is a runtime token that falls back to the shared cascade, so a
+           theme or a per-instance <code>style</code> can retint/resize a slider with no recompile.
+           This group overrides the fill, thumb, track thickness, and handle size — set on the
+           <code>__panel</code> (it reparents to <code>&lt;body&gt;</code> when open, so tokens on the
+           group root wouldn't reach the sliders).</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-range-group" data-range-group>
+            <button type="button" class="pa-range-group__toggle" data-range-group-toggle aria-expanded="false">
+                <span class="pa-range-group__summary" data-range-group-summary></span>
+                <i class="fas fa-chevron-down pa-range-group__caret" aria-hidden="true"></i>
+            </button>
+            <div class="pa-range-group__panel" data-range-group-panel role="dialog" aria-label="Themed filters"
+                 style="--pa-range-fill: #8b5cf6;
+                        --pa-range-thumb-border: #8b5cf6;
+                        --pa-range-thumb-border-hover: #7c3aed;
+                        --pa-range-focus-ring: rgba(139, 92, 246, 0.35);
+                        --pa-range-track-height: 0.8rem;
+                        --pa-range-thumb-size: 2rem;">
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Budget</span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range" data-range data-key="budget" data-label="Budget"
+                         data-min="0" data-max="5000" data-step="50"
+                         data-value-min="1000" data-value-max="3500"
+                         data-prefix="$" data-thousands>
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Min budget"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Max budget"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-range-group__row">
+                    <div class="pa-range-group__row-head">
+                        <span class="pa-range-group__row-label">Guests</span>
+                        <span class="pa-range-group__row-value" data-range-output></span>
+                    </div>
+                    <div class="pa-range pa-range--handle-bar" data-range data-key="guests" data-label="Guests"
+                         data-min="1" data-max="12" data-step="1"
+                         data-mode="single" data-bound="gte" data-value="4">
+                        <div class="pa-range__rail">
+                            <div class="pa-range__track"></div>
+                            <div class="pa-range__fill" data-range-fill></div>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-hidden="true"></button>
+                            <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Min guests"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pa-range-group__actions">
+                    <button type="button" class="pa-btn pa-btn--sm pa-btn--ghost" data-range-group-reset>Reset</button>
+                    <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" data-range-group-apply>Apply</button>
+                </div>
+            </div>
+        </div>
+
+<pre class="pa-code pa-code--compact mt-2"><code>&lt;div class="pa-range-group__panel" data-range-group-panel
+     style="--pa-range-fill: #8b5cf6;
+            --pa-range-thumb-border: #8b5cf6;
+            --pa-range-track-height: 0.8rem;
+            --pa-range-thumb-size: 2rem;"&gt;</code></pre>
+    </div>
+</div>
+
 <!-- ============ Markup reference ============ -->
 <div class="pa-card mt-4">
     <div class="pa-card__header">

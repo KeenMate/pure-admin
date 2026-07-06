@@ -303,6 +303,26 @@ These variables control the appearance of Pure Admin framework components.
 | `--pa-multiselect-pill-bg` | Selected pill background |
 | `--pa-multiselect-pill-border` | Selected pill border |
 
+### Range Group
+
+Consumed with an inline fallback (`var(--pa-range-x, <default>)`), so these are
+**not** emitted by the `output-pa-css-variables` mixin — set them at `:root`, on
+`.pa-mode-*`, or on any `.pa-range` / `.pa-range-group` ancestor (or per-instance
+`style="…"`) to retint/resize sliders without a recompile. Unset, each resolves
+to the framework default shown, so a `var()` reference never collapses to nothing.
+
+| Variable | Purpose | Falls back to |
+|----------|---------|---------------|
+| `--pa-range-track` | Slider track colour | `--pa-surface-track` |
+| `--pa-range-fill` | Selected-range fill (and value readout) | `--pa-accent` |
+| `--pa-range-thumb-bg` | Handle interior | `--pa-card-bg` |
+| `--pa-range-thumb-border` | Handle ring / bar / chevron colour | `--pa-accent` |
+| `--pa-range-thumb-border-hover` | Handle colour on hover | `--pa-accent-hover` |
+| `--pa-range-focus-ring` | Thumb focus / active ring | `--pa-accent-light` |
+| `--pa-range-track-height` | Track / fill thickness | `0.4rem` |
+| `--pa-range-thumb-size` | Default round handle diameter | `1.6rem` |
+| `--pa-range-group-panel-min-width` | Floating panel min width | `32rem` |
+
 ### Custom Theme Colors
 
 | Variable | Purpose |

@@ -27,7 +27,27 @@
    Slider primitive — pa-range
    ---------------------------------------- */
 
-// Structural (compile-time) tokens — not themable, so plain SCSS vars.
+// SCSS values are the compile-time DEFAULTS; every one is also exposed as a
+// runtime --pa-range-* token (consumed via `var(--pa-range-x, <default>)`), so
+// a theme or a per-instance inline style can retint/resize a slider without a
+// recompile and without touching the global emit mixin. Colour tokens fall
+// back to the shared framework cascade; dimension tokens fall back to these
+// SCSS values. Overridable at :root, on .pa-mode-*, or on any .pa-range /
+// .pa-range-group ancestor. Runtime tokens:
+//   --pa-range-track                track colour            (→ --pa-surface-track)
+//   --pa-range-fill                 selected-range fill     (→ --pa-accent)
+//   --pa-range-thumb-bg             handle interior         (→ --pa-card-bg)
+//   --pa-range-thumb-border         handle ring/bar/chevron (→ --pa-accent)
+//   --pa-range-thumb-border-hover   handle on hover         (→ --pa-accent-hover)
+//   --pa-range-focus-ring           thumb focus/active ring (→ --pa-accent-light)
+//   --pa-range-track-height         track/fill thickness    (→ 0.4rem)
+//   --pa-range-thumb-size           default round handle Ø  (→ 1.6rem)
+//   --pa-range-group-panel-min-width  floating panel width  (→ 32rem)
+// NOTE: the __panel is reparented to <body> while open (to escape overflow
+// clipping), so a per-instance override must sit on the __panel or the
+// .pa-range rows (they travel with it) — or at :root / theme level. Tokens
+// set on the .pa-range-group root reach the closed summary but not the open
+// panel.
 $range-track-height:   0.4rem;
 $range-thumb-size:     1.6rem;
 $range-thumb-border:   0.2rem;
@@ -53,26 +73,28 @@ $range-thumb-tall:     2.2rem;
 // this, so JS only ever works in 0–100% of the rail width.
 .pa-range__rail {
   position: absolute;
-  inset-inline: calc(#{$range-thumb-size} / 2);
+  // Inset tracks the handle size so extreme-position thumbs stay on the track
+  // even if --pa-range-thumb-size is overridden.
+  inset-inline: calc(var(--pa-range-thumb-size, #{$range-thumb-size}) / 2);
   top: 50%;
   transform: translateY(-50%);
-  height: $range-track-height;
+  height: var(--pa-range-track-height, #{$range-track-height});
 }
 
 .pa-range__track {
   position: absolute;
   inset: 0;
   border-radius: 999px;
-  background-color: var(--pa-surface-track);
+  background-color: var(--pa-range-track, var(--pa-surface-track));
 }
 
 .pa-range__fill {
   position: absolute;
   top: 0;
   bottom: 0;
-  height: $range-fill-height;
+  height: var(--pa-range-track-height, #{$range-fill-height});
   border-radius: 999px;
-  background-color: var(--pa-accent);
+  background-color: var(--pa-range-fill, var(--pa-accent));
   // JS sets these as 0–100% — logical, so RTL flips automatically.
   inset-inline-start: var(--_fill-start, 0%);
   inset-inline-end: var(--_fill-end, 0%);
@@ -81,8 +103,8 @@ $range-thumb-tall:     2.2rem;
 .pa-range__thumb {
   // Handle dimensions come from private props so the centring margin (and
   // the shape modifiers below) stay in one place. Default = round handle.
-  --_thumb-w: #{$range-thumb-size};
-  --_thumb-h: #{$range-thumb-size};
+  --_thumb-w: var(--pa-range-thumb-size, #{$range-thumb-size});
+  --_thumb-h: var(--pa-range-thumb-size, #{$range-thumb-size});
 
   position: absolute;
   top: 50%;
@@ -96,26 +118,26 @@ $range-thumb-tall:     2.2rem;
   width: var(--_thumb-w);
   height: var(--_thumb-h);
   padding: 0;
-  border: $range-thumb-border solid var(--pa-accent);
+  border: $range-thumb-border solid var(--pa-range-thumb-border, var(--pa-accent));
   border-radius: 50%;
-  background-color: var(--pa-card-bg);
+  background-color: var(--pa-range-thumb-bg, var(--pa-card-bg));
   cursor: grab;
   touch-action: none;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 
   &:hover {
-    border-color: var(--pa-accent-hover);
+    border-color: var(--pa-range-thumb-border-hover, var(--pa-accent-hover));
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 0.3rem var(--pa-accent-light);
+    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pa-accent-light));
   }
 
   &:active,
   &.pa-range__thumb--grabbing {
     cursor: grabbing;
-    box-shadow: 0 0 0 0.3rem var(--pa-accent-light);
+    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pa-accent-light));
   }
 }
 
@@ -136,9 +158,9 @@ $range-thumb-tall:     2.2rem;
   --_thumb-w: 0.6rem;
   --_thumb-h: 2.2rem;
   border-radius: 999px;
-  background-color: var(--pa-accent);
+  background-color: var(--pa-range-thumb-border, var(--pa-accent));
 
-  &:hover { background-color: var(--pa-accent-hover); }
+  &:hover { background-color: var(--pa-range-thumb-border-hover, var(--pa-accent-hover)); }
 }
 
 // Chevron handles ("‹ ›"). A rounded-rect grip with a CSS chevron drawn on
@@ -164,8 +186,8 @@ $range-chevron-nudge: $range-chevron-size * 0.354;   // ≈ size / (2√2)
     width: $range-chevron-size;
     height: $range-chevron-size;
     // top+end borders rotated 45° form a "›" (points toward inline-end).
-    border-block-start: $range-thumb-border solid var(--pa-accent);
-    border-inline-end: $range-thumb-border solid var(--pa-accent);
+    border-block-start: $range-thumb-border solid var(--pa-range-thumb-border, var(--pa-accent));
+    border-inline-end: $range-thumb-border solid var(--pa-range-thumb-border, var(--pa-accent));
     transform: translateX(#{-$range-chevron-nudge}) translate(-50%, -50%) rotate(45deg);
   }
 }
@@ -285,7 +307,7 @@ $range-group-panel-row-gap:    $spacing-lg;
   display: none;
   flex-direction: column;
   gap: $range-group-panel-row-gap;
-  min-width: $range-group-panel-min-width;
+  min-width: var(--pa-range-group-panel-min-width, #{$range-group-panel-min-width});
   padding: $range-group-panel-padding;
   border: $border-width-base solid var(--pa-border-color);
   border-radius: var(--pa-border-radius-lg);
@@ -321,7 +343,8 @@ $range-group-panel-row-gap:    $spacing-lg;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   font-variant-numeric: tabular-nums;
-  color: var(--pa-accent);
+  // Tracks the fill colour so retinting the slider retints its readout too.
+  color: var(--pa-range-fill, var(--pa-accent));
 
   &.pa-range-group__row-value--empty {
     color: var(--pa-text-tertiary);
