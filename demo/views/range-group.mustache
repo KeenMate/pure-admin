@@ -384,6 +384,80 @@
     </div>
 </div>
 
+<!-- CSS Classes Reference -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <h3>CSS Classes Reference</h3>
+    </div>
+    <div class="pa-card__body">
+        <h4>Compact control</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-range-group</code> - Root wrapper (toggle + floating panel)</li>
+            <li><code>pa-range-group__toggle</code> - The button summarising the filters</li>
+            <li><code>pa-range-group__summary</code> - Single-line "LABEL value / …" readout host</li>
+            <li><code>pa-range-group__seg-label</code> - A dimension's label in the summary</li>
+            <li><code>pa-range-group__seg-value</code> - A dimension's value in the summary</li>
+            <li><code>pa-range-group__seg-value--empty</code> - Muted "Any" value</li>
+            <li><code>pa-range-group__seg-sep</code> - The " / " separator</li>
+            <li><code>pa-range-group__caret</code> - Dropdown chevron (rotates when open)</li>
+            <li><code>pa-range-group--open</code> - State: panel open (on the root)</li>
+        </ul>
+
+        <h4 class="mt-4">Floating panel</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-range-group__panel</code> - The floating panel (reparented to body when open)</li>
+            <li><code>pa-range-group__panel--open</code> - State: shown</li>
+            <li><code>pa-range-group__row</code> - One dimension (head + slider)</li>
+            <li><code>pa-range-group__row-head</code> - Row label + value line</li>
+            <li><code>pa-range-group__row-label</code> - Row label</li>
+            <li><code>pa-range-group__row-value</code> - Row value readout</li>
+            <li><code>pa-range-group__row-value--empty</code> - Muted "Any" readout</li>
+            <li><code>pa-range-group__actions</code> - Reset / Apply footer</li>
+        </ul>
+
+        <h4 class="mt-4">Slider primitive</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-range</code> - Slider (dual-thumb by default)</li>
+            <li><code>pa-range__rail</code> - Inner rail the thumbs travel along</li>
+            <li><code>pa-range__track</code> - Full track</li>
+            <li><code>pa-range__fill</code> - Selected-range fill</li>
+            <li><code>pa-range__thumb</code> - A handle</li>
+            <li><code>pa-range__thumb--min</code> / <code>--max</code> - Low / high handle</li>
+            <li><code>pa-range--single</code> - Single-thumb (threshold) mode</li>
+            <li><code>pa-range--disabled</code> - Non-interactive state</li>
+        </ul>
+
+        <h4 class="mt-4">Handle shapes</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>pa-range--handle-rect</code> - Rounded rectangle handles</li>
+            <li><code>pa-range--handle-bar</code> - Thin vertical bar handles</li>
+            <li><code>pa-range--handle-arrow</code> - Chevron handles</li>
+        </ul>
+
+        <h4 class="mt-4">Data attributes</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>data-range-group</code> - Marks a root for auto-init</li>
+            <li><code>data-range-group-toggle</code> / <code>-panel</code> / <code>-summary</code> - Wiring hooks</li>
+            <li><code>data-range-group-reset</code> / <code>-apply</code> - Footer buttons</li>
+            <li><code>data-range</code> - A slider row; <code>data-key</code> / <code>data-label</code> identify it</li>
+            <li><code>data-min</code> / <code>data-max</code> / <code>data-step</code> - Bounds</li>
+            <li><code>data-mode="single"</code> + <code>data-bound="gte|lte"</code> - Threshold mode</li>
+            <li><code>data-value</code> / <code>data-value-min</code> / <code>data-value-max</code> - Initial values</li>
+            <li><code>data-prefix</code> / <code>data-suffix</code> / <code>data-thousands</code> - Number formatting</li>
+            <li><code>data-range-thumb="min|max"</code> / <code>data-range-fill</code> / <code>data-range-output</code> - Element hooks</li>
+        </ul>
+
+        <h4 class="mt-4">Theming tokens (CSS variables)</h4>
+        <ul class="pa-list-basic pa-list-basic--compact">
+            <li><code>--pa-range-track</code> / <code>-fill</code> - Track / fill colour</li>
+            <li><code>--pa-range-thumb-bg</code> / <code>-thumb-border</code> / <code>-thumb-border-hover</code> - Handle colours</li>
+            <li><code>--pa-range-focus-ring</code> - Thumb focus / active ring</li>
+            <li><code>--pa-range-track-height</code> / <code>-thumb-size</code> - Structural sizes</li>
+            <li><code>--pa-range-group-panel-min-width</code> - Floating panel width</li>
+        </ul>
+    </div>
+</div>
+
 <script>
     (function () {
         var out = document.getElementById('range-group-output');
