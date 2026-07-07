@@ -2,6 +2,12 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.9.0-rc05
+
+- **Card header — one canonical structure (`.pa-card__title` + new `.pa-card__description`).** The header no longer has two blessed title shapes (bare `<h3>` vs `.pa-card__title`); `.pa-card__title` is now *the* title contract for every card, with the icon optional inside `.pa-card__title-icon` — so a `<Card>` component emits one DOM tree instead of branching on whether an icon was passed. The description is promoted from a bare `<p>` to a real `.pa-card__description` element, making the header fully `title` / `description` / `actions`.
+- **Card footer — reuses `.pa-card__actions`, auto-pinned to the trailing edge.** Footer buttons go in the same actions slot as the header and hug the right automatically, with or without leading meta/text — no more empty spacer `<div>` to right-align them, and no bare buttons scattering to opposite corners.
+- **Header polish: `--pa-card-description-offset-y` token + descender fix.** The (smaller) description now sits on the title's baseline via a per-theme-tunable nudge, and the title's `line-height` was corrected so glyph descenders (g / y / p) are no longer clipped by the header's overflow.
+
 ## What's New in 2.9.0-rc04
 
 - **New: Range Group — a compact multi-range filter (`.pa-range-group` + a reusable `.pa-range` slider).** One toggle summarises several numeric filters inline (`AGE 25–60 / SALARY $40,000–$200,000 / CHILDREN 2+`) and expands into a Floating-UI panel with one slider per dimension — standing in for a row of separate sliders in a filter bar. Per-row dual-thumb range or single-thumb threshold, RTL-correct by construction, with a `--pa-range-*` theming token namespace and a bubbling `change` / `apply` / `reset` event contract keyed by dimension.
@@ -13,15 +19,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **`.pa-splitter` — drag against a rail'd primary is now asymmetric.** Dragging outward (the direction that would grow the pane) releases the rail and follows the cursor; dragging inward (into the rail, would shrink further) is fully inert. Previously the drag-from-rail path pre-cleared `isMin` on `pointerdown` regardless of direction, so the card visually flashed out of its rail state before the user could express expand intent in the opposite direction — read as the splitter "guessing wrong". Mirrors `svelte-fluentui/MultiSplitter`'s drag-to-be-explicit gate.
 - **`.pa-splitter` — tap-without-drag on the gutter no longer restores a rail'd pane.** Restore gestures are now: rail-body click, dblclick on the gutter, focus + `Enter`/`Space`, `[data-pa-splitter-toggle]` button, or drag outward past the snap threshold. Users expected drag-to-be-explicit and didn't connect "tap the gutter" with the rail-pane body as a restore surface.
 - **`.pa-splitter` — per-pane orientation class** (`pa-splitter__pane--horizontal` / `--vertical`) stamped at registration. Forward-compat hook for theme authors writing nested-splitter-safe rail CSS without walking the DOM to figure out the enclosing splitter's orientation.
-
-## What's New in 2.9.0-rc03
-
-- **`.pa-splitter` drag model reworked to "rebalance-on-drag".** Each gutter now resizes only its primary neighbour (edge-closer side, LTR/RTL tiebreaker on ties); the matching delta is absorbed by the immediate adjacent non-rail pane (classic boundary feel), or — when the adjacent pane is rail — tunnels through the rail wall to the contiguous non-rail block beyond. Eliminates the "boundary locks when both sides are rail" deadlock from the prior model — drag-from-rail with a railed neighbour now grows the primary by pulling room from the next section.
-- **Middle panes can now minimize to rail** (previously first / last only). Any pane with `data-pa-splitter-minimize` collapses on toggle / dblclick / drag-snap regardless of position. Snap-into-rail enforces an "at least one expanded pane" invariant — you can't drag the last visible pane to rail and end up with nothing to grab.
-- **Restoring a minimized pane reclaims layout gaps cleanly.** When a prior minimize hit an absorber's `max` cap and left empty space in the layout, restoring the pane now reaches its remembered size by drawing from the gap (not just from other panes' shrink headroom) — fixes the "restored pane stuck at min width" surprise. Conversely, restoring no longer aggressively inflates a sibling pane to fill remaining gap — empty space stays as empty space and gets consumed as more panes restore. No more "sibling pane suddenly jumps" UX.
-- **Rail width in `--pa-splitter-rail-size` now correctly resolves `rem` / non-px units.** Previously `parseFloat("4rem")` returned `4` and snapped rail panes to 4px-wide strips; rebuilt via a hidden probe element so the browser does the unit resolution. The three-step fallback chain (per-instance attribute → CSS var → literal 40) still applies.
-- **Gutter highlighting now isolates the dragged gutter only.** During a drag, the splitter `--dragging` modifier suppresses `:hover` / `:focus-visible` on sibling gutters so they don't light up as the cursor passes over them or as a stale focus ring lingers — only the active gutter carries the highlight.
-- **Splitter padding subtracted from available space.** Flex children sit inside the splitter's content box but `clientWidth` includes padding — without subtracting it the last pane's `flex-basis` overflowed and got clipped by `overflow: hidden`. Visible in the N-pane demo where the rightmost rail's right edge touched the splitter border.
 
 ## Installation
 

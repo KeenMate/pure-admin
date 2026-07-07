@@ -181,6 +181,14 @@ These variables control the appearance of Pure Admin framework components.
 | `--pa-card-footer-bg` | Card footer background |
 | `--pa-card-tabs-bg` | Card tabs background |
 
+Consumed with an inline fallback (`var(--pa-card-description-offset-y, <default>)`),
+so it is **not** emitted by the `output-pa-css-variables` mixin — set it at `:root`,
+on `.pa-mode-*`, or on any card ancestor to retune without a recompile.
+
+| Variable | Purpose | Falls back to |
+|----------|---------|---------------|
+| `--pa-card-description-offset-y` | Vertical nudge dropping the header `.pa-card__description` (smaller font) onto the title's baseline under the header's center alignment. Font-metric dependent — retune per theme font, or set `0` to disable. | `$card-description-offset-y` (`1px`) |
+
 ### Forms - Input
 
 | Variable | Purpose |
