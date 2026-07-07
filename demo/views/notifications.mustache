@@ -36,16 +36,16 @@
     <div class="pa-col-100">
         <div class="pa-card">
             <div class="pa-card__header">
-                <div class="d-flex align-items-center gap-base">
+                <div class="pa-card__title">
                     <label class="pa-checkbox">
                         <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
                         <span class="pa-checkbox__mark"></span>
                     </label>
-                    <h3>All Notifications</h3>
+                    <h3 class="pa-card__title-text">All Notifications</h3>
                     <span class="pa-badge pa-badge--primary">4 unread</span>
                 </div>
                 <!-- Bulk Actions (hidden by default) -->
-                <div id="bulkActions" class="d-flex gap-sm" style="display: none !important;">
+                <div id="bulkActions" class="pa-card__actions" style="display: none !important;">
                     <span class="text-muted text-sm self-center"><span id="selectedCount">0</span> selected</span>
                     <button class="pa-btn pa-btn--secondary pa-btn--sm" onclick="markSelectedRead()">Mark as read</button>
                     <button class="pa-btn pa-btn--danger pa-btn--sm" onclick="deleteSelected()">Delete</button>
