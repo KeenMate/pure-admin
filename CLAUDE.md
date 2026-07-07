@@ -169,6 +169,35 @@ for a component.
 </button>
 ```
 
+### One canonical markup structure per component (rigidity over flexibility)
+
+Pure Admin is consumed by wrapper libraries — notably **svelte-pure-admin**,
+whose components generate markup from props (`<Card title icon description>`).
+A code generator can only emit ONE DOM tree per component. So when the CSS
+accepts **two valid shapes for the same thing**, every consumer pays: the
+wrapper must branch its template on which shape to emit, and hand-authored
+markup drifts between the shapes with no single example to copy. Here **a
+rigid, predictable structure beats a flexible one** — the opposite of the
+usual "be liberal in what you accept" instinct.
+
+Rule of thumb: **one blessed structure per slot — documented, and shown in the
+snippet.** Older / shorthand forms may keep *rendering* as legacy tolerance,
+but they are not a second documented option. Never present two ways to do the
+same thing.
+
+**Worked example — the card header (v2.9.0-rc05).** It used to bless two title
+shapes: a bare `<h3>` (no icon) OR `.pa-card__title` + `.pa-card__title-icon`
++ `.pa-card__title-text` (with icon). That forced `<Card>` to branch on whether
+an icon was passed — and because the two shapes even rendered at *different
+weights* (bare `<h3>` = browser-bold 700 vs `.pa-card__title-text` = semibold
+600), the demo was a visibly inconsistent mix. The fix made `.pa-card__title`
+the single title contract for every card (icon optional inside
+`.pa-card__title-icon`), promoted the description to a real
+`.pa-card__description` element, and made `.pa-card__actions` the one actions
+slot in **both** header and footer. Now a wrapper emits one tree with only the
+icon `<span>` conditional. Bare `<h3>` / bare `<p>` / bare footer buttons still
+render, but are legacy tolerance — not the documented shape.
+
 ### Two-layer token system: SCSS variables + `--pa-*` / `--base-*` CSS variables
 
 Pure Admin uses **both** SCSS variables and CSS custom properties on purpose.
@@ -356,6 +385,12 @@ debt that drifts when other header metrics change.
 6. **No `min-height` on form elements** — causes inconsistent layouts.
 7. **Font inheritance is global** — never add `font-family: inherit` to
    components.
+8. **One canonical markup structure per component — rigidity over flexibility.**
+   The framework is consumed by code generators (svelte-pure-admin) that emit
+   one DOM tree per component, so never bless two valid shapes for the same
+   slot. Pick one, document it, show it in the snippet; legacy forms may still
+   render but aren't a second option. See the card-header worked example under
+   Architecture Principles.
 
 ---
 

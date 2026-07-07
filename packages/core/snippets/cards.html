@@ -11,10 +11,16 @@
 </div>
 
 
-<!-- CARD WITH HEADER -->
+<!-- CARD WITH HEADER
+     The title ALWAYS uses .pa-card__title > .pa-card__title-text (the icon
+     span is optional). This is the one canonical header title structure —
+     a bare <h3> in the header still renders, but is legacy tolerance, not
+     the documented shape. -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Card Title</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Card Title</h3>
+    </div>
   </div>
   <div class="pa-card__body">
     Card content goes here.
@@ -38,7 +44,9 @@
 <!-- COMPLETE CARD (header + body + footer) -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Complete Card</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Complete Card</h3>
+    </div>
   </div>
   <div class="pa-card__body">
     <p>This card has all three sections: header, body, and footer.</p>
@@ -54,17 +62,19 @@
 
 <!-- ================================
      THREE-PART HEADER LAYOUT
-     .pa-card__header is a flex row with automatic behaviour:
-       [title (truncates)] — [description <p> (flexes and truncates)] — [actions (fixed)]
-     Any h1..h6 / <p> children get ellipsis on overflow so narrow cards
+     .pa-card__header is a flex row with three canonical slots:
+       [.pa-card__title (truncates)] — [.pa-card__description (flexes, truncates)] — [.pa-card__actions (fixed)]
+     The title-text and description get ellipsis on overflow so narrow cards
      never push content out of the header. Use .pa-card__header--wrap
      if you'd rather have the text wrap to multiple lines instead.
      ================================ -->
 
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Dashboard</h3>
-    <p>Live metrics across every connected service — updated every 30 seconds.</p>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Dashboard</h3>
+    </div>
+    <p class="pa-card__description">Live metrics across every connected service — updated every 30 seconds.</p>
     <div class="pa-card__actions">
       <button class="pa-btn pa-btn--sm pa-btn--secondary">Refresh</button>
     </div>
@@ -75,8 +85,10 @@
 <!-- Wrap instead of truncate -->
 <div class="pa-card">
   <div class="pa-card__header pa-card__header--wrap">
-    <h3>Wrapping Header</h3>
-    <p>This description wraps to multiple lines when the header gets narrow, instead of being clipped with an ellipsis.</p>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Wrapping Header</h3>
+    </div>
+    <p class="pa-card__description">This description wraps to multiple lines when the header gets narrow, instead of being clipped with an ellipsis.</p>
     <div class="pa-card__actions">
       <button class="pa-btn pa-btn--sm pa-btn--secondary">Action</button>
     </div>
@@ -94,7 +106,9 @@
 <!-- Default (accent-coloured underline) -->
 <div class="pa-card">
   <div class="pa-card__header pa-card__header--underlined">
-    <h3>Section</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Section</h3>
+    </div>
   </div>
   <div class="pa-card__body">Body content.</div>
 </div>
@@ -102,14 +116,18 @@
 <!-- Semantic colour variants -->
 <div class="pa-card">
   <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-success">
-    <h3>Success underline</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Success underline</h3>
+    </div>
   </div>
   <div class="pa-card__body">Body.</div>
 </div>
 
 <div class="pa-card">
   <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-danger">
-    <h3>Danger underline</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Danger underline</h3>
+    </div>
   </div>
   <div class="pa-card__body">Body.</div>
 </div>
@@ -117,7 +135,9 @@
 <!-- Theme colour slot (1..9) -->
 <div class="pa-card">
   <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-color-3">
-    <h3>Theme colour 3 underline</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Theme colour 3 underline</h3>
+    </div>
   </div>
   <div class="pa-card__body">Body.</div>
 </div>
@@ -128,7 +148,7 @@
 -->
 
 
-<!-- CARD WITH TITLE COMPONENTS (icon + truncating text) -->
+<!-- CARD WITH TITLE ICON (the icon span is the only optional part) -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
@@ -140,8 +160,9 @@
     </div>
   </div>
   <div class="pa-card__body">
-    Use .pa-card__title when you need the title-icon combo + __actions
-    alignment; h3 alone works too when no icon is needed.
+    The title always uses .pa-card__title > .pa-card__title-text; add the
+    .pa-card__title-icon span when you want a leading icon. Same structure
+    with or without the icon — never a bare <h3>.
   </div>
 </div>
 
@@ -149,7 +170,9 @@
 <!-- CARD WITH METADATA -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Article Title</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Article Title</h3>
+    </div>
     <span class="pa-card__meta">Published 2 hours ago</span>
   </div>
   <div class="pa-card__body">Article content.</div>
@@ -163,7 +186,9 @@
      Reach for this by default. -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Card with Actions</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Card with Actions</h3>
+    </div>
     <div class="pa-card__actions">
       <button class="pa-btn pa-btn--sm pa-btn--secondary">Cancel</button>
       <button class="pa-btn pa-btn--sm pa-btn--success">Save</button>
@@ -180,7 +205,9 @@
      the attached-button styling in whether you want it or not. -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Card with Segmented Actions</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Card with Segmented Actions</h3>
+    </div>
     <div class="pa-card__actions">
       <div class="pa-btn-group">
         <button class="pa-btn pa-btn--sm pa-btn--secondary">Day</button>
@@ -196,7 +223,9 @@
 <!-- CARD WITH FOOTER ACTIONS -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Form Card</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Form Card</h3>
+    </div>
   </div>
   <div class="pa-card__body">Form content here.</div>
   <div class="pa-card__footer">
@@ -211,7 +240,9 @@
 <!-- CARD WITH NO-PADDING BODY (for flush tables / lists) -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>User List</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">User List</h3>
+    </div>
   </div>
   <div class="pa-card__body pa-card__body--no-padding">
     <table class="pa-table">
@@ -381,7 +412,9 @@
 <!-- Inline tabs — pills that live in the header row -->
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Sales</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Sales</h3>
+    </div>
     <div class="pa-card__tabs pa-card__tabs--inline">
       <button class="pa-card__tab pa-card__tab--active">Day</button>
       <button class="pa-card__tab">Week</button>
@@ -399,7 +432,9 @@
      identical, but the entire area becomes clickable. -->
 <a href="/products/42" class="pa-card">
   <div class="pa-card__header">
-    <h3>Widget Pro</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Widget Pro</h3>
+    </div>
   </div>
   <div class="pa-card__body">
     <p>Click anywhere on this card to navigate.</p>
@@ -501,10 +536,14 @@ CLICKABLE CARD:
                                looks identical to a regular card.
 
 SUB-ELEMENTS:
-- .pa-card__header             Flex row: [title] — [description] — [actions].
-                               Direct h1..h6 and <p> children auto-truncate.
-                               Native tags inside get margin/padding/border
-                               reset so they inherit the header layout cleanly.
+- .pa-card__header             Flex row of three canonical slots:
+                               [.pa-card__title] — [.pa-card__description] —
+                               [.pa-card__actions]. (Bare h1..h6 / <p> children
+                               still render + auto-truncate as legacy tolerance,
+                               but the documented shape is the slots above —
+                               one structure, so a <Card> wrapper emits one tree.)
+- .pa-card__description        Muted, flexing, truncating description line —
+                               the header's middle slot. Bare <p> tolerated.
 - .pa-card__body               flex: 1; standard padding.
 - .pa-card__footer             Border-top + footer background; flex row.
                                Canonical content: optional leading text /
@@ -524,11 +563,14 @@ SUB-ELEMENTS:
                                the actions slot).
 - .pa-card__meta               Muted secondary text (dates, byline, etc.).
 
-TITLE SUB-COMPONENT:
-- .pa-card__title              Flex row wrapping icon + text; flex: 1 so
-                               the actions sibling stays on the right.
-- .pa-card__title-icon         Fixed-size icon.
-- .pa-card__title-text         Truncates with ellipsis on overflow.
+TITLE SUB-COMPONENT (the canonical header title — use it for EVERY card):
+- .pa-card__title              Flex row wrapping the optional icon + text;
+                               flex: 0 1 auto (natural width) so a sibling
+                               .pa-card__description gets the free space and
+                               .pa-card__actions stays right. Always present,
+                               with or without an icon — never a bare <h3>.
+- .pa-card__title-icon         Fixed-size leading icon (optional).
+- .pa-card__title-text         The heading (h1..h6); truncates with ellipsis.
 
 BODY MODIFIER:
 - .pa-card__body--no-padding   Strips body padding (for tables / lists
@@ -566,10 +608,9 @@ SECTION WRAPPERS (lighter than a card, for heading-only groupings):
                                underline, no container behaviour.
 
 IMPLICIT BEHAVIOURS:
-- The header is flex with auto-truncation: direct h1..h6 and <p>
-  children get white-space: nowrap + text-overflow: ellipsis. This
-  is why long card titles look "cut off" in narrow columns — use
-  --wrap to opt out.
+- The header truncates: .pa-card__title-text and .pa-card__description
+  get white-space: nowrap + text-overflow: ellipsis. This is why long
+  card titles look "cut off" in narrow columns — use --wrap to opt out.
 - Buttons inside the header get -0.25rem vertical margin so they
   don't grow the header height past $card-header-min-height.
 - Card body :first-child gets margin-top: 0 to avoid double-spacing
@@ -580,8 +621,10 @@ STRUCTURE PATTERNS:
 Card with three-part header:
 <div class="pa-card">
   <div class="pa-card__header">
-    <h3>Title</h3>
-    <p>Description (truncates)</p>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Title</h3>
+    </div>
+    <p class="pa-card__description">Description (truncates)</p>
     <div class="pa-card__actions">
       <button class="pa-btn pa-btn--sm">Action</button>
     </div>
@@ -592,7 +635,9 @@ Card with three-part header:
 Card with underlined header (semantic variant):
 <div class="pa-card">
   <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-danger">
-    <h3>Critical Settings</h3>
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Critical Settings</h3>
+    </div>
   </div>
   <div class="pa-card__body">…</div>
 </div>
