@@ -176,6 +176,13 @@ $card-body-padding-h: 1rem !default;       // 10px horizontal
 $card-header-padding-v: 0.5rem !default;   // 5px vertical
 $card-header-padding-h: 1rem !default;     // 10px horizontal - matches body
 $card-header-min-height: 4rem !default;    // 40px - fits xs buttons (32px) with padding
+// Vertical nudge that drops the (smaller) header description onto the title's
+// baseline. Under the header's center alignment a 16px title and 14px
+// description don't share a baseline, leaving the description ~1px high. The
+// exact correction is font-metric dependent, so it's exposed as a variable
+// (SCSS default here + `--pa-card-description-offset-y` at runtime) that themes
+// with a different font can retune. Set to 0 to disable the nudge entirely.
+$card-description-offset-y: 1px !default;
 $card-footer-padding-v: 1.2rem !default;   // 12px vertical
 $card-footer-padding-h: 1rem !default;     // 10px horizontal - matches body
 $card-grid-min-width: 280px !default;

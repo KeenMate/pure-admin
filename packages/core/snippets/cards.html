@@ -28,7 +28,9 @@
     Card content goes here.
   </div>
   <div class="pa-card__footer">
-    <button class="pa-btn pa-btn--primary">Action</button>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--primary">Action</button>
+    </div>
   </div>
 </div>
 
@@ -42,8 +44,10 @@
     <p>This card has all three sections: header, body, and footer.</p>
   </div>
   <div class="pa-card__footer">
-    <button class="pa-btn pa-btn--secondary">Cancel</button>
-    <button class="pa-btn pa-btn--primary">Save</button>
+    <div class="pa-card__actions">
+      <button class="pa-btn pa-btn--secondary">Cancel</button>
+      <button class="pa-btn pa-btn--primary">Save</button>
+    </div>
   </div>
 </div>
 
@@ -196,7 +200,6 @@
   </div>
   <div class="pa-card__body">Form content here.</div>
   <div class="pa-card__footer">
-    <div></div>
     <div class="pa-card__actions">
       <button class="pa-btn pa-btn--secondary">Cancel</button>
       <button class="pa-btn pa-btn--success">Save</button>
@@ -504,6 +507,13 @@ SUB-ELEMENTS:
                                reset so they inherit the header layout cleanly.
 - .pa-card__body               flex: 1; standard padding.
 - .pa-card__footer             Border-top + footer background; flex row.
+                               Canonical content: optional leading text /
+                               .pa-card__meta on the left + .pa-card__actions
+                               on the right. The actions slot auto-pins to the
+                               trailing edge (no empty spacer <div> needed),
+                               with or without leading content. Always put
+                               footer buttons inside .pa-card__actions so they
+                               don't scatter to opposite corners.
 - .pa-card__actions            THE canonical header actions slot. Button/
                                control container (gap + align-center);
                                flex-shrink: 0 inside header. Use this for any

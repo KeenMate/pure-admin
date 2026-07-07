@@ -83,8 +83,11 @@
       white-space: nowrap;
     }
 
-    // Description paragraphs - flexible middle, truncate with ellipsis
-    > p {
+    // Description - flexible middle, truncate with ellipsis.
+    // `.pa-card__description` is the canonical element; bare `> p` is kept as
+    // legacy tolerance so hand-written markup doesn't break.
+    > p,
+    > .pa-card__description {
       flex: 1;
       min-width: 0;
       overflow: hidden;
@@ -92,6 +95,12 @@
       white-space: nowrap;
       color: var(--pa-text-color-2);
       font-size: $font-size-sm;
+      // Nudge the smaller description onto the title's baseline (see
+      // $card-description-offset-y). `position: relative` keeps it in flow —
+      // truncation/flex sizing are unaffected — it only shifts the paint.
+      // Font-metric dependent, so themes can retune via the CSS variable.
+      position: relative;
+      top: var(--pa-card-description-offset-y, #{$card-description-offset-y});
     }
 
     // Actions container - fixed, doesn't shrink
@@ -243,13 +252,18 @@
     &--wrap {
       flex-wrap: wrap;
 
-      > h1, > h2, > h3, > h4, > h5, > h6 {
+      // Un-truncate both the bare-heading shorthand AND the canonical
+      // `.pa-card__title` > `.pa-card__title-text` so titles wrap (not
+      // ellipsis) in wrap mode regardless of which header shape is used.
+      > h1, > h2, > h3, > h4, > h5, > h6,
+      > .pa-card__title .pa-card__title-text {
         white-space: normal;
         overflow: visible;
         text-overflow: clip;
       }
 
-      > p {
+      > p,
+      > .pa-card__description {
         white-space: normal;
         flex-basis: 100%;
         order: 1;
@@ -263,7 +277,11 @@
     align-items: center;
     gap: $spacing-sm;
     min-width: 0; // Enable text truncation
-    flex: 1;
+    // Natural width (like a bare heading), shrinkable, no grow — so a sibling
+    // `.pa-card__description` gets the free space instead of the title hogging
+    // half the row. `justify-content: space-between` on the header still pins
+    // `.pa-card__actions` to the right.
+    flex: 0 1 auto;
 
     &-icon {
       flex-shrink: 0;
@@ -279,7 +297,9 @@
       color: var(--pa-text-color-1);
       font-size: $font-size-base;
       font-weight: $font-weight-semibold;
-      line-height: 1;
+      // Not `1` — line-height 1 clips glyph descenders (g, y, p) under
+      // `overflow: hidden`. Matches the room bare headings already leave.
+      line-height: 1.4;
     }
   }
 
@@ -306,6 +326,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: $spacing-sm;
+
+    // Canonical footer content model (mirrors the header): optional leading
+    // content on the left — text or `.pa-card__meta` — plus `.pa-card__actions`
+    // on the right. The auto inline-start margin pins the actions slot to the
+    // trailing edge whether or not there's leading content, so an actions-only
+    // footer no longer needs an empty spacer `<div>` to fight `space-between`.
+    // Buttons live inside `.pa-card__actions` (the same slot as the header) so
+    // they never scatter to opposite corners the way bare footer buttons do.
+    .pa-card__actions {
+      margin-inline-start: auto;
+    }
   }
 
   &__actions {

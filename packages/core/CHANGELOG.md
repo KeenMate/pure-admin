@@ -5,6 +5,26 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc05] - 2026-07-07
+
+### Added
+
+- **Card header — `.pa-card__title` is now the single canonical title structure, plus a new `.pa-card__description` element.** The header previously offered two blessed title shapes — a bare `<h3>` for the no-icon case and `.pa-card__title` (+ `.pa-card__title-icon` / `.pa-card__title-text`) when an icon was needed — which forced a `<Card>` wrapper (svelte-pure-admin) to branch its markup on whether an icon was passed, and let hand-written demos drift between both. `.pa-card__title` is now *the* title contract for every card (icon optional inside the `.pa-card__title-icon` slot), so a component emits one DOM tree with only the icon `<span>` conditional. The bare-`<h3>`-in-header rules stay in the stylesheet as legacy tolerance, but are no longer a documented option. The description is likewise promoted from a bare `<p>` to a real BEM element **`.pa-card__description`** (bare `> p` kept as tolerance) so the header is fully `title` / `description` / `actions`. The `--wrap` modifier was extended to un-truncate the canonical `.pa-card__title-text` as well as bare headings, so titles wrap (not ellipsis) in wrap mode regardless of shape.
+- **Card footer — `.pa-card__actions` is the canonical footer actions slot, auto-pinned to the trailing edge.** A footer-scoped `.pa-card__actions { margin-inline-start: auto }` makes the actions cluster hug the right edge whether or not there's leading content (text / `.pa-card__meta`) on the left — so an actions-only footer no longer needs an empty spacer `<div>` to fight `justify-content: space-between`. Footer buttons now live in the same `.pa-card__actions` slot as the header (one concept for both), which also stops bare footer buttons scattering to opposite corners. `space-between` is retained, so the change is purely additive and no existing footer regresses.
+- **`--pa-card-description-offset-y` runtime token (default `$card-description-offset-y: 1px`) — header description baseline nudge.** Under the header's `align-items: center`, a 16px title and 14px description don't share a baseline and the smaller description rides ~1px high. Rather than baseline-aligning (which the header's `min-height` breaks — baseline-aligned items pin to the *top* of the taller line), the description is nudged down onto the title baseline via `position: relative; top: var(--pa-card-description-offset-y, …)`. The correction is font-metric dependent, so it's a variable themes with a different font can retune (or set to `0` to disable) instead of a hardcoded px.
+
+### Fixed
+
+- **Card title glyph descenders were clipped.** `.pa-card__title-text` used `line-height: 1`, which with `overflow: hidden` shaved the tails off descenders (g / y / p). Bumped to `1.4` (the room bare headings already leave); icon centring is via flex `align-items: center`, so it's unaffected.
+
+### Changed
+
+- **`.pa-card__title` flex `1` → `0 1 auto`.** It now takes natural width like a bare heading, so a sibling `.pa-card__description` gets the free space instead of the title hogging half the header row. In the title+actions case it's identical to before (the header's `space-between` already pinned actions right).
+
+### Internal
+
+- Demo `cards.mustache` + `buttons.mustache` card headers migrated to the canonical `.pa-card__title` / `.pa-card__description` structure (three-part, long-description, tooltip, wrap, ghost, underlined, and the auto-absorb toolbar-in-header examples); FA icons added to the demo three-part cards via the `.pa-card__title-icon` slot. Snippet `snippets/cards.html` footers formalized (buttons wrapped in `.pa-card__actions`, spacer `<div>` removed) and the footer reference block documents the canonical model.
+
 ## [2.9.0-rc04] - 2026-07-06 [PUBLISHED]
 
 ### Added
