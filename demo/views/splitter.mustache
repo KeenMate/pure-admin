@@ -4,7 +4,9 @@
             <!-- Demo 1 — Horizontal -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>Horizontal split <small class="text-secondary">— side-by-side, vertical gutter</small></h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Horizontal split <small class="text-secondary">— side-by-side, vertical gutter</small></h3>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <p class="mb-3">Sidebar + main content. Start pane is constrained to <code>min: 200px</code> and <code>max: 60%</code>, with a default of <code>280px</code>. Size persists to <code>localStorage</code> under the id <code>demo-horizontal</code>.</p>
@@ -54,7 +56,9 @@
             <!-- Demo 2 — Vertical -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>Vertical split <small class="text-secondary">— stacked, horizontal gutter</small></h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Vertical split <small class="text-secondary">— stacked, horizontal gutter</small></h3>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <p class="mb-3">Editor over console. Constraints: <code>min: 80px</code>, <code>max: 80%</code>, default <code>60%</code>. Persists under <code>demo-vertical</code>.</p>
@@ -96,7 +100,9 @@ console.log(greet('Pure Admin'));</code></pre>
             <!-- Demo 3 — Spaced cards -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>Spaced cards <small class="text-secondary">— gutter with breathing room</small></h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Spaced cards <small class="text-secondary">— gutter with breathing room</small></h3>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <p class="mb-3">Use native <code>gap</code> on the splitter root to add space between the panes and the gutter — the JS subtracts it from the available space so percent constraints stay accurate. A thicker gutter is opt-in via <code>--pa-splitter-gutter-size</code>.</p>
@@ -111,7 +117,7 @@ console.log(greet('Pure Admin'));</code></pre>
                              data-pa-splitter-max="75%"
                              style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
-                                <div class="pa-card__header"><h4 style="margin: 0;">Left card</h4></div>
+                                <div class="pa-card__header"><div class="pa-card__title"><h4 style="margin: 0;" class="pa-card__title-text">Left card</h4></div></div>
                                 <div class="pa-card__body">
                                     <p class="mb-0">This pane holds a card. The flex <code>gap</code> on the splitter keeps the card from touching the gutter — no per-pane padding hack needed.</p>
                                 </div>
@@ -124,7 +130,7 @@ console.log(greet('Pure Admin'));</code></pre>
                              aria-label="Resize cards"></div>
                         <div class="pa-splitter__pane" style="padding: 0;">
                             <div class="pa-card" style="height: 100%; margin: 0;">
-                                <div class="pa-card__header"><h4 style="margin: 0;">Right card</h4></div>
+                                <div class="pa-card__header"><div class="pa-card__title"><h4 style="margin: 0;" class="pa-card__title-text">Right card</h4></div></div>
                                 <div class="pa-card__body">
                                     <p class="mb-0">Drag the gutter — both cards reflow. The 10px gutter is set inline via <code>--pa-splitter-gutter-size</code>; the default is 6px.</p>
                                 </div>
@@ -137,7 +143,9 @@ console.log(greet('Pure Admin'));</code></pre>
             <!-- Demo 4 — Minimize to rail -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>Minimize to rail <small class="text-secondary">— vertical header instead of collapse</small></h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Minimize to rail <small class="text-secondary">— vertical header instead of collapse</small></h3>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <p class="mb-3">Opt in by putting <code>data-pa-splitter-minimize</code> on the pane you want collapsible (here, the first pane). The gutter's collapse action (double-click, <kbd>Enter</kbd>/<kbd>Space</kbd>, or the toggle button in the header) toggles the pane to a thin rail with a vertical card title — instead of disappearing. Click the rail to restore. Rail width is configurable via <code>data-pa-splitter-rail-size</code> (default 40px). <strong>You can also just drag the gutter inward</strong> — once the requested width drops below 40% of the minimized side's natural min (configurable via <code>data-pa-splitter-minimize-threshold</code>) it snaps to rail; dragging back outward across the same threshold pops it back to min. <strong>Dragging the gutter inward while the pane is already rail'd is inert</strong> — only outward drags (the direction that would grow the pane) release the rail.</p>
@@ -263,7 +271,9 @@ console.log(greet('Pure Admin'));</code></pre>
             <!-- Demo 4b — Progressive overflow -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>Progressive overflow <small class="text-secondary">— buttons drop into a "More" menu one at a time</small></h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Progressive overflow <small class="text-secondary">— buttons drop into a "More" menu one at a time</small></h3>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <p class="mb-3">A second collapse model, complementing <code>--responsive</code>. Mark the actions wrapper with <code>pa-card__actions--overflow</code> and the JS module (<code>card-actions-overflow.js</code>) measures each button on init. A <code>ResizeObserver</code> watches the wrapper; when the row can't fit, the lowest-priority button moves into a "..." menu (appended to <code>&lt;body&gt;</code> so card <code>overflow: hidden</code> can't clip it).</p>
@@ -342,7 +352,9 @@ console.log(greet('Pure Admin'));</code></pre>
             <!-- Demo 5 — Minimize end pane to rail -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>Minimize <em>end</em> pane to rail <small class="text-secondary">— right-edge inspector pattern</small></h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Minimize <em>end</em> pane to rail <small class="text-secondary">— right-edge inspector pattern</small></h3>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <p class="mb-3">Put <code>data-pa-splitter-minimize</code> on the last pane to collapse it to a vertical-title rail on the right edge. Same restore paths as collapsing the first pane (rail click, toggle button, dblclick, <kbd>Enter</kbd>/<kbd>Space</kbd>, or drag the gutter outward past the threshold). Useful for inspector / detail / properties panels.</p>
@@ -408,7 +420,9 @@ console.log(greet('Pure Admin'));</code></pre>
             <!-- Demo 6 — N-pane (configurable 3–6) -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>N panes <small class="text-secondary">— pick a count, both edges minimizable</small></h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">N panes <small class="text-secondary">— pick a count, both edges minimizable</small></h3>
+                    </div>
                     <div class="pa-card__actions" style="display: flex; gap: 0.6rem; align-items: center;">
                         <label for="multiPaneCount" class="text-sm">Panes:</label>
                         <select id="multiPaneCount" class="pa-input pa-input--sm" style="width: auto;">
@@ -429,7 +443,9 @@ console.log(greet('Pure Admin'));</code></pre>
             <!-- Demo 7 — Persistence reset -->
             <div class="pa-card mb-4">
                 <div class="pa-card__header">
-                    <h3>localStorage persistence</h3>
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">localStorage persistence</h3>
+                    </div>
                 </div>
                 <div class="pa-card__body">
                     <p class="mb-3">Both demos above persist their size under <code>pa-splitter:&lt;id&gt;</code>. Reload the page — your drag positions stick. Clear them with the button below.</p>
@@ -445,7 +461,9 @@ console.log(greet('Pure Admin'));</code></pre>
                 <div class="pa-col-100 pa-col-lg-50">
                     <div class="pa-card mb-4">
                         <div class="pa-card__header">
-                            <h3>Markup</h3>
+                            <div class="pa-card__title">
+                                <h3 class="pa-card__title-text">Markup</h3>
+                            </div>
                         </div>
                         <div class="pa-card__body">
                             <pre class="pa-code"><code>&lt;div class="pa-splitter pa-splitter--horizontal"
@@ -474,7 +492,9 @@ console.log(greet('Pure Admin'));</code></pre>
                 <div class="pa-col-100 pa-col-lg-50">
                     <div class="pa-card mb-4">
                         <div class="pa-card__header">
-                            <h3>Data attributes</h3>
+                            <div class="pa-card__title">
+                                <h3 class="pa-card__title-text">Data attributes</h3>
+                            </div>
                         </div>
                         <div class="pa-card__body">
                             <p class="text-sm mb-2"><strong>On root:</strong></p>
@@ -511,7 +531,9 @@ console.log(greet('Pure Admin'));</code></pre>
 
                     <div class="pa-card mb-4">
                         <div class="pa-card__header">
-                            <h3>Keyboard</h3>
+                            <div class="pa-card__title">
+                                <h3 class="pa-card__title-text">Keyboard</h3>
+                            </div>
                         </div>
                         <div class="pa-card__body">
                             <table class="pa-table pa-table--compact">
@@ -530,7 +552,9 @@ console.log(greet('Pure Admin'));</code></pre>
 
                     <div class="pa-card mb-4">
                         <div class="pa-card__header">
-                            <h3>JavaScript API</h3>
+                            <div class="pa-card__title">
+                                <h3 class="pa-card__title-text">JavaScript API</h3>
+                            </div>
                         </div>
                         <div class="pa-card__body">
                             <p class="mb-2">Auto-initializes on <code>[data-pa-splitter]</code> at <code>DOMContentLoaded</code>. For dynamically inserted splitters:</p>
