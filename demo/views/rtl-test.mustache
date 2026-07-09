@@ -1,9 +1,12 @@
             <!-- RTL Warning Banner -->
-            <div class="pa-alert pa-alert--warning mb-base">
-                <strong>Note:</strong> This page demonstrates RTL (Right-to-Left) layout support.
-                To properly view RTL mode, either enable it via the <strong>Settings panel</strong> (gear icon in the sidebar)
-                or use the toggle button below. The toggle sets <code>dir="rtl"</code> on the HTML element —
-                all components using CSS logical properties will mirror automatically.
+            <div class="pa-alert pa-alert--info mb-base">
+                <strong>Note:</strong> This page starts in <strong>RTL</strong> (Right-to-Left) by default —
+                it sets <code>dir="rtl"</code> on the HTML element so every component using CSS logical
+                properties mirrors automatically (sidebar, toolbars, split-button toggles, icon sides, etc.).
+                Use the toggle below to switch to LTR for comparison; the choice is remembered for this
+                browsing session and only affects this page (it doesn't change the global demo RTL setting).
+                Note the Hebrew text reads right-to-left even in LTR — that's Unicode bidi, independent of
+                the layout <code>direction</code>.
             </div>
 
             <!-- RTL Toggle Control -->
@@ -18,9 +21,9 @@
                         <div class="pa-col-md-50">
                             <button class="pa-btn pa-btn--primary" id="rtlToggleBtn">
                                 <span class="pa-btn__icon"><i class="ti ti-switch-horizontal"></i></span>
-                                <span id="rtlBtnLabel">Switch to RTL</span>
+                                <span id="rtlBtnLabel">Switch to LTR</span>
                             </button>
-                            <span class="ms-base" id="rtlStatus">Current mode: <strong>LTR</strong></span>
+                            <span class="ms-base" id="rtlStatus">Current mode: <strong>RTL</strong></span>
                         </div>
                         <div class="pa-col-md-50">
                             <div class="pa-alert pa-alert--info">
@@ -142,6 +145,185 @@
                             <span class="pa-btn__icon"><i class="ti ti-trash"></i></span>
                             מחק
                         </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Split Buttons (auto-absorb toolbars in card headers, three-up) -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">כפתורי פיצול בכותרות כרטיסים</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <p>הפעולה הראשית והמתג צריכים להתהפך: הפינות המשוטחות בין שני הכפתורים, קו המפריד, ותפריט הנפתח צריכים ליישר לצד הנכון ב-RTL (Floating UI קורא את כיוון הכתיבה וממקם את <code>bottom-end</code> בצד הסיום). מוצג בשלושה טורים (<code>pa-col-lg-1-3</code>) כך שכל כרטיס כבר צר — שנה את רוחב החלון כדי לראות כל סרגל כלים בולע ופולט כפתורי פעולה לתוך תפריט כפתור הפיצול, כל אחד בנקודת השבירה שלו.</p>
+                    <div class="pa-row mt-2">
+                        <div class="pa-col-100 pa-col-lg-1-3">
+                            <div class="pa-card">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title minw-45">
+                                        <h3 class="pa-card__title-text">לוח ביצועים רבעוני ומעורבות לקוחות</h3>
+                                    </div>
+                                    <div class="pa-card__actions">
+                                        <div class="pa-btn-toolbar">
+                                            <button class="pa-btn pa-btn--xs pa-btn--ghost" title="רענן">
+                                                <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
+                                                רענן
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--outline-info">
+                                                <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                                סנן
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--outline-secondary">
+                                                <span class="pa-btn__icon"><i class="fas fa-gear"></i></span>
+                                                הגדר
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--success" data-pa-absorb-priority="10">
+                                                <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
+                                                ייצוא
+                                            </button>
+                                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                                <button class="pa-btn pa-btn--xs pa-btn--primary">
+                                                    <span class="pa-btn__icon"><i class="fas fa-plus"></i></span>
+                                                    הוסף רכיב
+                                                </button>
+                                                <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                                </button>
+                                                <div class="pa-btn-split__menu">
+                                                    <div class="pa-btn-split__menu-inner">
+                                                        <button class="pa-btn-split__item">
+                                                            <span class="pa-btn-split__item-icon"><i class="fas fa-chart-line"></i></span>
+                                                            הוסף תרשים
+                                                        </button>
+                                                        <button class="pa-btn-split__item">
+                                                            <span class="pa-btn-split__item-icon"><i class="fas fa-table"></i></span>
+                                                            הוסף טבלה
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <p class="text-muted">סרגל הפעולות בכותרת נושא את התנהגות הבליעה — צמצם את החלון כדי לראות את הגדר, סנן ורענן מתקפלים לתוך תפריט "הוסף רכיב" בסדר זה (עדיפות נמוכה קודם; ייצוא מוצמד).</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pa-col-100 pa-col-lg-1-3">
+                            <div class="pa-card">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title">
+                                        <h3 class="pa-card__title-text">משימות מיגרציה &mdash; עדכוני סכימה בסביבת ייצור</h3>
+                                    </div>
+                                    <div class="pa-card__actions">
+                                        <div class="pa-btn-toolbar">
+                                            <button class="pa-btn pa-btn--xs pa-btn--info">
+                                                <span class="pa-btn__icon"><i class="fas fa-circle-check"></i></span>
+                                                אמת
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--warning">
+                                                <span class="pa-btn__icon"><i class="fas fa-database"></i></span>
+                                                גיבוי
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--outline-danger">
+                                                <span class="pa-btn__icon"><i class="fas fa-rotate-left"></i></span>
+                                                שחזור
+                                            </button>
+                                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                                <button class="pa-btn pa-btn--xs pa-btn--success">
+                                                    <span class="pa-btn__icon"><i class="fas fa-rocket"></i></span>
+                                                    פרוס
+                                                </button>
+                                                <button class="pa-btn pa-btn--xs pa-btn--success pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                                </button>
+                                                <div class="pa-btn-split__menu">
+                                                    <div class="pa-btn-split__menu-inner">
+                                                        <button class="pa-btn-split__item">
+                                                            <span class="pa-btn-split__item-icon"><i class="fas fa-flask"></i></span>
+                                                            הרצת יבש בלבד
+                                                        </button>
+                                                        <button class="pa-btn-split__item">
+                                                            <span class="pa-btn-split__item-icon"><i class="fas fa-vial"></i></span>
+                                                            פריסה ל-staging
+                                                        </button>
+                                                        <button class="pa-btn-split__item pa-btn-split__item--danger">
+                                                            <span class="pa-btn-split__item-icon"><i class="fas fa-fire"></i></span>
+                                                            פריסה כפויה (דלג על בדיקות)
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <p class="text-muted">ללא הצמדה — האחים מתקפלים בסדר ברירת המחדל (הימני ביותר קודם: שחזור &larr; גיבוי &larr; אמת).</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pa-col-100 pa-col-lg-1-3">
+                            <div class="pa-card">
+                                <div class="pa-card__header">
+                                    <div class="pa-card__title minw-60">
+                                        <h3 class="pa-card__title-text">ניהול חברי צוות והרשאות &mdash; קונסולת ארגון</h3>
+                                    </div>
+                                    <div class="pa-card__actions">
+                                        <div class="pa-btn-toolbar">
+                                            <button class="pa-btn pa-btn--xs pa-btn--ghost">
+                                                <span class="pa-btn__icon"><i class="fas fa-magnifying-glass"></i></span>
+                                                חיפוש
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--outline-secondary">
+                                                <span class="pa-btn__icon"><i class="fas fa-arrow-down-wide-short"></i></span>
+                                                מיון
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--outline-info">
+                                                <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
+                                                סנן
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--secondary">
+                                                <span class="pa-btn__icon"><i class="fas fa-file-import"></i></span>
+                                                ייבוא CSV
+                                            </button>
+                                            <button class="pa-btn pa-btn--xs pa-btn--info" data-pa-absorb-priority="5">
+                                                <span class="pa-btn__icon"><i class="fas fa-envelope"></i></span>
+                                                הזמן
+                                            </button>
+                                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                                <button class="pa-btn pa-btn--xs pa-btn--primary">
+                                                    <span class="pa-btn__icon"><i class="fas fa-user-plus"></i></span>
+                                                    הוסף משתמש
+                                                </button>
+                                                <button class="pa-btn pa-btn--xs pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                                </button>
+                                                <div class="pa-btn-split__menu">
+                                                    <div class="pa-btn-split__menu-inner">
+                                                        <button class="pa-btn-split__item">
+                                                            <span class="pa-btn-split__item-icon"><i class="fas fa-user-tag"></i></span>
+                                                            הוסף משתמש עם תפקיד&hellip;
+                                                        </button>
+                                                        <button class="pa-btn-split__item">
+                                                            <span class="pa-btn-split__item-icon"><i class="fas fa-users"></i></span>
+                                                            הוספה מרובה מהצוות
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pa-card__body">
+                                    <p class="text-muted">שישה אחים כאן — הזמן מוצמד בעדיפות 5, כך שהוא שורד את הגל הראשון של הקיפולים אך עדיין מתקפל לפני הוסף משתמש. הכותרת נכנעת ראשונה (מתקצרת עד רצפת רוחב מינימלי) כדי שסרגל הפעולות ישמור על כפתוריו.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -485,30 +667,44 @@
             </div>
 
             <script>
-                // RTL Toggle
+                // --- RTL default for THIS page --------------------------------
+                // This is the RTL demo page, so it should ARRIVE in RTL. RTL is
+                // otherwise a global demo setting (localStorage 'rtl-mode',
+                // applied by settings-panel.js on every page). Here we override
+                // it PAGE-SCOPED — the rest of the demo isn't forced into RTL,
+                // and the visitor's explicit toggle choice is remembered for the
+                // session (sessionStorage), defaulting to RTL when unset.
+                const RTL_TEST_KEY = 'rtl-test-dir';
+
                 function updateRtlUI(isRtl) {
                     document.getElementById('rtlStatus').innerHTML = 'Current mode: <strong>' + (isRtl ? 'RTL' : 'LTR') + '</strong>';
                     document.getElementById('rtlBtnLabel').textContent = isRtl ? 'Switch to LTR' : 'Switch to RTL';
                 }
 
-                document.getElementById('rtlToggleBtn').addEventListener('click', function() {
-                    const html = document.documentElement;
-                    const isRtl = html.getAttribute('dir') === 'rtl';
-                    html.setAttribute('dir', isRtl ? 'ltr' : 'rtl');
-                    localStorage.setItem('rtl-mode', !isRtl);
-                    updateRtlUI(!isRtl);
-
-                    // Sync with settings panel checkbox if exists
+                function applyRtl(isRtl) {
+                    document.documentElement.setAttribute('dir', isRtl ? 'rtl' : 'ltr');
+                    updateRtlUI(isRtl);
+                    // Keep the settings-panel checkbox visually in sync while on
+                    // this page (does NOT write the global 'rtl-mode' flag).
                     const rtlCheckbox = document.getElementById('rtlMode');
-                    if (rtlCheckbox) {
-                        rtlCheckbox.checked = !isRtl;
-                    }
+                    if (rtlCheckbox) rtlCheckbox.checked = isRtl;
+                }
+
+                document.getElementById('rtlToggleBtn').addEventListener('click', function() {
+                    const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+                    const next = !isRtl;
+                    sessionStorage.setItem(RTL_TEST_KEY, next ? 'rtl' : 'ltr');
+                    applyRtl(next);
                 });
 
-                // Update status on load
-                document.addEventListener('DOMContentLoaded', function() {
-                    const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
-                    updateRtlUI(isRtl);
+                // Just REFLECT the dir into the UI text — settings-panel.js is
+                // the single load-time dir authority and already defaulted this
+                // page (body[data-rtl-default]) to RTL, honoring any
+                // sessionStorage[RTL_TEST_KEY] override, so we don't set dir here.
+                // Reflect on `load` (not DOMContentLoaded): handler ordering vs
+                // settings-panel isn't guaranteed, and by `load` dir is final.
+                window.addEventListener('load', function() {
+                    updateRtlUI(document.documentElement.getAttribute('dir') === 'rtl');
                 });
 
                 // Simple tab switching for demo

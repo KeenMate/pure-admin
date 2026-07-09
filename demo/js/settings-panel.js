@@ -339,14 +339,20 @@
                 body.classList.add('compact-mode');
             }
 
-            // RTL mode
-            const isRtlMode = localStorage.getItem('rtl-mode') === 'true';
-            rtlMode.checked = isRtlMode;
-            if (isRtlMode) {
-                document.documentElement.setAttribute('dir', 'rtl');
+            // RTL mode.
+            // Normally driven by the global 'rtl-mode' flag. The RTL Test page
+            // (body[data-rtl-default]) instead defaults to RTL — it exists to
+            // demo RTL, so it should arrive in RTL — scoped to that page via a
+            // per-session override key, without touching the global flag.
+            let isRtlMode;
+            if (document.body.hasAttribute('data-rtl-default')) {
+                const sessionChoice = sessionStorage.getItem('rtl-test-dir'); // 'rtl' | 'ltr' | null
+                isRtlMode = sessionChoice ? sessionChoice === 'rtl' : true;
             } else {
-                document.documentElement.setAttribute('dir', 'ltr');
+                isRtlMode = localStorage.getItem('rtl-mode') === 'true';
             }
+            rtlMode.checked = isRtlMode;
+            document.documentElement.setAttribute('dir', isRtlMode ? 'rtl' : 'ltr');
 
             // Profile panel - no avatar mode
             const isNoAvatar = localStorage.getItem('profile-no-avatar') === 'true';
