@@ -72,6 +72,21 @@
     // to a hand-rolled `getBoundingClientRect` positioner below.
     var FUI = window.FloatingUIDOM || null;
 
+    // Shared menu-dismissal registry (see split-button.js for the canonical
+    // definition). Defined defensively here too so overflow.js works even if
+    // it loads before split-button.js. Opening any menu closes the others, so
+    // an overflow "more" menu and a split-button dropdown can't hang open over
+    // each other.
+    var PaMenus = (window.PaMenus = window.PaMenus || {
+        closers: [],
+        register: function (fn) { this.closers.push(fn); return fn; },
+        closeOthers: function (self) {
+            this.closers.forEach(function (fn) {
+                if (fn !== self) { try { fn(); } catch (e) { /* ignore */ } }
+            });
+        }
+    });
+
     function init(root) {
         if (!root || root[INIT_FLAG]) return;
         if (!matchesContract(root)) return;
@@ -114,13 +129,28 @@
             console.log.apply(console, [instanceLabel].concat(args));
         }
 
-        // Trigger button — the "..." affordance. Carries both the generic
-        // and the card-flavoured class so any existing SCSS targeting the
-        // old `.pa-card__actions-overflow-trigger` selector keeps working
-        // (themes / consumer overrides) without forcing a coordinated update.
+        // Trigger button — the "..." affordance. It's a STANDARD button by
+        // default: `pa-btn--secondary` gives it the same border + surface as any
+        // other secondary button in the toolbar, and `pa-btn--icon-only` gives
+        // it a square footprint matching a split-button toggle (31px at xs). So
+        // it reads as an ordinary member of the button family, not a bare glyph
+        // — and it does so from the button variants alone, without depending on
+        // a theme-specific `.pa-overflow__trigger` rule existing.
+        //
+        // Ghost is the SPECIAL case, opt-in per wrapper:
+        //   <div class="pa-overflow" data-pa-overflow-trigger="ghost">
+        // swaps the secondary chrome for the chromeless ghost look.
+        //
+        // Carries the card-flavoured class too so existing SCSS targeting
+        // `.pa-card__actions-overflow-trigger` (themes / consumer overrides)
+        // keeps working without a coordinated update.
+        var triggerVariant = root.getAttribute('data-pa-overflow-trigger') === 'ghost'
+            ? 'pa-btn--ghost'
+            : 'pa-btn--secondary';
         var trigger = document.createElement('button');
         trigger.type = 'button';
-        trigger.className = 'pa-btn pa-btn--xs pa-btn--ghost pa-overflow__trigger pa-card__actions-overflow-trigger';
+        trigger.className = 'pa-btn pa-btn--xs pa-btn--icon-only ' + triggerVariant +
+            ' pa-overflow__trigger pa-card__actions-overflow-trigger';
         trigger.setAttribute('aria-label', 'More actions');
         trigger.setAttribute('aria-haspopup', 'menu');
         trigger.setAttribute('aria-expanded', 'false');
@@ -142,20 +172,124 @@
 
         log('init', { itemCount: ordered.length, priorities: ordered.map(function (i) { return i.priority; }) });
 
+        var ICON_STASH = '__paOverflowIconOrigClass';
+
+        function isSplit(el) {
+            return el.classList && el.classList.contains('pa-btn-split');
+        }
+
+        // The split button's own primary action, identified by EXCLUSION so
+        // it's found in both states: expanded it's a `.pa-btn`, but once
+        // collapsed we reclass it to `.pa-btn-split__item` (dropping `.pa-btn`)
+        // — a class-based lookup would then miss it on restore and leave it
+        // stuck as a menu row with an empty group label. The primary is simply
+        // the first child that isn't the toggle, the dropdown, or our label.
+        function splitPrimary(splitEl) {
+            for (var c = splitEl.firstElementChild; c; c = c.nextElementSibling) {
+                if (!c.classList) continue;
+                if (c.classList.contains('pa-btn-split__toggle')) continue;
+                if (c.classList.contains('pa-btn-split__menu')) continue;
+                if (c.classList.contains('pa-btn-split__group-label')) continue;
+                return c;
+            }
+            return null;
+        }
+
+        // Reclassing a `.pa-btn` to `.pa-btn-split__item` drops the pa-btn
+        // icon-column rule (`.pa-btn:has(.pa-btn__icon) .pa-btn__icon`), so an
+        // absorbed icon goes auto-width and throws the label out of column.
+        // Rename it to the canonical `pa-btn-split__item-icon` and restore on
+        // the way back.
+        function rewriteIcons(el) {
+            var icons = el.querySelectorAll('.pa-btn__icon');
+            for (var i = 0; i < icons.length; i++) {
+                if (icons[i][ICON_STASH] == null) icons[i][ICON_STASH] = icons[i].className;
+                icons[i].className = 'pa-btn-split__item-icon';
+            }
+        }
+        function restoreIcons(el) {
+            var icons = el.querySelectorAll('.pa-btn-split__item-icon');
+            for (var i = 0; i < icons.length; i++) {
+                if (icons[i][ICON_STASH] != null) icons[i].className = icons[i][ICON_STASH];
+            }
+        }
+
+        // Collapse a WHOLE split button into the menu as an atomic group:
+        // a section label + the primary action + the split's own menu items,
+        // kept together. Reuses `.pa-btn-split--in-overflow` (SCSS) to unfold
+        // the split's dropdown in place, so the split button's own options
+        // stay attached to its label instead of scattering into the row.
+        function moveSplitToMenu(el) {
+            if (el.__paOverflowOrigClass == null) el.__paOverflowOrigClass = el.className;
+            // Keep the base pa-btn-split class so inner __menu / __item
+            // selectors still match; just add the in-overflow modifier.
+            el.className = el.__paOverflowOrigClass + ' pa-btn-split--in-overflow';
+
+            var primary = splitPrimary(el);
+            if (primary && primary.__paOverflowOrigClass == null) {
+                primary.__paOverflowOrigClass = primary.className;
+                primary.className = 'pa-btn-split__item';
+                rewriteIcons(primary);
+            }
+
+            // Section heading — a `data-pa-overflow-label` override wins,
+            // else the primary action's own text.
+            if (!el.__paOverflowGroupLabel) {
+                var label = document.createElement('div');
+                label.className = 'pa-btn-split__group-label';
+                label.textContent = el.getAttribute('data-pa-overflow-label') ||
+                    (primary ? primary.textContent.trim() : '');
+                el.insertBefore(label, el.firstChild);
+                el.__paOverflowGroupLabel = label;
+            }
+            menuInner.appendChild(el);
+        }
+
+        function restoreSplit(el) {
+            var primary = splitPrimary(el);
+            if (primary && primary.__paOverflowOrigClass != null) {
+                primary.className = primary.__paOverflowOrigClass;
+                primary.__paOverflowOrigClass = null;
+                restoreIcons(primary);
+            }
+            if (el.__paOverflowGroupLabel) {
+                el.__paOverflowGroupLabel.remove();
+                el.__paOverflowGroupLabel = null;
+            }
+            if (el.__paOverflowOrigClass != null) el.className = el.__paOverflowOrigClass;
+        }
+
         // When we move an item into the menu we replace its classList with
         // `pa-btn-split__item` so it adopts the standard split-button menu
         // row styling; the original classList is stashed on the element
-        // itself and restored on the way back.
+        // itself and restored on the way back. A `.pa-btn-split` child is the
+        // exception — it collapses as an atomic labeled group instead.
+        //
+        // We also rename any `.pa-btn__icon` inside the row to
+        // `.pa-btn-split__item-icon` (same helper the split primary uses):
+        // reclassing to `.pa-btn-split__item` drops the `.pa-btn:has(icon)`
+        // rule that gives the icon its fixed column width, so WITHOUT this the
+        // icons render at natural width and the labels zig-zag. Renaming puts
+        // every row's icon in the same fixed column, exactly like a real
+        // split-button menu — one shared alignment for both.
         function moveToMenu(el) {
+            if (isSplit(el)) {
+                moveSplitToMenu(el);
+                return;
+            }
             if (el.__paOverflowOrigClass == null) {
                 el.__paOverflowOrigClass = el.className;
             }
             el.className = 'pa-btn-split__item';
+            rewriteIcons(el);
             menuInner.appendChild(el);
         }
 
         function moveToRoot(el) {
-            if (el.__paOverflowOrigClass != null) {
+            if (isSplit(el)) {
+                restoreSplit(el);
+            } else if (el.__paOverflowOrigClass != null) {
+                restoreIcons(el);
                 el.className = el.__paOverflowOrigClass;
             }
             // insertBefore moves the node if it's already attached, so we
@@ -223,6 +357,9 @@
 
         function openMenu() {
             if (menuInner.children.length === 0) return; // nothing to show
+            // Close any other open menu first (other overflow menus AND split
+            // buttons), so only this one is open.
+            PaMenus.closeOthers(closeMenu);
             menu.classList.add('pa-btn-split__menu--open');
             trigger.setAttribute('aria-expanded', 'true');
 
@@ -246,22 +383,11 @@
                         closeMenu();
                         return;
                     }
-                    FUI.computePosition(trigger, menu, {
-                        placement: 'bottom-end',
-                        strategy: 'fixed',
-                        middleware: [
-                            FUI.offset(4),
-                            FUI.flip(),
-                            FUI.shift({ padding: 8 })
-                        ]
-                    }).then(function (pos) {
-                        Object.assign(menu.style, {
-                            position: 'fixed',
-                            left: pos.x + 'px',
-                            top: pos.y + 'px',
-                            right: 'auto'
-                        });
-                    });
+                    // Reuse the split button's own positioner so the "more"
+                    // menu opens with identical offset / flip / shift / min-width
+                    // — one menu-positioning logic shared by both components,
+                    // instead of a parallel copy that drifts a few pixels off.
+                    positionMenu();
                 });
             } else {
                 positionMenuFallback();
@@ -286,12 +412,26 @@
             document.removeEventListener('mousedown', onDocClick);
         }
 
+        // Position the open menu under the trigger. Prefers the shared
+        // split-button positioner (`window.PaSplitMenu.position`) so both
+        // components anchor their dropdown identically; falls back to the
+        // hand-rolled positioner only if split-button.js / Floating UI isn't
+        // loaded.
+        function positionMenu() {
+            if (window.PaSplitMenu && window.PaSplitMenu.position) {
+                window.PaSplitMenu.position(trigger, menu, 'bottom-end');
+            } else {
+                positionMenuFallback();
+            }
+        }
+
         function positionMenuFallback() {
-            // Used only if Floating UI isn't loaded — no flip, no shift,
-            // no scroll-into-corner handling.
+            // Used only if the shared positioner / Floating UI isn't loaded —
+            // no flip, no shift, no scroll-into-corner handling. Matches the
+            // split button's 6px offset so the gap is still consistent.
             var rect = trigger.getBoundingClientRect();
             menu.style.position = 'fixed';
-            menu.style.top = (rect.bottom + 4) + 'px';
+            menu.style.top = (rect.bottom + 6) + 'px';
             menu.style.right = (window.innerWidth - rect.right) + 'px';
             menu.style.left = 'auto';
         }
@@ -313,6 +453,10 @@
             if (!e.target.closest('.pa-btn-split__item')) return;
             setTimeout(closeMenu, 0);
         });
+
+        // Register this instance's close fn with the shared dismissal registry
+        // so split buttons / other overflow menus can dismiss it on open.
+        PaMenus.register(closeMenu);
 
         // First paint — wait for layout, then run relayout.
         requestAnimationFrame(relayout);

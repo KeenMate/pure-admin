@@ -149,7 +149,7 @@
                 </div>
             </div>
 
-            <!-- Split Buttons (auto-absorb toolbars in card headers, three-up) -->
+            <!-- Split Buttons (overflow toolbars in card headers, three-up) -->
             <div class="pa-card">
                 <div class="pa-card__header">
                     <div class="pa-card__title">
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="pa-card__body">
-                    <p>הפעולה הראשית והמתג צריכים להתהפך: הפינות המשוטחות בין שני הכפתורים, קו המפריד, ותפריט הנפתח צריכים ליישר לצד הנכון ב-RTL (Floating UI קורא את כיוון הכתיבה וממקם את <code>bottom-end</code> בצד הסיום). מוצג בשלושה טורים (<code>pa-col-lg-1-3</code>) כך שכל כרטיס כבר צר — שנה את רוחב החלון כדי לראות כל סרגל כלים בולע ופולט כפתורי פעולה לתוך תפריט כפתור הפיצול, כל אחד בנקודת השבירה שלו.</p>
+                    <p>הפעולה הראשית והמתג צריכים להתהפך: הפינות המשוטחות בין שני הכפתורים, קו המפריד, ותפריט הנפתח צריכים ליישר לצד הנכון ב-RTL (Floating UI קורא את כיוון הכתיבה וממקם את <code>bottom-end</code> בצד הסיום). מוצג בשלושה טורים (<code>pa-col-lg-1-3</code>) כך שכל כרטיס כבר צר — שנה את רוחב החלון כדי לראות כל <code>.pa-card__actions--overflow</code> בולע ופולט כפתורי פעולה לתוך תפריט <code>[⋮]</code> ייעודי, כל אחד בנקודת השבירה שלו. כפתור פיצול מתקפל כקבוצה אטומית עם תווית.</p>
                     <div class="pa-row mt-2">
                         <div class="pa-col-100 pa-col-lg-1-3">
                             <div class="pa-card">
@@ -165,8 +165,7 @@
                                     <div class="pa-card__title minw-45">
                                         <h3 class="pa-card__title-text">לוח ביצועים רבעוני ומעורבות לקוחות</h3>
                                     </div>
-                                    <div class="pa-card__actions">
-                                        <div class="pa-btn-toolbar">
+                                    <div class="pa-card__actions pa-card__actions--overflow">
                                             <button class="pa-btn pa-btn--xs pa-btn--ghost" title="רענן">
                                                 <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
                                                 רענן
@@ -179,11 +178,11 @@
                                                 <span class="pa-btn__icon"><i class="fas fa-gear"></i></span>
                                                 הגדר
                                             </button>
-                                            <button class="pa-btn pa-btn--xs pa-btn--success" data-pa-absorb-priority="10">
+                                            <button class="pa-btn pa-btn--xs pa-btn--success" data-pa-actions-priority="10" onclick="togglePopconfirm(event, 'pc-export')">
                                                 <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
                                                 ייצוא
                                             </button>
-                                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                            <div class="pa-btn-split" data-pa-actions-priority="20">
                                                 <button class="pa-btn pa-btn--xs pa-btn--primary">
                                                     <span class="pa-btn__icon"><i class="fas fa-plus"></i></span>
                                                     הוסף רכיב
@@ -206,9 +205,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 <div class="pa-card__body">
-                                    <p class="text-muted">סרגל הפעולות בכותרת נושא את התנהגות הבליעה — צמצם את החלון כדי לראות את הגדר, סנן ורענן מתקפלים לתוך תפריט "הוסף רכיב" בסדר זה (עדיפות נמוכה קודם; ייצוא מוצמד).</p>
+                                    <p class="text-muted">סרגל הפעולות בכותרת נושא את התנהגות הגלישה — צמצם את החלון כדי לראות את הגדר, סנן ורענן מתקפלים לתוך תפריט <code>[⋮]</code> הייעודי בסדר זה (עדיפות נמוכה קודם; ייצוא מוצמד; כפתור "הוסף רכיב" שורד הכי הרבה).</p>
                                 </div>
                             </div>
                         </div>
@@ -219,8 +217,7 @@
                                     <div class="pa-card__title">
                                         <h3 class="pa-card__title-text">משימות מיגרציה &mdash; עדכוני סכימה בסביבת ייצור</h3>
                                     </div>
-                                    <div class="pa-card__actions">
-                                        <div class="pa-btn-toolbar">
+                                    <div class="pa-card__actions pa-card__actions--overflow">
                                             <button class="pa-btn pa-btn--xs pa-btn--info">
                                                 <span class="pa-btn__icon"><i class="fas fa-circle-check"></i></span>
                                                 אמת
@@ -229,11 +226,11 @@
                                                 <span class="pa-btn__icon"><i class="fas fa-database"></i></span>
                                                 גיבוי
                                             </button>
-                                            <button class="pa-btn pa-btn--xs pa-btn--outline-danger">
+                                            <button class="pa-btn pa-btn--xs pa-btn--outline-danger" onclick="togglePopconfirm(event, 'pc-rollback')">
                                                 <span class="pa-btn__icon"><i class="fas fa-rotate-left"></i></span>
                                                 שחזור
                                             </button>
-                                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                            <div class="pa-btn-split" data-pa-actions-priority="20">
                                                 <button class="pa-btn pa-btn--xs pa-btn--success">
                                                     <span class="pa-btn__icon"><i class="fas fa-rocket"></i></span>
                                                     פרוס
@@ -260,9 +257,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 <div class="pa-card__body">
-                                    <p class="text-muted">ללא הצמדה — האחים מתקפלים בסדר ברירת המחדל (הימני ביותר קודם: שחזור &larr; גיבוי &larr; אמת).</p>
+                                    <p class="text-muted">ללא הצמדה — האחים מתקפלים בסדר ברירת המחדל (הימני ביותר קודם: שחזור &larr; גיבוי &larr; אמת). כפתור הפריסה שורד הכי הרבה ומתקפל לתפריט <code>[⋮]</code> כקבוצה אטומית עם תווית.</p>
                                 </div>
                             </div>
                         </div>
@@ -273,8 +269,7 @@
                                     <div class="pa-card__title minw-60">
                                         <h3 class="pa-card__title-text">ניהול חברי צוות והרשאות &mdash; קונסולת ארגון</h3>
                                     </div>
-                                    <div class="pa-card__actions">
-                                        <div class="pa-btn-toolbar">
+                                    <div class="pa-card__actions pa-card__actions--overflow">
                                             <button class="pa-btn pa-btn--xs pa-btn--ghost">
                                                 <span class="pa-btn__icon"><i class="fas fa-magnifying-glass"></i></span>
                                                 חיפוש
@@ -291,11 +286,11 @@
                                                 <span class="pa-btn__icon"><i class="fas fa-file-import"></i></span>
                                                 ייבוא CSV
                                             </button>
-                                            <button class="pa-btn pa-btn--xs pa-btn--info" data-pa-absorb-priority="5">
+                                            <button class="pa-btn pa-btn--xs pa-btn--info" data-pa-actions-priority="5" onclick="togglePopconfirm(event, 'pc-invite')">
                                                 <span class="pa-btn__icon"><i class="fas fa-envelope"></i></span>
                                                 הזמן
                                             </button>
-                                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                            <div class="pa-btn-split" data-pa-actions-priority="20">
                                                 <button class="pa-btn pa-btn--xs pa-btn--primary">
                                                     <span class="pa-btn__icon"><i class="fas fa-user-plus"></i></span>
                                                     הוסף משתמש
@@ -318,12 +313,54 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 <div class="pa-card__body">
-                                    <p class="text-muted">שישה אחים כאן — הזמן מוצמד בעדיפות 5, כך שהוא שורד את הגל הראשון של הקיפולים אך עדיין מתקפל לפני הוסף משתמש. הכותרת נכנעת ראשונה (מתקצרת עד רצפת רוחב מינימלי) כדי שסרגל הפעולות ישמור על כפתוריו.</p>
+                                    <p class="text-muted">שישה אחים כאן — הזמן מוצמד בעדיפות 5, כך שהוא שורד את הגל הראשון של הקיפולים אך עדיין מתקפל לפני הוסף משתמש. הכותרת נכנעת ראשונה (מתקצרת עד רצפת רוחב מינימלי) כדי שסרגל הפעולות ישמור על כפתוריו. כפתור "הוסף משתמש" מתקפל לתפריט <code>[⋮]</code> כקבוצה אטומית עם תווית.</p>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popconfirm definitions for the toolbar buttons above (RTL positioning test) -->
+            <!-- Each uses a LOGICAL placement (bottom/start/end); positionPopconfirm
+                 maps start/end to the physical side based on dir, so in RTL:
+                 start = right, end = left. Toggle LTR to compare. -->
+            <div id="pc-export" class="pa-popconfirm pa-popconfirm--bottom">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--info">
+                        <p>לייצא את כל נתוני הלוח? <code>placement: bottom</code></p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-export')">ביטול</button>
+                        <button class="pa-btn pa-btn--success" onclick="confirmPopconfirm('pc-export', 'הייצוא הושלם')">ייצוא</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pc-rollback" class="pa-popconfirm pa-popconfirm--start">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+                        <p>לשחזר את בסיס הנתונים לגיבוי הקודם? פעולה זו אינה הפיכה. <code>placement: start</code> (מימין ב-RTL)</p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-rollback')">ביטול</button>
+                        <button class="pa-btn pa-btn--danger" onclick="confirmPopconfirm('pc-rollback', 'השחזור בוצע')">שחזור</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pc-invite" class="pa-popconfirm pa-popconfirm--end">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--info">
+                        <p>לשלוח הזמנות לכל החברים שנבחרו? <code>placement: end</code> (משמאל ב-RTL)</p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-invite')">ביטול</button>
+                        <button class="pa-btn pa-btn--info" onclick="confirmPopconfirm('pc-invite', 'ההזמנות נשלחו')">שליחה</button>
                     </div>
                 </div>
             </div>
@@ -665,6 +702,95 @@
                     </ol>
                 </div>
             </div>
+
+            <!-- Popconfirm logic (RTL positioning test for the toolbar buttons).
+                 Mirrors demo/views/popconfirm.mustache — positionPopconfirm maps the
+                 logical start/end placement to a physical Floating UI side based on
+                 document.documentElement.dir, and maps the flipped result back. -->
+            <script>
+                let currentPopconfirm = null;
+                let currentPopTrigger = null;
+
+                function togglePopconfirm(event, popconfirmId) {
+                    event.stopPropagation();
+                    const trigger = event.currentTarget;
+                    const popconfirm = document.getElementById(popconfirmId);
+                    if (!popconfirm) return;
+
+                    if (currentPopconfirm && currentPopconfirm !== popconfirm) {
+                        currentPopconfirm.classList.remove('is-open');
+                    }
+                    if (popconfirm.classList.contains('is-open')) {
+                        popconfirm.classList.remove('is-open');
+                        currentPopconfirm = null;
+                        currentPopTrigger = null;
+                    } else {
+                        positionPopconfirm(trigger, popconfirm);
+                        popconfirm.classList.add('is-open');
+                        currentPopconfirm = popconfirm;
+                        currentPopTrigger = trigger;
+                    }
+                }
+
+                function closePopconfirm(popconfirmId) {
+                    const popconfirm = document.getElementById(popconfirmId);
+                    if (!popconfirm) return;
+                    popconfirm.classList.remove('is-open');
+                    if (currentPopconfirm === popconfirm) {
+                        currentPopconfirm = null;
+                        currentPopTrigger = null;
+                    }
+                }
+
+                function confirmPopconfirm(popconfirmId, message) {
+                    closePopconfirm(popconfirmId);
+                    // Reuse the page's toast helper (logical bottom-end position).
+                    if (typeof showTestToast === 'function') {
+                        showTestToast('bottom-end');
+                    }
+                    console.log('[popconfirm] confirmed:', popconfirmId, '-', message);
+                }
+
+                async function positionPopconfirm(trigger, popconfirm) {
+                    const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+                    const toPhysical = { top: 'top', bottom: 'bottom', start: isRtl ? 'right' : 'left', end: isRtl ? 'left' : 'right' };
+                    const toLogical  = { top: 'top', bottom: 'bottom', left: isRtl ? 'end' : 'start', right: isRtl ? 'start' : 'end' };
+
+                    const classMatch = popconfirm.className.match(/pa-popconfirm--(top|bottom|start|end)/);
+                    const logical = classMatch ? classMatch[1] : 'bottom';
+                    const placement = toPhysical[logical];
+
+                    const { computePosition, flip, shift, offset } = window.FloatingUIDOM;
+                    const { x, y, placement: finalPlacement } = await computePosition(trigger, popconfirm, {
+                        placement: placement,
+                        middleware: [ offset(8), flip(), shift({ padding: 10 }) ]
+                    });
+
+                    const finalLogical = toLogical[finalPlacement.split('-')[0]] || 'bottom';
+                    popconfirm.className = popconfirm.className
+                        .replace(/pa-popconfirm--(top|bottom|start|end)/g, '')
+                        .trim() + ' pa-popconfirm--' + finalLogical;
+
+                    Object.assign(popconfirm.style, { left: `${x}px`, top: `${y}px` });
+                }
+
+                document.addEventListener('click', (e) => {
+                    if (currentPopconfirm &&
+                        !currentPopconfirm.contains(e.target) &&
+                        currentPopTrigger !== e.target &&
+                        (!currentPopTrigger || !currentPopTrigger.contains(e.target))) {
+                        currentPopconfirm.classList.remove('is-open');
+                        currentPopconfirm = null;
+                        currentPopTrigger = null;
+                    }
+                });
+
+                ['scroll', 'resize'].forEach((evt) => window.addEventListener(evt, () => {
+                    if (currentPopconfirm && currentPopTrigger) {
+                        positionPopconfirm(currentPopTrigger, currentPopconfirm);
+                    }
+                }, true));
+            </script>
 
             <script>
                 // --- RTL default for THIS page --------------------------------

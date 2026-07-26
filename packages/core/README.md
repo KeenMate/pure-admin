@@ -2,23 +2,20 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.9.0-rc06
+
+- **New: `.pa-overflow` is the canonical progressive-collapse toolbar.** A toolbar that can't fit on one line folds its buttons into a dedicated `[⋮]` "more" menu, and pops them back as space returns. A `.pa-btn-split` child collapses as one atomic labeled group — its primary action + its own menu items travel together under a section label (so a split button's options never get mixed in with unrelated toolbar commands), and per-row action buttons (`.pa-btn-split__item-row`, e.g. a member delete) survive the collapse and still fire. Fully reversible on widen.
+- **Replaces the rc04 auto-absorb mechanism.** `.pa-btn-split--auto-absorb` + `.pa-btn-toolbar` are **removed** — they made a domain split button double as the overflow sink, so unrelated commands ended up under a semantic menu like `Export ▾`. **Migration:** swap `.pa-btn-toolbar` → `.pa-overflow` (or `.pa-card__actions--overflow` in a header), drop `--auto-absorb`, and rename `data-pa-absorb-priority` → `data-pa-actions-priority` / `data-pa-absorb-from` → `data-pa-actions-overflow-from`. Only ever shipped in 2.9.0 pre-releases.
+- **The `[⋮]` "more" trigger is now a standard bordered button.** It ships as a normal `pa-btn--secondary` square (matching a split-button toggle) instead of a faint chromeless glyph, and gets its look from the button variant classes alone — no theme-specific rule required. Opt into the borderless look per instance with `data-pa-overflow-trigger="ghost"`.
+- **Buttons — one unified inner-content model; content centers by default.** Every `.pa-btn` is now a single `inline-flex` row for every type (text-only, icon+label, block), so the same component no longer centers or left-aligns depending on whether it has an icon, and an icon now sits at the padding edge exactly like a text-only label (fixing icon vs. text buttons not lining up). The `--align-start / -end / -center / -justify` modifiers are the single alignment switch. **Behavior change:** full-width icon+label buttons used to left-align and now center — add `--align-start` where the old look is wanted; auto-width buttons are unchanged.
+- **Split button — `data-pa-keep-open` opt-out on menu items.** A menu item marked `data-pa-keep-open` keeps the dropdown open on click (for items that open a popconfirm / sub-panel anchored to the item), instead of the default close-on-click. Unblocks framework wrappers where a delegated click handler can't reach the document-level dismissal.
+- **One shared dropdown engine across split buttons and overflow menus.** The overflow "more" menu now reuses the split-button positioner (same offset / flip / shift), and a shared dismissal registry means a split-button dropdown and an overflow menu — or two overflow menus — can no longer hang open over each other.
+
 ## What's New in 2.9.0-rc05
 
 - **Card header — one canonical structure (`.pa-card__title` + new `.pa-card__description`).** The header no longer has two blessed title shapes (bare `<h3>` vs `.pa-card__title`); `.pa-card__title` is now *the* title contract for every card, with the icon optional inside `.pa-card__title-icon` — so a `<Card>` component emits one DOM tree instead of branching on whether an icon was passed. The description is promoted from a bare `<p>` to a real `.pa-card__description` element, making the header fully `title` / `description` / `actions`.
 - **Card footer — reuses `.pa-card__actions`, auto-pinned to the trailing edge.** Footer buttons go in the same actions slot as the header and hug the right automatically, with or without leading meta/text — no more empty spacer `<div>` to right-align them, and no bare buttons scattering to opposite corners.
 - **Header polish: `--pa-card-description-offset-y` token + descender fix.** The (smaller) description now sits on the title's baseline via a per-theme-tunable nudge, and the title's `line-height` was corrected so glyph descenders (g / y / p) are no longer clipped by the header's overflow.
-
-## What's New in 2.9.0-rc04
-
-- **New: Range Group — a compact multi-range filter (`.pa-range-group` + a reusable `.pa-range` slider).** One toggle summarises several numeric filters inline (`AGE 25–60 / SALARY $40,000–$200,000 / CHILDREN 2+`) and expands into a Floating-UI panel with one slider per dimension — standing in for a row of separate sliders in a filter bar. Per-row dual-thumb range or single-thumb threshold, RTL-correct by construction, with a `--pa-range-*` theming token namespace and a bubbling `change` / `apply` / `reset` event contract keyed by dimension.
-- **Range Group sliders are richly interactive.** Major/minor tick marks with optional value labels, opt-in snap-to-tick, click-anywhere-to-seek tracks that grab the nearest handle, and five selectable handle shapes (circle, rectangle, bar, chevron, needle) — all pure CSS, mixable per row. Behaviour ships in the package as `range-group.js` (exposed via the `./js/*` export).
-- **The package now ships the components' JavaScript (`src/js/`, via the `./js/*` export).** Interactive behaviours (split-button dropdowns, splitter drag, tooltips/popovers, toasts, command palette, …) were previously referenced in markup but never published; consumers now get the actual implementations instead of dangling handlers.
-- **Stat square — fit-to-box mode (`data-pa-stat-fit` + `pa-stat-fit.js`).** The primary number scales to fill the tile at the largest font that still fits, and supporting rows (symbol, label, change, context) reveal by priority as the tile earns both width and height — one tile that adapts across dashboard sizes instead of a fixed layout.
-- **Auto-absorb split-button toolbars (`.pa-btn-toolbar` + `pa-btn-split--auto-absorb`).** Sibling buttons fold into a split button's dropdown when the row runs out of width and pop back out as space returns, with per-button drop priority — progressive collapse without a parallel "more" menu.
-- **`.pa-splitter` — `pa-splitter:resize` / `:collapse` / `:expand` `CustomEvent`s.** Three bubbling events fire from the affected pane (`resize.detail = { index, pane, size }`, collapse / expand detail = `{ index, pane }`) so consumers can wire sidebars, analytics, or persistence-coupled toolbars on the splitter root with a single delegated listener. `resize` is unfiltered — debounce in the handler. `collapse` / `expand` fire only on user-initiated transitions; init from saved state stays silent.
-- **`.pa-splitter` — drag against a rail'd primary is now asymmetric.** Dragging outward (the direction that would grow the pane) releases the rail and follows the cursor; dragging inward (into the rail, would shrink further) is fully inert. Previously the drag-from-rail path pre-cleared `isMin` on `pointerdown` regardless of direction, so the card visually flashed out of its rail state before the user could express expand intent in the opposite direction — read as the splitter "guessing wrong". Mirrors `svelte-fluentui/MultiSplitter`'s drag-to-be-explicit gate.
-- **`.pa-splitter` — tap-without-drag on the gutter no longer restores a rail'd pane.** Restore gestures are now: rail-body click, dblclick on the gutter, focus + `Enter`/`Space`, `[data-pa-splitter-toggle]` button, or drag outward past the snap threshold. Users expected drag-to-be-explicit and didn't connect "tap the gutter" with the rail-pane body as a restore surface.
-- **`.pa-splitter` — per-pane orientation class** (`pa-splitter__pane--horizontal` / `--vertical`) stamped at registration. Forward-compat hook for theme authors writing nested-splitter-safe rail CSS without walking the DOM to figure out the enclosing splitter's orientation.
 
 ## Installation
 
@@ -73,9 +70,9 @@ behavior to work (no framework runtime, no build step required). These ship
 in `src/js/` and are exposed under the `./js/*` export:
 
 ```js
-// Split buttons + the auto-absorb button toolbar
+// Split buttons + the progressive-overflow toolbar
 import '@keenmate/pure-admin-core/js/split-button.js';       // toggleSplitMenu()
-import '@keenmate/pure-admin-core/js/btn-split-auto-absorb.js';
+import '@keenmate/pure-admin-core/js/overflow.js';           // .pa-overflow "more" menu
 ```
 
 Or via a plain script tag:
@@ -91,12 +88,11 @@ Pull in only the files for the components you use:
 | Component | File(s) |
 |---|---|
 | Split button dropdown | `split-button.js` (defines `toggleSplitMenu`) |
-| Auto-absorb toolbar (`.pa-btn-toolbar`) | `split-button.js` **+** `btn-split-auto-absorb.js` |
 | Tooltips / popovers | `tooltips-popovers.js` |
 | Splitter | `splitter.js` |
 | Toasts | `toast-service.js` |
 | Command palette | `command-palette.js` |
-| Progressive overflow | `overflow.js` |
+| Overflow toolbar (`.pa-overflow`; a `.pa-btn-split` child collapses as a group) | `split-button.js` **+** `overflow.js` |
 | Fit-to-box stat | `pa-stat-fit.js` |
 | Modal dialogs | `modal-dialogs.js` |
 | Range group (`.pa-range-group` / `.pa-range`) | `range-group.js` |

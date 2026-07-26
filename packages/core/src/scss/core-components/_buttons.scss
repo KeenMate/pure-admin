@@ -6,7 +6,17 @@
 
 // Buttons
 .pa-btn {
-  display: inline-block;
+  // One inner-content model for EVERY button type: an inline flex row that
+  // CENTERS its content by default. Text-only, icon+label, and icon-only
+  // buttons now lay out identically — no per-type divergence (previously
+  // text-only used inline-block + text-align:center while icon buttons used
+  // inline-flex + start, so the two never matched). Change the alignment with
+  // the `--align-start / -end / -center / -justify` switches (see "Button Text
+  // Alignment"); start is the opt-in, center is the standard default.
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
   vertical-align: middle;
   height: $btn-height-base;
   padding: $btn-padding-v $btn-padding-h;
@@ -295,10 +305,11 @@
     }
   }
 
-  // Block button
+  // Block button — full width, but keep the flex model (not `display:block`)
+  // so the icon+label gap/centering still holds when the button stretches.
   &--block {
     width: 100%;
-    display: block;
+    display: flex;
   }
 
   // Icon buttons
@@ -334,39 +345,18 @@
   }
 
   &__icon {
-    margin-inline-end: $btn-icon-margin; // RTL: flips to margin-left
-
-    &:last-child {
-      margin-inline-end: 0;
-      margin-inline-start: $btn-icon-margin; // RTL: flips to margin-right
-    }
+    // Natural-width icon centered on itself; the parent `.pa-btn` `gap`
+    // supplies the space to the label. No fixed column and no per-side margins
+    // — those made the icon glyph sit ~5px past a text-only button's label
+    // start. `gap` is symmetric, so a leading OR trailing icon spaces the same.
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
   &__label {
     flex: 0 1 auto;
-  }
-
-  // Buttons with icons align to start like sidebar menu items
-  &:has(.pa-btn__icon) {
-    text-align: start; // RTL: flips to right
-    display: inline-flex;
-    align-items: center;
-    gap: $spacing-sm;
-
-    .pa-btn__icon {
-      width: $sidebar-icon-size;
-      min-width: $sidebar-icon-size;
-      // No fixed height - let button padding control height
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin: 0;
-
-      &:last-child {
-        margin: 0;
-      }
-    }
   }
 
   // Content alignment modifiers (position content within button)
@@ -492,18 +482,6 @@
     border-end-start-radius: 0;
   }
 
-  // Auto-absorb collapsed state (btn-split-auto-absorb.js): the split
-  // button's own primary action has folded into the dropdown, leaving only
-  // the toggle. Render the lone toggle as a standalone, fully-rounded button
-  // — override the flattened inner corners (the toggle is now :first-child,
-  // so it also picks up the primary's flat-end rule) and drop the divider
-  // border. `:first-child` keeps specificity at/above the `> .pa-btn:first-child`
-  // rule so the all-corner radius wins.
-  &--collapsed > .pa-btn-split__toggle:first-child {
-    border-radius: var(--pa-border-radius);
-    border-inline-start: none;
-  }
-
   // Toggle button (chevron) - fixed square width
   &__toggle {
     border-inline-start: $border-width-base solid rgba(255, 255, 255, 0.25);
@@ -560,7 +538,10 @@
     align-items: center;
     gap: $spacing-sm;
     width: 100%;
-    padding: $spacing-sm $spacing-base;
+    // Use the button padding tokens (not the generic $spacing scale) so a
+    // button reads identically inline OR collapsed into a menu row — same
+    // 8/12px box. Keeps the one-button-layout contract across contexts.
+    padding: $btn-padding-v $btn-padding-h;
     border: none;
     background: none;
     text-align: start;
@@ -607,37 +588,62 @@
     flex-shrink: 0;
     opacity: 0.7;
   }
-}
 
-// === Button Toolbar (auto-absorb host) ===
-//
-// Flex row that wraps a `.pa-btn-split.pa-btn-split--auto-absorb` together
-// with the sibling buttons it should absorb when there's no horizontal
-// room. Provides the layout contract `btn-split-auto-absorb.js` needs in
-// order to read a truthful overflow signal:
-//
-//   - `min-width: 0` so the row can shrink below its content width
-//   - `overflow: hidden` so `scrollWidth > clientWidth` actually goes
-//     truthful (without this the row would keep growing past its parent)
-//   - children `flex-shrink: 0` so individual buttons don't collapse into
-//     unreadable slivers — the JS moves them into the menu instead
-//
-// The split button itself stays put (it's the anchor for the dropdown
-// menu) and never shrinks; siblings get moved into / out of the menu.
-//
-// Standalone (any flex context) or nested inside `.pa-card__actions` when it
-// is a card header's actions — `_cards.scss` makes the actions wrapper
-// shrinkable in that case so the overflow signal still works.
-.pa-btn-toolbar {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  min-width: 0;
-  overflow: hidden;
-  flex-shrink: 1;
+  // === Collapsed into the overflow "more" menu (overflow.js) ===
+  //
+  // When the generic overflow primitive (`.pa-overflow`) can't fit a whole
+  // `.pa-btn-split`, it moves the ENTIRE split button into its "more" menu as
+  // one atomic group: a section label + the primary action + the split's own
+  // menu items, all kept together. Nothing foreign mixes in — a split
+  // button's options stay attached to its own label, while unrelated toolbar
+  // buttons collapse into the same "more" menu as plain rows. overflow.js
+  // adds this modifier (keeping the base `pa-btn-split` class so the inner
+  // selectors still match), reclasses the primary action to
+  // `.pa-btn-split__item`, and injects a `__group-label`.
+  &--in-overflow {
+    // Stack the group's rows (label + primary + unfolded menu) full-width down
+    // the menu column. Use flex + the SAME `$spacing-xs` gap the parent
+    // `.pa-btn-split__menu-inner` uses between plain rows — otherwise these
+    // block-flow children pack at 0px and the collapsed split group reads
+    // tighter than the rest of the menu (inconsistent vertical rhythm).
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    position: static;
 
-  > * {
-    flex-shrink: 0;
+    // The chevron is meaningless once the menu is already unfolded inline.
+    > .pa-btn-split__toggle { display: none; }
+
+    // Unfold the split's own dropdown in place: static, always visible, and
+    // stripped of popover chrome since it now sits inside the overflow panel.
+    // Its own `__menu-inner` keeps the same `$spacing-xs` gap between items, so
+    // the whole group flows at one uniform rhythm.
+    > .pa-btn-split__menu {
+      display: block;
+      position: static;
+      width: auto;
+      background: none;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: visible;
+      z-index: auto;
+    }
+  }
+
+  // Section heading for a collapsed split-button group in the overflow menu.
+  // Horizontal padding matches `__item` ($btn-padding-h) so the label's text
+  // lines up with the rows beneath it; the tighter $spacing-xs vertical keeps
+  // it visually a heading, not a full row.
+  &__group-label {
+    padding: $spacing-xs $btn-padding-h;
+    font-size: $font-size-2xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--pa-text-secondary);
+    white-space: nowrap;
   }
 }
+
 

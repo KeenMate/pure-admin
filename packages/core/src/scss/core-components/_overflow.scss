@@ -13,7 +13,16 @@
 
    The card-flavoured alias `pa-card__actions--overflow` carries equivalent
    rules under `.pa-card__header` (see `_cards.scss`); both wire into the
-   same JS module. ======================================== */
+   same JS module.
+
+   A `.pa-btn-split` child collapses as an ATOMIC labeled group rather than a
+   flat row: overflow.js keeps the whole split button together and unfolds it
+   in place under a section label (`.pa-btn-split--in-overflow` +
+   `.pa-btn-split__group-label`, styled in `_buttons.scss`) — the split
+   button's own options stay attached to its own label, and unrelated toolbar
+   buttons collapse into the dedicated "more" menu as plain rows instead of
+   being poured into a domain dropdown.
+   ======================================== */
 @use '../variables' as *;
 
 .pa-overflow {
@@ -42,9 +51,13 @@
     flex-shrink: 0;
   }
 
-  // Trigger button has no dedicated styling here — it ships with
-  // `pa-btn pa-btn--xs pa-btn--ghost` so it picks up the ghost button
-  // appearance automatically. The `__trigger` element class is set by
-  // the JS as a stable hook for consumers who want to retheme it
-  // (e.g. swap the ellipsis icon, change padding).
+  // The "more" trigger gets its appearance entirely from the button variant
+  // classes the JS assigns — no dedicated chrome needed here. By default it
+  // ships as `pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary`, so it's
+  // a STANDARD bordered square button matching its toolbar siblings and the
+  // split-button toggle (31px at xs). Opt into the chromeless ghost look per
+  // wrapper with `data-pa-overflow-trigger="ghost"` — the JS then swaps in
+  // `pa-btn--ghost`. The `.pa-overflow__trigger` element class stays as a
+  // stable retheming hook for consumers (e.g. swap the ellipsis icon), but
+  // carries no appearance of its own so it can't fight the variant.
 }

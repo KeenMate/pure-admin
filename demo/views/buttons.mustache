@@ -721,18 +721,58 @@
                 </div>
             </div>
 
-            <!-- Auto-Absorb Split Button -->
+            <!-- Popconfirm definitions for the overflow toolbar buttons (In card headers).
+                 Varied LOGICAL placements (bottom/start/end) — positionPopconfirm maps
+                 start/end to the physical side by dir, so they flip under RTL. -->
+            <div id="pc-absorb-export" class="pa-popconfirm pa-popconfirm--bottom pa-popconfirm--compact">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--info">
+                        <p>Export the whole dashboard? <code>placement: bottom</code></p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-absorb-export', event)">Cancel</button>
+                        <button class="pa-btn pa-btn--success" onclick="closePopconfirm('pc-absorb-export', event)">Export</button>
+                    </div>
+                </div>
+            </div>
+            <div id="pc-absorb-rollback" class="pa-popconfirm pa-popconfirm--start pa-popconfirm--compact">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--danger">
+                        <p>Roll back the database to the previous snapshot? This cannot be undone. <code>placement: start</code></p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-absorb-rollback', event)">Cancel</button>
+                        <button class="pa-btn pa-btn--danger" onclick="closePopconfirm('pc-absorb-rollback', event)">Rollback</button>
+                    </div>
+                </div>
+            </div>
+            <div id="pc-absorb-invite" class="pa-popconfirm pa-popconfirm--end pa-popconfirm--compact">
+                <div class="pa-popconfirm__arrow"></div>
+                <div class="pa-popconfirm__content">
+                    <div class="pa-popconfirm__message pa-popconfirm__icon pa-popconfirm__icon--info">
+                        <p>Send invitations to all selected members? <code>placement: end</code></p>
+                    </div>
+                    <div class="pa-popconfirm__actions">
+                        <button class="pa-btn pa-btn--secondary" onclick="closePopconfirm('pc-absorb-invite', event)">Cancel</button>
+                        <button class="pa-btn pa-btn--info" onclick="closePopconfirm('pc-absorb-invite', event)">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overflow Toolbar (.pa-overflow) -->
             <div class="pa-card">
                 <div class="pa-card__header">
                     <div class="pa-card__title">
-                        <h3 class="pa-card__title-text">Auto-Absorb Split Button</h3>
+                        <h3 class="pa-card__title-text">Overflow Toolbar (<code>.pa-overflow</code>)</h3>
                     </div>
-                    <p>Sibling buttons sitting next to <code>.pa-btn-split--auto-absorb</code> automatically collapse into the split menu when the row runs out of horizontal space, and pop back out as room returns.</p>
+                    <p>A <code>.pa-overflow</code> row auto-appends a dedicated <code>[⋮]</code> "more" trigger; when the row runs out of horizontal space, overflowing children collapse into that menu, and pop back out as room returns. A <code>.pa-btn-split</code> child collapses as an atomic labeled group — its primary action and its own menu items stay together, nothing foreign mixes in.</p>
                 </div>
                 <div class="pa-card__body">
-                    <p class="text-muted mb-1">Drag the resize handle in the bottom-right of the box below to shrink the bar. Lowest <code>data-pa-absorb-priority</code> (default <code>0</code>) drops first; ties broken by the sibling closest to the split button. Pin "Publish" with <code>data-pa-absorb-priority="10"</code>.</p>
-                    <div class="resizable-wrapper" style="overflow: auto; resize: horizontal; min-width: 200px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
-                        <div class="pa-btn-toolbar">
+                    <p class="text-muted mb-1">Drag the resize handle in the bottom-right of the box below to shrink the bar. Lowest <code>data-pa-actions-priority</code> (default <code>0</code>) drops first; ties broken by DOM order. Pin "Publish" with <code>data-pa-actions-priority="10"</code>, and keep the split button visible longest with <code>data-pa-actions-priority="20"</code>. Drag all the way in and even the split button collapses into the <code>[⋮]</code> menu — it lands as an atomic <strong>RUN</strong> group (its primary plus its own options), not scattered loose.</p>
+                    <div class="resizable-wrapper" style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
+                        <div class="pa-overflow">
                             <button class="pa-btn pa-btn--secondary" onclick="alert('Save clicked')">
                                 <span class="pa-btn__icon"><i class="fas fa-floppy-disk"></i></span>
                                 Save
@@ -745,11 +785,11 @@
                                 <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
                                 Refresh
                             </button>
-                            <button class="pa-btn pa-btn--success" data-pa-absorb-priority="10" onclick="alert('Publish clicked')">
+                            <button class="pa-btn pa-btn--success" data-pa-actions-priority="10" onclick="alert('Publish clicked')">
                                 <span class="pa-btn__icon"><i class="fas fa-cloud-arrow-up"></i></span>
                                 Publish
                             </button>
-                            <div class="pa-btn-split pa-btn-split--auto-absorb">
+                            <div class="pa-btn-split" data-pa-actions-priority="20">
                                 <button class="pa-btn pa-btn--primary" onclick="alert('Run clicked')">
                                     <span class="pa-btn__icon"><i class="fas fa-play"></i></span>
                                     Run
@@ -770,13 +810,53 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="pa-btn-split" data-pa-actions-priority="15">
+                                <button class="pa-btn pa-btn--danger" onclick="alert('Members clicked')">
+                                    <span class="pa-btn__icon"><i class="fas fa-user-plus"></i></span>
+                                    Members
+                                </button>
+                                <button class="pa-btn pa-btn--danger pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+                                    <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+                                </button>
+                                <div class="pa-btn-split__menu">
+                                    <div class="pa-btn-split__menu-inner">
+                                    <div class="pa-btn-split__item-row">
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-user"></i></span>
+                                            Alice Cooper
+                                        </button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('.pa-btn-split__item-row').remove()">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                    <div class="pa-btn-split__item-row">
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-user"></i></span>
+                                            Bob Dylan
+                                        </button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('.pa-btn-split__item-row').remove()">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                    <div class="pa-btn-split__item-row">
+                                        <button class="pa-btn-split__item">
+                                            <span class="pa-btn-split__item-icon"><i class="fas fa-user"></i></span>
+                                            Charlie Parker
+                                        </button>
+                                        <button class="pa-btn pa-btn--danger pa-btn--xs pa-btn--icon-only" onclick="this.closest('.pa-btn-split__item-row').remove()">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <h4 class="mt-4">Drop direction</h4>
-                    <p class="text-muted mb-1">Default <code>data-pa-absorb-from="end"</code> drops the sibling nearest the split button first. Set to <code>"start"</code> to drop the leftmost sibling first instead.</p>
+                    <p class="text-muted mb-1">Default <code>data-pa-actions-overflow-from="end"</code> collapses the rightmost child first. Set <code>data-pa-actions-overflow-from="start"</code> on the <code>.pa-overflow</code> container to collapse the leftmost child first instead.</p>
                     <div class="resizable-wrapper" style="overflow: auto; resize: horizontal; min-width: 200px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
-                        <div class="pa-btn-toolbar">
+                        <div class="pa-overflow" data-pa-actions-overflow-from="start">
                             <button class="pa-btn pa-btn--outline-info">
                                 <span class="pa-btn__icon"><i class="fas fa-filter"></i></span>
                                 Filter
@@ -793,7 +873,7 @@
                                 <span class="pa-btn__icon"><i class="fas fa-table-cells"></i></span>
                                 Pivot
                             </button>
-                            <div class="pa-btn-split pa-btn-split--auto-absorb" data-pa-absorb-from="start">
+                            <div class="pa-btn-split" data-pa-actions-priority="20">
                                 <button class="pa-btn pa-btn--primary">
                                     <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
                                     Export
@@ -822,7 +902,7 @@
                     </div>
 
                     <h4 class="mt-4">In card headers</h4>
-                    <p class="text-muted mb-1">In a card header the toolbar goes inside <code>.pa-card__actions</code> — the canonical header actions slot — exactly like a plain button row or a <code>.pa-btn-group</code>. <code>.pa-btn-toolbar</code> brings its own <code>flex-shrink: 1</code>/<code>overflow: hidden</code>, and <code>_cards.scss</code> makes the hosting <code>.pa-card__actions</code> shrinkable so the overflow signal still fires. Laid out three-up (<code>pa-col-lg-1-3</code>) so each card is already narrow — resize the browser window to watch each toolbar consume and spit out action buttons live, each collapsing at its own breakpoint.</p>
+                    <p class="text-muted mb-1">In a card header, use the card-flavored alias <code>.pa-card__actions--overflow</code> on the <code>.pa-card__actions</code> slot itself — the buttons and split button become its direct children (no inner wrapper). It auto-inits like a standalone <code>.pa-overflow</code>, appending its own <code>[⋮]</code> more-menu, and the header title yields before the actions collapse. Laid out three-up (<code>pa-col-lg-1-3</code>) so each card is already narrow — resize the browser window to watch each toolbar consume and spit out action buttons live, each collapsing at its own breakpoint.</p>
 
                     <div class="pa-row mt-2">
                     <div class="pa-col-100 pa-col-lg-1-3">
@@ -831,8 +911,7 @@
                             <div class="pa-card__title minw-45">
                                 <h3 class="pa-card__title-text">Quarterly Performance &amp; Customer Engagement Analytics Dashboard</h3>
                             </div>
-                            <div class="pa-card__actions">
-                            <div class="pa-btn-toolbar">
+                            <div class="pa-card__actions pa-card__actions--overflow">
                                 <button class="pa-btn pa-btn--xs pa-btn--ghost" title="Refresh">
                                     <span class="pa-btn__icon"><i class="fas fa-rotate"></i></span>
                                     Refresh
@@ -845,11 +924,11 @@
                                     <span class="pa-btn__icon"><i class="fas fa-gear"></i></span>
                                     Configure
                                 </button>
-                                <button class="pa-btn pa-btn--xs pa-btn--success" data-pa-absorb-priority="10">
+                                <button class="pa-btn pa-btn--xs pa-btn--success" data-pa-actions-priority="10" onclick="togglePopconfirm(event, 'pc-absorb-export')">
                                     <span class="pa-btn__icon"><i class="fas fa-download"></i></span>
                                     Export
                                 </button>
-                                <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                <div class="pa-btn-split" data-pa-actions-priority="20">
                                     <button class="pa-btn pa-btn--xs pa-btn--primary">
                                         <span class="pa-btn__icon"><i class="fas fa-plus"></i></span>
                                         Add widget
@@ -871,10 +950,9 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
                         <div class="pa-card__body">
-                            <p class="text-muted">Card body. The actions bar in the header carries the auto-absorb behavior — narrow the window to watch Configure, Filter, and Refresh fold into the Add-widget menu in that order (lowest priority first; Export is pinned).</p>
+                            <p class="text-muted">Card body. The actions bar in the header carries the overflow behavior — narrow the window to watch Configure, Filter, and Refresh fold into the dedicated <code>[⋮]</code> more-menu in that order (lowest priority first; Export is pinned, and the Add-widget split button survives longest).</p>
                         </div>
                     </div>
                     </div>
@@ -885,8 +963,7 @@
                             <div class="pa-card__title">
                                 <h3 class="pa-card__title-text">Database Migration Tasks &mdash; Production Environment Schema Updates</h3>
                             </div>
-                            <div class="pa-card__actions">
-                            <div class="pa-btn-toolbar">
+                            <div class="pa-card__actions pa-card__actions--overflow">
                                 <button class="pa-btn pa-btn--xs pa-btn--info">
                                     <span class="pa-btn__icon"><i class="fas fa-circle-check"></i></span>
                                     Validate
@@ -895,11 +972,11 @@
                                     <span class="pa-btn__icon"><i class="fas fa-database"></i></span>
                                     Backup
                                 </button>
-                                <button class="pa-btn pa-btn--xs pa-btn--outline-danger">
+                                <button class="pa-btn pa-btn--xs pa-btn--outline-danger" onclick="togglePopconfirm(event, 'pc-absorb-rollback')">
                                     <span class="pa-btn__icon"><i class="fas fa-rotate-left"></i></span>
                                     Rollback
                                 </button>
-                                <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                <div class="pa-btn-split" data-pa-actions-priority="20">
                                     <button class="pa-btn pa-btn--xs pa-btn--success">
                                         <span class="pa-btn__icon"><i class="fas fa-rocket"></i></span>
                                         Deploy
@@ -925,10 +1002,9 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
                         <div class="pa-card__body">
-                            <p class="text-muted">No pinning here — siblings collapse in default order (rightmost first: Rollback &rarr; Backup &rarr; Validate).</p>
+                            <p class="text-muted">No pinning here — siblings collapse in default order (rightmost first: Rollback &rarr; Backup &rarr; Validate). The Deploy split button survives longest, dropping into the <code>[⋮]</code> more-menu as an atomic labeled group.</p>
                         </div>
                     </div>
                     </div>
@@ -939,8 +1015,7 @@
                             <div class="pa-card__title minw-60">
                                 <h3 class="pa-card__title-text">Team Members &amp; Permissions Management &mdash; Enterprise Console</h3>
                             </div>
-                            <div class="pa-card__actions">
-                            <div class="pa-btn-toolbar">
+                            <div class="pa-card__actions pa-card__actions--overflow">
                                 <button class="pa-btn pa-btn--xs pa-btn--ghost">
                                     <span class="pa-btn__icon"><i class="fas fa-magnifying-glass"></i></span>
                                     Search
@@ -957,11 +1032,11 @@
                                     <span class="pa-btn__icon"><i class="fas fa-file-import"></i></span>
                                     Import CSV
                                 </button>
-                                <button class="pa-btn pa-btn--xs pa-btn--info" data-pa-absorb-priority="5">
+                                <button class="pa-btn pa-btn--xs pa-btn--info" data-pa-actions-priority="5" onclick="togglePopconfirm(event, 'pc-absorb-invite')">
                                     <span class="pa-btn__icon"><i class="fas fa-envelope"></i></span>
                                     Invite
                                 </button>
-                                <div class="pa-btn-split pa-btn-split--auto-absorb">
+                                <div class="pa-btn-split" data-pa-actions-priority="20">
                                     <button class="pa-btn pa-btn--xs pa-btn--primary">
                                         <span class="pa-btn__icon"><i class="fas fa-user-plus"></i></span>
                                         Add user
@@ -983,10 +1058,9 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
                         <div class="pa-card__body">
-                            <p class="text-muted">Six siblings here — Invite is pinned with priority 5, so it survives the first wave of collapses but still folds away before Add user. The title yields first (truncating to a min-width floor) so the action bar keeps its buttons; only when the header is genuinely tiny does the split button fold its own primary action into the menu, leaving just the toggle.</p>
+                            <p class="text-muted">Six siblings here — Invite is pinned with priority 5, so it survives the first wave of collapses but still folds away before Add user. The title yields first (truncating to a min-width floor) so the action bar keeps its buttons; only when the header is genuinely tiny does the split button fold its own primary action into the <code>[⋮]</code> more-menu as a labeled group, leaving just the toggle.</p>
                         </div>
                     </div>
                     </div>
@@ -994,11 +1068,11 @@
 
                     <h4 class="mt-4">How it works</h4>
                     <ul class="text-muted">
-                        <li><code>.pa-btn-toolbar</code> wraps the row; provides <code>min-width: 0; overflow: hidden; flex-shrink: 1</code>. Works standalone in any flex context; in a card header, nest it inside <code>.pa-card__actions</code> (which <code>_cards.scss</code> then makes shrinkable).</li>
-                        <li><code>.pa-btn-split--auto-absorb</code> opts the split button into auto-absorb. <code>btn-split-auto-absorb.js</code> snapshots its previous siblings at init.</li>
-                        <li><code>ResizeObserver</code> on the bar fires <code>relayout()</code>: restore all siblings, check <code>scrollWidth &gt; clientWidth</code>, move siblings into the menu by drop order until it fits.</li>
-                        <li>Absorbed items get <code>className = 'pa-btn-split__item'</code>; the original classList is stashed on the element and restored on the way back.</li>
-                        <li>Static menu items (rendered server-side) stay BELOW absorbed items.</li>
+                        <li><code>.pa-overflow</code> is the row; it provides <code>min-width: 0; overflow: hidden; flex-shrink: 1</code>. Works standalone in any flex context; in a card header use the alias <code>.pa-card__actions--overflow</code> on the actions slot itself. Both auto-init — no JS wiring needed.</li>
+                        <li><code>overflow.js</code> appends a dedicated <code>[⋮]</code> "more" trigger and, on resize, walks the lowest-priority children (<code>data-pa-actions-priority</code>, default <code>0</code>) into that trigger's menu until the row fits; higher-priority children survive longer.</li>
+                        <li>A <code>.pa-btn-split</code> child collapses atomically — its primary action and its own menu items drop into the more-menu together under a section label, nothing foreign mixes in. Give it a high priority (e.g. <code>20</code>) so it stays visible longest.</li>
+                        <li>Plain items get their class swapped to <code>pa-btn-split__item</code> while collapsed; the original classList is stashed on the element and restored on the way back out.</li>
+                        <li>Drop direction is controlled by <code>data-pa-actions-overflow-from</code> on the container: <code>"end"</code> (default — rightmost first) or <code>"start"</code> (leftmost first).</li>
                         <li>Click handlers survive — the DOM node moves but is preserved.</li>
                     </ul>
                 </div>
@@ -1625,16 +1699,18 @@
                     </ul>
 
                     <h4 class="mt-4">Content Alignment</h4>
+                    <p class="text-muted mb-1">Every button <strong>centers</strong> its content by default (one model for text-only, icon+label, and icon-only alike). These modifiers are the switch to change it:</p>
                     <ul class="pa-list-basic pa-list-basic--compact">
                         <li><code>pa-btn--align-start</code> - Inline-start align content (RTL: right)</li>
                         <li><code>pa-btn--align-end</code> - Inline-end align content (RTL: left)</li>
-                        <li><code>pa-btn--align-center</code> - Center-align content</li>
+                        <li><code>pa-btn--align-center</code> - Center-align content (the default; explicit)</li>
                         <li><code>pa-btn--align-justify</code> - Space-between content</li>
                     </ul>
 
                     <h4 class="mt-4">Button Elements</h4>
                     <ul class="pa-list-basic pa-list-basic--compact">
-                        <li><code>pa-btn__icon</code> - Icon container with fixed width</li>
+                        <li><code>pa-btn__icon</code> - Icon container (natural width; spaced from the label by the button's <code>gap</code>, so it sits at the padding edge like a text label)</li>
+                        <li><code>pa-btn__label</code> - Text wrapper (used by <code>--align-center</code> to flex-fill)</li>
                         <li><code>pa-btn__spinner</code> - Loading spinner element</li>
                     </ul>
 
@@ -1674,7 +1750,21 @@
                         <li><code>pa-btn-split__menu--open</code> - Show dropdown menu</li>
                         <li><code>pa-btn-split__item</code> - Menu item button</li>
                         <li><code>pa-btn-split__item--danger</code> - Destructive action styling</li>
+                        <li><code>pa-btn-split__item-icon</code> - Leading icon inside a menu item (fixed column so labels align)</li>
+                        <li><code>pa-btn-split__item-row</code> - Menu row wrapping an item + a trailing action button (e.g. delete)</li>
                         <li><code>data-placement="top-end"</code> - Open menu upward (on container)</li>
+                    </ul>
+
+                    <h4 class="mt-4">Overflow Toolbar</h4>
+                    <ul class="pa-list-basic pa-list-basic--compact">
+                        <li><code>pa-overflow</code> - Progressive-collapse flex row; auto-appends a <code>[⋮]</code> "more" trigger and walks overflowing children into it</li>
+                        <li><code>pa-card__actions--overflow</code> - Card-header alias of <code>pa-overflow</code> on the <code>pa-card__actions</code> slot</li>
+                        <li><code>pa-overflow__trigger</code> - The auto-created <code>[⋮]</code> button (retheming hook; ships as a standard <code>pa-btn--secondary</code>)</li>
+                        <li><code>data-pa-overflow-trigger="ghost"</code> - Make the trigger chromeless instead of bordered (on the container)</li>
+                        <li><code>data-pa-actions-priority</code> - Drop order per child (default <code>0</code>; higher survives longer)</li>
+                        <li><code>data-pa-actions-overflow-from</code> - <code>end</code> (default, rightmost first) or <code>start</code> (leftmost first)</li>
+                        <li><code>data-pa-overflow-label</code> - Override the section label for a collapsed split-button group</li>
+                        <li><code>pa-btn-split--in-overflow</code> / <code>pa-btn-split__group-label</code> - Applied by <code>overflow.js</code> when a split button collapses as an atomic labeled group (not authored by hand)</li>
                     </ul>
                 </div>
             </div>

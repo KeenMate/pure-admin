@@ -283,16 +283,21 @@
 </div>
 
 
-<!-- Auto-Absorb Split Button (sibling buttons collapse into menu on resize) -->
-<!-- The .pa-btn-toolbar wrapper provides the constrained-width flex row;
-     btn-split-auto-absorb.js moves overflowing siblings into the menu.
+<!-- Overflow Toolbar (children collapse into a dedicated [⋮] more-menu on resize) -->
+<!-- The .pa-overflow wrapper is a constrained-width flex row; overflow.js
+     auto-appends a dedicated [⋮] "more" trigger and walks the lowest-priority
+     children into its menu when the row runs out of space. A .pa-btn-split child
+     collapses as an atomic labeled group — its primary action and its own menu
+     items stay together, nothing foreign mixes in; give it a high priority so it
+     survives longest. Both .pa-overflow and the card-header alias
+     .pa-card__actions--overflow auto-init — no JS wiring needed.
      Standalone form (any flex context): -->
-<div class="pa-btn-toolbar">
+<div class="pa-overflow">
   <button class="pa-btn pa-btn--primary">Save</button>
   <button class="pa-btn pa-btn--primary">Format</button>
   <button class="pa-btn pa-btn--primary">Refresh</button>
-  <button class="pa-btn pa-btn--primary" data-pa-absorb-priority="10">Publish</button>
-  <div class="pa-btn-split pa-btn-split--auto-absorb">
+  <button class="pa-btn pa-btn--primary" data-pa-actions-priority="10">Publish</button>
+  <div class="pa-btn-split" data-pa-actions-priority="20">
     <button class="pa-btn pa-btn--primary">Run</button>
     <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
       <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
@@ -305,26 +310,25 @@
   </div>
 </div>
 
-<!-- In a card header, nest the toolbar inside .pa-card__actions (the canonical
-     header actions slot) — same as a plain button row or a .pa-btn-group. The
-     framework makes that actions wrapper shrinkable so overflow detection still
-     works, and the header title yields before the toolbar collapses. -->
+<!-- In a card header, use the card-flavored alias .pa-card__actions--overflow on
+     the .pa-card__actions slot itself — the buttons and split button are its
+     direct children (no inner wrapper). It auto-inits like a standalone
+     .pa-overflow, appending its own [⋮] more-menu, and the header title yields
+     before the actions collapse. -->
 <div class="pa-card">
   <div class="pa-card__header">
     <h3>Team Members</h3>
-    <div class="pa-card__actions">
-      <div class="pa-btn-toolbar">
-        <button class="pa-btn pa-btn--secondary">Search</button>
-        <button class="pa-btn pa-btn--secondary">Filter</button>
-        <div class="pa-btn-split pa-btn-split--auto-absorb">
-          <button class="pa-btn pa-btn--primary">Add user</button>
-          <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
-            <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
-          </button>
-          <div class="pa-btn-split__menu">
-            <div class="pa-btn-split__menu-inner">
-              <button class="pa-btn-split__item">Add user with role&hellip;</button>
-            </div>
+    <div class="pa-card__actions pa-card__actions--overflow">
+      <button class="pa-btn pa-btn--secondary">Search</button>
+      <button class="pa-btn pa-btn--secondary">Filter</button>
+      <div class="pa-btn-split" data-pa-actions-priority="20">
+        <button class="pa-btn pa-btn--primary">Add user</button>
+        <button class="pa-btn pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+          <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+        </button>
+        <div class="pa-btn-split__menu">
+          <div class="pa-btn-split__menu-inner">
+            <button class="pa-btn-split__item">Add user with role&hellip;</button>
           </div>
         </div>
       </div>
@@ -460,8 +464,11 @@ with that class at the right time.
 
 <!--
 BUTTON CLASSES:
-- .pa-btn             Base button; inline-block, $btn-height-base,
-                      centred text, $font-size-sm, medium weight.
+- .pa-btn             Base button; an inline-flex row (align-items: center,
+                      justify-content: center, gap: $spacing-sm) that CENTRES
+                      its content, $btn-height-base, $font-size-sm, medium
+                      weight. One layout model for text-only, icon+label, and
+                      icon-only buttons alike.
 
 COLOUR VARIANTS (solid):
 - .pa-btn--primary / --secondary / --success / --warning / --danger
@@ -490,15 +497,16 @@ STATES:
                           stays the same during load.
 
 LAYOUT MODIFIERS:
-- .pa-btn--block          width: 100%; display: block (full-width CTA)
+- .pa-btn--block          width: 100%; keeps the flex model (full-width CTA)
 - .pa-btn--icon-only      square aspect; padding: 0; flex-centred icon
                           (size-aware — composes with --xs/--sm/--lg/--xl
                           to set the square dimension)
 
-CONTENT ALIGNMENT (affects justify-content inside the button):
-- .pa-btn--align-start    flush-start (default behaviour)
+CONTENT ALIGNMENT (the switch for justify-content inside the button —
+buttons CENTRE their content by default):
+- .pa-btn--align-start    flush-start (opt-in; icon sits at the padding edge)
 - .pa-btn--align-end      flush-end
-- .pa-btn--align-center   centred, __label flexes to fill
+- .pa-btn--align-center   centred (the default; explicit) — __label flexes to fill
 - .pa-btn--align-justify  space-between (icon on one side, text on the other)
 
 EFFECTS:
@@ -508,20 +516,22 @@ EFFECTS:
                              data-ripple which is a demo-wiring attribute)
 
 ELEMENTS:
-- .pa-btn__icon     icon container. Gets margin-inline-end by default;
-                    on :last-child (icon AFTER text) the margin flips to
-                    inline-start so spacing reads correctly in both
-                    positions.
+- .pa-btn__icon     icon container. Natural width, centred on itself; the
+                    parent .pa-btn's `gap` supplies the space to the label
+                    (symmetric, so a leading OR trailing icon spaces the
+                    same). No fixed column or per-side margins, so the icon
+                    sits at the padding edge exactly like a text label.
 - .pa-btn__label    text wrapper used by --align-center to flex-fill
                     and centre its text within the button.
 - .pa-btn__spinner  only used inside .pa-btn--loading; CSS handles
                     positioning + animation, no extra classes needed.
 
-IMPLICIT BEHAVIOUR:
-- Any .pa-btn containing a .pa-btn__icon child auto-switches to
-  inline-flex, align-items: center, gap: $spacing-sm, and
-  text-align: start (logical — flips in RTL). You don't need to add
-  --align-start manually for the common icon-then-text pattern.
+LAYOUT MODEL:
+- Every .pa-btn is an inline-flex row (align-items: center,
+  justify-content: center, gap: $spacing-sm) regardless of content —
+  text-only, icon+label, and icon-only all lay out identically and
+  CENTRE by default. Use --align-start (etc.) to change the alignment;
+  an icon then sits at the padding edge, aligned with a text-only label.
 
 BUTTON GROUP (.pa-btn-group):
 - default                  inline-flex, wrap, $btn-group-gap, aligned centre

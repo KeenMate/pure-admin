@@ -14,6 +14,22 @@
     let activeContainer = null;
     let activeCleanup = null;
 
+    // Shared menu-dismissal registry. Both split buttons AND the overflow
+    // "more" menu (overflow.js) register their close fn here, so opening ANY
+    // one menu closes every other open menu — no two dropdowns can hang open
+    // over each other. Defined defensively so whichever module loads first
+    // creates it. Each close fn is idempotent (closing a closed menu is a
+    // no-op), so `closeOthers` can fire them all blindly.
+    const PaMenus = (window.PaMenus = window.PaMenus || {
+        closers: [],
+        register: function (fn) { this.closers.push(fn); return fn; },
+        closeOthers: function (self) {
+            this.closers.forEach(function (fn) {
+                if (fn !== self) { try { fn(); } catch (e) { /* ignore */ } }
+            });
+        }
+    });
+
     /**
      * Toggle a split button menu open/closed
      * @param {Event} event - Click event from the toggle button
@@ -29,8 +45,10 @@
             return;
         }
 
-        // Close any other open menu
+        // Close any other open menu — split buttons and the overflow "more"
+        // menu alike — so only this one is open.
         closeSplitMenu();
+        PaMenus.closeOthers(closeSplitMenu);
 
         const menu = splitContainer.querySelector('.pa-btn-split__menu');
         if (!menu) return;
@@ -72,6 +90,7 @@
             position: 'fixed',
             left: `${x}px`,
             top: `${y}px`,
+            right: 'auto',
             minWidth: `${reference.offsetWidth}px`
         });
     }
@@ -119,6 +138,12 @@
         // handler has already run (this fires as the event bubbles up to
         // document), so it's safe to close here.
         if (activeMenu.contains(event.target) && event.target.closest('.pa-btn-split__item')) {
+            // Opt-out: an item (or an ancestor) marked [data-pa-keep-open] keeps
+            // the menu open — e.g. it opens a popconfirm/sub-panel anchored to the
+            // item and must stay visible. Lets framework wrappers (svelte-pure-admin)
+            // keep a normal delegated onclick instead of a native listener, since
+            // their stopPropagation can't reach this document-level handler.
+            if (event.target.closest('[data-pa-keep-open]')) return;
             closeSplitMenu();
             return;
         }
@@ -135,7 +160,18 @@
         }
     });
 
+    // Register with the shared dismissal registry so the overflow menu (and
+    // any future menu system) can close split menus when it opens.
+    PaMenus.register(closeSplitMenu);
+
     // Expose globally
     window.toggleSplitMenu = toggleSplitMenu;
     window.closeSplitMenu = closeSplitMenu;
+
+    // Shared anchored-menu positioner. `overflow.js` reuses this so the
+    // overflow "more" menu opens with the EXACT same offset / flip / shift /
+    // min-width behaviour as a split-button dropdown, instead of maintaining a
+    // parallel positioner that drifts a few pixels off. One menu-positioning
+    // logic for both components.
+    window.PaSplitMenu = { position: positionMenu };
 })();

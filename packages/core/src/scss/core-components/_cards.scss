@@ -127,42 +127,6 @@
       min-width: 6rem;
     }
 
-    // Auto-absorb button toolbar (btn-split-auto-absorb.js) hosted in a header,
-    // nested inside `.pa-card__actions`: prioritise the ACTIONS over the title.
-    // The toolbar must stay shrinkable so the JS can read `scrollWidth >
-    // clientWidth` and decide what to fold — but the title has to yield FIRST.
-    // Otherwise a long title and the toolbar share the deficit by proportional
-    // flex-shrink (weighted by the title's *natural* width), so the toolbar is
-    // allocated less width than its content even while the rendered title
-    // truncates and leaves a visible gap — and the split button folds all the
-    // way down to a lone toggle. A large shrink factor makes the title absorb
-    // nearly all the deficit (truncating to the min-width floor) so the toolbar
-    // keeps its buttons; siblings only begin folding once the title bottoms out
-    // at the floor. Matched as a descendant (not `> `) because the toolbar sits
-    // one level down, inside `.pa-card__actions`.
-    &:has(.pa-btn-toolbar) > h1,
-    &:has(.pa-btn-toolbar) > h2,
-    &:has(.pa-btn-toolbar) > h3,
-    &:has(.pa-btn-toolbar) > h4,
-    &:has(.pa-btn-toolbar) > h5,
-    &:has(.pa-btn-toolbar) > h6,
-    &:has(.pa-btn-toolbar) > .pa-card__title {
-      flex-shrink: 9999;
-      min-width: 8rem;
-    }
-
-    // The actions wrapper hosting the toolbar must itself be shrinkable.
-    // `.pa-card__actions` defaults to `flex-shrink: 0` (above) so it holds its
-    // natural width — which would keep the toolbar inside at natural width too,
-    // and the `scrollWidth > clientWidth` signal would never fire. Let it
-    // shrink (`min-width: 0`) so the deficit propagates down to the toolbar,
-    // which keeps the `overflow: hidden` clip. `:has()` scopes this so ordinary
-    // action wrappers stay fixed-width.
-    .pa-card__actions:has(> .pa-btn-toolbar) {
-      flex-shrink: 1;
-      min-width: 0;
-    }
-
     // Buttons in card headers - negative margin to prevent header height growth
     .pa-btn {
       margin-top: -0.25rem;
@@ -170,17 +134,13 @@
       flex-shrink: 0;
     }
 
-    // …but any actions wrapper that CLIPS its overflow — the auto-absorb
-    // button toolbar and the progressive-overflow actions container both
-    // set `overflow: hidden` so the JS can read `scrollWidth > clientWidth` —
-    // would shave the top/bottom borders off those buttons: the -0.25rem
-    // block margin above pushes each button past the wrapper's content box,
-    // and the clip lands right on the border. Re-parent the compaction onto
-    // the wrapper so its clip edge is flush with the button box; the header
-    // still gets the same height reduction, borders survive. Scoped under
-    // `&__header` so a standalone `.pa-btn-toolbar` (used outside a card
-    // header) is untouched.
-    .pa-btn-toolbar,
+    // …but the progressive-overflow actions container sets `overflow: hidden`
+    // (so `overflow.js` can read `scrollWidth > clientWidth`), which would
+    // shave the top/bottom borders off those buttons: the -0.25rem block
+    // margin above pushes each button past the wrapper's content box, and the
+    // clip lands right on the border. Re-parent the compaction onto the
+    // wrapper so its clip edge is flush with the button box; the header still
+    // gets the same height reduction, borders survive.
     .pa-card__actions--overflow {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem;
