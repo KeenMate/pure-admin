@@ -5,6 +5,13 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc07] - 2026-07-30 [PUBLISHED]
+
+### Fixed
+
+- **Buttons — `.text-truncate` on a button stopped ellipsing after the 2.9 flex model.** `text-overflow: ellipsis` needs a block container laying out inline text; it does **not** apply to the anonymous text item of a flex container. When `.pa-btn` became a single `inline-flex` row (rc06's unified inner-content model), a bare `.pa-btn.text-truncate` no longer truncated — the label just clipped, centered, on both ends with no ellipsis. Restored the pre-2.9 `inline-block` for the one shape that needs it (a text-only button used directly as the truncation target, `.text-truncate:not(:has(> *))`), so that markup ellipses again. This is legacy tolerance, not a second documented pattern — the canonical way to truncate remains `.text-truncate` on an inner `<span>` (a flex item), which works with or without an icon and is what the snippet shows. Demo "Text Truncation" example updated to the inner-`<span>` shape.
+- **Overflow — the `[⋮]` "more" trigger was clipped when a sibling title was long.** `.pa-overflow` (and its card alias `.pa-card__actions--overflow`) needs `flex-shrink: 1` + `overflow: hidden` so the wrapper can shrink below its content and `scrollWidth > clientWidth` stays a truthful "needs overflow" signal — but the shrink floor was `min-width: 0`. In a tight header (a long `.pa-card__title` next to the actions), flex distributed the negative space and shaved the wrapper a few px *below* the 31px trigger, so `overflow: hidden` clipped the trigger's right edge — and the JS couldn't recover, because once every button has collapsed into the menu only the trigger remains and there's nothing left to move. The floor is now the trigger's own footprint (`$base-input-size-xs-height`, 3.1rem / 31px — the shared base token, not the button component's variable) instead of `0`, so the wrapper still shrinks far below the full button row (overflow detection intact) but can never clip the one thing that must stay visible.
+
 ## [2.9.0-rc06] - 2026-07-26 [PUBLISHED]
 
 ### Added

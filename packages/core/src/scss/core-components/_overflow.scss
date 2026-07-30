@@ -35,12 +35,21 @@
   gap: $spacing-sm;
 
   // Layout contract for the truthful-overflow signal: the wrapper has to
-  // shrink below its content (`min-width: 0`) and clip when it does
-  // (`overflow: hidden`) so `scrollWidth > clientWidth` reliably means
-  // "the row doesn't fit". Without these, modern flex defaults keep the
-  // wrapper at intrinsic content width and the JS sees no overflow.
-  // `flex-shrink: 1` so a parent flex layout can compress the row.
-  min-width: 0;
+  // shrink below its content and clip when it does (`overflow: hidden`) so
+  // `scrollWidth > clientWidth` reliably means "the row doesn't fit". Without
+  // this, modern flex defaults keep the wrapper at intrinsic content width and
+  // the JS sees no overflow. `flex-shrink: 1` so a parent flex layout can
+  // compress the row.
+  //
+  // The shrink floor is the [⋮] trigger's own footprint — an xs icon-only
+  // button (`$base-input-size-xs-height`, 31px) — NOT 0. With `min-width: 0`,
+  // a tight parent flex layout can shave the wrapper a few px below the
+  // trigger and `overflow: hidden` clips the trigger's right edge; the JS
+  // can't recover because once only the trigger remains there's nothing left
+  // to move into the menu. Flooring at the trigger width keeps the overflow
+  // signal (the full row's scrollWidth still exceeds the floored clientWidth)
+  // while guaranteeing the trigger is never clipped.
+  min-width: #{$base-input-size-xs-height}rem;
   overflow: hidden;
   flex-shrink: 1;
 

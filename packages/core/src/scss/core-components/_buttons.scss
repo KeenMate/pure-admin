@@ -31,6 +31,19 @@
   background: none;
   color: var(--pa-text-color-1);
 
+  // Legacy tolerance — `.text-truncate` applied DIRECTLY to a text-only button.
+  // `text-overflow: ellipsis` needs a block container laying out inline text;
+  // it does NOT apply to the anonymous text item of a flex container, so once
+  // `.pa-btn` became `inline-flex` (2.9.0) a bare `.pa-btn.text-truncate`
+  // stopped ellipsing — the label just clipped, centered, on both ends. Restore
+  // the pre-2.9 `inline-block` for this one shape (no element children) so that
+  // markup truncates again exactly as before. NOT the documented pattern: the
+  // canonical way to truncate is `.text-truncate` on an inner `<span>` (a flex
+  // item), which works with or without an icon — see the snippet.
+  &.text-truncate:not(:has(> *)) {
+    display: inline-block;
+  }
+
 
   &--primary {
     background-color: var(--pa-accent);

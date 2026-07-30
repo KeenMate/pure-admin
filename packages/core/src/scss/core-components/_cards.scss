@@ -337,13 +337,20 @@
     }
 
     // Progressive overflow variant — driven by card-actions-overflow.js.
-    // `min-width: 0` lets flex shrink the wrapper below its content; with
-    // `overflow: hidden` the wrapper clips its children when narrow, which
-    // is what makes `scrollWidth > clientWidth` a reliable overflow signal
-    // for the JS. Buttons themselves get `flex-shrink: 0` so they don't
+    // The wrapper must shrink below its content so `scrollWidth > clientWidth`
+    // is a reliable "needs overflow" signal for the JS; with `overflow: hidden`
+    // it clips its children when narrow. But the floor is the trigger's own
+    // footprint, NOT 0 — an xs icon-only button (`$base-input-size-xs-height`,
+    // 31px). Without this floor, a long sibling title lets flex shave the
+    // wrapper a few px below the [⋮] trigger, and `overflow: hidden` clips the
+    // trigger's right edge; the JS can't recover because once only the trigger
+    // remains there's nothing left to move into the menu. Flooring at the
+    // trigger width keeps the overflow signal (scrollWidth of the full button
+    // row still exceeds the floored clientWidth) while guaranteeing the trigger
+    // is never clipped. Buttons themselves get `flex-shrink: 0` so they don't
     // squeeze to fit — they either fit fully or get moved to the menu.
     &--overflow {
-      min-width: 0;
+      min-width: #{$base-input-size-xs-height}rem;
       overflow: hidden;
 
       > * {

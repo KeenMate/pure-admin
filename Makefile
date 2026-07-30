@@ -1,6 +1,28 @@
 # Pure Admin Workspace - Makefile
 # Root workspace commands for development and build
 
+# --- Windows recipe-shell fix -------------------------------------------------
+# GNU make on Windows picks Git's bare `usr/bin/sh.exe` as the recipe shell.
+# When make is launched from cmd.exe / PowerShell, that sh runs npm/npx's Unix
+# shell-shims, whose `#!/usr/bin/env bash` line searches PATH for `bash`. On a
+# stock Windows PATH the first `bash` is `C:\Windows\System32\bash.exe` — WSL's
+# bash — which can't see Windows paths (`C:/Program Files/nodejs/npm`), so it
+# dies with a misleading "No such file or directory" (make Error 127). Git
+# Bash works only because its PATH puts MSYS `/usr/bin` ahead of System32.
+# Pinning the recipe shell to Git's FULL bash launcher rebuilds PATH with
+# `/usr/bin` first, so `env bash` resolves to MSYS bash regardless of the
+# launching shell. Guarded by $(wildcard) so it's a no-op when Git isn't at
+# the default location (falls back to make's normal shell selection).
+ifeq ($(OS),Windows_NT)
+  # NB: the existence check uses `?` for the space in "Program Files" — a
+  # literal space would make $(wildcard) split it into two patterns that never
+  # match. The SHELL assignment itself keeps the real (spaced) path.
+  ifneq ($(wildcard C:/Program?Files/Git/bin/bash.exe),)
+    SHELL := C:/Program Files/Git/bin/bash.exe
+  endif
+endif
+# -----------------------------------------------------------------------------
+
 .PHONY: help setup install build watch clean demo dev themes-install treeview-app package publish publish-rc publish-dry publish-dry-rc verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
 
 # === Configuration ===
