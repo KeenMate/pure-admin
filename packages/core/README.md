@@ -2,19 +2,17 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.9.0-rc08
+
+- **Foundation extracted to `@keenmate/pure-css`.** The variable system, `--base-*` / `--pa-*` theming, the utility classes, and the `.pa-row` / `.pa-col` grid now come from a standalone package that core consumes — so docs sites and other projects can share the same foundation without core's components. Your import paths and compiled output are unchanged, and themes need no edits.
+- **New `.gap-*` utilities.** `.gap-*` / `.gap-x-*` / `.gap-y-*` for flex/grid gaps, on the same spacing scale as the margin/padding helpers.
+- **Fix: `.border` / `.rounded` utilities actually work now.** They previously referenced variables the framework never emitted, so `.border` drew a text-colored edge and `.rounded` did nothing. They now use the theme's `--pa-border-*` tokens and render correctly. **Heads-up:** pages that leaned on these being no-ops will now show a real border / radius.
+- **`--pa-border-color` follows runtime `--base-*` overrides.** It's now `var(--base-border-color, …)`, so a dark-mode or theme class that flips `--base-border-color` at runtime updates borders too.
+
 ## What's New in 2.9.0-rc07
 
 - **Fix: `.text-truncate` on a button ellipses again.** The 2.9 unified `inline-flex` button model broke `.text-truncate` applied directly to a text-only `.pa-btn` — the label clipped on both ends with no ellipsis, because `text-overflow: ellipsis` doesn't apply to a flex container's text. Text-only truncating buttons work again; the canonical pattern remains `.text-truncate` on an inner `<span>` (works with or without an icon).
 - **Fix: the `[⋮]` overflow "more" trigger is no longer clipped.** In a tight toolbar or card header (long title beside the actions), flex could shave the overflow wrapper a few pixels below the trigger and clip its right edge. The wrapper's shrink floor is now the trigger's own width, so the `[⋮]` stays fully visible while overflow collapsing still works.
-
-## What's New in 2.9.0-rc06
-
-- **New: `.pa-overflow` is the canonical progressive-collapse toolbar.** A toolbar that can't fit on one line folds its buttons into a dedicated `[⋮]` "more" menu, and pops them back as space returns. A `.pa-btn-split` child collapses as one atomic labeled group — its primary action + its own menu items travel together under a section label (so a split button's options never get mixed in with unrelated toolbar commands), and per-row action buttons (`.pa-btn-split__item-row`, e.g. a member delete) survive the collapse and still fire. Fully reversible on widen.
-- **Replaces the rc04 auto-absorb mechanism.** `.pa-btn-split--auto-absorb` + `.pa-btn-toolbar` are **removed** — they made a domain split button double as the overflow sink, so unrelated commands ended up under a semantic menu like `Export ▾`. **Migration:** swap `.pa-btn-toolbar` → `.pa-overflow` (or `.pa-card__actions--overflow` in a header), drop `--auto-absorb`, and rename `data-pa-absorb-priority` → `data-pa-actions-priority` / `data-pa-absorb-from` → `data-pa-actions-overflow-from`. Only ever shipped in 2.9.0 pre-releases.
-- **The `[⋮]` "more" trigger is now a standard bordered button.** It ships as a normal `pa-btn--secondary` square (matching a split-button toggle) instead of a faint chromeless glyph, and gets its look from the button variant classes alone — no theme-specific rule required. Opt into the borderless look per instance with `data-pa-overflow-trigger="ghost"`.
-- **Buttons — one unified inner-content model; content centers by default.** Every `.pa-btn` is now a single `inline-flex` row for every type (text-only, icon+label, block), so the same component no longer centers or left-aligns depending on whether it has an icon, and an icon now sits at the padding edge exactly like a text-only label (fixing icon vs. text buttons not lining up). The `--align-start / -end / -center / -justify` modifiers are the single alignment switch. **Behavior change:** full-width icon+label buttons used to left-align and now center — add `--align-start` where the old look is wanted; auto-width buttons are unchanged.
-- **Split button — `data-pa-keep-open` opt-out on menu items.** A menu item marked `data-pa-keep-open` keeps the dropdown open on click (for items that open a popconfirm / sub-panel anchored to the item), instead of the default close-on-click. Unblocks framework wrappers where a delegated click handler can't reach the document-level dismissal.
-- **One shared dropdown engine across split buttons and overflow menus.** The overflow "more" menu now reuses the split-button positioner (same offset / flip / shift), and a shared dismissal registry means a split-button dropdown and an overflow menu — or two overflow menus — can no longer hang open over each other.
 
 ## Installation
 

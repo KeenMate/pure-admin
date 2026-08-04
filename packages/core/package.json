@@ -1,6 +1,6 @@
 {
   "name": "@keenmate/pure-admin-core",
-  "version": "2.9.0-rc07",
+  "version": "2.9.0-rc08",
   "description": "Lightweight, data-focused HTML/CSS admin framework built with PureCSS foundation and comprehensive component system",
   "style": "dist/css/main.css",
   "exports": {
@@ -23,8 +23,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build:scss": "sass src/scss/main.scss dist/css/main.css --no-source-map --silence-deprecation=import",
-    "build:scss:watch": "sass src/scss/main.scss dist/css/main.css --watch --silence-deprecation=import",
+    "build:scss": "sass src/scss/main.scss dist/css/main.css --no-source-map --silence-deprecation=import --load-path=../../node_modules",
+    "build:scss:watch": "sass src/scss/main.scss dist/css/main.css --watch --silence-deprecation=import --load-path=../../node_modules",
     "build": "npm run build:scss",
     "watch": "npm run build:scss:watch",
     "generate-hashes": "node scripts/generate-hashes.js",
@@ -43,6 +43,9 @@
   ],
   "author": "KeenMate",
   "license": "MIT",
+  "dependencies": {
+    "@keenmate/pure-css": "^1.0.0-rc01"
+  },
   "peerDependencies": {
     "sass": "^1.0.0"
   },

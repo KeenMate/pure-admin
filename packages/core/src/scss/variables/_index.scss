@@ -1,23 +1,18 @@
 // ============================================================================
-// VARIABLES INDEX
-// Central import point for all variable modules
+// VARIABLES INDEX — shim to @keenmate/pure-css
+// ============================================================================
+// The variable modules (base + derived typography/spacing/colors/layout/
+// system/components) now live in the extracted foundation package
+// @keenmate/pure-css and are single-sourced from there.
+//
+// This file is kept as core's public entry point so themes importing
+// `@keenmate/pure-admin-core/src/scss/variables/index` keep resolving.
+//
+// IMPORTANT: This MUST stay `@import` (not `@use`/`@forward`). The legacy
+// `@import` flow shares global scope, so a theme that sets `$base-*` BEFORE
+// importing this file wins over the foundation's `!default` values.
+// Resolved via the `--load-path=node_modules` passed to sass (see the core
+// package.json build script and pack-theme.js for themes).
 // ============================================================================
 
-// IMPORTANT: Order matters for dependencies!
-// 1. Base variables are the SOURCE OF TRUTH (standalone, no imports)
-// 2. All other modules can import from base and derive their values
-//
-// NOTE: We use @import (not @forward) to ensure variables share the global
-// scope. This allows themes to set variables BEFORE importing, and the
-// !default flags will skip already-defined variables.
-
-// Base variables FIRST - single source of truth for theming
-@import 'base';
-
-// Derived framework variables (can use base values)
-@import 'typography';
-@import 'spacing';
-@import 'colors';
-@import 'layout';
-@import 'system';
-@import 'components';
+@import '@keenmate/pure-css/src/scss/variables/index';

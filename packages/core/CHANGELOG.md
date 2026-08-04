@@ -5,6 +5,27 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc08] - 2026-08-04 [PUBLISHED]
+
+### Changed
+
+- **Foundation single-sourced from `@keenmate/pure-css`.** The `--base-*` / `--pa-*` variable system, the `output-*` emit mixins, the utility classes, and the native `.pa-row` / `.pa-col` grid now live in the standalone [`@keenmate/pure-css`](https://github.com/KeenMate/pure-css) package and are consumed here via thin `@import` / `@forward` shims (`variables/index`, `_base-css-variables.scss`, `utilities.scss`, `core-components/_grid.scss`). Core's duplicate copies were deleted, so the two packages can no longer drift. Public SCSS import paths (`@keenmate/pure-admin-core/src/scss/{variables/index,core,utilities,base-css-variables}`) are unchanged, so themes and `@import` consumers need no edits. `@keenmate/pure-css` (`^1.0.0-rc01`) is a new dependency, and the SCSS build gains `--load-path=node_modules` so the shims resolve. The `base-css-variables` shim intentionally uses `@import` (not `@forward`) so a theme's `$base-*` overrides — set before the import — still reach the emit mixins; `@forward` would load the foundation as a hermetic module and silently drop every override. Compiled `main.css` is byte-identical to rc07 apart from the additions and fixes below.
+
+### Added
+
+- **`.gap-*` / `.gap-x-*` / `.gap-y-*` utilities** — flex/grid gap on the same spacing scale as the margin/padding helpers (the one spacing family the utilities lacked).
+- **`.font-family-system` / `.font-family-sans`** join the existing `.font-family-serif` / `-mono`, now single-sourced from the foundation's `_fonts.scss`.
+- **`--pa-border-color` runtime-links `--base-border-color`** — emitted as `var(--base-border-color, <literal>)` instead of a baked literal, so a runtime `--base-*` override (a theme or dark-mode class toggling it at `:root` / `.pa-mode-dark`) flows through to `--pa-border-color` and everything that reads it.
+
+### Fixed
+
+- **`.border` / `.rounded` utilities were inert — now render.** `.border` / `.border-{top,right,bottom,left}` and `.rounded` / `.rounded-{lg,top,…}` referenced bare `--border-color` / `--border-radius` variables the framework never emits, so `.border*` fell back to a `currentColor` (text-colored) border and `.rounded*` produced no radius. Repointed at the emitted `--pa-border-color` / `--pa-border-radius(-lg)`, so they now draw the theme's border and radius like every other component. **Behavior change:** markup that leaned on these utilities being no-ops will now show a real border / radius.
+- **Form-group first/last-child margin reset in grid columns.** The card-body margin-collapse selectors in `_form-layout.scss` targeted the long-dead PureCSS `.pure-g` / `.pure-u-*` grid; modernized to `.pa-row` / `.pa-col`, so a form group that's the first/last child of a grid column inside a card now correctly loses its edge margin.
+
+### Removed
+
+- **Legacy PureCSS `.pure-g` / `.pure-u-*` grid.** Orphaned since the native `.pa-col` grid replaced it; its source moved into `@keenmate/pure-css` (where it too is superseded by `.pa-row` / `.pa-col`). Core never emitted these classes and no markup used them — only the inert forms selector above referenced them.
+
 ## [2.9.0-rc07] - 2026-07-30 [PUBLISHED]
 
 ### Fixed
