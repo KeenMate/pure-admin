@@ -1,40 +1,12 @@
 // ============================================================================
-// SCROLLBARS
-// Global scrollbar styling for consistent appearance across browsers
+// SCROLLBARS — shim to @keenmate/pure-css
 // ============================================================================
-@use '../variables' as *;
+// The global scrollbar styling now lives in the extracted foundation package
+// @keenmate/pure-css as `scrollbars.scss` (it's global browser chrome, part of
+// the foundation's consistent-appearance contract — a standalone pure-css page
+// gets the same themed scrollbars). Forwarded here so core's _core.scss
+// (`@use 'core-components/scrollbars'`) keeps emitting it at the same point.
+// Resolved via the `--load-path=node_modules` passed to sass.
+// ============================================================================
 
-/* Webkit browsers (Chrome, Safari, Edge) */
-*::-webkit-scrollbar {
-  width: $scrollbar-width;
-  height: $scrollbar-width;
-}
-
-*::-webkit-scrollbar-track {
-  background: var(--pa-main-bg);
-  border-radius: var(--pa-border-radius-sm);
-}
-
-*::-webkit-scrollbar-thumb {
-  background: var(--pa-border-color);
-  border-radius: var(--pa-border-radius-sm);
-  border: $border-width-base solid var(--pa-main-bg);
-
-  &:hover {
-    background: var(--pa-accent);
-  }
-
-  &:active {
-    background: var(--pa-accent-hover);
-  }
-}
-
-*::-webkit-scrollbar-corner {
-  background: var(--pa-main-bg);
-}
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--pa-border-color) var(--pa-main-bg);
-}
+@forward '@keenmate/pure-css/src/scss/scrollbars';

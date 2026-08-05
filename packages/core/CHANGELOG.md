@@ -5,6 +5,13 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc09] - 2026-08-05
+
+### Changed
+
+- **Reset/reboot and scrollbar styling single-sourced from `@keenmate/pure-css`.** The 10px rem base (`html { font-size: 10px }`), the `box-sizing: border-box` reset, neutral base styling for standard elements (headings, paragraphs, links, lists, blockquotes, `hr`, `figure`), the `body` font/colour, the `button/input/select/textarea/label { font: inherit }` reset, and the global themed scrollbars all moved into the foundation as `reboot.scss` + `scrollbars.scss`. Core's `core-components/_base.scss` and `_scrollbars.scss` are now thin `@forward` shims, so the reset lives with the rem-scale variables that depend on it — a standalone `@keenmate/pure-css` consumer now gets the 10px base and box-sizing reset too (before, they lived only here, so a page linking the foundation on its own inherited the browser's 16px root and rendered every rem 1.6× too large). The admin-specific base rules stay in core deliberately (`body` overflow handling, the decorative `::before` background pattern, `body.sidebar-sticky`) — a generic foundation shouldn't impose them. Compiled `main.css` is functionally identical to rc08 (only the source order of the non-overlapping `body` base / form-inherit blocks shifts).
+- **`@keenmate/pure-css` dependency floor raised to `^1.0.0-rc02`** — reboot/scrollbars require it; rc01 lacks them and would break the build.
+
 ## [2.9.0-rc08] - 2026-08-04 [PUBLISHED]
 
 ### Changed
