@@ -52,9 +52,33 @@
           display: flex;
           align-items: center;
 
+          // Hover/active derive their pill background from `currentColor` — a
+          // translucent tint of the link's OWN rendered text colour — not the
+          // content-area --pa-accent. The navbar sits on --pa-header-bg, which
+          // several themes set dark or to the accent colour itself (e.g. NATO's
+          // navy header) and then force the nav text light with !important while
+          // leaving --pa-header-text at its default dark value. A currentColor
+          // tint tracks the actual text colour (light there, dark on light
+          // headers), so the pill contrasts the header on every theme; an accent
+          // or --pa-header-text tint would be dark-on-dark and vanish. Text
+          // brightens to --pa-header-text, which those themes override to match.
           &:hover {
-            color: var(--pa-accent);
-            background-color: var(--pa-accent-hover);
+            color: var(--pa-header-text);
+            background-color: color-mix(in srgb, currentColor 12%, transparent);
+          }
+        }
+
+        // Active top-level item — the current section. Held state = a stronger
+        // currentColor pill + semibold, reading clearly above the hover tint on
+        // any header. Modifier goes on the <li> (.pa-header__nav-item--active);
+        // scoped through the nav > ul > li chain so it outweighs the base
+        // `> li > a` colour.
+        &.pa-header__nav-item--active > a {
+          &,
+          &:hover {
+            color: var(--pa-header-text);
+            background-color: color-mix(in srgb, currentColor 22%, transparent);
+            font-weight: $font-weight-semibold;
           }
         }
       }
@@ -148,6 +172,91 @@
       inset-inline-start: 100%; // RTL: flips to right: 100%
       margin-top: 0;
       margin-inline-start: 0; // RTL: flips to margin-right
+    }
+  }
+
+  // --- Responsive collapse (driven by navbar-collapse.js) ----------------
+  // A nav opted into progressive collapse must be able to shrink BELOW its
+  // content, so the JS's `scrollWidth > clientWidth` test becomes truthful.
+  // Make the nav shrinkable, and (via :has) let the enclosing start section
+  // shrink too — it's flex-shrink:0 by default — so the nav absorbs the squeeze
+  // while the burger and brand (also flex-shrink:0) keep their size.
+  &__nav[data-pa-nav-collapse] {
+    flex-shrink: 1;
+    min-width: 0;
+    // No overflow:hidden here — it would clip the nav items' OWN hover
+    // dropdowns (they drop below the bar, and any ancestor overflow:hidden
+    // cuts them off). Items stay at natural width (flex-shrink:0) and
+    // navbar-collapse.js detects overflow by summing item widths, so clipping
+    // isn't needed to measure it.
+
+    > ul > li {
+      flex-shrink: 0;
+    }
+  }
+
+  &__start:has(.pa-header__nav[data-pa-nav-collapse]) {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  // The generated "More" trigger. Its panel is parented to <body> (to escape
+  // the nav's overflow:hidden) and positioned by navbar-collapse.js, so there's
+  // no inline anchoring to do here — just the trigger's own affordance.
+  &__nav-item--more {
+    position: relative;
+  }
+
+  &__more-chevron {
+    display: inline-block;
+    margin-inline-start: $spacing-xs;
+    font-size: $font-size-xs;
+    transition: transform $transition-fast $easing-snappy;
+  }
+
+  // Chevron points down while the panel is open (click-toggled).
+  &__nav-item--more.is-open &__more-chevron {
+    transform: rotate(90deg);
+  }
+
+  // The More panel is parented to <body> (escapes the nav's overflow:hidden)
+  // and positioned by JS; navbar-collapse.js toggles --open to reveal it. The
+  // compound selector outweighs the base `.pa-header__dropdown { display:none }`.
+  &__more-menu {
+    z-index: $z-index-header + 10; // above the fixed navbar
+
+    &.pa-header__more-menu--open {
+      display: block !important;
+    }
+  }
+
+  // Flatten — the answer to "what about multi-level menus" in menu mode.
+  // Inside the More panel, a collapsed item that had its own dropdown renders
+  // that submenu INLINE (indented, static) instead of a hover flyout, so the
+  // whole thing is one scrollable panel with no cascading menus, at any depth.
+  &__more-menu {
+    .pa-header__dropdown {
+      display: block !important; // always shown; overrides the hover-reveal
+      position: static;
+      min-width: 0;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+
+      li a {
+        padding-inline-start: $spacing-xl; // indent under the group header
+      }
+    }
+
+    // A parent link that owns a submenu reads as a group header.
+    .pa-header__nav-item--has-dropdown > a {
+      font-weight: $font-weight-semibold;
+    }
+
+    // No flyout bridge inside the flattened panel.
+    .pa-header__nav-item--has-dropdown::after {
+      content: none;
     }
   }
 

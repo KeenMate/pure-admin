@@ -69,8 +69,11 @@
   .pa-header {
     gap: $spacing-sm;
 
-    &__nav {
-      display: none; // Hide navigation links on mobile
+    // Legacy navs hard-hide on mobile (navigation is expected in the sidebar).
+    // A nav opted into progressive collapse (data-pa-nav-collapse) manages its
+    // own width at every breakpoint, so it must stay visible here.
+    &__nav:not([data-pa-nav-collapse]) {
+      display: none;
     }
 
     &__title h2 {

@@ -85,6 +85,26 @@ body.pa-layout--sticky .pa-layout__sidebar {
     // Base styles for all sidebar items (regular links and submenu toggles)
   }
 
+  // Flat section heading — a non-interactive group label ("PROJECT",
+  // "GUIDES", "LIVE DEMOS"). Use when the nav is grouped but the groups are
+  // NOT collapsible; for collapsible groups use __toggle + __submenu instead.
+  // Rendered as an <li class="pa-sidebar__section"> inside __nav's <ul>, so it
+  // sits in the list flow without a bullet (the <ul> already resets list-style).
+  &__section {
+    padding: $spacing-md $spacing-base $spacing-xs; // 16px inset aligns with __link text
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--pa-sidebar-text-secondary);
+    user-select: none;
+
+    // First heading shouldn't push the whole nav down
+    &:first-child {
+      padding-top: $spacing-xs;
+    }
+  }
+
   &__link {
     display: flex;
     align-items: center;

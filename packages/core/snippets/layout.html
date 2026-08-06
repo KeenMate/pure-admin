@@ -113,10 +113,11 @@
             </div>
 
             <!-- Nav: pa-header__nav auto-styles its direct child <ul> > <li> > <a>.
-                 No additional classes needed on list items or anchors. -->
+                 No additional classes needed on list items or anchors, except
+                 pa-header__nav-item--active on the <li> of the current section. -->
             <nav class="pa-header__nav pa-header__nav--start">
                 <ul>
-                    <li><a href="/">Dashboard</a></li>
+                    <li class="pa-header__nav-item--active"><a href="/">Dashboard</a></li>
                     <li><a href="/components">Components</a></li>
 
                     <!-- Hover-triggered dropdown -->
@@ -181,10 +182,65 @@ Notes on the navbar:
   classes carry none of their own.
 - .pa-header__nav-item--has-dropdown uses position: static so the
   dropdown positions relative to the navbar, not this specific item.
-- On mobile (max-width: $mobile-breakpoint), .pa-header__nav is hidden
-  entirely. Put dropdown-only items in a sidebar nav if they must stay
-  reachable below 768px.
+- Mark the current section with .pa-header__nav-item--active on its <li>.
+- WITHOUT data-pa-nav-collapse (below), .pa-header__nav is hidden entirely
+  on mobile (max-width: $mobile-breakpoint) — navigation is expected in the
+  sidebar. Add data-pa-nav-collapse to keep it responsive instead.
 -->
+
+
+<!-- ================================
+     NAVBAR — RESPONSIVE COLLAPSE (progressive, priority-driven)
+     Add data-pa-nav-collapse to .pa-header__nav and navbar-collapse.js walks
+     the lowest-priority items out as the header narrows, restoring them as it
+     widens — the same measure-and-drop model as the .pa-overflow toolbar.
+
+       data-pa-nav-collapse="menu"     items fold into a generated "More ▾"
+                                       dropdown (self-contained; no sidebar
+                                       needed; nested dropdowns render FLAT).
+       data-pa-nav-collapse="sidebar"  items move into the sidebar as native
+                                       .pa-sidebar__* items under a section
+                                       heading (needs a sidebar).
+
+     Priority: data-pa-nav-priority on each <li> (default 0, lowest drops
+     first). The --active item is auto-pinned so the current page never folds.
+     ================================ -->
+
+<!-- MENU mode — folds into a "More" dropdown -->
+<nav class="pa-header__nav pa-header__nav--start"
+     data-pa-nav-collapse="menu" data-pa-nav-more-label="More">
+    <ul>
+        <li class="pa-header__nav-item pa-header__nav-item--active" data-pa-nav-priority="10">
+            <a href="/">Dashboard</a>
+        </li>
+        <li class="pa-header__nav-item">
+            <a href="/reports">Reports</a>
+        </li>
+        <!-- has-dropdown items keep their submenu; inside "More" it renders flat -->
+        <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+            <a href="/components" class="pa-header__nav-link">Components</a>
+            <ul class="pa-header__dropdown">
+                <li><a href="/components/buttons">Buttons</a></li>
+                <li><a href="/components/cards">Cards</a></li>
+            </ul>
+        </li>
+        <li class="pa-header__nav-item"><a href="/forms">Forms</a></li>
+    </ul>
+</nav>
+
+<!-- SIDEBAR mode — folds into the sidebar under a "Menu" section heading.
+     Target defaults to the first .pa-sidebar__nav > ul; override with
+     data-pa-nav-collapse-target="#your-sidebar-ul-selector". -->
+<nav class="pa-header__nav pa-header__nav--start"
+     data-pa-nav-collapse="sidebar" data-pa-nav-collapse-label="Menu">
+    <ul>
+        <li class="pa-header__nav-item pa-header__nav-item--active" data-pa-nav-priority="10">
+            <a href="/">Dashboard</a>
+        </li>
+        <li class="pa-header__nav-item"><a href="/reports">Reports</a></li>
+        <li class="pa-header__nav-item"><a href="/forms">Forms</a></li>
+    </ul>
+</nav>
 
 
 <!-- THEME SWITCHER (helper block in the header) -->
@@ -215,6 +271,44 @@ Notes on the navbar:
                 <a href="/components" class="pa-sidebar__link">
                     <span class="pa-sidebar__icon">🧩</span>
                     <span class="pa-sidebar__label">Components</span>
+                </a>
+            </li>
+            <li class="pa-sidebar__item">
+                <a href="/forms" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">📝</span>
+                    <span class="pa-sidebar__label">Forms</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+
+<!-- ================================
+     SIDEBAR — WITH FLAT SECTION HEADINGS
+     Group links under non-interactive labels with
+     <li class="pa-sidebar__section">. Use this when the groups are always
+     visible (docs-style nav); for collapsible groups use the __toggle +
+     __submenu variant below instead. Section and links are siblings in the
+     same <ul>.
+     ================================ -->
+
+<aside class="pa-layout__sidebar">
+    <nav class="pa-sidebar__nav">
+        <ul>
+            <li class="pa-sidebar__section">Project</li>
+            <li class="pa-sidebar__item">
+                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
+                    <span class="pa-sidebar__icon">📊</span>
+                    <span class="pa-sidebar__label">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="pa-sidebar__section">Guides</li>
+            <li class="pa-sidebar__item">
+                <a href="/getting-started" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">🚀</span>
+                    <span class="pa-sidebar__label">Getting Started</span>
                 </a>
             </li>
             <li class="pa-sidebar__item">

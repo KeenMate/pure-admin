@@ -15,11 +15,14 @@
                 <h1>Pure Admin</h1>
             </div>
 
-            <!-- Left Navigation Links -->
-            <nav class="pa-header__nav pa-header__nav--start">
+            <!-- Left Navigation Links. data-pa-nav-collapse="menu" folds the
+                 lowest-priority items into a generated "More" dropdown as the
+                 header narrows (navbar-collapse.js). The active item is
+                 auto-pinned; Dashboard is also explicitly pinned. -->
+            <nav class="pa-header__nav pa-header__nav--start" data-pa-nav-collapse="menu">
                 <ul>
-                    <li><a href="/">Dashboard</a></li>
-                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+                    <li class="pa-header__nav-item{{#isDashboard}} pa-header__nav-item--active{{/isDashboard}}" data-pa-nav-priority="10"><a href="/">Dashboard</a></li>
+                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown{{#isComponents}} pa-header__nav-item--active{{/isComponents}}">
                         <a href="/components/overview" class="pa-header__nav-link">Components</a>
                         <ul class="pa-header__dropdown">
                             <li><a href="/components/buttons">Buttons</a></li>
@@ -36,7 +39,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="/forms">Forms</a></li>
+                    <li class="pa-header__nav-item{{#isForms}} pa-header__nav-item--active{{/isForms}}"><a href="/forms">Forms</a></li>
                 </ul>
             </nav>
         </div>
