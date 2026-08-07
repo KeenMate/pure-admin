@@ -256,12 +256,15 @@ body.pa-layout--sticky .pa-layout__sidebar {
     }
 
     // Chevron points right (›) in LTR, left (‹) in RTL
-    // When open, rotates 90deg clockwise in LTR, -90deg (counter-clockwise) in RTL
-    .pa-sidebar__item--open & {
+    // When open, rotates 90deg clockwise in LTR, -90deg (counter-clockwise) in RTL.
+    // Scoped to the item's OWN chevron (direct toggle child) — a plain descendant
+    // selector would also rotate nested items' chevrons whenever an ANCESTOR is
+    // open, so a closed sub-group would wrongly show a "down" chevron.
+    .pa-sidebar__item--open > .pa-sidebar__toggle > & {
       transform: rotate(90deg);
     }
 
-    [dir="rtl"] .pa-sidebar__item--open & {
+    [dir="rtl"] .pa-sidebar__item--open > .pa-sidebar__toggle > & {
       transform: rotate(-90deg);
     }
   }

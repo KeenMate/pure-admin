@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Reset/reboot and scrollbar styling single-sourced from `@keenmate/pure-css`.** The 10px rem base (`html { font-size: 10px }`), the `box-sizing: border-box` reset, neutral base styling for standard elements (headings, paragraphs, links, lists, blockquotes, `hr`, `figure`), the `body` font/colour, the `button/input/select/textarea/label { font: inherit }` reset, and the global themed scrollbars all moved into the foundation as `reboot.scss` + `scrollbars.scss`. Core's `core-components/_base.scss` and `_scrollbars.scss` are now thin `@forward` shims, so the reset lives with the rem-scale variables that depend on it — a standalone `@keenmate/pure-css` consumer now gets the 10px base and box-sizing reset too (before, they lived only here, so a page linking the foundation on its own inherited the browser's 16px root and rendered every rem 1.6× too large). The admin-specific base rules stay in core deliberately (`body` overflow handling, the decorative `::before` background pattern, `body.sidebar-sticky`) — a generic foundation shouldn't impose them. Compiled `main.css` is functionally identical to rc08 (only the source order of the non-overlapping `body` base / form-inherit blocks shifts).
 - **`@keenmate/pure-css` dependency floor raised to `^1.0.0-rc02`** — reboot/scrollbars require it; rc01 lacks them and would break the build.
 
+### Fixed
+
+- **Sidebar chevron rotation leaked into nested groups.** The open-state rotation used a descendant selector (`.pa-sidebar__item--open .pa-sidebar__chevron`), so opening a parent group rotated the chevrons of every collapsed sub-group inside it too — a closed sub-group wrongly showed a "down" (open) chevron while its own `<li>` had no `--open`. Scoped to the item's own toggle child (`.pa-sidebar__item--open > .pa-sidebar__toggle > .pa-sidebar__chevron`), so each chevron reflects only its own group's state.
+
 ## [2.9.0-rc08] - 2026-08-04 [PUBLISHED]
 
 ### Changed
