@@ -13,11 +13,15 @@
  *                                     dropdowns render FLAT inside the panel
  *                                     (pure CSS — see _navbar-elements.scss), so
  *                                     there are no cascading hover flyouts.
- *   data-pa-nav-collapse="sidebar"  — items move into a sidebar nav, converted
- *                                     to `.pa-sidebar__*` structure under a
- *                                     `.pa-sidebar__section` heading. Nested nav
- *                                     dropdowns become sidebar submenus (native
- *                                     accordion depth). Needs a sidebar.
+ *   data-pa-nav-collapse="sidebar"  — items are rebuilt as genuine
+ *                                     `.pa-sidebar__*` markup under a
+ *                                     `.pa-sidebar__section` heading: a leaf
+ *                                     becomes a link item; a dropdown parent
+ *                                     becomes a collapsible toggle group
+ *                                     (chevron, starts closed) whose first
+ *                                     child is the parent's own page. Nested
+ *                                     dropdowns recurse to nested groups. Needs
+ *                                     a sidebar.
  *   data-pa-nav-collapse="off"      — disabled (no-op).
  *
  * Priority: `data-pa-nav-priority` on each `<li>` (default 0). Lowest drops
@@ -39,6 +43,13 @@
  *   data-pa-nav-collapse-target="#sel"  — the sidebar <ul> to inject into
  *                                         (default: first `.pa-sidebar__nav > ul`)
  *   data-pa-nav-collapse-label="Menu"   — heading for the injected group
+ *   data-pa-nav-collapse-icon="•"       — default icon for injected items
+ *                                         ("" to omit); per item: data-pa-nav-icon
+ * Per-<li> (either mode):
+ *   data-pa-nav-icon="🏠"               — icon shown when moved to the sidebar
+ *   data-pa-nav-collapse="hide"         — don't relocate this item; just hide it
+ *                                         when it doesn't fit (priority still
+ *                                         decides when; active items never drop)
  * Menu-mode config:
  *   data-pa-nav-more-label="More"       — the trigger's label
  *
@@ -63,10 +74,6 @@
     var INIT_FLAG = '__paNavCollapseInit';
     var SELECTOR = '.pa-header__nav[data-pa-nav-collapse]';
     var PIN_PRIORITY = 1000; // effective priority for the auto-pinned active item
-
-    // Per-element stash keys — mirror overflow.js's className-stash approach so
-    // every transform is reversible by restoring the saved value.
-    var STASH = '__paNavOrigClass';
 
     function init(nav) {
         if (!nav || nav[INIT_FLAG]) return;
@@ -94,16 +101,31 @@
         var ordered = items.map(function (el, idx) {
             var raw = parseInt(el.getAttribute('data-pa-nav-priority'), 10);
             var active = el.classList.contains('pa-header__nav-item--active');
+            // The active item with no explicit priority is HARD-pinned: it never
+            // collapses (see dropOrder below), so the page you're on always stays
+            // on the bar. Setting an explicit data-pa-nav-priority on the active
+            // item opts out of the pin and makes it collapse like any other item.
+            var pinned = active && isNaN(raw);
             var priority = isNaN(raw) ? (active ? PIN_PRIORITY : 0) : raw;
-            return { el: el, priority: priority, domIndex: idx };
+            // Per-item override: data-pa-nav-collapse="hide" means "don't relocate
+            // me to the menu/sidebar — just hide me when I don't fit". Handled at
+            // the engine level so it works in either mode; still ordered/pinned
+            // like any other item (priority decides WHEN it drops).
+            var hide = el.getAttribute('data-pa-nav-collapse') === 'hide';
+            return { el: el, priority: priority, domIndex: idx, pinned: pinned, hide: hide };
         });
 
         // Lowest priority drops first; ties → rightmost (higher domIndex) first,
-        // so the leftmost/primary links survive longest.
-        var dropOrder = ordered.slice().sort(function (a, b) {
-            if (a.priority !== b.priority) return a.priority - b.priority;
-            return b.domIndex - a.domIndex;
-        });
+        // so the leftmost/primary links survive longest. Pinned (active) items are
+        // excluded entirely — they are never collapsed, even if that means the row
+        // overflows: hiding the current page's own nav item is worse than a tight
+        // fit. If everything droppable has already folded and it still overflows,
+        // the loop simply runs out and the pinned item stays put.
+        var dropOrder = ordered.filter(function (i) { return !i.pinned; })
+            .sort(function (a, b) {
+                if (a.priority !== b.priority) return a.priority - b.priority;
+                return b.domIndex - a.domIndex;
+            });
 
         log('init', mode, { items: ordered.length, priorities: ordered.map(function (i) { return i.priority; }) });
 
@@ -136,8 +158,12 @@
 
         function relayout() {
             // Step 1 — restore everything to the nav in DOM order, reset target.
+            // `hide` items are un-hidden here; all others go back via the strategy.
             ordered.slice().sort(function (a, b) { return a.domIndex - b.domIndex; })
-                .forEach(function (item) { strategy.restore(item.el); });
+                .forEach(function (item) {
+                    if (item.hide) item.el.style.display = '';
+                    strategy.restore(item.el);
+                });
             strategy.afterRestore();
 
             // Step 2 — does it all fit? Compare summed item width to the room the
@@ -155,8 +181,12 @@
             strategy.onOverflow();
             for (var i = 0; i < dropOrder.length; i++) {
                 if (!overflowing()) break;
-                strategy.collapse(dropOrder[i].el);
-                log('collapsed', (dropOrder[i].el.textContent || '').trim().slice(0, 20), { contentW: Math.round(contentWidth()), clientW: nav.clientWidth });
+                if (dropOrder[i].hide) {
+                    dropOrder[i].el.style.display = 'none'; // just drop it, don't relocate
+                } else {
+                    strategy.collapse(dropOrder[i].el);
+                }
+                log(dropOrder[i].hide ? 'hid' : 'collapsed', (dropOrder[i].el.textContent || '').trim().slice(0, 20), { contentW: Math.round(contentWidth()), clientW: nav.clientWidth });
             }
             log('relayout done', { collapsed: strategy.count ? strategy.count() : '?' });
         }
@@ -257,18 +287,27 @@
                 closeMenu();
             },
             onFits: function () { /* nothing to show */ },
-            onOverflow: function () {
-                moreLi.style.display = ''; // trigger becomes visible (adds width)
-            },
+            onOverflow: function () { /* trigger revealed lazily on first collapse */ },
             collapse: function (el) {
+                moreLi.style.display = ''; // trigger becomes visible (adds width)
                 menu.appendChild(el); // re-styles via .pa-header__dropdown context
             }
         };
     }
 
     // ---------------------------------------------------------------------
-    // SIDEBAR strategy — convert items to sidebar structure and inject them
-    // under a `.pa-sidebar__section` heading in the target sidebar nav.
+    // SIDEBAR strategy — BUILD genuine `.pa-sidebar__*` markup from each nav
+    // item and inject it under a `.pa-sidebar__section` heading in the target
+    // sidebar nav. The navbar and sidebar are different DOM shapes (a bare
+    // `<a>` vs icon/label spans; a hover dropdown vs a toggle-button
+    // accordion), so a className swap can't bridge them — the swapped item
+    // would be link-shaped, icon-less and always-open, visibly "in its own
+    // style". Instead we build a proper sidebar node from each nav item and
+    // keep the ORIGINAL nav `<li>` detached aside; restoring drops the built
+    // clone and re-inserts the original. A leaf becomes a link item; a
+    // dropdown parent becomes a collapsible toggle group (chevron, starts
+    // CLOSED) whose first child is the parent's own destination, per the
+    // "Toggle + Overview child" model — matching a hand-authored sidebar 1:1.
     // ---------------------------------------------------------------------
     function makeSidebarStrategy(nav, ul, log) {
         var targetSel = nav.getAttribute('data-pa-nav-collapse-target');
@@ -276,10 +315,18 @@
             ? document.querySelector(targetSel)
             : document.querySelector('.pa-sidebar__nav > ul');
         var label = nav.getAttribute('data-pa-nav-collapse-label') || 'Menu';
+        // Nav items carry no icons; sidebar items conventionally do. Give each a
+        // default marker (a bullet), overridable per-item via data-pa-nav-icon
+        // or globally via data-pa-nav-collapse-icon (set "" to omit icons).
+        var defaultIcon = nav.getAttribute('data-pa-nav-collapse-icon');
+        if (defaultIcon == null) defaultIcon = '•';
 
-        // Section heading, created lazily so a nav that never overflows leaves
-        // the sidebar untouched.
-        var section = null;
+        // Section heading + trailing divider, created lazily so a nav that never
+        // overflows leaves the sidebar untouched. The divider is pinned directly
+        // after the heading and collapsed items are inserted BETWEEN the two, so
+        // it always sits at the bottom of the injected block — a rule between the
+        // folded-in navbar items and the sidebar's own links.
+        var section = null, divider = null;
         function ensureSection() {
             if (!target) return null;
             if (!section) {
@@ -287,57 +334,88 @@
                 section.className = 'pa-sidebar__section';
                 section.setAttribute('data-pa-nav-injected', '');
                 section.textContent = label;
-                target.insertBefore(section, target.firstChild);
-            } else if (section.parentNode !== target) {
-                target.insertBefore(section, target.firstChild);
             }
+            if (!divider) {
+                divider = document.createElement('li');
+                divider.className = 'pa-sidebar__divider';
+                divider.setAttribute('data-pa-nav-injected', '');
+                divider.setAttribute('aria-hidden', 'true');
+            }
+            if (section.parentNode !== target) target.insertBefore(section, target.firstChild);
+            if (divider.parentNode !== target) target.insertBefore(divider, section.nextSibling);
             return section;
         }
         function removeSection() {
             if (section && section.parentNode) section.parentNode.removeChild(section);
+            if (divider && divider.parentNode) divider.parentNode.removeChild(divider);
         }
 
-        // Reversible className swap: stash the current class on `el` (once) and
-        // set the new one. `restoreClass` puts the original back.
-        function swapClass(el, cls) {
-            if (el[STASH] == null) el[STASH] = el.className;
-            el.className = cls;
+        // --- DOM builders -------------------------------------------------
+        // The link's own text, trimmed, minus a trailing flyout marker (›/»/>)
+        // — that arrow was a horizontal affordance for the navbar hover
+        // dropdown and is redundant next to a sidebar chevron.
+        function labelOf(a) {
+            return (a ? a.textContent : '').replace(/\s*[›»>]+\s*$/, '').trim();
         }
-        function restoreClass(el) {
-            if (el[STASH] != null) { el.className = el[STASH]; el[STASH] = null; }
+        function iconHtml(icon) {
+            return icon ? '<span class="pa-sidebar__icon">' + escapeHtml(icon) + '</span>' : '';
+        }
+        function labelHtml(text) {
+            return '<span class="pa-sidebar__label">' + escapeHtml(text) + '</span>';
+        }
+        function buildLinkItem(text, href, icon, active) {
+            var li = document.createElement('li');
+            li.className = 'pa-sidebar__item';
+            var a = document.createElement('a');
+            a.className = 'pa-sidebar__link' + (active ? ' pa-sidebar__link--active' : '');
+            a.setAttribute('href', href == null ? '#' : href);
+            a.innerHTML = iconHtml(icon) + labelHtml(text);
+            li.appendChild(a);
+            return li;
         }
 
-        // Convert a nav <li> into sidebar structure (reversible). A plain link
-        // becomes a `.pa-sidebar__item > .pa-sidebar__link`; an item with a nav
-        // dropdown becomes a sidebar item whose child <ul> is an always-open
-        // submenu (so no toggle wiring is needed and depth still reads clearly).
-        function toSidebar(li) {
-            swapClass(li, 'pa-sidebar__item');
-            var link = directChild(li, 'a');
-            if (link) swapClass(link, 'pa-sidebar__link');
-            var sub = directChild(li, 'ul');
-            if (sub) {
-                swapClass(sub, 'pa-sidebar__submenu pa-sidebar__submenu--open');
-                var subItems = Array.prototype.slice.call(sub.children);
-                for (var i = 0; i < subItems.length; i++) {
-                    var sli = subItems[i];
-                    if (sli.nodeType !== 1) continue;
-                    swapClass(sli, 'pa-sidebar__item');
-                    var sa = sli.querySelector('a');
-                    if (sa) swapClass(sa, 'pa-sidebar__link');
-                }
+        // Recursively convert a nav <li> into a sidebar <li>.
+        function buildSidebarItem(navLi) {
+            var link = directChild(navLi, 'a');
+            var sub = directChild(navLi, 'ul');
+            var icon = navLi.getAttribute('data-pa-nav-icon');
+            if (icon == null) icon = defaultIcon;
+            var text = labelOf(link);
+            var href = link ? link.getAttribute('href') : null;
+            var active = navLi.classList.contains('pa-header__nav-item--active');
+            var isReal = href && href !== '#' && href.charAt(href.length - 1) !== '#';
+
+            if (!sub) return buildLinkItem(text, href, icon, active);
+
+            // Group → toggle button + submenu (open iff this branch is active).
+            var li = document.createElement('li');
+            li.className = 'pa-sidebar__item' + (active ? ' pa-sidebar__item--open' : '');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'pa-sidebar__toggle';
+            btn.setAttribute('aria-expanded', active ? 'true' : 'false');
+            btn.innerHTML = iconHtml(icon) + labelHtml(text) +
+                '<span class="pa-sidebar__chevron" aria-hidden="true">›</span>';
+            li.appendChild(btn);
+
+            var submenu = document.createElement('ul');
+            submenu.className = 'pa-sidebar__submenu' + (active ? ' pa-sidebar__submenu--open' : '');
+            // Parent's own page becomes the first child (only for a real dest).
+            if (isReal) submenu.appendChild(buildLinkItem(text, href, icon, active));
+            for (var c = sub.firstElementChild; c; c = c.nextElementSibling) {
+                if (c.tagName && c.tagName.toLowerCase() === 'li') submenu.appendChild(buildSidebarItem(c));
             }
-        }
-        function fromSidebar(li) {
-            var link = directChild(li, 'a');
-            if (link) restoreClass(link);
-            var sub = directChild(li, 'ul');
-            if (sub) {
-                var subItems = sub.querySelectorAll('a, li');
-                for (var i = 0; i < subItems.length; i++) restoreClass(subItems[i]);
-                restoreClass(sub);
-            }
-            restoreClass(li);
+            li.appendChild(submenu);
+
+            // Self-wired accordion (mirrors the demo's toggleSubmenu: flip
+            // --open on the item, for the chevron, AND the submenu, for display).
+            btn.addEventListener('click', function () {
+                var open = !li.classList.contains('pa-sidebar__item--open');
+                li.classList.toggle('pa-sidebar__item--open', open);
+                submenu.classList.toggle('pa-sidebar__submenu--open', open);
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            return li;
         }
 
         if (!target) log('sidebar mode: no target sidebar found', targetSel || '(default .pa-sidebar__nav > ul)');
@@ -345,24 +423,35 @@
         return {
             count: function () { return target ? target.querySelectorAll('[data-pa-nav-collapsed]').length : 0; },
             restore: function (el) {
-                if (target && el.parentNode === target) {
-                    fromSidebar(el);
-                    el.removeAttribute('data-pa-nav-collapsed');
-                    ul.appendChild(el); // order fixed by relayout's DOM-order pass
+                if (el.__paCollapsed) {
+                    var node = el.__paSidebarNode;
+                    if (node && node.parentNode) node.parentNode.removeChild(node);
+                    el.__paSidebarNode = null;
+                    el.__paCollapsed = false;
                 }
+                // Re-append EVERY item each pass (not just formerly-collapsed
+                // ones) so the final navbar order matches DOM order regardless
+                // of which items were folded away.
+                ul.appendChild(el);
             },
             afterRestore: function () {
                 // If nothing is collapsed after a restore pass, drop the heading.
                 if (target && !target.querySelector('[data-pa-nav-collapsed]')) removeSection();
             },
             onFits: function () { removeSection(); },
-            onOverflow: function () { ensureSection(); },
+            onOverflow: function () { /* heading + divider created lazily on first collapse */ },
             collapse: function (el) {
-                if (!target) return;
+                if (!target || el.__paCollapsed) return;
                 ensureSection();
-                toSidebar(el);
-                el.setAttribute('data-pa-nav-collapsed', '');
-                target.insertBefore(el, section.nextSibling);
+                var node = buildSidebarItem(el);
+                node.setAttribute('data-pa-nav-collapsed', '');
+                el.__paSidebarNode = node;
+                el.__paCollapsed = true;
+                if (el.parentNode) el.parentNode.removeChild(el);
+                // Insert just under the heading; because we collapse rightmost
+                // (lowest-priority) first and always insert at the top of the
+                // group, the final order reads left-to-right = DOM order.
+                target.insertBefore(node, section.nextSibling);
             }
         };
     }

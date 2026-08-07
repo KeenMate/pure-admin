@@ -105,6 +105,19 @@ body.pa-layout--sticky .pa-layout__sidebar {
     }
   }
 
+  // Thin horizontal rule separating groups of items — e.g. between nav items
+  // folded in from the navbar (navbar-collapse.js sidebar mode) and the
+  // sidebar's own links. Rendered as an <li class="pa-sidebar__divider"> so it
+  // sits in the list flow; carries no text.
+  &__divider {
+    height: 0;
+    margin: $spacing-xs $spacing-base;
+    padding: 0;
+    border: 0;
+    border-top: $border-width-base solid var(--pa-border-color);
+    list-style: none;
+  }
+
   &__link {
     display: flex;
     align-items: center;

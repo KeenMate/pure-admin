@@ -99,8 +99,19 @@
     &--has-dropdown {
       position: static; // Position dropdown relative to header, not this item
 
-      &:hover > .pa-header__dropdown {
-        display: block !important; // Override the !important hide
+      // Hover-reveal only where hover exists. On touch it never fires (and
+      // sticky-hover would fight the JS), so it's gated out and the `.is-open`
+      // class below — toggled by navbar-dropdown.js on tap — drives the menu.
+      @media (hover: hover) {
+        &:hover > .pa-header__dropdown {
+          display: block !important; // Override the !important hide
+        }
+      }
+
+      // Touch open state (first-tap-opens; navbar-dropdown.js). Works on all
+      // devices, so the same class also drives keyboard/JS opens if wired.
+      &.is-open > .pa-header__dropdown {
+        display: block !important;
       }
     }
   }
@@ -144,8 +155,15 @@
         z-index: 1099;
       }
 
-      // Show nested dropdown on hover
-      &:hover > .pa-header__dropdown {
+      // Show nested dropdown on hover (hover devices only — see above).
+      @media (hover: hover) {
+        &:hover > .pa-header__dropdown {
+          display: block !important;
+        }
+      }
+
+      // Touch open state for nested submenus (navbar-dropdown.js).
+      &.is-open > .pa-header__dropdown {
         display: block !important;
       }
 
@@ -172,6 +190,29 @@
       inset-inline-start: 100%; // RTL: flips to right: 100%
       margin-top: 0;
       margin-inline-start: 0; // RTL: flips to margin-right
+    }
+  }
+
+  // On touch, a nested submenu can't be a sideways flyout — `inset-inline-start:
+  // 100%` runs it straight off narrow screens (nowhere to fly). So on
+  // `(hover: none)` nested dropdowns stack INLINE (accordion) inside the level-1
+  // panel: static box, indented items, no shadow/border — the same shape the
+  // flattened "More" panel uses, but toggled open per-branch by the `.is-open`
+  // class (navbar-dropdown.js) rather than shown all at once. The level-1 panel
+  // itself stays an absolute drop below the bar.
+  @media (hover: none) {
+    &__dropdown &__dropdown {
+      position: static;
+      inset: auto;
+      min-width: 0;
+      margin: 0;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+
+      li a {
+        padding-inline-start: $spacing-xl; // indent under the group header
+      }
     }
   }
 

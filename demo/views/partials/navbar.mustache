@@ -15,14 +15,16 @@
                 <h1>Pure Admin</h1>
             </div>
 
-            <!-- Left Navigation Links. data-pa-nav-collapse="menu" folds the
-                 lowest-priority items into a generated "More" dropdown as the
-                 header narrows (navbar-collapse.js). The active item is
-                 auto-pinned; Dashboard is also explicitly pinned. -->
-            <nav class="pa-header__nav pa-header__nav--start" data-pa-nav-collapse="menu">
+            <!-- Left Navigation Links. data-pa-nav-collapse="sidebar" moves the
+                 lowest-priority items into the sidebar (as standard
+                 .pa-sidebar__* items under a "Menu" section heading) as the
+                 header narrows, restoring them as it widens (navbar-collapse.js).
+                 The active item is auto-pinned; Dashboard is also explicitly
+                 pinned via data-pa-nav-priority. -->
+            <nav class="pa-header__nav pa-header__nav--start" data-pa-nav-collapse="sidebar" data-pa-nav-collapse-label="Menu">
                 <ul>
-                    <li class="pa-header__nav-item{{#isDashboard}} pa-header__nav-item--active{{/isDashboard}}" data-pa-nav-priority="10"><a href="/">Dashboard</a></li>
-                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown{{#isComponents}} pa-header__nav-item--active{{/isComponents}}">
+                    <li class="pa-header__nav-item{{#isDashboard}} pa-header__nav-item--active{{/isDashboard}}" data-pa-nav-priority="10" data-pa-nav-icon="📊"><a href="/">Dashboard</a></li>
+                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown{{#isComponents}} pa-header__nav-item--active{{/isComponents}}" data-pa-nav-icon="🧩">
                         <a href="/components/overview" class="pa-header__nav-link">Components</a>
                         <ul class="pa-header__dropdown">
                             <li><a href="/components/buttons">Buttons</a></li>
@@ -39,7 +41,54 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="pa-header__nav-item{{#isForms}} pa-header__nav-item--active{{/isForms}}"><a href="/forms">Forms</a></li>
+                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown{{#isForms}} pa-header__nav-item--active{{/isForms}}" data-pa-nav-icon="📝">
+                        <a href="/forms" class="pa-header__nav-link">Forms</a>
+                        <ul class="pa-header__dropdown">
+                            <li><a href="/forms">Form Elements</a></li>
+                            <li><a href="/components/inputs">Inputs</a></li>
+                            <li><a href="/components/validations">Validations</a></li>
+                            <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+                                <a href="#" class="pa-header__nav-link">Selectors ›</a>
+                                <ul class="pa-header__dropdown pa-header__dropdown--level2">
+                                    <li><a href="/components/multiselect">Multiselect</a></li>
+                                    <li><a href="/components/date-picker">Date Picker</a></li>
+                                    <li><a href="/components/checkbox-lists">Checkbox Lists</a></li>
+                                    <li><a href="/components/file-selector">File Selector</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown" data-pa-nav-icon="📋">
+                        <a href="/tables/standard" class="pa-header__nav-link">Data</a>
+                        <ul class="pa-header__dropdown">
+                            <li><a href="/tables/standard">Tables</a></li>
+                            <li><a href="/components/data-grid">Data Grid</a></li>
+                            <li><a href="/components/lists">Lists</a></li>
+                            <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+                                <a href="#" class="pa-header__nav-link">Visualize ›</a>
+                                <ul class="pa-header__dropdown pa-header__dropdown--level2">
+                                    <li><a href="/components/data-display">Data Display</a></li>
+                                    <li><a href="/components/data-visualization">Data Visualization</a></li>
+                                    <li><a href="/kpi/bento">KPI · Bento</a></li>
+                                    <li><a href="/kpi/sparkline-list">KPI · Sparklines</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- data-pa-nav-collapse="hide": rather than fold into the
+                         sidebar when space runs out, this item just hides. Fitting
+                         here because its children (Theme Variables, Colors,
+                         Helpers) already live in the main sidebar, so nothing is
+                         lost when it disappears on narrow screens. -->
+                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown" data-pa-nav-icon="🎨" data-pa-nav-collapse="hide">
+                        <a href="/design/theme-variables" class="pa-header__nav-link">Design</a>
+                        <ul class="pa-header__dropdown">
+                            <li><a href="/design/theme-variables">Theme Variables</a></li>
+                            <li><a href="/design/colors">Colors</a></li>
+                            <li><a href="/design/helpers">Helpers</a></li>
+                            <li><a href="/design/layouts">Layouts</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>
