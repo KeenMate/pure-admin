@@ -2,17 +2,20 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.9.0-rc09
+
+- **Responsive navbar collapse (`data-pa-nav-collapse`).** Opt in on `.pa-header__nav` and the top nav progressively folds its lowest-priority items out as the header narrows (restoring them as it widens), instead of just hiding on mobile. Fold into a generated "More" dropdown (`menu`) or into real `.pa-sidebar__*` items under a section heading (`sidebar`) — each dropdown parent becomes a proper collapsible sidebar group. Priority via `data-pa-nav-priority`, per-item icons via `data-pa-nav-icon`, and `data-pa-nav-collapse="hide"` to just drop low-value items; the current-page item is hard-pinned so it never collapses.
+- **Touch support for navbar dropdowns.** Hover-only dropdowns were a trap on touch — tapping a parent that's also a real link (Components → `/components/overview`) just followed the href and its submenu could never open. Now on touch devices the first tap opens the submenu and the second navigates; nested fly-outs stack inline as an accordion instead of running off-screen. Hover devices are unchanged.
+- **`.pa-header__nav-item--active` — active state for top-nav items.** The current section's nav item now gets a held pill (brightened, semibold), derived from the link's own text colour so it stays visible on dark/accent header bars.
+- **`.pa-sidebar__section` and `.pa-sidebar__divider`.** A flat uppercase group heading for static (non-collapsible) sidebar groups, and a thin horizontal rule for separating blocks of items.
+- **Fix: sidebar chevron rotation leaked into nested groups.** Opening a parent group rotated the chevrons of its collapsed sub-groups too, so a closed sub-group wrongly showed an open chevron. Each chevron now reflects only its own group's state.
+
 ## What's New in 2.9.0-rc08
 
 - **Foundation extracted to `@keenmate/pure-css`.** The variable system, `--base-*` / `--pa-*` theming, the utility classes, and the `.pa-row` / `.pa-col` grid now come from a standalone package that core consumes — so docs sites and other projects can share the same foundation without core's components. Your import paths and compiled output are unchanged, and themes need no edits.
 - **New `.gap-*` utilities.** `.gap-*` / `.gap-x-*` / `.gap-y-*` for flex/grid gaps, on the same spacing scale as the margin/padding helpers.
 - **Fix: `.border` / `.rounded` utilities actually work now.** They previously referenced variables the framework never emitted, so `.border` drew a text-colored edge and `.rounded` did nothing. They now use the theme's `--pa-border-*` tokens and render correctly. **Heads-up:** pages that leaned on these being no-ops will now show a real border / radius.
 - **`--pa-border-color` follows runtime `--base-*` overrides.** It's now `var(--base-border-color, …)`, so a dark-mode or theme class that flips `--base-border-color` at runtime updates borders too.
-
-## What's New in 2.9.0-rc07
-
-- **Fix: `.text-truncate` on a button ellipses again.** The 2.9 unified `inline-flex` button model broke `.text-truncate` applied directly to a text-only `.pa-btn` — the label clipped on both ends with no ellipsis, because `text-overflow: ellipsis` doesn't apply to a flex container's text. Text-only truncating buttons work again; the canonical pattern remains `.text-truncate` on an inner `<span>` (works with or without an icon).
-- **Fix: the `[⋮]` overflow "more" trigger is no longer clipped.** In a tight toolbar or card header (long title beside the actions), flex could shave the overflow wrapper a few pixels below the trigger and clip its right edge. The wrapper's shrink floor is now the trigger's own width, so the `[⋮]` stays fully visible while overflow collapsing still works.
 
 ## Installation
 
