@@ -1,0 +1,48 @@
+name: Create release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build CSS and publish release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build core CSS
+        run: npm run build -w @keenmate/pure-admin-core
+
+      - name: Package zip
+        run: |
+          VER="${GITHUB_REF_NAME#v}"
+          ZIP="pure-admin-core-${VER}.zip"
+          cd packages/core
+          zip -r "${GITHUB_WORKSPACE}/${ZIP}" \
+            dist src/scss src/js snippets schemas README.md LICENSE
+          cd "${GITHUB_WORKSPACE}"
+          sha256sum "${ZIP}" > "${ZIP}.sha256"
+          ls -l "${ZIP}" "${ZIP}.sha256"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            pure-admin-core-*.zip
+            pure-admin-core-*.zip.sha256
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
