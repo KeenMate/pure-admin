@@ -211,20 +211,8 @@
   </table>
 </div>
 
-<!-- Panel container (adds shadow + lg radius + hover shadow lift) -->
-<div class="pa-table-container pa-table-container--panel">
-  <div class="pa-table-container__header">
-    <h3 class="pa-table-container__title">Recent Users</h3>
-    <div class="pa-table-container__actions">
-      <button class="pa-btn pa-btn--sm pa-btn--secondary">Export</button>
-      <button class="pa-btn pa-btn--sm pa-btn--primary">Add</button>
-    </div>
-  </div>
-  <table class="pa-table">
-    <thead><tr><th>Name</th><th>Email</th></tr></thead>
-    <tbody><tr><td>John Doe</td><td>john@example.com</td></tr></tbody>
-  </table>
-</div>
+<!-- Need a header/actions/footer or card chrome around the table? Use
+     pa-table-card (below) — NOT pa-table-container--panel, which is deprecated. -->
 
 
 <!-- ================================
@@ -408,14 +396,16 @@ Implicit behaviour:
   row height.
 - Last row's bottom border is removed (unless --responsive or --bordered).
 
-pa-table-container — SIMPLE WRAPPER:
-- .pa-table-container           overflow-x: auto, border, rounded corners
-- .pa-table-container--panel    Adds shadow + lg radius + hover lift
+pa-table-container — SIMPLE WRAPPER (no header):
+- .pa-table-container           overflow-x: auto, border, rounded corners.
+                                Card-less framed + scrollable table. For a
+                                header/actions/footer or card chrome, use
+                                pa-table-card instead.
 
-Panel header sub-elements (optional):
-- .pa-table-container__header
-- .pa-table-container__title
-- .pa-table-container__actions
+DEPRECATED — do not use in new markup (kept only as legacy tolerance,
+slated for removal in a future major). Use pa-table-card instead:
+- .pa-table-container--panel
+- .pa-table-container__header / __title / __actions
 
 pa-table-card — FULL CARD CONTAINER:
 - .pa-table-card                Card with overflow: hidden (so the
@@ -454,12 +444,14 @@ Structural variant:
                                          when the container already
                                          provides that framing.
 
-WHEN TO USE WHICH WRAPPER:
-- pa-table alone            simplest; fine inside a pa-card body
-- pa-table-container        border + scroll without card overhead
-- pa-table-container--panel adds shadow + optional header area
-- pa-table-card             proper card with header/actions/footer slots;
-                            table edges meet card border cleanly
+WHEN TO USE WHICH WRAPPER (two blessed shapes):
+- pa-table alone            bare table, e.g. inside your own layout
+- pa-table-container        framed + horizontal scroll, NO header (card-less)
+- pa-table-card             table WITH header/actions/footer + card chrome;
+                            table edges meet card border cleanly. Add
+                            __body--scrollable for wide tables; --plain to
+                            drop the card chrome.
+  (pa-table-container--panel is deprecated → use pa-table-card.)
 
 pa-pager — PAGINATION CONTROLS:
 - .pa-pager                  flex container, centre-aligned by default

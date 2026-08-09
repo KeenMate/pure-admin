@@ -25,9 +25,10 @@
  *   data-pa-nav-collapse="off"      — disabled (no-op).
  *
  * Priority: `data-pa-nav-priority` on each `<li>` (default 0). Lowest drops
- * first; ties broken by DOM order, rightmost first. The `--active` item is
- * auto-pinned (effective priority 1000 unless an explicit one is set) so the
- * page you're on never collapses.
+ * first; ties broken by DOM order, rightmost first. The `--active` (current
+ * page) item is treated like any other — it collapses to the menu/sidebar when
+ * the row runs out of room. Give an item a high `data-pa-nav-priority` if you
+ * want it to survive longest.
  *
  *   <nav class="pa-header__nav" data-pa-nav-collapse="menu">
  *     <ul>
@@ -49,7 +50,7 @@
  *   data-pa-nav-icon="🏠"               — icon shown when moved to the sidebar
  *   data-pa-nav-collapse="hide"         — don't relocate this item; just hide it
  *                                         when it doesn't fit (priority still
- *                                         decides when; active items never drop)
+ *                                         decides when)
  * Menu-mode config:
  *   data-pa-nav-more-label="More"       — the trigger's label
  *
@@ -73,7 +74,6 @@
 
     var INIT_FLAG = '__paNavCollapseInit';
     var SELECTOR = '.pa-header__nav[data-pa-nav-collapse]';
-    var PIN_PRIORITY = 1000; // effective priority for the auto-pinned active item
 
     function init(nav) {
         if (!nav || nav[INIT_FLAG]) return;
@@ -100,28 +100,21 @@
 
         var ordered = items.map(function (el, idx) {
             var raw = parseInt(el.getAttribute('data-pa-nav-priority'), 10);
-            var active = el.classList.contains('pa-header__nav-item--active');
-            // The active item with no explicit priority is HARD-pinned: it never
-            // collapses (see dropOrder below), so the page you're on always stays
-            // on the bar. Setting an explicit data-pa-nav-priority on the active
-            // item opts out of the pin and makes it collapse like any other item.
-            var pinned = active && isNaN(raw);
-            var priority = isNaN(raw) ? (active ? PIN_PRIORITY : 0) : raw;
+            var priority = isNaN(raw) ? 0 : raw;
             // Per-item override: data-pa-nav-collapse="hide" means "don't relocate
             // me to the menu/sidebar — just hide me when I don't fit". Handled at
-            // the engine level so it works in either mode; still ordered/pinned
-            // like any other item (priority decides WHEN it drops).
+            // the engine level so it works in either mode; still ordered like any
+            // other item (priority decides WHEN it drops).
             var hide = el.getAttribute('data-pa-nav-collapse') === 'hide';
-            return { el: el, priority: priority, domIndex: idx, pinned: pinned, hide: hide };
+            return { el: el, priority: priority, domIndex: idx, hide: hide };
         });
 
         // Lowest priority drops first; ties → rightmost (higher domIndex) first,
-        // so the leftmost/primary links survive longest. Pinned (active) items are
-        // excluded entirely — they are never collapsed, even if that means the row
-        // overflows: hiding the current page's own nav item is worse than a tight
-        // fit. If everything droppable has already folded and it still overflows,
-        // the loop simply runs out and the pinned item stays put.
-        var dropOrder = ordered.filter(function (i) { return !i.pinned; })
+        // so the leftmost/primary links survive longest. The active (current-page)
+        // item is NOT special — it collapses to the menu/sidebar like any other
+        // item when the row runs out of room. To keep a given item on the bar
+        // longest, give it a high data-pa-nav-priority explicitly.
+        var dropOrder = ordered.slice()
             .sort(function (a, b) {
                 if (a.priority !== b.priority) return a.priority - b.priority;
                 return b.domIndex - a.domIndex;

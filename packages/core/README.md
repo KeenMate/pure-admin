@@ -2,6 +2,14 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+## What's New in 2.9.0-rc10
+
+- **Table-in-a-card consolidated to one blessed shape.** Wrapping a table in a card had drifted into four overlapping patterns; there are now two: `.pa-table-container` (bare — a card-less, framed, horizontally-scrollable wrapper with no header) and `.pa-table-card` (the full card — header/body/footer/actions, colour variants, `--plain`, and `__body--scrollable` for wide tables). Use `.pa-table-card` for any table that needs a header or card chrome.
+- **Fix: wide tables no longer get clipped inside a card.** A table dropped straight into a `.pa-card` body (e.g. the Forms "Input Sizes Reference") was silently cut off on narrow screens, because the card clips its rounded corners with `overflow: hidden`. `.pa-table-card__body--scrollable` gives the table its own horizontal scroll while the card keeps clipping — no more cut-off columns.
+- **Fix: `.pa-table-card` header corner wedge.** The header set its own top radius, curving slightly wider than the card's inner corner and leaving a thin sliver of card background at each top corner (most visible on coloured `--primary`/`--success`/… headers). It now relies on the card's clip, matching `.pa-card__header`.
+- **Responsive navbar collapse no longer pins the current page.** The active nav item used to be hard-pinned to the bar so it never collapsed; it now folds into the "More" menu / sidebar like any other item when space runs out. Give an item an explicit high `data-pa-nav-priority` if you want it to survive longest.
+- **Heads-up — deprecations:** `.pa-table-container--panel` (+ its `__header`/`__title`/`__actions`) and hosting a `.pa-table` directly in a generic `.pa-card` body are deprecated in favour of `.pa-table-card`. Both still render (legacy tolerance), but are no longer documented and will be removed in a future major.
+
 ## What's New in 2.9.0-rc09
 
 - **Responsive navbar collapse (`data-pa-nav-collapse`).** Opt in on `.pa-header__nav` and the top nav progressively folds its lowest-priority items out as the header narrows (restoring them as it widens), instead of just hiding on mobile. Fold into a generated "More" dropdown (`menu`) or into real `.pa-sidebar__*` items under a section heading (`sidebar`) — each dropdown parent becomes a proper collapsible sidebar group. Priority via `data-pa-nav-priority`, per-item icons via `data-pa-nav-icon`, and `data-pa-nav-collapse="hide"` to just drop low-value items; the current-page item is hard-pinned so it never collapses.
@@ -9,13 +17,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **`.pa-header__nav-item--active` — active state for top-nav items.** The current section's nav item now gets a held pill (brightened, semibold), derived from the link's own text colour so it stays visible on dark/accent header bars.
 - **`.pa-sidebar__section` and `.pa-sidebar__divider`.** A flat uppercase group heading for static (non-collapsible) sidebar groups, and a thin horizontal rule for separating blocks of items.
 - **Fix: sidebar chevron rotation leaked into nested groups.** Opening a parent group rotated the chevrons of its collapsed sub-groups too, so a closed sub-group wrongly showed an open chevron. Each chevron now reflects only its own group's state.
-
-## What's New in 2.9.0-rc08
-
-- **Foundation extracted to `@keenmate/pure-css`.** The variable system, `--base-*` / `--pa-*` theming, the utility classes, and the `.pa-row` / `.pa-col` grid now come from a standalone package that core consumes — so docs sites and other projects can share the same foundation without core's components. Your import paths and compiled output are unchanged, and themes need no edits.
-- **New `.gap-*` utilities.** `.gap-*` / `.gap-x-*` / `.gap-y-*` for flex/grid gaps, on the same spacing scale as the margin/padding helpers.
-- **Fix: `.border` / `.rounded` utilities actually work now.** They previously referenced variables the framework never emitted, so `.border` drew a text-colored edge and `.rounded` did nothing. They now use the theme's `--pa-border-*` tokens and render correctly. **Heads-up:** pages that leaned on these being no-ops will now show a real border / radius.
-- **`--pa-border-color` follows runtime `--base-*` overrides.** It's now `var(--base-border-color, …)`, so a dark-mode or theme class that flips `--base-border-color` at runtime updates borders too.
 
 ## Installation
 

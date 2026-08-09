@@ -5,6 +5,23 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc10] - 2026-08-09 [PUBLISHED]
+
+### Fixed
+
+- **`.pa-table-card` header showed a white wedge at each top corner.** `.pa-table-card__header` set its own `border-top-{left,right}-radius`, so it curved at the full radius while the card's *inner* corner is ~1px smaller (outer radius minus the 1px border) — leaving a sliver of card background at each top corner (most visible on the coloured `--primary`/`--success`/… header variants). Removed the header's own radius and let the card's `overflow: hidden` clip the corners, mirroring the same fix already on `.pa-card__header`. (Surfaced by the table-wrapper consolidation below, which moved tables like the Forms "Input Sizes Reference" from `.pa-card` onto `.pa-table-card`.)
+
+### Changed
+
+- **Tighter header brand spacing on mobile.** The burger→brand gap (`$header-brand-padding-left`, 2.1rem) is now dropped to `0` below the mobile breakpoint, so the wordmark doesn't waste scarce width next to the hamburger (and leaves room for the collapsing nav on the same row); the burger's own margin still separates the two. Desktop spacing is unchanged.
+- **Responsive navbar collapse no longer pins the active item.** The current-page (`.pa-header__nav-item--active`) item used to be hard-pinned to the bar (effective priority 1000) so it never collapsed. It's now treated like any other item — when the row runs out of room it folds into the "More" menu / sidebar by normal priority order (and, in sidebar mode, its branch is still injected pre-opened/active). To keep a specific item on the bar longest, give it an explicit high `data-pa-nav-priority`. (`navbar-collapse.js`.)
+- **Table-in-container wrappers consolidated to two blessed shapes.** Putting a table in a "box" had grown four overlapping shapes; there are now two documented ones: `.pa-table-container` (bare — a card-less, framed, horizontally-scrollable wrapper with **no** header) and `.pa-table-card` (the full card — header/body/footer/actions slots, colour variants, `--plain`, and `__body--scrollable` for wide tables). `.pa-table-card` is the single blessed shape for any table that needs a header/actions/footer or card chrome. The snippet (`snippets/tables.html`) now shows only these two, and the main table demo pages (tables, tables-responsive, tables-sizing, dashboard, cards) plus the Forms "Input Sizes Reference" table were migrated. As a direct consequence, the Forms sizes table (and any wide table) no longer gets silently clipped inside a plain `.pa-card` body — `.pa-table-card__body--scrollable` provides horizontal scroll while the card keeps its rounded-corner clipping.
+
+### Deprecated
+
+- **`.pa-table-container--panel`** (and its `__header` / `__title` / `__actions` sub-elements) — a near-duplicate of `.pa-table-card`. Use `.pa-table-card` instead. The CSS still renders (legacy tolerance) but is no longer documented and is slated for removal in a future major.
+- **Hosting a `.pa-table` directly in a generic `.pa-card` body** ("Approach A", typically with `.pa-card__body--no-padding`) is no longer a documented shape; use `.pa-table-card`. Still renders, but a generic card gives no table-aware body (no column-edge alignment, no last-row border trim, no `--scrollable`), and its `overflow: hidden` clips wide tables. (`.pa-card__body--no-padding` itself is unchanged — it stays valid for non-table content.)
+
 ## [2.9.0-rc09] - 2026-08-07 [PUBLISHED]
 
 ### Added

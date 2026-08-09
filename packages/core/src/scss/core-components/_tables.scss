@@ -14,6 +14,12 @@
   border: $border-width-base solid var(--pa-border-color);
   background-color: var(--pa-table-bg);
 
+  // DEPRECATED (2.9.0-rc10): .pa-table-container--panel and its
+  // __header/__title/__actions sub-elements duplicate .pa-table-card. Use
+  // .pa-table-card for any table that needs a header/actions/footer or
+  // card chrome; keep bare .pa-table-container (above) for a card-less,
+  // framed + scrollable table with NO header. These rules are kept only as
+  // legacy tolerance and are slated for removal in a future major.
   // Panel modifier - card-like visual containment
   &--panel {
     box-shadow: $shadow-sm;
@@ -26,6 +32,7 @@
     }
   }
 
+  // DEPRECATED (2.9.0-rc10): use .pa-table-card__header — see note above.
   // Header for panel tables
   &__header {
     display: flex;
@@ -39,6 +46,7 @@
     border-top-right-radius: $card-border-radius;
   }
 
+  // DEPRECATED (2.9.0-rc10): use .pa-table-card (bare <h3> in the header) — see note above.
   &__title {
     font-size: $font-size-base;
     font-weight: $font-weight-semibold;
@@ -46,6 +54,7 @@
     color: var(--pa-text-color-1);
   }
 
+  // DEPRECATED (2.9.0-rc10): use .pa-table-card__actions — see note above.
   &__actions {
     display: flex;
     align-items: center;
@@ -97,8 +106,13 @@
   &__header {
     padding: $card-header-padding-v $card-header-padding-h;
     min-height: $card-header-min-height;
-    border-top-left-radius: $card-border-radius;
-    border-top-right-radius: $card-border-radius;
+    // No own border-top-radius — the card's `overflow: hidden` + outer
+    // border-radius clips the header's square top corners to match. Setting a
+    // radius here makes the header curve at the full radius while the card's
+    // INNER corner is ~1px smaller (outer radius minus the 1px border),
+    // leaving a thin wedge of card background visible at each top corner —
+    // most obvious on the coloured `--primary`/`--success`/… header variants.
+    // (Mirrors the same fix on `.pa-card__header`; see _cards.scss.)
     border-bottom: $border-width-base solid var(--pa-border-color);
     background: var(--pa-card-header-bg);
     display: flex;

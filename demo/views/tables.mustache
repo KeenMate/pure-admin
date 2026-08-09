@@ -558,18 +558,19 @@
                 </div>
             </div>
 
-<!-- Panel Tables -->
+<!-- Table Cards -->
 <div class="pa-card">
     <div class="pa-card__header">
         <div class="pa-card__title">
-            <h3 class="pa-card__title-text">Panel Tables</h3>
+            <h3 class="pa-card__title-text">Table Cards</h3>
         </div>
     </div>
     <div class="pa-card__body">
-        <p class="mb-4">Tables with card-like visual containment using the <code>--panel</code> modifier. Use when tables need to stand alongside cards without being wrapped in one.</p>
+        <p class="mb-4">Tables with card-like visual containment using <code>pa-table-card</code>. Use when a table needs its own header/actions/footer or card chrome. (The old <code>pa-table-container--panel</code> is deprecated — use <code>pa-table-card</code> instead.)</p>
 
-        <h4>Basic Panel Table (no header)</h4>
-        <div class="pa-table-container pa-table-container--panel">
+        <h4>Table Card (no header)</h4>
+        <div class="pa-table-card">
+            <div class="pa-table-card__body">
             <table class="pa-table">
                 <thead>
                     <tr>
@@ -600,17 +601,19 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
 
-        <h4>Panel Table with Header</h4>
-        <div class="pa-table-container pa-table-container--panel">
-            <div class="pa-table-container__header">
-                <h3 class="pa-table-container__title">Recent Orders</h3>
-                <div class="pa-table-container__actions">
+        <h4>Table Card with Header</h4>
+        <div class="pa-table-card">
+            <div class="pa-table-card__header">
+                <h3>Recent Orders</h3>
+                <div class="pa-table-card__actions">
                     <button class="pa-btn pa-btn--sm pa-btn--secondary">Export</button>
                     <button class="pa-btn pa-btn--sm pa-btn--primary">Add Order</button>
                 </div>
             </div>
+            <div class="pa-table-card__body">
             <table class="pa-table pa-table--striped">
                 <thead>
                     <tr>
@@ -652,19 +655,21 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
 
-        <h4>Panel Tables in Grid (75/25 split)</h4>
-        <p class="mb-4">Panel tables work inside <code>pa-row</code>/<code>pa-col</code> grid just like cards.</p>
+        <h4>Table Cards in Grid (75/25 split)</h4>
+        <p class="mb-4">Table cards work inside <code>pa-row</code>/<code>pa-col</code> grid just like cards.</p>
     </div>
 </div>
 
 <div class="pa-row">
     <div class="pa-col-md-75">
-        <div class="pa-table-container pa-table-container--panel">
-            <div class="pa-table-container__header">
-                <h3 class="pa-table-container__title">Activity Log (75%)</h3>
+        <div class="pa-table-card">
+            <div class="pa-table-card__header">
+                <h3>Activity Log (75%)</h3>
             </div>
+            <div class="pa-table-card__body">
             <table class="pa-table pa-table--sm">
                 <thead>
                     <tr>
@@ -691,13 +696,15 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
     <div class="pa-col-md-25">
-        <div class="pa-table-container pa-table-container--panel">
-            <div class="pa-table-container__header">
-                <h3 class="pa-table-container__title">Stats (25%)</h3>
+        <div class="pa-table-card">
+            <div class="pa-table-card__header">
+                <h3>Stats (25%)</h3>
             </div>
+            <div class="pa-table-card__body">
             <table class="pa-table pa-table--sm">
                 <thead>
                     <tr>
@@ -720,6 +727,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>
@@ -1374,10 +1382,11 @@ customElements.whenDefined('web-grid').then(() => {
 
 <div class="pa-row">
     <div class="pa-col">
-        <div class="pa-table-container pa-table-container--panel">
-            <div class="pa-table-container__header">
-                <h3 class="pa-table-container__title">Order Items</h3>
+        <div class="pa-table-card">
+            <div class="pa-table-card__header">
+                <h3>Order Items</h3>
             </div>
+            <div class="pa-table-card__body pa-table-card__body--scrollable">
             <table class="pa-table">
                 <thead>
                     <tr>
@@ -1430,6 +1439,7 @@ customElements.whenDefined('web-grid').then(() => {
                     </tr>
                 </tfoot>
             </table>
+            </div>
         </div>
     </div>
 </div>
@@ -1444,11 +1454,12 @@ customElements.whenDefined('web-grid').then(() => {
     <div class="pa-card__body">
         <h4>Tables</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-table-container</code> - Scrollable table wrapper with border</li>
-            <li><code>pa-table-container--panel</code> - Card-like containment with shadow and margin</li>
-            <li><code>pa-table-container__header</code> - Header row for panel tables</li>
-            <li><code>pa-table-container__title</code> - Title text in header</li>
-            <li><code>pa-table-container__actions</code> - Actions container in header</li>
+            <li><code>pa-table-container</code> - Card-less framed + scrollable wrapper (no header)</li>
+            <li><code>pa-table-card</code> - Table card with header/actions/footer + card chrome</li>
+            <li><code>pa-table-card__header</code> - Header row (bare &lt;h3&gt; title inside)</li>
+            <li><code>pa-table-card__actions</code> - Actions container in header</li>
+            <li><code>pa-table-card__body--scrollable</code> - Horizontal scroll for wide tables</li>
+            <li><code>pa-table-card__footer</code> - Optional footer row</li>
             <li><code>pa-table</code> - Base table class</li>
             <li><code>pa-table--striped</code> - Zebra striping on rows</li>
             <li><code>pa-table--xs</code> - Extra small padding</li>
