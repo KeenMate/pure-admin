@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pure Admin — Starter</title>
+
+  <!--
+    Pure Admin Core stylesheet.
+
+    This relative path points at the built bundle inside this same package, so
+    this file runs straight from the unzipped tarball — no install, no network.
+
+    In a real project you'd link it one of these ways instead:
+      • bundler:  import '@keenmate/pure-admin-core/css';
+      • static:   <link rel="stylesheet" href="/node_modules/@keenmate/pure-admin-core/dist/css/main.css">
+      • CDN:      <link rel="stylesheet" href="https://unpkg.com/@keenmate/pure-admin-core/dist/css/main.css">
+      • theme:    swap main.css for a theme CSS, e.g. static/themes/corporate/corporate.css
+  -->
+  <link rel="stylesheet" href="../dist/css/main.css">
+</head>
+<body class="pa-layout--sticky">
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="pa-navbar">
+    <div class="pa-navbar__inner">
+      <div class="pa-header__start">
+        <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="pa-header__brand"><h1>Pure Admin</h1></div>
+      </div>
+
+      <div class="pa-header__center">
+        <div class="pa-header__title"><h2>Dashboard</h2></div>
+      </div>
+
+      <div class="pa-header__end">
+        <button class="pa-header__profile-btn" aria-label="User profile">
+          <span class="pa-btn__icon">👤</span>
+          <span class="pa-header__profile-name">Jane Doe</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ LAYOUT ============ -->
+  <div class="pa-layout">
+    <div class="pa-layout__inner">
+
+      <!-- Sidebar -->
+      <aside class="pa-layout__sidebar">
+        <nav class="pa-sidebar__nav">
+          <ul>
+            <li class="pa-sidebar__item">
+              <a href="#" class="pa-sidebar__link pa-sidebar__link--active">
+                <span class="pa-sidebar__icon">📊</span>
+                <span class="pa-sidebar__label">Dashboard</span>
+              </a>
+            </li>
+            <li class="pa-sidebar__item">
+              <a href="#" class="pa-sidebar__link">
+                <span class="pa-sidebar__icon">📦</span>
+                <span class="pa-sidebar__label">Orders</span>
+              </a>
+            </li>
+
+            <!-- Collapsible group -->
+            <li class="pa-sidebar__item">
+              <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
+                <span class="pa-sidebar__icon">📋</span>
+                <span class="pa-sidebar__label">Reports</span>
+                <span class="pa-sidebar__chevron">›</span>
+              </button>
+              <ul class="pa-sidebar__submenu">
+                <li class="pa-sidebar__item">
+                  <a href="#" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">•</span>
+                    <span class="pa-sidebar__label">Daily</span>
+                  </a>
+                </li>
+                <li class="pa-sidebar__item">
+                  <a href="#" class="pa-sidebar__link">
+                    <span class="pa-sidebar__icon">•</span>
+                    <span class="pa-sidebar__label">Weekly</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="pa-sidebar__section">Settings</li>
+            <li class="pa-sidebar__item">
+              <a href="#" class="pa-sidebar__link">
+                <span class="pa-sidebar__icon">⚙️</span>
+                <span class="pa-sidebar__label">Preferences</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <div class="pa-layout__content">
+        <main class="pa-layout__main">
+
+          <!-- Welcome alert -->
+          <div class="pa-alert pa-alert--info mb-lg">
+            👋 This is the Pure Admin starter page. Edit <code>starter/index.html</code>
+            and reload. Copy component markup from the <code>snippets/</code> folder.
+          </div>
+
+          <!-- Stat row -->
+          <div class="pa-row mb-lg">
+            <div class="pa-col-1-4">
+              <div class="pa-card pa-card--stat">
+                <div class="pa-card__body">
+                  <div class="pa-stat">
+                    <div class="pa-stat__icon pa-stat__icon--primary">💰</div>
+                    <div class="pa-stat__content">
+                      <div class="pa-stat__number">$42,300</div>
+                      <div class="pa-stat__label">Revenue</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pa-col-1-4">
+              <div class="pa-card pa-card--stat">
+                <div class="pa-card__body">
+                  <div class="pa-stat">
+                    <div class="pa-stat__icon pa-stat__icon--success">📦</div>
+                    <div class="pa-stat__content">
+                      <div class="pa-stat__number">1,284</div>
+                      <div class="pa-stat__label">Orders</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pa-col-1-4">
+              <div class="pa-card pa-card--stat">
+                <div class="pa-card__body">
+                  <div class="pa-stat">
+                    <div class="pa-stat__icon pa-stat__icon--warning">⏳</div>
+                    <div class="pa-stat__content">
+                      <div class="pa-stat__number">37</div>
+                      <div class="pa-stat__label">Pending</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pa-col-1-4">
+              <div class="pa-card pa-card--stat">
+                <div class="pa-card__body">
+                  <div class="pa-stat">
+                    <div class="pa-stat__icon pa-stat__icon--info">👥</div>
+                    <div class="pa-stat__content">
+                      <div class="pa-stat__number">892</div>
+                      <div class="pa-stat__label">Customers</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table card -->
+          <div class="pa-table-card mb-lg">
+            <div class="pa-table-card__header">
+              <h3>Recent Orders</h3>
+              <div class="pa-table-card__actions">
+                <button class="pa-btn pa-btn--sm pa-btn--outline-primary">Export</button>
+                <button class="pa-btn pa-btn--sm pa-btn--primary">New Order</button>
+              </div>
+            </div>
+            <div class="pa-table-card__body">
+              <table class="pa-table pa-table--striped pa-table--hover">
+                <thead>
+                  <tr>
+                    <th>Order</th><th>Customer</th><th>Status</th><th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#1042</td><td>Acme Corp</td>
+                    <td><span class="pa-badge pa-badge--success">Paid</span></td>
+                    <td>$1,250.00</td>
+                  </tr>
+                  <tr>
+                    <td>#1041</td><td>Globex</td>
+                    <td><span class="pa-badge pa-badge--warning">Pending</span></td>
+                    <td>$430.00</td>
+                  </tr>
+                  <tr>
+                    <td>#1040</td><td>Initech</td>
+                    <td><span class="pa-badge pa-badge--danger">Refunded</span></td>
+                    <td>$89.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Plain card -->
+          <div class="pa-card">
+            <div class="pa-card__header"><h3 class="pa-card__title">Getting started</h3></div>
+            <div class="pa-card__body">
+              <p>Next steps:</p>
+              <ul>
+                <li>Read <code>QUICKSTART.md</code> for the 2-minute tour.</li>
+                <li>Browse <code>snippets/</code> — one HTML file per component.</li>
+                <li>See <code>README.md</code> for the full class reference.</li>
+                <li>Add a theme with <code>npx pureadmin themes add corporate</code>.</li>
+              </ul>
+            </div>
+          </div>
+
+        </main>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="pa-layout__footer">
+      <div class="pa-footer__start"><p>&copy; 2026 Pure Admin Starter</p></div>
+      <div class="pa-footer__end"><span>@keenmate/pure-admin-core</span></div>
+    </footer>
+  </div>
+
+  <!-- ============ JS: sidebar toggle + collapsible submenu ============ -->
+  <script>
+    // Mobile: overlay the sidebar (.sidebar-visible). Desktop: collapse it (.sidebar-hidden).
+    function toggleSidebar() {
+      var body = document.body;
+      var burger = document.querySelector('.burger-menu');
+      if (window.innerWidth <= 768) {
+        body.classList.toggle('sidebar-visible');
+      } else {
+        body.classList.toggle('sidebar-hidden');
+      }
+      if (burger) burger.classList.toggle('active');
+    }
+
+    // Collapsible sidebar group — flips --open on the item and its submenu.
+    function toggleSubmenu(button) {
+      var item = button.closest('.pa-sidebar__item');
+      var submenu = item && item.querySelector('.pa-sidebar__submenu');
+      if (!submenu) return;
+      item.classList.toggle('pa-sidebar__item--open');
+      submenu.classList.toggle('pa-sidebar__submenu--open');
+    }
+  </script>
+</body>
+</html>

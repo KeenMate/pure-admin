@@ -2,6 +2,10 @@
 
 Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as default.
 
+> **New here?** Read [`QUICKSTART.md`](QUICKSTART.md) for a 2-minute tour, or open
+> [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
+> admin page that works straight from this package with no install or build.
+
 ## What's New in 2.9.0-rc10
 
 - **Table-in-a-card consolidated to one blessed shape.** Wrapping a table in a card had drifted into four overlapping patterns; there are now two: `.pa-table-container` (bare — a card-less, framed, horizontally-scrollable wrapper with no header) and `.pa-table-card` (the full card — header/body/footer/actions, colour variants, `--plain`, and `__body--scrollable` for wide tables). Use `.pa-table-card` for any table that needs a header or card chrome.

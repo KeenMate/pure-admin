@@ -5,6 +5,12 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc11] - 2026-08-09
+
+### Added
+
+- **Onboarding: `QUICKSTART.md` + a runnable `starter/` page.** The published tarball unpacked to a bare pile of `dist/` / `src/` / `snippets/` with no "start here". Added a short `QUICKSTART.md` (2-minute tour: link the CSS, use the layout shell, drop in components, add a theme, JS + SCSS notes) and a self-contained `starter/index.html` — a complete admin page (navbar + sidebar + stat row + table card + footer) that links this package's own `dist/css/main.css` via a relative path, so it runs straight from the unzipped package with no install, build, or network. Both are shipped via the `files` array and linked from the top of `README.md`.
+
 ## [2.9.0-rc10] - 2026-08-09 [PUBLISHED]
 
 ### Fixed
