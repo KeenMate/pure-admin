@@ -1,5 +1,5 @@
 ---
-description: Prepare @keenmate/pure-admin-core for npm publish — bump version, finalize CHANGELOG/README, build, verify package, commit
+description: Prepare @keenmate/pure-admin-core for npm publish — bump version, finalize CHANGELOG/README, recheck snippets, build, verify package, commit
 argument-hint: rc|release|patch|minor|major
 ---
 
@@ -124,7 +124,28 @@ Also check `git status` for any uncommitted source/test work outside the files y
 
 For every substantive commit or uncommitted change, verify the WIP CHANGELOG section mentions it. If something significant is missing, **stop and ask the user** before finalizing — don't invent entries on their behalf. Pure example/doc tweaks, demo/snippet edits with no user-facing CSS impact, and trivial typo fixes don't need entries.
 
-### 7. Build the package
+### 7. Recheck snippets for touched components
+
+Snippets in `packages/core/snippets/*.html` are the **canonical markup reference** — wrapper libraries (svelte-pure-admin) and hand authors copy their shape, and `snippets/manifest.json` carries a content hash per snippet for downstream change detection. A release that changes a component's markup contract but leaves the snippet stale ships a lie: the docs show markup the CSS no longer blesses.
+
+From the commit list gathered in Step 6 and the WIP CHANGELOG's `### Added` / `### Changed` / `### Deprecated` entries, list every component whose **markup or class contract** changed this cycle — a new element or class, a renamed class, a blessed shape replaced, or a shape deprecated/removed. (Pure colour/spacing/token changes with no markup impact don't qualify — skip them.)
+
+For each touched component, open the matching `snippets/<component>.html` and confirm it reflects the **current canonical shape**:
+- new or renamed classes/elements are present and shown as the blessed shape;
+- deprecated or removed shapes are gone from the example, or explicitly labelled DEPRECATED — never presented as a still-valid second option (see the "one canonical markup structure per component — rigidity over flexibility" rule in `CLAUDE.md`);
+- the same slot is never shown two ways.
+
+If a snippet is stale, fix it before continuing. If the correct canonical shape is genuinely ambiguous, stop and ask rather than guessing. Also glance at the demo (`demo/views/`) usage of the same component — a snippet and demo that disagree is the tell that one wasn't migrated.
+
+After any snippet edit — or if the manifest is otherwise out of date — regenerate the hashes:
+
+```
+npm run generate-hashes -w @keenmate/pure-admin-core
+```
+
+Confirm `packages/core/snippets/manifest.json` changed, and stage both `snippets/` and the manifest in Step 10.
+
+### 8. Build the package
 
 Run `make build` (equivalent to `npm run build -w @keenmate/pure-admin-core`). This runs sass to compile `packages/core/src/scss/main.scss` → `packages/core/dist/css/main.css`.
 
@@ -134,7 +155,7 @@ After build, smoke check the emitted artifact:
 - `packages/core/dist/css/main.css` exists and is non-empty.
 - If the release touches CSS variable emission (sentiment scale, `color-scheme`, alert variables, etc.), spot-check the relevant rule is actually in the output. E.g. for the 2.9.0 cycle: `grep -c "color-scheme:" packages/core/dist/css/main.css` should return at least 1.
 
-### 8. Verify the package contents
+### 9. Verify the package contents
 
 Run `make publish-dry-rc` for rc releases, or `make publish-dry` for stable releases. (Both re-run clean + build then show the tarball file list without publishing. The `-rc` variant adds `--tag rc`; npm refuses to dry-run a `X.Y.Z-rcN` version without a tag, so always pick the matching variant.)
 
@@ -150,12 +171,13 @@ Confirm the file list includes:
 
 If anything user-facing is missing or anything private leaked in (`demo/`, `test/`, `examples-*.html`, `ai/`, `TASK-*.md`, `.claude/`, root `Makefile`, the workspace's `node_modules/`), stop and report — the `files` field in `packages/core/package.json` controls this and the leak needs fixing before publish.
 
-### 9. Commit
+### 10. Commit
 
 Stage:
 - `packages/core/CHANGELOG.md`
 - `packages/core/README.md`
 - `packages/core/package.json`
+- `packages/core/snippets/` (if any snippet or `manifest.json` changed in step 7)
 - root `package-lock.json` (if it changed in step 2)
 
 Do **not** stage `packages/core/dist/` — it's gitignored.
@@ -174,7 +196,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 
 The `vX.Y.Z — …` subject style (em-dash, not hyphen) and the `Co-Authored-By: Claude Opus 4.7 (1M context)` trailer both match recent release commits in this repo.
 
-### 10. Report
+### 11. Report
 
 Report back with:
 
@@ -210,6 +232,7 @@ Report back with:
 - **Do not skip `make build`** — without it `dist/` is stale and the publish would ship outdated artifacts (or fail entirely if `dist/` was wiped by `make clean`).
 - **Do not skip `make publish-dry` / `make publish-dry-rc`** — it's the closest thing to a pre-flight check this repo has (no e2e tests; the CSS framework is verified by demo smoke + dry-run pack inspection). Pick the variant matching your release type — npm refuses to dry-run prerelease versions without `--tag`.
 - **Do not invent CHANGELOG entries** to cover commits you find; ask the user if something's missing.
+- **Do not finalize a release with stale snippets.** If a component's markup or class contract changed this cycle (step 7), its `snippets/<component>.html` must show the new canonical shape and `snippets/manifest.json` must be regenerated — the snippets are the reference downstream wrappers copy, so a stale one silently ships wrong markup guidance. Don't invent a canonical shape to "fix" a snippet either; if it's ambiguous, ask.
 - **Do not bump if there's nothing meaningful in the WIP section** — stop and explain.
 - **Do not touch `packages/core/package.json`'s `files` field** as part of `/publish` — that's a deliberate change requiring its own review.
 - **Do not stage** root `package.json`, `demo/package.json`, `demo/svelte-apps/**`, root `Makefile`, `node_modules/`, `themes/`, or anything outside `packages/core/` (except root `package-lock.json` when it legitimately changes from the bump).
