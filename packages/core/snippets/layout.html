@@ -443,8 +443,12 @@ Notes on the navbar:
      :where() gives the rule zero specificity, so any utility class
      (.wr-*, .minwr-*, .maxwr-*) on the same element wins.
 
-     To make the sidebar drag-resizable, include a .pa-sidebar-resize
-     handle inside it and wire up JS that:
+     A ready-made driver ships in this package at src/js/sidebar-resize.js
+     (window.PureAdminSidebarResize). Add .pa-layout__sidebar--resizable to the
+     sidebar and it creates the .pa-sidebar-resize handle, wires drag + touch,
+     reads its bounds from --pa-local-sidebar-min/max-width, persists to
+     localStorage, and resets on double-click. To roll your own instead, wire JS
+     that:
        1. On mousedown / touchstart: add body.pa-sidebar-resizing (locks
                         selection) + .pa-sidebar-resize--active (visual feedback)
        2. On mousemove / touchmove: update --pa-local-sidebar-width on :root

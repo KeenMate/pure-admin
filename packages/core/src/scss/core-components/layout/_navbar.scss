@@ -4,6 +4,11 @@
    ======================================== */
 @use '../../variables' as *;
 
+// Width the centre slot reserves when it hosts a command-palette search pill
+// (see .pa-header__center below). A floor, not a fixed width — the slot still
+// grows via flex:1; this just stops it collapsing to a sliver.
+$header-search-reserve-width: 18rem !default;
+
 // Navbar - Fixed at top, full width by default
 .pa-navbar {
   position: fixed;
@@ -73,6 +78,25 @@ body.pa-container-2xl .pa-navbar {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  // When the centre slot holds a command-palette search pill, reserve real
+  // width for it. The search's min-width lives on a *child* (.pa-navbar-search),
+  // which flexbox ignores — so this slot (min-width:0) would collapse to a
+  // sliver, letting the pill overflow onto the start/end slots. Worse: that
+  // deficit never shrinks the NAV's own slot, so navbar-collapse.js — which
+  // measures nav.clientWidth — never sees it and stops folding while items still
+  // overlap. Reserving a floor here forces the squeeze onto the shrinkable
+  // .pa-header__start (see the :has rule in _navbar-elements.scss) instead, so
+  // the nav narrows and the collapse loop fires honestly.
+  &:has(.pa-navbar-search) {
+    min-width: $header-search-reserve-width;
+
+    // Let the pill shrink within the reserved slot (its placeholder already
+    // ellipsises) rather than overflowing at its natural content width.
+    .pa-navbar-search {
+      min-width: 0;
+    }
+  }
 }
 
 .pa-header__end {

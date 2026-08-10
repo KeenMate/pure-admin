@@ -98,9 +98,15 @@
 }
 
 @media (max-width: $tablet-breakpoint) and (min-width: $tablet-breakpoint-min) {
-  // Tablet: Reduce sidebar width
+  // Tablet: reduce the sidebar, but honour a user-resized / theme-set width.
+  // Driving this off the same --pa-local-sidebar-width the resize JS writes
+  // (capped at the tablet width via min()) means a resize/theme NARROWER than
+  // the cap is respected in this band; only widths above the cap are clamped so
+  // content still gets room. The old `width: $sidebar-width-tablet` literal
+  // (specificity 0,1,0) overrode the var-based base rule outright and snapped
+  // every sidebar to 16rem here, silently discarding any resize/theme width.
   .pa-layout__sidebar {
-    width: $sidebar-width-tablet;
+    width: min(var(--pa-local-sidebar-width), #{$sidebar-width-tablet});
 
     &__nav ul li a {
       padding: $spacing-sm $spacing-md;
