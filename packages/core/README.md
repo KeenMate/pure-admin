@@ -352,6 +352,7 @@ Card container specifically designed for tables and web-grids:
 - `.pa-table-card__body` - Body for table/grid content (no padding)
 - `.pa-table-card__footer` - Footer with summary/actions
 - `.pa-table-card__title` - Title element
+- `.pa-table-card__description` - Optional subtitle (flexes into the header row, truncates); same contract as `.pa-card__description`
 - `.pa-table-card__actions` - Actions container for buttons
 - **Semantic variants:** `.pa-table-card--primary/success/danger/warning`
 - **Theme color variants:** `.pa-table-card--color-1` through `.pa-table-card--color-9`

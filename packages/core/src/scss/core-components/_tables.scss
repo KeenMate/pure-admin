@@ -142,7 +142,9 @@
     align-items: center;
     gap: $spacing-sm;
     min-width: 0;
-    flex: 1;
+    // Natural width, shrinkable, no grow — so a sibling `__description` gets the
+    // free space instead of the title hogging the row. Mirrors `.pa-card__title`.
+    flex: 0 1 auto;
 
     &-text {
       overflow: hidden;
@@ -154,6 +156,27 @@
       font-weight: $font-weight-semibold;
       line-height: 1;
     }
+  }
+
+  // Description - flexible middle of the header row, truncates with ellipsis.
+  // Canonical subtitle element for a table card; mirrors `.pa-card__description`
+  // (see _cards.scss) so `.pa-table-card` is a true superset of a plain card
+  // hosting a table — the shape the bare-table-in-card pattern was deprecated
+  // toward in rc10.
+  &__description {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+    color: var(--pa-text-color-2);
+    font-size: $font-size-sm;
+    // Nudge the smaller description onto the title's baseline; `position:
+    // relative` shifts only the paint, so truncation/flex sizing are unaffected.
+    // Themes retune via the shared CSS variable.
+    position: relative;
+    top: var(--pa-card-description-offset-y, #{$card-description-offset-y});
   }
 
   &__actions {

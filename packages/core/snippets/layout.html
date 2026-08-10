@@ -445,11 +445,18 @@ Notes on the navbar:
 
      To make the sidebar drag-resizable, include a .pa-sidebar-resize
      handle inside it and wire up JS that:
-       1. On mousedown: add body.pa-sidebar-resizing (locks selection)
-                        + .pa-sidebar-resize--active (visual feedback)
-       2. On mousemove: update --pa-local-sidebar-width on :root or html
-       3. On mouseup:   remove both classes; optionally persist width to
-                        localStorage.
+       1. On mousedown / touchstart: add body.pa-sidebar-resizing (locks
+                        selection) + .pa-sidebar-resize--active (visual feedback)
+       2. On mousemove / touchmove: update --pa-local-sidebar-width on :root
+                        or html
+       3. On mouseup / touchend:   remove both classes; optionally persist
+                        width to localStorage.
+
+     The handle is a thin (6px), hover-revealed strip on fine pointers. On
+     COARSE pointers (touch) it automatically widens its hit area and shows a
+     persistent grip pill on the edge — no hover to rely on — so it's grabbable
+     with a finger. This is pure CSS (@media (pointer: coarse)); no markup or
+     class change is needed, the same .pa-sidebar-resize element adapts.
 
      There is NO pa-layout__sidebar--resizable or --sticky modifier.
      Earlier docs claimed these; they never existed in SCSS.

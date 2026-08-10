@@ -194,7 +194,12 @@
 // Sidebar expanded state (when not hidden) - ensure icon-collapse mode shows full width
 body:not(.sidebar-hidden) {
   .pa-layout__sidebar--icon-collapse {
-    width: $sidebar-width;
+    // Read the runtime width var (defaults to $sidebar-width) rather than
+    // hard-coding it — otherwise this rule's specificity (0,3,0) beats the
+    // zero-specificity `:where(.pa-layout__sidebar){width:var(...)}` base rule
+    // and an expanded icon-collapse sidebar can't be drag-resized (the resize
+    // JS updates --pa-local-sidebar-width, which this would ignore).
+    width: var(--pa-local-sidebar-width);
 
     // Show labels when expanded
     .pa-sidebar__label {

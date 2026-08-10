@@ -5,11 +5,17 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0-rc11] - 2026-08-09
+## [2.9.0-rc11] - 2026-08-10
 
 ### Added
 
+- **Touch-grabbable sidebar resize handle.** The `.pa-sidebar-resize` handle was a 6px strip whose grip only appeared on `:hover` — invisible and far below the ~44px touch target on a finger. On coarse pointers (`@media (pointer: coarse)`) it now widens its hit area to 24px and shows a persistent, high-contrast grip knob painted over the sidebar's edge line (vertical dots + shadow, so it reads as `──[handle]──`; both knob and line turn accent while dragging), so a resizable sidebar is actually grabbable by touch. The knob is centred exactly on the edge line (via a `translateX(50%)` straddle) and takes the theme's surface radius (`--pa-border-radius-lg`), so it matches each theme's chrome. It's `position: sticky` at mid-viewport, so on a long page it rides along on screen instead of sitting at 50% of the (page-tall) sidebar; in sticky-layout mode it falls back to absolute-centred where the sidebar is already viewport-height. Pure CSS — the same `.pa-sidebar-resize` element adapts, no markup or class change needed.
+- **`.pa-table-card__description` — optional subtitle for table cards.** A canonical subtitle element mirroring `.pa-card__description`: it sits between the title and `__actions`, flexes into the free space of the header row, truncates with ellipsis, and shares the `--pa-card-description-offset-y` baseline nudge. `.pa-table-card__title` now uses `flex: 0 1 auto` (like `.pa-card__title`) so the description gets the free space. This closes a gap in the rc10 consolidation: `.pa-table-card` couldn't express a subtitle, so it wasn't a strict superset of the (now-deprecated) bare-`.pa-table`-in-a-`.pa-card` shape, which could carry one via `.pa-card__description`. `.pa-table-card` is now a true superset, making that deprecation honest and letting wrappers migrate 1:1.
 - **Onboarding: `QUICKSTART.md` + a runnable `starter/` page.** The published tarball unpacked to a bare pile of `dist/` / `src/` / `snippets/` with no "start here". Added a short `QUICKSTART.md` (2-minute tour: link the CSS, use the layout shell, drop in components, add a theme, JS + SCSS notes) and a self-contained `starter/index.html` — a complete admin page (navbar + sidebar + stat row + table card + footer) that links this package's own `dist/css/main.css` via a relative path, so it runs straight from the unzipped package with no install, build, or network. Both are shipped via the `files` array and linked from the top of `README.md`.
+
+### Fixed
+
+- **Icon-collapse sidebar couldn't be drag-resized.** When a sidebar was both `--icon-collapse` and resizable, the expanded-state rule `body:not(.sidebar-hidden) .pa-layout__sidebar--icon-collapse` hard-coded `width: $sidebar-width`. Its `(0,3,0)` specificity beat the zero-specificity `:where(.pa-layout__sidebar){ width: var(--pa-local-sidebar-width) }` base rule, so the resize JS updated the variable but the width never moved (the handle highlighted on hover but dragging did nothing). It now reads `var(--pa-local-sidebar-width)` too — identical default width, but resizing works. Themes must be rebuilt to pick this up.
 
 ## [2.9.0-rc10] - 2026-08-09 [PUBLISHED]
 

@@ -52,6 +52,93 @@
   }
 }
 
+// Touch devices: the 6px, hover-only handle above is unusable with a finger —
+// there's no hover to reveal the indicator and the target is far below the ~44px
+// touch minimum. On coarse pointers, widen the hit area and show a persistent
+// grip pill on the sidebar edge so the resize affordance is always visible and
+// grabbable. The handle element only exists when the sidebar is resizable, so
+// this is scoped to resizable sidebars by construction.
+@media (pointer: coarse) {
+  .pa-sidebar-resize {
+    width: 24px; // finger-sized hit area (extends inward from the edge)
+    // Lay the knob out on the inline-end edge; the knob itself sticks to the
+    // viewport centre (see ::before). The line stays absolute (out of flow).
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+
+    // Full-height edge line — the "----" of ----[handle]----. Persistent (no
+    // hover needed on touch); turns accent while dragging.
+    &::after {
+      inset-inline-start: auto;
+      inset-inline-end: 0;
+      transform: none;
+      width: 2px;
+      background-color: var(--pa-border-color);
+    }
+
+    // Grip knob centred ON the edge line (straddles it), so the line reads as
+    // ──[handle]──. High-contrast fill/border/dots + a real shadow so it stands
+    // out on light sidebars where a plain card-bg pill would blend in.
+    //
+    // `position: sticky; top: 50vh` keeps the knob at the middle of the VISIBLE
+    // viewport, not the middle of the sidebar's full length — on a long page the
+    // sidebar stretches to the whole scroll height, so a plain top:50% knob ends
+    // up thousands of px down, off-screen. Sticky rides it along as you scroll.
+    // pointer-events off so the wider handle underneath still captures the drag.
+    &::before {
+      content: '\22ee'; // ⋮ vertical ellipsis
+      position: sticky;
+      top: 50vh;
+      // flex-end pins the knob's edge to the line; translateX(50%) then shifts
+      // it out by exactly half its own width, centring it ON the line (a % of
+      // the knob's width, so it's exact — unlike a negative-margin straddle).
+      // translateY(-50%) centres it on the 50vh sticky line.
+      transform: translate(50%, -50%);
+      z-index: 1; // paint the knob OVER the edge line, not under it
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 48px;
+      // Respect the theme's surface radius (same token as cards) — a rounded
+      // tab on soft themes, near-square on sharp ones like NATO.
+      border-radius: var(--pa-border-radius-lg);
+      background-color: var(--pa-card-bg);
+      border: $border-width-medium solid var(--pa-border-color);
+      color: var(--pa-text-color-2);
+      font-size: $font-size-lg;
+      line-height: 1;
+      box-shadow: $shadow-md;
+      pointer-events: none;
+    }
+
+    // While dragging: accent the knob and the line together.
+    &--active::before {
+      border-color: var(--pa-accent);
+      color: var(--pa-accent);
+    }
+
+    &--active::after {
+      background-color: var(--pa-accent);
+    }
+
+    // Sticky LAYOUT mode: the whole page doesn't scroll (body overflow:hidden);
+    // the sidebar is already ~viewport height and its own scroll container may
+    // not scroll at all (short nav), where position:sticky never engages. A
+    // plainly absolute-centred knob is correct there — 50% of a viewport-height
+    // sidebar IS the viewport centre.
+    body.pa-layout--sticky & {
+      &::before {
+        position: absolute;
+        top: 50%;
+        inset-inline-end: 0;
+        transform: translate(50%, -50%); // same edge-centred straddle
+      }
+    }
+  }
+}
+
 // Disable text selection during resize
 body.pa-sidebar-resizing {
   cursor: ew-resize !important;

@@ -228,6 +228,9 @@
 <div class="pa-table-card">
   <div class="pa-table-card__header">
     <h3>Orders</h3>
+    <!-- Optional subtitle. Sits between title and actions, flexes into the
+         free space and truncates. Same contract as .pa-card__description. -->
+    <p class="pa-table-card__description">Recent customer orders</p>
     <div class="pa-table-card__actions">
       <span class="pa-badge pa-badge--secondary">12 total</span>
       <button class="pa-btn pa-btn--sm pa-btn--primary">Add Order</button>
@@ -414,7 +417,8 @@ pa-table-card — FULL CARD CONTAINER:
 Structure:
   .pa-table-card
     .pa-table-card__header
-      h1..h6            (title text; styled automatically)
+      h1..h6                        (title text; styled automatically)
+      .pa-table-card__description   (optional subtitle; flexes + truncates)
       .pa-table-card__actions
         .pa-btn / .pa-badge / etc.
     .pa-table-card__body                (padding: 0 — table meets card edges)
