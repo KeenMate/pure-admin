@@ -63,9 +63,9 @@
  * the enclosing `.pa-header__start` shrinkable — so the nav narrows below its
  * content (making the width sum exceed clientWidth) without any clipping.
  *
- * Diagnostics: `window.PA_NAV_COLLAPSE_DEBUG = true` before load.
+ * Diagnostics: `pureAdmin.debug.enable('navCollapse')`.
  *
- * Public API (window.PaNavCollapse):
+ * Public API (pureAdmin.components.navCollapse):
  *   init(navEl)     — idempotent single-nav init
  *   initAll(scope)  — init every uninitialised collapse nav under scope
  */
@@ -85,7 +85,7 @@
         var ul = nav.querySelector(':scope > ul');
         if (!ul) return;
 
-        var DEBUG = window.PA_NAV_COLLAPSE_DEBUG === true;
+        var DEBUG = !!(window.pureAdmin && window.pureAdmin.debug && window.pureAdmin.debug.isEnabled('navCollapse'));
         function log() {
             if (!DEBUG) return;
             console.log.apply(console, ['[pa-nav-collapse]'].concat(Array.prototype.slice.call(arguments)));
@@ -196,6 +196,8 @@
             ro.observe(nav);
             var inner = nav.closest('.pa-navbar__inner') || nav.parentNode;
             if (inner) ro.observe(inner);
+        } else if (window.pureAdmin && window.pureAdmin.events) {
+            window.pureAdmin.events.on('viewport:resize', relayout); // shared throttled source
         } else {
             window.addEventListener('resize', relayout);
         }
@@ -469,7 +471,8 @@
         for (var i = 0; i < nodes.length; i++) init(nodes[i]);
     }
 
-    window.PaNavCollapse = { init: init, initAll: initAll };
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    (pa.components = pa.components || {}).navCollapse = { init: init, initAll: initAll };
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { initAll(); });

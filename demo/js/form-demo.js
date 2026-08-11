@@ -387,9 +387,9 @@
             renderTable();
 
             const name = [removed.first_name, removed.last_name].filter(Boolean).join(' ') || 'Entry';
-            if (window.PureAdmin && window.PureAdmin.toast) {
+            if (window.pureAdmin && window.pureAdmin.toast) {
                 let restored = false;
-                window.PureAdmin.toast.show({
+                window.pureAdmin.toast.show({
                     variant: 'info',
                     title: 'Entry removed',
                     message: `${name} was deleted.`,
@@ -403,7 +403,7 @@
                                 restored = true;
                                 entries.splice(Math.min(removedIndex, entries.length), 0, removed);
                                 renderTable();
-                                window.PureAdmin.toast.dismiss(toastId);
+                                window.pureAdmin.toast.dismiss(toastId);
                             }
                         }
                     ]

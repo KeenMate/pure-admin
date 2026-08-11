@@ -423,7 +423,7 @@ stacked over the trigger.
 
 <script>
 // Optional: Access the public API if needed
-// window.PureAdminTooltips provides:
+// window.pureAdmin.tooltips provides:
 // - init(): Initialize all tooltips and popovers
 // - initTooltips(): Initialize tooltips only
 // - initPopovers(): Initialize popovers only
@@ -432,7 +432,7 @@ stacked over the trigger.
 
 // Example: Manually initialize after dynamic content load
 document.addEventListener('content-loaded', function() {
-  window.PureAdminTooltips.init();
+  window.pureAdmin.tooltips.init();
 });
 </script>
 
@@ -550,16 +550,16 @@ bundle wires up via tooltips-popovers.js:
 
 JAVASCRIPT API:
 tooltips-popovers.js exposes:
-  window.PureAdminTooltips.init()           (re-scan DOM)
-  window.PureAdminTooltips.initTooltips()
-  window.PureAdminTooltips.initPopovers()
-  window.PureAdminTooltips.showTooltip(el)
-  window.PureAdminTooltips.hideTooltip()
+  window.pureAdmin.tooltips.init()           (re-scan DOM)
+  window.pureAdmin.tooltips.initTooltips()
+  window.pureAdmin.tooltips.initPopovers()
+  window.pureAdmin.tooltips.showTooltip(el)
+  window.pureAdmin.tooltips.hideTooltip()
 
 Call init() after dynamically-inserted content to register new
 triggers. Demo example:
   document.addEventListener('content-loaded', () => {
-    window.PureAdminTooltips.init();
+    window.pureAdmin.tooltips.init();
   });
 
 

@@ -241,10 +241,10 @@
         <h4 class="mb-2">JS API</h4>
         <pre class="pa-code mb-3"><code>// Auto-inits on .pa-overflow + .pa-card__actions--overflow at DOMContentLoaded.
 // After injecting dynamic markup, re-scan a subtree:
-window.PaOverflow.initAll(document.getElementById('inserted-wrapper'));
+window.pureAdmin.components.overflow.initAll(document.getElementById('inserted-wrapper'));
 
-// Diagnostics (set before page load):
-window.PA_OVERFLOW_DEBUG = true;</code></pre>
+// Diagnostics:
+pureAdmin.debug.enable('overflow');</code></pre>
 
         <h4 class="mb-2">Layout contract</h4>
         <p class="mb-0">The wrapper must have <code>min-width: 0; overflow: hidden; flex-shrink: 1</code> so the row actually shrinks below its content (otherwise the browser keeps the wrapper at intrinsic content width and the overflow signal never fires). The <code>pa-overflow</code> class supplies these via <code>_overflow.scss</code>; the card alias supplies them under <code>.pa-card__header</code> in <code>_cards.scss</code>. If you want the row to live somewhere else with different layout rules, replicate those three properties on whatever wrapper you put around it.</p>

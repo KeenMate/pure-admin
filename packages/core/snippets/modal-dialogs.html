@@ -17,16 +17,16 @@ Perfect for:
 - No HTML boilerplate needed
 
 JAVASCRIPT FILE:
-- src/js/modal-dialogs.js attaches to window.PureAdmin on load.
-- Include it once in your page shell before calling PureAdmin.*:
+- src/js/modal-dialogs.js attaches to window.pureAdmin on load.
+- Include it once in your page shell before calling pureAdmin.*:
 
     <script src="/src/js/modal-dialogs.js"></script>
 
 AVAILABLE METHODS:
-- PureAdmin.confirm(options) → Promise<boolean>          (true on confirm, false on cancel)
-- PureAdmin.alert(options)   → Promise<void>              (resolves when dismissed)
-- PureAdmin.prompt(options)  → Promise<string | null>     (string on submit, null on cancel)
-- PureAdmin.custom(options)  → Promise<any>               (whatever you pass to close())
+- pureAdmin.confirm(options) → Promise<boolean>          (true on confirm, false on cancel)
+- pureAdmin.alert(options)   → Promise<void>              (resolves when dismissed)
+- pureAdmin.prompt(options)  → Promise<string | null>     (string on submit, null on cancel)
+- pureAdmin.custom(options)  → Promise<any>               (whatever you pass to close())
 -->
 
 
@@ -38,7 +38,7 @@ AVAILABLE METHODS:
 <script>
 // Basic confirm
 async function deleteItem() {
-  const confirmed = await PureAdmin.confirm({
+  const confirmed = await pureAdmin.confirm({
     title: 'Delete Item?',
     message: 'This action cannot be undone.',
   });
@@ -54,7 +54,7 @@ async function deleteItem() {
 
 // Confirm with custom buttons and variant
 async function dangerConfirm() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Delete Account?',
     message: 'This will permanently delete your account and all data.',
     confirmText: 'Delete Forever',
@@ -74,7 +74,7 @@ async function dangerConfirm() {
 <script>
 // Basic alert
 async function showSuccess() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Success!',
     message: 'Your changes have been saved.',
     variant: 'success'
@@ -86,7 +86,7 @@ async function showSuccess() {
 
 // Warning alert
 async function showWarning() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Warning',
     message: 'Your session will expire in 5 minutes.',
     okText: 'I Understand',
@@ -101,7 +101,7 @@ async function showWarning() {
 <script>
 // Basic prompt
 async function askForName() {
-  const name = await PureAdmin.prompt({
+  const name = await pureAdmin.prompt({
     title: 'Enter Your Name',
     message: 'Please provide your full name:',
     defaultValue: '',
@@ -117,7 +117,7 @@ async function askForName() {
 
 // Prompt with validation
 async function askForEmail() {
-  const email = await PureAdmin.prompt({
+  const email = await pureAdmin.prompt({
     title: 'Email Address',
     message: 'Enter a valid email address:',
     placeholder: 'user@example.com',
@@ -141,7 +141,7 @@ async function askForEmail() {
 <script>
 // Advanced custom modal with render function
 async function customDialog() {
-  const result = await PureAdmin.custom({
+  const result = await pureAdmin.custom({
     title: 'Select Options',
     size: 'lg',
     variant: 'primary',
@@ -285,7 +285,7 @@ Returns: Promise<any> — whatever value you pass to close().
 // Example: Multi-step wizard with dialogs
 async function multiStepWizard() {
   // Step 1: Confirm start
-  const start = await PureAdmin.confirm({
+  const start = await pureAdmin.confirm({
     title: 'Start Wizard?',
     message: 'This will guide you through the setup process.',
     confirmText: 'Start',
@@ -295,7 +295,7 @@ async function multiStepWizard() {
   if (!start) return;
 
   // Step 2: Get name
-  const name = await PureAdmin.prompt({
+  const name = await pureAdmin.prompt({
     title: 'Step 1: Your Name',
     message: 'Enter your name:',
     validator: (v) => v.trim() ? true : 'Name is required'
@@ -304,7 +304,7 @@ async function multiStepWizard() {
   if (!name) return;
 
   // Step 3: Get email
-  const email = await PureAdmin.prompt({
+  const email = await pureAdmin.prompt({
     title: 'Step 2: Email',
     message: 'Enter your email:',
     validator: (v) => v.includes('@') ? true : 'Invalid email'
@@ -313,7 +313,7 @@ async function multiStepWizard() {
   if (!email) return;
 
   // Step 4: Confirm
-  const confirm = await PureAdmin.confirm({
+  const confirm = await pureAdmin.confirm({
     title: 'Review Information',
     message: `Name: ${name}\nEmail: ${email}\n\nIs this correct?`,
     confirmText: 'Submit',
@@ -321,7 +321,7 @@ async function multiStepWizard() {
   });
 
   if (confirm) {
-    await PureAdmin.alert({
+    await pureAdmin.alert({
       title: 'Success!',
       message: 'Your information has been saved.',
       variant: 'success'
@@ -340,7 +340,7 @@ async function multiStepWizard() {
 document.querySelector('#deleteForm').addEventListener('submit', async function(e) {
   e.preventDefault();
 
-  const confirmed = await PureAdmin.confirm({
+  const confirmed = await pureAdmin.confirm({
     title: 'Delete Item?',
     message: 'This action cannot be undone.',
     variant: 'danger',
@@ -367,11 +367,11 @@ document.querySelector('#deleteForm').addEventListener('submit', async function(
 
   // Make sure modal-dialogs.js is loaded globally
   onMount(() => {
-    // Now you can use PureAdmin.confirm/alert/prompt anywhere
+    // Now you can use pureAdmin.confirm/alert/prompt anywhere
   });
 
   async function handleDelete() {
-    const result = await PureAdmin.confirm({
+    const result = await pureAdmin.confirm({
       title: 'Delete Item?',
       message: 'Are you sure?',
       variant: 'danger'
@@ -394,8 +394,8 @@ document.querySelector('#deleteForm').addEventListener('submit', async function(
 <!--
 MODULE CONTRACT:
 - Loaded via <script src="/src/js/modal-dialogs.js"></script>.
-- Attaches onto window.PureAdmin. If another script already set
-  window.PureAdmin, the file extends it non-destructively.
+- Attaches onto window.pureAdmin. If another script already set
+  window.pureAdmin, the file extends it non-destructively.
 - Each method appends a fresh .pa-modal element to <body>, runs the
   interaction, resolves the returned Promise, then removes the
   element from the DOM.
@@ -441,7 +441,7 @@ BROWSER SUPPORT:
 STRUCTURE PATTERNS:
 
 Confirm:
-  const ok = await PureAdmin.confirm({
+  const ok = await pureAdmin.confirm({
     title: 'Delete item?',
     message: 'Cannot be undone.',
     variant: 'danger', confirmVariant: 'danger',
@@ -451,17 +451,17 @@ Confirm:
   if (!ok) return;
 
 Alert:
-  await PureAdmin.alert({ title: 'Saved', variant: 'success' });
+  await pureAdmin.alert({ title: 'Saved', variant: 'success' });
 
 Prompt with validation:
-  const email = await PureAdmin.prompt({
+  const email = await pureAdmin.prompt({
     title: 'Email', placeholder: 'you@example.com',
     validator: (v) => v.includes('@') || 'Must be a valid email'
   });
   if (email === null) return;
 
 Custom (promise resolves with whatever close() is called with):
-  const result = await PureAdmin.custom({
+  const result = await pureAdmin.custom({
     title: 'Preferences', size: 'lg',
     render: (container, close) => {
       const body = document.createElement('div');

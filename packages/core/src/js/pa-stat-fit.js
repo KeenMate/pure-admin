@@ -19,7 +19,7 @@
    CSS — see core-components/_statistics.scss. This file only does the one
    thing CSS can't: fit the primary number to the box.
 
-   Public API (window.PaStatFit):
+   Public API (pureAdmin.components.statFit):
      init(root)   — wrap + observe every fit tile under `root` (default document)
      refresh(el)  — re-run fit on one tile (or all, if omitted); call after you
                     change the number's text content programmatically
@@ -180,5 +180,6 @@
     init();
   }
 
-  window.PaStatFit = { init: init, refresh: refresh };
+  var pa = (window.pureAdmin = window.pureAdmin || {});
+  (pa.components = pa.components || {}).statFit = { init: init, refresh: refresh };
 })();

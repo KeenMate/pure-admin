@@ -559,10 +559,10 @@ console.log(greet('Pure Admin'));</code></pre>
                         <div class="pa-card__body">
                             <p class="mb-2">Auto-initializes on <code>[data-pa-splitter]</code> at <code>DOMContentLoaded</code>. For dynamically inserted splitters:</p>
                             <pre class="pa-code"><code>// Init a single element
-PaSplitter.init(document.getElementById('my-splitter'));
+pureAdmin.components.splitter.init(document.getElementById('my-splitter'));
 
 // Init all uninitialized splitters in a subtree
-PaSplitter.initAll(someContainer);</code></pre>
+pureAdmin.components.splitter.initAll(someContainer);</code></pre>
                             <p class="text-sm mt-3 mb-0"><code>init()</code> is idempotent — calling it twice on the same element is a no-op.</p>
                         </div>
                     </div>
@@ -659,7 +659,7 @@ PaSplitter.initAll(someContainer);</code></pre>
                             sp.appendChild(buildPane(i, n));
                         }
                         container.appendChild(sp);
-                        if (window.PaSplitter) PaSplitter.init(sp);
+                        if (window.pureAdmin.components.splitter) pureAdmin.components.splitter.init(sp);
                     }
 
                     var COUNT_KEY = 'pa-splitter:multi-pane-count';

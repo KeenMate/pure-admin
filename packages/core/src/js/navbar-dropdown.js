@@ -30,7 +30,7 @@
  * gated behind `@media (hover: hover)` and an `.is-open` class reveal (toggled
  * here) drives the open state on touch.
  *
- * No configuration; auto-inits. Public API (window.PaNavDropdown):
+ * No configuration; auto-inits. Public API (pureAdmin.components.navDropdown):
  *   closeAll()      — close every open navbar dropdown
  */
 (function () {
@@ -153,7 +153,8 @@
     document.addEventListener('click', onClick);
     document.addEventListener('keydown', onKey);
 
-    window.PaNavDropdown = { closeAll: closeAll, init: init };
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    (pa.components = pa.components || {}).navDropdown = { closeAll: closeAll, init: init };
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { init(); });

@@ -188,6 +188,10 @@
         // that theme appearance just changed and they should re-read.
         const notifyThemeChange = (detail) => {
             window.dispatchEvent(new CustomEvent('pa:theme-change', { detail }));
+            // Bridge the demo's theme-change hub onto the shared pureAdmin bus.
+            if (window.pureAdmin && window.pureAdmin.events) {
+                window.pureAdmin.events.emit('theme:change', detail);
+            }
         };
 
         // Apply theme mode (light/dark) without page reload
@@ -327,8 +331,8 @@
             if (isSidebarResizable && sidebar) {
                 sidebar.classList.add('pa-layout__sidebar--resizable');
                 // Trigger resize init if the module is loaded
-                if (window.PureAdminSidebarResize && window.PureAdminSidebarResize.init) {
-                    window.PureAdminSidebarResize.init();
+                if (window.pureAdmin.components.sidebarResize && window.pureAdmin.components.sidebarResize.init) {
+                    window.pureAdmin.components.sidebarResize.init();
                 }
             }
 
@@ -518,8 +522,8 @@
                 sidebar.classList.add('pa-layout__sidebar--resizable');
                 localStorage.setItem('sidebar-resizable', 'true');
                 // Initialize resize functionality
-                if (window.PureAdminSidebarResize && window.PureAdminSidebarResize.init) {
-                    window.PureAdminSidebarResize.init();
+                if (window.pureAdmin.components.sidebarResize && window.pureAdmin.components.sidebarResize.init) {
+                    window.pureAdmin.components.sidebarResize.init();
                 }
             } else {
                 sidebar.classList.remove('pa-layout__sidebar--resizable');
@@ -618,6 +622,9 @@
                 }
 
                 localStorage.setItem('sidebar-behavior', behavior);
+                if (window.pureAdmin && window.pureAdmin.events) {
+                    window.pureAdmin.events.emit('sidebar:mode', { mode: behavior });
+                }
             }
         });
 

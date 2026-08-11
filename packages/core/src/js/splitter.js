@@ -51,7 +51,7 @@
  *   Resize fires unconditionally per pane during drag — debounce in the listener.
  *   Init does NOT fire collapse for panes that started rail'd from saved state.
  *
- * Public API (window.PaSplitter):
+ * Public API (pureAdmin.components.splitter):
  *   init(el)        - initialize a single splitter element (idempotent)
  *   initAll(root?)  - initialize all uninitialized splitters under root (default: document)
  */
@@ -1313,7 +1313,8 @@
         for (var i = 0; i < nodes.length; i++) init(nodes[i]);
     }
 
-    window.PaSplitter = { init: init, initAll: initAll };
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    (pa.components = pa.components || {}).splitter = { init: init, initAll: initAll };
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { initAll(); });

@@ -295,9 +295,9 @@ const toastMessages = {
     info: 'Here is some useful information for you.'
 };
 
-// Demo functions using PureAdmin.toast API
+// Demo functions using pureAdmin.toast API
 function showToast(position, variant) {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: variant,
         message: toastMessages[variant],
         position: position
@@ -305,11 +305,11 @@ function showToast(position, variant) {
 }
 
 function showToastVariant(variant) {
-    PureAdmin.toast[variant](toastMessages[variant]);
+    pureAdmin.toast[variant](toastMessages[variant]);
 }
 
 function showProgressToast(variant, opts = {}) {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant,
         title: 'Processing',
         message: 'Your request is being processed...',
@@ -319,7 +319,7 @@ function showProgressToast(variant, opts = {}) {
 }
 
 function showUndoToast() {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: 'warning',
         title: 'Item Deleted',
         message: '3 items have been moved to trash.',
@@ -332,7 +332,7 @@ function showUndoToast() {
 }
 
 function showRetryToast() {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: 'danger',
         title: 'Upload Failed',
         message: 'Could not upload report.pdf — connection timed out.',
@@ -345,7 +345,7 @@ function showRetryToast() {
 }
 
 function showUpdateToast() {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: 'info',
         title: 'Update Available',
         message: 'Version 2.3.0 is ready to install.',
@@ -358,7 +358,7 @@ function showUpdateToast() {
 }
 
 function showFeedbackToast() {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: 'success',
         filled: true,
         title: 'Changes Saved',
@@ -370,17 +370,17 @@ function showFeedbackToast() {
 }
 
 function showMultipleToasts() {
-    PureAdmin.toast.success('This is the first notification', { title: 'First Toast' });
+    pureAdmin.toast.success('This is the first notification', { title: 'First Toast' });
     setTimeout(() => {
-        PureAdmin.toast.warning('This is the second notification', { title: 'Second Toast' });
+        pureAdmin.toast.warning('This is the second notification', { title: 'Second Toast' });
     }, 300);
     setTimeout(() => {
-        PureAdmin.toast.info('This is the third notification', { title: 'Third Toast' });
+        pureAdmin.toast.info('This is the third notification', { title: 'Third Toast' });
     }, 600);
 }
 
 function showFilledToast(variant) {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant,
         filled: true,
         title: 'Filled ' + variant.charAt(0).toUpperCase() + variant.slice(1),
@@ -389,7 +389,7 @@ function showFilledToast(variant) {
 }
 
 function showThemeColorToast(n) {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: 'color-' + n,
         title: 'Color ' + n,
         message: 'This is a theme color slot ' + n + ' toast notification.'
@@ -397,7 +397,7 @@ function showThemeColorToast(n) {
 }
 
 function showFilledThemeColorToast(n) {
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: 'color-' + n,
         filled: true,
         title: 'Filled Color ' + n,
@@ -412,7 +412,7 @@ function showPersistentToast(variant) {
         info: 'Important information that you should read carefully before dismissing.'
     };
 
-    PureAdmin.toast.show({
+    pureAdmin.toast.show({
         variant: variant,
         message: persistentMessages[variant],
         persistent: true

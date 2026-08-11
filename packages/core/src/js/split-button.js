@@ -20,13 +20,15 @@
     // over each other. Defined defensively so whichever module loads first
     // creates it. Each close fn is idempotent (closing a closed menu is a
     // no-op), so `closeOthers` can fire them all blindly.
-    const PaMenus = (window.PaMenus = window.PaMenus || {
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    const PaMenus = (pa.menus = pa.menus || {
         closers: [],
         register: function (fn) { this.closers.push(fn); return fn; },
         closeOthers: function (self) {
             this.closers.forEach(function (fn) {
                 if (fn !== self) { try { fn(); } catch (e) { /* ignore */ } }
             });
+            if (pa.events) pa.events.emit('menu:opened', { id: self && self.paMenuId });
         }
     });
 
@@ -173,5 +175,5 @@
     // min-width behaviour as a split-button dropdown, instead of maintaining a
     // parallel positioner that drifts a few pixels off. One menu-positioning
     // logic for both components.
-    window.PaSplitMenu = { position: positionMenu };
+    (pa.components = pa.components || {}).splitMenu = { position: positionMenu };
 })();

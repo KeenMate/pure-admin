@@ -268,7 +268,8 @@
     window.addEventListener('content-loaded', init);
 
     // Expose public API for manual initialization
-    window.PureAdminTooltips = {
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    pa.tooltips = {
         init,
         initTooltips,
         initPopovers,

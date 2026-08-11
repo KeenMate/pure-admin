@@ -68,7 +68,7 @@ It depends on the SCSS `.pa-splitter__pane--start { flex: 0 0 auto }`. If a cons
 - **Live size readout during drag** — VS Code, Allotment, golden-layout all show a tooltip with current px. You already write `aria-valuenow` every frame; surfacing it visually is one CSS pseudo-element.
 - **Snap-to-breakpoint** (25/50/75%) with shift-held drag, like golden-layout. Common dashboard UX.
 - **Middle-pane hide-toggle** — not rail, but actual `display: none` with the adjacent gutter going with it, like VS Code's explorer. Removes the "first/last only" minimize limitation without breaking the rail visual.
-- **No ESM export.** `window.PaSplitter` is fine for vanilla but a parallel `export { init, initAll }` costs nothing.
+- **No ESM export.** `pureAdmin.components.splitter` is fine for vanilla but a parallel `export { init, initAll }` costs nothing.
 - **clampToConstraints divergence warning.** The loop is bounded at `N+1` passes. With degenerate inputs (every pane pinned to its max, total < sum of maxes) you exit without convergence and overflow is hidden by `overflow: hidden` on the root. A debug warning is better than silent overflow.
 
 ---

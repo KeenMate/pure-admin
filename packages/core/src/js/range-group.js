@@ -659,5 +659,6 @@
         initAll();
     }
 
-    window.PaRangeGroup = { init: initAll };
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    (pa.components = pa.components || {}).rangeGroup = { init: initAll };
 })();

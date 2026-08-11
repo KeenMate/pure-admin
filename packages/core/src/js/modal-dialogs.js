@@ -3,9 +3,9 @@
  * Promise-based programmatic modal system (confirm, alert, prompt)
  *
  * Usage:
- *   const result = await PureAdmin.confirm({ title: 'Delete?', message: '...' });
- *   await PureAdmin.alert({ title: 'Success!', message: '...' });
- *   const value = await PureAdmin.prompt({ title: 'Enter name:', message: '...' });
+ *   const result = await pureAdmin.confirm({ title: 'Delete?', message: '...' });
+ *   await pureAdmin.alert({ title: 'Success!', message: '...' });
+ *   const value = await pureAdmin.prompt({ title: 'Enter name:', message: '...' });
  *
  * Options (all methods):
  *   position: 'center' | 'top' - Modal vertical position (default: 'center')
@@ -14,9 +14,8 @@
 (function(window) {
   'use strict';
 
-  // Namespace
-  const PureAdmin = window.PureAdmin || {};
-  window.PureAdmin = PureAdmin;
+  // Namespace — single global (see docs/js-architecture.md)
+  const pureAdmin = (window.pureAdmin = window.pureAdmin || {});
 
   // Modal counter for unique IDs
   let modalCounter = 0;
@@ -167,7 +166,7 @@
    * Shows a confirmation dialog with OK/Cancel buttons
    * Returns Promise<boolean> - true if confirmed, false if cancelled
    */
-  PureAdmin.confirm = function(options = {}) {
+  pureAdmin.confirm = function(options = {}) {
     const {
       title = 'Confirm',
       message = 'Are you sure?',
@@ -228,7 +227,7 @@
    * Shows an alert dialog with single OK button
    * Returns Promise<void> - resolves when user clicks OK
    */
-  PureAdmin.alert = function(options = {}) {
+  pureAdmin.alert = function(options = {}) {
     const {
       title = 'Alert',
       message = '',
@@ -281,7 +280,7 @@
    * Shows a prompt dialog with text input
    * Returns Promise<string | null> - string if submitted, null if cancelled
    */
-  PureAdmin.prompt = function(options = {}) {
+  pureAdmin.prompt = function(options = {}) {
     const {
       title = 'Input',
       message = 'Enter value:',
@@ -399,7 +398,7 @@
    * Advanced API for fully custom modal content
    * Returns Promise that resolves with whatever value you pass to resolve()
    */
-  PureAdmin.custom = function(options = {}) {
+  pureAdmin.custom = function(options = {}) {
     const {
       title = 'Dialog',
       size = 'md',
@@ -410,7 +409,7 @@
     } = options;
 
     if (typeof render !== 'function') {
-      throw new Error('PureAdmin.custom() requires a render function');
+      throw new Error('pureAdmin.custom() requires a render function');
     }
 
     const id = `pa-modal-custom-${++modalCounter}`;

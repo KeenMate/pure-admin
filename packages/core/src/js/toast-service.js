@@ -3,18 +3,17 @@
  * Programmatic toast notification system
  *
  * Usage:
- *   PureAdmin.toast.success('Operation completed!');
- *   PureAdmin.toast.error('Something went wrong', { position: 'top-center' });
- *   PureAdmin.toast.show({ variant: 'warning', title: 'Warning', message: '...', persistent: true });
- *   PureAdmin.toast.dismiss(toastId);
+ *   pureAdmin.toast.success('Operation completed!');
+ *   pureAdmin.toast.error('Something went wrong', { position: 'top-center' });
+ *   pureAdmin.toast.show({ variant: 'warning', title: 'Warning', message: '...', persistent: true });
+ *   pureAdmin.toast.dismiss(toastId);
  */
 
 (function(window) {
   'use strict';
 
-  // Namespace
-  const PureAdmin = window.PureAdmin || {};
-  window.PureAdmin = PureAdmin;
+  // Namespace — single global (see docs/js-architecture.md)
+  const pureAdmin = (window.pureAdmin = window.pureAdmin || {});
 
   // Toast counter for unique IDs
   let toastCounter = 0;
@@ -194,7 +193,7 @@
   /**
    * Toast namespace
    */
-  PureAdmin.toast = {
+  pureAdmin.toast = {
     /**
      * Show a toast with full control over options
      * @param {Object} options - Toast configuration
@@ -296,7 +295,7 @@
     }
   };
 
-  console.log('✅ PureAdmin Toast Service loaded');
-  console.log('Available methods:', Object.keys(PureAdmin.toast));
+  console.log('✅ Pure Admin Toast Service loaded');
+  console.log('Available methods:', Object.keys(pureAdmin.toast));
 
 })(window);

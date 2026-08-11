@@ -15,7 +15,7 @@
           <p>All dialog functions return Promises, so you can use <code>async/await</code> for clean, synchronous-looking code:</p>
 
           <pre class="pa-code"><code>// Confirm dialog
-const confirmed = await PureAdmin.confirm({
+const confirmed = await pureAdmin.confirm({
   title: 'Delete Item?',
   message: 'This action cannot be undone.',
   variant: 'danger'
@@ -26,14 +26,14 @@ if (confirmed) {
 }
 
 // Alert dialog
-await PureAdmin.alert({
+await pureAdmin.alert({
   title: 'Success!',
   message: 'Your changes have been saved.',
   variant: 'success'
 });
 
 // Prompt dialog
-const name = await PureAdmin.prompt({
+const name = await pureAdmin.prompt({
   title: 'Enter Name',
   message: 'Please enter your name:',
   defaultValue: 'John Doe'
@@ -132,14 +132,14 @@ if (name !== null) {
           </div>
 
           <pre class="pa-code pa-code--compact mt-4"><code>// Center position (default)
-await PureAdmin.alert({
+await pureAdmin.alert({
   title: 'Centered',
   message: 'This dialog is centered.',
   position: 'center'  // default
 });
 
 // Top position
-await PureAdmin.prompt({
+await pureAdmin.prompt({
   title: 'Top Position',
   message: 'This dialog appears near the top.',
   position: 'top'
@@ -237,28 +237,28 @@ await PureAdmin.prompt({
           </button>
 
           <pre class="pa-code mt-4"><code>async function sequentialDialogs() {
-  const name = await PureAdmin.prompt({
+  const name = await pureAdmin.prompt({
     title: 'Step 1 of 3',
     message: 'Enter your name:'
   });
 
   if (name === null) return;
 
-  const email = await PureAdmin.prompt({
+  const email = await pureAdmin.prompt({
     title: 'Step 2 of 3',
     message: 'Enter your email:'
   });
 
   if (email === null) return;
 
-  const confirmed = await PureAdmin.confirm({
+  const confirmed = await pureAdmin.confirm({
     title: 'Step 3 of 3',
     message: \`Confirm: \${name} &lt;\${email}&gt;\`,
     variant: 'success'
   });
 
   if (confirmed) {
-    await PureAdmin.alert({
+    await pureAdmin.alert({
       title: 'Complete!',
       message: 'Registration successful.',
       variant: 'success'
@@ -278,7 +278,7 @@ await PureAdmin.prompt({
           </div>
         </div>
         <div class="pa-card__body">
-          <h3 style="margin-top: 0;">PureAdmin.confirm(options)</h3>
+          <h3 style="margin-top: 0;">pureAdmin.confirm(options)</h3>
           <p>Returns <code>Promise&lt;boolean&gt;</code></p>
           <table class="pa-table pa-table--striped">
             <thead>
@@ -347,7 +347,7 @@ await PureAdmin.prompt({
             </tbody>
           </table>
 
-          <h3 style="margin-top: 2rem;">PureAdmin.alert(options)</h3>
+          <h3 style="margin-top: 2rem;">pureAdmin.alert(options)</h3>
           <p>Returns <code>Promise&lt;void&gt;</code></p>
           <table class="pa-table pa-table--striped">
             <thead>
@@ -398,7 +398,7 @@ await PureAdmin.prompt({
             </tbody>
           </table>
 
-          <h3 style="margin-top: 2rem;">PureAdmin.prompt(options)</h3>
+          <h3 style="margin-top: 2rem;">pureAdmin.prompt(options)</h3>
           <p>Returns <code>Promise&lt;string | null&gt;</code></p>
           <table class="pa-table pa-table--striped">
             <thead>
@@ -483,7 +483,7 @@ await PureAdmin.prompt({
 <script>
 // Position examples
 async function positionCenter() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Centered Dialog',
     message: 'This dialog is centered in the viewport (default behavior).',
     variant: 'primary',
@@ -492,7 +492,7 @@ async function positionCenter() {
 }
 
 async function positionTop() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Top Position',
     message: 'This dialog appears near the top of the viewport. Useful for less intrusive notifications.',
     variant: 'primary',
@@ -501,7 +501,7 @@ async function positionTop() {
 }
 
 async function promptTop() {
-  const result = await PureAdmin.prompt({
+  const result = await pureAdmin.prompt({
     title: 'Quick Input',
     message: 'Enter a value:',
     placeholder: 'Type here...',
@@ -509,7 +509,7 @@ async function promptTop() {
     position: 'top'
   });
   if (result !== null) {
-    await PureAdmin.alert({
+    await pureAdmin.alert({
       title: 'You entered',
       message: result || '(empty)',
       variant: 'success',
@@ -519,7 +519,7 @@ async function promptTop() {
 }
 
 async function confirmTop() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Delete Item?',
     message: 'This action cannot be undone.',
     variant: 'danger',
@@ -532,7 +532,7 @@ async function confirmTop() {
 
 // Confirm examples
 async function confirmPrimary() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Primary Confirm',
     message: 'This is a primary styled confirmation dialog.',
     variant: 'primary'
@@ -541,7 +541,7 @@ async function confirmPrimary() {
 }
 
 async function confirmSuccess() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Success Confirm',
     message: 'Do you want to proceed with this action?',
     variant: 'success'
@@ -550,7 +550,7 @@ async function confirmSuccess() {
 }
 
 async function confirmWarning() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Warning',
     message: 'This action may have unintended consequences.',
     variant: 'warning'
@@ -559,7 +559,7 @@ async function confirmWarning() {
 }
 
 async function confirmDanger() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Delete Item',
     message: 'This action cannot be undone. Are you sure?',
     variant: 'danger',
@@ -570,7 +570,7 @@ async function confirmDanger() {
 }
 
 async function confirmCustomText() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Save Changes?',
     message: 'You have unsaved changes. What would you like to do?',
     confirmText: 'Save Changes',
@@ -581,7 +581,7 @@ async function confirmCustomText() {
 }
 
 async function confirmLarge() {
-  const result = await PureAdmin.confirm({
+  const result = await pureAdmin.confirm({
     title: 'Large Dialog',
     message: 'This is a larger modal dialog. You can use different sizes: sm, md, lg, xl.',
     size: 'lg',
@@ -600,7 +600,7 @@ function showConfirmResult(result) {
 
 // Alert examples
 async function alertPrimary() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Information',
     message: 'This is a primary alert dialog.',
     variant: 'primary'
@@ -608,7 +608,7 @@ async function alertPrimary() {
 }
 
 async function alertSuccess() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Success!',
     message: 'Your changes have been saved successfully.',
     variant: 'success',
@@ -617,7 +617,7 @@ async function alertSuccess() {
 }
 
 async function alertWarning() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Warning',
     message: 'Your session will expire in 5 minutes.',
     variant: 'warning',
@@ -626,7 +626,7 @@ async function alertWarning() {
 }
 
 async function alertDanger() {
-  await PureAdmin.alert({
+  await pureAdmin.alert({
     title: 'Error',
     message: 'An error occurred while processing your request.',
     variant: 'danger',
@@ -636,7 +636,7 @@ async function alertDanger() {
 
 // Prompt examples
 async function promptBasic() {
-  const result = await PureAdmin.prompt({
+  const result = await pureAdmin.prompt({
     title: 'Enter Your Name',
     message: 'Please enter your full name:',
     placeholder: 'John Doe'
@@ -645,7 +645,7 @@ async function promptBasic() {
 }
 
 async function promptWithDefault() {
-  const result = await PureAdmin.prompt({
+  const result = await pureAdmin.prompt({
     title: 'Edit Username',
     message: 'Enter a new username:',
     defaultValue: 'johndoe123',
@@ -655,7 +655,7 @@ async function promptWithDefault() {
 }
 
 async function promptWithValidation() {
-  const result = await PureAdmin.prompt({
+  const result = await pureAdmin.prompt({
     title: 'Enter Email',
     message: 'Please enter a valid email address:',
     placeholder: 'user@example.com',
@@ -687,7 +687,7 @@ function showPromptResult(result) {
 
 // Sequential dialogs example
 async function sequentialDialogs() {
-  const name = await PureAdmin.prompt({
+  const name = await pureAdmin.prompt({
     title: 'Step 1 of 3',
     message: 'Enter your name:',
     placeholder: 'John Doe',
@@ -696,7 +696,7 @@ async function sequentialDialogs() {
 
   if (name === null) return;
 
-  const email = await PureAdmin.prompt({
+  const email = await pureAdmin.prompt({
     title: 'Step 2 of 3',
     message: 'Enter your email:',
     placeholder: 'john@example.com',
@@ -712,7 +712,7 @@ async function sequentialDialogs() {
 
   if (email === null) return;
 
-  const confirmed = await PureAdmin.confirm({
+  const confirmed = await pureAdmin.confirm({
     title: 'Step 3 of 3 - Confirm',
     message: `Please confirm your details:\n\nName: ${name}\nEmail: ${email}`,
     confirmText: 'Register',
@@ -720,7 +720,7 @@ async function sequentialDialogs() {
   });
 
   if (confirmed) {
-    await PureAdmin.alert({
+    await pureAdmin.alert({
       title: 'Registration Complete!',
       message: `Welcome, ${name}! A confirmation email has been sent to ${email}.`,
       variant: 'success',

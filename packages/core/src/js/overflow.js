@@ -39,14 +39,13 @@
  * supplies that for `.pa-overflow`; the card variant carries equivalent
  * rules in `_cards.scss` under `.pa-card__header`.
  *
- * Opt in to console diagnostics: `window.PA_OVERFLOW_DEBUG = true`
- * before page load. (`window.PA_CARD_ACTIONS_OVERFLOW_DEBUG` still works.)
+ * Opt in to console diagnostics: `pureAdmin.debug.enable('overflow')`.
  *
- * Public API (window.PaOverflow):
+ * Public API (pureAdmin.components.overflow):
  *   init(el)       — idempotent single-element init
  *   initAll(scope) — initialize all uninitialized overflow wrappers under scope
  *
- * `window.PaCardActionsOverflow` is preserved as a back-compat alias.
+ * Also bound as `pureAdmin.components.cardActionsOverflow` (same { init, initAll }).
  */
 (function () {
     'use strict';
@@ -77,13 +76,15 @@
     // it loads before split-button.js. Opening any menu closes the others, so
     // an overflow "more" menu and a split-button dropdown can't hang open over
     // each other.
-    var PaMenus = (window.PaMenus = window.PaMenus || {
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    var PaMenus = (pa.menus = pa.menus || {
         closers: [],
         register: function (fn) { this.closers.push(fn); return fn; },
         closeOthers: function (self) {
             this.closers.forEach(function (fn) {
                 if (fn !== self) { try { fn(); } catch (e) { /* ignore */ } }
             });
+            if (pa.events) pa.events.emit('menu:opened', { id: self && self.paMenuId });
         }
     });
 
@@ -118,10 +119,9 @@
         }
         buildDropOrder();
 
-        // Opt-in diagnostics — set `window.PA_OVERFLOW_DEBUG = true` (or the
-        // pre-rename `PA_CARD_ACTIONS_OVERFLOW_DEBUG`) before page load to
-        // see init / relayout / move-to-menu traces.
-        var DEBUG = window.PA_OVERFLOW_DEBUG === true || window.PA_CARD_ACTIONS_OVERFLOW_DEBUG === true;
+        // Opt-in diagnostics — `pureAdmin.debug.enable('overflow')` before the
+        // relevant init to see init / relayout / move-to-menu traces.
+        var DEBUG = !!(pa.debug && pa.debug.isEnabled('overflow'));
         var instanceLabel = '[pa-overflow#' + (root.id || ordered.map(function (i) { return i.el.tagName; }).join('-')).slice(0, 40) + ']';
         function log() {
             if (!DEBUG) return;
@@ -413,13 +413,14 @@
         }
 
         // Position the open menu under the trigger. Prefers the shared
-        // split-button positioner (`window.PaSplitMenu.position`) so both
-        // components anchor their dropdown identically; falls back to the
+        // split-button positioner (`pureAdmin.components.splitMenu.position`) so
+        // both components anchor their dropdown identically; falls back to the
         // hand-rolled positioner only if split-button.js / Floating UI isn't
         // loaded.
         function positionMenu() {
-            if (window.PaSplitMenu && window.PaSplitMenu.position) {
-                window.PaSplitMenu.position(trigger, menu, 'bottom-end');
+            var splitMenu = pa.components && pa.components.splitMenu;
+            if (splitMenu && splitMenu.position) {
+                splitMenu.position(trigger, menu, 'bottom-end');
             } else {
                 positionMenuFallback();
             }
@@ -500,12 +501,12 @@
     }
 
     var api = { init: init, initAll: initAll };
-    window.PaOverflow = api;
-    // Back-compat: `card-actions-overflow.js` exported this global; keep
-    // pointing at the same { init, initAll } pair so existing consumers
-    // calling `window.PaCardActionsOverflow.initAll(scope)` (after
-    // injecting dynamic markup) keep working.
-    window.PaCardActionsOverflow = api;
+    pa.components = pa.components || {};
+    pa.components.overflow = api;
+    // `card-actions-overflow.js` historically exported a separate global; keep
+    // the same { init, initAll } pair under a second name so consumers that
+    // re-init card-actions after injecting dynamic markup keep a handle.
+    pa.components.cardActionsOverflow = api;
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { initAll(); });

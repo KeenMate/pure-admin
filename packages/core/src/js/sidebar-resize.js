@@ -20,7 +20,8 @@
  * settings panel toggles it). The `.pa-sidebar-resize` handle is created on the
  * fly; double-click it to reset to the stylesheet default.
  *
- * Public API (window.PureAdminSidebarResize): init, reset, setWidth, getWidth.
+ * Public API (pureAdmin.components.sidebarResize): init, reset, setWidth, getWidth.
+ * Emits `sidebar:resize` ({width}) on the pureAdmin event bus at drag end.
  */
 (function () {
     'use strict';
@@ -163,7 +164,11 @@
         document.removeEventListener('touchmove', doResize);
         document.removeEventListener('touchend', stopResize);
 
-        localStorage.setItem(STORAGE_KEY, getCurrentWidth().toString());
+        var finalWidth = getCurrentWidth();
+        localStorage.setItem(STORAGE_KEY, finalWidth.toString());
+        if (window.pureAdmin && window.pureAdmin.events) {
+            window.pureAdmin.events.emit('sidebar:resize', { width: finalWidth });
+        }
     }
 
     // Reset by dropping the inline override so the stylesheet default applies
@@ -179,7 +184,8 @@
         init();
     }
 
-    window.PureAdminSidebarResize = {
+    var pa = (window.pureAdmin = window.pureAdmin || {});
+    (pa.components = pa.components || {}).sidebarResize = {
         init: init,
         reset: resetWidth,
         setWidth: setSidebarWidth,

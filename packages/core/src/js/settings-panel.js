@@ -204,6 +204,9 @@
                 }
 
                 localStorage.setItem('sidebar-behavior', behavior);
+                if (window.pureAdmin && window.pureAdmin.events) {
+                    window.pureAdmin.events.emit('sidebar:mode', { mode: behavior });
+                }
             }
         });
 
