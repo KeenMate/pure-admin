@@ -175,10 +175,15 @@
             if (modeOverride) {
                 localStorage.setItem('theme-mode', modeOverride);
             }
-            if (savedThemeMode === 'dark') {
+            // 'auto' follows the OS colour scheme — resolve it here too so the
+            // early paint matches what settings-panel.js will settle on.
+            const resolvedThemeMode = savedThemeMode === 'auto'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : savedThemeMode;
+            if (resolvedThemeMode === 'dark') {
                 document.body.classList.add('pa-mode-dark');
                 document.body.dataset.theme = 'dark'; // For web components (web-grid, etc.)
-            } else if (savedThemeMode === 'light') {
+            } else if (resolvedThemeMode === 'light') {
                 document.body.classList.add('pa-mode-light');
                 document.body.dataset.theme = 'light';
             }

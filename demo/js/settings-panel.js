@@ -153,6 +153,15 @@
                 option.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
                 themeModeSelector.appendChild(option);
             }
+
+            // Offer "Auto" (follow the OS colour scheme) only when the theme has
+            // both a light and a dark mode for the system preference to map onto.
+            if (modes.includes('light') && modes.includes('dark')) {
+                const autoOption = document.createElement('option');
+                autoOption.value = 'auto';
+                autoOption.textContent = 'Auto';
+                themeModeSelector.appendChild(autoOption);
+            }
         };
 
         // Update color variant section based on current theme's manifest
@@ -194,22 +203,53 @@
             }
         };
 
-        // Apply theme mode (light/dark) without page reload
-        const applyThemeMode = (mode, manifest) => {
+        // System colour-scheme preference drives the 'auto' mode. pure-admin.js
+        // owns the single prefers-color-scheme watcher (just as it owns viewport
+        // orientation) and publishes it as pureAdmin.colorScheme + a
+        // 'colorscheme:change' event — we read/subscribe rather than open our own.
+        // (Fallback to a direct query only if the namespace hasn't loaded.)
+        const systemMode = () => window.pureAdmin?.colorScheme?.mode
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+        // Apply a concrete mode class ('light'/'dark') to <body>. No persistence —
+        // callers decide what value ('light'/'dark'/'auto') to store.
+        const applyModeClass = (mode, manifest) => {
             const cssClassPattern = manifest?.modeCssClass || manifest?.modes?.cssClass || 'pa-mode-{mode}';
 
             // Remove all mode classes
             body.classList.remove('pa-mode-light', 'pa-mode-dark');
 
             // Apply new mode class
-            const modeClass = cssClassPattern.replace('{mode}', mode);
-            body.classList.add(modeClass);
+            body.classList.add(cssClassPattern.replace('{mode}', mode));
 
             // Set data-theme attribute for web components (web-grid, etc.)
             body.dataset.theme = mode;
 
-            localStorage.setItem('theme-mode', mode);
             notifyThemeChange({ kind: 'mode', mode });
+        };
+
+        // While 'auto' is active we hold the manifest + the bus unsubscribe handle
+        // so a live OS light<->dark flip re-applies the right class.
+        let autoModeManifest = null;
+        let offSystemMode = null;
+        const handleSystemModeChange = () => applyModeClass(systemMode(), autoModeManifest);
+
+        // Apply theme mode without page reload. `mode` may be 'auto', which follows
+        // the OS colour-scheme preference and tracks live changes to it.
+        const applyThemeMode = (mode, manifest) => {
+            // Drop any prior auto subscription; re-subscribe only while auto is on.
+            if (offSystemMode) { offSystemMode(); offSystemMode = null; }
+
+            if (mode === 'auto') {
+                autoModeManifest = manifest;
+                const bus = window.pureAdmin && window.pureAdmin.events;
+                if (bus) offSystemMode = bus.on('colorscheme:change', handleSystemModeChange);
+                applyModeClass(systemMode(), manifest);
+            } else {
+                applyModeClass(mode, manifest);
+            }
+
+            localStorage.setItem('theme-mode', mode);
         };
 
         // Apply color variant class
@@ -262,7 +302,12 @@
             // Theme mode - only for variants with multiple modes
             const modes = getModesForVariant(manifest, savedVariant);
             if (modes.length > 1) {
-                const savedMode = localStorage.getItem('theme-mode') || getDefaultModeForVariant(manifest, savedVariant);
+                // Validate the stored value against this theme: a concrete mode
+                // must be one it defines; 'auto' needs both light and dark.
+                const stored = localStorage.getItem('theme-mode');
+                const supportsAuto = modes.includes('light') && modes.includes('dark');
+                const isValid = stored && (stored === 'auto' ? supportsAuto : modes.includes(stored));
+                const savedMode = isValid ? stored : getDefaultModeForVariant(manifest, savedVariant);
                 themeModeSelector.value = savedMode;
                 applyThemeMode(savedMode, manifest);
             }

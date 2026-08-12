@@ -21,6 +21,8 @@
  *   pureAdmin.events        on(topic,fn)->off / once / off / emit(topic,payload)
  *   pureAdmin.viewport      { width, height, orientation } live snapshot; emits
  *                           'viewport:resize' (rAF-throttled) + 'viewport:orientation'
+ *   pureAdmin.colorScheme   { mode: 'light'|'dark' } live OS preference; emits
+ *                           'colorscheme:change' (matchMedia prefers-color-scheme)
  *   pureAdmin.components     per-component handles ({init, initAll, …}); initAll(scope)
  *   pureAdmin.menus          open-menu coordination registry (register/closeOthers)
  *   pureAdmin.debug          enable/disable/isEnabled/log/aspects (feeds a future console)
@@ -30,6 +32,7 @@
  * Event topics (kept deliberately few):
  *   viewport:resize       {width,height,orientation}   the one throttled window-resize source
  *   viewport:orientation  {width,height,orientation}   portrait<->landscape (matchMedia; fires on desktop pivot)
+ *   colorscheme:change    {mode}                        OS prefers-color-scheme flipped light<->dark (matchMedia)
  *   menu:opened           {id}                          a menu opened (others may close)
  *   theme:change          {theme}
  *   sidebar:mode          {mode}
@@ -116,6 +119,21 @@
     var onOrient = function () { measure(); pa.events.emit('viewport:orientation', vp); };
     if (mq.addEventListener) mq.addEventListener('change', onOrient);
     else if (mq.addListener) mq.addListener(onOrient); // Safari <14
+  }
+
+  // --- colorScheme: the single owner of the OS light/dark preference --------
+  // Mirrors viewport's ownership of window-level media queries: one matchMedia
+  // watcher for prefers-color-scheme, surfaced as a live snapshot + one event.
+  // Consumers that follow the OS ("auto" theme mode) read colorScheme.mode and
+  // subscribe to 'colorscheme:change' instead of each opening their own query.
+  if (!pa.colorScheme) {
+    var cs = pa.colorScheme = { mode: 'light' };
+    var csmq = window.matchMedia('(prefers-color-scheme: dark)');
+    var readScheme = function () { cs.mode = csmq.matches ? 'dark' : 'light'; };
+    readScheme();
+    var onScheme = function () { readScheme(); pa.events.emit('colorscheme:change', cs); };
+    if (csmq.addEventListener) csmq.addEventListener('change', onScheme);
+    else if (csmq.addListener) csmq.addListener(onScheme); // Safari <14
   }
 
   // --- menus: open-menu coordination (moved from window.PaMenus) ------------
