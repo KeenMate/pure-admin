@@ -135,6 +135,7 @@
         document.addEventListener('mouseup', stopResize);
         document.addEventListener('touchmove', doResize, { passive: false });
         document.addEventListener('touchend', stopResize);
+        document.addEventListener('touchcancel', stopResize); // clean up if the browser cancels the touch
     }
 
     // Throttled with requestAnimationFrame.
@@ -167,6 +168,7 @@
         document.removeEventListener('mouseup', stopResize);
         document.removeEventListener('touchmove', doResize);
         document.removeEventListener('touchend', stopResize);
+        document.removeEventListener('touchcancel', stopResize);
 
         var finalWidth = getCurrentWidth();
         localStorage.setItem(STORAGE_KEY, finalWidth.toString());

@@ -32,6 +32,13 @@
   height: 100%;
   cursor: ew-resize;
   z-index: 100;
+  // Own the touch gesture. Without this the browser's touch-action heuristic can
+  // interpret a drag as a scroll/pan and CANCEL the touch sequence after
+  // touchstart — so touchmove never reaches the resize handler and the drag
+  // silently dies (intermittently, depending on gesture-intent detection). This
+  // is the fix for "handle hovers but won't drag" on touch / coarse-pointer /
+  // DevTools device mode. Harmless for mouse (mousedown path is unaffected).
+  touch-action: none;
 
   // Visual indicator on hover. Pinned to the inline-end edge (not centred in the
   // 6px strip) so the line sits ON the sidebar's border rather than floating a
