@@ -65,6 +65,16 @@
     }
   }
 
+  // Mobile overlay: the sidebar is a fixed 90vw sheet and resize is disabled in
+  // JS at this width (sidebar-resize.js MOBILE_MAX = $mobile-breakpoint). Hide
+  // the handle so the coarse-pointer grip pill / edge line don't render as a
+  // dead affordance riding the overlay's edge (where it also straddles the
+  // backdrop-dismiss tap zone). Touch resize still works in the tablet band
+  // above this breakpoint, where the coarse-pointer affordance is kept.
+  .pa-sidebar-resize {
+    display: none;
+  }
+
   // Adjust header for mobile
   .pa-header {
     gap: $spacing-sm;
