@@ -144,6 +144,56 @@ Still open (optional, not done): making the backdrop a **real element** (not
 `body::before`) with its own handler + `touch-action: none`, so the close target
 is explicit rather than "any click whose `event.target === body`."
 
+## Collapse behavior on mobile — no icon rail, only two states
+
+On desktop the sidebar has three behaviors (demo settings panel): **hide**,
+**icon-collapse**, and a separate **resizable** toggle. **On mobile (≤768px) the
+icon-collapse rail does not exist** — the sidebar has exactly two states:
+
+- **Collapsed = fully off-screen** (`width: 0`, opacity 0), *not* a narrow icon
+  bar. Burger shows the hamburger.
+- **Expanded = the full 90vw labeled drawer** overlay (scrim + scroll-lock).
+  Burger shows the X.
+
+The burger is the single control; mobile state is **not persisted** (every load /
+resize-into-mobile starts collapsed, see `checkMobileLayout`).
+
+### Why the icon rail is disabled on phones
+
+The desktop icon-collapse mode (`_sidebar-states.scss`) is an icon-only rail
+(`$sidebar-collapsed-width`) whose labels and submenus appear as **hover
+flyouts** (`inset-inline-start: 100%`). Both mechanisms fail on touch:
+
+- **No hover** — flyout labels/submenus are unreachable, leaving unlabeled
+  glyphs.
+- **No horizontal room** — sideways flyouts run off a narrow screen.
+
+So mobile collapses all of that to the one touch-friendly pattern: a
+full-label drawer that is either open or gone.
+
+### How it's enforced (three layers, all agreeing)
+
+1. **`toggleSidebar()` ignores `sidebar-behavior` on mobile** (`layout.mustache`)
+   — the `isMobile` branch just toggles `.sidebar-visible`; it never consults
+   hide vs icon-collapse.
+2. **The settings panel doesn't apply the class on mobile**
+   (`demo/js/settings-panel.js`) — it removes `--icon-collapse` and, when mobile,
+   only syncs the burger; it never re-adds the rail.
+3. **Responsive CSS neutralizes the class even if it lingers**
+   (`_layout-responsive.scss`) — the safety net for someone in icon-collapse on
+   desktop who *resizes* down without reloading (the class can stay on the
+   element). `!important` overrides force correct behavior:
+   `body:not(.sidebar-visible) .pa-layout__sidebar--icon-collapse { width: 0 !important }`
+   when closed, and
+   `.sidebar-visible .pa-layout__sidebar--icon-collapse { width: 90vw !important; …labels shown }`
+   when open. So regardless of leftover class state, mobile is always *hidden or
+   full drawer* — never a stranded icon rail.
+
+> **Not to be confused with** `navbar-collapse.js` + `data-pa-nav-collapse="sidebar"`,
+> which folds **top-navbar** items *into* the sidebar as real `.pa-sidebar__*`
+> markup as the header narrows. That's about where nav links live, not the
+> sidebar's own open/closed state.
+
 ## Related
 
 - Resize handle on mobile: see the rc11 "dead affordance" fix — the handle is

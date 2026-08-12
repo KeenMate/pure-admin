@@ -118,13 +118,11 @@
 }
 
 @media (max-width: $tablet-breakpoint) and (min-width: $tablet-breakpoint-min) {
-  // Tablet: reduce the sidebar, but honour a user-resized / theme-set width.
-  // Driving this off the same --pa-local-sidebar-width the resize JS writes
-  // (capped at the tablet width via min()) means a resize/theme NARROWER than
-  // the cap is respected in this band; only widths above the cap are clamped so
-  // content still gets room. The old `width: $sidebar-width-tablet` literal
-  // (specificity 0,1,0) overrode the var-based base rule outright and snapped
-  // every sidebar to 16rem here, silently discarding any resize/theme width.
+  // Tablet: reduce the sidebar by default, but honour an explicit resize.
+  // The default (un-resized) width caps at $sidebar-width-tablet via min() so
+  // content gets room and the base $sidebar-width (28.8rem) doesn't dominate a
+  // tablet. The old `width: $sidebar-width-tablet` literal (specificity 0,1,0)
+  // overrode the var-based base rule outright and snapped every sidebar to 16rem.
   .pa-layout__sidebar {
     width: min(var(--pa-local-sidebar-width), #{$sidebar-width-tablet});
 
@@ -132,5 +130,16 @@
       padding: $spacing-sm $spacing-md;
       font-size: $font-size-sm;
     }
+  }
+
+  // Once the user has actually drag-resized (sidebar-resize.js sets this class),
+  // honour their exact width here — WITHOUT the tablet cap. This is required for
+  // the resize handle to work at all in this band: the drag floor
+  // (--pa-local-sidebar-min-width, 18rem) is ABOVE the 16rem cap, so every width
+  // the drag can produce is clamped by min() and the sidebar never visibly moves
+  // — the handle looks dead. Gating on the explicit-resize class (not just
+  // --resizable) keeps the narrow tablet default until the user opts in.
+  body.pa-sidebar-resized .pa-layout__sidebar {
+    width: var(--pa-local-sidebar-width);
   }
 }

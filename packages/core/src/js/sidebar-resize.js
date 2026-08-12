@@ -101,9 +101,13 @@
     }
 
     // Write width (px) as rem on :root, using the real root font-size.
+    // Flag body so the tablet-band (769–1024px) width rule honours this explicit
+    // width instead of the min() cap — without the flag the cap clamps every
+    // draggable width (drag floor 18rem > 16rem cap) and the handle looks dead.
     function setSidebarWidth(width) {
         var rem = width / rootFontSize();
         document.documentElement.style.setProperty('--pa-local-sidebar-width', rem + 'rem');
+        document.body.classList.add('pa-sidebar-resized');
     }
 
     function getCurrentWidth() {
@@ -175,6 +179,7 @@
     // (the base $sidebar-width, or the tablet cap in the 769–1024px band).
     function resetWidth() {
         document.documentElement.style.removeProperty('--pa-local-sidebar-width');
+        document.body.classList.remove('pa-sidebar-resized');
         localStorage.removeItem(STORAGE_KEY);
     }
 

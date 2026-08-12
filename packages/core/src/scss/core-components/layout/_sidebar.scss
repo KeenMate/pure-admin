@@ -33,13 +33,16 @@
   cursor: ew-resize;
   z-index: 100;
 
-  // Visual indicator on hover
+  // Visual indicator on hover. Pinned to the inline-end edge (not centred in the
+  // 6px strip) so the line sits ON the sidebar's border rather than floating a
+  // few px inside it — the strip is `inset-inline-end: 0` (its right edge is the
+  // sidebar's padding edge), so a 50%-centred line lands ~3–4px in. This matches
+  // the coarse-pointer treatment below. The 6px strip stays the grab area.
   &::after {
     content: '';
     position: absolute;
     top: 0;
-    inset-inline-start: 50%;
-    transform: translateX(-50%);
+    inset-inline-end: 0;
     width: 2px;
     height: 100%;
     background-color: transparent;
