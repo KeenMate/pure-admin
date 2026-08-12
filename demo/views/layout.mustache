@@ -480,6 +480,37 @@
             window.location.href = url.toString();
         }
 
+        // --- Mobile drawer background scroll-lock ----------------------------
+        // Standard modal-drawer behavior: the page behind the open mobile
+        // sidebar + scrim must not scroll. Core CSS locks it via
+        // `body.sidebar-visible { overflow: hidden }`, which covers desktop +
+        // Android, but iOS Safari ignores overflow:hidden for touch scrolling.
+        // The robust cross-device fix is to pin <body> with position:fixed while
+        // open and restore the scroll position on close. Kept here because the
+        // mobile toggle itself lives only in the demo (core ships no mobile
+        // sidebar JS). See docs/mobile-sidebar-overlay.md.
+        let savedScrollY = 0;
+        function lockBodyScroll() {
+            const body = document.body;
+            if (body.dataset.scrollLocked) return;
+            savedScrollY = window.scrollY || window.pageYOffset || 0;
+            body.dataset.scrollLocked = '1';
+            body.style.position = 'fixed';
+            body.style.top = `-${savedScrollY}px`;
+            body.style.insetInlineStart = '0';
+            body.style.width = '100%';
+        }
+        function unlockBodyScroll() {
+            const body = document.body;
+            if (!body.dataset.scrollLocked) return;
+            delete body.dataset.scrollLocked;
+            body.style.position = '';
+            body.style.top = '';
+            body.style.insetInlineStart = '';
+            body.style.width = '';
+            window.scrollTo(0, savedScrollY);
+        }
+
         function toggleSidebar() {
             const body = document.body;
             const burgerMenu = document.querySelector('.burger-menu');
@@ -491,6 +522,12 @@
                 // Mobile: Toggle sidebar visibility but don't persist state
                 body.classList.toggle('sidebar-visible');
                 burgerMenu.classList.toggle('active');
+                // Lock/unlock background scroll to match the open state
+                if (body.classList.contains('sidebar-visible')) {
+                    lockBodyScroll();
+                } else {
+                    unlockBodyScroll();
+                }
             } else {
                 // Desktop: Check sidebar behavior mode
                 if (sidebarBehavior === 'icon-collapse') {
@@ -534,9 +571,11 @@
                 body.classList.remove('sidebar-hidden');
                 body.classList.remove('sidebar-visible');
                 document.querySelector('.burger-menu').classList.remove('active');
+                unlockBodyScroll(); // drawer forced closed → release the scroll lock
             } else {
                 // Desktop: Use saved state (works for both 'hide' and 'icon-collapse' behaviors)
                 body.classList.remove('sidebar-visible');
+                unlockBodyScroll(); // crossing to desktop closes the mobile drawer
                 const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
                 const burgerMenu = document.querySelector('.burger-menu');
 
@@ -557,6 +596,7 @@
             if (body.classList.contains('sidebar-visible') && event.target === body) {
                 body.classList.remove('sidebar-visible');
                 document.querySelector('.burger-menu').classList.remove('active');
+                unlockBodyScroll(); // tap-outside closed the drawer → release the lock
                 // No need to save mobile sidebar state - always starts hidden on page load
             }
         }

@@ -23,6 +23,15 @@
 
   // Mobile: Fullscreen sidebar overlay when visible
   .sidebar-visible {
+    // Standard modal-drawer scroll-lock: while the overlay + scrim are open the
+    // page behind must not scroll (otherwise dragging the scrim strip scrolls
+    // the content under the fixed drawer, exposing that the drawer is only
+    // viewport-high). This covers desktop browsers + Android; iOS Safari ignores
+    // body{overflow:hidden} for touch scroll, so the mobile toggle also applies
+    // a position:fixed body lock in JS (demo layout.mustache). See
+    // docs/mobile-sidebar-overlay.md.
+    overflow: hidden;
+
     // Use fixed positioning for mobile overlay
     .pa-layout__inner {
       position: relative;
@@ -38,6 +47,7 @@
       background-color: var(--pa-sidebar-bg);
       opacity: 1;
       overflow-y: auto;
+      overscroll-behavior: contain; // drawer's own scroll doesn't chain to the page
     }
 
     // Override icon-collapse mode on mobile - show full width overlay
