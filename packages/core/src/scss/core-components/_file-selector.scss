@@ -1,6 +1,7 @@
 // File Selector Components
 // Custom file inputs, drag & drop areas, file previews, and upload progress
 @use '../variables' as *;
+@use 'icons' as *;
 
 // Basic File Input
 .pa-file-input {
@@ -172,7 +173,7 @@
       opacity: 0;
 
       &::before {
-        content: '×';
+        @include pa-icon-mask;
       }
     }
 
@@ -221,7 +222,7 @@
       opacity: 0;
 
       &::before {
-        content: '×';
+        @include pa-icon-mask;
       }
     }
 
@@ -576,7 +577,7 @@
     }
 
     &::before {
-      content: '×';
+      @include pa-icon-mask;
     }
   }
 }
@@ -631,7 +632,7 @@
     }
 
     &::before {
-      content: '×';
+      @include pa-icon-mask;
     }
   }
 

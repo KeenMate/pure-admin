@@ -141,7 +141,7 @@
             <h4 class="pa-alert__heading">${title}</h4>
             <p class="mb-0">${message}</p>
             <button type="button" class="pa-alert__close" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
             </button>
         `;
         alert.querySelector('.pa-alert__close').addEventListener('click', () => alert.remove());

@@ -276,7 +276,8 @@ class SearchAutocomplete {
             // Add remove button
             const removeBtn = document.createElement('button');
             removeBtn.className = 'pa-search-token-remove';
-            removeBtn.innerHTML = '×';
+            removeBtn.innerHTML = '<span class="pa-icon pa-icon--x" aria-hidden="true"></span>';
+            removeBtn.setAttribute('aria-label', 'Remove');
             removeBtn.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();

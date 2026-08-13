@@ -34,3 +34,18 @@
 
 // Per-glyph modifiers just point --pa-icon-src at the chosen glyph var.
 .pa-icon--x { --pa-icon-src: var(--pa-icon-x); }
+
+// Pseudo-element variant of the masked icon. Use inside a `::before`/`::after`
+// where markup can't carry a `.pa-icon` span (JS-generated glyphs, pure-CSS
+// affordances). Paints the glyph in currentColor like `.pa-icon`.
+//   &::before { @include pa-icon-mask; }              // defaults to the x glyph
+//   &::before { @include pa-icon-mask(var(--pa-icon-x)); }
+@mixin pa-icon-mask($src: var(--pa-icon-x)) {
+  content: '';
+  display: inline-block;
+  inline-size: var(--pa-icon-size, 1em);
+  block-size: var(--pa-icon-size, 1em);
+  background-color: currentColor;
+  -webkit-mask: #{$src} no-repeat center / contain;
+          mask: #{$src} no-repeat center / contain;
+}

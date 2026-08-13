@@ -990,7 +990,7 @@
         <div class="pa-file-popover__arrow" data-popper-arrow></div>
         <div class="pa-file-popover__header">
           <h3 class="pa-file-popover__title">Selected Files (${selectedFiles.length})</h3>
-          <button type="button" class="pa-file-popover__close">×</button>
+          <button type="button" class="pa-file-popover__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
         </div>
         <div class="pa-file-popover__body">
           <table class="pa-file-popover__table">
@@ -1011,7 +1011,7 @@
                   <tr class="${isUploading ? 'uploading' : ''}" data-index="${index}">
                     <td class="pa-file-popover__remove-cell">
                       ${canRemove ? `
-                        <button type="button" class="pa-file-popover__remove-btn" data-index="${index}">×</button>
+                        <button type="button" class="pa-file-popover__remove-btn" data-index="${index}" aria-label="Remove"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
                       ` : ''}
                     </td>
                     <td>

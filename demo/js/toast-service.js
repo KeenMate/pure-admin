@@ -134,7 +134,7 @@
         <div class="pa-toast__message">${escapeHtml(message)}</div>
         ${actionsHtml}
       </div>
-      <button class="pa-toast__close" aria-label="Close">✕</button>
+      <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
       ${progressHtml}
     `;
 

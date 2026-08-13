@@ -706,7 +706,7 @@
         const prompt = step?.prompt?.trim();
         if (prompt) html += `<span class="pa-command-palette__token-prompt">${escapeHtml(prompt)}</span>`;
         const label = sel.option?.label || sel.freeText || '';
-        html += `<span class="pa-badge"><span>${escapeHtml(label)}</span><button class="pa-badge__remove" data-step="${i}">&times;</button></span>`;
+        html += `<span class="pa-badge"><span>${escapeHtml(label)}</span><button class="pa-badge__remove" data-step="${i}"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button></span>`;
       }
       const currentStep = activeCommand.steps[currentStepIndex];
       if (currentStep?.prompt?.trim() && selections.length === currentStepIndex) {

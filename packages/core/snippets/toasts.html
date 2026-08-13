@@ -32,7 +32,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Primary</div>
     <div class="pa-toast__message">This is a primary toast notification.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 <!-- Success Toast -->
@@ -42,7 +42,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Success</div>
     <div class="pa-toast__message">Your action was completed successfully.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 <!-- Danger Toast -->
@@ -52,7 +52,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Error</div>
     <div class="pa-toast__message">An error occurred. Please try again.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 <!-- Warning Toast -->
@@ -62,7 +62,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Warning</div>
     <div class="pa-toast__message">Please review this warning message.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 <!-- Info Toast -->
@@ -72,7 +72,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Information</div>
     <div class="pa-toast__message">Here is some useful information for you.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 
@@ -89,7 +89,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Heads up</div>
     <div class="pa-toast__message">This is a filled primary toast.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 <!-- Filled Success -->
@@ -99,7 +99,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Saved</div>
     <div class="pa-toast__message">Changes stored successfully.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 <!-- Pattern: pa-toast--filled-{primary|success|danger|warning|info} and pa-toast--filled-color-{1..9} -->
@@ -120,7 +120,7 @@ most common "toast in the upper-right" slot in LTR.
       <button class="pa-btn pa-btn--xs pa-btn--secondary">Undo</button>
     </div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 
@@ -136,7 +136,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Processing</div>
     <div class="pa-toast__message">Your request is being processed...</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
   <div class="pa-toast__progress w-100" style="transition: width 5000ms linear;"></div>
 </div>
 
@@ -152,7 +152,7 @@ most common "toast in the upper-right" slot in LTR.
     <div class="pa-toast__title">Color 1</div>
     <div class="pa-toast__message">Border and icon pulled from <code>--pa-color-1</code>.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 <!-- Pattern: pa-toast--color-{1..9} (bordered) and pa-toast--filled-color-{1..9} (filled) -->
@@ -192,7 +192,7 @@ function createToast(position, variant, title, message, duration = 5000, showPro
       <div class="pa-toast__title">${title}</div>
       <div class="pa-toast__message">${message}</div>
     </div>
-    <button class="pa-toast__close" onclick="dismissToast('${toastId}')" aria-label="Close">✕</button>
+    <button class="pa-toast__close" onclick="dismissToast('${toastId}')" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
     ${showProgress && !persistent ? '<div class="pa-toast__progress w-100"></div>' : ''}
   `;
 
@@ -280,7 +280,7 @@ Bordered toast:
     <div class="pa-toast__title">Saved</div>
     <div class="pa-toast__message">Entry stored.</div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 Toast with Undo action:
@@ -291,7 +291,7 @@ Toast with Undo action:
       <button class="pa-btn pa-btn--xs pa-btn--secondary">Undo</button>
     </div>
   </div>
-  <button class="pa-toast__close" aria-label="Close">✕</button>
+  <button class="pa-toast__close" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
 </div>
 
 Toast with progress bar:
