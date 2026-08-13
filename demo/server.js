@@ -331,7 +331,7 @@ app.get('/components/svelte-treeview', (req, res) => {
 });
 
 app.get('/components/file-selector', (req, res) => {
-    renderWithLayout(res, 'file-selector', { pageTitle: 'File Selector', currentPage: 'file-selector', isFileSelector: true });
+    renderWithLayout(res, 'file-selector', { pageTitle: 'File Upload', currentPage: 'file-selector', isFileSelector: true });
 });
 
 app.get('/components/checkbox-lists', (req, res) => {

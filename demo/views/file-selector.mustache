@@ -1,393 +1,718 @@
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h2 class="pa-card__title-text">File Selector Component</h2>
+        <h2 class="pa-card__title-text">File Upload — Web Dropzone Component</h2>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Custom file input styling, drag & drop areas, image previews, file lists, and upload progress indicators.</p>
-    <p><strong>Features:</strong> Custom styled inputs, drag-and-drop support, file validation, image thumbnails, progress bars, and detailed file information display.</p>
+    <p>
+      Accessible file-upload web component from <code>@keenmate/web-dropzone</code> with drag-and-drop,
+      file previews, validation, upload-progress tracking, and multiple display modes. Framework-agnostic,
+      form-associated, and themed via CSS custom properties — it inherits the active Pure Admin theme through
+      the shared <code>--base-*</code> variables, the same bridge <code>&lt;web-multiselect&gt;</code> uses.
+    </p>
+    <p>
+      <strong>Three orthogonal display axes</strong> combine freely:
+    </p>
+    <ul>
+      <li><code>selector-appearance</code> — <strong>card</strong> · button · minimal · native <em>(what the user clicks / drops onto)</em></li>
+      <li><code>list-appearance</code> — <strong>list</strong> · detailed · grid · badges · popover · none <em>(where picked files appear)</em></li>
+      <li><code>card-size</code> — minimal · <strong>compact</strong> · big <em>(density of the card selector)</em></li>
+    </ul>
+    <p class="pa-text-muted">
+      Uploads on this page are <strong>simulated</strong> (a local progress stub) so you can watch the
+      progress UI without a server. Files that fail <code>accept</code> / size / count rules surface as toasts.
+    </p>
   </div>
 </div>
 
-<!-- Basic File Input - Single -->
+<!-- SELECTOR APPEARANCE -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Basic File Input - Single File</h3>
+        <h3 class="pa-card__title-text">Selector Appearance <code>(selector-appearance)</code></h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Custom-styled file input replacing the default browser input. Click the button to select a file.</p>
-
+    <p>Four visual entry points for picking files.</p>
     <div class="pa-row">
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
-          <label>Upload Document</label>
-          <div class="pa-file-input">
-            <input type="file" id="file-single" class="pa-file-input__native" accept=".pdf,.doc,.docx">
-            <button type="button" class="pa-btn pa-btn--secondary pa-file-input__button">
-              <span class="pa-btn__icon">📁</span>
-              Choose File
-            </button>
-            <span class="pa-file-input__filename">No file chosen</span>
-          </div>
-          <small class="pa-form-text">Accepts PDF and Word documents</small>
+          <label>card (default) — bordered drop zone</label>
+          <web-dropzone selector-appearance="card" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
+          <small class="pa-form-text">Click anywhere on the card to browse, or drag-and-drop files.</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>button — accent button, no drag zone</label>
+          <web-dropzone selector-appearance="button" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
+          <small class="pa-form-text">Use when the picker should sit inline (toolbars, dense forms).</small>
+        </div>
+      </div>
+    </div>
+    <div class="pa-row" style="margin-top: 1rem;">
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>minimal — icon-only with count badge</label>
+          <web-dropzone selector-appearance="minimal" list-appearance="list" accept="*/*" icon="📎" max-file-count="5"></web-dropzone>
+          <small class="pa-form-text">Compact button; the badge appears when files are picked.</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>native — button + text label, like <code>&lt;input type="file"&gt;</code></label>
+          <web-dropzone selector-appearance="native" list-appearance="none" accept="*/*" max-file-count="5" select-files-text="Choose Files"></web-dropzone>
+          <small class="pa-form-text">Empty: "No file chosen" · 1 file: filename · multiple: "N files chosen". Customize via <code>select-files-text</code> / <code>no-file-chosen-text</code>.</small>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Basic File Input - Multiple -->
+<!-- LIST APPEARANCE -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Basic File Input - Multiple Files</h3>
+        <h3 class="pa-card__title-text">List Appearance <code>(list-appearance)</code></h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Select multiple files at once. The selected count will be displayed.</p>
+    <p>How the picked files are presented — from a simple vertical list to badge pills or a hidden popover.</p>
+    <div class="pa-row">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>list (default) — simple rows</label>
+          <web-dropzone list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>detailed — icon + size + MIME</label>
+          <web-dropzone list-appearance="detailed" accept="*/*" max-file-count="5"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>grid — image preview thumbnails</label>
+          <web-dropzone list-appearance="grid" accept="image/*" max-file-count="6" prompt-text="Drop images"></web-dropzone>
+        </div>
+      </div>
+    </div>
+    <div class="pa-row" style="margin-top: 1rem;">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>badges — inline composite pills</label>
+          <web-dropzone list-appearance="badges" accept="*/*" max-file-count="6" prompt-text="Drop files (badges appear inline)"></web-dropzone>
+          <small class="pa-form-text">Same badge surface as <code>web-multiselect</code>. Add <code>show-thumbnails</code> for image previews.</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>badges + <code>show-thumbnails</code></label>
+          <web-dropzone list-appearance="badges" show-thumbnails accept="image/*" max-file-count="6" prompt-text="Drop images for badge thumbnails"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>popover — list hidden, click summary to open</label>
+          <web-dropzone list-appearance="popover" accept="image/*,.pdf" max-file-size="5MB" max-file-count="10"></web-dropzone>
+          <small class="pa-form-text">Popover header shows count + Add more / Clear all; footer pins total size.</small>
+        </div>
+      </div>
+    </div>
+    <div class="pa-row" style="margin-top: 1rem;">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>none — list not rendered (caller handles it)</label>
+          <web-dropzone id="list-none" list-appearance="none" accept="*/*" max-file-count="5"></web-dropzone>
+          <small class="pa-form-text">Picked: <span id="list-none-out">(none)</span></small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label><code>max-visible-files="3"</code> — caps rows, "Show N more" reveals the rest</label>
+          <web-dropzone list-appearance="detailed" max-visible-files="3" accept="*/*" max-file-count="20"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label><code>--dz-file-list-max-height</code> — CSS height cap + internal scroll</label>
+          <web-dropzone list-appearance="detailed" accept="*/*" max-file-count="20" style="--dz-file-list-max-height: 18rem;"></web-dropzone>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- CARD SIZE -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Card Size <code>(card-size)</code></h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>Density variants for the card selector. Only meaningful when <code>selector-appearance="card"</code>.</p>
+    <div class="pa-row">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>minimal — thin horizontal row</label>
+          <web-dropzone card-size="minimal" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>compact (default)</label>
+          <web-dropzone card-size="compact" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>big — tall showcase with Browse button</label>
+          <web-dropzone
+            card-size="big"
+            list-appearance="list"
+            accept="*/*"
+            max-file-count="5"
+            prompt-text="Drop your files here"
+            hint-text="PNG, JPG, PDF — up to 5 MB each"
+            select-files-text="Browse files">
+          </web-dropzone>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILES-INSIDE LAYOUT -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Files-Inside Layout <code>(files-inside)</code></h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>Render the file list <em>inside</em> the dropzone area instead of below it — useful when vertical space is constrained.</p>
+    <div class="pa-row">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>files-inside + list</label>
+          <web-dropzone files-inside list-appearance="list" accept="*/*" max-file-count="5" prompt-text="Drop files"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>files-inside + detailed</label>
+          <web-dropzone files-inside list-appearance="detailed" accept="*/*" max-file-count="5" prompt-text="Drop files"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>files-inside + grid</label>
+          <web-dropzone files-inside list-appearance="grid" accept="image/*" max-file-count="6" prompt-text="Drop images"></web-dropzone>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMON COMBINATIONS -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Common Combinations</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>Mixing the three axes covers the patterns users actually want.</p>
+    <div class="pa-row">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Inline attachments — button + badges</label>
+          <web-dropzone selector-appearance="button" list-appearance="badges" accept="*/*" max-file-count="5" select-files-text="📎 Attach"></web-dropzone>
+          <small class="pa-form-text">Slack / Gmail-style attachment pattern.</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Toolbar icon — minimal + popover</label>
+          <web-dropzone selector-appearance="minimal" list-appearance="popover" accept="image/*,.pdf" max-file-size="5MB" max-file-count="10" icon="📎"></web-dropzone>
+          <small class="pa-form-text">Click icon → picker. After files exist → toggles popover.</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Landing hero — big card</label>
+          <web-dropzone
+            selector-appearance="card"
+            card-size="big"
+            list-appearance="detailed"
+            accept="*/*"
+            max-file-count="3"
+            icon="☁️"
+            prompt-text="Upload your portfolio"
+            hint-text="Drag &amp; drop or click below"
+            select-files-text="Choose files">
+          </web-dropzone>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SATELLITE ARCHITECTURE -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Satellite Elements <code>(for="&lt;store-id&gt;")</code></h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      The store and its surfaces can be split into standalone elements that bind to a store by id via
+      <code>for=""</code>. Here one <code>&lt;web-dropzone controls="picker"&gt;</code> acts as the store +
+      picker, and the list, overall-progress strip, and floating status indicator are rendered by separate
+      satellites — anywhere on the page.
+    </p>
     <div class="pa-row">
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
-          <label>Upload Images</label>
-          <div class="pa-file-input">
-            <input type="file" id="file-multiple" class="pa-file-input__native" accept="image/*" multiple>
-            <button type="button" class="pa-btn pa-btn--secondary pa-file-input__button">
-              <span class="pa-btn__icon">🖼️</span>
-              Choose Files
-            </button>
-            <span class="pa-file-input__filename">No files chosen</span>
-          </div>
-          <small class="pa-form-text">Select multiple images</small>
+          <label>Store + picker only</label>
+          <web-dropzone id="sat-store" controls="picker" accept="*/*" multiple max-file-count="10" prompt-text="Drop files — surfaces render on the right"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label><code>&lt;web-dropzone-progress&gt;</code> — overall strip</label>
+          <web-dropzone-progress for="sat-store"></web-dropzone-progress>
+        </div>
+        <div class="pa-form-group">
+          <label><code>&lt;web-dropzone-list&gt;</code> — detailed list satellite</label>
+          <web-dropzone-list for="sat-store" list-appearance="detailed"></web-dropzone-list>
         </div>
       </div>
     </div>
+    <p class="pa-text-muted">
+      A <code>&lt;web-dropzone-indicator for="sat-store"&gt;</code> (floating status chip + slide-out drawer)
+      is also mounted for this store — it appears once an upload is active.
+    </p>
+    <web-dropzone-indicator for="sat-store"></web-dropzone-indicator>
   </div>
 </div>
 
-<!-- Drag & Drop Area - Single -->
+<!-- COMPOSABLE CONTROLS -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Drag & Drop Area - Single File</h3>
+        <h3 class="pa-card__title-text">Composable Controls <code>(controls + item-controls)</code></h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Drag and drop a file onto the area, or click to select. Visual feedback during drag operations.</p>
-
+    <p>
+      Two allowlists. <code>controls</code> picks which top-level <strong>surfaces</strong> render;
+      <code>item-controls</code> picks which <strong>parts of each file row</strong> render. Both are
+      comma-separated; an absent attribute means "render all". Toggle the boxes and add a file to watch it recompose.
+    </p>
     <div class="pa-row">
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
-          <label>Upload Profile Picture</label>
-          <div class="pa-file-dropzone" id="dropzone-single">
-            <input type="file" class="pa-file-dropzone__input" accept="image/*">
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">📤</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop file here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">PNG, JPG up to 5MB</div>
-            </div>
-          </div>
+          <web-dropzone id="controls-demo"
+            selector-appearance="card"
+            list-appearance="detailed"
+            accept="*/*"
+            multiple
+            max-file-count="8"></web-dropzone>
+          <small class="pa-form-text">Live: <code id="controls-demo-attrs"></code></small>
         </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <fieldset style="border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius); padding: 0.5rem 1rem 0.85rem; margin: 0 0 1rem;">
+          <legend style="font-size: 1.2rem; padding: 0 0.4rem;"><code>controls</code> — surfaces</legend>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-ctrl="picker" checked> picker</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-ctrl="list" checked> list</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-ctrl="overall-progress" checked> overall-progress</label>
+        </fieldset>
+        <fieldset style="border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius); padding: 0.5rem 1rem 0.85rem; margin: 0;">
+          <legend style="font-size: 1.2rem; padding: 0 0.4rem;"><code>item-controls</code> — row parts</legend>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="icon" checked> icon</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="name" checked> name</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="size" checked> size</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="type" checked> type</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="progress" checked> progress</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="status" checked> status</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="action" checked> action</label>
+          <label class="pa-checkbox-inline"><input type="checkbox" data-item="remove" checked> remove</label>
+        </fieldset>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Drag & Drop Area - Multiple -->
+<!-- RECIPES -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Drag & Drop Area - Multiple Files</h3>
+        <h3 class="pa-card__title-text">Recipes — progress rules in userland</h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Drag and drop multiple files onto the area. Files will be listed below the dropzone.</p>
-
+    <p>Count- or state-based progress behaviour needs no dedicated attributes — compose it from the primitives above plus the <code>change</code> event and <code>auto-upload</code>.</p>
     <div class="pa-row">
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
-          <label>Upload Documents</label>
-          <div class="pa-file-dropzone" id="dropzone-multiple">
-            <input type="file" class="pa-file-dropzone__input" accept=".pdf,.doc,.docx,.txt" multiple>
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">📎</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop files here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">PDF, DOC, DOCX, TXT files</div>
-            </div>
-          </div>
-          <div id="dropzone-multiple-list" class="pa-file-list"></div>
+          <label>Per-row bars only at 4+ files <em>(count-based)</em></label>
+          <web-dropzone id="recipe-count" list-appearance="detailed" accept="*/*" multiple max-file-count="8"></web-dropzone>
+          <small class="pa-form-text">1–3 files → global strip only. 4+ → both bars. Only the per-row <code>progress</code> token toggles.</small>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- Image Preview -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Image Preview with Thumbnails</h3>
-    </div>
-  </div>
-  <div class="pa-card__body">
-    <p>Select images and see thumbnail previews before uploading. Each preview has a remove button.</p>
-
-    <div class="pa-row">
-      <div class="pa-col-100">
+      <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
-          <label>Select Images</label>
-          <div class="pa-file-dropzone" id="dropzone-preview">
-            <input type="file" class="pa-file-dropzone__input" accept="image/*" multiple>
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">🖼️</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop images here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">PNG, JPG, GIF, WEBP</div>
-            </div>
+          <label>Global strip only after upload starts <em>(state-based)</em></label>
+          <web-dropzone id="recipe-onstart" auto-upload="false" list-appearance="detailed" accept="*/*" multiple max-file-count="8"></web-dropzone>
+          <div style="margin-top: 0.75rem;">
+            <button type="button" class="pa-btn pa-btn--sm pa-btn--primary" id="recipe-onstart-go">Start upload</button>
           </div>
-          <div id="preview-container" class="pa-file-preview-grid"></div>
+          <small class="pa-form-text">With <code>auto-upload="false"</code> files sit <code>pending</code> and the strip stays hidden until you kick off the upload.</small>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- File List with Details -->
+<!-- POPOVER PLACEMENT -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">File List with Details</h3>
+        <h3 class="pa-card__title-text">Popover Placement <code>(popover-placement)</code></h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Detailed file list showing filename, size, type, and upload status with remove buttons.</p>
-
+    <p>Positioning uses Floating UI, so it auto-flips on viewport collisions. The attribute sets the preferred initial placement.</p>
     <div class="pa-row">
-      <div class="pa-col-100">
-        <div class="pa-form-group">
-          <label>Upload Files</label>
-          <div class="pa-file-dropzone" id="dropzone-detailed">
-            <input type="file" class="pa-file-dropzone__input" multiple>
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">📁</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop files here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">Any file type</div>
-            </div>
-          </div>
-          <div id="detailed-file-list" class="pa-file-list pa-file-list--detailed"></div>
-        </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group"><label>bottom-start (default)</label>
+          <web-dropzone list-appearance="popover" popover-placement="bottom-start" accept="*/*"></web-dropzone></div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group"><label>bottom</label>
+          <web-dropzone list-appearance="popover" popover-placement="bottom" accept="*/*"></web-dropzone></div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group"><label>bottom-end</label>
+          <web-dropzone list-appearance="popover" popover-placement="bottom-end" accept="*/*"></web-dropzone></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- File Validation -->
+<!-- SINGLE vs MULTIPLE + ACCEPT -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">File Validation (Size & Type)</h3>
+        <h3 class="pa-card__title-text">Single vs Multiple &amp; Accept Patterns</h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Validate file size and type before accepting. Shows error messages for invalid files.</p>
-
+    <p>The <code>multiple</code> attribute defaults to <code>true</code>. Set <code>multiple="false"</code> to lock to a single file. <code>accept</code> uses the same syntax as native <code>&lt;input type="file"&gt;</code>.</p>
     <div class="pa-row">
       <div class="pa-col-100 pa-col-md-50">
         <div class="pa-form-group">
-          <label>Upload Image (Max 2MB)</label>
-          <div class="pa-file-dropzone" id="dropzone-validated">
-            <input type="file" class="pa-file-dropzone__input" accept="image/png,image/jpeg" data-max-size="2097152">
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">🖼️</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop image here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">PNG or JPEG only, max 2MB</div>
-            </div>
-          </div>
-          <div id="validation-error" class="pa-alert pa-alert--danger mt-2" style="display: none;"></div>
-          <div id="validation-success" class="pa-alert pa-alert--success mt-2" style="display: none;"></div>
+          <label>Multiple (default)</label>
+          <web-dropzone display-mode="detailed" prompt-text="Drop one or more files" accept="*/*"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>Single only — <code>multiple="false"</code></label>
+          <web-dropzone multiple="false" display-mode="detailed" prompt-text="Drop a single file" hint-text="Replaces any existing selection" accept="*/*"></web-dropzone>
+        </div>
+      </div>
+    </div>
+    <div class="pa-row" style="margin-top: 1rem;">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Images only — <code>image/*</code></label>
+          <web-dropzone accept="image/*" display-mode="grid" prompt-text="Drop images"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>PDF or Word — <code>.pdf,.doc,.docx</code></label>
+          <web-dropzone accept=".pdf,.doc,.docx" display-mode="detailed" prompt-text="Drop documents"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Min size + count — form validity</label>
+          <form onsubmit="event.preventDefault(); (window.pureAdmin &amp;&amp; pureAdmin.toast ? pureAdmin.toast.success('Form submitted (valid).') : alert('Form submitted (valid).'));">
+            <web-dropzone name="docs" list-appearance="detailed" accept="*/*" min-file-size="1kB" min-file-count="2" max-file-count="5"></web-dropzone>
+            <button type="submit" class="pa-btn pa-btn--sm pa-btn--primary" style="margin-top: 0.8rem;">Submit</button>
+          </form>
+          <small class="pa-form-text">Submit blocked by native form validity until ≥ 2 files ≥ 1 KB are selected.</small>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Upload Progress -->
+<!-- DISABLED + LEGACY -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Upload Progress Indicators</h3>
+        <h3 class="pa-card__title-text">Disabled State &amp; Legacy <code>display-mode</code></h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Simulated upload progress with progress bars. Click "Upload Files" after selecting to see progress.</p>
-
+    <p>The <code>disabled</code> attribute follows HTML convention. The original single-axis <code>display-mode</code> still works as a shorthand (<code>list</code> / <code>detailed</code> / <code>grid</code> / <code>compact</code>=popover); when both are set, the orthogonal attribute wins.</p>
     <div class="pa-row">
-      <div class="pa-col-100">
+      <div class="pa-col-100 pa-col-md-1-3">
         <div class="pa-form-group">
-          <label>Select Files to Upload</label>
-          <div class="pa-file-dropzone" id="dropzone-progress">
-            <input type="file" class="pa-file-dropzone__input" multiple>
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">☁️</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop files here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">Select files then click Upload</div>
-            </div>
+          <label>Disabled dropzone</label>
+          <web-dropzone disabled display-mode="detailed" prompt-text="This dropzone is disabled"></web-dropzone>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Toggle via JS</label>
+          <web-dropzone id="toggle-disabled" display-mode="detailed" accept="*/*"></web-dropzone>
+          <div style="margin-top: 0.5rem;">
+            <button type="button" class="pa-btn pa-btn--sm pa-btn--secondary" id="toggle-disabled-btn">Toggle disabled</button>
           </div>
-          <div id="progress-file-list" class="pa-file-list pa-file-list--detailed"></div>
-          <button type="button" id="upload-btn" class="pa-btn pa-btn--primary" style="margin-top: 1rem; display: none;">
-            <span class="pa-btn__icon">⬆️</span>
-            Upload Files
-          </button>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label><code>display-mode="compact"</code> (= popover)</label>
+          <web-dropzone display-mode="compact" accept="image/*,.pdf" max-file-size="5MB" max-file-count="10"></web-dropzone>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Compact Mode: Files Inside Dropzone -->
+<!-- PROGRAMMATIC API -->
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Compact Mode - Files Inside Dropzone</h3>
+        <h3 class="pa-card__title-text">Programmatic API &amp; Events</h3>
     </div>
   </div>
   <div class="pa-card__body">
-    <p>Professional, space-efficient layout with files displayed in a grid inside the dropzone. Add <code>data-files-inside="true"</code> to enable compact mode.</p>
-
-    <div class="pa-row">
-      <!-- Compact: Multiple Files with Icons -->
-      <div class="pa-col-100 pa-col-md-50" style="padding-right: 0.5rem;">
-        <div class="pa-form-group">
-          <label>Documents (Compact)</label>
-          <div class="pa-file-dropzone" id="dropzone-compact" data-files-inside="true">
-            <input type="file" class="pa-file-dropzone__input" accept=".pdf,.doc,.docx,.txt" multiple>
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">📎</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop files here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">PDF, DOC, DOCX, TXT files</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Compact: Images with Thumbnails -->
-      <div class="pa-col-100 pa-col-md-50" style="padding-left: 0.5rem;">
-        <div class="pa-form-group">
-          <label>Images (Compact)</label>
-          <div class="pa-file-dropzone" id="dropzone-compact-images" data-files-inside="true">
-            <input type="file" class="pa-file-dropzone__input" accept="image/*" multiple>
-            <div class="pa-file-dropzone__content">
-              <div class="pa-file-dropzone__icon">🖼️</div>
-              <div class="pa-file-dropzone__text">
-                <strong>Drop images here</strong> or click to browse
-              </div>
-              <div class="pa-file-dropzone__hint">PNG, JPG, GIF, WEBP</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Ultra-Compact Mode: Summary + Modal with Drag Overlay -->
-<div class="pa-card">
-  <div class="pa-card__header">
-    <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Ultra-Compact Mode - Form Integration</h3>
-    </div>
-  </div>
-  <div class="pa-card__body">
-    <p>Minimalist file picker perfect for compact forms. Single-line summary that blends naturally with form fields. Drag files anywhere on the form to see the overlay expand!</p>
-
     <div class="pa-row">
       <div class="pa-col-100 pa-col-md-50">
-        <form id="compact-form" style="padding: 1rem; border: 1px solid var(--base-border-color); border-radius: 0.25rem; background: var(--base-primary-bg);">
-          <div class="pa-form-group">
-            <label>Name</label>
-            <input type="text" class="pa-input" placeholder="Enter your name">
+        <div class="pa-form-group">
+          <label>Live event log</label>
+          <web-dropzone id="api-demo" display-mode="detailed" accept="*/*"></web-dropzone>
+          <div style="margin-top: 0.75rem;">
+            <button type="button" class="pa-btn pa-btn--sm pa-btn--secondary" id="api-clear">clear()</button>
+            <button type="button" class="pa-btn pa-btn--sm pa-btn--secondary" id="api-getfiles">getFiles()</button>
           </div>
-
-          <div class="pa-form-group">
-            <label>Email</label>
-            <input type="email" class="pa-input" placeholder="Enter your email">
-          </div>
-
-          <div class="pa-form-group">
-            <label>Attachments</label>
-            <div class="pa-file-dropzone" id="dropzone-ultracompact"
-                 data-files-compact="modal"
-                 data-overlay-target="compact-form">
-              <input type="file" class="pa-file-dropzone__input" multiple>
-              <div class="pa-file-dropzone__content">
-                <span class="text-2xs" style="color: var(--base-text-color-3);">Click or drag files</span>
-              </div>
-            </div>
-            <small class="pa-form-text">Drag files anywhere on this form to see the overlay!</small>
-          </div>
-
-          <button type="button" id="upload-ultracompact-btn" class="pa-btn pa-btn--primary" style="display: none; margin-right: 0.5rem;">
-            <span class="pa-btn__icon">⬆️</span>
-            Upload Files
-          </button>
-          <button type="submit" class="pa-btn pa-btn--secondary">Submit</button>
-        </form>
-      </div>
-
-      <div class="pa-col-100 pa-col-md-50" style="padding-left: 1rem;">
-        <div class="pa-alert pa-alert--info">
-          <strong>Features:</strong>
-          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-            <li><strong>Single-line display:</strong> "📎 3 files (2.5MB) • Click to view details"</li>
-            <li><strong>Drag overlay:</strong> Drag files anywhere on form to expand dropzone</li>
-            <li><strong>Click file count</strong> to open positioned popover with file table</li>
-            <li><strong>Floating UI:</strong> Smart positioning with auto-flip and arrow</li>
-            <li><strong>Progress tracking:</strong> Currently uploading file shown inline</li>
-            <li><strong>Blends with forms:</strong> No border, minimal styling</li>
-          </ul>
-        </div>
-
-        <div class="pa-alert pa-alert--success mt-4">
-          <strong>Configuration:</strong>
-          <pre class="pa-code pa-code--compact mt-2"><code>data-files-compact="modal"
-data-overlay-target="compact-form"</code></pre>
         </div>
       </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>Events</label>
+          <pre id="api-log" class="text-xs" style="height: 16rem; overflow-y: auto; padding: 0.75rem; background: var(--base-subtle-bg, var(--pa-main-bg)); border-radius: var(--pa-border-radius); margin: 0;">(none yet — drop or pick a file)</pre>
+        </div>
+      </div>
+    </div>
+    <div class="pa-card__body" style="padding-inline: 0;">
+      <pre class="text-xs" style="padding: 0.75rem; background: var(--base-subtle-bg, var(--pa-main-bg)); border-radius: var(--pa-border-radius); overflow-x: auto;"><code>const el = document.getElementById('api-demo')
+
+el.addEventListener('file-added',     e =&gt; console.log('added',    e.detail))
+el.addEventListener('file-removed',   e =&gt; console.log('removed',  e.detail))
+el.addEventListener('files-rejected', e =&gt; console.log('rejected', e.detail))
+el.addEventListener('change',         e =&gt; console.log('change',   e.detail))
+
+el.addFiles(fileList)   // programmatic add (FileList or File[])
+el.removeFile(id)       // remove by FileState.id
+el.clear()              // remove all
+const files = el.files  // current FileState[]
+
+// simulated upload driver (this page): (file, onProgress, signal) =&gt; Promise
+el.uploadFileCallback = simulateUpload({ durationMs: 2500, failRate: 0.15 })</code></pre>
     </div>
   </div>
 </div>
 
-<script src="/src/js/file-selector.js"></script>
+<!-- RESOURCES -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Resources</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <ul>
+      <li><strong>npm Package:</strong> <code>@keenmate/web-dropzone</code> (headless store: <code>@keenmate/web-dropzone-core</code>)</li>
+      <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-dropzone" target="_blank" class="pa-link">github.com/keenmate/web-dropzone</a></li>
+      <li><strong>Elements:</strong> <code>&lt;web-dropzone&gt;</code> + satellites <code>&lt;web-dropzone-picker&gt;</code>, <code>&lt;web-dropzone-list&gt;</code>, <code>&lt;web-dropzone-indicator&gt;</code>, <code>&lt;web-dropzone-progress&gt;</code></li>
+      <li><strong>CSS Variables:</strong> component-local <code>--dz-*</code> + shared <code>--base-*</code> (theme integration, same bridge as web-multiselect / web-grid)</li>
+      <li><strong>Theming:</strong> Pure Admin provides <code>--base-*</code> via <code>src/scss/_base-css-variables.scss</code> — the component follows the active theme automatically</li>
+    </ul>
+  </div>
+</div>
 
 <script>
-// Initialize compact mode examples
-document.addEventListener('DOMContentLoaded', () => {
-  // Compact documents (reuse initDropzone)
-  const dropzoneCompact = document.getElementById('dropzone-compact');
-  if (dropzoneCompact) {
-    // Already initialized by main init calls
+(function () {
+  // Simulated upload driver — matches FileUploadHandler:
+  //   (file, onProgress, signal, context) => Promise<void>
+  // Reports progress 0→100 over durationMs, respects abort, optionally fails.
+  window.simulateUpload = function simulateUpload(opts) {
+    opts = opts || {};
+    var duration = opts.durationMs || 2500;
+    var failRate = opts.failRate || 0;
+    return function (file, onProgress, signal) {
+      return new Promise(function (resolve, reject) {
+        var pct = 0;
+        var stepEvery = 100;
+        var inc = 100 / (duration / stepEvery);
+        var timer = setInterval(function () {
+          if (signal && signal.aborted) {
+            clearInterval(timer);
+            reject(new DOMException('Aborted', 'AbortError'));
+            return;
+          }
+          pct = Math.min(100, pct + inc);
+          onProgress(pct);
+          if (pct >= 100) {
+            clearInterval(timer);
+            if (Math.random() < failRate) reject(new Error('Simulated upload failure'));
+            else resolve();
+          }
+        }, stepEvery);
+      });
+    };
+  };
+
+  var REJECTION_LABEL = {
+    count: 'Too many files',
+    size: 'Size limit',
+    type: 'Type not accepted',
+    duplicate: 'Duplicate filename',
+    custom: 'Rejected'
+  };
+
+  function notifyRejections(e) {
+    var groups = {};
+    var list = (e.detail && e.detail.rejectedFiles) || [];
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i];
+      var code = (r.validation && r.validation.code) || 'custom';
+      (groups[code] = groups[code] || []).push(r);
+    }
+    Object.keys(groups).forEach(function (code) {
+      var items = groups[code];
+      var title = REJECTION_LABEL[code] || 'Rejected';
+      var sample = (items[0].validation && items[0].validation.error) || items[0].file.name;
+      var more = items.length > 1 ? ' (+' + (items.length - 1) + ' more)' : '';
+      if (window.pureAdmin && pureAdmin.toast) pureAdmin.toast.warning(sample + more, { title: title });
+      else console.warn('[dropzone] ' + title + ': ' + sample + more);
+    });
   }
 
-  // Compact images (reuse initImagePreview)
-  const dropzoneCompactImages = document.getElementById('dropzone-compact-images');
-  if (dropzoneCompactImages) {
-    // Already initialized by main init calls
-  }
-});
+  customElements.whenDefined('web-dropzone').then(function () {
+    // Give every dropzone a working (simulated) upload driver + rejection toasts.
+    var zones = document.querySelectorAll('web-dropzone');
+    for (var i = 0; i < zones.length; i++) {
+      customElements.upgrade(zones[i]);
+      zones[i].uploadFileCallback = window.simulateUpload({ durationMs: 2500, failRate: 0.15 });
+      zones[i].addEventListener('files-rejected', notifyRejections);
+    }
+
+    // list-appearance="none" — caller reads .files itself
+    var listNone = document.getElementById('list-none');
+    var listNoneOut = document.getElementById('list-none-out');
+    if (listNone && listNoneOut) {
+      listNone.addEventListener('change', function () {
+        var files = listNone.files || [];
+        listNoneOut.textContent = files.length
+          ? files.length + ' file(s): ' + files.map(function (f) { return f.name; }).join(', ')
+          : '(none)';
+      });
+    }
+
+    // Toggle-disabled button
+    var toggle = document.getElementById('toggle-disabled');
+    var toggleBtn = document.getElementById('toggle-disabled-btn');
+    if (toggle && toggleBtn) {
+      toggleBtn.addEventListener('click', function () { toggle.disabled = !toggle.disabled; });
+    }
+
+    // Composable controls — drive controls / item-controls from the checkboxes.
+    var cd = document.getElementById('controls-demo');
+    var cdAttrs = document.getElementById('controls-demo-attrs');
+    if (cd) {
+      var panel = cd.closest('.pa-card');
+      var ALL_CTRL = ['picker', 'list', 'overall-progress'];
+      var ALL_ITEM = ['icon', 'name', 'size', 'type', 'progress', 'status', 'action', 'remove'];
+      var checkedVals = function (attr) {
+        return Array.prototype.slice.call(panel.querySelectorAll('[data-' + attr + ']'))
+          .filter(function (c) { return c.checked; })
+          .map(function (c) { return c.dataset[attr]; });
+      };
+      var apply = function (name, chosen, all) {
+        if (chosen.length === all.length) cd.removeAttribute(name);
+        else cd.setAttribute(name, chosen.join(','));
+      };
+      var sync = function () {
+        apply('controls', checkedVals('ctrl'), ALL_CTRL);
+        apply('item-controls', checkedVals('item'), ALL_ITEM);
+        if (cdAttrs) {
+          cdAttrs.textContent = 'controls="' + (cd.getAttribute('controls') || '(all)') +
+            '"  item-controls="' + (cd.getAttribute('item-controls') || '(all)') + '"';
+        }
+      };
+      var boxes = panel.querySelectorAll('[data-ctrl], [data-item]');
+      for (var b = 0; b < boxes.length; b++) boxes[b].addEventListener('change', sync);
+      sync();
+    }
+
+    // Recipe: count-based per-row progress
+    var recipeCount = document.getElementById('recipe-count');
+    if (recipeCount) {
+      var LEAN = 'icon,name,size,type,status,action,remove'; // everything but progress
+      recipeCount.addEventListener('change', function () {
+        var want = recipeCount.files.length >= 4 ? null : LEAN;
+        if (recipeCount.getAttribute('item-controls') === want) return;
+        if (want === null) recipeCount.removeAttribute('item-controls');
+        else recipeCount.setAttribute('item-controls', want);
+      });
+    }
+
+    // Recipe: global strip only after upload starts
+    var recipeOnStart = document.getElementById('recipe-onstart');
+    var recipeOnStartGo = document.getElementById('recipe-onstart-go');
+    if (recipeOnStart && recipeOnStartGo) {
+      recipeOnStartGo.addEventListener('click', function () {
+        if (recipeOnStart.uploadAll) recipeOnStart.uploadAll();
+      });
+    }
+
+    // Programmatic API demo — event log
+    var apiEl = document.getElementById('api-demo');
+    var apiLog = document.getElementById('api-log');
+    if (apiEl && apiLog) {
+      var lines = [];
+      var append = function (line) {
+        lines.push(line);
+        if (lines.length > 12) lines.shift();
+        apiLog.textContent = lines.join('\n');
+      };
+      apiEl.addEventListener('file-added', function (e) { append('+ added    ' + e.detail.file.name); });
+      apiEl.addEventListener('file-removed', function (e) { append('- removed  ' + e.detail.file.name); });
+      apiEl.addEventListener('files-rejected', function (e) { append('! rejected ' + e.detail.rejectedFiles.length + ' file(s)'); });
+      apiEl.addEventListener('change', function (e) { append('~ change   now ' + (e.target.files || []).length + ' file(s)'); });
+
+      var clearBtn = document.getElementById('api-clear');
+      var getBtn = document.getElementById('api-getfiles');
+      if (clearBtn) clearBtn.addEventListener('click', function () { apiEl.clear && apiEl.clear(); });
+      if (getBtn) getBtn.addEventListener('click', function () {
+        var files = apiEl.files || [];
+        append('getFiles() -> ' + files.length + ' file(s): ' + (files.map(function (f) { return f.name; }).join(', ') || '(none)'));
+      });
+    }
+  });
+})();
 </script>
