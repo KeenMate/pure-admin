@@ -166,6 +166,31 @@
       });
     }
 
+    // Read a raw string CSS variable off :root (trimmed); fallback if unset.
+    function readCssString(name, fallback) {
+      try {
+        var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return v || fallback;
+      } catch (e) { return fallback; }
+    }
+
+    // Resolve a duration CSS variable to MILLISECONDS. The motion tokens are
+    // calc() expressions (calc(0.25s * 1)), which getComputedStyle won't resolve
+    // on an unregistered custom property — so apply the var to a probe element's
+    // transition-duration and read back the browser-resolved time.
+    function readCssMs(name, fallbackMs) {
+      try {
+        var probe = document.createElement('div');
+        probe.style.cssText = 'position:absolute;visibility:hidden;transition-duration:var(' + name + ')';
+        document.documentElement.appendChild(probe);
+        var v = getComputedStyle(probe).transitionDuration; // e.g. "0.25s" or "250ms"
+        document.documentElement.removeChild(probe);
+        var n = parseFloat(v);
+        if (isNaN(n)) return fallbackMs;
+        return v.indexOf('ms') !== -1 ? n : n * 1000; // seconds → ms
+      } catch (e) { return fallbackMs; }
+    }
+
     // mobileBreakpoint (px) — SINGLE-SOURCED from SCSS $mobile-breakpoint via the
     // --pa-mobile-breakpoint CSS var (see _layout-responsive.scss), not a JS
     // literal. Honour an explicit consumer override; else derive from CSS; else
@@ -181,6 +206,19 @@
     if (cfg.typingDebounceDelay == null) {
       cfg.typingDebounceDelay = 300;
     }
+
+    // transition.* (ms) + easing — MIRROR the SCSS motion scale via the
+    // --pa-transition-* / --pa-easing-snappy CSS vars, for the rare JS that must
+    // sequence on a CSS transition (e.g. act after a drawer slide) instead of
+    // hardcoding a magic ms. CSS stays the source of truth.
+    cfg.transition = cfg.transition || {};
+    fillDefaults(cfg.transition, {
+      fast: readCssMs('--pa-transition-fast', 100),
+      normal: readCssMs('--pa-transition-normal', 150),
+      medium: readCssMs('--pa-transition-medium', 250),
+      slow: readCssMs('--pa-transition-slow', 300),
+      easing: readCssString('--pa-easing-snappy', 'ease-out')
+    });
 
     // toast.* — defaults for pureAdmin.toast, relocated here from
     // toast-service.js so consumers tune toasts in this one place.

@@ -4,14 +4,21 @@
    ======================================== */
 @use '../../variables' as *;
 
-// Expose the mobile breakpoint as a CSS variable so JS reads ONE source instead
-// of hardcoding 768 in a dozen places (window.pureAdmin.config.mobileBreakpoint
-// derives from this; see docs/config-shared-ui-baseline.md). Non-themeable
-// structural constant — same in every build — but emitted here (not via a theme
-// mixin) so it ships in both main.css and every theme. Unitless px value so
-// parseFloat() in JS reads a clean number.
+// Config CSS variables — the JS-readable single source for values that also
+// exist as SCSS tokens (window.pureAdmin.config mirrors these; see
+// docs/config-shared-ui-baseline.md). Non-themeable structural constants, so
+// they're emitted here (not via a theme mixin) yet ship in both main.css and
+// every theme. The breakpoint is a clean px value (parseFloat-friendly); the
+// motion tokens are calc() expressions, so JS resolves them off a probe element
+// (getComputedStyle can't resolve calc in an unregistered custom property).
+// These also give CSS consumers named motion tokens as runtime vars.
 :root {
   --pa-mobile-breakpoint: #{$mobile-breakpoint};
+  --pa-transition-fast: #{$transition-fast};
+  --pa-transition-normal: #{$transition-normal};
+  --pa-transition-medium: #{$transition-medium};
+  --pa-transition-slow: #{$transition-slow};
+  --pa-easing-snappy: #{$easing-snappy};
 }
 
 // Responsive Design - Mobile and Tablet

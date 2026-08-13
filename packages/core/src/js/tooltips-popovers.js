@@ -73,6 +73,10 @@
         if (element.classList.contains('pa-tooltip--warning')) tooltipEl.classList.add('pa-tooltip--warning');
         if (element.classList.contains('pa-tooltip--danger')) tooltipEl.classList.add('pa-tooltip--danger');
         if (element.classList.contains('pa-tooltip--multiline')) tooltipEl.classList.add('pa-tooltip--multiline');
+        // Copy color-1 through color-9 variants
+        for (let i = 1; i <= 9; i++) {
+            if (element.classList.contains(`pa-tooltip--color-${i}`)) tooltipEl.classList.add(`pa-tooltip--color-${i}`);
+        }
 
         // Set content and show
         tooltipEl.textContent = text;

@@ -61,6 +61,12 @@ test.describe('pureAdmin.config', () => {
             dangerTitle: 'Error'
         });
     });
+
+    test('exposes the motion scale (transition.* in ms + easing), mirrored from the CSS vars', async ({ page }) => {
+        const t = await page.evaluate(() => (window as any).pureAdmin.config.transition);
+        // Mirrors SCSS $transition-* (speed 1): 0.1/0.15/0.25/0.3s → ms.
+        expect(t).toEqual({ fast: 100, normal: 150, medium: 250, slow: 300, easing: 'ease-out' });
+    });
 });
 
 test.describe('toast-service reads config.severity / config.toast', () => {

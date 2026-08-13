@@ -1,19 +1,25 @@
 # `pureAdmin.config` — the shared UI baseline (design)
 
 **Status:** in progress. **Shipped (rc11):** `mobileBreakpoint`,
-`typingDebounceDelay`, `toast.*`, `severity.*` — the mechanism
-(`pureAdmin.config` on the namespace, CSS-var single-source, override path) is
-live and covered by `e2e/config.spec.ts`. **Remaining:** the motion mirror keys
-(`transition.*` + `easing`) — deferred until a JS consumer needs them (no CSS var
-is emitted for a key nothing reads yet).
+`typingDebounceDelay`, `toast.*`, `severity.*`, and `transition.*` + `easing` —
+the full shared-UI baseline is live and covered by `e2e/config.spec.ts`. Nothing
+core-side remains; further keys are added on demand.
 
-> **Follow-up surfaced while wiring toasts:** the demo serves `demo/js` *before*
-> the core package on the `/src/js` route, and `demo/js/toast-service.js` is a
-> **feature-ahead copy** (adds `actions`, `filled`, `progressColor`, `maxWidth`,
-> container width-ratcheting) that **shadows** `packages/core/src/js/toast-service.js`.
-> Both now read `pureAdmin.config`, but the two files should be reconciled —
-> upstream the demo's features into core and delete the shadow — so there's one
-> toast-service. Tracked separately.
+### Demo `/src/js` shadows core — audit (rc11)
+
+The demo serves `demo/js` *before* the core package on the `/src/js` route, so any
+`demo/js/<name>.js` **shadows** the core module. Audit of the overlap:
+
+- **De-duplicated (deleted from `demo/js`, now served from core):**
+  `tooltips-popovers.js` (its 4-line `--color-1..9` copy upstreamed to core
+  first), `file-selector.js`, `logic-tree-renderer.js`, `search-autocomplete.js`,
+  `search-autocomplete-v2.js`, `virtual-scroll.js`, `virtual-textbox.js` — all
+  were byte-identical to core. Verified the fallback serves them (HTTP 200).
+- **Kept as demo-ahead forks — owed a reconcile (upstream → delete shadow):**
+  `command-palette.js` (demo 1095 vs core 472 — the command-palette rework),
+  `settings-panel.js` (729 vs 248), `toast-service.js` (both read config now, but
+  demo adds `actions`/`filled`/`maxWidth`/width-ratcheting). Not auto-merged:
+  deleting these would regress the demo to core's older version.
 **Scope:** the *shared UI-behavior baseline* only — the framework's own default
 behavior, binding-agnostic. App-domain config (permissions, currentUser,
 date/time localization, button presets) is **out of scope** here; it belongs in
@@ -167,9 +173,9 @@ toastr's keys to pure-admin's).
    `config.severity`. Also fixed the broken default position `top-right` → `top-end`.
 4. ✅ **Done (rc11).** Demo `layout.mustache` (five `window.innerWidth <= 768`)
    and `settings-panel.js` → the config value — proves the override path.
-5. ✅ **Done (rc11).** `typingDebounceDelay` key added. ⏳ Motion mirror keys
-   deferred until a consumer needs them; any new debounce uses
-   `config.typingDebounceDelay`.
+5. ✅ **Done (rc11).** `typingDebounceDelay` + motion mirror keys
+   (`transition.*` + `easing`, emitted as `--pa-transition-*` / `--pa-easing-snappy`,
+   resolved to ms in JS via a probe element since the tokens are `calc()`).
 
 Each step is mechanical and independently shippable; the CSS-var mirror means no
 value is stated twice.
