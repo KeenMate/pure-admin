@@ -45,3 +45,25 @@ test('the profile close X renders as a masked .pa-icon--x (not a text glyph)', a
     expect(s.h).toBeGreaterThan(6);
     expect(s.text).toBe('');
 });
+
+test('the close icon uses a header-aware colour that contrasts the panel header', async ({ page }) => {
+    await page.locator('.pa-header__profile-btn').click();
+    await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
+
+    const colors = await page.evaluate(() => {
+        const close = document.querySelector('.pa-profile-panel__close') as HTMLElement;
+        const name = document.querySelector('.pa-profile-panel__name') as HTMLElement;
+        const header = document.querySelector('.pa-profile-panel__header') as HTMLElement;
+        return {
+            close: getComputedStyle(close).color,
+            name: getComputedStyle(name).color,
+            headerBg: getComputedStyle(header).backgroundColor
+        };
+    });
+
+    // The close button (and thus its masked icon, via currentColor) tracks the
+    // header-aware name colour, not a content token — so it can't vanish on a
+    // dark/coloured header (the NATO-navy regression).
+    expect(colors.close).toBe(colors.name);
+    expect(colors.close).not.toBe(colors.headerBg);
+});

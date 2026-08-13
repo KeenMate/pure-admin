@@ -181,7 +181,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--pa-text-color-2);
+    // Header-aware colour (like the name/email/tabs) — the close button lives in
+    // the panel HEADER (var(--pa-header-bg)), which is dark/coloured in many
+    // themes. Using the content token --pa-text-color-2 rendered near-invisible
+    // on a dark header (e.g. NATO's navy bar); --pa-header-profile-name-color is
+    // theme-guaranteed to contrast the header. currentColor is what the masked
+    // .pa-icon paints with, so this also fixes the close icon's visibility.
+    color: var(--pa-header-profile-name-color);
     border-radius: var(--pa-border-radius);
     transition: background-color $transition-fast $easing-snappy,
                 color $transition-fast $easing-snappy;
