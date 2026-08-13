@@ -1,0 +1,36 @@
+/* ========================================
+   Icons
+   Masked icon primitive — draws an SVG shape in `currentColor` via mask-image,
+   so it inherits the button/text colour and scales with font-size. This is the
+   framework's provider-agnostic icon hook: each glyph is one `--pa-icon-*`
+   swap point (override the mask URL to switch icon sets — Lucide is the
+   default). Introduced to replace the ✕ / × TEXT glyphs used for close/remove
+   affordances, which rendered inconsistently across platforms/fonts.
+
+   Usage:
+     <button class="pa-…__close" aria-label="Close">
+       <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+     </button>
+
+   Size with --pa-icon-size (default 1em). Colour follows currentColor.
+   ======================================== */
+
+:root {
+  // Lucide "x" — the close / remove / clear glyph. Override --pa-icon-x to swap
+  // in a different icon set's mark.
+  --pa-icon-x: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E");
+}
+
+.pa-icon {
+  display: inline-block;
+  inline-size: var(--pa-icon-size, 1em);
+  block-size: var(--pa-icon-size, 1em);
+  flex-shrink: 0;
+  // The mask paints the shape; the box colour is what shows through it.
+  background-color: currentColor;
+  -webkit-mask: var(--pa-icon-src, none) no-repeat center / contain;
+          mask: var(--pa-icon-src, none) no-repeat center / contain;
+}
+
+// Per-glyph modifiers just point --pa-icon-src at the chosen glyph var.
+.pa-icon--x { --pa-icon-src: var(--pa-icon-x); }
