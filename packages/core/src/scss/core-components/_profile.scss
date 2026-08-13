@@ -396,9 +396,28 @@
 
 // Responsive adjustments
 @media (max-width: $mobile-breakpoint) {
+  // Mobile: promote the profile panel to a full drawer, consistent with the
+  // mobile sidebar overlay — same 90vw width, same $mobile-backdrop-bg scrim,
+  // and background scroll-lock (demo toggle). On tablet/desktop the panel stays
+  // a narrow side sheet with NO scrim, so all of this is scoped to the mobile
+  // query only.
+  .pa-profile-panel {
+    // Span the full viewport so the absolutely-positioned scrim has a full-width
+    // containing block. Without this the panel shrink-to-fits to 0 width at the
+    // inline-end edge (all its children are position:absolute), so the 100vw
+    // overlay starts at that edge and lands entirely off-screen — the scrim
+    // never actually rendered. Harmless when closed (pointer-events:none/hidden).
+    inset-inline-start: 0; // RTL-safe: pairs with the base inset-inline-end: 0
+  }
+
+  .pa-profile-panel__overlay {
+    // Match the sidebar drawer's backdrop so the two mobile overlays are identical.
+    background-color: $mobile-backdrop-bg;
+  }
+
   .pa-profile-panel__content {
-    width: 85vw;
-    max-width: $profile-panel-mobile-max-width;
+    width: $mobile-sidebar-width; // 90vw — identical to the sidebar drawer
+    max-width: none;              // drop the desktop 400px cap for drawer parity
   }
 
   .pa-header__profile-name {

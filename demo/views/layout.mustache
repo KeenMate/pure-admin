@@ -155,7 +155,7 @@
             // Apply sidebar behavior immediately
             const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
             const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
-            const isMobile = window.innerWidth <= 768;
+            const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
 
             // Apply sidebar-hidden state (works for both 'hide' and 'icon-collapse' behaviors)
             if (!isMobile && sidebarHidden) {
@@ -223,7 +223,7 @@
     <script>
         (function() {
             const sidebarHidden = localStorage.getItem('sidebar-hidden') === 'true';
-            const isMobile = window.innerWidth <= 768;
+            const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
 
             // Desktop only: set burger state based on sidebar visibility
             // sidebarHidden = true → show hamburger (no active)
@@ -494,11 +494,16 @@
             const body = document.body;
             if (body.dataset.scrollLocked) return;
             savedScrollY = window.scrollY || window.pageYOffset || 0;
+            // Compensate for the vanishing scrollbar so pinning the body
+            // position:fixed doesn't reflow the page ~15px sideways on desktop
+            // (mobile overlay scrollbars are 0-width, so this is a no-op there).
+            const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
             body.dataset.scrollLocked = '1';
             body.style.position = 'fixed';
             body.style.top = `-${savedScrollY}px`;
             body.style.insetInlineStart = '0';
             body.style.width = '100%';
+            if (scrollbarW > 0) body.style.paddingInlineEnd = `${scrollbarW}px`;
         }
         function unlockBodyScroll() {
             const body = document.body;
@@ -508,6 +513,7 @@
             body.style.top = '';
             body.style.insetInlineStart = '';
             body.style.width = '';
+            body.style.paddingInlineEnd = '';
             window.scrollTo(0, savedScrollY);
         }
 
@@ -515,7 +521,7 @@
             const body = document.body;
             const burgerMenu = document.querySelector('.burger-menu');
             const sidebar = document.querySelector('.pa-layout__sidebar');
-            const isMobile = window.innerWidth <= 768;
+            const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
             const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
 
             if (isMobile) {
@@ -564,7 +570,7 @@
 
         function checkMobileLayout() {
             const body = document.body;
-            const isMobile = window.innerWidth <= 768;
+            const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
 
             if (isMobile) {
                 // Mobile: Always start with sidebar hidden (not visible)
@@ -593,12 +599,24 @@
 
         function closeMobileSidebar(event) {
             const body = document.body;
-            if (body.classList.contains('sidebar-visible') && event.target === body) {
-                body.classList.remove('sidebar-visible');
-                document.querySelector('.burger-menu').classList.remove('active');
-                unlockBodyScroll(); // tap-outside closed the drawer → release the lock
-                // No need to save mobile sidebar state - always starts hidden on page load
-            }
+            if (!body.classList.contains('sidebar-visible')) return;
+
+            const sidebar = document.querySelector('.pa-layout__sidebar');
+            const burger = document.querySelector('.burger-menu');
+
+            // Close on any tap OUTSIDE the drawer itself. The backdrop is a CSS
+            // ::before on body.sidebar-visible, so a tap on the scrim strip can
+            // report body OR the underlying .pa-layout element as the target —
+            // the old `event.target === body` check missed the latter and left
+            // the drawer stuck open. Exclude the burger (it has its own toggle
+            // handler; otherwise the opening tap would immediately re-close).
+            if (sidebar && sidebar.contains(event.target)) return;
+            if (burger && burger.contains(event.target)) return;
+
+            body.classList.remove('sidebar-visible');
+            if (burger) burger.classList.remove('active');
+            unlockBodyScroll(); // tap-outside closed the drawer → release the lock
+            // No need to save mobile sidebar state - always starts hidden on page load
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -617,10 +635,12 @@
             const notificationsPanel = document.getElementById('notificationsPanel');
             notificationsPanel.classList.toggle('is-open');
 
-            // Close profile panel if open
+            // Close profile panel if open (via closeProfilePanel so its
+            // background scroll-lock is released too — a bare class removal here
+            // would leave <body> pinned position:fixed).
             const profilePanel = document.getElementById('profilePanel');
             if (profilePanel.classList.contains('pa-profile-panel--open')) {
-                profilePanel.classList.remove('pa-profile-panel--open');
+                closeProfilePanel();
             }
         }
 
@@ -648,8 +668,20 @@
             const profilePanel = document.getElementById('profilePanel');
             profilePanel.classList.toggle('pa-profile-panel--open');
 
-            // Toggle scroll lock based on panel state
-            document.body.classList.toggle('pa-scroll-lock', profilePanel.classList.contains('pa-profile-panel--open'));
+            // Background scroll-lock — MOBILE ONLY. On mobile the profile panel
+            // is a full drawer with a scrim (like the sidebar), so the page
+            // behind it must not scroll; the robust position:fixed body lock
+            // (same helper the sidebar drawer uses) is iOS-Safari-safe. On
+            // tablet/desktop the panel is a light side sheet with no scrim, so
+            // the page stays scrollable — matching the sidebar, which is only an
+            // overlay on mobile too. (The old `pa-scroll-lock` utility only set
+            // `overflow-y: scroll`, which never actually stopped the scroll.)
+            const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
+            if (profilePanel.classList.contains('pa-profile-panel--open') && isMobile) {
+                lockBodyScroll();
+            } else {
+                unlockBodyScroll();
+            }
 
             // Close notifications if open
             const notificationsPanel = document.getElementById('notificationsPanel');
@@ -661,7 +693,7 @@
         function closeProfilePanel() {
             const profilePanel = document.getElementById('profilePanel');
             profilePanel.classList.remove('pa-profile-panel--open');
-            document.body.classList.remove('pa-scroll-lock');
+            unlockBodyScroll();
         }
 
         // Profile panel tab switching

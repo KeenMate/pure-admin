@@ -339,7 +339,7 @@
             sidebarBehaviorSelector.value = sidebarBehavior;
             const sidebar = document.querySelector('.pa-layout__sidebar');
             const burgerMenu = document.querySelector('.burger-menu');
-            const isMobile = window.innerWidth <= 768;
+            const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
             if (sidebar) {
                 sidebar.classList.remove('pa-layout__sidebar--icon-collapse');
                 if (isMobile) {

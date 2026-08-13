@@ -23,6 +23,8 @@
  *                           'viewport:resize' (rAF-throttled) + 'viewport:orientation'
  *   pureAdmin.colorScheme   { mode: 'light'|'dark' } live OS preference; emits
  *                           'colorscheme:change' (matchMedia prefers-color-scheme)
+ *   pureAdmin.config         shared UI-behavior baseline (mobileBreakpoint, …);
+ *                           override keys before init. Docs: docs/config-shared-ui-baseline.md
  *   pureAdmin.components     per-component handles ({init, initAll, …}); initAll(scope)
  *   pureAdmin.menus          open-menu coordination registry (register/closeOthers)
  *   pureAdmin.debug          enable/disable/isEnabled/log/aspects (feeds a future console)
@@ -135,6 +137,35 @@
     if (csmq.addEventListener) csmq.addEventListener('change', onScheme);
     else if (csmq.addListener) csmq.addListener(onScheme); // Safari <14
   }
+
+  // --- config: the shared UI-behavior baseline ------------------------------
+  // One overridable object for the framework's binding-agnostic defaults, so
+  // components stop hardcoding constants — and every wrapper (svelte / Phoenix
+  // LiveView / …) inherits ONE baseline instead of drifting. Consumers override
+  // by setting keys before init: window.pureAdmin.config.mobileBreakpoint = 900.
+  // App-domain config (permissions, currentUser, date formats) belongs in the
+  // wrappers, NOT here. See docs/config-shared-ui-baseline.md.
+  if (!pa.config) pa.config = {};
+  (function initConfig(cfg) {
+    // Read a numeric CSS variable off :root (px / ms / unitless → number);
+    // returns fallback when the stylesheet hasn't parsed or the var is absent.
+    function readCssNumber(name, fallback) {
+      try {
+        var raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        var n = parseFloat(raw);
+        return isNaN(n) ? fallback : n;
+      } catch (e) { return fallback; }
+    }
+
+    // mobileBreakpoint (px) — SINGLE-SOURCED from SCSS $mobile-breakpoint via the
+    // --pa-mobile-breakpoint CSS var (see _layout-responsive.scss), not a JS
+    // literal. Honour an explicit consumer override; else derive from CSS; else
+    // 768. A blocking theme/main <link> precedes this script, so the var is
+    // readable by the time this runs.
+    if (cfg.mobileBreakpoint == null) {
+      cfg.mobileBreakpoint = readCssNumber('--pa-mobile-breakpoint', 768);
+    }
+  })(pa.config);
 
   // --- menus: open-menu coordination (moved from window.PaMenus) ------------
   // Components register a "close me" fn; opening one calls closeOthers(self) to

@@ -23,7 +23,7 @@ ifeq ($(OS),Windows_NT)
 endif
 # -----------------------------------------------------------------------------
 
-.PHONY: help setup install build watch clean demo dev themes-install treeview-app package publish publish-rc publish-dry publish-dry-rc verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
+.PHONY: help setup install build watch clean demo dev themes-install treeview-app test test-e2e test-e2e-install test-e2e-ui test-e2e-headed package publish publish-rc publish-dry publish-dry-rc verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
 
 # === Configuration ===
 # Docker image settings
@@ -55,6 +55,13 @@ help:
 	@echo "    make build        - Build core CSS"
 	@echo "    make watch        - Watch SCSS files for changes"
 	@echo "    make clean        - Clean dist directories"
+	@echo ""
+	@echo "  Test:"
+	@echo "    make test              - Run the Playwright e2e suite (alias for test-e2e)"
+	@echo "    make test-e2e          - Run e2e tests headless (auto-starts the demo server)"
+	@echo "    make test-e2e-install  - One-time: download the chromium browser binary"
+	@echo "    make test-e2e-ui       - Open the Playwright Test UI (debugging)"
+	@echo "    make test-e2e-headed   - Run e2e tests in a visible browser"
 	@echo ""
 	@echo "  Package:"
 	@echo "    make package      - Create npm tarball for core"
@@ -121,6 +128,29 @@ treeview-app:
 # Development mode (demo server)
 dev: themes-install treeview-app
 	npm run dev -w demo
+
+# === Test Commands ===
+
+# Run the Playwright e2e suite (default test target). The Playwright config's
+# webServer block auto-starts `npm run start` (demo, port 3000) and reuses an
+# already-running server. Run `make test-e2e-install` once first to fetch the
+# browser binary.
+test: test-e2e
+
+test-e2e:
+	npm run test:e2e
+
+# One-time: download the chromium browser binary Playwright drives.
+test-e2e-install:
+	npm run test:e2e:install
+
+# Playwright Test UI (interactive debugging).
+test-e2e-ui:
+	npm run test:e2e:ui
+
+# Run the suite in a visible (headed) browser.
+test-e2e-headed:
+	npm run test:e2e:headed
 
 # Clean dist directories
 clean:

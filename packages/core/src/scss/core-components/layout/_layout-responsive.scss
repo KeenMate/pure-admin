@@ -4,26 +4,90 @@
    ======================================== */
 @use '../../variables' as *;
 
+// Expose the mobile breakpoint as a CSS variable so JS reads ONE source instead
+// of hardcoding 768 in a dozen places (window.pureAdmin.config.mobileBreakpoint
+// derives from this; see docs/config-shared-ui-baseline.md). Non-themeable
+// structural constant — same in every build — but emitted here (not via a theme
+// mixin) so it ships in both main.css and every theme. Unitless px value so
+// parseFloat() in JS reads a clean number.
+:root {
+  --pa-mobile-breakpoint: #{$mobile-breakpoint};
+}
+
 // Responsive Design - Mobile and Tablet
 @media (max-width: $mobile-breakpoint) {
-  // Mobile: Auto-hide sidebar, content takes full width
-  body:not(.sidebar-visible) {
-    .pa-layout__sidebar {
-      width: 0;
-      opacity: 0;
-      overflow: hidden;
-      border-inline-end: none; // RTL: flips to left
-    }
+  // Mobile: the sidebar is an off-canvas drawer that SLIDES in/out, in sync with
+  // the profile panel (same $transition-medium / $easing-snappy). It's always
+  // position:fixed at the drawer size and translated off-canvas at the
+  // inline-start edge; `.sidebar-visible` slides it to translateX(0). This
+  // replaces the old snap between width:0 and a fixed overlay, which popped in
+  // with no animation. Content takes full width in both states because the
+  // drawer is out of flow (fixed).
+  .pa-layout__sidebar,
+  .pa-layout__sidebar--icon-collapse {
+    position: fixed;
+    top: $header-height;
+    inset-inline-start: 0; // RTL: flips to right
+    bottom: 0;
+    width: $mobile-sidebar-width;
+    z-index: 1050;
+    background-color: var(--pa-sidebar-bg);
+    opacity: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain; // drawer's own scroll doesn't chain to the page
+    border-inline-end: none; // RTL: flips to left
+    transform: translateX(-100%); // off-canvas (slid out past the inline-start edge)
+    visibility: hidden; // inert + unfocusable while closed; flips visible on open
 
-    // Override icon-collapse mode on mobile - sidebar should be fully hidden
-    .pa-layout__sidebar--icon-collapse {
-      width: 0 !important;
+    // Gate the transition on body.loaded like the sidebar links, so the drawer
+    // doesn't animate from off-canvas on first paint.
+    body.loaded & {
+      transition: transform $transition-medium $easing-snappy,
+                  visibility $transition-medium $easing-snappy;
     }
   }
 
-  // Mobile: Fullscreen sidebar overlay when visible
+  // RTL: the drawer sits at the inline-start (right) edge, so it slides off to
+  // the right when closed.
+  [dir="rtl"] .pa-layout__sidebar,
+  [dir="rtl"] .pa-layout__sidebar--icon-collapse {
+    transform: translateX(100%);
+  }
+
+  // icon-collapse mode is a full overlay drawer on mobile — force labels visible.
+  .pa-layout__sidebar--icon-collapse .pa-sidebar__label {
+    opacity: 1 !important;
+    width: auto !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  // Backdrop scrim: an always-present fixed pseudo that FADES its opacity, so it
+  // eases in/out with the drawer (a pseudo that only existed while open couldn't
+  // fade out). Inert + invisible when closed. On body::before so it's positioned
+  // against the viewport (not a transformed ancestor) — the toggle class lives
+  // on body too.
+  body::before {
+    content: "";
+    position: fixed;
+    top: $header-height;
+    inset-inline: 0; // RTL: covers full width
+    bottom: 0;
+    background-color: $mobile-backdrop-bg;
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    body.loaded & {
+      transition: opacity $transition-medium $easing-snappy,
+                  visibility $transition-medium $easing-snappy;
+    }
+  }
+
+  // Mobile: drawer open — slide it in, reveal the scrim, lock background scroll.
   .sidebar-visible {
-    // Standard modal-drawer scroll-lock: while the overlay + scrim are open the
+    // Standard modal-drawer scroll-lock: while the drawer + scrim are open the
     // page behind must not scroll (otherwise dragging the scrim strip scrolls
     // the content under the fixed drawer, exposing that the drawer is only
     // viewport-high). This covers desktop browsers + Android; iOS Safari ignores
@@ -32,46 +96,16 @@
     // docs/mobile-sidebar-overlay.md.
     overflow: hidden;
 
-    // Use fixed positioning for mobile overlay
-    .pa-layout__inner {
-      position: relative;
-    }
-
-    .pa-layout__sidebar {
-      position: fixed;
-      top: $header-height;
-      inset-inline-start: 0; // RTL: flips to right
-      bottom: 0;
-      width: $mobile-sidebar-width;
-      z-index: 1050;
-      background-color: var(--pa-sidebar-bg);
-      opacity: 1;
-      overflow-y: auto;
-      overscroll-behavior: contain; // drawer's own scroll doesn't chain to the page
-    }
-
-    // Override icon-collapse mode on mobile - show full width overlay
+    .pa-layout__sidebar,
     .pa-layout__sidebar--icon-collapse {
-      width: $mobile-sidebar-width !important;
-      overflow-y: auto !important;
-
-      .pa-sidebar__label {
-        opacity: 1 !important;
-        width: auto !important;
-        overflow: visible !important;
-        position: static !important;
-      }
+      transform: translateX(0); // slide in (source order beats the RTL closed rule)
+      visibility: visible;
     }
 
-    // Add backdrop overlay
     &::before {
-      content: "";
-      position: fixed;
-      top: $header-height;
-      inset-inline: 0; // RTL: covers full width
-      bottom: 0;
-      background-color: $mobile-backdrop-bg;
-      z-index: 1040;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto; // tap the scrim to dismiss
     }
   }
 

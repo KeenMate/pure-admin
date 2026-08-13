@@ -27,7 +27,16 @@
     'use strict';
 
     var STORAGE_KEY = 'sidebar-width'; // persisted in px
-    var MOBILE_MAX = 768; // below this the sidebar is an overlay — resize is meaningless
+
+    // Below this width the sidebar is an overlay drawer — resize is meaningless.
+    // Single-sourced from window.pureAdmin.config.mobileBreakpoint (which derives
+    // from the --pa-mobile-breakpoint CSS var / SCSS $mobile-breakpoint), so this
+    // guard and the CSS `.pa-sidebar-resize { display: none }` mobile rule can't
+    // drift apart. Falls back to 768 if the namespace isn't present yet.
+    function mobileMax() {
+        var pa = window.pureAdmin;
+        return (pa && pa.config && pa.config.mobileBreakpoint) || 768;
+    }
 
     var sidebar = null;
     var resizeHandle = null;
@@ -117,7 +126,7 @@
     function startResize(e) {
         // Skip when the sidebar is collapsed or on mobile (overlay mode).
         if (document.body.classList.contains('sidebar-hidden') ||
-            window.innerWidth <= MOBILE_MAX) {
+            window.innerWidth <= mobileMax()) {
             return;
         }
 
