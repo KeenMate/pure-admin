@@ -157,6 +157,15 @@
       } catch (e) { return fallback; }
     }
 
+    // Fill only the keys a consumer hasn't already set (shallow), so overrides
+    // set before init survive. Nested objects (e.g. severity.danger) are
+    // overridden as whole objects — the same convention svelte-adminlte uses.
+    function fillDefaults(target, defs) {
+      Object.keys(defs).forEach(function (k) {
+        if (target[k] === undefined) target[k] = defs[k];
+      });
+    }
+
     // mobileBreakpoint (px) — SINGLE-SOURCED from SCSS $mobile-breakpoint via the
     // --pa-mobile-breakpoint CSS var (see _layout-responsive.scss), not a JS
     // literal. Honour an explicit consumer override; else derive from CSS; else
@@ -165,6 +174,37 @@
     if (cfg.mobileBreakpoint == null) {
       cfg.mobileBreakpoint = readCssNumber('--pa-mobile-breakpoint', 768);
     }
+
+    // typingDebounceDelay (ms) — debounce for search / autocomplete / filter
+    // inputs. JS-only (no CSS mirror); the framework wrappers' search components
+    // read this so they share one delay.
+    if (cfg.typingDebounceDelay == null) {
+      cfg.typingDebounceDelay = 300;
+    }
+
+    // toast.* — defaults for pureAdmin.toast, relocated here from
+    // toast-service.js so consumers tune toasts in this one place.
+    cfg.toast = cfg.toast || {};
+    fillDefaults(cfg.toast, {
+      position: 'top-end', // logical, RTL-aware (matches .pa-toast-container--top-end)
+      duration: 5000,
+      showProgress: false,
+      persistent: false,
+      closeOnBackdrop: false
+    });
+
+    // severity.* — per-level presentation (icon + title), consumed by toasts
+    // today and available to any severity-driven UI. Core ships EMOJI icons so
+    // no icon library is required; a wrapper overrides a level with its
+    // FA/lucide/heroicons token (see docs/config-shared-ui-baseline.md).
+    cfg.severity = cfg.severity || {};
+    fillDefaults(cfg.severity, {
+      primary: { icon: 'ℹ️', title: 'Primary' },
+      success: { icon: '✓', title: 'Success' },
+      danger: { icon: '✕', title: 'Error' },
+      warning: { icon: '⚠', title: 'Warning' },
+      info: { icon: 'ℹ', title: 'Information' }
+    });
   })(pa.config);
 
   // --- menus: open-menu coordination (moved from window.PaMenus) ------------

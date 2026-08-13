@@ -41,4 +41,60 @@ test.describe('pureAdmin.config', () => {
         const value = await page.evaluate(() => (window as any).pureAdmin?.config?.mobileBreakpoint);
         expect(value).toBe(900);
     });
+
+    test('ships toast + severity + debounce defaults', async ({ page }) => {
+        const cfg = await page.evaluate(() => {
+            const c = (window as any).pureAdmin.config;
+            return {
+                debounce: c.typingDebounceDelay,
+                position: c.toast.position,
+                duration: c.toast.duration,
+                successIcon: c.severity.success.icon,
+                dangerTitle: c.severity.danger.title
+            };
+        });
+        expect(cfg).toEqual({
+            debounce: 300,
+            position: 'top-end', // logical, RTL-aware
+            duration: 5000,
+            successIcon: '✓',
+            dangerTitle: 'Error'
+        });
+    });
+});
+
+test.describe('toast-service reads config.severity / config.toast', () => {
+    test.beforeEach(async ({ page }) => {
+        await gotoShell(page);
+    });
+
+    test('a toast renders the icon + title from config.severity', async ({ page }) => {
+        await page.evaluate(() => (window as any).pureAdmin.toast.success('Saved'));
+
+        const toast = page.locator('.pa-toast--success').first();
+        await expect(toast).toBeVisible();
+        await expect(toast.locator('.pa-toast__icon')).toHaveText('✓');
+        await expect(toast.locator('.pa-toast__title')).toHaveText('Success');
+    });
+
+    test('an override of config.toast.position + config.severity routes and renders accordingly', async ({ page }) => {
+        // Override BEFORE bootstrap: whole-object severity override + a position.
+        await page.addInitScript(() => {
+            (window as any).pureAdmin = (window as any).pureAdmin || {};
+            (window as any).pureAdmin.config = {
+                toast: { position: 'bottom-center' },
+                severity: { info: { icon: '🔔', title: 'Heads up' } }
+            };
+        });
+        await gotoShell(page);
+
+        await page.evaluate(() => (window as any).pureAdmin.toast.info('Ping'));
+
+        // Lands in the bottom-center container (position override honoured)…
+        const toast = page.locator('#toast-container-bottom-center .pa-toast--info').first();
+        await expect(toast).toBeVisible();
+        // …with the overridden icon + title (severity override honoured).
+        await expect(toast.locator('.pa-toast__icon')).toHaveText('🔔');
+        await expect(toast.locator('.pa-toast__title')).toHaveText('Heads up');
+    });
 });

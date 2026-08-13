@@ -18,32 +18,33 @@
   // Toast counter for unique IDs
   let toastCounter = 0;
 
-  // Default configuration
-  const defaults = {
-    position: 'top-right',
-    duration: 5000,
-    showProgress: false,
-    persistent: false,
-    closeOnBackdrop: false
-  };
+  // Defaults live in the shared UI baseline (window.pureAdmin.config, populated
+  // by pure-admin.js) — one place to tune toasts and severity icons/titles.
+  // Read at use-time so a consumer override is honoured; the literals here are a
+  // last-resort guard for when the bootstrap somehow isn't present.
+  function paConfig() {
+    return (window.pureAdmin && window.pureAdmin.config) || {};
+  }
 
-  // Icon mapping for variants
-  const icons = {
-    primary: 'ℹ️',
-    success: '✓',
-    danger: '✕',
-    warning: '⚠',
-    info: 'ℹ'
-  };
+  function toastDefaults() {
+    const t = paConfig().toast || {};
+    return {
+      position: t.position != null ? t.position : 'top-end',
+      duration: t.duration != null ? t.duration : 5000,
+      showProgress: !!t.showProgress,
+      persistent: !!t.persistent,
+      closeOnBackdrop: !!t.closeOnBackdrop
+    };
+  }
 
-  // Title mapping for variants
-  const titles = {
-    primary: 'Primary',
-    success: 'Success',
-    danger: 'Error',
-    warning: 'Warning',
-    info: 'Information'
-  };
+  // Per-variant icon + title from config.severity, with generic fallbacks.
+  function severityFor(variant) {
+    const s = (paConfig().severity || {})[variant] || {};
+    return {
+      icon: s.icon != null ? s.icon : 'ℹ',
+      title: s.title != null ? s.title : 'Notification'
+    };
+  }
 
   /**
    * Escape HTML to prevent XSS
@@ -75,14 +76,16 @@
    * Create and show a toast notification
    */
   function createToast(options) {
+    const variant = options.variant || 'info';
+    const d = toastDefaults();
+    const sev = severityFor(variant);
     const {
-      variant = 'info',
-      title = titles[variant] || 'Notification',
+      title = sev.title,
       message = '',
-      position = defaults.position,
-      duration = defaults.duration,
-      showProgress = defaults.showProgress,
-      persistent = defaults.persistent
+      position = d.position,
+      duration = d.duration,
+      showProgress = d.showProgress,
+      persistent = d.persistent
     } = options;
 
     // Generate unique ID
@@ -104,7 +107,7 @@
       : '';
 
     toast.innerHTML = `
-      <div class="pa-toast__icon">${icons[variant] || 'ℹ'}</div>
+      <div class="pa-toast__icon">${sev.icon}</div>
       <div class="pa-toast__content">
         <div class="pa-toast__title">${escapeHtml(title)}</div>
         <div class="pa-toast__message">${escapeHtml(message)}</div>
@@ -212,7 +215,6 @@
     success: function(message, options = {}) {
       return createToast({
         variant: 'success',
-        title: options.title || titles.success,
         message,
         ...options
       });
@@ -227,7 +229,6 @@
     error: function(message, options = {}) {
       return createToast({
         variant: 'danger',
-        title: options.title || titles.danger,
         message,
         ...options
       });
@@ -242,7 +243,6 @@
     warning: function(message, options = {}) {
       return createToast({
         variant: 'warning',
-        title: options.title || titles.warning,
         message,
         ...options
       });
@@ -257,7 +257,6 @@
     info: function(message, options = {}) {
       return createToast({
         variant: 'info',
-        title: options.title || titles.info,
         message,
         ...options
       });
@@ -272,7 +271,6 @@
     primary: function(message, options = {}) {
       return createToast({
         variant: 'primary',
-        title: options.title || titles.primary,
         message,
         ...options
       });

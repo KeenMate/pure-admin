@@ -1,9 +1,19 @@
 # `pureAdmin.config` — the shared UI baseline (design)
 
-**Status:** in progress. **`mobileBreakpoint` slice shipped** (rc11) — the
-mechanism (`pureAdmin.config` on the namespace, CSS-var single-source, override
-path) is live and covered by `e2e/config.spec.ts`. Remaining keys (motion,
-`typingDebounceDelay`, `toast.*`, `severity.*`) are still proposal.
+**Status:** in progress. **Shipped (rc11):** `mobileBreakpoint`,
+`typingDebounceDelay`, `toast.*`, `severity.*` — the mechanism
+(`pureAdmin.config` on the namespace, CSS-var single-source, override path) is
+live and covered by `e2e/config.spec.ts`. **Remaining:** the motion mirror keys
+(`transition.*` + `easing`) — deferred until a JS consumer needs them (no CSS var
+is emitted for a key nothing reads yet).
+
+> **Follow-up surfaced while wiring toasts:** the demo serves `demo/js` *before*
+> the core package on the `/src/js` route, and `demo/js/toast-service.js` is a
+> **feature-ahead copy** (adds `actions`, `filled`, `progressColor`, `maxWidth`,
+> container width-ratcheting) that **shadows** `packages/core/src/js/toast-service.js`.
+> Both now read `pureAdmin.config`, but the two files should be reconciled —
+> upstream the demo's features into core and delete the shadow — so there's one
+> toast-service. Tracked separately.
 **Scope:** the *shared UI-behavior baseline* only — the framework's own default
 behavior, binding-agnostic. App-domain config (permissions, currentUser,
 date/time localization, button presets) is **out of scope** here; it belongs in
@@ -152,11 +162,13 @@ toastr's keys to pure-admin's).
    `_layout-responsive.scss`.
 2. ✅ **Done (rc11).** `sidebar-resize.js`: `MOBILE_MAX` → `mobileMax()` reading
    `pureAdmin.config.mobileBreakpoint`.
-3. ⏳ `toast-service.js`: private `defaults`/`icons`/`titles` → read
-   `pureAdmin.config.toast` / `config.severity`.
+3. ✅ **Done (rc11).** `toast-service.js` (core **and** the demo's shadow copy):
+   private `defaults`/`icons`/`titles` → read `pureAdmin.config.toast` /
+   `config.severity`. Also fixed the broken default position `top-right` → `top-end`.
 4. ✅ **Done (rc11).** Demo `layout.mustache` (five `window.innerWidth <= 768`)
    and `settings-panel.js` → the config value — proves the override path.
-5. ⏳ Motion + `typingDebounceDelay` keys; any new debounce uses
+5. ✅ **Done (rc11).** `typingDebounceDelay` key added. ⏳ Motion mirror keys
+   deferred until a consumer needs them; any new debounce uses
    `config.typingDebounceDelay`.
 
 Each step is mechanical and independently shippable; the CSS-var mirror means no
