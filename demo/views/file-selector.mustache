@@ -19,10 +19,91 @@
       <li><code>list-appearance</code> — <strong>list</strong> · detailed · grid · badges · popover · none <em>(where picked files appear)</em></li>
       <li><code>card-size</code> — minimal · <strong>compact</strong> · big <em>(density of the card selector)</em></li>
     </ul>
-    <p class="pa-text-muted">
+    <p class="pa-form-text">
       Uploads on this page are <strong>simulated</strong> (a local progress stub) so you can watch the
       progress UI without a server. Files that fail <code>accept</code> / size / count rules surface as toasts.
     </p>
+  </div>
+</div>
+
+<!-- TWO PACKAGES: CORE + RENDERER -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Under the Hood — Two Packages</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      <code>web-dropzone</code> is a workspaces monorepo published as <strong>two npm packages</strong> — a headless
+      <em>store</em> and a <em>renderer</em> — split so headless consumers never pay for the DOM/CSS layer. The element
+      on this page is the renderer; it bundles the store inside.
+    </p>
+
+    <div class="pa-row">
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-callout pa-callout--info">
+          <p class="pa-callout__heading"><code>@keenmate/web-dropzone-core</code> — the store</p>
+          <div class="pa-callout__content">
+            <p><strong>No DOM. No CSS. No custom elements.</strong> The <code>DropzoneCore</code> class holds the
+            <code>FileState[]</code>, runs validation, drives the upload worker pool, and fires the events. It exports the
+            <code>DropzoneStoreAPI</code> interface, the domain types (<code>FileState</code>, <code>FileUploadHandler</code>, …),
+            and pure helpers (<code>formatFileSize</code>, <code>validateFile</code>, …). Install this to build your own
+            React / Vue / Lit / Svelte renderer on the same primitives.</p>
+          </div>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-callout pa-callout--primary">
+          <p class="pa-callout__heading"><code>@keenmate/web-dropzone</code> — the renderer</p>
+          <div class="pa-callout__content">
+            <p>The custom elements (<code>&lt;web-dropzone&gt;</code> + satellites), all CSS, and Floating UI positioning.
+            It depends on the core and <strong>bundles it into a single self-contained <code>dist/dropzone.js</code></strong> —
+            the file this demo loads. Install this to drop the elements into a page.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <strong>How they compose in <code>&lt;web-dropzone&gt;</code>:</strong> the renderer's <code>WebDropzone</code> class
+      <code>extends DropzoneCore</code>, so the convenience single element <em>is</em> its own store — it then drives its
+      internal picker and list through the very same events any external satellite consumes. The renderer only ever
+      reaches the core through <strong>two surfaces</strong>:
+    </p>
+    <ol>
+      <li><strong>The <code>DropzoneStoreAPI</code> interface</strong> — reads (<code>getFiles</code>,
+        <code>getOverallProgress</code>, …) + mutators (<code>addFiles</code>, <code>removeFile</code>,
+        <code>retryFile</code>, …). Every satellite holds <code>store: DropzoneStoreAPI</code>, never the concrete class.</li>
+      <li><strong>DOM <code>CustomEvent</code>s</strong> dispatched on the store element with
+        <code>bubbles: true, composed: true</code> so they cross shadow boundaries — <code>file-added</code>,
+        <code>file-progress</code>, <code>file-updated</code>, <code>change</code>, <code>files-rejected</code>,
+        <code>store-ready</code>, …</li>
+    </ol>
+    <p>
+      That is exactly why the <strong>satellites</strong> in the section above
+      (<code>&lt;web-dropzone-list | progress | indicator&gt;</code>) are peers of the built-ins with no privileged
+      access: each finds its store via <code>for="&lt;id&gt;"</code> and subscribes to those events. You can write your
+      own satellite in any framework the same way.
+    </p>
+
+    <p><strong>Which package do I install?</strong></p>
+    <table class="pa-table">
+      <thead>
+        <tr><th>You want to…</th><th>Install</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Drop <code>&lt;web-dropzone&gt;</code> or a built-in satellite into a page</td><td><code>@keenmate/web-dropzone</code></td></tr>
+        <tr><td>Build a custom React / Vue / Lit / Svelte renderer on the same store</td><td><code>@keenmate/web-dropzone-core</code></td></tr>
+        <tr><td>The built-in elements <em>and</em> a custom satellite alongside them</td><td><code>@keenmate/web-dropzone</code> only — it re-exports the core types &amp; helpers</td></tr>
+      </tbody>
+    </table>
+    <small class="pa-form-text">
+      Installing both explicitly is redundant — the renderer pins the core and bundles its code, so the runtime is
+      self-contained either way (the hard dependency just lets the renderer's <code>.d.ts</code> re-export core types).
+      There is <strong>no <code>&lt;web-dropzone-core&gt;</code> element</strong> — the core is JS-only:
+      <code>new DropzoneCore(hostEl, config)</code>.
+    </small>
   </div>
 </div>
 
@@ -293,7 +374,7 @@
         </div>
       </div>
     </div>
-    <p class="pa-text-muted">
+    <p class="pa-form-text">
       A <code>&lt;web-dropzone-indicator for="sat-store"&gt;</code> (floating status chip + slide-out drawer)
       is also mounted for this store — it appears once an upload is active.
     </p>
