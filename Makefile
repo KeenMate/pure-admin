@@ -23,9 +23,13 @@ ifeq ($(OS),Windows_NT)
 endif
 # -----------------------------------------------------------------------------
 
-.PHONY: help setup install build watch clean demo dev themes-install treeview-app test test-e2e test-e2e-install test-e2e-ui test-e2e-headed package publish publish-rc publish-dry publish-dry-rc verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
+.PHONY: help setup install build watch clean demo dev kill-port themes-install treeview-app test test-e2e test-e2e-install test-e2e-ui test-e2e-headed package publish publish-rc publish-dry publish-dry-rc verify docker-build docker-run docker-stop docker-restart docker-logs docker-clean docker-deploy docker-push
 
 # === Configuration ===
+# Demo server port (demo/server.js, also the Playwright webServer port).
+# Override: make kill-port PORT=xxxx
+PORT ?= 3000
+
 # Docker image settings
 DOCKER_IMAGE_NAME = pure-admin
 DOCKER_REGISTRY = registry.km8.es
@@ -49,6 +53,7 @@ help:
 	@echo "    make themes-install  - Snapshot themes into ./themes/ (per pureadmin.json + .pureadmin.json)"
 	@echo "    make dev             - Snapshot themes, build Svelte treeview app, then run demo server with SCSS watch"
 	@echo "    make demo            - Snapshot themes, then run demo server only"
+	@echo "    make kill-port       - Free the demo server port (default $(PORT); override with PORT=xxxx)"
 	@echo "    make treeview-app    - Build the embedded Svelte treeview demo bundle (auto-runs as part of make dev)"
 	@echo ""
 	@echo "  Build:"
@@ -112,6 +117,20 @@ themes-install:
 # Run demo server only
 demo: themes-install
 	npm run start -w demo
+
+# Free the demo server port (e.g. after a crashed/orphaned `make demo`/`make dev`
+# leaves the port held). Override the port with: make kill-port PORT=3001
+# NB: this Makefile pins the recipe shell to Git Bash on Windows (see top), so
+# even the Windows branch is bash — hence netstat|awk|taskkill rather than
+# cmd.exe `for /f`. The leading `-` ignores "nothing to kill" as success.
+kill-port:
+	@echo "Freeing port $(PORT)..."
+ifeq ($(OS),Windows_NT)
+	-@netstat -ano | grep LISTENING | grep ":$(PORT) " | awk '{print $$5}' | sort -u | xargs -r -I{} taskkill //F //PID {}
+else
+	-@lsof -ti tcp:$(PORT) | xargs -r kill -9
+endif
+	@echo "Port $(PORT) is free"
 
 # Build the embedded Svelte treeview demo app. First run installs deps in
 # demo/svelte-apps/treeview/node_modules/ (~38 packages, ~8 s); subsequent
