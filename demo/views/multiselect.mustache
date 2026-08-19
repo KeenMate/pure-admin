@@ -6,12 +6,15 @@
   </div>
   <div class="pa-card__body">
     <p>
-      Advanced multiselect web component from <code>@keenmate/web-multiselect</code> with virtual scrolling,
-      search capabilities, and multiple display modes. Built as a framework-agnostic web component with excellent performance.
+      Advanced multiselect web component from <code>@keenmate/web-multiselect</code> (v2.0.0-rc03) with virtual
+      scrolling, search, tree-of-options rendering, and a full-screen mobile overlay. Built as a
+      framework-agnostic web component with excellent performance.
     </p>
     <p>
       <strong>Key Features:</strong> Virtual scrolling (handles 15,000+ options), full keyboard navigation,
-      multiple display modes, RTL support, async search, and comprehensive theming via CSS variables.
+      multiple display modes, <strong>tree / hierarchy mode</strong> with cascade checkboxes,
+      <strong>phone full-screen overlay</strong>, RTL support, external/async search, and comprehensive
+      theming via <code>--ms-*</code> / <code>--base-*</code> CSS variables.
     </p>
   </div>
 </div>
@@ -147,7 +150,7 @@
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Search & Filter</h3>
+        <h3 class="pa-card__title-text">Search &amp; Filter</h3>
     </div>
   </div>
   <div class="pa-card__body">
@@ -194,6 +197,166 @@
             <option value="usa">United States</option>
           </web-multiselect>
           <small class="pa-form-text">Jumps to matches, keeps all visible</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- Tree of Options (v2.0) -->
+<!-- ===================================================================== -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">🌳 Tree of Options</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      Give each option a materialized dot-path (<code>"1"</code>, <code>"1.1"</code>, <code>"1.1.1"</code>, …)
+      and set <code>path-member</code>. Tree mode auto-enables: the component derives parent and depth from
+      the path and renders the options depth-first, indented by level. The tree is always fully expanded
+      (no chevron) — reach for <code>@keenmate/web-treeview</code> when you need expand/collapse.
+    </p>
+
+    <div class="pa-row" style="margin-top: 1rem;">
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>Basic Tree — every node expanded</label>
+          <web-multiselect id="tree-basic" multiple="true"></web-multiselect>
+          <small class="pa-form-text">Branch + leaf nodes are all selectable, indented by depth</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>Ancestor-Preserving Search</label>
+          <web-multiselect id="tree-search" multiple="true" search-enabled="true"></web-multiselect>
+          <small class="pa-form-text">Open, type <code>kale</code> → Vegetables → Leafy → Kale (ancestors kept)</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="pa-row">
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>Selectable Leaves Only + Checkboxes</label>
+          <web-multiselect id="tree-leaves" multiple="true" show-checkboxes="true"></web-multiselect>
+          <small class="pa-form-text">Branches are pure structure — no checkbox, skipped by keyboard</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-50">
+        <div class="pa-form-group">
+          <label>Full Breadcrumb on Badges</label>
+          <web-multiselect id="tree-fulltitle" multiple="true" show-badge-full-title="true"></web-multiselect>
+          <small class="pa-form-text">Two items pre-selected — badges show <em>Fruit / Pome fruit / Apple</em></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="pa-row">
+      <div class="pa-col-100">
+        <div class="pa-form-group">
+          <label>Cascade Checkboxes — check a branch, check the whole subtree</label>
+          <web-multiselect id="tree-cascade" multiple="true" show-checkboxes="true"
+            checkbox-mode="cascade" actions-position="top"></web-multiselect>
+          <small class="pa-form-text">
+            Tristate (dash) on partial branches; Select All emits the rolled-up roots.
+            Emitted <code>getValue()</code>: <code id="cascade-emitted" class="text-xs">[]</code>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Real data — full ISCO-08 -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Real Data — Full ISCO-08 Classification</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      Everything at once on real data: the whole <strong>International Standard Classification of
+      Occupations</strong> (ISCO-08) — 619 groups (10 major → 43 sub-major → 130 minor → 436 unit).
+      The ISCO code <em>is</em> the hierarchy (<code>2211</code> → path <code>2.22.221.2211</code>), so it
+      drops straight into <code>path-member</code>. Only the <strong>unit groups</strong> (leaves) are
+      selectable. A <code>getSearchValueCallback</code> widens the filter to match the title, ISCO code,
+      and full breadcrumb; virtual scroll keeps 600+ rows smooth.
+    </p>
+    <div class="pa-row" style="margin-top: 1rem;">
+      <div class="pa-col-100">
+        <div class="pa-form-group">
+          <label>Search e.g. <code>welder</code>, <code>2211</code>, or <code>health</code> — then hover a badge</label>
+          <web-multiselect id="tree-isco" multiple="true" search-enabled="true"
+            enable-virtual-scroll="true" option-height="32"
+            enable-badge-tooltips="true" enable-option-tooltips="true"
+            badges-display-mode="partial" badges-max-visible="3"
+            style="--ms-option-padding: 0.3rem 0.85rem; --ms-option-title-white-space: nowrap; --ms-option-title-overflow: hidden; --ms-option-title-text-overflow: ellipsis;"></web-multiselect>
+          <small class="pa-form-text">
+            Badge shows the leaf title only (prefixed <code>.. /</code>); full breadcrumb in the badge tooltip.
+            Source: ISCO-08 (© International Labour Organization) — demo data.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- Mobile & Fullscreen (v2.0) -->
+<!-- ===================================================================== -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">📱 Mobile &amp; Fullscreen</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      On phones the dropdown opens as a <strong>full-screen overlay</strong> instead of a floating panel —
+      a touch-friendly sheet with its own search header, big rows, and a close button. The
+      <code>mobile-presentation</code> attribute (<code>auto</code> | <code>floating</code> |
+      <code>fullscreen</code>) picks the presentation; <code>auto</code> uses the sheet only on phones.
+      Because it's usually a phone-only look, each demo offers a <em>Preview as fullscreen</em> toggle so
+      you can inspect the overlay on desktop.
+    </p>
+
+    <div class="pa-row" style="margin-top: 1rem;">
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label class="d-flex align-items-center gap-5" style="cursor:pointer;">
+            <input type="checkbox" id="intro-fs-preview"> Preview as fullscreen (desktop)
+          </label>
+          <label>~50 grouped options</label>
+          <web-multiselect id="mobile-intro" multiple="true" value-member="value"
+            display-value-member="label" group-member="group" search-placeholder="Filter…"></web-multiselect>
+          <small class="pa-form-text">On a phone this opens fullscreen automatically.</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label class="d-flex align-items-center gap-5" style="cursor:pointer;">
+            <input type="checkbox" id="kb-fs-preview"> Preview as fullscreen (desktop)
+          </label>
+          <label><code>fullscreen-autofocus="true"</code></label>
+          <web-multiselect id="mobile-autofocus" multiple="true" value-member="value"
+            display-value-member="label" fullscreen-autofocus="true" search-placeholder="Search…"></web-multiselect>
+          <small class="pa-form-text">On a phone: search is focused, keyboard pops on open (vs. default keyboard-off).</small>
+        </div>
+      </div>
+      <div class="pa-col-100 pa-col-md-1-3">
+        <div class="pa-form-group">
+          <label class="d-flex align-items-center gap-5" style="cursor:pointer;">
+            <input type="checkbox" id="nav-fs-preview"> Preview as fullscreen (desktop)
+          </label>
+          <label><code>search-mode="navigate"</code> + match navigator</label>
+          <web-multiselect id="mobile-navigate" multiple="true" search-mode="navigate"
+            value-member="value" display-value-member="label" group-member="group"
+            search-placeholder="Type to jump to matches…"></web-multiselect>
+          <small class="pa-form-text">Fullscreen: type, then use the <code>N of M</code> ↑/↓ navigator to jump.</small>
         </div>
       </div>
     </div>
@@ -328,7 +491,7 @@
           <label>&nbsp;</label>
           <div class="pa-btn-group d-flex flex-column gap-5">
             <button class="pa-btn pa-btn--sm pa-btn--primary" onclick="selectColors(['red', 'blue'])">
-              Select Red & Blue
+              Select Red &amp; Blue
             </button>
             <button class="pa-btn pa-btn--sm pa-btn--secondary" onclick="getSelectedColors()">
               Get Selected
@@ -352,7 +515,7 @@
 <div class="pa-card">
   <div class="pa-card__header">
     <div class="pa-card__title">
-        <h3 class="pa-card__title-text">Events & Callbacks</h3>
+        <h3 class="pa-card__title-text">Events &amp; Callbacks</h3>
     </div>
   </div>
   <div class="pa-card__body">
@@ -388,7 +551,7 @@
   </div>
   <div class="pa-card__body">
     <ul>
-      <li><strong>npm Package:</strong> <code>@keenmate/web-multiselect</code></li>
+      <li><strong>npm Package:</strong> <code>@keenmate/web-multiselect</code> (v2.0.0-rc03)</li>
       <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-multiselect" target="_blank" class="pa-link">github.com/keenmate/web-multiselect</a></li>
       <li><strong>Documentation:</strong> See package README and AI instructions in <code>../../web-multiselect/ai/</code></li>
       <li><strong>CSS Variables:</strong> Uses <code>--ms-*</code> prefix (component) and <code>--base-*</code> prefix (theme integration)</li>
@@ -411,8 +574,79 @@
   }
 })();
 
-// None Mode demo - initialize with technology options
+// Tree demo data — each option carries a materialized dot-path; parent/level are
+// derived from it. Lifted from the web-multiselect examples-tree.html demo.
+const treeCategories = [
+  { value: 'fruit',     label: 'Fruit',       path: '1' },
+  { value: 'pome',      label: 'Pome fruit',  path: '1.1' },
+  { value: 'apple',     label: 'Apple',       path: '1.1.1' },
+  { value: 'pear',      label: 'Pear',        path: '1.1.2' },
+  { value: 'quince',    label: 'Quince',      path: '1.1.3' },
+  { value: 'stone',     label: 'Stone fruit', path: '1.2' },
+  { value: 'peach',     label: 'Peach',       path: '1.2.1' },
+  { value: 'plum',      label: 'Plum',        path: '1.2.2' },
+  { value: 'cherry',    label: 'Cherry',      path: '1.2.3' },
+  { value: 'apricot',   label: 'Apricot',     path: '1.2.4' },
+  { value: 'berries',   label: 'Berries',     path: '1.3' },
+  { value: 'straw',     label: 'Strawberry',  path: '1.3.1' },
+  { value: 'blue',      label: 'Blueberry',   path: '1.3.2' },
+  { value: 'rasp',      label: 'Raspberry',   path: '1.3.3' },
+  { value: 'citrus',    label: 'Citrus',      path: '1.4' },
+  { value: 'orange',    label: 'Orange',      path: '1.4.1' },
+  { value: 'lemon',     label: 'Lemon',       path: '1.4.2' },
+  { value: 'lime',      label: 'Lime',        path: '1.4.3' },
+  { value: 'veg',       label: 'Vegetables',  path: '2' },
+  { value: 'root',      label: 'Root',        path: '2.1' },
+  { value: 'carrot',    label: 'Carrot',      path: '2.1.1' },
+  { value: 'beet',      label: 'Beetroot',    path: '2.1.2' },
+  { value: 'radish',    label: 'Radish',      path: '2.1.3' },
+  { value: 'leafy',     label: 'Leafy',       path: '2.2' },
+  { value: 'kale',      label: 'Kale',        path: '2.2.1' },
+  { value: 'spinach',   label: 'Spinach',     path: '2.2.2' },
+  { value: 'lettuce',   label: 'Lettuce',     path: '2.2.3' },
+  { value: 'chard',     label: 'Chard',       path: '2.2.4' },
+  { value: 'brassica',  label: 'Brassica',    path: '2.3' },
+  { value: 'broccoli',  label: 'Broccoli',    path: '2.3.1' },
+  { value: 'caulif',    label: 'Cauliflower', path: '2.3.2' },
+  { value: 'cabbage',   label: 'Cabbage',     path: '2.3.3' },
+  { value: 'dairy',     label: 'Dairy',       path: '3' },
+  { value: 'cheese',    label: 'Cheese',      path: '3.1' },
+  { value: 'cheddar',   label: 'Cheddar',     path: '3.1.1' },
+  { value: 'brie',      label: 'Brie',        path: '3.1.2' },
+  { value: 'gouda',     label: 'Gouda',       path: '3.1.3' },
+  { value: 'milk',      label: 'Milk',        path: '3.2' },
+  { value: 'milk-w',    label: 'Whole milk',  path: '3.2.1' },
+  { value: 'milk-s',    label: 'Skim milk',   path: '3.2.2' }
+];
+
+// A "full title" ships WITH the data — build a breadcrumb by joining ancestor labels.
+const labelByPath = new Map(treeCategories.map(c => [c.path, c.label]));
+const treeWithFullTitles = treeCategories.map(c => {
+  const segs = c.path.split('.');
+  const crumb = segs
+    .map((_, i) => labelByPath.get(segs.slice(0, i + 1).join('.')))
+    .filter(Boolean)
+    .join(' / ');
+  return { ...c, fullTitle: crumb };
+});
+
+// Grouped data for the mobile demos (~50 options, 8 groups).
+const mobileToOptions = (catalog) =>
+  Object.entries(catalog).flatMap(([group, labels], gi) =>
+    labels.map((label, i) => ({ value: `${gi}-${i}`, label, group })));
+const mobileOptions = mobileToOptions({
+  'Compute': ['Virtual Machines', 'Kubernetes', 'Serverless Functions', 'Container Registry', 'Batch', 'Auto Scaling', 'Load Balancer'],
+  'Storage': ['Object Storage', 'Block Storage', 'File Storage', 'Cold Archive', 'Backup Vault', 'CDN'],
+  'Networking': ['Virtual Network', 'DNS', 'VPN Gateway', 'Firewall', 'NAT Gateway', 'Private Link', 'Traffic Manager'],
+  'Databases': ['SQL Database', 'NoSQL Store', 'In-Memory Cache', 'Data Warehouse', 'Graph Database', 'Time Series DB', 'Search Engine'],
+  'Security': ['Identity & Access', 'Secrets Manager', 'Key Vault', 'Certificate Manager', 'Web App Firewall', 'DDoS Protection', 'Audit Logs'],
+  'Analytics': ['Data Lake', 'Stream Processing', 'BI Dashboards', 'ETL Pipelines', 'Event Bus', 'Metrics'],
+  'Developer Tools': ['CI/CD Pipelines', 'Source Repos', 'Artifact Registry', 'API Gateway', 'Feature Flags', 'Monitoring'],
+  'Messaging': ['Message Queue', 'Pub/Sub', 'Transactional Email', 'SMS', 'Push Notifications']
+});
+
 customElements.whenDefined('web-multiselect').then(() => {
+  // ---- None Mode demo ----
   const noneMode = document.getElementById('none-mode');
   if (noneMode) {
     customElements.upgrade(noneMode);
@@ -429,7 +663,7 @@ customElements.whenDefined('web-multiselect').then(() => {
     noneMode.value = ['js', 'ts'];
   }
 
-  // Grouped options demo - initialize with group property
+  // ---- Grouped options demo ----
   const groupedDemo = document.getElementById('grouped-demo');
   if (groupedDemo) {
     customElements.upgrade(groupedDemo);
@@ -449,7 +683,7 @@ customElements.whenDefined('web-multiselect').then(() => {
     ];
   }
 
-  // Disabled options demo - initialize with disabled property
+  // ---- Disabled options demo ----
   const disabledDemo = document.getElementById('disabled-demo');
   if (disabledDemo) {
     customElements.upgrade(disabledDemo);
@@ -462,6 +696,97 @@ customElements.whenDefined('web-multiselect').then(() => {
       { value: 'disabled3', label: 'Unavailable Option 3', disabled: true }
     ];
   }
+
+  // ---- Tree demos (dot-path) ----
+  for (const id of ['tree-basic', 'tree-search']) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    el.valueMember = 'value';
+    el.displayValueMember = 'label';
+    el.pathMember = 'path';
+    el.options = treeCategories;
+  }
+
+  // Leaves-only selectability: branches are pure structure.
+  const treeLeaves = document.getElementById('tree-leaves');
+  if (treeLeaves) {
+    treeLeaves.valueMember = 'value';
+    treeLeaves.displayValueMember = 'label';
+    treeLeaves.pathMember = 'path';
+    treeLeaves.getIsSelectableCallback = (node) => !node.hasChildren;
+    treeLeaves.options = treeCategories;
+  }
+
+  // Full breadcrumb on badges (two items pre-selected).
+  const treeFullTitle = document.getElementById('tree-fulltitle');
+  if (treeFullTitle) {
+    treeFullTitle.valueMember = 'value';
+    treeFullTitle.displayValueMember = 'label';
+    treeFullTitle.pathMember = 'path';
+    treeFullTitle.fullTitleMember = 'fullTitle';
+    treeFullTitle.options = treeWithFullTitles;
+    treeFullTitle.setSelected(['apple', 'kale']);
+  }
+
+  // Cascade checkboxes with select-all/clear-all + custom action.
+  const treeCascade = document.getElementById('tree-cascade');
+  if (treeCascade) {
+    treeCascade.valueMember = 'value';
+    treeCascade.displayValueMember = 'label';
+    treeCascade.pathMember = 'path';
+    treeCascade.options = treeCategories;
+    treeCascade.actionButtons = [
+      { action: 'select-all', text: 'Select All' },
+      { action: 'clear-all', text: 'Clear All' },
+      { action: 'custom', text: 'All fruit', onClick: (ms) => ms.setSelected(['fruit'], { notify: true }) }
+    ];
+    const emitted = document.getElementById('cascade-emitted');
+    const showEmitted = () => { if (emitted) emitted.textContent = JSON.stringify(treeCascade.getValue()); };
+    treeCascade.addEventListener('change', showEmitted);
+  }
+
+  // Real data — the full ISCO-08 occupation classification (619 groups).
+  fetch('/assets/data/isco08.json')
+    .then(r => r.json())
+    .then(isco => {
+      const el = document.getElementById('tree-isco');
+      if (!el) return;
+      el.valueMember = 'value';
+      el.displayValueMember = 'label';
+      el.pathMember = 'path';
+      el.isSelectableMember = 'selectable';
+      // Widen the built-in filter to also match ISCO code + full breadcrumb.
+      el.getSearchValueCallback = (item) => `${item.label} ${item.value} ${item.fullTitle}`;
+      // Badge = last segment only, with a ".. /" hint when ancestors exist.
+      el.getBadgeDisplayCallback = (item) => {
+        const segs = String(item.fullTitle || item.label).split(' / ');
+        const last = segs[segs.length - 1];
+        return segs.length > 1 ? `.. / ${last}` : last;
+      };
+      el.getBadgeTooltipCallback = (item) => item.fullTitle || item.label;
+      el.options = isco;
+    })
+    .catch(err => console.error('ISCO-08 tree demo failed to load:', err));
+
+  // ---- Mobile demos ----
+  const mobileIntro = document.getElementById('mobile-intro');
+  const mobileAutofocus = document.getElementById('mobile-autofocus');
+  const mobileNavigate = document.getElementById('mobile-navigate');
+  [mobileIntro, mobileAutofocus, mobileNavigate].forEach((el) => { if (el) el.options = mobileOptions; });
+
+  // "Preview as fullscreen" checkbox flips mobile-presentation between
+  // 'fullscreen' (forced overlay on desktop) and 'auto' (floating here).
+  const wirePreview = (checkboxId, ...els) => {
+    const cb = document.getElementById(checkboxId);
+    if (!cb) return;
+    cb.addEventListener('change', (e) => {
+      const mode = e.target.checked ? 'fullscreen' : 'auto';
+      els.forEach((el) => { if (el) el.setAttribute('mobile-presentation', mode); });
+    });
+  };
+  wirePreview('intro-fs-preview', mobileIntro);
+  wirePreview('kb-fs-preview', mobileAutofocus);
+  wirePreview('nav-fs-preview', mobileNavigate);
 });
 
 // Programmatic control functions
@@ -515,3 +840,5 @@ function clearColors() {
   }
 })();
 </script>
+</content>
+</invoke>
