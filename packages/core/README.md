@@ -6,6 +6,16 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc11
+
+- **Provider-agnostic icon primitive (`.pa-icon`).** Every close / remove / clear "X" is now a masked SVG drawn in `currentColor` (via `mask-image`), so it inherits the button's colour and scales with `--pa-icon-size` — no icon font or asset needed. Swap the whole icon set by overriding one `--pa-icon-*` var; ships the Lucide "x" by default.
+- **`pureAdmin.config` — a shared UI-behavior baseline.** One overridable object for the framework's binding-agnostic defaults so components stop hardcoding constants: `mobileBreakpoint`, `typingDebounceDelay`, `toast.*` + `severity.*`, and the `transition.*` motion scale. Several are emitted as CSS vars too (`--pa-mobile-breakpoint`, `--pa-transition-*`) so CSS, JS, and every wrapper read one source.
+- **BREAKING — all JS globals consolidated under `window.pureAdmin`.** The dozen ad-hoc `window.Pa*` / `PureAdmin*` globals are now one lowercase namespace with an event bus, a shared viewport source, a components registry, menu coordination, and a debug registry. No back-compat aliases — see the migration map in `docs/js-architecture.md`.
+- **`pureAdmin.colorScheme` + auto theme mode.** One OS light/dark watcher lives on the namespace and emits `colorscheme:change`, so consumers follow the system preference without each opening their own `matchMedia`. The settings panel gains an **Auto** mode (shown only for themes with both a light and dark mode).
+- **Unified resize grab-knob.** The sidebar resize handle and the splitter gutter now share one knob — a rounded `--pa-card-bg` tab with a ⋮/⋯ grip — instead of two mismatched grips. It's viewport-responsive (slim on desktop, chunkier on small screens), touch-grabbable, and follows (but caps) the theme's corner radius.
+- **Smoother mobile drawers.** The mobile sidebar and profile panel are now proper sliding off-canvas drawers with a fading scrim and background scroll-lock (iOS-Safari-safe), consistent with each other instead of one popping in without animation and the other with no working scrim.
+- **`.pa-table-card__description`, `.pa-header__version`, and onboarding.** A canonical subtitle for table cards, a muted version tag beside the brand wordmark, and a new `QUICKSTART.md` + runnable `starter/index.html` so the unzipped package runs with no install or build.
+
 ## What's New in 2.9.0-rc10
 
 - **Table-in-a-card consolidated to one blessed shape.** Wrapping a table in a card had drifted into four overlapping patterns; there are now two: `.pa-table-container` (bare — a card-less, framed, horizontally-scrollable wrapper with no header) and `.pa-table-card` (the full card — header/body/footer/actions, colour variants, `--plain`, and `__body--scrollable` for wide tables). Use `.pa-table-card` for any table that needs a header or card chrome.
@@ -13,14 +23,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **Fix: `.pa-table-card` header corner wedge.** The header set its own top radius, curving slightly wider than the card's inner corner and leaving a thin sliver of card background at each top corner (most visible on coloured `--primary`/`--success`/… headers). It now relies on the card's clip, matching `.pa-card__header`.
 - **Responsive navbar collapse no longer pins the current page.** The active nav item used to be hard-pinned to the bar so it never collapsed; it now folds into the "More" menu / sidebar like any other item when space runs out. Give an item an explicit high `data-pa-nav-priority` if you want it to survive longest.
 - **Heads-up — deprecations:** `.pa-table-container--panel` (+ its `__header`/`__title`/`__actions`) and hosting a `.pa-table` directly in a generic `.pa-card` body are deprecated in favour of `.pa-table-card`. Both still render (legacy tolerance), but are no longer documented and will be removed in a future major.
-
-## What's New in 2.9.0-rc09
-
-- **Responsive navbar collapse (`data-pa-nav-collapse`).** Opt in on `.pa-header__nav` and the top nav progressively folds its lowest-priority items out as the header narrows (restoring them as it widens), instead of just hiding on mobile. Fold into a generated "More" dropdown (`menu`) or into real `.pa-sidebar__*` items under a section heading (`sidebar`) — each dropdown parent becomes a proper collapsible sidebar group. Priority via `data-pa-nav-priority`, per-item icons via `data-pa-nav-icon`, and `data-pa-nav-collapse="hide"` to just drop low-value items; the current-page item is hard-pinned so it never collapses.
-- **Touch support for navbar dropdowns.** Hover-only dropdowns were a trap on touch — tapping a parent that's also a real link (Components → `/components/overview`) just followed the href and its submenu could never open. Now on touch devices the first tap opens the submenu and the second navigates; nested fly-outs stack inline as an accordion instead of running off-screen. Hover devices are unchanged.
-- **`.pa-header__nav-item--active` — active state for top-nav items.** The current section's nav item now gets a held pill (brightened, semibold), derived from the link's own text colour so it stays visible on dark/accent header bars.
-- **`.pa-sidebar__section` and `.pa-sidebar__divider`.** A flat uppercase group heading for static (non-collapsible) sidebar groups, and a thin horizontal rule for separating blocks of items.
-- **Fix: sidebar chevron rotation leaked into nested groups.** Opening a parent group rotated the chevrons of its collapsed sub-groups too, so a closed sub-group wrongly showed an open chevron. Each chevron now reflects only its own group's state.
 
 ## Installation
 

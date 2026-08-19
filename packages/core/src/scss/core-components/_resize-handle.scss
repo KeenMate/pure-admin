@@ -1,0 +1,76 @@
+/* ========================================
+   Resize handle — the shared grab-knob
+   ONE knob look for every drag-to-resize affordance: the sidebar resize handle
+   and the splitter gutter. Callers own WHERE the knob sits (sticky on the
+   sidebar edge, centred on a splitter gutter); these mixins own how it LOOKS —
+   including a viewport-responsive width so it's slim on desktop and chunkier on
+   small / touch-first viewports (no oversized knob on a wide screen).
+   ======================================== */
+@use '../variables' as *;
+
+// Knob dimensions are structural → plain SCSS. "thickness" is the short axis
+// (how far it protrudes / how wide it reads), "length" the long axis. Desktop is
+// deliberately slim; small viewports get a chunkier, finger-friendlier knob.
+$resize-knob-thickness: 14px !default;
+$resize-knob-length: 44px !default;
+$resize-knob-thickness-lg: 20px !default;
+$resize-knob-length-lg: 48px !default;
+
+// Radius caps (~30% of the thickness) so the knob reads as a gentle rounded-rect
+// instead of a pill — the card's `-lg` radius (e.g. 8px) is over half the slim
+// 14px desktop thickness. Applied via min() with the theme token, so square
+// themes (radius 0) stay square.
+$resize-knob-radius: 4px !default;
+$resize-knob-radius-lg: 6px !default;
+
+// The knob visual. $axis: `block` → tall knob with a vertical ⋮ grip (vertical
+// handles: the sidebar, and a horizontal split's vertical gutter); `inline` →
+// wide knob with a horizontal ⋯ grip (a vertical split's horizontal gutter).
+@mixin pa-resize-knob($axis: block) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @if $axis == inline {
+    content: '\22ef'; // ⋯ horizontal ellipsis
+    width: $resize-knob-length;
+    height: $resize-knob-thickness;
+  } @else {
+    content: '\22ee'; // ⋮ vertical ellipsis
+    width: $resize-knob-thickness;
+    height: $resize-knob-length;
+  }
+
+  // Follows the theme radius (same token as the cards) but capped so it stays a
+  // gentle rounded-rect on the slim knob rather than turning into a pill. Square
+  // themes (radius 0) stay square via min(). High-contrast fill / border / shadow
+  // so the knob stands out on both light and dark surfaces.
+  border-radius: min(var(--pa-border-radius-lg), #{$resize-knob-radius});
+  background-color: var(--pa-card-bg);
+  border: $border-width-medium solid var(--pa-border-color);
+  color: var(--pa-text-color-2);
+  font-size: $font-size-lg;
+  line-height: 1;
+  box-shadow: $shadow-md;
+  pointer-events: none; // the wider handle / gutter underneath captures the drag
+  transition: border-color $transition-fast $easing-snappy,
+              color $transition-fast $easing-snappy;
+
+  // Chunkier knob on small viewports (tablet / mobile) — slim on desktop.
+  @media (max-width: $tablet-breakpoint) {
+    @if $axis == inline {
+      width: $resize-knob-length-lg;
+      height: $resize-knob-thickness-lg;
+    } @else {
+      width: $resize-knob-thickness-lg;
+      height: $resize-knob-length-lg;
+    }
+    border-radius: min(var(--pa-border-radius-lg), #{$resize-knob-radius-lg});
+  }
+}
+
+// Dragging / hovering / focused: accent the knob (border + grip glyph).
+@mixin pa-resize-knob-active {
+  border-color: var(--pa-accent);
+  color: var(--pa-accent);
+}
