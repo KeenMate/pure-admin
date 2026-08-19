@@ -13,6 +13,9 @@ const PUREADMIN_API = process.env.PUREADMIN_API || 'https://pureadmin.io';
 // Path to the core package in workspace
 const corePackagePath = path.join(__dirname, '..', 'packages', 'core');
 
+// Core package version — shown next to the brand in the navbar.
+const coreVersion = JSON.parse(fs.readFileSync(path.join(corePackagePath, 'package.json'), 'utf-8')).version;
+
 // Load theme config from pureadmin.json + .pureadmin.json
 const repoRoot = path.join(__dirname, '..');
 
@@ -220,6 +223,7 @@ app.use(async (req, res, next) => {
 
     // Add helper variables for Mustache
     res.locals.isAudiTheme = theme === 'audi';
+    res.locals.coreVersion = coreVersion;
 
     next();
 });

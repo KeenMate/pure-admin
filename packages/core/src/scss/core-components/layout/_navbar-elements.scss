@@ -13,7 +13,11 @@
 
   &__brand {
     flex-shrink: 0;
-    padding-inline-start: $header-brand-padding-left; // RTL: flips to padding-right
+    // No brand padding: the .pa-header__start flex `gap` (see _navbar.scss) is
+    // the single separator between the burger and the brand. The old
+    // `padding-inline-start: $header-brand-padding-left` predated that gap and
+    // stacked on top of it, doubling the space — which is exactly why the mobile
+    // layout had to zero it back out.
 
     h1 {
       margin: 0;
@@ -22,6 +26,15 @@
       color: var(--pa-header-text);
       white-space: nowrap;
     }
+  }
+
+  // Version tag beside the wordmark (e.g. "Pure Admin v2.9.0"). Smaller and
+  // muted so it reads as metadata rather than part of the product name.
+  &__version {
+    margin-inline-start: $spacing-xs;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-normal;
+    color: var(--pa-header-text-secondary);
   }
 
   &__nav {
