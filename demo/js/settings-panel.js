@@ -33,6 +33,7 @@
         const sidebarResizable = document.getElementById('sidebarResizable');
         const sidebarBehaviorSelector = document.getElementById('sidebarBehaviorSelector');
         const sidebarModeSelector = document.getElementById('sidebarModeSelector');
+        const searchPositionSelector = document.getElementById('searchPositionSelector');
         const compactMode = document.getElementById('compactMode');
         const rtlMode = document.getElementById('rtlMode');
         const profileNoAvatar = document.getElementById('profileNoAvatar');
@@ -40,6 +41,29 @@
         const containerWidthSelector = document.getElementById('containerWidthSelector');
         const resetSettings = document.getElementById('resetSettings');
         const body = document.body;
+
+        // Search Box position — reveal exactly one of the three placements (or
+        // none). The triggers all live in the markup hidden; this shows the
+        // chosen one and records the choice on <body data-search-position> for
+        // any CSS/JS that keys off it. A: inline navbar search (its own results),
+        // B: compact navbar pill → palette, C: sidebar item → palette.
+        function applySearchPosition(pos) {
+            const inline = document.getElementById('navbarSearchInline');   // A
+            const title = document.getElementById('navbarTitle');
+            const compact = document.getElementById('navbarSearchTrigger');  // B
+            const sidebar = document.getElementById('sidebarSearchTrigger'); // C
+            if (inline) inline.hidden = pos !== 'navbar-inline';
+            if (title) title.hidden = pos === 'navbar-inline'; // A swaps the page title
+            if (compact) compact.hidden = pos !== 'navbar-compact';
+            if (sidebar) sidebar.hidden = pos !== 'sidebar';
+            if (pos) body.dataset.searchPosition = pos;
+            else delete body.dataset.searchPosition;
+            // Showing/hiding a trigger changes the header's content, so re-run the
+            // fit engine to re-settle priorities (navbar-fit.js).
+            if (window.pureAdmin && pureAdmin.components && pureAdmin.components.navFit) {
+                pureAdmin.components.navFit.relayoutAll();
+            }
+        }
 
         // Fetch theme manifests
         const fetchThemeManifests = async () => {
@@ -333,6 +357,13 @@
             // Sidebar collapsed
             const isSidebarCollapsed = localStorage.getItem('sidebar-hidden') === 'true';
             sidebarCollapsed.checked = isSidebarCollapsed;
+
+            // Search box position
+            if (searchPositionSelector) {
+                const searchPosition = localStorage.getItem('search-position') || '';
+                searchPositionSelector.value = searchPosition;
+                applySearchPosition(searchPosition);
+            }
 
             // Sidebar behavior
             const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
@@ -639,6 +670,16 @@
             switchSidebarMode(mode);
         });
 
+        // Search box position change
+        if (searchPositionSelector) {
+            searchPositionSelector.addEventListener('change', (e) => {
+                const pos = e.target.value;
+                if (pos) localStorage.setItem('search-position', pos);
+                else localStorage.removeItem('search-position');
+                applySearchPosition(pos);
+            });
+        }
+
         // Sidebar behavior change
         sidebarBehaviorSelector.addEventListener('change', (e) => {
             const behavior = e.target.value;
@@ -679,6 +720,7 @@
             localStorage.removeItem('font-size');
             localStorage.removeItem('font-family');
             localStorage.removeItem('sidebar-hidden');
+            localStorage.removeItem('search-position');
             localStorage.removeItem('sidebar-behavior');
             localStorage.removeItem('sidebar-resizable');
             localStorage.removeItem('sidebar-width');

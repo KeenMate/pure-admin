@@ -136,10 +136,6 @@
     &__nav:not([data-pa-nav-collapse]) {
       display: none;
     }
-
-    &__title h2 {
-      font-size: $font-size-sm;
-    }
   }
 
   // Hide theme switcher label on mobile
@@ -172,7 +168,14 @@
   // the drag can produce is clamped by min() and the sidebar never visibly moves
   // — the handle looks dead. Gating on the explicit-resize class (not just
   // --resizable) keeps the narrow tablet default until the user opts in.
-  body.pa-sidebar-resized .pa-layout__sidebar {
+  //
+  // MUST exclude .sidebar-hidden: this selector (0,2,1) outweighs
+  // `.sidebar-hidden .pa-layout__sidebar { width: 0 }` (0,2,0), so once resized a
+  // sidebar stays full-width when the burger hides it and the content never
+  // reclaims the space — but ONLY in this tablet band (desktop has no such
+  // override). `:not(.sidebar-hidden)` yields to the hide rule while keeping the
+  // resized width whenever the sidebar is actually shown.
+  body.pa-sidebar-resized:not(.sidebar-hidden) .pa-layout__sidebar {
     width: var(--pa-local-sidebar-width);
   }
 }

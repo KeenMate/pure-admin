@@ -323,6 +323,106 @@
     color: var(--pa-text-color-2);
     border-top: $border-width-base solid var(--pa-border-color);
   }
+
+  // Fullscreen-sheet title bar (mobile). Injected by the palette driver on
+  // fullscreen enter; hidden in the floating dialog (desktop closes via the
+  // backdrop / Esc, so it needs no on-screen close). A pinned top row carrying a
+  // title + the close button.
+  &__fullscreen-bar {
+    display: none;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-sm;
+    // env() clears a notch / status bar so the row isn't under the system UI.
+    padding: calc(#{$spacing-sm} + env(safe-area-inset-top)) $command-palette-input-padding-h $spacing-sm;
+    border-bottom: $border-width-base solid var(--pa-border-color);
+  }
+
+  &__fullscreen-title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: var(--pa-text-color-1);
+  }
+
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $command-palette-input-height;
+    height: $command-palette-input-height;
+    padding: 0;
+    border: $border-width-base solid var(--pa-border-color);
+    border-radius: var(--pa-border-radius);
+    background-color: var(--pa-input-bg);
+    color: var(--pa-text-color-1);
+    cursor: pointer;
+    transition: border-color $transition-fast $easing-snappy;
+
+    &:hover {
+      border-color: $input-focus-border-color;
+    }
+  }
+}
+
+/* ========================================
+   Command Palette — mobile fullscreen sheet
+   Added by the palette driver via pureAdmin.device classification, NOT a width
+   media query: a narrowed DESKTOP window keeps the floating dialog; only a
+   touch-primary phone (short side < 600px) gets this full-viewport sheet. Mirrors
+   @keenmate/web-multiselect's mobile fullscreen overlay (web-components-core §12.9).
+   ======================================== */
+.pa-command-palette--fullscreen {
+  padding: 0;
+  align-items: stretch;
+  justify-content: stretch;
+
+  // The sheet is opaque and covers the viewport, so the blurred backdrop is moot.
+  .pa-command-palette__backdrop {
+    display: none;
+  }
+
+  .pa-command-palette__container {
+    position: fixed;
+    // top / inline-start ONLY — never `inset` or `bottom`. observeKeyboardInset()
+    // lifts the sheet above the soft keyboard by writing `height` + `top`; a
+    // fixed box with BOTH top and bottom pinned ignores its height, so the list
+    // and footer would hide behind the keys.
+    top: 0;
+    inset-inline-start: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    animation: none;
+    // Full-height flex column: bar + search pinned, results fill & scroll, footer pinned.
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pa-command-palette__fullscreen-bar {
+    display: flex;
+  }
+
+  .pa-command-palette__search {
+    flex: 0 0 auto;
+  }
+
+  // The list is the sole scroller — it fills the space between the search header
+  // and the footer instead of a fixed max-height.
+  .pa-command-palette__results {
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .pa-command-palette__footer {
+    flex: 0 0 auto;
+    // Clear the home indicator on notched phones.
+    padding-bottom: calc(#{$spacing-sm} + env(safe-area-inset-bottom));
+  }
 }
 
 // Animations
@@ -370,12 +470,27 @@
   display: flex;
   align-items: center;
   gap: $spacing-sm;
+  // Self-defense: never exceed the container, and always be shrinkable. The
+  // header slot's :has() rule is the primary guard, but the pill lives in many
+  // hosts (wrapper libraries, custom layouts) — capping to the parent here means
+  // it degrades gracefully (placeholder ellipsises, then shortcut hides at the
+  // mobile breakpoint) instead of overflowing when a host forgets to reserve
+  // width. Its icon and shortcut are flex-shrink:0, so the min-content it
+  // collapses to stays legible.
+  min-width: 0;
+  max-width: 100%;
   padding: $input-padding-v $input-padding-h;
   background-color: var(--pa-input-bg);
   border: $border-width-base solid var(--pa-border-color);
   border-radius: var(--pa-border-radius);
   cursor: pointer;
   transition: border-color $transition-fast $easing-snappy;
+
+  // Honor the standard HTML hidden attribute — the display:flex above otherwise
+  // overrides the UA `[hidden]{display:none}` rule, so `<… hidden>` would still show.
+  &[hidden] {
+    display: none;
+  }
 
   &:hover {
     border-color: $input-focus-border-color;
@@ -448,6 +563,43 @@
       border-radius: var(--pa-border-radius-sm);
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     }
+  }
+}
+
+// Inline input variant: a LIVE search box (a real <input> + a results dropdown),
+// as opposed to the default pill that just triggers the command palette. The
+// pill supplies the framed shell; __field is the borderless input that fills it;
+// the dropdown reuses the shared .pa-search-autocomplete popup, anchored to the
+// field's bottom edge. Independent of the command palette — a consumer wires its
+// own results.
+.pa-navbar-search--field {
+  cursor: text;
+  position: relative; // anchor for the results popup
+  width: 100%;
+  max-width: $command-palette-width;
+
+  .pa-navbar-search__field {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--pa-text-color-1);
+    font-size: inherit;
+    padding: 0;
+
+    &::placeholder {
+      color: var(--pa-text-color-2);
+      opacity: $opacity-muted;
+    }
+  }
+
+  // Results drop from the field's bottom edge and span its width (overriding the
+  // popup's standalone min-width so it tracks the field, not a fixed 19.2rem).
+  .pa-search-autocomplete {
+    inset-inline: 0;
+    top: calc(100% + #{$spacing-xs});
+    min-width: 0;
   }
 }
 

@@ -74,6 +74,7 @@
 
     var INIT_FLAG = '__paNavCollapseInit';
     var SELECTOR = '.pa-header__nav[data-pa-nav-collapse]';
+    var relayouts = []; // every initialised nav's relayout fn (for relayoutAll)
 
     function init(nav) {
         if (!nav || nav[INIT_FLAG]) return;
@@ -183,6 +184,11 @@
             }
             log('relayout done', { collapsed: strategy.count ? strategy.count() : '?' });
         }
+
+        // Register this nav's relayout so navbar-fit can fold navs BEFORE it
+        // measures the header (otherwise it measures an un-folded nav, thinks the
+        // row overflows, and over-degrades the other slots).
+        relayouts.push(relayout);
 
         // First paint after layout settles, then watch for size changes. We
         // observe the nav AND the header inner: when items have left the nav it
@@ -471,8 +477,17 @@
         for (var i = 0; i < nodes.length; i++) init(nodes[i]);
     }
 
+    // Re-fold every nav synchronously. navbar-fit calls this before it measures,
+    // so it sees navs at their collapsed width rather than over-degrading the
+    // rest of the header to make room for items that were about to fold anyway.
+    function relayoutAll() {
+        for (var i = 0; i < relayouts.length; i++) {
+            try { relayouts[i](); } catch (e) { /* ignore */ }
+        }
+    }
+
     var pa = (window.pureAdmin = window.pureAdmin || {});
-    (pa.components = pa.components || {}).navCollapse = { init: init, initAll: initAll };
+    (pa.components = pa.components || {}).navCollapse = { init: init, initAll: initAll, relayoutAll: relayoutAll };
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { initAll(); });

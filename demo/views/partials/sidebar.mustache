@@ -2,6 +2,16 @@
 <aside class="pa-layout__sidebar{{#sidebarMode}} pa-layout__sidebar--{{sidebarMode}}{{/sidebarMode}}">
     <nav class="pa-sidebar__nav">
         <ul>
+            <!-- C) Sidebar search: a trigger that opens the Ctrl+K palette
+                 (fullscreen sheet on phones). Hidden until selected in settings. -->
+            <li class="pa-sidebar__item">
+                <button type="button" class="pa-sidebar__search" id="sidebarSearchTrigger" hidden
+                        onclick="window.pureAdmin && pureAdmin.commandPalette && pureAdmin.commandPalette.open()">
+                    <span class="pa-sidebar__icon" aria-hidden="true">🔍</span>
+                    <span class="pa-sidebar__label">Search…</span>
+                </button>
+            </li>
+
             <li class="pa-sidebar__item"><a href="/getting-started" class="pa-sidebar__link {{#isGettingStarted}}pa-sidebar__link--active{{/isGettingStarted}}">
                 <span class="pa-sidebar__icon">🚀</span>
                 <span class="pa-sidebar__label">Getting Started</span>

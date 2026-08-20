@@ -6,6 +6,15 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc12
+
+- **Navbar Fit — priority-driven header degradation** — every header slot (brand, version, title, search…) can declare a `data-pa-fit` strategy (`hide` / `steps` / `sidebar`) and a `data-pa-fit-priority`. As the row narrows, slots degrade lowest-priority-first and restore when space returns; `steps` swaps ranked variants (big logo → wordmark → monogram).
+- **Capability-first device classification (`pureAdmin.device`)** — a shared `mobile` / `tablet` / `desktop` signal keyed off pointer/hover capability and the 600px short-side line, not raw width — so a narrowed desktop window stays `desktop`.
+- **Mobile fullscreen command palette** — on a touch phone the search palette opens as a full-viewport sheet (pinned header + close, soft-keyboard aware) instead of a floating dialog.
+- **Overlay primitives (`pureAdmin.overlay`)** — `lockBodyScroll()` + `observeKeyboardInset()` for any fullscreen surface.
+- **Search entry-point patterns** — `.pa-navbar-search--field` (a live inline navbar search with its own results dropdown) and `.pa-sidebar__search` (a sidebar search trigger), alongside the existing command-palette pill.
+- **Fixed** — the header brand/version no longer collide with the page title in a tight bar (now owned by the fit engine), and the navbar search pill's overflow protection survives a consumer wrapper element.
+
 ## What's New in 2.9.0-rc11
 
 - **Provider-agnostic icon primitive (`.pa-icon`).** Every close / remove / clear "X" is now a masked SVG drawn in `currentColor` (via `mask-image`), so it inherits the button's colour and scales with `--pa-icon-size` — no icon font or asset needed. Swap the whole icon set by overriding one `--pa-icon-*` var; ships the Lucide "x" by default.
@@ -15,14 +24,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **Unified resize grab-knob.** The sidebar resize handle and the splitter gutter now share one knob — a rounded `--pa-card-bg` tab with a ⋮/⋯ grip — instead of two mismatched grips. It's viewport-responsive (slim on desktop, chunkier on small screens), touch-grabbable, and follows (but caps) the theme's corner radius.
 - **Smoother mobile drawers.** The mobile sidebar and profile panel are now proper sliding off-canvas drawers with a fading scrim and background scroll-lock (iOS-Safari-safe), consistent with each other instead of one popping in without animation and the other with no working scrim.
 - **`.pa-table-card__description`, `.pa-header__version`, and onboarding.** A canonical subtitle for table cards, a muted version tag beside the brand wordmark, and a new `QUICKSTART.md` + runnable `starter/index.html` so the unzipped package runs with no install or build.
-
-## What's New in 2.9.0-rc10
-
-- **Table-in-a-card consolidated to one blessed shape.** Wrapping a table in a card had drifted into four overlapping patterns; there are now two: `.pa-table-container` (bare — a card-less, framed, horizontally-scrollable wrapper with no header) and `.pa-table-card` (the full card — header/body/footer/actions, colour variants, `--plain`, and `__body--scrollable` for wide tables). Use `.pa-table-card` for any table that needs a header or card chrome.
-- **Fix: wide tables no longer get clipped inside a card.** A table dropped straight into a `.pa-card` body (e.g. the Forms "Input Sizes Reference") was silently cut off on narrow screens, because the card clips its rounded corners with `overflow: hidden`. `.pa-table-card__body--scrollable` gives the table its own horizontal scroll while the card keeps clipping — no more cut-off columns.
-- **Fix: `.pa-table-card` header corner wedge.** The header set its own top radius, curving slightly wider than the card's inner corner and leaving a thin sliver of card background at each top corner (most visible on coloured `--primary`/`--success`/… headers). It now relies on the card's clip, matching `.pa-card__header`.
-- **Responsive navbar collapse no longer pins the current page.** The active nav item used to be hard-pinned to the bar so it never collapsed; it now folds into the "More" menu / sidebar like any other item when space runs out. Give an item an explicit high `data-pa-nav-priority` if you want it to survive longest.
-- **Heads-up — deprecations:** `.pa-table-container--panel` (+ its `__header`/`__title`/`__actions`) and hosting a `.pa-table` directly in a generic `.pa-card` body are deprecated in favour of `.pa-table-card`. Both still render (legacy tolerance), but are no longer documented and will be removed in a future major.
 
 ## Installation
 

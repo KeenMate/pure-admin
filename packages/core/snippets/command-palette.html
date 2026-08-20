@@ -242,6 +242,43 @@ button retains its padding and hit area.
 
 
 <!-- ================================
+     INLINE NAVBAR SEARCH (pa-navbar-search--field)
+     A LIVE search box, not a trigger: a real <input> in the pill shell with
+     a results dropdown anchored below it. Independent of the palette — wire
+     your own results into .pa-search-autocomplete. Contrast with the pill
+     above (which just opens the palette).
+     ================================ -->
+
+<div class="pa-navbar-search pa-navbar-search--field">
+    <span class="pa-navbar-search__icon">🔍</span>
+    <input type="text" class="pa-navbar-search__field" placeholder="Search…" aria-label="Search">
+    <!-- Results dropdown (populate + toggle [hidden] from your JS) -->
+    <div class="pa-search-autocomplete" hidden>
+        <div class="pa-search-autocomplete__item">
+            <span class="pa-search-autocomplete__item-icon">💻</span>
+            <span class="pa-search-autocomplete__item-name">MacBook Pro 16"</span>
+            <span class="pa-search-autocomplete__item-type">Product</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================
+     SIDEBAR SEARCH TRIGGER (pa-sidebar__search)
+     A framed search affordance at the top of the sidebar; a trigger (opens
+     the palette / your own search). Collapses to just its icon in an
+     .pa-layout__sidebar--icon-collapse sidebar. Place as the first sidebar item.
+     ================================ -->
+
+<li class="pa-sidebar__item">
+    <button type="button" class="pa-sidebar__search" onclick="openCommandPalette()">
+        <span class="pa-sidebar__icon" aria-hidden="true">🔍</span>
+        <span class="pa-sidebar__label">Search…</span>
+    </button>
+</li>
+
+
+<!-- ================================
      SHORTCUT HELP DIALOG (pa-shortcut-help)
      Pure content block — drop this into a .pa-modal body or any
      other overlay when you want to show the app's keyboard shortcuts.
@@ -414,6 +451,22 @@ NAVBAR TRIGGER (pa-navbar-search):
 
 Responsive: below 768px, __placeholder and __shortcut both hide —
 trigger collapses to the icon only.
+
+
+INLINE NAVBAR SEARCH (pa-navbar-search--field):
+- .pa-navbar-search--field              Turns the pill into a LIVE search
+                                        box (a real input + dropdown),
+                                        not a palette trigger.
+- .pa-navbar-search__field              The borderless <input> filling it.
+- .pa-search-autocomplete               Results dropdown, anchored below
+                                        the field (shared component).
+
+SIDEBAR SEARCH TRIGGER (pa-sidebar__search):
+- .pa-sidebar__search                   Framed search affordance for the
+                                        sidebar top; a trigger. Uses the
+                                        shared .pa-sidebar__icon / __label;
+                                        collapses to the icon in an
+                                        icon-collapse sidebar.
 
 
 SHORTCUT HELP DIALOG (pa-shortcut-help):

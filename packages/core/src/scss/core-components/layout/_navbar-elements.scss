@@ -4,6 +4,16 @@
    ======================================== */
 @use '../../variables' as *;
 
+// Fit engine (navbar-fit.js): the class it toggles to remove a slot or an
+// inactive step from the row. `!important` beats component display rules (e.g.
+// `.pa-navbar-search { display: flex }`) that would otherwise defeat it; using a
+// class (not inline display) means "show" simply reverts to the element's own
+// stylesheet display. Author non-first steps with this class too, so before JS
+// runs only the largest variant shows (no stacked-variants flash, no-JS-safe).
+.pa-fit-hidden {
+  display: none !important;
+}
+
 // Navbar elements (using pa-header__ prefix for backward compatibility with existing partials)
 .pa-header {
   &__burger {

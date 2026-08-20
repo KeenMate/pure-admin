@@ -100,14 +100,66 @@
         ]
     };
 
+    // Mobile fullscreen sheet: on a touch phone the palette opens as a
+    // full-viewport sheet instead of a floating dialog (same pattern as the KM
+    // web components — see @keenmate/web-multiselect). Capability-first device
+    // decision via pureAdmin.device (mirrors web-components-core's
+    // classifyDevice): a narrowed DESKTOP window keeps the floating dialog; only
+    // a touch-primary phone (short side < 600px) gets the sheet. Falls back to a
+    // local matchMedia check if the pureAdmin namespace hasn't loaded.
+    const container = palette.querySelector('.pa-command-palette__container');
+    let fullscreenBar = null;
+    let keyboardInsetCleanup = null;
+    let scrollLockRelease = null;
+
+    function isMobileDevice() {
+        const pa = window.pureAdmin;
+        if (pa && pa.device) return pa.device.class === 'mobile';
+        const touchPrimary =
+            window.matchMedia('(pointer: coarse)').matches &&
+            !window.matchMedia('(hover: hover)').matches;
+        if (!touchPrimary) return false;
+        const line = (pa && pa.config && pa.config.tabletMinShortSide) || 600;
+        return Math.min(window.innerWidth, window.innerHeight) < line;
+    }
+
+    function enterFullscreen() {
+        if (fullscreenBar || !container) return;
+        palette.classList.add('pa-command-palette--fullscreen');
+        // Pinned title + close row (CSS shows it only in fullscreen) — the touch
+        // close affordance, since there's no visible backdrop or Esc key.
+        fullscreenBar = document.createElement('div');
+        fullscreenBar.className = 'pa-command-palette__fullscreen-bar';
+        fullscreenBar.innerHTML =
+            '<span class="pa-command-palette__fullscreen-title">Search</span>' +
+            '<button type="button" class="pa-command-palette__close" aria-label="Close search">' +
+            '<span class="pa-icon pa-icon--x"></span></button>';
+        fullscreenBar.querySelector('.pa-command-palette__close').addEventListener('click', closePalette);
+        container.insertBefore(fullscreenBar, container.firstChild);
+        if (window.pureAdmin && window.pureAdmin.overlay) {
+            keyboardInsetCleanup = window.pureAdmin.overlay.observeKeyboardInset(container);
+        }
+    }
+
+    function exitFullscreen() {
+        palette.classList.remove('pa-command-palette--fullscreen');
+        if (keyboardInsetCleanup) { keyboardInsetCleanup(); keyboardInsetCleanup = null; }
+        if (fullscreenBar) { fullscreenBar.remove(); fullscreenBar = null; }
+    }
+
     /**
      * Open command palette
      */
     function openPalette() {
         isOpen = true;
         palette.classList.add('pa-command-palette--active');
+        if (isMobileDevice()) enterFullscreen();
+        if (window.pureAdmin && window.pureAdmin.overlay) {
+            scrollLockRelease = window.pureAdmin.overlay.lockBodyScroll();
+        } else {
+            document.body.style.overflow = 'hidden';
+        }
         input.focus();
-        document.body.style.overflow = 'hidden';
     }
 
     /**
@@ -116,6 +168,7 @@
     function closePalette() {
         isOpen = false;
         palette.classList.remove('pa-command-palette--active');
+        exitFullscreen();
         input.value = '';
         contextLabel.textContent = '';
         contextLabel.classList.remove('pa-command-palette__context--visible');
@@ -123,7 +176,8 @@
         currentResults = [];
         activeIndex = -1;
         currentPage = 1;
-        document.body.style.overflow = '';
+        if (scrollLockRelease) { scrollLockRelease(); scrollLockRelease = null; }
+        else document.body.style.overflow = '';
         renderEmptyState();
     }
 
@@ -466,6 +520,17 @@
                 break;
         }
     });
+
+    // Public API — expose open/close so external triggers (a navbar pill, a
+    // sidebar item) can open the palette, which then picks floating vs.
+    // fullscreen from pureAdmin.device. Mirrored onto the shared namespace.
+    var api = {
+        open: function () { if (!isOpen) openPalette(); },
+        close: function () { if (isOpen) closePalette(); },
+        isOpen: function () { return isOpen; }
+    };
+    window.commandPalette = api;
+    if (window.pureAdmin) window.pureAdmin.commandPalette = api;
 
     } // end init()
 

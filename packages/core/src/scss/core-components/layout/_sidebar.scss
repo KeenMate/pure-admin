@@ -176,6 +176,54 @@ body.pa-layout--sticky .pa-layout__sidebar {
     }
   }
 
+  // Search affordance at the top of the sidebar — a TRIGGER (a consumer wires it
+  // to open a command palette / their own search), rendered as a framed
+  // faux-input row so it reads as "search" rather than another nav link:
+  // magnifier icon + muted label, inset from the sidebar edges. In icon-collapse
+  // mode it sheds the frame and centres to just the icon, exactly like the links
+  // below (its .pa-sidebar__label is hidden by the shared icon-collapse rule).
+  &__search {
+    display: flex;
+    align-items: center;
+    gap: $sidebar-item-gap;
+    width: calc(100% - #{$spacing-sm} * 2);
+    margin: $spacing-sm;
+    padding: $sidebar-padding;
+    color: var(--pa-text-color-2);
+    background-color: var(--pa-input-bg);
+    border: $border-width-base solid var(--pa-border-color);
+    border-radius: var(--pa-border-radius);
+    text-align: start; // RTL: flips to right
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+
+    // Honor the standard HTML hidden attribute (display:flex above beats the UA
+    // `[hidden]{display:none}` rule otherwise).
+    &[hidden] {
+      display: none;
+    }
+
+    body.loaded & {
+      transition: all $transition-fast $easing-snappy;
+    }
+
+    &:hover {
+      border-color: $input-focus-border-color;
+      color: var(--pa-sidebar-text);
+    }
+
+    // Collapsed sidebar: drop the frame, icon-only, matching link padding so the
+    // icon lands in the same column as every other sidebar icon.
+    .pa-layout__sidebar--icon-collapse & {
+      width: auto;
+      margin: 0;
+      padding: $sidebar-padding;
+      background: transparent;
+      border-color: transparent;
+      border-radius: 0;
+    }
+  }
+
   &__toggle {
     // For submenu toggle buttons (non-link items)
     display: flex;

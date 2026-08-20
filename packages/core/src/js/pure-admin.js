@@ -23,6 +23,14 @@
  *                           'viewport:resize' (rAF-throttled) + 'viewport:orientation'
  *   pureAdmin.colorScheme   { mode: 'light'|'dark' } live OS preference; emits
  *                           'colorscheme:change' (matchMedia prefers-color-scheme)
+ *   pureAdmin.device        { class: 'mobile'|'tablet'|'desktop', isTouchPrimary }
+ *                           capability-first classification (NOT width); emits
+ *                           'device:change'. The analog of web-components-core's
+ *                           classifyDevice — the "what device am I" every KM
+ *                           component agrees on (mobile -> fullscreen surfaces).
+ *   pureAdmin.overlay       lockBodyScroll() -> release; observeKeyboardInset(el)
+ *                           -> cleanup. Fullscreen-sheet primitives (scroll lock,
+ *                           soft-keyboard inset via visualViewport).
  *   pureAdmin.config         shared UI-behavior baseline (mobileBreakpoint, …);
  *                           override keys before init. Docs: docs/config-shared-ui-baseline.md
  *   pureAdmin.components     per-component handles ({init, initAll, …}); initAll(scope)
@@ -35,6 +43,7 @@
  *   viewport:resize       {width,height,orientation}   the one throttled window-resize source
  *   viewport:orientation  {width,height,orientation}   portrait<->landscape (matchMedia; fires on desktop pivot)
  *   colorscheme:change    {mode}                        OS prefers-color-scheme flipped light<->dark (matchMedia)
+ *   device:change         {class,isTouchPrimary}        device class flipped (rotation / resize across the sw600dp line / pointer change)
  *   menu:opened           {id}                          a menu opened (others may close)
  *   theme:change          {theme}
  *   sidebar:mode          {mode}
@@ -207,6 +216,17 @@
       cfg.typingDebounceDelay = 300;
     }
 
+    // tabletMinShortSide (px) — the phone/tablet boundary applied to the SHORTER
+    // viewport side (Material sw600dp), consumed by pureAdmin.device to split a
+    // touch device into 'mobile' vs 'tablet'. Shorter-side is orientation-robust
+    // (a phone's short side is constant across rotation). 480→600 is an empty
+    // band with no phones in it, so <600 catches every phone and hands tablets /
+    // opened foldables to 'tablet'. A hard constant on purpose ("what is a phone"
+    // shouldn't drift per app), but overridable for edge cases.
+    if (cfg.tabletMinShortSide == null) {
+      cfg.tabletMinShortSide = 600;
+    }
+
     // transition.* (ms) + easing — MIRROR the SCSS motion scale via the
     // --pa-transition-* / --pa-easing-snappy CSS vars, for the rare JS that must
     // sequence on a CSS transition (e.g. act after a drawer slide) instead of
@@ -244,6 +264,111 @@
       info: { icon: 'ℹ', title: 'Information' }
     });
   })(pa.config);
+
+  // --- device: capability-first device classification -----------------------
+  // The vanilla-JS analog of @keenmate/web-components-core's classifyDevice():
+  // the shared "what KIND of device is this" signal every KM component agrees
+  // on — a DISTINCT axis from viewport width. Capability decides FIRST: a
+  // non-touch-primary pointer (a real mouse) is ALWAYS 'desktop' at any width,
+  // so a narrowed desktop window keeps a floating dialog (never a fullscreen
+  // sheet). Only touch-primary devices — coarse pointer AND no hover, the honest
+  // phone/tablet signal that holds in landscape where width alone lies — consult
+  // the size line: the SHORTER viewport side below config.tabletMinShortSide
+  // (600px) => 'mobile', else 'tablet'. Feature detection (matchMedia), not UA
+  // sniffing. Emits 'device:change' when the class flips (rotation, a resize
+  // across the line, a mouse plugged into a tablet).
+  if (!pa.device) {
+    var dev = pa.device = { class: 'desktop', isTouchPrimary: false };
+    var coarseMq = window.matchMedia('(pointer: coarse)');
+    var hoverMq = window.matchMedia('(hover: hover)');
+    var classifyDevice = function () {
+      var touchPrimary = coarseMq.matches && !hoverMq.matches;
+      dev.isTouchPrimary = touchPrimary;
+      if (!touchPrimary) return 'desktop';
+      var shortSide = Math.min(window.innerWidth, window.innerHeight);
+      var line = (pa.config && pa.config.tabletMinShortSide) || 600;
+      return shortSide < line ? 'mobile' : 'tablet';
+    };
+    var reclassify = function () {
+      var next = classifyDevice();
+      if (next === dev.class) return;
+      dev.class = next;
+      pa.events.emit('device:change', dev);
+    };
+    dev.class = classifyDevice();
+    // Re-derive off the shared viewport source (size line) + capability flips —
+    // no second resize listener of our own (viewport owns that).
+    pa.events.on('viewport:resize', reclassify);
+    pa.events.on('viewport:orientation', reclassify);
+    if (coarseMq.addEventListener) {
+      coarseMq.addEventListener('change', reclassify);
+      hoverMq.addEventListener('change', reclassify);
+    } else if (coarseMq.addListener) { // Safari <14
+      coarseMq.addListener(reclassify);
+      hoverMq.addListener(reclassify);
+    }
+  }
+
+  // --- overlay: fullscreen-sheet primitives (scroll lock + keyboard inset) ---
+  // Vanilla ports of web-components-core's overlay helpers (SPEC §12.9), so
+  // pure-admin's OWN fullscreen surfaces (the command palette's mobile sheet,
+  // mobile drawers) behave like the KM web components' fullscreen overlays.
+  if (!pa.overlay) {
+    var lockCount = 0;
+    var stashedOverflow = null;
+    pa.overlay = {
+      // Ref-counted body-scroll lock: the first lock stashes + hides body
+      // overflow, the last release restores it — so two overlays open at once
+      // don't unbalance each other. Returns an idempotent release fn.
+      lockBodyScroll: function () {
+        if (lockCount === 0) {
+          stashedOverflow = document.body.style.overflow;
+          document.body.style.overflow = 'hidden';
+        }
+        lockCount++;
+        var released = false;
+        return function () {
+          if (released) return;
+          released = true;
+          lockCount = Math.max(0, lockCount - 1);
+          if (lockCount === 0 && stashedOverflow !== null) {
+            document.body.style.overflow = stashedOverflow;
+            stashedOverflow = null;
+          }
+        };
+      },
+      // Pin a fixed fullscreen `panel`'s bottom edge above the soft keyboard by
+      // tracking window.visualViewport (the keyboard OVERLAYS the layout
+      // viewport on iOS/Android, so 100dvh alone hides the list behind it). The
+      // panel MUST be position:fixed, top/left-only (NOT inset:0 — a pinned
+      // bottom defeats the height write), and a flex column so it reflows.
+      // Returns a cleanup that detaches listeners and hands height/top back to
+      // CSS. No-op where visualViewport is unavailable.
+      observeKeyboardInset: function (panel) {
+        var vv = window.visualViewport;
+        if (!vv || !panel) return function () {};
+        var raf = null;
+        var apply = function () {
+          raf = null;
+          panel.style.height = vv.height + 'px';
+          panel.style.top = vv.offsetTop + 'px';
+        };
+        var schedule = function () {
+          if (raf) return;
+          raf = requestAnimationFrame(apply);
+        };
+        vv.addEventListener('resize', schedule);
+        vv.addEventListener('scroll', schedule);
+        schedule();
+        return function () {
+          vv.removeEventListener('resize', schedule);
+          vv.removeEventListener('scroll', schedule);
+          panel.style.height = '';
+          panel.style.top = '';
+        };
+      }
+    };
+  }
 
   // --- menus: open-menu coordination (moved from window.PaMenus) ------------
   // Components register a "close me" fn; opening one calls closeOthers(self) to

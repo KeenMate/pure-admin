@@ -392,19 +392,82 @@
       return badgeVariants[badge] || '';
     }
 
+    // ── Mobile fullscreen sheet ──
+    // On a touch phone the palette opens as a full-viewport sheet instead of a
+    // floating dialog — the same pattern the KM web components use (see
+    // @keenmate/web-multiselect). The device decision is capability-first via
+    // pureAdmin.device (mirrors web-components-core's classifyDevice): a narrowed
+    // DESKTOP window keeps the floating dialog; only a touch-primary phone
+    // (short side < 600px) gets the sheet. Falls back to a local matchMedia
+    // check if the pureAdmin namespace hasn't loaded.
+    const container = palette.querySelector('.pa-command-palette__container');
+    let fullscreenBar = null;        // injected [title + close] row, null when floating
+    let keyboardInsetCleanup = null; // visualViewport listener detach
+    let scrollLockRelease = null;    // ref-counted body-scroll-lock release
+
+    function isMobileDevice() {
+      const pa = window.pureAdmin;
+      if (pa && pa.device) return pa.device.class === 'mobile';
+      const touchPrimary =
+        window.matchMedia('(pointer: coarse)').matches &&
+        !window.matchMedia('(hover: hover)').matches;
+      if (!touchPrimary) return false;
+      const line = (pa && pa.config && pa.config.tabletMinShortSide) || 600;
+      return Math.min(window.innerWidth, window.innerHeight) < line;
+    }
+
+    function enterFullscreen() {
+      if (fullscreenBar || !container) return;
+      palette.classList.add('pa-command-palette--fullscreen');
+
+      // Pinned title + close row (CSS reveals it only in fullscreen). Inserted
+      // as the first child of the container so it survives result re-renders
+      // (which only rewrite the results list), and gives touch users a close
+      // affordance since there's no visible backdrop or Esc key.
+      fullscreenBar = document.createElement('div');
+      fullscreenBar.className = 'pa-command-palette__fullscreen-bar';
+      fullscreenBar.innerHTML =
+        '<span class="pa-command-palette__fullscreen-title">Search</span>' +
+        '<button type="button" class="pa-command-palette__close" aria-label="Close search">' +
+        '<span class="pa-icon pa-icon--x"></span></button>';
+      fullscreenBar.querySelector('.pa-command-palette__close').addEventListener('click', close);
+      container.insertBefore(fullscreenBar, container.firstChild);
+
+      // Keep the sheet above the soft keyboard (visualViewport). No-op if the
+      // overlay helper / visualViewport is unavailable.
+      if (window.pureAdmin && window.pureAdmin.overlay) {
+        keyboardInsetCleanup = window.pureAdmin.overlay.observeKeyboardInset(container);
+      }
+    }
+
+    function exitFullscreen() {
+      palette.classList.remove('pa-command-palette--fullscreen');
+      if (keyboardInsetCleanup) { keyboardInsetCleanup(); keyboardInsetCleanup = null; }
+      if (fullscreenBar) { fullscreenBar.remove(); fullscreenBar = null; }
+    }
+
     // ── Open / Close ──
     function open() {
       isOpen = true;
       palette.classList.add('pa-command-palette--active');
+      if (isMobileDevice()) enterFullscreen();
+      // Lock page scroll via the shared ref-counted helper (so a drawer + the
+      // palette don't unbalance each other); fall back to a direct lock.
+      if (window.pureAdmin && window.pureAdmin.overlay) {
+        scrollLockRelease = window.pureAdmin.overlay.lockBodyScroll();
+      } else {
+        document.body.style.overflow = 'hidden';
+      }
       input.focus();
-      document.body.style.overflow = 'hidden';
       renderIdle();
     }
 
     function close() {
       isOpen = false;
       palette.classList.remove('pa-command-palette--active');
-      document.body.style.overflow = '';
+      exitFullscreen();
+      if (scrollLockRelease) { scrollLockRelease(); scrollLockRelease = null; }
+      else document.body.style.overflow = '';
       reset();
     }
 
@@ -1073,7 +1136,21 @@
     });
 
     // ── Public API ──
-    window.commandPalette = {
+    // Exposed so any trigger (a navbar pill, a sidebar item, a button) can open
+    // the palette — which then picks floating vs. fullscreen from the device.
+    // Also mirrored onto the shared pureAdmin namespace.
+    const api = {
+      open() { if (!isOpen) open(); },
+      close() { if (isOpen) close(); },
+      isOpen() { return isOpen; },
+      // Open pre-filled with a query (e.g. a '/command' or ':context'), running
+      // the same input pipeline as typing it. Used by the demo's example buttons.
+      openWithQuery(query) {
+        if (!isOpen) open();
+        input.value = query || '';
+        processInput();
+        input.focus();
+      },
       setDisplayStyle(style) {
         if (style !== 'inline' && style !== 'tokens') return;
         displayStyle = style;
@@ -1090,6 +1167,8 @@
       },
       getDisplayStyle() { return displayStyle; },
     };
+    window.commandPalette = api;
+    if (window.pureAdmin) window.pureAdmin.commandPalette = api;
 
   } // end init
 })();

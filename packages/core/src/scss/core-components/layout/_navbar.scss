@@ -91,9 +91,15 @@ body.pa-container-2xl .pa-navbar {
   &:has(.pa-navbar-search) {
     min-width: $header-search-reserve-width;
 
-    // Let the pill shrink within the reserved slot (its placeholder already
-    // ellipsises) rather than overflowing at its natural content width.
-    .pa-navbar-search {
+    // Let the reserved slot's DIRECT flex child shrink, whatever it is. The
+    // shrink flexbox needs (min-width:0) has to land on the flex item itself —
+    // not on the pill by name. Consumers (svelte-pure-admin etc.) wrap the pill
+    // in their own element; a descendant selector shrank the pill but left the
+    // wrapper at min-width:auto, so it refused to collapse and overflowed onto
+    // the start/end slots. Targeting `> *` is position-agnostic: pill-as-child
+    // and pill-in-wrapper both shrink. Guarded by :has(.pa-navbar-search) so it
+    // only touches the slot when it actually hosts a search.
+    > * {
       min-width: 0;
     }
   }

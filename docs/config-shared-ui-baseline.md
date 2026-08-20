@@ -110,6 +110,18 @@ Three provenance classes: **`mirror`** = derived from an SCSS token via CSS var
 | `mobileBreakpoint` | `768` | mirror `$mobile-breakpoint` → `--pa-mobile-breakpoint` | the ~8 hardcoded `<= 768` / `MOBILE_MAX` checks (`sidebar-resize.js`, `layout.mustache`, `settings-panel.js`) |
 | `tabletBreakpoint` | `1024` | mirror `$tablet-breakpoint` | future JS that needs the tablet band (CSS already has it) |
 | `tabletBreakpointMin` | `769` | mirror `$tablet-breakpoint-min` | — |
+| `tabletMinShortSide` | `600` | js (Material `sw600dp`) | the phone/tablet boundary `pureAdmin.device` applies to the **shorter** viewport side — capability-first, so it's a different axis from the width breakpoints above |
+
+**`mobileBreakpoint` (width) vs `tabletMinShortSide` (device class).** They answer
+different questions. `mobileBreakpoint` is "how wide is the window" — a narrowed
+desktop window is below it. `pureAdmin.device` (using `tabletMinShortSide`) is
+"what kind of device is this" — capability-first: a mouse-driven window is
+`desktop` at any width, and only a touch-primary device (coarse pointer + no
+hover) consults the 600px shorter-side line to split `mobile` vs `tablet`. Use
+the width breakpoint for layout reflow, `device.class` for "should this be a
+fullscreen sheet" (the command palette's mobile sheet keys off it). This mirrors
+`@keenmate/web-components-core`'s `classifyDevice`. Fullscreen surfaces also get
+`pureAdmin.overlay.lockBodyScroll()` / `observeKeyboardInset(panel)`.
 
 ### Motion (for JS that must match a CSS transition, e.g. "act after the slide")
 

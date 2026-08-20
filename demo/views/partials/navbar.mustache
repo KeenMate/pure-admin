@@ -10,9 +10,12 @@
                 <span></span>
             </button>
 
-            <!-- Brand -->
+            <!-- Brand. The wordmark is a fit "steps" slot (Pure Admin → PA) and
+                 the version tag a fit "hide" slot, so as the header narrows the
+                 version drops first (priority 10), then the wordmark shrinks to
+                 a monogram (priority 30). See navbar-fit.js. -->
             <div class="pa-header__brand">
-                <h1>Pure Admin{{#coreVersion}} <span class="pa-header__version">v{{coreVersion}}</span>{{/coreVersion}}</h1>
+                <h1><span class="pa-header__brand-name" data-pa-fit="steps" data-pa-fit-priority="30"><span data-pa-fit-step="0">Pure Admin</span><span data-pa-fit-step="1" class="pa-fit-hidden">PA</span></span>{{#coreVersion}}<span class="pa-header__version" data-pa-fit="hide" data-pa-fit-priority="10">v{{coreVersion}}</span>{{/coreVersion}}</h1>
             </div>
 
             <!-- Left Navigation Links. data-pa-nav-collapse="sidebar" moves the
@@ -94,14 +97,36 @@
         </div>
 
         <!-- Center Section: Page Title (flexible) -->
+        <!-- Search position "A" (inline navbar search) swaps the title for a live
+             search box; toggled by the settings panel via #navbarTitle / #navbarSearchInline. -->
         <div class="pa-header__center">
-            <div class="pa-header__title">
+            <div class="pa-header__title" id="navbarTitle" data-pa-fit="hide" data-pa-fit-priority="20">
                 <h2>{{#pageTitle}}{{pageTitle}}{{/pageTitle}}{{^pageTitle}}Dashboard{{/pageTitle}}</h2>
+            </div>
+
+            <!-- A) Inline navbar search: a live search box with its own results
+                 dropdown (independent of the Ctrl+K palette). Hidden until selected. -->
+            <div class="pa-navbar-search pa-navbar-search--field" id="navbarSearchInline" hidden>
+                <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
+                <input type="text" class="pa-navbar-search__field" id="navbarSearchInput"
+                       placeholder="Search products, orders, users…" autocomplete="off" aria-label="Search">
+                <div class="pa-search-autocomplete" id="navbarSearchResults" hidden></div>
             </div>
         </div>
 
         <!-- End Section: End Nav, Notifications, Profile -->
         <div class="pa-header__end">
+            <!-- B) Compact search box before the bell: opens the Ctrl+K palette
+                 (which becomes a fullscreen sheet on phones). Hidden until selected. -->
+            <button type="button" class="pa-navbar-search pa-navbar-search--sm" id="navbarSearchTrigger" hidden
+                    data-pa-fit="hide" data-pa-fit-priority="25"
+                    onclick="window.pureAdmin && pureAdmin.commandPalette && pureAdmin.commandPalette.open()"
+                    aria-label="Search (Ctrl+K)">
+                <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
+                <span class="pa-navbar-search__placeholder">Search…</span>
+                <span class="pa-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+            </button>
+
             <!-- End Navigation Links -->
             <nav class="pa-header__nav pa-header__nav--end">
                 <ul>
