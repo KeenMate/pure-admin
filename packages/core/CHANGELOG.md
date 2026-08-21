@@ -5,6 +5,37 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc14] - 2026-08-21
+
+### Changed
+
+- **BREAKING — the navbar dropped its legacy `pa-header__*` block naming.** The bar
+  was a single `.pa-header` BEM block that named a *component* "header", which both
+  violated BEM (the elements only ever exist inside the navbar) and read as an `<hX>`
+  heading in code. It's now split into three honestly-named blocks:
+  - **Structure → `pa-navbar__*`:** `pa-header__burger` → `pa-navbar__burger`,
+    `pa-header__start/center/end` → `pa-navbar__start/center/end`,
+    `pa-header__profile-btn/profile-name` → `pa-navbar__profile-btn/profile-name`.
+  - **App identity → `pa-app-header`:** `pa-header__brand` → `pa-app-header`,
+    `pa-header__brand-name` → `pa-app-header__name`,
+    `pa-header__version` → `pa-app-header__version`.
+  - **Page title → `pa-page-header`:** `pa-header__title` → `pa-page-header`.
+  - **Menu → its own `pa-navmenu` block:** `pa-header__nav` → `pa-navmenu`,
+    `pa-header__nav-item` → `pa-navmenu__item`, `pa-header__nav-link` → `pa-navmenu__link`,
+    `pa-header__dropdown` → `pa-navmenu__dropdown`,
+    `pa-header__more-menu`/`more-chevron` → `pa-navmenu__more-menu`/`more-chevron`.
+- **Removed the `pa-header__nav--start/--end` modifiers.** They styled nothing (empty
+  placeholders duplicating the parent zone); a `.pa-navmenu`'s side is now determined
+  purely by which zone (`pa-navbar__start` vs `pa-navbar__end`) it sits in.
+- **BREAKING — the navbar CSS/SCSS tokens renamed `header` → `navbar`** (in the
+  `@keenmate/pure-css` foundation, now required at `^1.0.0-rc03`): `--pa-header-bg` →
+  `--pa-navbar-bg`, `--pa-header-border-color` → `--pa-navbar-border-color`,
+  `--pa-header-text[-secondary]` → `--pa-navbar-text[-secondary]`,
+  `--pa-header-profile-name-color` → `--pa-navbar-profile-name-color`; SCSS
+  `$header-*`/`$z-index-header` → `$navbar-*`/`$z-index-navbar`. Component-header tokens
+  (`--pa-card-header-*`, `--pa-table-header-*`) are unaffected. No aliases are kept —
+  this is a clean cut. Legacy `pa-header__*` markup no longer receives any styling.
+
 ## [2.9.0-rc13] - 2026-08-21 [PUBLISHED]
 
 ### Changed

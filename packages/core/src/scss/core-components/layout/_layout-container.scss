@@ -13,7 +13,7 @@ body.pa-layout--sticky {
 // Layout Container - centered, starts below navbar
 .pa-layout {
   max-width: 100%;
-  margin: $header-height auto 0;
+  margin: $navbar-height auto 0;
   background-color: var(--pa-main-bg);
   overflow: visible; // Allow tooltips to escape
   display: flex;
@@ -58,12 +58,12 @@ body.pa-container-2xl .pa-layout {
 
 // Sticky mode - fixed height
 body.pa-layout--sticky .pa-layout {
-  height: calc(100vh - #{$header-height}); // Full viewport minus top margin
+  height: calc(100vh - #{$navbar-height}); // Full viewport minus top margin
 }
 
 // Scroll mode - minimum height
 body:not(.pa-layout--sticky) .pa-layout {
-  min-height: calc(100vh - #{$header-height}); // Ensure footer reaches bottom
+  min-height: calc(100vh - #{$navbar-height}); // Ensure footer reaches bottom
 }
 
 // Layout inner container - flex wrapper for sidebar + content

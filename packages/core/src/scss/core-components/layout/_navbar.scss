@@ -5,19 +5,19 @@
 @use '../../variables' as *;
 
 // Width the centre slot reserves when it hosts a command-palette search pill
-// (see .pa-header__center below). A floor, not a fixed width — the slot still
+// (see .pa-navbar__center below). A floor, not a fixed width — the slot still
 // grows via flex:1; this just stops it collapsing to a sliver.
-$header-search-reserve-width: 18rem !default;
+$navbar-search-reserve-width: 18rem !default;
 
 // Navbar - Fixed at top, full width by default
 .pa-navbar {
   position: fixed;
   top: 0;
   inset-inline: 0; // RTL: works for both LTR and RTL
-  height: $header-height;
-  background-color: var(--pa-header-bg);
-  border-bottom: $border-width-base solid var(--pa-header-border-color);
-  z-index: $z-index-header; // 2000
+  height: $navbar-height;
+  background-color: var(--pa-navbar-bg);
+  border-bottom: $border-width-base solid var(--pa-navbar-border-color);
+  z-index: $z-index-navbar; // 2000
   display: flex;
   align-items: center;
   justify-content: center; // Center for constrained mode
@@ -56,11 +56,11 @@ body.pa-container-2xl .pa-navbar {
 }
 
 // Navbar inner content. Its direct children are a FIXED burger anchor
-// (.pa-header__burger — always visible, never in the fit engine) followed by
-// the three degradable zones (.pa-header__start / __center / __end). The burger
+// (.pa-navbar__burger — always visible, never in the fit engine) followed by
+// the three degradable zones (.pa-navbar__start / __center / __end). The burger
 // is a SIBLING of the zones, not inside start, so it stays put while the zones
 // collapse. Its `gap` here is the single burger→start separator (same
-// $spacing-base as .pa-header__start's own gap). navbar-fit.js measures these
+// $spacing-base as .pa-navbar__start's own gap). navbar-fit.js measures these
 // direct children.
 .pa-navbar__inner {
   width: 100%;
@@ -71,14 +71,14 @@ body.pa-container-2xl .pa-navbar {
 }
 
 // Header sections - Start/Center/End layout
-.pa-header__start {
+.pa-navbar__start {
   display: flex;
   align-items: center;
   gap: $spacing-base;
   flex-shrink: 0;
 }
 
-.pa-header__center {
+.pa-navbar__center {
   flex: 1;
   min-width: 0; // Allow shrinking for ellipsis
   display: flex;
@@ -92,10 +92,10 @@ body.pa-container-2xl .pa-navbar {
   // deficit never shrinks the NAV's own slot, so navbar-collapse.js — which
   // measures nav.clientWidth — never sees it and stops folding while items still
   // overlap. Reserving a floor here forces the squeeze onto the shrinkable
-  // .pa-header__start (see the :has rule in _navbar-elements.scss) instead, so
+  // .pa-navbar__start (see the :has rule in _navbar-elements.scss) instead, so
   // the nav narrows and the collapse loop fires honestly.
   &:has(.pa-navbar-search) {
-    min-width: $header-search-reserve-width;
+    min-width: $navbar-search-reserve-width;
 
     // Let the reserved slot's DIRECT flex child shrink, whatever it is. The
     // shrink flexbox needs (min-width:0) has to land on the flex item itself —
@@ -111,7 +111,7 @@ body.pa-container-2xl .pa-navbar {
   }
 }
 
-.pa-header__end {
+.pa-navbar__end {
   display: flex;
   align-items: center;
   gap: $spacing-base;

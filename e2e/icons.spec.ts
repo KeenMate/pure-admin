@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('the profile close X renders as a masked .pa-icon--x (not a text glyph)', async ({ page }) => {
-    await page.locator('.pa-header__profile-btn').click();
+    await page.locator('.pa-navbar__profile-btn').click();
     await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
     const icon = page.locator('.pa-profile-panel__close .pa-icon--x');
@@ -86,7 +86,7 @@ test('a JS-generated toast gets a masked close icon (not a text glyph)', async (
 });
 
 test('the close icon uses a header-aware colour that contrasts the panel header', async ({ page }) => {
-    await page.locator('.pa-header__profile-btn').click();
+    await page.locator('.pa-navbar__profile-btn').click();
     await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
     const colors = await page.evaluate(() => {

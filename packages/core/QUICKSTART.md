@@ -48,16 +48,16 @@ sidebar, the scrolling content, and a footer:
 <body>
   <nav class="pa-navbar">
     <div class="pa-navbar__inner">
-      <div class="pa-header__start">
-        <button class="pa-header__burger burger-menu" onclick="toggleSidebar()">
+      <div class="pa-navbar__start">
+        <button class="pa-navbar__burger burger-menu" onclick="toggleSidebar()">
           <span></span><span></span><span></span>
         </button>
-        <div class="pa-header__brand"><h1>My App</h1></div>
+        <div class="pa-app-header"><h1>My App</h1></div>
       </div>
-      <div class="pa-header__center">
-        <div class="pa-header__title"><h2>Dashboard</h2></div>
+      <div class="pa-navbar__center">
+        <div class="pa-page-header"><h2>Dashboard</h2></div>
       </div>
-      <div class="pa-header__end"><!-- profile, notifications --></div>
+      <div class="pa-navbar__end"><!-- profile, notifications --></div>
     </div>
   </nav>
 

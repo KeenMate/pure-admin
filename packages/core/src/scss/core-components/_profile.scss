@@ -21,7 +21,7 @@
 // ====================
 
 // Header profile button
-.pa-header__profile-btn {
+.pa-navbar__profile-btn {
   display: flex;
   align-items: center;
   gap: $spacing-xs;
@@ -29,7 +29,7 @@
   border: none;
   padding: $spacing-xs $spacing-sm; // Match nav item padding
   border-radius: var(--pa-border-radius);
-  color: var(--pa-header-text);  // Use header text color, not content text color
+  color: var(--pa-navbar-text);  // Use header text color, not content text color
   cursor: pointer;
   font-size: $font-size-sm; // Apply to whole button (text and icon)
   transition: background-color $transition-fast $easing-snappy;
@@ -44,9 +44,9 @@
   }
 }
 
-.pa-header__profile-name {
+.pa-navbar__profile-name {
   font-weight: $font-weight-medium;
-  color: var(--pa-header-profile-name-color);  // Use CSS variable for theme control
+  color: var(--pa-navbar-profile-name-color);  // Use CSS variable for theme control
 }
 
 // Profile panel
@@ -103,7 +103,7 @@
 
   &__header {
     padding: $spacing-lg;
-    background-color: var(--pa-header-bg);
+    background-color: var(--pa-navbar-bg);
     border-bottom: 1px solid var(--pa-border-color);
     display: flex;
     align-items: flex-start;
@@ -146,7 +146,7 @@
     font-weight: $font-weight-semibold;
     // Header bg can be dark/light/colored per theme — use the same var
     // the header itself uses for the user's name so contrast is guaranteed.
-    color: var(--pa-header-profile-name-color);
+    color: var(--pa-navbar-profile-name-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -155,7 +155,7 @@
   &__email {
     margin: 0 0 $spacing-sm 0;
     font-size: $font-size-sm;
-    color: var(--pa-header-profile-name-color);
+    color: var(--pa-navbar-profile-name-color);
     opacity: 0.75;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -165,7 +165,7 @@
   // Role badge: use the standard `.pa-badge` component in markup instead of
   // a custom `__role` element. Previously this declared its own bg/colour/
   // padding/uppercase styling — duplicating badge work that already existed
-  // in the framework, and coupling to `--pa-header-profile-name-color` which
+  // in the framework, and coupling to `--pa-navbar-profile-name-color` which
   // went invisible inside dark-mode panel bodies. Snippets and demo markup
   // updated accordingly in 2.9.0.
 
@@ -182,12 +182,12 @@
     align-items: center;
     justify-content: center;
     // Header-aware colour (like the name/email/tabs) — the close button lives in
-    // the panel HEADER (var(--pa-header-bg)), which is dark/coloured in many
+    // the panel HEADER (var(--pa-navbar-bg)), which is dark/coloured in many
     // themes. Using the content token --pa-text-color-2 rendered near-invisible
-    // on a dark header (e.g. NATO's navy bar); --pa-header-profile-name-color is
+    // on a dark header (e.g. NATO's navy bar); --pa-navbar-profile-name-color is
     // theme-guaranteed to contrast the header. currentColor is what the masked
     // .pa-icon paints with, so this also fixes the close icon's visibility.
-    color: var(--pa-header-profile-name-color);
+    color: var(--pa-navbar-profile-name-color);
     border-radius: var(--pa-border-radius);
     transition: background-color $transition-fast $easing-snappy,
                 color $transition-fast $easing-snappy;
@@ -279,7 +279,7 @@
   &__tabs {
     padding: 0 $profile-panel-content-padding;
     border-bottom: $border-width-base solid var(--pa-border-color);
-    background-color: var(--pa-header-bg);
+    background-color: var(--pa-navbar-bg);
 
     .pa-tabs {
       border-bottom: none;
@@ -288,16 +288,16 @@
 
     // Icons inherit currentColor — use the header's name color (which is
     // theme-guaranteed to contrast with header-bg) with opacity for the
-    // inactive state instead of --pa-header-text-secondary, which some
+    // inactive state instead of --pa-navbar-text-secondary, which some
     // themes don't re-tone for colored headers.
     .pa-tabs__item {
-      color: var(--pa-header-profile-name-color);
+      color: var(--pa-navbar-profile-name-color);
       opacity: 0.6;
       border-bottom-color: transparent;
 
       &:hover {
         opacity: 0.85;
-        background-color: color-mix(in srgb, var(--pa-header-profile-name-color) 10%, transparent);
+        background-color: color-mix(in srgb, var(--pa-navbar-profile-name-color) 10%, transparent);
       }
 
       &--active {
@@ -426,7 +426,7 @@
     max-width: none;              // drop the desktop 400px cap for drawer parity
   }
 
-  .pa-header__profile-name {
+  .pa-navbar__profile-name {
     display: none;
   }
 }

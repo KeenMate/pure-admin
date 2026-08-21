@@ -122,15 +122,15 @@ These variables control the appearance of Pure Admin framework components.
 | `--pa-accent-light` | Light accent background |
 | `--pa-border-color` | Border color |
 
-### Layout - Header
+### Layout - Navbar
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-header-bg` | Header background |
-| `--pa-header-border-color` | Header border |
-| `--pa-header-text` | Header text |
-| `--pa-header-text-secondary` | Header secondary text |
-| `--pa-header-profile-name-color` | Profile name color |
+| `--pa-navbar-bg` | Navbar background |
+| `--pa-navbar-border-color` | Navbar border |
+| `--pa-navbar-text` | Navbar text |
+| `--pa-navbar-text-secondary` | Navbar secondary text |
+| `--pa-navbar-profile-name-color` | Profile name color |
 
 ### Layout - Sidebar
 

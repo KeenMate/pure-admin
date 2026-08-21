@@ -8,7 +8,7 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 
 ## What's New in 2.9.0-rc13
 
-- **The header burger is now a fixed sibling of the layout zones.** It moved out of `.pa-header__start` to be `.pa-navbar__inner`'s first child — a fixed anchor beside the degradable start/center/end zones instead of tucked inside one, which matches the fit-engine model (a control that never collapses shouldn't live in a collapsible zone). Spacing is unchanged; the canonical snippet (`snippets/layout.html`) shows the new structure. Legacy tolerance: a burger left inside `.pa-header__start` still renders.
+- **The header burger is now a fixed sibling of the layout zones.** It moved out of `.pa-navbar__start` to be `.pa-navbar__inner`'s first child — a fixed anchor beside the degradable start/center/end zones instead of tucked inside one, which matches the fit-engine model (a control that never collapses shouldn't live in a collapsible zone). Spacing is unchanged; the canonical snippet (`snippets/layout.html`) shows the new structure. Legacy tolerance: a burger left inside `.pa-navbar__start` still renders.
 - **Sidebar-less / burger-less layouts are now drop-in.** Because the burger is a flex sibling with `gap` (not a reserved slot), simply omitting it — and the `<aside class="pa-layout__sidebar">` — makes the header reclaim the space (brand flush-left) and `.pa-layout__content` fill full width, with zero CSS overrides.
 
 ## What's New in 2.9.0-rc12
@@ -303,15 +303,14 @@ Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
 - `.pa-navbar` - Fixed navbar container
 - `.pa-navbar__inner` - Inner content wrapper
 - **Three-section layout:**
-  - `.pa-header__start` - Start section (burger, brand, nav) - stays anchored to start
-  - `.pa-header__center` - Center section (page title) - flexible
-  - `.pa-header__end` - End section (notifications, profile) - stays anchored to end
-- `.pa-header__burger` - Hamburger menu button
-- `.pa-header__brand` - Brand/logo container
-- `.pa-header__nav` - Navigation links container
-- `.pa-header__nav--start/--end` - Navigation position
-- `.pa-header__title` - Page title
-- `.pa-header__profile-btn` - Profile button
+  - `.pa-navbar__start` - Start section (burger, brand, nav) - stays anchored to start
+  - `.pa-navbar__center` - Center section (page title) - flexible
+  - `.pa-navbar__end` - End section (notifications, profile) - stays anchored to end
+- `.pa-navbar__burger` - Hamburger menu button
+- `.pa-app-header` - Brand/logo container
+- `.pa-navmenu` - Navigation links container (position it by which zone it sits in — no per-side modifier)
+- `.pa-page-header` - Page title
+- `.pa-navbar__profile-btn` - Profile button
 
 ### Footer
 - `.pa-layout__footer` - Footer container (uses `min-height`, can expand)

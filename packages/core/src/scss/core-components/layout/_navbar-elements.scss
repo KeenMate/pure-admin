@@ -14,28 +14,19 @@
   display: none !important;
 }
 
-// Navbar elements (using pa-header__ prefix for backward compatibility with existing partials)
-.pa-header {
-  &__burger {
-    flex-shrink: 0;
-    margin-inline-start: $burger-menu-margin-left; // RTL: flips to margin-right
-  }
+// --- App identity: brand wordmark + version tag -------------------------------
+// The brand container. In markup: <div class="pa-app-header"><h1>…</h1></div>.
+.pa-app-header {
+  flex-shrink: 0;
+  // No brand padding: the .pa-navbar__start flex `gap` (see _navbar.scss) is the
+  // single separator between the burger and the brand.
 
-  &__brand {
-    flex-shrink: 0;
-    // No brand padding: the .pa-header__start flex `gap` (see _navbar.scss) is
-    // the single separator between the burger and the brand. The old
-    // `padding-inline-start: $header-brand-padding-left` predated that gap and
-    // stacked on top of it, doubling the space — which is exactly why the mobile
-    // layout had to zero it back out.
-
-    h1 {
-      margin: 0;
-      font-size: $font-size-lg;
-      font-weight: $font-weight-semibold;
-      color: var(--pa-header-text);
-      white-space: nowrap;
-    }
+  h1 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--pa-navbar-text);
+    white-space: nowrap;
   }
 
   // Version tag beside the wordmark (e.g. "Pure Admin v2.9.0"). Smaller and
@@ -44,102 +35,101 @@
     margin-inline-start: $spacing-xs;
     font-size: $font-size-xs;
     font-weight: $font-weight-normal;
-    color: var(--pa-header-text-secondary);
+    color: var(--pa-navbar-text-secondary);
   }
+}
 
-  &__nav {
-    flex-shrink: 0;
+// --- Burger (fixed navbar anchor, never degrades) -----------------------------
+.pa-navbar__burger {
+  flex-shrink: 0;
+  margin-inline-start: $burger-menu-margin-left; // RTL: flips to margin-right
+}
 
-    // Only style the direct child ul (main navigation)
-    > ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+// --- Navbar menu: horizontal nav + dropdowns + collapse "More" ----------------
+// Its own block (reused in both the start and end navbar zones).
+.pa-navmenu {
+  flex-shrink: 0;
+
+  // Only style the direct child ul (main navigation)
+  > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: $spacing-md;
+
+    > li {
+      margin: 0; // Disable base margins from _base.scss
+      position: relative; // For dropdown positioning
       display: flex;
-      gap: $spacing-md;
+      align-items: center;
 
-      > li {
-        margin: 0; // Disable base margins from _base.scss
-        position: relative; // For dropdown positioning
+      > a {
+        text-decoration: none;
+        color: var(--pa-navbar-text-secondary);
+        font-weight: $font-weight-medium;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: var(--pa-border-radius);
+        transition: all $transition-fast $easing-snappy;
+        font-size: $font-size-sm;
         display: flex;
         align-items: center;
 
-        > a {
-          text-decoration: none;
-          color: var(--pa-header-text-secondary);
-          font-weight: $font-weight-medium;
-          padding: $spacing-xs $spacing-sm;
-          border-radius: var(--pa-border-radius);
-          transition: all $transition-fast $easing-snappy;
-          font-size: $font-size-sm;
-          display: flex;
-          align-items: center;
-
-          // Hover/active derive their pill background from `currentColor` — a
-          // translucent tint of the link's OWN rendered text colour — not the
-          // content-area --pa-accent. The navbar sits on --pa-header-bg, which
-          // several themes set dark or to the accent colour itself (e.g. NATO's
-          // navy header) and then force the nav text light with !important while
-          // leaving --pa-header-text at its default dark value. A currentColor
-          // tint tracks the actual text colour (light there, dark on light
-          // headers), so the pill contrasts the header on every theme; an accent
-          // or --pa-header-text tint would be dark-on-dark and vanish. Text
-          // brightens to --pa-header-text, which those themes override to match.
-          &:hover {
-            color: var(--pa-header-text);
-            background-color: color-mix(in srgb, currentColor 12%, transparent);
-          }
-        }
-
-        // Active top-level item — the current section. Held state = a stronger
-        // currentColor pill + semibold, reading clearly above the hover tint on
-        // any header. Modifier goes on the <li> (.pa-header__nav-item--active);
-        // scoped through the nav > ul > li chain so it outweighs the base
-        // `> li > a` colour.
-        &.pa-header__nav-item--active > a {
-          &,
-          &:hover {
-            color: var(--pa-header-text);
-            background-color: color-mix(in srgb, currentColor 22%, transparent);
-            font-weight: $font-weight-semibold;
-          }
+        // Hover/active derive their pill background from `currentColor` — a
+        // translucent tint of the link's OWN rendered text colour — not the
+        // content-area --pa-accent. The navbar sits on --pa-navbar-bg, which
+        // several themes set dark or to the accent colour itself (e.g. NATO's
+        // navy bar) and then force the nav text light with !important while
+        // leaving --pa-navbar-text at its default dark value. A currentColor
+        // tint tracks the actual text colour (light there, dark on light
+        // bars), so the pill contrasts the bar on every theme; an accent
+        // or --pa-navbar-text tint would be dark-on-dark and vanish. Text
+        // brightens to --pa-navbar-text, which those themes override to match.
+        &:hover {
+          color: var(--pa-navbar-text);
+          background-color: color-mix(in srgb, currentColor 12%, transparent);
         }
       }
-    }
 
-    // Note: margin auto no longer needed with pa-header__start/center/end structure
-    &--start {
-      // Elements in start section
-    }
-
-    &--end {
-      // Elements in end section
+      // Active top-level item — the current section. Held state = a stronger
+      // currentColor pill + semibold, reading clearly above the hover tint on
+      // any bar. Modifier goes on the <li> (.pa-navmenu__item--active);
+      // scoped through the nav > ul > li chain so it outweighs the base
+      // `> li > a` colour.
+      &.pa-navmenu__item--active > a {
+        &,
+        &:hover {
+          color: var(--pa-navbar-text);
+          background-color: color-mix(in srgb, currentColor 22%, transparent);
+          font-weight: $font-weight-semibold;
+        }
+      }
     }
   }
 
   // Dropdown navigation items
-  &__nav-item {
+  &__item {
     &--has-dropdown {
-      position: static; // Position dropdown relative to header, not this item
+      position: static; // Position dropdown relative to navbar, not this item
 
       // Hover-reveal only where hover exists. On touch it never fires (and
       // sticky-hover would fight the JS), so it's gated out and the `.is-open`
       // class below — toggled by navbar-dropdown.js on tap — drives the menu.
       @media (hover: hover) {
-        &:hover > .pa-header__dropdown {
+        &:hover > .pa-navmenu__dropdown {
           display: block !important; // Override the !important hide
         }
       }
 
       // Touch open state (first-tap-opens; navbar-dropdown.js). Works on all
       // devices, so the same class also drives keyboard/JS opens if wired.
-      &.is-open > .pa-header__dropdown {
+      &.is-open > .pa-navmenu__dropdown {
         display: block !important;
       }
     }
   }
 
-  &__nav-link {
+  &__link {
     display: flex;
     align-items: center;
     gap: $spacing-xs;
@@ -168,7 +158,7 @@
       position: relative;
 
       // Create invisible bridge for nested dropdowns (horizontal)
-      &.pa-header__nav-item--has-dropdown::after {
+      &.pa-navmenu__item--has-dropdown::after {
         content: '';
         position: absolute;
         top: 0;
@@ -180,13 +170,13 @@
 
       // Show nested dropdown on hover (hover devices only — see above).
       @media (hover: hover) {
-        &:hover > .pa-header__dropdown {
+        &:hover > .pa-navmenu__dropdown {
           display: block !important;
         }
       }
 
       // Touch open state for nested submenus (navbar-dropdown.js).
-      &.is-open > .pa-header__dropdown {
+      &.is-open > .pa-navmenu__dropdown {
         display: block !important;
       }
 
@@ -245,7 +235,7 @@
   // Make the nav shrinkable, and (via :has) let the enclosing start section
   // shrink too — it's flex-shrink:0 by default — so the nav absorbs the squeeze
   // while the burger and brand (also flex-shrink:0) keep their size.
-  &__nav[data-pa-nav-collapse] {
+  &[data-pa-nav-collapse] {
     flex-shrink: 1;
     min-width: 0;
     // No overflow:hidden here — it would clip the nav items' OWN hover
@@ -259,15 +249,10 @@
     }
   }
 
-  &__start:has(.pa-header__nav[data-pa-nav-collapse]) {
-    flex-shrink: 1;
-    min-width: 0;
-  }
-
   // The generated "More" trigger. Its panel is parented to <body> (to escape
   // the nav's overflow:hidden) and positioned by navbar-collapse.js, so there's
   // no inline anchoring to do here — just the trigger's own affordance.
-  &__nav-item--more {
+  &__item--more {
     position: relative;
   }
 
@@ -279,17 +264,17 @@
   }
 
   // Chevron points down while the panel is open (click-toggled).
-  &__nav-item--more.is-open &__more-chevron {
+  &__item--more.is-open &__more-chevron {
     transform: rotate(90deg);
   }
 
   // The More panel is parented to <body> (escapes the nav's overflow:hidden)
   // and positioned by JS; navbar-collapse.js toggles --open to reveal it. The
-  // compound selector outweighs the base `.pa-header__dropdown { display:none }`.
+  // compound selector outweighs the base `.pa-navmenu__dropdown { display:none }`.
   &__more-menu {
-    z-index: $z-index-header + 10; // above the fixed navbar
+    z-index: $z-index-navbar + 10; // above the fixed navbar
 
-    &.pa-header__more-menu--open {
+    &.pa-navmenu__more-menu--open {
       display: block !important;
     }
   }
@@ -299,7 +284,7 @@
   // that submenu INLINE (indented, static) instead of a hover flyout, so the
   // whole thing is one scrollable panel with no cascading menus, at any depth.
   &__more-menu {
-    .pa-header__dropdown {
+    .pa-navmenu__dropdown {
       display: block !important; // always shown; overrides the hover-reveal
       position: static;
       min-width: 0;
@@ -314,35 +299,46 @@
     }
 
     // A parent link that owns a submenu reads as a group header.
-    .pa-header__nav-item--has-dropdown > a {
+    .pa-navmenu__item--has-dropdown > a {
       font-weight: $font-weight-semibold;
     }
 
     // No flyout bridge inside the flattened panel.
-    .pa-header__nav-item--has-dropdown::after {
+    .pa-navmenu__item--has-dropdown::after {
       content: none;
     }
   }
+}
 
-  &__title {
-    flex: 1;
-    min-width: 0;  // Enable ellipsis
-    text-align: center;
+// The navbar start zone must shrink when it hosts a collapsible menu, so the
+// nav can absorb the squeeze (see the collapse note above). It's flex-shrink:0
+// by default in _navbar.scss; :has() opts it back into shrinking only when a
+// collapsible menu is present, leaving the burger and brand at their size.
+.pa-navbar__start:has(.pa-navmenu[data-pa-nav-collapse]) {
+  flex-shrink: 1;
+  min-width: 0;
+}
 
-    h2 {
-      margin: 0;
-      font-size: $font-size-lg;
-      font-weight: $font-weight-semibold;
-      color: var(--pa-header-text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+// --- Page title (the center zone's page header) -------------------------------
+.pa-page-header {
+  flex: 1;
+  min-width: 0;  // Enable ellipsis
+  text-align: center;
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--pa-navbar-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+}
 
-  &__profile-btn {
-    flex-shrink: 0;
-  }
+// --- Profile trigger (navbar end zone) ----------------------------------------
+.pa-navbar__profile-btn {
+  flex-shrink: 0;
 }
 
 // Burger menu button
@@ -360,7 +356,7 @@
   span {
     width: 100%;
     height: $burger-bar-height;
-    background-color: var(--pa-header-text);
+    background-color: var(--pa-navbar-text);
     border-radius: var(--pa-border-radius);
     transition: all $transition-normal $easing-snappy;
     transform-origin: center;
@@ -403,7 +399,7 @@
   gap: $spacing-sm;
 
   label {
-    color: var(--pa-header-text-secondary);
+    color: var(--pa-navbar-text-secondary);
     font-size: $font-size-sm;
   }
 
@@ -411,8 +407,8 @@
     padding: $spacing-xs $spacing-sm;
     border: $border-width-base solid var(--pa-border-color);
     border-radius: var(--pa-border-radius);
-    background-color: var(--pa-header-bg);
-    color: var(--pa-header-text);
+    background-color: var(--pa-navbar-bg);
+    color: var(--pa-navbar-text);
     font-size: $font-size-sm;
 
     &:focus {

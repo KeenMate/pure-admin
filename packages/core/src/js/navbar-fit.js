@@ -25,12 +25,12 @@
  *                                        (default: first `.pa-sidebar__nav > ul`).
  *
  * Example:
- *   <div class="pa-header__brand">
+ *   <div class="pa-app-header">
  *     <span data-pa-fit="steps" data-pa-fit-priority="30">
  *       <span data-pa-fit-step="0">Pure Admin</span>   <!-- widest, default -->
  *       <span data-pa-fit-step="1">PA</span>            <!-- narrowest -->
  *     </span>
- *     <span class="pa-header__version" data-pa-fit="hide" data-pa-fit-priority="10">v2.9.0</span>
+ *     <span class="pa-app-header__version" data-pa-fit="hide" data-pa-fit-priority="10">v2.9.0</span>
  *   </div>
  *
  * Measurement: the row's "needed" width is the sum of the fit container's direct

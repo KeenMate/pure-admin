@@ -1,7 +1,7 @@
 /**
  * Pure Admin — Navbar Collapse (progressive, priority-driven, configurable target)
  *
- * Walks the lowest-priority top-nav items out of `.pa-header__nav` when the row
+ * Walks the lowest-priority top-nav items out of `.pa-navmenu` when the row
  * can't fit, and restores them as space comes back — the same measure-and-drop
  * loop as `overflow.js` (the toolbar primitive), but for nav `<li>`s instead of
  * buttons, and with TWO collapse targets selected per-nav:
@@ -30,12 +30,12 @@
  * the row runs out of room. Give an item a high `data-pa-nav-priority` if you
  * want it to survive longest.
  *
- *   <nav class="pa-header__nav" data-pa-nav-collapse="menu">
+ *   <nav class="pa-navmenu" data-pa-nav-collapse="menu">
  *     <ul>
- *       <li class="pa-header__nav-item" data-pa-nav-priority="10"><a href="/">Home</a></li>
- *       <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
+ *       <li class="pa-navmenu__item" data-pa-nav-priority="10"><a href="/">Home</a></li>
+ *       <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
  *         <a href="/x">Products</a>
- *         <ul class="pa-header__dropdown"><li><a href="/a">A</a></li></ul>
+ *         <ul class="pa-navmenu__dropdown"><li><a href="/a">A</a></li></ul>
  *       </li>
  *     </ul>
  *   </nav>
@@ -60,7 +60,7 @@
  * nav items' own hover dropdowns, which drop below the bar. Instead the layout
  * contract (_navbar-elements.scss) keeps the nav overflow:visible, gives it
  * `min-width:0; flex-shrink:1` and pins the items at `flex-shrink:0`, and makes
- * the enclosing `.pa-header__start` shrinkable — so the nav narrows below its
+ * the enclosing `.pa-navbar__start` shrinkable — so the nav narrows below its
  * content (making the width sum exceed clientWidth) without any clipping.
  *
  * Diagnostics: `pureAdmin.debug.enable('navCollapse')`.
@@ -73,7 +73,7 @@
     'use strict';
 
     var INIT_FLAG = '__paNavCollapseInit';
-    var SELECTOR = '.pa-header__nav[data-pa-nav-collapse]';
+    var SELECTOR = '.pa-navmenu[data-pa-nav-collapse]';
     var relayouts = []; // every initialised nav's relayout fn (for relayoutAll)
 
     function init(nav) {
@@ -215,14 +215,14 @@
     function makeMenuStrategy(nav, ul, log) {
         var moreLabel = nav.getAttribute('data-pa-nav-more-label') || 'More';
         var moreLi = document.createElement('li');
-        moreLi.className = 'pa-header__nav-item pa-header__nav-item--more';
+        moreLi.className = 'pa-navmenu__item pa-navmenu__item--more';
         var moreLink = document.createElement('a');
         moreLink.href = '#';
-        moreLink.className = 'pa-header__nav-link';
+        moreLink.className = 'pa-navmenu__link';
         moreLink.setAttribute('aria-haspopup', 'true');
         moreLink.setAttribute('aria-expanded', 'false');
         moreLink.innerHTML = escapeHtml(moreLabel) +
-            ' <span class="pa-header__more-chevron" aria-hidden="true">›</span>';
+            ' <span class="pa-navmenu__more-chevron" aria-hidden="true">›</span>';
         moreLi.appendChild(moreLink);
         ul.appendChild(moreLi);
         moreLi.style.display = 'none';
@@ -234,7 +234,7 @@
         // trigger; open/close is click-driven (hover-reveal can't reach a
         // body-parented panel).
         var menu = document.createElement('ul');
-        menu.className = 'pa-header__dropdown pa-header__more-menu';
+        menu.className = 'pa-navmenu__dropdown pa-navmenu__more-menu';
         menu.setAttribute('role', 'menu');
         document.body.appendChild(menu);
 
@@ -245,11 +245,11 @@
             menu.style.left = 'auto';
             menu.style.right = (window.innerWidth - r.right) + 'px'; // right-align to trigger
         }
-        function isOpen() { return menu.classList.contains('pa-header__more-menu--open'); }
+        function isOpen() { return menu.classList.contains('pa-navmenu__more-menu--open'); }
         function openMenu() {
             if (menu.children.length === 0) return;
             position();
-            menu.classList.add('pa-header__more-menu--open');
+            menu.classList.add('pa-navmenu__more-menu--open');
             moreLi.classList.add('is-open');
             moreLink.setAttribute('aria-expanded', 'true');
             window.addEventListener('scroll', position, true);
@@ -257,7 +257,7 @@
             setTimeout(function () { document.addEventListener('mousedown', onDocClick); }, 0);
         }
         function closeMenu() {
-            menu.classList.remove('pa-header__more-menu--open');
+            menu.classList.remove('pa-navmenu__more-menu--open');
             moreLi.classList.remove('is-open');
             moreLink.setAttribute('aria-expanded', 'false');
             window.removeEventListener('scroll', position, true);
@@ -291,7 +291,7 @@
             onOverflow: function () { /* trigger revealed lazily on first collapse */ },
             collapse: function (el) {
                 moreLi.style.display = ''; // trigger becomes visible (adds width)
-                menu.appendChild(el); // re-styles via .pa-header__dropdown context
+                menu.appendChild(el); // re-styles via .pa-navmenu__dropdown context
             }
         };
     }
@@ -383,7 +383,7 @@
             if (icon == null) icon = defaultIcon;
             var text = labelOf(link);
             var href = link ? link.getAttribute('href') : null;
-            var active = navLi.classList.contains('pa-header__nav-item--active');
+            var active = navLi.classList.contains('pa-navmenu__item--active');
             var isReal = href && href !== '#' && href.charAt(href.length - 1) !== '#';
 
             if (!sub) return buildLinkItem(text, href, icon, active);

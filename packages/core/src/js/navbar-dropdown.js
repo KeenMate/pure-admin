@@ -1,7 +1,7 @@
 /**
  * Pure Admin — Navbar Dropdown (touch support for hover dropdowns)
  *
- * The navbar dropdowns (`.pa-header__nav-item--has-dropdown`) open on
+ * The navbar dropdowns (`.pa-navmenu__item--has-dropdown`) open on
  * `:hover` — which never fires on touch. When the dropdown parent is ALSO a
  * real link (e.g. Components → /components/overview), a tap just follows the
  * href and the submenu can never be seen. This module fixes that on touch
@@ -20,10 +20,10 @@
  * Nested parents work too (the tapped item and its ancestors stay open).
  *
  * Deliberately skipped:
- *   - `.pa-header__more-menu` — the collapse "More" panel flattens submenus to
+ *   - `.pa-navmenu__more-menu` — the collapse "More" panel flattens submenus to
  *     always-visible inline links (navbar-collapse.js + _navbar-elements.scss),
  *     so there's nothing to toggle there.
- *   - `.pa-header__nav-item--more` — the collapse "More" trigger owns its own
+ *   - `.pa-navmenu__item--more` — the collapse "More" trigger owns its own
  *     click handling.
  *
  * Pairs with the CSS in `_navbar-elements.scss`, where the hover-reveal is
@@ -37,7 +37,7 @@
     'use strict';
 
     var OPEN = 'is-open';
-    var PARENT = '.pa-header__nav-item--has-dropdown';
+    var PARENT = '.pa-navmenu__item--has-dropdown';
 
     // Only take over on devices without hover — evaluated per-interaction so a
     // hybrid device (touch + mouse) that reports hover keeps native navigation.
@@ -48,7 +48,7 @@
     // The parent li's OWN dropdown (direct child), not a descendant submenu.
     function directSubmenu(li) {
         for (var c = li.firstElementChild; c; c = c.nextElementSibling) {
-            if (c.classList && c.classList.contains('pa-header__dropdown')) return c;
+            if (c.classList && c.classList.contains('pa-navmenu__dropdown')) return c;
         }
         return null;
     }
@@ -102,10 +102,10 @@
 
         var li = link.parentNode;
         var isToggle = li.classList &&
-            li.classList.contains('pa-header__nav-item--has-dropdown') &&
+            li.classList.contains('pa-navmenu__item--has-dropdown') &&
             directLink(li) === link &&        // the parent's OWN link, not a child
-            !link.closest('.pa-header__more-menu') && // not the flattened panel
-            !li.classList.contains('pa-header__nav-item--more'); // not the More trigger
+            !link.closest('.pa-navmenu__more-menu') && // not the flattened panel
+            !li.classList.contains('pa-navmenu__item--more'); // not the More trigger
 
         if (!isToggle) {
             // Clicked a normal link (incl. submenu children): close open menus
@@ -140,8 +140,8 @@
         var parents = (scope || document).querySelectorAll(PARENT);
         for (var i = 0; i < parents.length; i++) {
             var li = parents[i];
-            if (li.closest('.pa-header__more-menu')) continue;
-            if (li.classList.contains('pa-header__nav-item--more')) continue;
+            if (li.closest('.pa-navmenu__more-menu')) continue;
+            if (li.classList.contains('pa-navmenu__item--more')) continue;
             var a = directLink(li);
             if (a && directSubmenu(li)) {
                 a.setAttribute('aria-haspopup', 'true');

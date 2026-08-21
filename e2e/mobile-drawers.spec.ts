@@ -82,7 +82,7 @@ test.describe('mobile drawers', () => {
     });
 
     test('profile panel opens as a full ~90vw drawer with a scrim over the viewport and locks scroll', async ({ page }) => {
-        await page.locator('.pa-header__profile-btn').click();
+        await page.locator('.pa-navbar__profile-btn').click();
         await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
         // Panel content matches the sidebar drawer width (~90vw), not the
@@ -131,7 +131,7 @@ test.describe('mobile drawers', () => {
     });
 
     test('tapping the profile scrim closes the panel and releases the scroll lock', async ({ page }) => {
-        await page.locator('.pa-header__profile-btn').click();
+        await page.locator('.pa-navbar__profile-btn').click();
         await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
         expect(await bodyPosition(page)).toBe('fixed');
 
@@ -151,7 +151,7 @@ test.describe('desktop: panels are not modal overlays', () => {
     });
 
     test('profile panel is a narrow side sheet with no page scrim and no scroll-lock', async ({ page }) => {
-        await page.locator('.pa-header__profile-btn').click();
+        await page.locator('.pa-navbar__profile-btn').click();
         await expect(page.locator('#profilePanel')).toHaveClass(/pa-profile-panel--open/);
 
         // 20vw with a 480px cap — nowhere near a full-width drawer.

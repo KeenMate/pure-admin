@@ -16,19 +16,19 @@
      the trigger for the panel. Hidden text on mobile (only icon shows).
      ================================ -->
 
-<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+<button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon">👤</span>
-    <span class="pa-header__profile-name">John Doe</span>
+    <span class="pa-navbar__profile-name">John Doe</span>
 </button>
 
 <!-- With Font Awesome -->
-<button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+<button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
     <span class="pa-btn__icon"><i class="fa-solid fa-user"></i></span>
-    <span class="pa-header__profile-name">John Doe</span>
+    <span class="pa-navbar__profile-name">John Doe</span>
 </button>
 
 <!--
-Responsive: below $mobile-breakpoint (768px), .pa-header__profile-name
+Responsive: below $mobile-breakpoint (768px), .pa-navbar__profile-name
 is hidden via `display: none` — the button collapses to just the icon
 to save horizontal space in the navbar.
 -->
@@ -357,7 +357,7 @@ function closeProfilePanel() {
 // re-close it.
 document.addEventListener('click', (e) => {
     const panel = document.getElementById('profilePanel');
-    const btn = document.querySelector('.pa-header__profile-btn');
+    const btn = document.querySelector('.pa-navbar__profile-btn');
     if (!panel || !btn) return;
 
     if (!panel.contains(e.target) && !btn.contains(e.target) &&
@@ -402,8 +402,8 @@ document.querySelectorAll('.pa-profile-panel__favorite-remove').forEach(btn => {
 
 <!--
 HEADER BUTTON:
-- .pa-header__profile-btn       The trigger button; lives in .pa-header__end.
-- .pa-header__profile-name      User's name text inside the button.
+- .pa-navbar__profile-btn       The trigger button; lives in .pa-navbar__end.
+- .pa-navbar__profile-name      User's name text inside the button.
                                 Hidden via `display: none` below 768px so
                                 only the icon shows on mobile.
 
@@ -432,14 +432,14 @@ HEADER:
 - .pa-profile-panel__close              Close button (top-end corner).
 
 Theme-colour design choices (why they're like this):
-- __name and __email use var(--pa-header-profile-name-color) — the same
+- __name and __email use var(--pa-navbar-profile-name-color) — the same
   colour the header uses for the user's name. This guarantees contrast
   against dark / coloured header backgrounds across all themes (body
   text colours would read wrong on a dark header).
 - Role uses the standard `.pa-badge` component (var(--pa-btn-secondary-bg)
   / -text by default), which themes already tune for both light and dark
   modes. Previously this was a custom `.pa-profile-panel__role` element
-  coupled to --pa-header-profile-name-color — that token is sized for the
+  coupled to --pa-navbar-profile-name-color — that token is sized for the
   header (e.g. black on yellow in Express) and went invisible on dark
   panel bodies. Migrated to `.pa-badge` in 2.9.0; older snippet markup
   using `pa-profile-panel__role` needs the class swap.
@@ -503,7 +503,7 @@ RESPONSIVE BEHAVIOUR (automatic):
 Below $mobile-breakpoint (768px):
   .pa-profile-panel__content  → width: 85vw,
                                  max-width: $profile-panel-mobile-max-width
-  .pa-header__profile-name    → display: none (icon-only button)
+  .pa-navbar__profile-name    → display: none (icon-only button)
 
 JAVASCRIPT CONTRACT:
 - toggleProfilePanel()   — flips --open on the panel

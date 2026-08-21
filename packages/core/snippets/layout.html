@@ -25,7 +25,7 @@
     </div>
 </nav>
 
-<!-- Layout wrapper (sits below navbar thanks to margin-top: $header-height) -->
+<!-- Layout wrapper (sits below navbar thanks to margin-top: $navbar-height) -->
 <div class="pa-layout">
     <!-- Inner: sidebar + content (flex row) -->
     <div class="pa-layout__inner">
@@ -105,35 +105,35 @@
 <nav class="pa-navbar">
     <div class="pa-navbar__inner">
         <!-- Burger — fixed anchor, always visible (no data-pa-fit). -->
-        <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <button class="pa-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
             <span></span><span></span><span></span>
         </button>
 
         <!-- START: brand, left nav -->
-        <div class="pa-header__start">
-            <div class="pa-header__brand">
+        <div class="pa-navbar__start">
+            <div class="pa-app-header">
                 <h1>Pure Admin</h1>
             </div>
 
-            <!-- Nav: pa-header__nav auto-styles its direct child <ul> > <li> > <a>.
+            <!-- Nav: pa-navmenu auto-styles its direct child <ul> > <li> > <a>.
                  No additional classes needed on list items or anchors, except
-                 pa-header__nav-item--active on the <li> of the current section. -->
-            <nav class="pa-header__nav pa-header__nav--start">
+                 pa-navmenu__item--active on the <li> of the current section. -->
+            <nav class="pa-navmenu">
                 <ul>
-                    <li class="pa-header__nav-item--active"><a href="/">Dashboard</a></li>
+                    <li class="pa-navmenu__item--active"><a href="/">Dashboard</a></li>
                     <li><a href="/components">Components</a></li>
 
                     <!-- Hover-triggered dropdown -->
-                    <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
-                        <a href="#" class="pa-header__nav-link">More</a>
-                        <ul class="pa-header__dropdown">
+                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
+                        <a href="#" class="pa-navmenu__link">More</a>
+                        <ul class="pa-navmenu__dropdown">
                             <li><a href="/forms">Forms</a></li>
                             <li><a href="/tables">Tables</a></li>
 
                             <!-- Nested dropdown (level 2) -->
-                            <li class="pa-header__nav-item--has-dropdown">
+                            <li class="pa-navmenu__item--has-dropdown">
                                 <a href="#">Reports ›</a>
-                                <ul class="pa-header__dropdown pa-header__dropdown--level2">
+                                <ul class="pa-navmenu__dropdown pa-navmenu__dropdown--level2">
                                     <li><a href="/reports/daily">Daily</a></li>
                                     <li><a href="/reports/weekly">Weekly</a></li>
                                 </ul>
@@ -145,15 +145,15 @@
         </div>
 
         <!-- CENTER: page title (flexes + truncates) -->
-        <div class="pa-header__center">
-            <div class="pa-header__title">
+        <div class="pa-navbar__center">
+            <div class="pa-page-header">
                 <h2>Dashboard</h2>
             </div>
         </div>
 
         <!-- END: right nav, notifications, profile -->
-        <div class="pa-header__end">
-            <nav class="pa-header__nav pa-header__nav--end">
+        <div class="pa-navbar__end">
+            <nav class="pa-navmenu">
                 <ul>
                     <li><a href="/alerts">Alerts</a></li>
                 </ul>
@@ -169,9 +169,9 @@
                 </button>
             </div>
 
-            <button class="pa-header__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+            <button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
                 <span class="pa-btn__icon">👤</span>
-                <span class="pa-header__profile-name">John Doe</span>
+                <span class="pa-navbar__profile-name">John Doe</span>
             </button>
         </div>
     </div>
@@ -179,14 +179,13 @@
 
 <!--
 Notes on the navbar:
-- .pa-header__nav--start / --end are organisational placeholders
-  (empty SCSS blocks). They let you group nav links by side without
-  adding display rules. If you add your own styling, remember these
-  classes carry none of their own.
-- .pa-header__nav-item--has-dropdown uses position: static so the
+- Position a .pa-navmenu by which zone you place it in
+  (.pa-navbar__start vs .pa-navbar__end) — there are no per-side
+  modifier classes; the zone determines the side.
+- .pa-navmenu__item--has-dropdown uses position: static so the
   dropdown positions relative to the navbar, not this specific item.
-- Mark the current section with .pa-header__nav-item--active on its <li>.
-- WITHOUT data-pa-nav-collapse (below), .pa-header__nav is hidden entirely
+- Mark the current section with .pa-navmenu__item--active on its <li>.
+- WITHOUT data-pa-nav-collapse (below), .pa-navmenu is hidden entirely
   on mobile (max-width: $mobile-breakpoint) — navigation is expected in the
   sidebar. Add data-pa-nav-collapse to keep it responsive instead.
 -->
@@ -194,7 +193,7 @@ Notes on the navbar:
 
 <!-- ================================
      NAVBAR — RESPONSIVE COLLAPSE (progressive, priority-driven)
-     Add data-pa-nav-collapse to .pa-header__nav and navbar-collapse.js walks
+     Add data-pa-nav-collapse to .pa-navmenu and navbar-collapse.js walks
      the lowest-priority items out as the header narrows, restoring them as it
      widens — the same measure-and-drop model as the .pa-overflow toolbar.
 
@@ -210,38 +209,38 @@ Notes on the navbar:
      ================================ -->
 
 <!-- MENU mode — folds into a "More" dropdown -->
-<nav class="pa-header__nav pa-header__nav--start"
+<nav class="pa-navmenu"
      data-pa-nav-collapse="menu" data-pa-nav-more-label="More">
     <ul>
-        <li class="pa-header__nav-item pa-header__nav-item--active" data-pa-nav-priority="10">
+        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-nav-priority="10">
             <a href="/">Dashboard</a>
         </li>
-        <li class="pa-header__nav-item">
+        <li class="pa-navmenu__item">
             <a href="/reports">Reports</a>
         </li>
         <!-- has-dropdown items keep their submenu; inside "More" it renders flat -->
-        <li class="pa-header__nav-item pa-header__nav-item--has-dropdown">
-            <a href="/components" class="pa-header__nav-link">Components</a>
-            <ul class="pa-header__dropdown">
+        <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
+            <a href="/components" class="pa-navmenu__link">Components</a>
+            <ul class="pa-navmenu__dropdown">
                 <li><a href="/components/buttons">Buttons</a></li>
                 <li><a href="/components/cards">Cards</a></li>
             </ul>
         </li>
-        <li class="pa-header__nav-item"><a href="/forms">Forms</a></li>
+        <li class="pa-navmenu__item"><a href="/forms">Forms</a></li>
     </ul>
 </nav>
 
 <!-- SIDEBAR mode — folds into the sidebar under a "Menu" section heading.
      Target defaults to the first .pa-sidebar__nav > ul; override with
      data-pa-nav-collapse-target="#your-sidebar-ul-selector". -->
-<nav class="pa-header__nav pa-header__nav--start"
+<nav class="pa-navmenu"
      data-pa-nav-collapse="sidebar" data-pa-nav-collapse-label="Menu">
     <ul>
-        <li class="pa-header__nav-item pa-header__nav-item--active" data-pa-nav-priority="10">
+        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-nav-priority="10">
             <a href="/">Dashboard</a>
         </li>
-        <li class="pa-header__nav-item"><a href="/reports">Reports</a></li>
-        <li class="pa-header__nav-item"><a href="/forms">Forms</a></li>
+        <li class="pa-navmenu__item"><a href="/reports">Reports</a></li>
+        <li class="pa-navmenu__item"><a href="/forms">Forms</a></li>
     </ul>
 </nav>
 
@@ -509,7 +508,7 @@ Notes on the navbar:
 - burger-menu (no .active) → three bars (☰) — sidebar visible / shown
 - burger-menu.active        → X shape          — sidebar hidden / closed
 Animation: ~150ms ease-out. Top/bottom bars rotate; middle bar fades.
-The class .pa-header__burger is just a layout-position helper; the
+The class .pa-navbar__burger is just a layout-position helper; the
 visual animation lives on .burger-menu. In the header it's __inner's
 first child — a FIXED sibling of the start/center/end zones, not inside
 start — so it never participates in the fit engine's collapse.
@@ -566,9 +565,9 @@ function toggleSubmenu(button) {
 
 <!--
 LAYOUT SHELL:
-- .pa-navbar                   Fixed top bar (position: fixed, z-index $z-index-header).
+- .pa-navbar                   Fixed top bar (position: fixed, z-index $z-index-navbar).
 - .pa-navbar__inner            Inner flex container (padding, gap).
-- .pa-layout                   Below navbar (margin-top: $header-height);
+- .pa-layout                   Below navbar (margin-top: $navbar-height);
                                flex column, max-width 100%.
 - .pa-layout__inner            Flex row hosting sidebar + content.
 - .pa-layout__content          Wraps <main>; overflow-y: auto so the
@@ -601,31 +600,30 @@ BODY-LEVEL FLAGS (orthogonal — any combination is valid):
                                text selection, forces ew-resize cursor).
 
 NAVBAR HEADER SECTIONS (inside .pa-navbar__inner):
-- .pa-header__start            Start-anchored section; flex, gap.
-- .pa-header__center           Flexible middle (flex: 1; min-width: 0).
-- .pa-header__end              End-anchored section; margin-inline-start: auto.
+- .pa-navbar__start            Start-anchored section; flex, gap.
+- .pa-navbar__center           Flexible middle (flex: 1; min-width: 0).
+- .pa-navbar__end              End-anchored section; margin-inline-start: auto.
 
 NAVBAR ELEMENTS (inside header sections):
-- .pa-header__burger           Wrapper for the burger-menu button.
+- .pa-navbar__burger           Wrapper for the burger-menu button.
 - .burger-menu                 The animated three-bar button itself.
 - .burger-menu.active          X-shape state (bars rotate + middle fades).
-- .pa-header__brand            Logo / brand area; h1 styled automatically.
-- .pa-header__nav              Nav container; auto-styles direct
+- .pa-app-header            Logo / brand area; h1 styled automatically.
+- .pa-navmenu              Nav container; auto-styles direct
                                ul > li > a descendants (no classes needed
-                               on list items / anchors).
-- .pa-header__nav--start       Organisational placeholder (empty SCSS block).
-- .pa-header__nav--end         Organisational placeholder (empty SCSS block).
-- .pa-header__nav-item         Explicit li class (same behaviour as bare <li>).
-- .pa-header__nav-item--has-dropdown
-                               Parent li that reveals a child .pa-header__dropdown
+                               on list items / anchors). Position it by which
+                               zone it sits in — no per-side modifier classes.
+- .pa-navmenu__item         Explicit li class (same behaviour as bare <li>).
+- .pa-navmenu__item--has-dropdown
+                               Parent li that reveals a child .pa-navmenu__dropdown
                                on hover. Uses position: static so the
                                dropdown positions relative to the navbar.
-- .pa-header__nav-link         Optional anchor class (flex + gap for icon+text).
-- .pa-header__dropdown         Hover-dropdown <ul> (absolute; card-bg;
+- .pa-navmenu__link         Optional anchor class (flex + gap for icon+text).
+- .pa-navmenu__dropdown         Hover-dropdown <ul> (absolute; card-bg;
                                box-shadow; z-index 1100).
-- .pa-header__dropdown--level2 Nested dropdown shifted to the side.
-- .pa-header__title            Centre-section page title with ellipsis h2.
-- .pa-header__profile-btn      Right-side profile button (flex-shrink: 0).
+- .pa-navmenu__dropdown--level2 Nested dropdown shifted to the side.
+- .pa-page-header            Centre-section page title with ellipsis h2.
+- .pa-navbar__profile-btn      Right-side profile button (flex-shrink: 0).
 - .theme-switcher              Inline label + select styled for the header.
 
 SIDEBAR:
@@ -669,7 +667,7 @@ RESIZE MECHANISM:
 
 RESPONSIVE BEHAVIOUR (built in):
 - Below $mobile-breakpoint (768px):
-    - .pa-header__nav hides entirely.
+    - .pa-navmenu hides entirely.
     - Theme-switcher label hides.
     - body:not(.sidebar-visible) hides the sidebar (width: 0).
     - .sidebar-visible renders sidebar as a fixed-position overlay
@@ -684,9 +682,9 @@ STRUCTURE PATTERNS:
 Minimal app shell:
 <body class="pa-layout--sticky">
   <nav class="pa-navbar"><div class="pa-navbar__inner">
-    <div class="pa-header__start">…</div>
-    <div class="pa-header__center"><div class="pa-header__title"><h2>Page</h2></div></div>
-    <div class="pa-header__end">…</div>
+    <div class="pa-navbar__start">…</div>
+    <div class="pa-navbar__center"><div class="pa-page-header"><h2>Page</h2></div></div>
+    <div class="pa-navbar__end">…</div>
   </div></nav>
 
   <div class="pa-layout">
