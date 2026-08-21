@@ -6,6 +6,11 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc13
+
+- **The header burger is now a fixed sibling of the layout zones.** It moved out of `.pa-header__start` to be `.pa-navbar__inner`'s first child — a fixed anchor beside the degradable start/center/end zones instead of tucked inside one, which matches the fit-engine model (a control that never collapses shouldn't live in a collapsible zone). Spacing is unchanged; the canonical snippet (`snippets/layout.html`) shows the new structure. Legacy tolerance: a burger left inside `.pa-header__start` still renders.
+- **Sidebar-less / burger-less layouts are now drop-in.** Because the burger is a flex sibling with `gap` (not a reserved slot), simply omitting it — and the `<aside class="pa-layout__sidebar">` — makes the header reclaim the space (brand flush-left) and `.pa-layout__content` fill full width, with zero CSS overrides.
+
 ## What's New in 2.9.0-rc12
 
 - **Navbar Fit — priority-driven header degradation** — every header slot (brand, version, title, search…) can declare a `data-pa-fit` strategy (`hide` / `steps` / `sidebar`) and a `data-pa-fit-priority`. As the row narrows, slots degrade lowest-priority-first and restore when space returns; `steps` swaps ranked variants (big logo → wordmark → monogram).
@@ -14,16 +19,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **Overlay primitives (`pureAdmin.overlay`)** — `lockBodyScroll()` + `observeKeyboardInset()` for any fullscreen surface.
 - **Search entry-point patterns** — `.pa-navbar-search--field` (a live inline navbar search with its own results dropdown) and `.pa-sidebar__search` (a sidebar search trigger), alongside the existing command-palette pill.
 - **Fixed** — the header brand/version no longer collide with the page title in a tight bar (now owned by the fit engine), and the navbar search pill's overflow protection survives a consumer wrapper element.
-
-## What's New in 2.9.0-rc11
-
-- **Provider-agnostic icon primitive (`.pa-icon`).** Every close / remove / clear "X" is now a masked SVG drawn in `currentColor` (via `mask-image`), so it inherits the button's colour and scales with `--pa-icon-size` — no icon font or asset needed. Swap the whole icon set by overriding one `--pa-icon-*` var; ships the Lucide "x" by default.
-- **`pureAdmin.config` — a shared UI-behavior baseline.** One overridable object for the framework's binding-agnostic defaults so components stop hardcoding constants: `mobileBreakpoint`, `typingDebounceDelay`, `toast.*` + `severity.*`, and the `transition.*` motion scale. Several are emitted as CSS vars too (`--pa-mobile-breakpoint`, `--pa-transition-*`) so CSS, JS, and every wrapper read one source.
-- **BREAKING — all JS globals consolidated under `window.pureAdmin`.** The dozen ad-hoc `window.Pa*` / `PureAdmin*` globals are now one lowercase namespace with an event bus, a shared viewport source, a components registry, menu coordination, and a debug registry. No back-compat aliases — see the migration map in `docs/js-architecture.md`.
-- **`pureAdmin.colorScheme` + auto theme mode.** One OS light/dark watcher lives on the namespace and emits `colorscheme:change`, so consumers follow the system preference without each opening their own `matchMedia`. The settings panel gains an **Auto** mode (shown only for themes with both a light and dark mode).
-- **Unified resize grab-knob.** The sidebar resize handle and the splitter gutter now share one knob — a rounded `--pa-card-bg` tab with a ⋮/⋯ grip — instead of two mismatched grips. It's viewport-responsive (slim on desktop, chunkier on small screens), touch-grabbable, and follows (but caps) the theme's corner radius.
-- **Smoother mobile drawers.** The mobile sidebar and profile panel are now proper sliding off-canvas drawers with a fading scrim and background scroll-lock (iOS-Safari-safe), consistent with each other instead of one popping in without animation and the other with no working scrim.
-- **`.pa-table-card__description`, `.pa-header__version`, and onboarding.** A canonical subtitle for table cards, a muted version tag beside the brand wordmark, and a new `QUICKSTART.md` + runnable `starter/index.html` so the unzipped package runs with no install or build.
 
 ## Installation
 

@@ -55,7 +55,13 @@ body.pa-container-2xl .pa-navbar {
   margin-inline: auto;
 }
 
-// Navbar inner content
+// Navbar inner content. Its direct children are a FIXED burger anchor
+// (.pa-header__burger — always visible, never in the fit engine) followed by
+// the three degradable zones (.pa-header__start / __center / __end). The burger
+// is a SIBLING of the zones, not inside start, so it stays put while the zones
+// collapse. Its `gap` here is the single burger→start separator (same
+// $spacing-base as .pa-header__start's own gap). navbar-fit.js measures these
+// direct children.
 .pa-navbar__inner {
   width: 100%;
   padding: 0 $spacing-base;

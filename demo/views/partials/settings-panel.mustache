@@ -52,12 +52,14 @@
                 <option value="">Off</option>
                 <option value="navbar-inline">Navbar — inline search (A)</option>
                 <option value="navbar-compact">Navbar — compact, opens palette (B)</option>
-                <option value="sidebar">Sidebar — opens palette (C)</option>
+                {{^simpleLayout}}<option value="sidebar">Sidebar — opens palette (C)</option>{{/simpleLayout}}
             </select>
         </div>
 
+        <!-- Sidebar sections: kept in the DOM (settings-panel.js references these
+             selectors unguarded), but hidden in the sidebar-less simple layout. -->
         <!-- Sidebar Mode -->
-        <div class="pa-settings-panel__section">
+        <div class="pa-settings-panel__section" {{#simpleLayout}}style="display:none"{{/simpleLayout}}>
             <label class="pa-settings-panel__label">Sidebar Mode</label>
             <select class="pa-settings-panel__select" id="sidebarModeSelector">
                 <option value="">Scrolls with Content</option>
@@ -66,7 +68,7 @@
         </div>
 
         <!-- Sidebar Behavior -->
-        <div class="pa-settings-panel__section">
+        <div class="pa-settings-panel__section" {{#simpleLayout}}style="display:none"{{/simpleLayout}}>
             <label class="pa-settings-panel__label">Sidebar Behavior</label>
             <select class="pa-settings-panel__select" id="sidebarBehaviorSelector">
                 <option value="hide">Hide Completely</option>
@@ -75,7 +77,7 @@
         </div>
 
         <!-- Sidebar Options -->
-        <div class="pa-settings-panel__section">
+        <div class="pa-settings-panel__section" {{#simpleLayout}}style="display:none"{{/simpleLayout}}>
             <label class="pa-settings-panel__label">Sidebar</label>
             <div class="pa-settings-panel__checkbox-group">
                 <label class="pa-checkbox">

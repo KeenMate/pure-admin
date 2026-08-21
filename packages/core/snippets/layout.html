@@ -97,17 +97,20 @@
 
 <!-- ================================
      NAVBAR / HEADER
-     Three-section layout (start / center / end) inside .pa-navbar__inner.
+     A fixed burger anchor + three degradable zones (start / center / end)
+     inside .pa-navbar__inner. The burger sits OUTSIDE the zones (it never
+     collapses), so it's __inner's first child, a sibling of the zones.
      ================================ -->
 
 <nav class="pa-navbar">
     <div class="pa-navbar__inner">
-        <!-- START: burger, brand, left nav -->
-        <div class="pa-header__start">
-            <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-                <span></span><span></span><span></span>
-            </button>
+        <!-- Burger — fixed anchor, always visible (no data-pa-fit). -->
+        <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+            <span></span><span></span><span></span>
+        </button>
 
+        <!-- START: brand, left nav -->
+        <div class="pa-header__start">
             <div class="pa-header__brand">
                 <h1>Pure Admin</h1>
             </div>
@@ -507,7 +510,9 @@ Notes on the navbar:
 - burger-menu.active        → X shape          — sidebar hidden / closed
 Animation: ~150ms ease-out. Top/bottom bars rotate; middle bar fades.
 The class .pa-header__burger is just a layout-position helper; the
-visual animation lives on .burger-menu.
+visual animation lives on .burger-menu. In the header it's __inner's
+first child — a FIXED sibling of the start/center/end zones, not inside
+start — so it never participates in the fit engine's collapse.
 -->
 
 

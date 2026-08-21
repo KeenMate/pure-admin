@@ -1,15 +1,19 @@
 <!-- Fixed Navbar -->
 <nav class="pa-navbar">
     <div class="pa-navbar__inner">
-        <!-- Start Section: Burger, Brand, Start Nav -->
-        <div class="pa-header__start">
-            <!-- Hamburger Menu -->
-            <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+        <!-- Hamburger — a FIXED anchor (no data-pa-fit), so it lives OUTSIDE the
+             degradable start/center/end zones as __inner's first child. Omitted
+             in the sidebar-less "simple" layout (nothing to toggle). -->
+        {{^simpleLayout}}
+        <button class="pa-header__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        {{/simpleLayout}}
 
+        <!-- Start Section: Brand, Start Nav -->
+        <div class="pa-header__start">
             <!-- Brand. The wordmark is a fit "steps" slot (Pure Admin → PA) and
                  the version tag a fit "hide" slot, so as the header narrows the
                  version drops first (priority 10), then the wordmark shrinks to
@@ -23,7 +27,9 @@
                  .pa-sidebar__* items under a "Menu" section heading) as the
                  header narrows, restoring them as it widens (navbar-collapse.js).
                  The active item is auto-pinned; Dashboard is also explicitly
-                 pinned via data-pa-nav-priority. -->
+                 pinned via data-pa-nav-priority. Omitted in the simple layout —
+                 it folds into a sidebar that isn't there. -->
+            {{^simpleLayout}}
             <nav class="pa-header__nav pa-header__nav--start" data-pa-nav-collapse="sidebar" data-pa-nav-collapse-label="Menu">
                 <ul>
                     <li class="pa-header__nav-item{{#isDashboard}} pa-header__nav-item--active{{/isDashboard}}" data-pa-nav-priority="10" data-pa-nav-icon="📊"><a href="/">Dashboard</a></li>
@@ -94,6 +100,7 @@
                     </li>
                 </ul>
             </nav>
+            {{/simpleLayout}}
         </div>
 
         <!-- Center Section: Page Title (flexible) -->

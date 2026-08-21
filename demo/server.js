@@ -269,6 +269,15 @@ app.get('/', (req, res) => {
     renderWithLayout(res, 'dashboard', { pageTitle: 'Dashboard', currentPage: 'dashboard', isDashboard: true });
 });
 
+// Minimal-shell example: no sidebar, no burger, full-width content. Rendered
+// through the SAME layout as every other page but with simpleLayout:true, which
+// drops the sidebar + burger + header menu and the sidebar-only settings — so
+// the real settings panel (theme, layout width, search box, RTL, profile, fonts)
+// still works here unchanged.
+app.get('/examples/simple-app', (req, res) => {
+    renderWithLayout(res, 'examples/simple-app', { pageTitle: 'Simple App', currentPage: 'simple-app', simpleLayout: true });
+});
+
 app.get('/getting-started', (req, res) => {
     renderWithLayout(res, 'getting-started', { pageTitle: 'Getting Started', currentPage: 'getting-started', isGettingStarted: true });
 });

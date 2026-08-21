@@ -5,6 +5,12 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc13] - 2026-08-21 [PUBLISHED]
+
+### Changed
+
+- **Burger moved out of `.pa-header__start` to be `.pa-navbar__inner`'s first child.** The burger toggle carries no `data-pa-fit`, so it never participates in the header's priority collapse — yet it lived *inside* `.pa-header__start`, one of the three degradable zones the fit engine measures and shrinks. It's now a **fixed anchor sibling** of the zones (`__inner` → `[burger] [start] [center] [end]`), which matches the model: a fixed control belongs outside the collapsible zones, not smuggled into one. Spacing is unchanged — the burger→brand gap is now the `.pa-navbar__inner` flex `gap` (the same `$spacing-base` as `.pa-header__start`'s own gap). No SCSS behavior change; the canonical snippet (`snippets/layout.html`) and the demo header were updated. Legacy tolerance: a burger left inside `.pa-header__start` still renders (it's just measured as part of the start zone), so this isn't a hard break for existing consumers.
+
 ## [2.9.0-rc12] - 2026-08-20 [PUBLISHED]
 
 ### Added

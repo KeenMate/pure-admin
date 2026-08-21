@@ -248,9 +248,9 @@
 
     <!-- Layout Container (below navbar) -->
     <div class="pa-layout" id="layoutContainer">
-        <!-- Layout Inner: Sidebar + Content -->
+        <!-- Layout Inner: Sidebar + Content ({{^simpleLayout}}sidebar{{/simpleLayout}}{{#simpleLayout}}no sidebar — content fills full width{{/simpleLayout}}) -->
         <div class="pa-layout__inner">
-            {{{partials.sidebar}}}
+            {{^simpleLayout}}{{{partials.sidebar}}}{{/simpleLayout}}
 
             <!-- Restore submenu states immediately to prevent FOUC -->
             <script>
@@ -530,10 +530,11 @@
             const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
             const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
 
+            if (!sidebar) return; // no sidebar (simple layout) → nothing to toggle
             if (isMobile) {
                 // Mobile: Toggle sidebar visibility but don't persist state
                 body.classList.toggle('sidebar-visible');
-                burgerMenu.classList.toggle('active');
+                if (burgerMenu) burgerMenu.classList.toggle('active');
                 // Lock/unlock background scroll to match the open state
                 if (body.classList.contains('sidebar-visible')) {
                     lockBodyScroll();
@@ -582,7 +583,8 @@
                 // Mobile: Always start with sidebar hidden (not visible)
                 body.classList.remove('sidebar-hidden');
                 body.classList.remove('sidebar-visible');
-                document.querySelector('.burger-menu').classList.remove('active');
+                const mobileBurger = document.querySelector('.burger-menu');
+                if (mobileBurger) mobileBurger.classList.remove('active'); // absent in the sidebar-less simple layout
                 unlockBodyScroll(); // drawer forced closed → release the scroll lock
             } else {
                 // Desktop: Use saved state (works for both 'hide' and 'icon-collapse' behaviors)
