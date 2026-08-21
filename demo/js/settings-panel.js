@@ -29,7 +29,6 @@
         const colorVariantSelector = document.getElementById('colorVariantSelector');
         const fontSizeSelector = document.getElementById('fontSizeSelector');
         const fontFamilySelector = document.getElementById('fontFamilySelector');
-        const sidebarCollapsed = document.getElementById('sidebarCollapsed');
         const sidebarResizable = document.getElementById('sidebarResizable');
         const sidebarBehaviorSelector = document.getElementById('sidebarBehaviorSelector');
         const sidebarModeSelector = document.getElementById('sidebarModeSelector');
@@ -354,10 +353,6 @@
             fontFamilySelector.value = savedFontFamily;
             applyFontFamily(savedFontFamily);
 
-            // Sidebar collapsed
-            const isSidebarCollapsed = localStorage.getItem('sidebar-hidden') === 'true';
-            sidebarCollapsed.checked = isSidebarCollapsed;
-
             // Search box position
             if (searchPositionSelector) {
                 const searchPosition = localStorage.getItem('search-position') || '';
@@ -584,11 +579,6 @@
 
         fontFamilySelector.addEventListener('change', (e) => {
             applyFontFamily(e.target.value);
-        });
-
-        // Sidebar toggle
-        sidebarCollapsed.addEventListener('change', (e) => {
-            toggleSidebar();
         });
 
         // Sidebar resizable toggle
