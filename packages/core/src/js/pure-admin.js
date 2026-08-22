@@ -320,6 +320,12 @@
       // Ref-counted body-scroll lock: the first lock stashes + hides body
       // overflow, the last release restores it — so two overlays open at once
       // don't unbalance each other. Returns an idempotent release fn.
+      //
+      // No sideways reflow on lock: the <html> root carries
+      // `scrollbar-gutter: stable` (see core-components/_base.scss), so the
+      // scrollbar's space stays reserved even while overflow is hidden. The page
+      // and the fixed navbar keep the same width open or closed — no per-element
+      // padding needed.
       lockBodyScroll: function () {
         if (lockCount === 0) {
           stashedOverflow = document.body.style.overflow;

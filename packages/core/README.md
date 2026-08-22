@@ -6,19 +6,18 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc15
+
+- **Search results component** — the new `pa-search-results` renders a page-level results list with four presets over one canonical item tree: `--compact` (dense one-liners), `--detailed` (icon tile + snippet + meta), `--grouped` (category headers), and `--cards` (a responsive grid). A code generator emits the same markup and only swaps the modifier.
+- **Full-text match highlighting, unified everywhere** — wrap a matched fragment in `<mark>` (the shape Elasticsearch / Postgres `ts_headline` return) and it renders as a restrained, accent-derived wash — now identical across the results page *and* the inline navbar / autocomplete search, which previously fell back to the browser's yellow. Theme-tunable via `--pa-search-mark-bg` / `-color` / `-weight`.
+- **Type-and-go search boxes** — `.pa-navbar-search--input` and `.pa-sidebar__search--input` frame a real `<input>` in a `<form>` whose native GET submit navigates to a results page on Enter (no palette, no JS). The sidebar variant still submits from its collapsed icon-rail.
+- **Resizable command palette** — its width, top offset, and results height are now runtime CSS variables (`--pa-command-palette-width` / `-offset-top` / `-results-max-height`), with `--sm` / `--lg` / `--xl` size presets. Resize at `:root`, inline, or per-instance with no recompile.
+- **Fixed: overlays no longer shift the page sideways** — opening the command palette or a mobile drawer used to drop the scrollbar and jog the layout (and the fixed navbar) sideways. `scrollbar-gutter: stable` on `<html>` keeps the gutter reserved; the palette results are also clamped to the viewport so the footer never scrolls off a short window.
+
 ## What's New in 2.9.0-rc13
 
 - **The header burger is now a fixed sibling of the layout zones.** It moved out of `.pa-navbar__start` to be `.pa-navbar__inner`'s first child — a fixed anchor beside the degradable start/center/end zones instead of tucked inside one, which matches the fit-engine model (a control that never collapses shouldn't live in a collapsible zone). Spacing is unchanged; the canonical snippet (`snippets/layout.html`) shows the new structure. Legacy tolerance: a burger left inside `.pa-navbar__start` still renders.
 - **Sidebar-less / burger-less layouts are now drop-in.** Because the burger is a flex sibling with `gap` (not a reserved slot), simply omitting it — and the `<aside class="pa-layout__sidebar">` — makes the header reclaim the space (brand flush-left) and `.pa-layout__content` fill full width, with zero CSS overrides.
-
-## What's New in 2.9.0-rc12
-
-- **Navbar Fit — priority-driven header degradation** — every header slot (brand, version, title, search…) can declare a `data-pa-fit` strategy (`hide` / `steps` / `sidebar`) and a `data-pa-fit-priority`. As the row narrows, slots degrade lowest-priority-first and restore when space returns; `steps` swaps ranked variants (big logo → wordmark → monogram).
-- **Capability-first device classification (`pureAdmin.device`)** — a shared `mobile` / `tablet` / `desktop` signal keyed off pointer/hover capability and the 600px short-side line, not raw width — so a narrowed desktop window stays `desktop`.
-- **Mobile fullscreen command palette** — on a touch phone the search palette opens as a full-viewport sheet (pinned header + close, soft-keyboard aware) instead of a floating dialog.
-- **Overlay primitives (`pureAdmin.overlay`)** — `lockBodyScroll()` + `observeKeyboardInset()` for any fullscreen surface.
-- **Search entry-point patterns** — `.pa-navbar-search--field` (a live inline navbar search with its own results dropdown) and `.pa-sidebar__search` (a sidebar search trigger), alongside the existing command-palette pill.
-- **Fixed** — the header brand/version no longer collide with the page title in a tight bar (now owned by the fit engine), and the navbar search pill's overflow protection survives a consumer wrapper element.
 
 ## Installation
 

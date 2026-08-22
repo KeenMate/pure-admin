@@ -5,7 +5,60 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0-rc14] - 2026-08-21
+## [2.9.0-rc15] - 2026-08-22 [PUBLISHED]
+
+### Added
+
+- **New `pa-search-results` component — a page-level results list** for the destination
+  a search submits to (distinct from the `pa-search-autocomplete` dropdown under a live
+  field). One canonical item structure — `__icon` + `__content` (`__title` / `__snippet` /
+  `__meta` / `__meta-item`) + `__type` — restyled by four presets on the container:
+  `--compact` (dense one-liners), `--detailed` (tinted icon + snippet + meta trail),
+  `--grouped` (items bucketed under `__group` / `__group-title` headers), and `--cards`
+  (a responsive grid of result cards). A generator emits the same item tree and only swaps
+  the modifier. Full-text match highlighting is supported in any text slot via
+  `<mark class="pa-search-results__mark">` — the shape a backend returns (Elasticsearch
+  highlight, Postgres `ts_headline`), re-skinned off the UA yellow onto a restrained,
+  accent-derived wash.
+- **Unified search-match highlight.** The `<mark>` highlight now renders identically
+  across the `pa-search-results` page **and** the `pa-search-autocomplete` popover (the
+  inline navbar search + palette-field autocomplete) — previously the autocomplete's
+  `<mark>` fell through to the browser's yellow. Both share one theme-tunable contract,
+  `--pa-search-mark-bg` / `-color` / `-weight` (each falls back to a subtle default, so
+  no recompile needed to retune it per theme). (The command palette keeps its own
+  `--pa-command-palette-highlight-*` result highlight.)
+- **Type-and-go search variants** — `pa-navbar-search--input` and
+  `pa-sidebar__search--input`. Each frames a real `<input>` inside a `<form>` whose native
+  GET submit navigates to a results page on Enter (no dropdown, no palette); the consumer
+  wires the form's `action`/`method`. The sidebar variant's magnifier is a `type="submit"`
+  so it still submits from the collapsed icon-rail (an empty query lands on the bare
+  results page).
+- **The command palette (Ctrl+K) is resizable at runtime.** Its footprint used to be
+  fixed at compile time (SCSS `$command-palette-width` etc.); three dimensions are now
+  overridable via CSS variables that fall back to those SCSS defaults, so a consumer can
+  resize at `:root`, inline, or per-instance without a recompile:
+  `--pa-command-palette-width` (container max-width, default 60.8rem),
+  `--pa-command-palette-offset-top` (gap above the palette, 12.8rem), and
+  `--pa-command-palette-results-max-height` (results scroll height, 38.4rem).
+- **Command palette size presets.** New modifiers on `.pa-command-palette` set both the
+  width and results height together: `--sm` (48 / 28.8rem), `--lg` (76.8 / 51.2rem),
+  `--xl` (89.6 / 64rem); no modifier keeps the 60.8 / 38.4rem default. Each preset just
+  sets the size vars above, so it composes with any inline override.
+
+### Fixed
+
+- **Opening an overlay that locks background scrolling no longer shifts the page (or the
+  fixed navbar) sideways.** The scroll lock (`pureAdmin.overlay.lockBodyScroll()`, used by
+  the command palette and the mobile drawers) sets `overflow: hidden`, which removed the
+  vertical scrollbar and let its reclaimed width reflow the layout — the fixed navbar
+  visibly jumped. `scrollbar-gutter: stable` now sits on the **`<html>` root** (only the
+  root propagates the gutter to the viewport in Chromium — on `<body>` it silently
+  no-ops), so the scrollbar's space stays reserved through the lock and nothing moves.
+- **The command palette can no longer overrun a short viewport.** The results list is
+  clamped to `min(<results-max-height>, calc(100dvh − offset-top − chrome))`, so the
+  palette footer stays on-screen regardless of the configured height or window size.
+
+## [2.9.0-rc14] - 2026-08-21 [PUBLISHED]
 
 ### Changed
 

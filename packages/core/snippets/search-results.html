@@ -1,0 +1,145 @@
+<!-- ================================
+     SEARCH RESULTS
+     Pure Admin Visual Framework
+
+     pa-search-results — the page-level rendering of a submitted search query
+     (the destination the type-and-go search variants submit to). NOT the same
+     as pa-search-autocomplete, which is the dropdown popover under a live
+     search field.
+
+     ONE canonical item structure — restyled by four presets on the container:
+       --compact   dense one-liners (title + type only)
+       --detailed  tinted icon tile + title + snippet + meta trail
+       --grouped   items bucketed under __group / __group-title headers
+       --cards     a responsive grid of result cards
+
+     The item tree is identical across presets; a code generator swaps only the
+     modifier on the container. --grouped additionally wraps runs of items in
+     __group. CSS + structure only — no JS.
+     ================================ -->
+
+
+<!-- ================================
+     CANONICAL ITEM (the shape every preset renders)
+     __icon + __content(__title / __snippet / __meta) + __type.
+     Use an <a> for navigable rows; snippet + meta are optional per preset.
+     ================================ -->
+<a class="pa-search-results__item" href="#">
+    <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+    <div class="pa-search-results__content">
+        <div class="pa-search-results__title">Getting started with widgets</div>
+        <p class="pa-search-results__snippet">A step-by-step guide covering setup,
+        configuration, and troubleshooting.</p>
+        <div class="pa-search-results__meta">
+            <span class="pa-search-results__meta-item">Docs / Guides</span>
+            <span class="pa-search-results__meta-item">Updated 2 days ago</span>
+        </div>
+    </div>
+    <span class="pa-search-results__type">Page</span>
+</a>
+
+
+<!-- ================================
+     PRESET — compact: dense one-liners.
+     Snippet + meta are hidden by the preset; keep them in the markup or drop
+     them — the generator emits the same tree either way.
+     ================================ -->
+<div class="pa-search-results pa-search-results--compact">
+    <a class="pa-search-results__item" href="#">
+        <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+        <div class="pa-search-results__content">
+            <div class="pa-search-results__title">Getting started with widgets</div>
+        </div>
+        <span class="pa-search-results__type">Page</span>
+    </a>
+    <a class="pa-search-results__item" href="#">
+        <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+        <div class="pa-search-results__content">
+            <div class="pa-search-results__title">Widget Pro subscription</div>
+        </div>
+        <span class="pa-search-results__type">Product</span>
+    </a>
+</div>
+
+
+<!-- ================================
+     PRESET — detailed: tinted icon tile + snippet + meta trail.
+     Full-text match highlight: wrap the matched fragment a backend returns
+     (Elasticsearch highlight / Postgres ts_headline) in
+     <mark class="pa-search-results__mark">…</mark>. Works in any text slot.
+     ================================ -->
+<div class="pa-search-results pa-search-results--detailed">
+    <a class="pa-search-results__item" href="#">
+        <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+        <div class="pa-search-results__content">
+            <div class="pa-search-results__title">Getting started with <mark class="pa-search-results__mark">widgets</mark></div>
+            <p class="pa-search-results__snippet">A step-by-step guide covering
+            <mark class="pa-search-results__mark">widget</mark> setup, configuration, and
+            troubleshooting for teams of any size.</p>
+            <div class="pa-search-results__meta">
+                <span class="pa-search-results__meta-item">Docs / Guides</span>
+                <span class="pa-search-results__meta-item">Updated 2 days ago</span>
+            </div>
+        </div>
+        <span class="pa-search-results__type">Page</span>
+    </a>
+</div>
+
+
+<!-- ================================
+     PRESET — grouped: items bucketed under category headers.
+     Wrap each run of items in __group with a leading __group-title.
+     ================================ -->
+<div class="pa-search-results pa-search-results--grouped">
+    <div class="pa-search-results__group">
+        <div class="pa-search-results__group-title">Pages</div>
+        <a class="pa-search-results__item" href="#">
+            <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+            <div class="pa-search-results__content">
+                <div class="pa-search-results__title">Getting started with widgets</div>
+                <div class="pa-search-results__meta">
+                    <span class="pa-search-results__meta-item">Docs / Guides</span>
+                </div>
+            </div>
+            <span class="pa-search-results__type">Page</span>
+        </a>
+    </div>
+    <div class="pa-search-results__group">
+        <div class="pa-search-results__group-title">Products</div>
+        <a class="pa-search-results__item" href="#">
+            <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+            <div class="pa-search-results__content">
+                <div class="pa-search-results__title">Widget Pro subscription</div>
+                <div class="pa-search-results__meta">
+                    <span class="pa-search-results__meta-item">$49 / mo</span>
+                </div>
+            </div>
+            <span class="pa-search-results__type">Product</span>
+        </a>
+    </div>
+</div>
+
+
+<!-- ================================
+     PRESET — cards: a responsive grid of result cards.
+     The item flips to a column: icon tile, title + snippet, type pill as a
+     footer tag. Same item tree — only the container modifier changes.
+     ================================ -->
+<div class="pa-search-results pa-search-results--cards">
+    <a class="pa-search-results__item" href="#">
+        <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+        <div class="pa-search-results__content">
+            <div class="pa-search-results__title">Getting started with widgets</div>
+            <p class="pa-search-results__snippet">A step-by-step guide covering setup.</p>
+        </div>
+        <span class="pa-search-results__type">Page</span>
+    </a>
+    <a class="pa-search-results__item" href="#">
+        <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+        <div class="pa-search-results__content">
+            <div class="pa-search-results__title">Widget Pro subscription</div>
+            <p class="pa-search-results__snippet">Priority support and unlimited seats.</p>
+        </div>
+        <span class="pa-search-results__type">Product</span>
+    </a>
+</div>

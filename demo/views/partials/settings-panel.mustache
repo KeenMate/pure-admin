@@ -45,7 +45,7 @@
             </select>
         </div>
 
-        <!-- Search Box position — previews the three search placements -->
+        <!-- Search Box position — previews the search placements -->
         <div class="pa-settings-panel__section">
             <label class="pa-settings-panel__label">Search Box</label>
             <select class="pa-settings-panel__select" id="searchPositionSelector">
@@ -53,7 +53,22 @@
                 <option value="navbar-inline">Navbar — inline search (A)</option>
                 <option value="navbar-compact">Navbar — compact, opens palette (B)</option>
                 {{^simpleLayout}}<option value="sidebar">Sidebar — opens palette (C)</option>{{/simpleLayout}}
+                <option value="navbar-typeahead">Navbar — type &amp; go → /search (D)</option>
+                {{^simpleLayout}}<option value="sidebar-typeahead">Sidebar — type &amp; go → /search (E)</option>{{/simpleLayout}}
             </select>
+        </div>
+
+        <!-- Command Palette width — sets the --sm/--lg/--xl preset on the palette
+             (Ctrl+K to preview). Default (no modifier) is 608px. -->
+        <div class="pa-settings-panel__section">
+            <label class="pa-settings-panel__label">Command Palette</label>
+            <select class="pa-settings-panel__select" id="commandPaletteSizeSelector">
+                <option value="">Default (608px)</option>
+                <option value="sm">Small (480px)</option>
+                <option value="lg">Large (768px)</option>
+                <option value="xl">Extra Large (896px)</option>
+            </select>
+            <small class="pa-settings-panel__hint">Press Ctrl+K to preview the palette.</small>
         </div>
 
         <!-- Sidebar sections: kept in the DOM (settings-panel.js references these

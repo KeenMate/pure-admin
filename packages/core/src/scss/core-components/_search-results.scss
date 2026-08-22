@@ -1,0 +1,265 @@
+@use '../variables' as *;
+
+/* ========================================
+   Search Results
+   ========================================
+   Page-level rendering of a submitted search query — the full results list on a
+   /search page. Distinct from .pa-search-autocomplete, which is the dropdown
+   popover under a live search field; this is the destination the type-and-go
+   variants (pa-navbar-search--input / pa-sidebar__search--input) submit to.
+
+   ONE canonical item structure — icon + content(title / snippet / meta) + type —
+   restyled by four presets set on the container:
+     --compact   dense one-liners (title + type only)
+     --detailed  roomy rows: tinted icon + title + snippet + meta
+     --grouped   items bucketed under category headers (__group / __group-title)
+     --cards     a responsive grid of result cards
+   A code generator emits the SAME item tree and only swaps the modifier on the
+   container (--grouped additionally wraps runs of items in __group). Never a
+   second item shape per preset — rigidity over flexibility. */
+
+.pa-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  // --- Grouping wrappers (consumed by --grouped; inert in the other presets) ---
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__group-title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: 0 $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--pa-text-color-2);
+  }
+
+  // --- Canonical result item ---
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    border-radius: var(--pa-border-radius);
+    color: inherit;
+    text-decoration: none;
+    transition: background-color $transition-fast $easing-snappy;
+
+    &:hover,
+    &--active {
+      background-color: var(--pa-table-hover-bg);
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: $font-size-lg;
+    line-height: 1; // prevent emoji baseline shift
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0; // let the title/snippet ellipsize instead of shoving __type out
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--pa-text-color-1);
+  }
+
+  &__snippet {
+    margin: 0;
+    font-size: $font-size-sm;
+    line-height: 1.45;
+    color: var(--pa-text-color-2);
+    // Clamp long snippets to two lines.
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-xs;
+    color: var(--pa-text-color-2);
+  }
+
+  // Full-text match highlight — wrap the matched fragment a backend returns
+  // (Elasticsearch highlight `<em>`, Postgres `ts_headline` `<b>`, etc.) in
+  // <mark class="pa-search-results__mark">…</mark>. The blessed element is
+  // <mark> (semantically "marked/highlighted for reference"); the rule re-skins
+  // it off the UA yellow, and a bare <mark> inside the component is caught too so
+  // raw backend output styles without a post-process. Works in any text slot —
+  // __title, __snippet, __meta.
+  //
+  // Deliberately restrained by default (a soft ~15% accent wash, inherited text
+  // colour, medium weight) so it reads as an emphasis, not a marker pen. Every
+  // facet is a CSS variable so a theme can retune it — e.g. gruvbox can swap the
+  // orange wash for its own muted highlight — without a recompile. The tokens are
+  // component-neutral (--pa-search-mark-*) because the same contract also skins
+  // the inline autocomplete popover's <mark> (see _query-editor.scss), so a query
+  // match highlights identically wherever it appears.
+  &__mark,
+  mark {
+    padding: 0 0.15em;
+    border-radius: 0.2rem;
+    background-color: var(--pa-search-mark-bg,
+      color-mix(in srgb, var(--pa-accent) 15%, transparent));
+    color: var(--pa-search-mark-color, inherit);
+    font-weight: var(--pa-search-mark-weight, #{$font-weight-medium});
+  }
+
+  // Meta items read as a middot-separated trail; the first has no leading dot.
+  &__meta-item:not(:first-child)::before {
+    content: '·';
+    margin-inline-end: $spacing-xs;
+    opacity: $opacity-muted;
+  }
+
+  &__type {
+    flex-shrink: 0;
+    align-self: center;
+    margin-inline-start: auto; // push to the row's end (RTL flips it)
+    // Own pill metrics — don't borrow the badge component's $badge-* tokens.
+    padding: 0.2rem $spacing-sm;
+    font-size: $font-size-xs;
+    color: var(--pa-text-color-2);
+    background-color: var(--pa-subtle-bg);
+    border-radius: 50rem; // pill
+    white-space: nowrap;
+  }
+}
+
+/* --- Preset: compact ------------------------------------------------------ */
+/* Dense one-liners — hide the snippet + meta, centre the row, tighten it up. */
+.pa-search-results--compact {
+  gap: 0;
+
+  .pa-search-results__item {
+    align-items: center;
+    padding-block: $spacing-xs;
+  }
+
+  .pa-search-results__snippet,
+  .pa-search-results__meta {
+    display: none;
+  }
+
+  .pa-search-results__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* --- Preset: detailed ----------------------------------------------------- */
+/* Roomy rows with a tinted icon tile, a two-line snippet, and a meta trail. */
+.pa-search-results--detailed {
+  .pa-search-results__item {
+    padding: $spacing-md;
+  }
+
+  .pa-search-results__icon {
+    width: 4rem;
+    height: 4rem;
+    font-size: $font-size-xl;
+    background-color: var(--pa-subtle-bg);
+    border-radius: var(--pa-border-radius);
+  }
+
+  .pa-search-results__title {
+    font-size: $font-size-base;
+  }
+}
+
+/* --- Preset: grouped ------------------------------------------------------ */
+/* Items bucketed under labelled category headers; rows go dense so the
+   grouping structure reads clearly. */
+.pa-search-results--grouped {
+  gap: $spacing-lg;
+
+  .pa-search-results__group-title {
+    padding-bottom: $spacing-xs;
+    margin-bottom: $spacing-xs;
+    border-bottom: $border-width-base solid var(--pa-border-color);
+  }
+
+  .pa-search-results__item {
+    align-items: center;
+    padding-block: $spacing-xs;
+  }
+
+  .pa-search-results__snippet {
+    display: none;
+  }
+}
+
+/* --- Preset: cards -------------------------------------------------------- */
+/* A responsive grid of result cards. The item flips to a column: icon tile,
+   title + snippet, then the type pill as a footer tag. */
+.pa-search-results--cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+  gap: $spacing-md;
+
+  .pa-search-results__item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    background-color: var(--pa-card-bg);
+    border: $border-width-base solid var(--pa-border-color);
+    border-radius: var(--pa-border-radius-lg);
+    transition:
+      border-color $transition-fast $easing-snappy,
+      background-color $transition-fast $easing-snappy;
+
+    &:hover,
+    &--active {
+      border-color: var(--pa-accent);
+      background-color: var(--pa-card-bg);
+    }
+  }
+
+  .pa-search-results__icon {
+    width: 3.6rem;
+    height: 3.6rem;
+    font-size: $font-size-xl;
+    background-color: var(--pa-subtle-bg);
+    border-radius: var(--pa-border-radius);
+  }
+
+  .pa-search-results__content {
+    width: 100%;
+  }
+
+  .pa-search-results__title {
+    font-size: $font-size-base;
+  }
+
+  .pa-search-results__type {
+    align-self: flex-start;
+    margin-inline-start: 0; // footer tag, not pushed to a row end
+  }
+}

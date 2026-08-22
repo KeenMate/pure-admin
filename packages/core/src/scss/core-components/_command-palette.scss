@@ -11,11 +11,21 @@
   display: none;
   align-items: flex-start;
   justify-content: center;
-  padding-top: $command-palette-offset-top;
+  // Runtime-overridable size (fallback = the compile-time SCSS default). Set
+  // --pa-command-palette-* at :root, inline, or per-instance to resize without
+  // a recompile; the --sm/--lg/--xl modifiers below are presets that set width.
+  padding-top: var(--pa-command-palette-offset-top, #{$command-palette-offset-top});
 
   &--active {
     display: flex;
   }
+
+  // Size presets — each sets the width + results-height vars the container and
+  // results list read, so they compose with any inline override. Default (no
+  // modifier) stays 60.8rem wide / 38.4rem tall.
+  &--sm { --pa-command-palette-width: 48rem;   --pa-command-palette-results-max-height: 28.8rem; }  // 480 / 288px
+  &--lg { --pa-command-palette-width: 76.8rem; --pa-command-palette-results-max-height: 51.2rem; }  // 768 / 512px
+  &--xl { --pa-command-palette-width: 89.6rem; --pa-command-palette-results-max-height: 64rem; }    // 896 / 640px
 
   // Backdrop overlay
   &__backdrop {
@@ -30,7 +40,7 @@
   &__container {
     position: relative;
     width: 100%;
-    max-width: $command-palette-width;
+    max-width: var(--pa-command-palette-width, #{$command-palette-width});
     background-color: var(--pa-modal-content-bg);
     border-radius: var(--pa-border-radius);
     box-shadow: $command-palette-shadow;
@@ -138,7 +148,15 @@
 
   // Results container
   &__results {
-    max-height: $command-palette-results-max-height;
+    // Prefer the configured results height, but never let the palette overrun
+    // the viewport: cap at the room left under the top offset, minus the search
+    // row + footer + a bottom gap (~12rem of chrome). max() holds a sane floor
+    // on very short windows. The mobile media query below overrides this on
+    // narrow screens; the fullscreen sheet manages its own height entirely.
+    max-height: min(
+      var(--pa-command-palette-results-max-height, #{$command-palette-results-max-height}),
+      max(16rem, calc(100dvh - var(--pa-command-palette-offset-top, #{$command-palette-offset-top}) - 12rem))
+    );
     overflow-y: auto;
     padding: $spacing-sm 0;
     position: relative;
@@ -480,6 +498,11 @@
   min-width: 0;
   max-width: 100%;
   padding: $input-padding-v $input-padding-h;
+  // Default size = md (35px), so a pill with NO size modifier (e.g. the inline
+  // --field variant) is deterministic instead of content-driven. The --xs…--xl
+  // modifiers below override both height and font-size.
+  height: #{$base-input-size-md-height}rem;
+  font-size: $font-size-sm;
   background-color: var(--pa-input-bg);
   border: $border-width-base solid var(--pa-border-color);
   border-radius: var(--pa-border-radius);
@@ -533,6 +556,30 @@
     opacity: $opacity-muted;
   }
 
+  // Borderless <input> filling the pill — shared by the live (--field) and
+  // type-and-go (--input) variants. Inherits the pill's font; muted placeholder.
+  // Strips the native type="search" decorations so it matches the framed shell.
+  &__field {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--pa-text-color-1);
+    font-size: inherit;
+    padding: 0;
+
+    &::placeholder {
+      color: var(--pa-text-color-2);
+      opacity: $opacity-muted;
+    }
+
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+  }
+
   &__placeholder {
     flex: 1;
     color: var(--pa-text-color-2);
@@ -568,30 +615,24 @@
 
 // Inline input variant: a LIVE search box (a real <input> + a results dropdown),
 // as opposed to the default pill that just triggers the command palette. The
-// pill supplies the framed shell; __field is the borderless input that fills it;
-// the dropdown reuses the shared .pa-search-autocomplete popup, anchored to the
-// field's bottom edge. Independent of the command palette — a consumer wires its
-// own results.
+// pill supplies the framed shell; __field (base element) is the borderless input
+// that fills it; the dropdown reuses the shared .pa-search-autocomplete popup,
+// anchored to the field's bottom edge. Independent of the command palette — a
+// consumer wires its own results.
 .pa-navbar-search--field {
   cursor: text;
   position: relative; // anchor for the results popup
   width: 100%;
   max-width: $command-palette-width;
 
-  .pa-navbar-search__field {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: var(--pa-text-color-1);
-    font-size: inherit;
-    padding: 0;
-
-    &::placeholder {
-      color: var(--pa-text-color-2);
-      opacity: $opacity-muted;
-    }
+  // Fixed icon box so the typed text starts at a predictable x — glyphs like 🔍 vs
+  // 💻 render at different widths, so without this the field text and the result
+  // titles below wouldn't share a left edge.
+  .pa-navbar-search__icon {
+    width: $font-size-lg;
+    display: inline-flex;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
   // Results drop from the field's bottom edge and span its width (overriding the
@@ -600,7 +641,33 @@
     inset-inline: 0;
     top: calc(100% + #{$spacing-xs});
     min-width: 0;
+
+    // Align each result row under the field: the shared popup uses $spacing-md
+    // inline padding, but here we match the pill's $input-padding-h and give the
+    // result icon the same fixed box + gap as the field icon — so result icons sit
+    // under the search icon and result titles under the typed text.
+    &__item {
+      padding-inline: $input-padding-h;
+    }
+
+    &__item-icon {
+      width: $font-size-lg;
+      display: inline-flex;
+      justify-content: center;
+      flex-shrink: 0;
+    }
   }
+}
+
+// Type-and-go variant: the framed pill hosts a <form> whose NATIVE GET submit
+// redirects to a results page on Enter — no dropdown, no command palette. This is
+// the third behaviour of the pill: the plain pill opens the palette, --field does
+// a live in-place search with results, and --input just navigates. The framework
+// only styles the shell + shared __field; the consumer sets the form's
+// action/method (svelte-pure-admin, Phoenix, etc. wire their own route). A form
+// carrying a single text field submits on Enter with no submit button needed.
+.pa-navbar-search--input {
+  cursor: text;
 }
 
 // Responsive: hide shortcut on small screens

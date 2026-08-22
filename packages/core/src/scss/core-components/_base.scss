@@ -15,6 +15,16 @@
 // stay in core deliberately — a generic foundation shouldn't impose the
 // dashboard's decorative background or sidebar overflow handling on every
 // consumer.
+// Keep the scrollbar's space reserved even when an overlay locks scrolling by
+// setting overflow:hidden (command palette, mobile drawers). scrollbar-gutter
+// MUST sit on the <html> root: Chromium only propagates the gutter to the
+// viewport from the root element, never from <body> — so on body it silently
+// no-ops. Here it survives the lock (which propagates body's overflow:hidden up
+// to the viewport), keeping the page + fixed navbar from reflowing sideways.
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   overflow-x: hidden; // Hide horizontal scrollbar when sidebar slides out on mobile
   overflow-y: scroll; // Always show vertical scrollbar gutter to prevent layout shift

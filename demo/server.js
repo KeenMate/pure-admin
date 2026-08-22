@@ -269,6 +269,15 @@ app.get('/', (req, res) => {
     renderWithLayout(res, 'dashboard', { pageTitle: 'Dashboard', currentPage: 'dashboard', isDashboard: true });
 });
 
+// Search results — the landing page for the type-and-go search variants
+// (pa-navbar-search--input / pa-sidebar__search--input), which submit here via a
+// native GET. Demo only: it just echoes ?q= so the redirect lands somewhere real;
+// a real app runs the query. {{q}} is Mustache-escaped in the view, so it's safe.
+app.get('/search', (req, res) => {
+    const q = (req.query.q || '').toString();
+    renderWithLayout(res, 'search', { pageTitle: 'Search', currentPage: 'search', q: q, hasQuery: q.trim().length > 0 });
+});
+
 // Minimal-shell example: no sidebar, no burger, full-width content. Rendered
 // through the SAME layout as every other page but with simpleLayout:true, which
 // drops the sidebar + burger + header menu and the sidebar-only settings — so

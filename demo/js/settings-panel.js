@@ -33,6 +33,7 @@
         const sidebarBehaviorSelector = document.getElementById('sidebarBehaviorSelector');
         const sidebarModeSelector = document.getElementById('sidebarModeSelector');
         const searchPositionSelector = document.getElementById('searchPositionSelector');
+        const commandPaletteSizeSelector = document.getElementById('commandPaletteSizeSelector');
         const compactMode = document.getElementById('compactMode');
         const rtlMode = document.getElementById('rtlMode');
         const profileNoAvatar = document.getElementById('profileNoAvatar');
@@ -41,20 +42,25 @@
         const resetSettings = document.getElementById('resetSettings');
         const body = document.body;
 
-        // Search Box position — reveal exactly one of the three placements (or
-        // none). The triggers all live in the markup hidden; this shows the
-        // chosen one and records the choice on <body data-search-position> for
-        // any CSS/JS that keys off it. A: inline navbar search (its own results),
-        // B: compact navbar pill → palette, C: sidebar item → palette.
+        // Search Box position — reveal exactly one of the placements (or none).
+        // Every affordance lives in the markup hidden; this shows the chosen one and
+        // records the choice on <body data-search-position> for any CSS/JS that keys
+        // off it. A: inline navbar search (its own results), B: compact navbar pill →
+        // palette, C: sidebar item → palette, D: navbar type-and-go form → /search,
+        // E: sidebar type-and-go form → /search.
         function applySearchPosition(pos) {
             const inline = document.getElementById('navbarSearchInline');   // A
             const title = document.getElementById('navbarTitle');
             const compact = document.getElementById('navbarSearchTrigger');  // B
             const sidebar = document.getElementById('sidebarSearchTrigger'); // C
+            const navGo = document.getElementById('navbarSearchGo');         // D
+            const sidebarGo = document.getElementById('sidebarSearchGo');    // E
             if (inline) inline.hidden = pos !== 'navbar-inline';
             if (title) title.hidden = pos === 'navbar-inline'; // A swaps the page title
             if (compact) compact.hidden = pos !== 'navbar-compact';
             if (sidebar) sidebar.hidden = pos !== 'sidebar';
+            if (navGo) navGo.hidden = pos !== 'navbar-typeahead';
+            if (sidebarGo) sidebarGo.hidden = pos !== 'sidebar-typeahead';
             if (pos) body.dataset.searchPosition = pos;
             else delete body.dataset.searchPosition;
             // Showing/hiding a trigger changes the header's content, so re-run the
@@ -62,6 +68,17 @@
             if (window.pureAdmin && pureAdmin.components && pureAdmin.components.navFit) {
                 pureAdmin.components.navFit.relayoutAll();
             }
+        }
+
+        // Command Palette width — swap the size preset modifier on the palette
+        // shell. Each preset (--sm/--lg/--xl) just sets --pa-command-palette-width;
+        // no modifier = the 608px default. Applies live if the palette is open,
+        // otherwise takes effect on the next Ctrl+K.
+        function applyCommandPaletteSize(size) {
+            const palette = document.getElementById('commandPalette');
+            if (!palette) return;
+            palette.classList.remove('pa-command-palette--sm', 'pa-command-palette--lg', 'pa-command-palette--xl');
+            if (size) palette.classList.add('pa-command-palette--' + size);
         }
 
         // Fetch theme manifests
@@ -358,6 +375,13 @@
                 const searchPosition = localStorage.getItem('search-position') || '';
                 searchPositionSelector.value = searchPosition;
                 applySearchPosition(searchPosition);
+            }
+
+            // Command palette size
+            if (commandPaletteSizeSelector) {
+                const paletteSize = localStorage.getItem('command-palette-size') || '';
+                commandPaletteSizeSelector.value = paletteSize;
+                applyCommandPaletteSize(paletteSize);
             }
 
             // Sidebar behavior
@@ -670,6 +694,20 @@
             });
         }
 
+        // Command palette size change
+        if (commandPaletteSizeSelector) {
+            commandPaletteSizeSelector.addEventListener('change', (e) => {
+                const size = e.target.value;
+                if (size) localStorage.setItem('command-palette-size', size);
+                else localStorage.removeItem('command-palette-size');
+                applyCommandPaletteSize(size);
+                // Open the palette so the change is visible immediately.
+                if (window.pureAdmin && window.pureAdmin.commandPalette) {
+                    window.pureAdmin.commandPalette.open();
+                }
+            });
+        }
+
         // Sidebar behavior change
         sidebarBehaviorSelector.addEventListener('change', (e) => {
             const behavior = e.target.value;
@@ -711,6 +749,7 @@
             localStorage.removeItem('font-family');
             localStorage.removeItem('sidebar-hidden');
             localStorage.removeItem('search-position');
+            localStorage.removeItem('command-palette-size');
             localStorage.removeItem('sidebar-behavior');
             localStorage.removeItem('sidebar-resizable');
             localStorage.removeItem('sidebar-width');

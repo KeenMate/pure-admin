@@ -1,0 +1,353 @@
+<p>This is the landing page for the <strong>type-and-go</strong> search variants
+(<code>pa-navbar-search--input</code> and <code>pa-sidebar__search--input</code>).
+They submit here with a native <code>&lt;form method="get"&gt;</code>, so Enter
+navigates to <code>/search?q=…</code> with no JavaScript. A real app would run the
+query — this demo just echoes it.</p>
+
+<!-- On-page search form — the same variant, full width, so you can try it here too -->
+<div class="pa-card mb-4">
+    <div class="pa-card__body">
+        <form class="pa-navbar-search pa-navbar-search--input" action="/search" method="get" role="search"
+              style="max-width: 48rem;">
+            <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
+            <input type="search" name="q" class="pa-navbar-search__field" value="{{q}}"
+                   placeholder="Search everything…" autocomplete="off" aria-label="Search" autofocus>
+        </form>
+    </div>
+</div>
+
+{{#hasQuery}}
+<p class="pa-text mb-4">A real backend would return matches here. For the demo,
+these are placeholder rows echoing your query, rendered in each of the four
+<code>pa-search-results</code> presets so you can compare them side by side.</p>
+
+<!-- Preset A — compact: dense one-liners (title + type only) -->
+<div class="pa-card mb-4">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Compact</h3>
+        </div>
+        <p class="pa-card__description"><code>pa-search-results--compact</code></p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-search-results pa-search-results--compact">
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">Getting started with “{{q}}”</div>
+                </div>
+                <span class="pa-search-results__type">Page</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">“{{q}}” Pro subscription</div>
+                </div>
+                <span class="pa-search-results__type">Product</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">{{q}} Nováková</div>
+                </div>
+                <span class="pa-search-results__type">User</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📊</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">Q3 report — {{q}} breakdown</div>
+                </div>
+                <span class="pa-search-results__type">Report</span>
+            </a>
+        </div>
+
+        <!-- Numbered pager — pa-pager__controls holding page-number buttons; the
+             current page is pa-btn--primary, gaps are a non-interactive __text ellipsis. -->
+        <div class="pa-pager pa-pager--end">
+            <div class="pa-pager__container">
+                <span class="pa-pager__text">128 results</span>
+                <div class="pa-pager__controls">
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" disabled>‹ Prev</button>
+                    <button class="pa-btn pa-btn--primary pa-btn--sm">1</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm">2</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm">3</button>
+                    <span class="pa-pager__text">…</span>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm">9</button>
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Next ›</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preset B — detailed: tinted icon + title + snippet + meta trail -->
+<div class="pa-card mb-4">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Detailed</h3>
+        </div>
+        <p class="pa-card__description"><code>pa-search-results--detailed</code></p>
+    </div>
+    <div class="pa-card__body">
+        <p class="pa-text mb-4">The matched fragment is wrapped in
+        <code>&lt;mark class="pa-search-results__mark"&gt;</code> — the same shape a
+        backend returns (Elasticsearch highlight, Postgres <code>ts_headline</code>),
+        re-skinned off the browser yellow onto a themed accent tint.</p>
+        <div class="pa-search-results pa-search-results--detailed">
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">Getting started with “<mark class="pa-search-results__mark">{{q}}</mark>”</div>
+                    <p class="pa-search-results__snippet">A step-by-step guide covering everything you need to know about <mark class="pa-search-results__mark">{{q}}</mark>, from first setup through to advanced <mark class="pa-search-results__mark">{{q}}</mark> configuration and troubleshooting.</p>
+                    <div class="pa-search-results__meta">
+                        <span class="pa-search-results__meta-item">Docs / Guides</span>
+                        <span class="pa-search-results__meta-item">Updated 2 days ago</span>
+                    </div>
+                </div>
+                <span class="pa-search-results__type">Page</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">“<mark class="pa-search-results__mark">{{q}}</mark>” Pro subscription</div>
+                    <p class="pa-search-results__snippet">The full-featured plan with priority support, unlimited seats, and advanced analytics for teams that live in <mark class="pa-search-results__mark">{{q}}</mark>.</p>
+                    <div class="pa-search-results__meta">
+                        <span class="pa-search-results__meta-item">Catalog</span>
+                        <span class="pa-search-results__meta-item">In stock</span>
+                        <span class="pa-search-results__meta-item">$49 / mo</span>
+                    </div>
+                </div>
+                <span class="pa-search-results__type">Product</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title"><mark class="pa-search-results__mark">{{q}}</mark> Nováková</div>
+                    <p class="pa-search-results__snippet">Product designer on the Platform team. Owns the design system and the <mark class="pa-search-results__mark">{{q}}</mark> onboarding flow.</p>
+                    <div class="pa-search-results__meta">
+                        <span class="pa-search-results__meta-item">People</span>
+                        <span class="pa-search-results__meta-item">Prague</span>
+                    </div>
+                </div>
+                <span class="pa-search-results__type">User</span>
+            </a>
+        </div>
+
+        <!-- Numbered pager with page info — Prev/Next flanking a page-of-N input. -->
+        <div class="pa-pager">
+            <div class="pa-pager__container">
+                <div class="pa-pager__controls">
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm" disabled>‹ Prev</button>
+                </div>
+                <div class="pa-pager__info">
+                    <span class="pa-pager__text">Page</span>
+                    <input type="number" class="pa-input pa-input--sm pa-pager__input" value="1" min="1" max="43">
+                    <span class="pa-pager__text">of 43</span>
+                </div>
+                <div class="pa-pager__controls">
+                    <button class="pa-btn pa-btn--secondary pa-btn--sm">Next ›</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preset C — grouped: items bucketed under category headers -->
+<div class="pa-card mb-4">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Grouped</h3>
+        </div>
+        <p class="pa-card__description"><code>pa-search-results--grouped</code> — items wrapped in <code>__group</code> / <code>__group-title</code></p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-search-results pa-search-results--grouped">
+            <div class="pa-search-results__group">
+                <div class="pa-search-results__group-title">Pages</div>
+                <a class="pa-search-results__item" href="#">
+                    <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                    <div class="pa-search-results__content">
+                        <div class="pa-search-results__title">Getting started with “{{q}}”</div>
+                        <div class="pa-search-results__meta">
+                            <span class="pa-search-results__meta-item">Docs / Guides</span>
+                        </div>
+                    </div>
+                    <span class="pa-search-results__type">Page</span>
+                </a>
+                <a class="pa-search-results__item" href="#">
+                    <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                    <div class="pa-search-results__content">
+                        <div class="pa-search-results__title">{{q}} changelog</div>
+                        <div class="pa-search-results__meta">
+                            <span class="pa-search-results__meta-item">Docs / Reference</span>
+                        </div>
+                    </div>
+                    <span class="pa-search-results__type">Page</span>
+                </a>
+            </div>
+            <div class="pa-search-results__group">
+                <div class="pa-search-results__group-title">Products</div>
+                <a class="pa-search-results__item" href="#">
+                    <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                    <div class="pa-search-results__content">
+                        <div class="pa-search-results__title">“{{q}}” Pro subscription</div>
+                        <div class="pa-search-results__meta">
+                            <span class="pa-search-results__meta-item">$49 / mo</span>
+                        </div>
+                    </div>
+                    <span class="pa-search-results__type">Product</span>
+                </a>
+            </div>
+            <div class="pa-search-results__group">
+                <div class="pa-search-results__group-title">People</div>
+                <a class="pa-search-results__item" href="#">
+                    <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                    <div class="pa-search-results__content">
+                        <div class="pa-search-results__title">{{q}} Nováková</div>
+                        <div class="pa-search-results__meta">
+                            <span class="pa-search-results__meta-item">Prague</span>
+                        </div>
+                    </div>
+                    <span class="pa-search-results__type">User</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preset D — cards: a responsive grid of result cards -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Cards</h3>
+        </div>
+        <p class="pa-card__description"><code>pa-search-results--cards</code></p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pa-search-results pa-search-results--cards" id="searchCardsResults">
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📄</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">Getting started with “{{q}}”</div>
+                    <p class="pa-search-results__snippet">A step-by-step guide covering everything you need to know about {{q}}.</p>
+                </div>
+                <span class="pa-search-results__type">Page</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📦</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">“{{q}}” Pro subscription</div>
+                    <p class="pa-search-results__snippet">Priority support, unlimited seats, and advanced analytics.</p>
+                </div>
+                <span class="pa-search-results__type">Product</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">👤</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">{{q}} Nováková</div>
+                    <p class="pa-search-results__snippet">Product designer on the Platform team.</p>
+                </div>
+                <span class="pa-search-results__type">User</span>
+            </a>
+            <a class="pa-search-results__item" href="#">
+                <span class="pa-search-results__icon" aria-hidden="true">📊</span>
+                <div class="pa-search-results__content">
+                    <div class="pa-search-results__title">Q3 report — {{q}} breakdown</div>
+                    <p class="pa-search-results__snippet">Quarterly performance with the {{q}} segment split out.</p>
+                </div>
+                <span class="pa-search-results__type">Report</span>
+            </a>
+        </div>
+
+        <!-- Load More — the grid's companion to numbered paging. The button shows
+             a spinner while "fetching", appends the next batch, updates the count,
+             and settles into a disabled end-state once everything is shown. -->
+        <div class="pa-load-more">
+            <button class="pa-load-more__button" id="searchLoadMore"
+                    data-shown="4" data-total="12" data-query="{{q}}">
+                <span class="pa-load-more__text">Load more results</span>
+                <span class="pa-load-more__count">(showing 4 of 12)</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var btn = document.getElementById('searchLoadMore');
+    var grid = document.getElementById('searchCardsResults');
+    if (!btn || !grid) return;
+
+    // Sample batch to append on each click (icon + type), echoing the query.
+    var BATCH = [
+        { icon: '📁', type: 'Folder', title: '{{q}} assets', snippet: 'Shared folder with the {{q}} brand kit and exports.' },
+        { icon: '📄', type: 'Page', title: '{{q}} FAQ', snippet: 'Answers to the most common questions about {{q}}.' },
+        { icon: '👤', type: 'User', title: '{{q}} Horák', snippet: 'Backend engineer — owns the {{q}} search index.' },
+        { icon: '📊', type: 'Report', title: '{{q}} usage, YTD', snippet: 'Adoption of {{q}} across every workspace this year.' }
+    ];
+
+    function card(it) {
+        var a = document.createElement('a');
+        a.className = 'pa-search-results__item';
+        a.href = '#';
+        a.innerHTML =
+            '<span class="pa-search-results__icon" aria-hidden="true">' + it.icon + '</span>' +
+            '<div class="pa-search-results__content">' +
+                '<div class="pa-search-results__title"></div>' +
+                '<p class="pa-search-results__snippet"></p>' +
+            '</div>' +
+            '<span class="pa-search-results__type"></span>';
+        // Assign text via textContent so the echoed query can't inject markup.
+        a.querySelector('.pa-search-results__title').textContent = it.title;
+        a.querySelector('.pa-search-results__snippet').textContent = it.snippet;
+        a.querySelector('.pa-search-results__type').textContent = it.type;
+        return a;
+    }
+
+    btn.addEventListener('click', function () {
+        var shown = parseInt(btn.dataset.shown, 10);
+        var total = parseInt(btn.dataset.total, 10);
+        if (shown >= total) return;
+
+        var textEl = btn.querySelector('.pa-load-more__text');
+        var countEl = btn.querySelector('.pa-load-more__count');
+        var original = textEl.textContent;
+
+        // Loading state — spinner + swapped label, matching the pagers demo.
+        btn.classList.add('pa-load-more__button--loading');
+        textEl.textContent = 'Loading…';
+        var spinner = document.createElement('span');
+        spinner.className = 'pa-load-more__spinner';
+        btn.insertBefore(spinner, btn.firstChild);
+
+        setTimeout(function () {
+            var next = Math.min(4, total - shown);
+            for (var i = 0; i < next; i++) grid.appendChild(card(BATCH[i % BATCH.length]));
+            shown += next;
+            btn.dataset.shown = shown;
+
+            spinner.remove();
+            btn.classList.remove('pa-load-more__button--loading');
+            countEl.textContent = '(showing ' + shown + ' of ' + total + ')';
+
+            if (shown >= total) {
+                textEl.textContent = 'All results shown';
+                btn.disabled = true;
+            } else {
+                textEl.textContent = original;
+            }
+        }, 700);
+    });
+})();
+</script>
+{{/hasQuery}}
+
+{{^hasQuery}}
+<div class="pa-callout pa-callout--info">
+    <div class="pa-callout__body">
+        No query submitted. This is what the collapsed-sidebar submit icon lands on —
+        the bare results page with an empty query. Type above and press Enter, or use
+        the navbar/sidebar search box (enable it in the settings panel).
+    </div>
+</div>
+{{/hasQuery}}

@@ -200,6 +200,22 @@
     <!-- … -->
 </div>
 
+<!-- Size presets: set width + results height together
+     (default with no modifier is 60.8rem wide / 38.4rem tall) -->
+<div class="pa-command-palette pa-command-palette--sm"><!-- 480 / 288px --></div>
+<div class="pa-command-palette pa-command-palette--lg"><!-- 768 / 512px --></div>
+<div class="pa-command-palette pa-command-palette--xl"><!-- 896 / 640px --></div>
+
+<!--
+For an arbitrary size, override the runtime CSS variables instead of using a
+preset (they fall back to the SCSS defaults, so no recompile needed):
+  .pa-command-palette {
+    --pa-command-palette-width: 70rem;
+    --pa-command-palette-offset-top: 8rem;
+    --pa-command-palette-results-max-height: 50vh;
+  }
+-->
+
 <!-- Context pill visible (e.g. "Searching in Products") -->
 <div class="pa-command-palette__context pa-command-palette__context--visible">
     Searching in Products
@@ -264,6 +280,24 @@ button retains its padding and hit area.
 
 
 <!-- ================================
+     NAVBAR TYPE-AND-GO SEARCH (pa-navbar-search--input)
+     A real <input> in the pill shell wrapped in a <form>. Pressing Enter
+     submits the form (native browser GET) and navigates to a results page —
+     NO dropdown, NO palette. Set action/method to your search route; name the
+     input so it becomes the query param (?q=…). A single text field submits on
+     Enter with no submit button. Contrast the trigger pill (opens the palette)
+     and --field (live in-place results).
+     ================================ -->
+
+<form class="pa-navbar-search pa-navbar-search--input"
+      action="/search" method="get" role="search">
+    <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
+    <input type="search" name="q" class="pa-navbar-search__field"
+           placeholder="Search…" autocomplete="off" aria-label="Search">
+</form>
+
+
+<!-- ================================
      SIDEBAR SEARCH TRIGGER (pa-sidebar__search)
      A framed search affordance at the top of the sidebar; a trigger (opens
      the palette / your own search). Collapses to just its icon in an
@@ -275,6 +309,24 @@ button retains its padding and hit area.
         <span class="pa-sidebar__icon" aria-hidden="true">🔍</span>
         <span class="pa-sidebar__label">Search…</span>
     </button>
+</li>
+
+
+<!-- ================================
+     SIDEBAR TYPE-AND-GO SEARCH (pa-sidebar__search--input)
+     The sidebar counterpart of pa-navbar-search--input: a <form> in the framed
+     row, Enter navigates to the results page. The magnifier is a type="submit"
+     so that in an .pa-layout__sidebar--icon-collapse sidebar — where the field
+     is hidden — clicking the icon still submits (empty query → bare results page).
+     ================================ -->
+
+<li class="pa-sidebar__item">
+    <form class="pa-sidebar__search pa-sidebar__search--input"
+          action="/search" method="get" role="search">
+        <button type="submit" class="pa-sidebar__search-icon" aria-label="Search">🔍</button>
+        <input type="search" name="q" class="pa-sidebar__search-field"
+               placeholder="Search…" autocomplete="off" aria-label="Search">
+    </form>
 </li>
 
 
@@ -373,10 +425,18 @@ document.addEventListener('keydown', (e) => {
 PALETTE SHELL (pa-command-palette):
 - .pa-command-palette                   Fixed-inset modal; display: none by default.
 - .pa-command-palette--active           Visible state (display: flex).
+- .pa-command-palette--sm / --lg / --xl Size presets — set width AND results
+                                        height (sm 48/28.8, lg 76.8/51.2,
+                                        xl 89.6/64rem); default 60.8/38.4rem.
 - .pa-command-palette__backdrop         Blurred fullscreen backdrop; fadeIn animated.
-- .pa-command-palette__container        Centred card holding the UI
-                                        (max-width $command-palette-width,
-                                         slideDown animation on open).
+- .pa-command-palette__container        Centred card holding the UI. max-width is
+                                        var(--pa-command-palette-width) with the
+                                        $command-palette-width SCSS default as
+                                        fallback; slideDown animation on open.
+
+Runtime size knobs (override to resize without a recompile; each falls back to
+its SCSS default): --pa-command-palette-width, --pa-command-palette-offset-top,
+--pa-command-palette-results-max-height.
 
 SEARCH ROW:
 - .pa-command-palette__search           Wrapper with bottom border.
@@ -395,10 +455,11 @@ SEARCH ROW:
 - .pa-command-palette__context--visible Fade-in to reveal the context pill.
 
 RESULTS ZONE (swap contents inside __results):
-- .pa-command-palette__results          Scrollable results container
-                                        (max-height $command-palette-
-                                         results-max-height; drops to
-                                         60vh under mobile breakpoint).
+- .pa-command-palette__results          Scrollable results container. max-height
+                                        is var(--pa-command-palette-results-max-
+                                        height), clamped to the viewport so the
+                                        footer never scrolls off a short window;
+                                        drops to 60vh under mobile breakpoint.
 - .pa-command-palette__results--loading Adds a translucent overlay via
                                         ::after so the current results
                                         stay readable during async
@@ -457,9 +518,17 @@ INLINE NAVBAR SEARCH (pa-navbar-search--field):
 - .pa-navbar-search--field              Turns the pill into a LIVE search
                                         box (a real input + dropdown),
                                         not a palette trigger.
-- .pa-navbar-search__field              The borderless <input> filling it.
+- .pa-navbar-search__field              The borderless <input> filling it
+                                        (shared with --input below).
 - .pa-search-autocomplete               Results dropdown, anchored below
                                         the field (shared component).
+
+NAVBAR TYPE-AND-GO SEARCH (pa-navbar-search--input):
+- .pa-navbar-search--input              Turns the pill into a <form> whose
+                                        native GET submit navigates to a
+                                        results page on Enter — no dropdown,
+                                        no palette. Reuses .pa-navbar-search
+                                        __field. Consumer sets action/method.
 
 SIDEBAR SEARCH TRIGGER (pa-sidebar__search):
 - .pa-sidebar__search                   Framed search affordance for the
@@ -467,6 +536,16 @@ SIDEBAR SEARCH TRIGGER (pa-sidebar__search):
                                         shared .pa-sidebar__icon / __label;
                                         collapses to the icon in an
                                         icon-collapse sidebar.
+
+SIDEBAR TYPE-AND-GO SEARCH (pa-sidebar__search--input):
+- .pa-sidebar__search--input            Sidebar counterpart of the navbar
+                                        --input: a <form>, Enter navigates
+                                        to the results page.
+- .pa-sidebar__search-icon              type="submit" magnifier; in an
+                                        icon-collapse sidebar (field hidden)
+                                        clicking it submits the empty query.
+- .pa-sidebar__search-field             The borderless <input>; hidden when
+                                        the sidebar is icon-collapsed.
 
 
 SHORTCUT HELP DIALOG (pa-shortcut-help):

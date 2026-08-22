@@ -109,6 +109,19 @@
     color: var(--pa-text-color-2);
     font-size: $font-size-sm;
   }
+
+  // Full-text match highlight inside results (the inline navbar search and the
+  // palette-field autocomplete wrap matched text in <mark>). Shares the neutral
+  // --pa-search-mark-* contract with the search-results page so a match looks the
+  // same everywhere — and re-skins off the UA yellow to a restrained accent wash.
+  mark {
+    padding: 0 0.15em;
+    border-radius: 0.2rem;
+    background-color: var(--pa-search-mark-bg,
+      color-mix(in srgb, var(--pa-accent) 15%, transparent));
+    color: var(--pa-search-mark-color, inherit);
+    font-weight: var(--pa-search-mark-weight, #{$font-weight-medium});
+  }
 }
 
 // Virtual Textbox (Contenteditable with Inline Tokens)

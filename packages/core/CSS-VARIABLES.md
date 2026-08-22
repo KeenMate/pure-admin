@@ -298,6 +298,42 @@ on `.pa-mode-*`, or on any card ancestor to retune without a recompile.
 | `--pa-command-palette-highlight-bg` | Search highlight background |
 | `--pa-command-palette-highlight-text` | Search highlight text |
 
+**Runtime sizing** (not emitted by the theme mixins — each falls back to its
+compile-time SCSS default, so setting one at `:root`, inline, or per-instance
+resizes the palette without a recompile):
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `--pa-command-palette-width` | Container max-width | `60.8rem` |
+| `--pa-command-palette-offset-top` | Gap above the palette | `12.8rem` |
+| `--pa-command-palette-results-max-height` | Results scroll height | `38.4rem` |
+
+Size presets that set both width **and** results height for you (add on
+`.pa-command-palette`): `--sm` (48 / 28.8rem), `--lg` (76.8 / 51.2rem),
+`--xl` (89.6 / 64rem). Default (no modifier) is 60.8 / 38.4rem.
+
+The results height is additionally clamped to the viewport
+(`min(<results-max-height>, calc(100dvh − offset-top − chrome))`) so the palette
+footer never scrolls off-screen on a short window, regardless of the value set.
+
+### Search Match Highlight
+
+Full-text match highlight (`<mark>`), shared by the `pa-search-results` page
+(`.pa-search-results__mark`) **and** the `pa-search-autocomplete` popover (the
+inline navbar search + palette-field autocomplete), so a query match looks the
+same wherever it appears. Not emitted by the theme mixins — each falls back to
+its default, so a theme (or a consumer) can retune the highlight at `:root`
+without a recompile:
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `--pa-search-mark-bg` | Highlight background | `color-mix(in srgb, var(--pa-accent) 15%, transparent)` |
+| `--pa-search-mark-color` | Highlight text colour | `inherit` |
+| `--pa-search-mark-weight` | Highlight font weight | `500` (medium) |
+
+(The command palette's own result highlight is separate — see
+`--pa-command-palette-highlight-bg/-text` above.)
+
 ### Multiselect
 
 | Variable | Purpose |

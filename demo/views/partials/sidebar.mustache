@@ -12,6 +12,18 @@
                 </button>
             </li>
 
+            <!-- E) Sidebar type-and-go search: a real input in a <form>; Enter (or
+                 clicking the submit icon when the sidebar is collapsed) navigates to
+                 /search?q=…. Hidden until selected in settings. -->
+            <li class="pa-sidebar__item">
+                <form class="pa-sidebar__search pa-sidebar__search--input" id="sidebarSearchGo" hidden
+                      action="/search" method="get" role="search">
+                    <button type="submit" class="pa-sidebar__search-icon" aria-label="Search">🔍</button>
+                    <input type="search" name="q" class="pa-sidebar__search-field"
+                           placeholder="Search…" autocomplete="off" aria-label="Search">
+                </form>
+            </li>
+
             <li class="pa-sidebar__item"><a href="/getting-started" class="pa-sidebar__link {{#isGettingStarted}}pa-sidebar__link--active{{/isGettingStarted}}">
                 <span class="pa-sidebar__icon">🚀</span>
                 <span class="pa-sidebar__label">Getting Started</span>

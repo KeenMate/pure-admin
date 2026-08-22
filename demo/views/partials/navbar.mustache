@@ -125,7 +125,7 @@
         <div class="pa-navbar__end">
             <!-- B) Compact search box before the bell: opens the Ctrl+K palette
                  (which becomes a fullscreen sheet on phones). Hidden until selected. -->
-            <button type="button" class="pa-navbar-search pa-navbar-search--sm" id="navbarSearchTrigger" hidden
+            <button type="button" class="pa-navbar-search" id="navbarSearchTrigger" hidden
                     data-pa-fit="hide" data-pa-fit-priority="25"
                     onclick="window.pureAdmin && pureAdmin.commandPalette && pureAdmin.commandPalette.open()"
                     aria-label="Search (Ctrl+K)">
@@ -133,6 +133,18 @@
                 <span class="pa-navbar-search__placeholder">Search…</span>
                 <span class="pa-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
             </button>
+
+            <!-- D) Type-and-go search box: a real input in a <form>; Enter submits
+                 (native GET) and navigates to /search?q=… — no dropdown, no palette.
+                 This is pure HTML/CSS: an app wires its own action/route. Hidden
+                 until selected. -->
+            <form class="pa-navbar-search pa-navbar-search--input" id="navbarSearchGo" hidden
+                  data-pa-fit="hide" data-pa-fit-priority="25"
+                  action="/search" method="get" role="search">
+                <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
+                <input type="search" name="q" class="pa-navbar-search__field"
+                       placeholder="Search…" autocomplete="off" aria-label="Search">
+            </form>
 
             <!-- End Navigation Links -->
             <nav class="pa-navmenu">

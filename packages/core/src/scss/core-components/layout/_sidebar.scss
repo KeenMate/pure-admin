@@ -188,7 +188,14 @@ body.pa-layout--sticky .pa-layout__sidebar {
     gap: $sidebar-item-gap;
     width: calc(100% - #{$spacing-sm} * 2);
     margin: $spacing-sm;
-    padding: $sidebar-padding;
+    // Sized on the md input height (35px) to match the navbar search boxes,
+    // rather than the icon + $sidebar-padding metric of a nav row (40px). Trade-off:
+    // it sits ~5px shorter than the links below it. Block padding is dropped (fixed
+    // height + align-items:center owns the vertical); inline uses $spacing-base
+    // (the inline half of the two-value $sidebar-padding — don't pass that token to
+    // a single axis).
+    height: #{$base-input-size-md-height}rem;
+    padding: 0 $spacing-base;
     color: var(--pa-text-color-2);
     background-color: var(--pa-input-bg);
     border: $border-width-base solid var(--pa-border-color);
@@ -221,6 +228,69 @@ body.pa-layout--sticky .pa-layout__sidebar {
       background: transparent;
       border-color: transparent;
       border-radius: 0;
+    }
+
+    // Type-and-go variant: the framed row hosts a <form> whose native GET submit
+    // redirects to a results page on Enter — instead of a button that opens the
+    // palette. A single text field submits on Enter with no submit button; the
+    // magnifier is a type="submit" so that in icon-collapse mode (field hidden)
+    // clicking it still submits — an empty query lands on the bare results page.
+    // Keeps the base $sidebar-padding frame untouched so the outer box is
+    // identical to the trigger button; the submit icon mirrors .pa-sidebar__icon
+    // (fixed size, line-height 1) so it drives the row height exactly like a link,
+    // and the borderless field just fills the rest. (Don't feed $sidebar-padding —
+    // a two-value 0.5rem/1rem token — to padding-block: it maps to top/bottom and
+    // inflates the box.)
+    &--input {
+      cursor: text;
+
+      .pa-sidebar__search-icon {
+        width: $sidebar-icon-size;
+        min-width: $sidebar-icon-size;
+        height: $sidebar-icon-size;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: inherit;
+        font-size: $font-size-base;
+        line-height: 1; // prevent emoji baseline shift, matching __icon
+        cursor: pointer;
+      }
+
+      .pa-sidebar__search-field {
+        flex: 1;
+        min-width: 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--pa-sidebar-text);
+        font: inherit;
+        padding: 0;
+
+        &::placeholder {
+          color: var(--pa-text-color-2);
+          opacity: $opacity-muted;
+        }
+
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button {
+          -webkit-appearance: none;
+        }
+      }
+    }
+
+    // Collapsed rail: the input variant sheds its field and centres on the submit
+    // icon; clicking it submits with an empty query (the bare results page).
+    .pa-layout__sidebar--icon-collapse &--input {
+      justify-content: center;
+
+      .pa-sidebar__search-field {
+        display: none;
+      }
     }
   }
 
