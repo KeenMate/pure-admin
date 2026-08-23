@@ -102,6 +102,23 @@
     border-color: var(--pa-btn-dark-bg);
   }
 
+  // Theme color slot variants (color-1 through color-9).
+  // Mirrors the alert / button / card --color-N pairs: --pa-color-N paints the
+  // background while --pa-color-N-text supplies a guaranteed-contrasting label,
+  // so a theme-slot badge can never land dark-text-on-dark. This is the blessed
+  // element for a numeric theme-colour badge — before it existed, wrappers
+  // (svelte-pure-admin, keen-pure-admin) improvised with the generic
+  // `pa-bg-color-N` utility, which only sets the background and left the text at
+  // its inherited colour. Badges are filled-only (no outline concept), so only
+  // the filled half of the alert pattern is mirrored.
+  @for $i from 1 through 9 {
+    &--color-#{$i} {
+      background-color: var(--pa-color-#{$i});
+      color: var(--pa-color-#{$i}-text);
+      border-color: var(--pa-color-#{$i});
+    }
+  }
+
   // When truncation is needed, switch from inline-flex to inline-block
   // (text-overflow: ellipsis doesn't work on flex containers)
   &.text-truncate {
