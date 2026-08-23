@@ -92,7 +92,7 @@
       }
 
       &::after {
-        content: 'Click to copy';
+        content: var(--pa-copy-hint-text, 'Click to copy');
         font-size: $font-size-2xs;
         opacity: 0;
         margin-inline-start: $spacing-sm; // RTL: flips to right
@@ -137,7 +137,7 @@
   // Copied feedback state
   &--copied {
     .pa-field__value::after {
-      content: 'Copied!' !important;
+      content: var(--pa-copied-text, 'Copied!') !important;
       opacity: 1 !important;
       color: var(--pa-success);
     }
@@ -675,7 +675,7 @@
     }
 
     &::after {
-      content: 'Click to copy';
+      content: var(--pa-copy-hint-text, 'Click to copy');
       font-size: $font-size-2xs;
       opacity: 0;
       margin-inline-start: $spacing-sm;
@@ -688,7 +688,7 @@
   }
 
   &__value--copied::after {
-    content: 'Copied!' !important;
+    content: var(--pa-copied-text, 'Copied!') !important;
     opacity: 1 !important;
     color: var(--pa-success);
   }
@@ -1004,7 +1004,7 @@
     }
 
     &::after {
-      content: 'Click to copy';
+      content: var(--pa-copy-hint-text, 'Click to copy');
       font-size: $font-size-2xs;
       opacity: 0;
       margin-inline-start: $spacing-sm;
@@ -1017,7 +1017,7 @@
   }
 
   &__row--copied &__value::after {
-    content: 'Copied!' !important;
+    content: var(--pa-copied-text, 'Copied!') !important;
     opacity: 1 !important;
     color: var(--pa-success);
   }
@@ -1101,7 +1101,7 @@
     }
 
     &::after {
-      content: 'Click to copy';
+      content: var(--pa-copy-hint-text, 'Click to copy');
       font-size: $font-size-2xs;
       opacity: 0;
       margin-inline-start: $spacing-sm;
@@ -1114,7 +1114,7 @@
   }
 
   &__item--copied &__value::after {
-    content: 'Copied!' !important;
+    content: var(--pa-copied-text, 'Copied!') !important;
     opacity: 1 !important;
     color: var(--pa-success);
   }

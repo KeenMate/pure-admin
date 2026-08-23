@@ -383,6 +383,17 @@ to the framework default shown, so a `var()` reference never collapses to nothin
 | `--pa-color-8` | Theme-defined branded color 8 |
 | `--pa-color-9` | Theme-defined branded color 9 |
 
+### Data Display — Copy Hint (i18n)
+
+Consumed with an English fallback, **not** emitted by the theme mixins — set them
+yourself (on any ancestor; they inherit) to translate the copy affordance shared by
+`pa-field` / `pa-desc-table` / `pa-banded` / `pa-accent-grid`. Unset → English.
+
+| Variable | Purpose | Fallback |
+|----------|---------|----------|
+| `--pa-copy-hint-text` | `--copy-click` hover hint text | `'Click to copy'` |
+| `--pa-copied-text` | `--copied` post-copy feedback text | `'Copied!'` |
+
 ---
 
 ## Summary

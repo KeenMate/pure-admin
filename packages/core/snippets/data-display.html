@@ -516,6 +516,21 @@ COPY PATTERN — SHARED ACROSS COMPONENTS:
        remove. The CSS replaces the "Click to copy" hint with
        "Copied!" in green.
 
+  i18n / translating the hint text:
+    The "Click to copy" and "Copied!" strings are CSS ::after content
+    with an overridable source. Set them ONCE on any ancestor (they
+    inherit) — typically :root or body — and every copy component
+    (field / desc-table / banded / accent-grid) picks them up. No
+    per-element attribute needed:
+
+      :root {
+        --pa-copy-hint-text: "Kliknij, aby skopiować";
+        --pa-copied-text:    "Skopiowano!";
+      }
+
+    Unset → the built-in English fallback is used. Use double-quotes so
+    apostrophes in a translation don't need escaping.
+
 WHEN TO USE WHAT:
 
   .pa-field / .pa-fields           Detail pages, modal bodies, side

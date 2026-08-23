@@ -5,6 +5,23 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Translatable copy-hint text via `--pa-copy-hint-text` / `--pa-copied-text`.**
+  The clipboard affordance shared by `pa-field`, `pa-desc-table`, `pa-banded`, and
+  `pa-accent-grid` rendered its hint through CSS `::after` with **hardcoded English**
+  (`content: 'Click to copy'` / `'Copied!'`) — unreachable by any consumer, so
+  wrappers that need i18n (svelte-pure-admin) had to suppress the `::after` and
+  re-implement the hint with invented classes + a scoped stylesheet. The `content`
+  now reads `var(--pa-copy-hint-text, 'Click to copy')` /
+  `var(--pa-copied-text, 'Copied!')`; the English literals stay as the built-in
+  fallback, so nothing changes until you set the variables. Because custom
+  properties **inherit**, set them once on any ancestor (`:root` / `body`) and every
+  copy component across the page obeys — no per-element attribute. Purely additive;
+  no markup or class change.
+
 ## [2.9.0-rc15] - 2026-08-22 [PUBLISHED]
 
 ### Added
