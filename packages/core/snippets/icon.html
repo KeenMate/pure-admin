@@ -1,0 +1,118 @@
+<!-- ================================
+     ICON
+     Pure Admin Visual Framework
+
+     pa-icon is a MASK-BASED icon primitive: it paints an SVG glyph in
+     currentColor via mask-image, so the icon inherits its parent's text /
+     button colour and scales with font-size. It is the framework's
+     provider-agnostic icon hook — each glyph is a --pa-icon-* CSS variable you
+     override to swap icon sets (Lucide is the default). It replaced the
+     inconsistent ✕ / × TEXT glyphs used for close / remove affordances.
+
+     Source: core-components/_icons.scss
+     ================================ -->
+
+
+<!-- ================================
+     BASIC USE — the close / remove "x" glyph
+     One <span> with pa-icon + a glyph modifier. aria-hidden because the icon is
+     decorative; the accessible name lives on the button (aria-label).
+     ================================ -->
+
+<button class="pa-btn pa-btn--icon-only" aria-label="Close">
+  <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+</button>
+
+
+<!-- ================================
+     COLOUR — follows currentColor
+     The icon has no colour of its own; the mask lets the box colour show
+     through. So it takes the text colour of whatever it sits in — a danger
+     button paints a red x, a muted caption paints a grey one. No icon-colour
+     class needed.
+     ================================ -->
+
+<button class="pa-btn pa-btn--danger pa-btn--icon-only" aria-label="Delete">
+  <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+</button>
+
+<span style="color: var(--pa-text-color-2)">
+  <span class="pa-icon pa-icon--x" aria-hidden="true"></span> muted inline icon
+</span>
+
+
+<!-- ================================
+     SIZE — via --pa-icon-size (default 1em)
+     Because the default is 1em it already tracks font-size; set --pa-icon-size
+     to pin an explicit size independent of the surrounding text.
+     ================================ -->
+
+<span class="pa-icon pa-icon--x" aria-hidden="true" style="--pa-icon-size: 2rem"></span>
+
+
+<!-- ================================
+     SWAPPING THE GLYPH (provider-agnostic)
+     Each glyph modifier just points --pa-icon-src at a glyph variable. Override
+     the glyph var (e.g. --pa-icon-x) with a different icon set's mask URL — at
+     :root to swap globally, or inline to swap one instance. The mask URL is a
+     data: SVG (or any image); stroke/fill colour in the SVG is irrelevant since
+     the mask only uses the shape's alpha.
+     ================================ -->
+
+<!-- Swap one instance's glyph inline by overriding --pa-icon-src directly -->
+<span class="pa-icon" aria-hidden="true"
+      style="--pa-icon-src: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 6 9 17l-5-5%22/%3E%3C/svg%3E')"></span>
+
+<!-- Or, globally, override the glyph variable a modifier resolves to:
+<style>
+  :root { --pa-icon-x: url("…your icon set's x mask…"); }
+</style>
+-->
+
+
+<!-- ================================
+     PSEUDO-ELEMENT VARIANT (pa-icon-mask SCSS mixin)
+     Where markup can't carry a .pa-icon span (JS-generated glyphs, pure-CSS
+     affordances), paint the same masked glyph from a ::before / ::after in SCSS:
+
+       .my-clear-btn::before { @include pa-icon-mask; }                 // x glyph
+       .my-ok-btn::before    { @include pa-icon-mask(var(--pa-icon-x)); } // explicit
+     ================================ -->
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+ICON (core-components/_icons.scss):
+- .pa-icon                 The masked icon box. Paints --pa-icon-src in
+                           currentColor; size via --pa-icon-size (default 1em);
+                           flex-shrink: 0. On its own it renders nothing until a
+                           glyph modifier (or an inline --pa-icon-src) supplies a
+                           mask.
+- .pa-icon--x              The shipped glyph modifier: the close / remove / clear
+                           "x" (Lucide by default). Sets --pa-icon-src to the
+                           --pa-icon-x variable.
+
+TOKENS:
+- --pa-icon-size           Icon box size. Default 1em (tracks font-size).
+- --pa-icon-src            The active mask URL. A glyph modifier sets this; you
+                           can also set it inline for a one-off glyph.
+- --pa-icon-x              The "x" glyph mask URL, emitted at :root. Override to
+                           swap the whole app's close mark to another icon set.
+
+SCSS MIXIN:
+- pa-icon-mask($src: var(--pa-icon-x))   Paint the masked glyph from a
+                           ::before / ::after when you can't add a .pa-icon span.
+
+A11Y:
+- Decorative icons: aria-hidden="true" on the .pa-icon span; put the accessible
+  name on the interactive parent (e.g. <button aria-label="Close">).
+
+CANONICAL USE (close/remove button — the shape used across modals, toasts,
+command-palette, badges, notifications):
+<button class="pa-btn pa-btn--icon-only" aria-label="Close">
+  <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+</button>
+-->

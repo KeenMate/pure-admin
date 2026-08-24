@@ -132,6 +132,24 @@
   <div class="pa-card__body">Body.</div>
 </div>
 
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-warning">
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Warning underline</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">Body.</div>
+</div>
+
+<div class="pa-card">
+  <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-info">
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Info underline</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">Body.</div>
+</div>
+
 <!-- Theme colour slot (1..9) -->
 <div class="pa-card">
   <div class="pa-card__header pa-card__header--underlined pa-card__header--underline-color-3">
@@ -217,6 +235,76 @@
     </div>
   </div>
   <div class="pa-card__body">Card content.</div>
+</div>
+
+
+<!-- ================================
+     RESPONSIVE HEADER ACTIONS
+     When a header has more actions than fit on a narrow card, two patterns
+     shrink them — pick one:
+
+       --responsive  CSS-ONLY. The wrapper carries BOTH a spread button row
+                     (.pa-card__actions-full) and a compact fallback
+                     (.pa-card__actions-collapsed, e.g. a .pa-btn-split menu).
+                     A container query on the header (auto-enabled via :has())
+                     swaps them at $card-actions-collapse-at. No JS.
+
+       --overflow    JS (overflow.js). ONE button row; the script walks the
+                     lowest-priority buttons into a "⋮" menu when the row can't
+                     fit and restores them as space returns. Card-flavoured
+                     alias of the generic .pa-overflow primitive.
+     ================================ -->
+
+<!-- --responsive: spread row + collapsed split-button, swapped by a container query -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Report</h3>
+    </div>
+    <div class="pa-card__actions pa-card__actions--responsive">
+      <!-- Shown while the header is wide -->
+      <div class="pa-card__actions-full">
+        <button class="pa-btn pa-btn--sm pa-btn--secondary">Export</button>
+        <button class="pa-btn pa-btn--sm pa-btn--secondary">Share</button>
+        <button class="pa-btn pa-btn--sm pa-btn--primary">Run</button>
+      </div>
+      <!-- Shown once the header container query hits the collapse threshold;
+           same actions as a split-button menu (see buttons.html) -->
+      <div class="pa-card__actions-collapsed">
+        <div class="pa-btn-split">
+          <button class="pa-btn pa-btn--sm pa-btn--primary">Run</button>
+          <button class="pa-btn pa-btn--sm pa-btn--primary pa-btn-split__toggle" onclick="toggleSplitMenu(event)">
+            <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+          </button>
+          <div class="pa-btn-split__menu">
+            <div class="pa-btn-split__menu-inner">
+              <button class="pa-btn-split__item">Export</button>
+              <button class="pa-btn-split__item">Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pa-card__body">Body content.</div>
+</div>
+
+<!-- --overflow: one row; overflow.js moves low-priority buttons into a ⋮ menu.
+     data-pa-actions-overflow-from picks the collapse end; data-pa-actions-priority
+     keeps a button out of the menu longest (higher = stays visible). -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Document.md</h3>
+    </div>
+    <div class="pa-card__actions pa-card__actions--overflow" data-pa-actions-overflow-from="end">
+      <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">Save</button>
+      <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">Format</button>
+      <button class="pa-btn pa-btn--xs pa-btn--secondary" type="button">Export</button>
+      <button class="pa-btn pa-btn--xs pa-btn--primary" type="button" data-pa-actions-priority="10">Run</button>
+    </div>
+  </div>
+  <div class="pa-card__body">Body content.</div>
 </div>
 
 
@@ -338,8 +426,8 @@
 <!-- Stat card with icon -->
 <div class="pa-card pa-card--stat">
   <div class="pa-card__body">
-    <div class="pa-stat pa-stat--with-icon">
-      <div class="pa-stat__icon">👥</div>
+    <div class="pa-stat">
+      <div class="pa-stat__icon pa-stat__icon--primary">👥</div>
       <div class="pa-stat__content">
         <div class="pa-stat__value">1,234</div>
         <div class="pa-stat__label">Total Users</div>
@@ -354,15 +442,16 @@
     <div class="pa-stat">
       <div class="pa-stat__value">$12,345</div>
       <div class="pa-stat__label">Revenue</div>
-      <div class="pa-stat__trend pa-stat__trend--up">+12.5%</div>
+      <div class="pa-stat__change pa-stat__change--positive">▲ 12.5%</div>
     </div>
   </div>
 </div>
 
 <!-- Note: .pa-stat itself is defined in _statistics.scss (not _cards.scss).
      The pa-card--stat modifier just tightens card body padding so tiles
-     look compact on a dashboard. A fuller statistics reference is in the
-     pending statistics.html snippet. -->
+     look compact on a dashboard. Trend uses .pa-stat__change with
+     --positive / --negative / --neutral (NOT a __trend element). See
+     statistics.html for the full stat reference. -->
 
 
 <!-- ================================
@@ -589,6 +678,23 @@ HEADER MODIFIERS:
     Allow heading + description to wrap to multiple lines instead of
     being truncated with an ellipsis. Description reflows to its own
     line.
+
+RESPONSIVE HEADER ACTIONS (shrink a crowded header — two approaches):
+- .pa-card__actions--responsive   CSS-only. Wrap TWO forms inside it; a
+                                  container query on the header (auto-enabled
+                                  via :has()) swaps them at
+                                  $card-actions-collapse-at, no JS:
+    .pa-card__actions-full          the spread button row (shown while wide).
+    .pa-card__actions-collapsed     the compact fallback (shown when collapsed)
+                                    — typically a .pa-btn-split menu (buttons.html).
+- .pa-card__actions--overflow     JS (overflow.js). A single button row that
+                                  walks its lowest-priority buttons into a "⋮"
+                                  menu when the row can't fit, restoring them as
+                                  space returns. Card-flavoured alias of the
+                                  generic .pa-overflow primitive.
+    data-pa-actions-overflow-from="start|end"   which end to collapse from.
+    data-pa-actions-priority="N" (on a button)  higher = kept out of the menu
+                                                longer.
 
 TABS:
 - .pa-card__tabs               Full-width tab strip inside the header

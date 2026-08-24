@@ -103,6 +103,29 @@
   <span class="pa-checkbox__label">Disabled checked</span>
 </label>
 
+<!-- Checkbox Group (form-layout container)
+     A plain flex-column wrapper that stacks standalone .pa-checkbox items
+     with a consistent gap. Use this when you just want a few checkboxes in
+     a form — NOT the bordered/hover row list further down. The identical
+     rules also drive .pa-radio-group (see forms.html for radios). -->
+<div class="pa-checkbox-group">
+  <label class="pa-checkbox">
+    <input type="checkbox" checked>
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Enable notifications</span>
+  </label>
+  <label class="pa-checkbox">
+    <input type="checkbox">
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Subscribe to newsletter</span>
+  </label>
+  <label class="pa-checkbox">
+    <input type="checkbox">
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Share usage analytics</span>
+  </label>
+</div>
+
 <!-- Custom Checkbox in Checkbox Lists -->
 <ul class="pa-checkbox-list">
   <li class="pa-checkbox-list__item">
@@ -488,6 +511,17 @@ CUSTOM CHECKBOX COMPONENT (pa-checkbox — see forms.html for full docs):
                                 (also auto-applied via :has(input:disabled)).
 - Indeterminate: set via JS — `el.indeterminate = true`. The HTML
   attribute alone does nothing.
+
+CHECKBOX GROUP (.pa-checkbox-group — form-layout container):
+- .pa-checkbox-group            Flex column with a $form-scale gap that
+                                stacks standalone .pa-checkbox items in a
+                                form. Shares its rule with .pa-radio-group.
+                                Distinct from .pa-checkbox-list, which is a
+                                bordered/striped/hover ROW LIST — reach for
+                                the group when you just need a few plain
+                                checkboxes lined up, the list when you want
+                                selectable rows with states/descriptions/
+                                actions.
 
 CHECKBOX LIST (.pa-checkbox-list):
 

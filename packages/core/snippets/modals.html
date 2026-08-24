@@ -143,8 +143,9 @@ accident.
 Theming is applied at the ROOT level (.pa-modal--{variant}) and
 cascades into the header via descendant selector. There's no
 pa-modal__header--{variant} class in SCSS.
-Available variants: primary, success, warning, danger.
-(No --info, --secondary, --light, --dark on modals.)
+Header-colour variants (solid header): primary, success, warning, danger.
+(No --secondary / --light / --dark. --info has NO solid-header rule — it
+only carries a band colour, so use it with --banded, see below.)
 -->
 
 <div class="pa-modal pa-modal--primary" id="primaryModal">
@@ -188,6 +189,48 @@ Available variants: primary, success, warning, danger.
       <button class="pa-btn pa-btn--sm pa-btn--icon-only pa-btn--light" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
     </div>
     <div class="pa-modal__body">Body content.</div>
+  </div>
+</div>
+
+
+<!-- BANDED MODALS (header AND footer wear the role colour as filled bands) -->
+
+<!--
+.pa-modal--banded is a COMPOSABLE modifier — pair it with a role modifier
+to colour the bands. Unlike the solid-header variants above, the bands use
+the shared ALERT tokens (so a banded modal tracks the alert palette across
+light/dark), body + buttons stay neutral, and buttons inside the bands
+invert for contrast. This is where --info earns its keep:
+  <div class="pa-modal pa-modal--info pa-modal--banded"> … </div>
+Valid band roles: success, warning, danger, info.
+-->
+<div class="pa-modal pa-modal--info pa-modal--banded" id="infoBandedModal">
+  <div class="pa-modal__backdrop"></div>
+  <div class="pa-modal__container">
+    <div class="pa-modal__header">
+      <h3 class="pa-modal__title">Info (banded)</h3>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
+    </div>
+    <div class="pa-modal__body">Body stays neutral; header + footer wear the info band.</div>
+    <div class="pa-modal__footer">
+      <button class="pa-btn">Cancel</button>
+      <button class="pa-btn">Got it</button>
+    </div>
+  </div>
+</div>
+
+<div class="pa-modal pa-modal--danger pa-modal--banded" id="dangerBandedModal">
+  <div class="pa-modal__backdrop"></div>
+  <div class="pa-modal__container">
+    <div class="pa-modal__header">
+      <h3 class="pa-modal__title">Delete (banded danger)</h3>
+      <button class="pa-btn pa-btn--sm pa-btn--icon-only" aria-label="Close"><span class="pa-icon pa-icon--x" aria-hidden="true"></span></button>
+    </div>
+    <div class="pa-modal__body">Both bands carry the danger alert colour.</div>
+    <div class="pa-modal__footer">
+      <button class="pa-btn">Cancel</button>
+      <button class="pa-btn">Delete</button>
+    </div>
   </div>
 </div>
 
@@ -317,13 +360,24 @@ WRAPPER:
                              JS skips Esc + backdrop dismissal when this
                              class is present. Add it on the root.
 
-Colour variants (cascade into __header via descendant selector):
+Solid-header colour variants (cascade into __header via descendant selector):
 - .pa-modal--primary
 - .pa-modal--success
 - .pa-modal--warning
 - .pa-modal--danger
-(No --info / --secondary / --light / --dark. No pa-modal__header--*
- modifiers — theme lives on the root.)
+(No --secondary / --light / --dark. No pa-modal__header--* modifiers —
+ theme lives on the root. --primary has no band pairing.)
+
+Banded variant (header AND footer wear the role colour as filled bands):
+- .pa-modal--banded          Composable modifier; PAIR with a role modifier
+                             to colour the bands. Bands use the shared alert
+                             tokens (light/dark aware); body + buttons stay
+                             neutral; buttons inside the bands invert.
+- .pa-modal--info            Info role — has NO solid-header rule; it exists
+                             ONLY as a band colour, so use it as
+                             `.pa-modal--info.pa-modal--banded`.
+  Valid band roles: --success / --warning / --danger / --info.
+  e.g. <div class="pa-modal pa-modal--danger pa-modal--banded">.
 
 STRUCTURE:
 - .pa-modal__backdrop        Full-viewport overlay behind the dialog.

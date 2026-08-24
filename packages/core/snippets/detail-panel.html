@@ -213,16 +213,17 @@
        3. Root CSS variable            change the default app-wide
      ================================ -->
 
-<!-- Fixed-width panel: 32rem (320px). Utility class wins because
-     :where() has 0 specificity. -->
-<div class="pa-detail-view__panel pa-detail-view__panel--open wr-32">
+<!-- Fixed-width panel: 30rem (300px). Utility class wins because
+     :where() has 0 specificity. (The wr-* scale is 1-10 then 15,20,25…50
+     in 5-rem steps — no wr-32.) -->
+<div class="pa-detail-view__panel pa-detail-view__panel--open wr-30">
     <!-- … -->
 </div>
 
 <!-- Clamp between floor and ceiling (good when combined with the
      resize handle — the drag JS writes to --pa-local-detail-panel-width,
      and this clamps how far it can go). -->
-<div class="pa-detail-view__panel pa-detail-view__panel--open minwr-24 maxwr-60">
+<div class="pa-detail-view__panel pa-detail-view__panel--open minwr-25 maxwr-50">
     <!-- … -->
 </div>
 

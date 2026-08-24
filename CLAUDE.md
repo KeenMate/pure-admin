@@ -150,6 +150,30 @@ imported in `_core.scss`. Categories (non-exhaustive):
 
 Authoritative list: `ls packages/core/src/scss/core-components/`.
 
+### Component Catalog (the pa-* inventory)
+
+`packages/core/COMPONENTS.md` + `packages/core/components.json` are the
+**authoritative, generated catalog** of every `pa-*` component: 67 components
+across 9 categories, covering all ~170 blocks / ~655 class selectors. Each entry
+lists the block, elements, modifiers, defining SCSS partial, and dedicated
+snippet + demo. `components.json` is the machine-readable form (shipped in the
+npm package) that the **svelte-pure-admin** and **keen-pure-admin** wrappers
+validate their generated DOM against, and that drives snippet-coverage sweeps.
+
+Regenerate after adding/removing any `pa-*` class:
+
+```bash
+npm run catalog -w @keenmate/pure-admin-core
+```
+
+The generator (`packages/core/scripts/build-components-catalog.mjs`) extracts
+`.pa-*` selectors from the SCSS, groups them via a hand-authored block→component
+taxonomy, and **fails if any discovered block is unassigned** — so the catalog
+can't silently drift as new components land. Taxonomy grouping, descriptions,
+and shared-file snippet/demo overrides (e.g. navbar/sidebar → `layout.html`) are
+maintained inside that script. It also reports snippet gaps (currently 12
+components documented only in demo mustaches, not in `snippets/`).
+
 ### HTML Snippets
 Clean HTML patterns under `packages/core/snippets/` (~35 files). One file per
 component category. Use them as the reference shape when generating markup
@@ -414,6 +438,8 @@ radii. Authoritative list and emit mixin: `_base-css-variables.scss`.
 
 ## Resources
 
+- **Component catalog:** `packages/core/COMPONENTS.md` + `components.json`
+  (generated — `npm run catalog -w @keenmate/pure-admin-core`)
 - **Component demos:** `demo/views/` (mustache templates)
 - **Snippets reference:** `packages/core/snippets/*.html`
 - **Theme implementations:** `../pure-admin-themes` (separate repo)

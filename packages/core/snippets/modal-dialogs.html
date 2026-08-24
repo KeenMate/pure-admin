@@ -207,8 +207,9 @@ Shared enum-like options (same across all four methods):
              Default: 'primary'. Maps directly to pa-modal--{variant}
              on the root; see modals.html for the visual result.
   size     →  'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'fw'
-             The value is string-interpolated into pa-modal__container--
-             {size}, so any size class defined in _modals.scss works.
+             'md' is the BASE container (bare .pa-modal__container, no
+             modifier — there is no pa-modal__container--md). Every other
+             value interpolates into pa-modal__container--{size}.
              Default: 'sm' for confirm/alert/prompt, 'md' for custom.
   position →  'center' | 'top'
              Default: 'center'. 'top' adds pa-modal--top (5vh offset).

@@ -147,6 +147,27 @@
 
 
 <!-- ================================
+     COMPONENT REFERENCE
+     ================================
+
+     ELEMENT + STATE CLASSES
+       pa-splitter                  Root container. Orientation modifier
+                                    required: --horizontal (default) / --vertical.
+       pa-splitter__pane            A content pane (generic; every pane is the
+                                    same — no start/end shorthand).
+       pa-splitter__gutter          The drag handle between two panes
+                                    (role="separator", tabindex="0").
+     JS-toggled states (added/removed by splitter.js — never hand-author):
+       pa-splitter__gutter--active  The gutter currently being dragged; paints
+                                    the active knob/track. Sibling gutters get
+                                    pointer-events:none while one is --active.
+       pa-splitter__pane--minimized A pane collapsed to a rail (card headers /
+                                    [data-pa-splitter-rail-title] rotate inside it).
+       pa-splitter--minimized       Set on the root while ANY pane is railed.
+       pa-splitter--dragging        Set on the root for the duration of a drag.
+       pa-splitter--accordion       Auto-added in tight containers (2+ minimizable
+                                    panes) — restoring one pane rails the others.
+
      DATA ATTRIBUTES — root
        data-pa-splitter                     marker; required
        data-pa-splitter-id                  enables localStorage persistence

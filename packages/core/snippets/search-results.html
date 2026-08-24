@@ -143,3 +143,44 @@
         <span class="pa-search-results__type">Product</span>
     </a>
 </div>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+pa-search-results — page-level rendering of a submitted query. Distinct from
+pa-search-autocomplete (the live dropdown under a search field — see
+command-palette.html). CSS + structure only; no JS.
+
+CONTAINER + PRESETS (one modifier picks the layout; the item tree never changes):
+- .pa-search-results             The list/grid container.
+- .pa-search-results--compact    Dense one-liners (snippet + meta hidden by
+                                 the preset; leave them in the markup or drop
+                                 them — the tree is identical either way).
+- .pa-search-results--detailed   Tinted icon tile + snippet + meta trail.
+- .pa-search-results--grouped    Items bucketed under category headers; wrap
+                                 each run in __group + a leading __group-title.
+- .pa-search-results--cards      Responsive grid; the item flips to a column
+                                 (icon tile, title + snippet, type as footer tag).
+
+CANONICAL ITEM (rendered the same across every preset):
+- .pa-search-results__item       The row/card. Use an <a> for navigable results.
+- .pa-search-results__icon       Leading glyph / tinted icon tile (aria-hidden).
+- .pa-search-results__content    Wraps title + snippet + meta.
+- .pa-search-results__title      Primary result label.
+- .pa-search-results__snippet    Optional supporting excerpt (hidden by --compact).
+- .pa-search-results__meta       Optional trailing metadata row.
+- .pa-search-results__meta-item  One metadata chip inside __meta (repeatable).
+- .pa-search-results__type       Type/category pill on the inline-end side.
+- .pa-search-results__mark       Wrap a matched fragment (from an
+                                 Elasticsearch highlight / Postgres ts_headline
+                                 backend) with <mark class="…__mark">; works in
+                                 any text slot (title or snippet).
+
+GROUPED-ONLY WRAPPERS:
+- .pa-search-results__group      One bucket of items (only under --grouped).
+- .pa-search-results__group-title  The bucket heading above its items.
+-->
+

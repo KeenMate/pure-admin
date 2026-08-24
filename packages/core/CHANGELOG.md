@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **`pa-tabs--wrap-labels` — multi-line tab titles with unified height.** Tab
+  items are `white-space: nowrap` by default, so a long title (e.g. "Complaints
+  and missed items" next to "Orders") could only overflow or force the whole row
+  to wrap. The new opt-in modifier flips items to `white-space: normal` +
+  `text-align: center` so a title can break onto multiple lines; pair it with a
+  `maxwr-*` / `wr-*` width cap on the item to choose the wrap point. Because the
+  tab row is a flex container (default `align-items: stretch`), every tab then
+  matches the height of the tallest wrapped one — short and multi-line tabs stay
+  level instead of zig-zagging, with each label vertically centred. Fills the gap
+  between plain auto width (ragged) and `pa-tabs--full` (stretches short tabs into
+  dead space) for irregular label sets. Themes must be rebuilt to pick up the new
+  class. (Also replaces the demo/snippet's dead `pa-tabs__item--w-{N}x` scale —
+  which never had matching CSS — with the real `minwr-*`/`maxwr-*` utilities.)
 - **Translatable copy-hint text via `--pa-copy-hint-text` / `--pa-copied-text`.**
   The clipboard affordance shared by `pa-field`, `pa-desc-table`, `pa-banded`, and
   `pa-accent-grid` rendered its hint through CSS `::after` with **hardcoded English**
@@ -21,6 +34,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   properties **inherit**, set them once on any ancestor (`:root` / `body`) and every
   copy component across the page obeys — no per-element attribute. Purely additive;
   no markup or class change.
+- **`pa-badge--color-{1..9}` — theme-colour slot badges.** Closes a gap where the
+  badge was the only role-coloured surface without a numeric `--color-N` variant
+  (alerts, buttons, and cards all had one). Each paints `--pa-color-N` as the
+  background with a guaranteed-contrasting `--pa-color-N-text` label (mirroring the
+  alert pattern; badges are filled-only, so no `--outline-color-N`). Before this,
+  wrappers (svelte-pure-admin, keen-pure-admin) improvised a themed badge with the
+  generic `pa-bg-color-N` utility, which only sets the background and left the text
+  at its inherited colour — so a dark theme slot could render dark-text-on-dark.
+  Themes must be rebuilt to pick up the new classes.
 
 ## [2.9.0-rc15] - 2026-08-22 [PUBLISHED]
 

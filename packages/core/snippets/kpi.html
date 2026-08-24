@@ -1,0 +1,776 @@
+<!-- ================================
+     KPI SHOWCASE — shared base chrome
+     Pure Admin Visual Framework
+
+     Cross-cutting building blocks used by EVERY pa-kpi-* showcase design
+     (terminal, sparkline-list, comparison-gauges, hero-supporting, bento,
+     numeric-strip, editorial-minimal). This file documents the shared layer;
+     each showcase design adds its own tile grammar on top.
+
+     Source: core-components/_kpi-base.scss
+     JS:     demo kpi-showcases.js (sparkline dot conversion + hover popovers)
+
+     These pieces are theme-aware via --pa-* runtime tokens (--pa-positive,
+     --pa-detail-*, etc.) — theme swaps re-tint them without a recompile.
+     ================================ -->
+
+
+<!-- ================================
+     LIVE INDICATOR
+     A small mono "LIVE" caption with a pulsing green dot. Sits in a card
+     header next to the title (or in a section-head strip). The dot pulse is
+     pure CSS (pa-kpi-pulse keyframes) — no JS needed.
+     ================================ -->
+
+<span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+
+
+<!-- ================================
+     KPI CARD HEADER
+     The header row every showcase uses: title on one side, controls + LIVE on
+     the other. Compose pa-kpi-header ONTO .pa-card__header (it only adds the
+     flex/space-between/wrap layout; the card element keeps the chrome).
+     ================================ -->
+
+<div class="pa-card__header pa-kpi-header">
+  <div class="pa-card__title">
+    <h3 class="pa-card__title-text">Key Performance Indicators</h3>
+  </div>
+  <!-- Right side: the LIVE indicator, optionally wrapped in a showcase-specific
+       controls group (e.g. pa-kpi-terminal__controls) that also holds tabs. The
+       LIVE pill is the shared piece; pa-kpi-header space-betweens the children. -->
+  <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+</div>
+
+
+<!-- ================================
+     KPI CARD FOOTER
+     Two-column mono caption at the card bottom: left = what/data source,
+     right = hint/timestamp. <strong> inside picks up the focal text colour so
+     a metric name or count stands out. Compose onto .pa-card__footer.
+     ================================ -->
+
+<div class="pa-card__footer pa-kpi-footer">
+  <span><strong>Terminal grid · dense</strong> — mono numbers, status tags, sparklines.</span>
+  <span>Hover any KPI for detail</span>
+</div>
+
+
+<!-- ================================
+     HOVER DETAIL POPOVER
+     A Bloomberg-dark popover (dark regardless of host theme) shown when the
+     user hovers a KPI tile. Authored INSIDE the tile; kpi-showcases.js moves
+     it to <body> on init and positions it at the cursor with Floating UI, so
+     ancestor overflow:hidden never clips it.
+
+     role="tooltip" for a11y. Body is a <dl> of dt/dd pairs. Add a sentiment
+     class to a <dd> to tint the value: .pos (green), .neg (red), .warn (amber).
+     Override the --pa-detail-* tokens for a light / theme-aware variant.
+     ================================ -->
+
+<div class="pa-kpi-detail" role="tooltip">
+  <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+  <dl>
+    <dt>Current</dt><dd>88.6%</dd>
+    <dt>Previous</dt><dd>84.2%</dd>
+    <dt>Δ absolute</dt><dd class="pos">+4.4pp</dd>
+    <dt>Δ percent</dt><dd class="pos">+5.2%</dd>
+    <dt>Target</dt><dd>90.0%</dd>
+  </dl>
+</div>
+
+
+<!-- ================================
+     SECTION-HEAD STRIP
+     For the "stress-test" layouts where tiles sit directly in page-grid
+     .pa-col-* cells with NO card wrapper — this strip hosts a label or a LIVE
+     indicator at the row's inline-end above the tiles.
+     ================================ -->
+
+<div class="pa-kpi-sectionhead">
+  <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+</div>
+
+
+<!--
+SPARKLINE ENDPOINT DOT
+An SVG sparkline marks its latest point with an embedded <circle>. Because the
+SVG uses preserveAspectRatio="none", that <circle> renders as an oval at
+non-square aspect ratios — so kpi-showcases.js replaces it at init with a CSS
+span (.pa-kpi-spark-dot) inside a positioned wrapper (.pa-kpi-spark-wrap). You
+author the SVG; the dot classes are produced by the JS. The dot inherits the
+sentiment colour from its chart wrapper via currentColor.
+-->
+<svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+  <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+  <circle cx="96" cy="5" r="2" /><!-- becomes .pa-kpi-spark-dot in .pa-kpi-spark-wrap -->
+</svg>
+
+
+<!-- ================================
+     ASSEMBLED — minimal KPI card skeleton
+     header (title + LIVE) → body (showcase tiles go here) → footer caption.
+     Each showcase design fills the body with its own tile grammar.
+     ================================ -->
+
+<div class="pa-card pa-kpi-terminal">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title">
+      <h3 class="pa-card__title-text">Key Performance Indicators</h3>
+    </div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+
+  <div class="pa-card__body">
+    <!-- showcase-specific tile grid (see the pa-kpi-* design snippets) -->
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>6 metrics</strong> · updated live</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+KPI SHARED-BASE CLASSES (core-components/_kpi-base.scss):
+
+LIVE INDICATOR:
+- .pa-kpi-live              Inline-flex mono "LIVE" caption. Place in a card
+                           header or a .pa-kpi-sectionhead strip.
+- .pa-kpi-live__dot        The pulsing dot (pa-kpi-pulse keyframes, green via
+                           --pa-positive). Pure CSS, no JS.
+
+CARD CHROME (compose onto the card element, don't replace it):
+- .pa-kpi-header           Add to .pa-card__header — flex space-between + wrap:
+                           title one side, controls + LIVE the other. The
+                           right-side controls group is showcase-specific
+                           (e.g. .pa-kpi-terminal__controls), not a base class.
+- .pa-kpi-footer           Add to .pa-card__footer — two-column mono caption.
+                           <strong> inside takes the focal text colour.
+
+HOVER DETAIL POPOVER:
+- .pa-kpi-detail           Popover root. role="tooltip". Authored inside the
+                           tile; kpi-showcases.js relocates it to <body> and
+                           positions it at the cursor (Floating UI). Dark by
+                           default — override --pa-detail-* for a light variant.
+- .pa-kpi-detail__title    Uppercase mono header line.
+- .pa-kpi-detail dl/dt/dd  Definition list of metric rows.
+- dd.pos / dd.neg / dd.warn  Sentiment tint on a value cell
+                           (green / red / amber via --pa-positive / --pa-negative
+                           / --pa-warning).
+
+CARD-LESS LAYOUTS:
+- .pa-kpi-sectionhead      Inline-end strip above tiles that sit directly in
+                           .pa-col-* cells (no card wrapper).
+
+SPARKLINE (JS-generated — you author the SVG):
+- .pa-kpi-spark-wrap       Positioned wrapper the JS inserts around an SVG
+                           sparkline so the endpoint dot can be absolutely
+                           placed.
+- .pa-kpi-spark-dot        CSS span replacing the SVG endpoint <circle> (avoids
+                           the oval-at-non-square-aspect problem). Inherits the
+                           chart's sentiment colour via currentColor.
+
+THE SEVEN SHOWCASE DESIGNS build on this base — each adds its own tile grammar.
+The design name (= SCSS partial) and its ROOT block class differ for most:
+  terminal          → .pa-kpi-terminal
+  sparkline-list    → .pa-kpi-spark-list
+  comparison-gauges → .pa-kpi-gauge-list
+  hero-supporting   → .pa-kpi-hero-list
+  bento             → .pa-kpi-bento
+  numeric-strip     → .pa-kpi-strip
+  editorial-minimal → .pa-kpi-edit
+
+STRUCTURE PATTERN (KPI card skeleton):
+<div class="pa-card pa-kpi-{design}">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">…</h3></div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+  <div class="pa-card__body"> … showcase tiles … </div>
+  <div class="pa-card__footer pa-kpi-footer"><span>…</span><span>…</span></div>
+</div>
+
+SENTIMENT MODIFIERS (shared convention, loop-generated per design so not
+individually catalogued). They only set a colour via the --pa-* sentiment
+tokens; the structure never changes. Pick exactly one per element. The exact
+set VARIES per design — see each design's reference block — but the families are:
+  · chart tint (tile / spark-row): --up-strong / --up / --flat / --down / --down-strong
+  · fine number/delta tint (terminal value+delta, spark delta):
+    --very-positive / --positive / --neutral / --negative / --very-negative
+  · coarse delta tint (strip / edit / bento): --positive / --negative / --neutral
+    / --up-strong / --down-strong
+  · gauge fill (comparison-gauges): --positive / --warning / --negative / --neutral
+  · accent (hero-main / hero-side): --positive / --negative / --neutral / --up-strong
+-->
+
+
+<!-- ================================================================
+     DESIGN 1 — TERMINAL  (pa-kpi-terminal + pa-kpi-tile)
+     Dense Bloomberg-style grid. Optional tab/pane switcher in the header
+     controls; each tile is a self-contained cell with id + status pill,
+     label, focal number, previous-period delta row, and a sparkline.
+     SCSS: _kpi-terminal.scss
+     ================================================================ -->
+
+<div class="pa-card pa-kpi-terminal">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">Key Performance Indicators</h3></div>
+    <!-- __controls groups the tab strip + LIVE pill on the header's end side -->
+    <div class="pa-kpi-terminal__controls">
+      <div class="pa-kpi-terminal__tabs" role="tablist" aria-label="Dashboard view">
+        <button type="button" class="pa-kpi-terminal__tab is-active" data-tab="overview" role="tab" aria-selected="true">OVERVIEW</button>
+        <button type="button" class="pa-kpi-terminal__tab" data-tab="finance" role="tab" aria-selected="false">FINANCE</button>
+      </div>
+      <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+    </div>
+  </div>
+
+  <div class="pa-card__body pa-kpi-terminal__body">
+    <!-- One __pane per tab; JS toggles .is-active on the matching tab + pane -->
+    <div class="pa-kpi-terminal__pane is-active" data-tab="overview">
+      <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col">
+
+        <div class="pa-kpi-tile pa-kpi-tile--up">
+          <div class="pa-kpi-tile__head">
+            <span class="pa-kpi-tile__id">KPI.01 · 30d</span>
+            <span class="pa-kpi-tile__status pa-kpi-tile__status--warn">WARN</span>
+          </div>
+          <div class="pa-kpi-tile__label">Completion Rate</div>
+          <div class="pa-kpi-tile__values">
+            <span class="pa-kpi-tile__value pa-kpi-tile__value--positive"><span class="pa-kpi-tile__num">88.6</span><span class="pa-kpi-tile__unit">%</span></span>
+          </div>
+          <div class="pa-kpi-tile__prev">
+            <span>prev 84.2%</span>
+            <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 5.2%</span>
+          </div>
+          <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+            <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+            <circle cx="96" cy="5" r="2" /><!-- JS swaps this for .pa-kpi-spark-dot -->
+          </svg>
+          <!-- Hover popover — authored inside the tile, relocated to <body> by JS -->
+          <div class="pa-kpi-detail" role="tooltip">
+            <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+            <dl><dt>Current</dt><dd>88.6%</dd><dt>Previous</dt><dd>84.2%</dd><dt>Δ percent</dt><dd class="pos">+5.2%</dd><dt>Target</dt><dd>90.0%</dd></dl>
+          </div>
+        </div>
+
+        <div class="pa-kpi-tile pa-kpi-tile--up">
+          <div class="pa-kpi-tile__head">
+            <span class="pa-kpi-tile__id">KPI.02 · 12mo</span>
+            <span class="pa-kpi-tile__status pa-kpi-tile__status--good">GOOD</span>
+          </div>
+          <div class="pa-kpi-tile__label">Monthly Revenue</div>
+          <div class="pa-kpi-tile__values">
+            <span class="pa-kpi-tile__value pa-kpi-tile__value--positive"><span class="pa-kpi-tile__unit">$</span><span class="pa-kpi-tile__num">835</span><span class="pa-kpi-tile__unit">K</span></span>
+          </div>
+          <div class="pa-kpi-tile__prev">
+            <span>prev $752K</span>
+            <span class="pa-kpi-tile__delta pa-kpi-tile__delta--positive">▲ 11.0%</span>
+          </div>
+          <svg class="pa-kpi-tile__spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+            <polyline points="0,16 12,15 24,14 36,15 48,13 60,14 72,12 84,13 96,11" />
+            <circle cx="96" cy="11" r="2" />
+          </svg>
+        </div>
+
+      </div>
+    </div>
+    <!-- Second pane (hidden until its tab is activated) -->
+    <div class="pa-kpi-terminal__pane" data-tab="finance">
+      <div class="pa-kpi-terminal__grid pa-kpi-terminal__grid--2col"><!-- more tiles --></div>
+    </div>
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>Terminal grid · dense</strong> — mono numbers, status tags, sparklines, ▲▼ deltas.</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+<!--
+TERMINAL REFERENCE (_kpi-terminal.scss):
+- .pa-kpi-terminal            Namespace on .pa-card.
+- .pa-kpi-terminal__controls  Header end-group holding the tab strip + LIVE pill.
+- .pa-kpi-terminal__tabs      Segmented tab container (role="tablist").
+- .pa-kpi-terminal__tab       A tab button (data-tab); JS toggles .is-active.
+- .pa-kpi-terminal__body      Card-body wrapper.
+- .pa-kpi-terminal__pane      One view per tab (data-tab); JS toggles .is-active.
+- .pa-kpi-terminal__grid      Tile grid inside a pane.
+- .pa-kpi-terminal__grid--2col  Two-column hairline grid variant.
+- .pa-kpi-tile                A single KPI cell (also usable standalone via
+                              .pa-kpi-tile--standalone). Sentiment: --up-strong
+                              / --up / --flat / --down / --down-strong.
+- .pa-kpi-tile__head          Top row: __id + __status.
+- .pa-kpi-tile__id            Tertiary identifier caption.
+- .pa-kpi-tile__status        Status pill (--warn / --good / --neutral variants).
+- .pa-kpi-tile__label         Uppercase metric name.
+- .pa-kpi-tile__values        Wrapper for the focal value.
+- .pa-kpi-tile__value         Focal value (sentiment: --very-positive …
+                              --very-negative tints the nested __num).
+- .pa-kpi-tile__num           Large focal number.
+- .pa-kpi-tile__unit          Unit / currency affix.
+- .pa-kpi-tile__prev          Previous-period baseline + delta row.
+- .pa-kpi-tile__delta         Delta chip (same sentiment suffixes as __value).
+- .pa-kpi-tile__spark         The sparkline <svg> (or <canvas>); inherits the
+                              tile's sentiment colour via currentColor.
+-->
+
+
+<!-- ================================================================
+     DESIGN 2 — SPARKLINE LIST  (pa-kpi-spark-list + pa-kpi-spark-row)
+     Each KPI is one row: name · sparkline · value · Δ%. Fast scan/compare.
+     SCSS: _kpi-sparkline-list.scss (+ shared base for the spark dot)
+     ================================================================ -->
+
+<div class="pa-card pa-kpi-spark-list">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">Key Performance Indicators</h3></div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+
+  <div class="pa-card__body pa-kpi-spark-list__body">
+
+    <div class="pa-kpi-spark-row pa-kpi-spark-row--up">
+      <div class="pa-kpi-spark-row__label">Completion Rate</div>
+      <div class="pa-kpi-spark-row__chart">
+        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+          <polygon points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5 100,24 0,24" />
+          <polyline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" />
+          <circle cx="96" cy="5" r="2" />
+        </svg>
+      </div>
+      <div class="pa-kpi-spark-row__value"><span class="pa-kpi-spark-row__num">87.9</span><span class="pa-kpi-spark-row__unit">%</span></div>
+      <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--positive">+4.4%</div>
+      <div class="pa-kpi-detail" role="tooltip">
+        <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+        <dl><dt>Current</dt><dd>87.9%</dd><dt>Previous</dt><dd>84.2%</dd><dt>Δ percent</dt><dd class="pos">+4.4%</dd></dl>
+      </div>
+    </div>
+
+    <div class="pa-kpi-spark-row pa-kpi-spark-row--down-strong">
+      <div class="pa-kpi-spark-row__label">Error Rate</div>
+      <div class="pa-kpi-spark-row__chart">
+        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+          <polygon points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15 100,24 0,24" />
+          <polyline points="0,7 12,9 24,8 36,11 48,10 60,12 72,11 84,13 96,15" />
+          <circle cx="96" cy="15" r="2" />
+        </svg>
+      </div>
+      <div class="pa-kpi-spark-row__value"><span class="pa-kpi-spark-row__num">0.25</span><span class="pa-kpi-spark-row__unit">%</span></div>
+      <div class="pa-kpi-spark-row__delta pa-kpi-spark-row__delta--very-positive">-38.1%</div>
+    </div>
+
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>Sparkline list</strong> — name · sparkline · value · Δ%.</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+<!--
+SPARKLINE-LIST REFERENCE (_kpi-sparkline-list.scss):
+- .pa-kpi-spark-list          Namespace on .pa-card (container-query host).
+- .pa-kpi-spark-list__body    Card body, padding:0 for edge-to-edge dividers.
+- .pa-kpi-spark-list--no-delta   Drop the trailing Δ% column.
+- .pa-kpi-spark-list--chart-first  Flip the mid-narrow layout to label/chart/value.
+- .pa-kpi-spark-row           One metric row (sentiment: --up-strong … --down-strong
+                              tints the chart via currentColor).
+- .pa-kpi-spark-row__label    Uppercase metric name.
+- .pa-kpi-spark-row__chart    Sparkline wrapper (positioned anchor for the dot).
+- .pa-kpi-spark-row__value    Focal value cell.
+- .pa-kpi-spark-row__num      Numeric portion.
+- .pa-kpi-spark-row__unit     Unit suffix.
+- .pa-kpi-spark-row__delta    Δ% cell (--very-positive … --very-negative tints).
+- .pa-kpi-spark-wrap / .pa-kpi-spark-dot  JS-generated (see shared base): the
+                              <circle> is swapped for a CSS dot so it stays round.
+-->
+
+
+<!-- ================================================================
+     DESIGN 3 — COMPARISON GAUGES  (pa-kpi-gauge-list + pa-kpi-gauge)
+     Progress-vs-target bars. The fill width is an INLINE style="width: N%"
+     (value ÷ target). A target tick sits at --pa-kpi-gauge-tick-pos (default
+     100%); override per bar for 0→max scales.
+     SCSS: _kpi-comparison-gauges.scss
+     ================================================================ -->
+
+<div class="pa-card pa-kpi-gauge-list">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">Key Performance Indicators</h3></div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+
+  <div class="pa-card__body pa-kpi-gauge-list__body">
+    <!-- Grid caps: --2col, or --max-2 / --max-3 / --max-4 / --max-5 / --max-6 -->
+    <div class="pa-kpi-gauge-list__grid pa-kpi-gauge-list__grid--max-3">
+
+      <div class="pa-kpi-gauge pa-kpi-gauge--positive">
+        <div class="pa-kpi-gauge__head">
+          <div class="pa-kpi-gauge__label">Monthly Revenue</div>
+          <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__unit">$</span><span class="pa-kpi-gauge__num">859</span><span class="pa-kpi-gauge__unit">K</span></div>
+        </div>
+        <div class="pa-kpi-gauge__bar"><div class="pa-kpi-gauge__fill" style="width: 95.4%"></div></div>
+        <div class="pa-kpi-gauge__scale"><span>0</span><span>tgt $900K</span></div>
+      </div>
+
+      <!-- Override the target tick position for a 0→100% scale (target at 80%) -->
+      <div class="pa-kpi-gauge pa-kpi-gauge--warning">
+        <div class="pa-kpi-gauge__head">
+          <div class="pa-kpi-gauge__label">Server Capacity</div>
+          <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">84.5</span><span class="pa-kpi-gauge__unit">%</span></div>
+        </div>
+        <div class="pa-kpi-gauge__bar" style="--pa-kpi-gauge-tick-pos: 80%"><div class="pa-kpi-gauge__fill" style="width: 84.5%"></div></div>
+        <div class="pa-kpi-gauge__scale"><span>0</span><span>100% · tgt 80%</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>Comparison gauges</strong> — progress bars vs target, with a target tick.</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+<!--
+COMPARISON-GAUGES REFERENCE (_kpi-comparison-gauges.scss):
+- .pa-kpi-gauge-list          Namespace on .pa-card.
+- .pa-kpi-gauge-list__body    Card body, padding:0.
+- .pa-kpi-gauge-list__grid    auto-fit gauge grid (cell-min via
+                              --pa-kpi-gauge-cell-min).
+- Column-count caps: .pa-kpi-gauge-list__grid--2col,
+                     .pa-kpi-gauge-list__grid--max-2, .pa-kpi-gauge-list__grid--max-3,
+                     .pa-kpi-gauge-list__grid--max-4, .pa-kpi-gauge-list__grid--max-5,
+                     .pa-kpi-gauge-list__grid--max-6.
+- .pa-kpi-gauge               One gauge (sentiment: --positive / --warning /
+                              --negative / --neutral sets the fill colour).
+- .pa-kpi-gauge__head         Label + value row.
+- .pa-kpi-gauge__label        Uppercase metric name.
+- .pa-kpi-gauge__value        Value wrapper (__num + __unit).
+- .pa-kpi-gauge__num / __unit Focal number + affix.
+- .pa-kpi-gauge__bar          Track; reads --pa-kpi-gauge-tick-pos (default 100%)
+                              + --pa-kpi-gauge-tick-color for the target tick.
+- .pa-kpi-gauge__fill         Coloured fill — width set INLINE (value ÷ target %).
+- .pa-kpi-gauge__scale        "0 … tgt {value}" end labels.
+-->
+
+
+<!-- ================================================================
+     DESIGN 4 — HERO + SUPPORTING  (pa-kpi-hero-list / -main / -side)
+     One headline metric (big, with a sparkline) beside a rail of smaller
+     supporting metrics. Split ratio via --hero-2-3 / --hero-3-4.
+     SCSS: _kpi-hero-supporting.scss
+     ================================================================ -->
+
+<div class="pa-card pa-kpi-hero-list">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">Key Performance Indicators</h3></div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+
+  <div class="pa-card__body pa-kpi-hero-list__body">
+    <!-- __layout is a 2-col grid; --hero-2-3 / --hero-3-4 change the split -->
+    <div class="pa-kpi-hero-list__layout pa-kpi-hero-list__layout--hero-2-3">
+
+      <!-- HERO: the one headline metric -->
+      <div class="pa-kpi-hero-main pa-kpi-hero-main--positive">
+        <div class="pa-kpi-hero-main__label">Monthly Revenue</div>
+        <div class="pa-kpi-hero-main__value">
+          <span class="pa-kpi-hero-main__unit">$</span><span class="pa-kpi-hero-main__num">852</span><span class="pa-kpi-hero-main__unit">K</span>
+        </div>
+        <div class="pa-kpi-hero-main__meta">
+          <div class="pa-kpi-hero-main__delta">▲ 13.3%</div>
+          <div class="pa-kpi-hero-main__period">vs last month</div>
+          <div class="pa-kpi-hero-main__target">tgt $900K</div>
+        </div>
+        <div class="pa-kpi-hero-main__chart">
+          <span class="pa-kpi-hero-main__chart-svg">
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+              <polygon points="0,16 24,7 48,9 72,18 96,13 100,24 0,24" />
+              <polyline points="0,16 24,7 48,9 72,18 96,13" />
+              <circle cx="96" cy="13" r="2" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- RAIL: supporting metrics -->
+      <div class="pa-kpi-hero-list__rail">
+        <div class="pa-kpi-hero-side pa-kpi-hero-side--positive">
+          <div class="pa-kpi-hero-side__label">Completion Rate</div>
+          <div class="pa-kpi-hero-side__value"><span class="pa-kpi-hero-side__num">88.5</span><span class="pa-kpi-hero-side__unit">%</span></div>
+          <div class="pa-kpi-hero-side__delta">+5.1% vs prev</div>
+        </div>
+        <div class="pa-kpi-hero-side pa-kpi-hero-side--negative">
+          <div class="pa-kpi-hero-side__label">Error Rate</div>
+          <div class="pa-kpi-hero-side__value"><span class="pa-kpi-hero-side__num">0.27</span><span class="pa-kpi-hero-side__unit">%</span></div>
+          <div class="pa-kpi-hero-side__delta">-0.14pp vs prev</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>Hero + supporting</strong> — one headline metric, a rail of the rest.</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+<!--
+HERO-SUPPORTING REFERENCE (_kpi-hero-supporting.scss):
+- .pa-kpi-hero-list           Namespace on .pa-card (container-query host).
+- .pa-kpi-hero-list__body     Card body wrapper.
+- .pa-kpi-hero-list__layout   2-col grid (hero + rail); collapses to 1-col narrow.
+- Widen the hero column: .pa-kpi-hero-list__layout--hero-2-3,
+                         .pa-kpi-hero-list__layout--hero-3-4.
+- .pa-kpi-hero-list__rail     Vertical stack of supporting tiles.
+- .pa-kpi-hero-main           The hero panel (sentiment: --positive / --negative
+                              / --neutral / --up-strong via --pa-kpi-accent).
+- .pa-kpi-hero-main__label    Uppercase caption.
+- .pa-kpi-hero-main__value    Focal value wrapper (__num + __unit).
+- .pa-kpi-hero-main__num / __unit  Container-query-scaled number + affix.
+- .pa-kpi-hero-main__meta     delta · period · target row.
+- .pa-kpi-hero-main__delta / __period / __target  The three meta cells.
+- .pa-kpi-hero-main__chart    Chart container (grows to fill spare height).
+- .pa-kpi-hero-main__chart-svg  Fixed-height SVG host (avoids Y distortion).
+- .pa-kpi-hero-side           A supporting tile (same sentiment suffixes).
+- .pa-kpi-hero-side__label / __value / __num / __unit / __delta  Its 2×2 cells.
+-->
+
+
+<!-- ================================================================
+     DESIGN 5 — BENTO  (pa-kpi-bento + pa-kpi-bento-tile)
+     Asymmetric grid: one --hero tile plus supporting tiles, each with a
+     faint full-bleed sparkline behind the number. Placement is by SOURCE
+     ORDER (no span classes) — 1st child = hero area, then a…e.
+     SCSS: _kpi-bento.scss
+     ================================================================ -->
+
+<div class="pa-card pa-kpi-bento">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">Key Performance Indicators</h3></div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+
+  <div class="pa-card__body pa-kpi-bento__body">
+    <!-- Layout variants: __grid--hero-right, __grid--5-tile -->
+    <div class="pa-kpi-bento__grid">
+
+      <!-- 1st child → hero area -->
+      <div class="pa-kpi-bento-tile pa-kpi-bento-tile--hero pa-kpi-bento-tile--positive">
+        <div class="pa-kpi-bento-tile__label">Monthly Revenue</div>
+        <div class="pa-kpi-bento-tile__delta">+12.8%</div>
+        <div class="pa-kpi-bento-tile__value"><span class="pa-kpi-bento-tile__unit">$</span><span class="pa-kpi-bento-tile__num">849</span><span class="pa-kpi-bento-tile__unit">K</span></div>
+        <div class="pa-kpi-bento-tile__chart">
+          <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+            <polygon points="0,22 32,17 64,9 96,5 100,30 0,30" />
+            <polyline points="0,22 32,17 64,9 96,5" />
+            <circle cx="96" cy="5" r="2" />
+          </svg></span>
+        </div>
+      </div>
+
+      <!-- supporting tiles (2nd, 3rd, … children) -->
+      <div class="pa-kpi-bento-tile pa-kpi-bento-tile--up-strong">
+        <div class="pa-kpi-bento-tile__label">Server Capacity</div>
+        <div class="pa-kpi-bento-tile__delta">+21.0%</div>
+        <div class="pa-kpi-bento-tile__value"><span class="pa-kpi-bento-tile__num">85.9</span><span class="pa-kpi-bento-tile__unit">%</span></div>
+        <div class="pa-kpi-bento-tile__chart">
+          <span class="pa-kpi-bento-tile__chart-svg"><svg viewBox="0 0 100 30" preserveAspectRatio="none">
+            <polygon points="0,22 40,12 70,9 100,3 100,30 0,30" />
+            <polyline points="0,22 40,12 70,9 100,3" />
+            <circle cx="100" cy="3" r="2" />
+          </svg></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>Bento</strong> — asymmetric tiles, sparkline backgrounds.</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+<!--
+BENTO REFERENCE (_kpi-bento.scss):
+- .pa-kpi-bento               Namespace on .pa-card.
+- .pa-kpi-bento__body         Card body wrapper.
+- .pa-kpi-bento__grid         6×3 named-area grid; placement by source order.
+- .pa-kpi-bento__grid--hero-right  Flip the hero to the right half.
+- .pa-kpi-bento__grid--5-tile      5-tile layout variant.
+- .pa-kpi-bento-tile          One cell (sentiment: --positive / --negative /
+                              --neutral / --up-strong / --down-strong).
+- .pa-kpi-bento-tile--hero    The oversized primary tile.
+- .pa-kpi-bento-tile__label   Uppercase name.
+- .pa-kpi-bento-tile__delta   Δ% chip.
+- .pa-kpi-bento-tile__value   Focal value wrapper (__num + __unit).
+- .pa-kpi-bento-tile__num / __unit  Container-query-scaled number + affix.
+- .pa-kpi-bento-tile__chart   Full-bleed faint sparkline layer (behind the number).
+- .pa-kpi-bento-tile__chart-svg  SVG host span inside __chart.
+-->
+
+
+<!-- ================================================================
+     DESIGN 6 — NUMERIC STRIP  (pa-kpi-strip)   ← block prefix is pa-kpi-strip
+     Densest, tabular: header row + one row per metric with now / prev / Δ% /
+     vs-target columns. Hide a column with --no-prev / --no-delta / --no-target
+     (and drop the matching __head--* cell). Target bar fill is inline width.
+     SCSS: _kpi-numeric-strip.scss
+     ================================================================ -->
+
+<div class="pa-card pa-kpi-strip">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">Key Performance Indicators</h3></div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+
+  <div class="pa-card__body pa-kpi-strip__body">
+    <!-- Numeric header cells carry __head--num to right-align them under the
+         right-aligned data cells; metric + target stay start-aligned. -->
+    <div class="pa-kpi-strip__head-row">
+      <div class="pa-kpi-strip__head pa-kpi-strip__head--metric">Metric</div>
+      <div class="pa-kpi-strip__head pa-kpi-strip__head--now pa-kpi-strip__head--num">Now</div>
+      <div class="pa-kpi-strip__head pa-kpi-strip__head--prev pa-kpi-strip__head--num">Prev</div>
+      <div class="pa-kpi-strip__head pa-kpi-strip__head--delta pa-kpi-strip__head--num">Δ%</div>
+      <div class="pa-kpi-strip__head pa-kpi-strip__head--target">vs Target</div>
+    </div>
+
+    <div class="pa-kpi-strip__row">
+      <div class="pa-kpi-strip__metric">Completion Rate</div>
+      <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">87.1</span><span class="pa-kpi-strip__unit">%</span></div>
+      <div class="pa-kpi-strip__prev">84.2%</div>
+      <div class="pa-kpi-strip__delta pa-kpi-strip__delta--positive">+3.4%</div>
+      <div class="pa-kpi-strip__target">
+        <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 97%"></div></div>
+        <div class="pa-kpi-strip__bar-pct">97%</div>
+      </div>
+      <div class="pa-kpi-detail" role="tooltip">
+        <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+        <dl><dt>Current</dt><dd>87.1%</dd><dt>Previous</dt><dd>84.2%</dd><dt>Δ percent</dt><dd class="pos">+3.4%</dd></dl>
+      </div>
+    </div>
+
+    <div class="pa-kpi-strip__row">
+      <div class="pa-kpi-strip__metric">Error Rate</div>
+      <div class="pa-kpi-strip__now"><span class="pa-kpi-strip__num">0.27</span><span class="pa-kpi-strip__unit">%</span></div>
+      <div class="pa-kpi-strip__prev">0.41%</div>
+      <div class="pa-kpi-strip__delta pa-kpi-strip__delta--up-strong">-34.6%</div>
+      <div class="pa-kpi-strip__target">
+        <div class="pa-kpi-strip__bar"><div class="pa-kpi-strip__fill" style="width: 54%"></div></div>
+        <div class="pa-kpi-strip__bar-pct">54%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>Numeric strip · densest</strong> — now / prev / Δ% / vs target.</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+<!--
+NUMERIC-STRIP REFERENCE (_kpi-numeric-strip.scss — block prefix pa-kpi-strip):
+- .pa-kpi-strip               Namespace on .pa-card.
+- Hide a column (also drop the matching __head--* cell so the grid stays
+  aligned): .pa-kpi-strip--no-prev, .pa-kpi-strip--no-delta,
+  .pa-kpi-strip--no-target.
+- .pa-kpi-strip__body         Card body, padding:0.
+- .pa-kpi-strip__head-row     Header row grid.
+- .pa-kpi-strip__head         A header cell. __head--num right-aligns it (the
+                              only styling modifier — put it on the now / prev /
+                              delta cells). __head--prev / __head--delta /
+                              __head--target are the hide targets for the
+                              matching --no-* strip modifier. __head--metric /
+                              __head--now are inert column identifiers (no rule;
+                              kept to mirror the data cells).
+- .pa-kpi-strip__row          A data row (hover host for the popover).
+- .pa-kpi-strip__metric       Metric-name cell.
+- .pa-kpi-strip__now          Focal "now" value cell (__num + __unit).
+- .pa-kpi-strip__num / __unit Number + affix inside __now.
+- .pa-kpi-strip__prev         Previous-period cell.
+- .pa-kpi-strip__delta        Δ% cell (--positive / --negative / --neutral /
+                              --up-strong / --down-strong).
+- .pa-kpi-strip__target       vs-target column: bar + percent.
+- .pa-kpi-strip__bar          Progress track.
+- .pa-kpi-strip__fill         Coloured fill — width set INLINE.
+- .pa-kpi-strip__bar-pct      Percent label under the bar.
+-->
+
+
+<!-- ================================================================
+     DESIGN 7 — EDITORIAL MINIMAL  (pa-kpi-edit)   ← block prefix is pa-kpi-edit
+     Light, airy tiles: thin type, generous space, hairline rules. Value +
+     a small meta line (delta + target). No charts.
+     SCSS: _kpi-editorial-minimal.scss
+     ================================================================ -->
+
+<div class="pa-card pa-kpi-edit">
+  <div class="pa-card__header pa-kpi-header">
+    <div class="pa-card__title"><h3 class="pa-card__title-text">Key Performance Indicators</h3></div>
+    <span class="pa-kpi-live"><span class="pa-kpi-live__dot"></span>LIVE</span>
+  </div>
+
+  <div class="pa-card__body pa-kpi-edit__body">
+    <!-- Grid caps: --2col / --max-2 … --max-6 -->
+    <div class="pa-kpi-edit__grid pa-kpi-edit__grid--max-3">
+
+      <div class="pa-kpi-edit__tile">
+        <div class="pa-kpi-edit__label">Completion Rate</div>
+        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__num">86.9</span><span class="pa-kpi-edit__unit">%</span></div>
+        <div class="pa-kpi-edit__meta">
+          <span class="pa-kpi-edit__delta pa-kpi-edit__delta--positive">+3.3%</span>
+          <span class="pa-kpi-edit__target">tgt 90.0%</span>
+        </div>
+        <div class="pa-kpi-detail" role="tooltip">
+          <div class="pa-kpi-detail__title">Completion Rate · 30D</div>
+          <dl><dt>Current</dt><dd>86.9%</dd><dt>Previous</dt><dd>84.1%</dd><dt>Δ percent</dt><dd class="pos">+3.3%</dd><dt>Target</dt><dd>90.0%</dd></dl>
+        </div>
+      </div>
+
+      <div class="pa-kpi-edit__tile">
+        <div class="pa-kpi-edit__label">Monthly Revenue</div>
+        <div class="pa-kpi-edit__value"><span class="pa-kpi-edit__unit">$</span><span class="pa-kpi-edit__num">871</span><span class="pa-kpi-edit__unit">K</span></div>
+        <div class="pa-kpi-edit__meta">
+          <span class="pa-kpi-edit__delta pa-kpi-edit__delta--up-strong">+15.8%</span>
+          <span class="pa-kpi-edit__target">tgt $900K</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pa-card__footer pa-kpi-footer">
+    <span><strong>Editorial minimal</strong> — light type, generous space, hairline rules.</span>
+    <span>Hover any KPI for detail</span>
+  </div>
+</div>
+
+<!--
+EDITORIAL-MINIMAL REFERENCE (_kpi-editorial-minimal.scss — block prefix pa-kpi-edit):
+- .pa-kpi-edit                Namespace on .pa-card.
+- .pa-kpi-edit__body          Card body, padding:0 (table-card, edge-to-edge rules).
+- .pa-kpi-edit__grid          auto-fit tile grid over a hairline background.
+- Column-count caps: .pa-kpi-edit__grid--2col,
+                     .pa-kpi-edit__grid--max-2, .pa-kpi-edit__grid--max-3,
+                     .pa-kpi-edit__grid--max-4, .pa-kpi-edit__grid--max-5,
+                     .pa-kpi-edit__grid--max-6.
+- .pa-kpi-edit__tile          One KPI cell (per-cell container queries scale type).
+- .pa-kpi-edit__label         Uppercase caption.
+- .pa-kpi-edit__value         Headline number row (thin weight).
+- .pa-kpi-edit__num / __unit  Number + dim affix.
+- .pa-kpi-edit__meta          delta + target row.
+- .pa-kpi-edit__delta         Coloured delta (--positive / --negative / --neutral /
+                              --up-strong / --down-strong).
+- .pa-kpi-edit__target        Dim "tgt {value}" text.
+-->
+

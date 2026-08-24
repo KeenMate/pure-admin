@@ -143,11 +143,12 @@ app.listen(3000);</pre>
 
 <!-- ========================================
      LINE-NUMBERED VARIANT
-     pa-code--numbered draws a gutter on the inline-start side. It uses
-     a CSS counter, so rendered line numbers come from each top-level
-     child element — the simplest approach is one <span> per logical
-     line. No counter-increment classes needed; the SCSS reset wires
-     the counter automatically for direct children.
+     pa-code--numbered draws an empty gutter strip on the inline-start
+     side and resets a `line` CSS counter — but it does NOT itself render
+     numbers (there is no counter-increment / content: counter() rule). The
+     gutter is reserved space; supply the actual line numbers from your
+     syntax highlighter (or one element per line). Treat it as the hook for
+     a numbered layout, not a self-numbering block.
      ======================================== -->
 
 <!-- Numbered code block -->
@@ -234,7 +235,7 @@ INLINE CODE:
 CODE BLOCKS:
 - .pa-code - Basic code block (use on <pre>); white-space: pre, overflow-x: auto
 - .pa-code--compact - Smaller padding and font size
-- .pa-code--numbered - Line-number gutter on the inline-start side (RTL-aware)
+- .pa-code--numbered - Empty line-number gutter on the inline-start side (RTL-aware; resets a `line` counter but renders no numbers itself — supply them via your highlighter)
 - .pa-code--javascript - Yellow left border (#f0db4f)
 - .pa-code--json - Amber/orange left border (#f59e0b)
 - .pa-code--html - Red-orange left border (#e34c26)

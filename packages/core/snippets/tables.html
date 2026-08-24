@@ -136,6 +136,49 @@
 
 
 <!-- ================================
+     SELECTABLE ROWS (pa-table__checkbox-col + pa-table__row--selected)
+     Checkbox-driven row selection. The first column is a checkbox cell
+     (pa-table__checkbox-col — width:1%, centred, nowrap) holding a
+     pa-checkbox; put a "select all" checkbox in the matching <th>. Mark a
+     chosen row with pa-table__row--selected (tints it --pa-accent-light).
+     Inside a table cell the pa-checkbox's label is auto-hidden, so only the
+     box shows. See checkbox-lists.html for the pa-checkbox contract itself.
+     (These two selectors are defined in _checkbox-lists.scss, not _tables.scss.)
+     ================================ -->
+<table class="pa-table pa-table--striped">
+  <thead>
+    <tr>
+      <th class="pa-table__checkbox-col">
+        <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span></label>
+      </th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="pa-table__checkbox-col">
+        <label class="pa-checkbox"><input type="checkbox"><span class="pa-checkbox__box"></span></label>
+      </td>
+      <td>John Doe</td>
+      <td>john@example.com</td>
+      <td><span class="pa-badge pa-badge--success">Active</span></td>
+    </tr>
+    <!-- Selected row: add pa-table__row--selected to the <tr> and check its box -->
+    <tr class="pa-table__row--selected">
+      <td class="pa-table__checkbox-col">
+        <label class="pa-checkbox"><input type="checkbox" checked><span class="pa-checkbox__box"></span></label>
+      </td>
+      <td>Jane Smith</td>
+      <td>jane@example.com</td>
+      <td><span class="pa-badge pa-badge--success">Active</span></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- ================================
      RESPONSIVE TABLES (pa-table--responsive)
      Modifier on the <table> itself — NOT a wrapper class.
      Desktop: normal table.
@@ -391,6 +434,15 @@ Row/cell helpers:
                                  --responsive-grid modes
 - data-grid="2" | "3"            On <tr>: mobile grid layout
 - data-span="2" | "3" | "full"   On <td> inside data-grid row: column span
+
+Row selection (checkbox column — defined in _checkbox-lists.scss):
+- .pa-table__checkbox-col        On a <th>/<td>: width:1%, centred, nowrap.
+                                 Holds a .pa-checkbox whose label is auto-
+                                 hidden inside table cells. Put a "select all"
+                                 checkbox in the header cell.
+- tr.pa-table__row--selected     Marks a selected row; tints it
+                                 --pa-accent-light. See checkbox-lists.html
+                                 for the .pa-checkbox contract.
 
 Implicit behaviour:
 - Hover is built in (no modifier needed). Rows also get an inline-start

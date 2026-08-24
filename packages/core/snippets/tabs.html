@@ -450,6 +450,30 @@
 </div>
 
 
+<!-- WRAP-LABELS TABS (MULTI-LINE TITLES, UNIFIED HEIGHT) -->
+
+<!-- Wrap-labels Tabs - long titles break onto multiple lines instead of
+     overflowing. Cap the width with maxwr-* so a long label wraps while short
+     labels stay compact; the row keeps every tab as tall as the wrapped one
+     (no zig-zag) automatically. Ideal for irregular label sets like the one
+     below where "equal" wastes space and "auto" leaves a ragged edge. -->
+<div class="pa-tabs pa-tabs--wrap-labels">
+  <button class="pa-tabs__item pa-tabs__item--active">Orders</button>
+  <button class="pa-tabs__item">Invoices</button>
+  <button class="pa-tabs__item">Delivery sheets</button>
+  <button class="pa-tabs__item maxwr-15">Complaints and missed items</button>
+</div>
+<div class="pa-tabs__content">
+  <div class="pa-tabs__panel pa-tabs__panel--active" id="wraplbl-1">
+    Orders — the long "Complaints and missed items" tab wraps to two lines
+    (capped at 15rem); the other tabs match its height instead of zig-zagging.
+  </div>
+  <div class="pa-tabs__panel" id="wraplbl-2">Invoices content</div>
+  <div class="pa-tabs__panel" id="wraplbl-3">Delivery sheets content</div>
+  <div class="pa-tabs__panel" id="wraplbl-4">Complaints content</div>
+</div>
+
+
 <!-- SCROLLABLE TABS (HORIZONTAL SCROLL WITH ARROWS) -->
 
 <!-- Scrollable Tabs - Underline Style -->
@@ -982,8 +1006,13 @@ ALIGNMENT:
 - pa-tabs--full        (full-width tabs, equal distribution)
 
 OVERFLOW HANDLING:
-- (default)            (tabs wrap to multiple lines when constrained)
-- pa-tabs--nowrap      (prevent wrapping, tabs overflow in single line)
+- (default)            (tabs wrap to multiple LINES/ROWS when constrained;
+                        each label itself stays on one line — white-space: nowrap)
+- pa-tabs--nowrap      (prevent ROW wrapping, tabs overflow in single line)
+- pa-tabs--wrap-labels (allow each tab TITLE to wrap to multiple lines; pair
+                        with maxwr-*/wr-* to set the wrap width. The row keeps
+                        every tab as tall as the tallest wrapped one — no
+                        zig-zag — via the flex row's default align-items: stretch)
 - pa-tabs--scrollable  (horizontal scroll with arrow navigation;
                         requires .pa-tabs__scroll-container wrap and
                         .pa-tabs__scroll-btn--start / --end arrows)

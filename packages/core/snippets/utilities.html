@@ -186,6 +186,15 @@ localStorage.setItem('font-size', 'large');
 <div class="d-flex">flex</div>
 <div class="d-inline-flex">inline-flex</div>
 
+<!-- JS state hook (not a hand-authored utility). navbar-fit.js toggles
+     .pa-fit-hidden to drop a header slot / an inactive priority step from
+     the row. It's display:none !important (beats a component's own display,
+     e.g. .pa-navbar-search { display:flex }); "show" just removes the class
+     so the element reverts to its stylesheet display. Author non-first fit
+     steps WITH this class so only the largest variant shows before JS runs
+     (no stacked-variant flash, no-JS-safe). -->
+<div class="pa-navbar-search pa-fit-hidden">Inactive fit step (hidden until navbar-fit.js promotes it)</div>
+
 
 <!-- ================================
      FLEXBOX
@@ -558,7 +567,6 @@ TEXT SIZE (text-*):
 TEXT COLOUR (!important, colour-only):
 - text-primary / -success / -danger / -warning / -info
 - text-color-{1..9}           theme palette slots
-- text-muted                  alias for --pa-text-color-2
 
 TEXT ALIGNMENT / WRAP:
 - text-start / -center / -end    (logical — RTL-aware)
@@ -587,6 +595,11 @@ GAP (on flex / grid containers):
 
 DISPLAY:
 - d-none · d-inline · d-inline-block · d-block · d-flex · d-inline-flex
+- pa-fit-hidden      JS state hook (navbar-fit.js), NOT a utility you toggle
+                     by hand. display:none !important so it beats a
+                     component's own display; removing the class reverts to
+                     the element's stylesheet display. Pre-seed inactive fit
+                     steps with it so only the largest variant shows pre-JS.
 
 FLEXBOX:
 - flex-row / flex-column
@@ -685,7 +698,8 @@ CONTAINER QUERIES:
 
 LOGICAL vs PHYSICAL:
 The framework ships both. Logical classes (ms-*, me-*, ps-*, pe-*,
-text-start/end, pa-col--start/end) flip automatically under [dir="rtl"].
+text-start/end — also .pa-text--start/--end) flip automatically under
+[dir="rtl"].
 Physical classes (ml-*, mr-*, pl-*, pr-*, text-left/right — where they
 exist) do NOT flip. Prefer logical for new code.
 -->

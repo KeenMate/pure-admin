@@ -193,6 +193,13 @@ SUB-ELEMENTS:
   .pa-stat__group          Square fit-mode only — created by
                             pa-stat-fit.js; holds __number + __symbol
                             and carries the JS-computed font-size.
+  .pa-stat__meta           Square fit-mode only — created by
+                            pa-stat-fit.js; the column it wraps __label +
+                            __change + __context into so the whole metadata
+                            group can sit below (or, when wide, beside) the
+                            hero number. JS sets its font-size to a small
+                            fraction of the fitted number so the rows stay
+                            "supersmall" and em-scale together.
 
 VARIANTS (mutually exclusive):
   (default)                Icon + content row. Pair with
@@ -211,6 +218,14 @@ VARIANTS (mutually exclusive):
                             tile gains width AND height). Needs
                             pa-stat-fit.js loaded and a height source
                             on the tile.
+  .pa-stat--fit-wide       Square fit-mode only — JS-toggled (NOT a
+                            container query: a tile is its own size
+                            container and can't restyle itself via
+                            @container). Added by pa-stat-fit.js once the
+                            tile is wide enough to switch to the horizontal
+                            "banner" layout: number on the left, the full
+                            __meta column beside it (all rows revealed
+                            regardless of height). Never hand-author it.
 
 SQUARE COLOUR MODIFIERS (apply with --square):
   --primary, --success, --info, --warning, --danger, --secondary

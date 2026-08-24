@@ -26,6 +26,17 @@
     <div class="pa-command-palette__backdrop" id="commandPaletteBackdrop"></div>
 
     <div class="pa-command-palette__container">
+        <!-- Fullscreen title bar — injected by the palette driver ONLY on a
+             mobile fullscreen sheet (see MOBILE FULLSCREEN note below);
+             hidden (display:none) in the desktop floating dialog, which
+             closes via backdrop / Esc. Pinned top row: title + close. -->
+        <div class="pa-command-palette__fullscreen-bar">
+            <span class="pa-command-palette__fullscreen-title">Search</span>
+            <button class="pa-command-palette__close" aria-label="Close">
+                <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+            </button>
+        </div>
+
         <!-- Search row: tokens (top) + input (bottom) -->
         <div class="pa-command-palette__search">
             <!-- Tokens stay hidden while empty (:empty selector) -->
@@ -228,10 +239,12 @@ preset (they fall back to the SCSS defaults, so no recompile needed):
 
 
 <!-- ================================
-     NAVBAR SEARCH TRIGGER (pa-navbar-search)
-     Looks like an input; functions as a button. Clicking it opens the
-     palette. Shows the Cmd+K / Ctrl+K hint as a <kbd> on the
-     inline-end side. Has size variants matching the input/button sizes.
+     TRIGGERING THE PALETTE (pa-navbar-search pill)
+     The palette is opened by a pa-navbar-search pill (or Ctrl/Cmd+K, or a
+     sidebar pa-sidebar__search trigger). A minimal trigger is shown below.
+     The full navbar/sidebar search family — the pill plus its --field (live)
+     and --input (type-and-go) modes and the sidebar counterparts — is
+     documented in layout.html.
      ================================ -->
 
 <button class="pa-navbar-search" onclick="openCommandPalette()">
@@ -243,91 +256,29 @@ preset (they fall back to the SCSS defaults, so no recompile needed):
     </span>
 </button>
 
-<!-- Sizes (align with input / button sizes): -->
-<button class="pa-navbar-search pa-navbar-search--xs">…</button>
-<button class="pa-navbar-search pa-navbar-search--sm">…</button>
-<button class="pa-navbar-search pa-navbar-search--md">…</button>
-<button class="pa-navbar-search pa-navbar-search--lg">…</button>
-<button class="pa-navbar-search pa-navbar-search--xl">…</button>
-
-<!--
-Responsive: below $mobile-breakpoint (768px), both __placeholder and
-__shortcut are hidden so the trigger collapses to just the icon. The
-button retains its padding and hit area.
--->
+<!-- Full navbar-search modes (sizes, --field live search, --input type-and-go)
+     and the sidebar search (pa-sidebar__search / --input): see layout.html. -->
 
 
 <!-- ================================
-     INLINE NAVBAR SEARCH (pa-navbar-search--field)
-     A LIVE search box, not a trigger: a real <input> in the pill shell with
-     a results dropdown anchored below it. Independent of the palette — wire
-     your own results into .pa-search-autocomplete. Contrast with the pill
-     above (which just opens the palette).
+     SEARCH AUTOCOMPLETE (pa-search-autocomplete)
+     The live-search results dropdown. Shared: it's the list a
+     pa-navbar-search--field (see layout.html), a sidebar search, or the query
+     editor drops below its input. Populate rows + toggle [hidden] from your JS.
      ================================ -->
 
-<div class="pa-navbar-search pa-navbar-search--field">
-    <span class="pa-navbar-search__icon">🔍</span>
-    <input type="text" class="pa-navbar-search__field" placeholder="Search…" aria-label="Search">
-    <!-- Results dropdown (populate + toggle [hidden] from your JS) -->
-    <div class="pa-search-autocomplete" hidden>
-        <div class="pa-search-autocomplete__item">
-            <span class="pa-search-autocomplete__item-icon">💻</span>
-            <span class="pa-search-autocomplete__item-name">MacBook Pro 16"</span>
-            <span class="pa-search-autocomplete__item-type">Product</span>
-        </div>
+<div class="pa-search-autocomplete">
+    <div class="pa-search-autocomplete__item">
+        <span class="pa-search-autocomplete__item-icon">💻</span>
+        <span class="pa-search-autocomplete__item-name">MacBook Pro 16"</span>
+        <span class="pa-search-autocomplete__item-type">Product</span>
+    </div>
+    <div class="pa-search-autocomplete__item">
+        <span class="pa-search-autocomplete__item-icon">📦</span>
+        <span class="pa-search-autocomplete__item-name">Order #1024</span>
+        <span class="pa-search-autocomplete__item-type">Order</span>
     </div>
 </div>
-
-
-<!-- ================================
-     NAVBAR TYPE-AND-GO SEARCH (pa-navbar-search--input)
-     A real <input> in the pill shell wrapped in a <form>. Pressing Enter
-     submits the form (native browser GET) and navigates to a results page —
-     NO dropdown, NO palette. Set action/method to your search route; name the
-     input so it becomes the query param (?q=…). A single text field submits on
-     Enter with no submit button. Contrast the trigger pill (opens the palette)
-     and --field (live in-place results).
-     ================================ -->
-
-<form class="pa-navbar-search pa-navbar-search--input"
-      action="/search" method="get" role="search">
-    <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
-    <input type="search" name="q" class="pa-navbar-search__field"
-           placeholder="Search…" autocomplete="off" aria-label="Search">
-</form>
-
-
-<!-- ================================
-     SIDEBAR SEARCH TRIGGER (pa-sidebar__search)
-     A framed search affordance at the top of the sidebar; a trigger (opens
-     the palette / your own search). Collapses to just its icon in an
-     .pa-layout__sidebar--icon-collapse sidebar. Place as the first sidebar item.
-     ================================ -->
-
-<li class="pa-sidebar__item">
-    <button type="button" class="pa-sidebar__search" onclick="openCommandPalette()">
-        <span class="pa-sidebar__icon" aria-hidden="true">🔍</span>
-        <span class="pa-sidebar__label">Search…</span>
-    </button>
-</li>
-
-
-<!-- ================================
-     SIDEBAR TYPE-AND-GO SEARCH (pa-sidebar__search--input)
-     The sidebar counterpart of pa-navbar-search--input: a <form> in the framed
-     row, Enter navigates to the results page. The magnifier is a type="submit"
-     so that in an .pa-layout__sidebar--icon-collapse sidebar — where the field
-     is hidden — clicking the icon still submits (empty query → bare results page).
-     ================================ -->
-
-<li class="pa-sidebar__item">
-    <form class="pa-sidebar__search pa-sidebar__search--input"
-          action="/search" method="get" role="search">
-        <button type="submit" class="pa-sidebar__search-icon" aria-label="Search">🔍</button>
-        <input type="search" name="q" class="pa-sidebar__search-field"
-               placeholder="Search…" autocomplete="off" aria-label="Search">
-    </form>
-</li>
 
 
 <!-- ================================
@@ -438,6 +389,23 @@ Runtime size knobs (override to resize without a recompile; each falls back to
 its SCSS default): --pa-command-palette-width, --pa-command-palette-offset-top,
 --pa-command-palette-results-max-height.
 
+MOBILE FULLSCREEN SHEET (all JS-managed — added by the palette driver via
+pureAdmin.device classification, NOT a width media query: a narrowed DESKTOP
+window keeps the floating dialog; only a touch-primary phone gets the sheet):
+- .pa-command-palette--fullscreen       Root modifier that turns the dialog into
+                                        a full-viewport sheet: container goes
+                                        fixed at 100vw × 100dvh, backdrop hidden,
+                                        animation off, laid out as a flex column
+                                        (bar + search pinned, results fill/scroll,
+                                        footer pinned; the driver lifts it above
+                                        the soft keyboard).
+- .pa-command-palette__fullscreen-bar   Pinned top row (title + close). display:
+                                        none in the floating dialog; revealed
+                                        (display:flex) only under --fullscreen.
+- .pa-command-palette__fullscreen-title Sheet title text in that bar.
+- .pa-command-palette__close            The close button in the bar (mobile only;
+                                        desktop closes via backdrop / Esc).
+
 SEARCH ROW:
 - .pa-command-palette__search           Wrapper with bottom border.
 - .pa-command-palette__tokens           Flex-wrap row of token badges.
@@ -500,52 +468,11 @@ FOOTER:
                                         (used inside __hint and __shortcut).
 
 
-NAVBAR TRIGGER (pa-navbar-search):
-- .pa-navbar-search                     Clickable pill (button).
-- .pa-navbar-search--xs / --sm / --md
-- .pa-navbar-search--lg / --xl          Size variants matching input heights.
-- .pa-navbar-search__icon               Leading search icon.
-- .pa-navbar-search__placeholder        Muted prompt text (flex: 1,
-                                        ellipsis).
-- .pa-navbar-search__shortcut           Trailing flex row of <kbd>
-                                        keys styled as pillboxes.
-
-Responsive: below 768px, __placeholder and __shortcut both hide —
-trigger collapses to the icon only.
-
-
-INLINE NAVBAR SEARCH (pa-navbar-search--field):
-- .pa-navbar-search--field              Turns the pill into a LIVE search
-                                        box (a real input + dropdown),
-                                        not a palette trigger.
-- .pa-navbar-search__field              The borderless <input> filling it
-                                        (shared with --input below).
-- .pa-search-autocomplete               Results dropdown, anchored below
-                                        the field (shared component).
-
-NAVBAR TYPE-AND-GO SEARCH (pa-navbar-search--input):
-- .pa-navbar-search--input              Turns the pill into a <form> whose
-                                        native GET submit navigates to a
-                                        results page on Enter — no dropdown,
-                                        no palette. Reuses .pa-navbar-search
-                                        __field. Consumer sets action/method.
-
-SIDEBAR SEARCH TRIGGER (pa-sidebar__search):
-- .pa-sidebar__search                   Framed search affordance for the
-                                        sidebar top; a trigger. Uses the
-                                        shared .pa-sidebar__icon / __label;
-                                        collapses to the icon in an
-                                        icon-collapse sidebar.
-
-SIDEBAR TYPE-AND-GO SEARCH (pa-sidebar__search--input):
-- .pa-sidebar__search--input            Sidebar counterpart of the navbar
-                                        --input: a <form>, Enter navigates
-                                        to the results page.
-- .pa-sidebar__search-icon              type="submit" magnifier; in an
-                                        icon-collapse sidebar (field hidden)
-                                        clicking it submits the empty query.
-- .pa-sidebar__search-field             The borderless <input>; hidden when
-                                        the sidebar is icon-collapsed.
+NAVBAR / SIDEBAR SEARCH — moved to layout.html:
+The palette is opened by a .pa-navbar-search pill (or Ctrl/Cmd+K, or a
+.pa-sidebar__search trigger). Those navbar/sidebar search elements —
+.pa-navbar-search (--field / --input / size variants) and .pa-sidebar__search
+(--input) — are shell components documented in layout.html.
 
 
 SHORTCUT HELP DIALOG (pa-shortcut-help):

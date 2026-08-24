@@ -193,14 +193,14 @@
                         </div>
                         <div class="pa-card__body">
                             <div class="pa-alert pa-alert--info">
-                                <strong>Available widths:</strong> Use <code>pa-tabs__item--w-1x</code> through <code>pa-tabs__item--w-10x</code> for 1rem to 10rem min-width.
+                                <strong>Sizing utilities:</strong> Use <code>minwr-{n}</code> / <code>wr-{n}</code> / <code>maxwr-{n}</code> (rem width) on a tab item — <code>n</code> = 1&ndash;10, 15, 20&hellip;50. <code>minwr-*</code> sets a floor (short labels align, long ones still grow); <code>wr-*</code> pins an exact width.
                             </div>
 
-                            <h4>6x Width (6rem each)</h4>
+                            <h4>Min-width 6rem (minwr-6)</h4>
                             <div class="pa-tabs">
-                                <button class="pa-tabs__item pa-tabs__item--w-6x pa-tabs__item--active" onclick="switchTab(this, 'fixed-tab-1')">View</button>
-                                <button class="pa-tabs__item pa-tabs__item--w-6x" onclick="switchTab(this, 'fixed-tab-2')">Edit</button>
-                                <button class="pa-tabs__item pa-tabs__item--w-6x" onclick="switchTab(this, 'fixed-tab-3')">Delete</button>
+                                <button class="pa-tabs__item minwr-6 pa-tabs__item--active" onclick="switchTab(this, 'fixed-tab-1')">View</button>
+                                <button class="pa-tabs__item minwr-6" onclick="switchTab(this, 'fixed-tab-2')">Edit</button>
+                                <button class="pa-tabs__item minwr-6" onclick="switchTab(this, 'fixed-tab-3')">Delete</button>
                             </div>
                             <div class="pa-tabs__content">
                                 <div class="pa-tabs__panel pa-tabs__panel--active" id="fixed-tab-1">
@@ -214,13 +214,13 @@
                                 </div>
                             </div>
 
-                            <h4 style="margin-top: 1.5rem;">8x Width (8rem each)</h4>
+                            <h4 style="margin-top: 1.5rem;">Min-width 8rem with icons (minwr-8)</h4>
                             <div class="pa-tabs">
-                                <button class="pa-tabs__item pa-tabs__item--w-8x pa-tabs__item--active" onclick="switchTab(this, 'fixed-8x-1')">
+                                <button class="pa-tabs__item minwr-8 pa-tabs__item--active" onclick="switchTab(this, 'fixed-8x-1')">
                                     <i class="fa-solid fa-chart-line"></i>
                                     <span>Dashboard</span>
                                 </button>
-                                <button class="pa-tabs__item pa-tabs__item--w-8x" onclick="switchTab(this, 'fixed-8x-2')">
+                                <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'fixed-8x-2')">
                                     <i class="fa-solid fa-chart-bar"></i>
                                     <span>Analytics</span>
                                 </button>
@@ -232,6 +232,59 @@
                                 <div class="pa-tabs__panel" id="fixed-8x-2">
                                     <p>Analytics data.</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wrap Labels: multi-line titles with unified height -->
+            <div class="pa-row">
+                <div class="pa-col-100">
+                    <div class="pa-card">
+                        <div class="pa-card__header">
+                            <div class="pa-card__title">
+                                <h3 class="pa-card__title-text">Wrap Labels (multi-line titles)</h3>
+                            </div>
+                        </div>
+                        <div class="pa-card__body">
+                            <div class="pa-alert pa-alert--info">
+                                <strong>The problem:</strong> an irregular label set like
+                                <em>Orders / Invoices / Delivery sheets / Complaints and missed items</em>
+                                looks bad both ways &mdash; <code>--full</code> stretches the short tabs into dead space,
+                                and plain auto width leaves the long one huge and the edge ragged.
+                                <code>pa-tabs--wrap-labels</code> lets the long title wrap; cap it with
+                                <code>maxwr-*</code> to choose the wrap point. The row then keeps every tab as tall
+                                as the wrapped one &mdash; no zig-zag &mdash; via the flex row's default
+                                <code>align-items: stretch</code>.
+                            </div>
+
+                            <h4>Default (auto width, no wrap) &mdash; ragged, long tab dominates</h4>
+                            <div class="pa-tabs">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'wl-auto-1')">Orders</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'wl-auto-2')">Invoices</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'wl-auto-3')">Delivery sheets</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'wl-auto-4')">Complaints and missed items</button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="wl-auto-1"><p>Orders content.</p></div>
+                                <div class="pa-tabs__panel" id="wl-auto-2"><p>Invoices content.</p></div>
+                                <div class="pa-tabs__panel" id="wl-auto-3"><p>Delivery sheets content.</p></div>
+                                <div class="pa-tabs__panel" id="wl-auto-4"><p>Complaints content.</p></div>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem;">With <code>pa-tabs--wrap-labels</code> + <code>maxwr-15</code> on the long tab &mdash; tidy, level</h4>
+                            <div class="pa-tabs pa-tabs--wrap-labels">
+                                <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'wl-wrap-1')">Orders</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'wl-wrap-2')">Invoices</button>
+                                <button class="pa-tabs__item" onclick="switchTab(this, 'wl-wrap-3')">Delivery sheets</button>
+                                <button class="pa-tabs__item maxwr-15" onclick="switchTab(this, 'wl-wrap-4')">Complaints and missed items</button>
+                            </div>
+                            <div class="pa-tabs__content">
+                                <div class="pa-tabs__panel pa-tabs__panel--active" id="wl-wrap-1"><p>Orders content &mdash; the long tab wraps to two lines; the short tabs stretch to match its height.</p></div>
+                                <div class="pa-tabs__panel" id="wl-wrap-2"><p>Invoices content.</p></div>
+                                <div class="pa-tabs__panel" id="wl-wrap-3"><p>Delivery sheets content.</p></div>
+                                <div class="pa-tabs__panel" id="wl-wrap-4"><p>Complaints content.</p></div>
                             </div>
                         </div>
                     </div>

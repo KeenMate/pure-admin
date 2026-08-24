@@ -186,6 +186,21 @@
     flex-wrap: nowrap;
   }
 
+  // Wrap-labels tabs - allow multi-line tab titles (opt-in; items are
+  // white-space: nowrap by default). Pair with a width cap (wr-* / maxwr-*
+  // utility on the item) to choose where the label wraps — e.g. cap a long
+  // "Complaints and missed items" tab so it breaks onto two lines while short
+  // tabs stay compact. The row's default align-items: stretch then keeps every
+  // item as tall as the wrapped one, so single-line and multi-line tabs stay
+  // level instead of zig-zagging; the item's own align-items: center keeps each
+  // label vertically centred in that shared height.
+  &--wrap-labels {
+    .pa-tabs__item {
+      white-space: normal;
+      text-align: center;
+    }
+  }
+
   // Scrollable tabs - horizontal scroll with arrow navigation
   &--scrollable {
     position: relative;

@@ -123,3 +123,207 @@
     </div>
   </div>
 </div>
+
+
+<!-- ================================
+     TICK MARKS (JS-built from data-ticks / data-ticks-minor / data-tick-labels)
+     range-group.js reads those data-* on a .pa-range and injects a
+     .pa-range__ticks container (the rail's FIRST child, painted behind the
+     track so only the mark ends protrude) plus — when data-tick-labels is set —
+     a .pa-range__tick-labels band appended to the rail, and adds
+     .pa-range--ticks-labeled to the row to reserve height for the labels.
+     Every tick / label is positioned by an inline --_pos (0–100% of the rail).
+     Shown here as the RESULTING DOM — you author only the data-* attributes.
+     ================================ -->
+<div class="pa-range pa-range--ticks-labeled" data-range
+     data-key="score" data-label="Score"
+     data-min="0" data-max="100" data-step="1"
+     data-value-min="20" data-value-max="80"
+     data-ticks="25" data-ticks-minor="5" data-tick-labels>
+  <div class="pa-range__rail">
+    <!-- JS-injected: ticks behind the track (--major = taller/thicker) -->
+    <div class="pa-range__ticks">
+      <span class="pa-range__tick pa-range__tick--major" style="--_pos: 0%"></span>
+      <span class="pa-range__tick" style="--_pos: 5%"></span>
+      <span class="pa-range__tick" style="--_pos: 10%"></span>
+      <span class="pa-range__tick pa-range__tick--major" style="--_pos: 25%"></span>
+      <!-- … minor ticks every 5, major ticks every 25 … -->
+      <span class="pa-range__tick pa-range__tick--major" style="--_pos: 100%"></span>
+    </div>
+    <div class="pa-range__track"></div>
+    <div class="pa-range__fill" data-range-fill></div>
+    <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Minimum score"></button>
+    <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Maximum score"></button>
+    <!-- JS-injected: label band below the track (major ticks only) -->
+    <div class="pa-range__tick-labels">
+      <span class="pa-range__tick-label" style="--_pos: 0%">0</span>
+      <span class="pa-range__tick-label" style="--_pos: 25%">25</span>
+      <span class="pa-range__tick-label" style="--_pos: 100%">100</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================
+     DISABLED SLIDER (pa-range--disabled)
+     Dim + non-interactive. Mix onto any .pa-range row.
+     ================================ -->
+<div class="pa-range pa-range--disabled" data-range
+     data-key="locked" data-label="Locked"
+     data-min="0" data-max="100" data-value-min="20" data-value-max="80">
+  <div class="pa-range__rail">
+    <div class="pa-range__track"></div>
+    <div class="pa-range__fill" data-range-fill></div>
+    <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-label="Minimum" disabled></button>
+    <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Maximum" disabled></button>
+  </div>
+</div>
+
+
+<!-- ================================
+     OPEN STATE + SUMMARY SEGMENTS (JS-managed)
+     While open, range-group.js adds .pa-range-group--open to the root (rotates
+     the caret) and .pa-range-group__panel--open to the panel (display:flex). It
+     also builds the closed-state summary INSIDE .pa-range-group__summary — one
+     __seg-label + __seg-value pair per dimension, joined by __seg-sep "/". A
+     dimension at its full bound reads "Any" via __seg-value--empty, and that
+     row's in-panel readout uses __row-value--empty. Shown as the RESULTING DOM.
+     ================================ -->
+<div class="pa-range-group pa-range-group--open" data-range-group>
+  <button type="button" class="pa-range-group__toggle" data-range-group-toggle aria-expanded="true">
+    <span class="pa-range-group__summary" data-range-group-summary>
+      <!-- JS-built segments: -->
+      <span class="pa-range-group__seg-label">Age</span>
+      <span class="pa-range-group__seg-value">25&#8211;60</span>
+      <span class="pa-range-group__seg-sep">/</span>
+      <span class="pa-range-group__seg-label">Salary</span>
+      <span class="pa-range-group__seg-value">$40,000+</span>
+      <span class="pa-range-group__seg-sep">/</span>
+      <span class="pa-range-group__seg-label">Children</span>
+      <span class="pa-range-group__seg-value pa-range-group__seg-value--empty">Any</span>
+    </span>
+    <i class="fas fa-chevron-down pa-range-group__caret" aria-hidden="true"></i>
+  </button>
+
+  <div class="pa-range-group__panel pa-range-group__panel--open" data-range-group-panel role="dialog" aria-label="Numeric filters">
+    <div class="pa-range-group__row">
+      <div class="pa-range-group__row-head">
+        <span class="pa-range-group__row-label">Children</span>
+        <!-- unbounded → muted readout -->
+        <span class="pa-range-group__row-value pa-range-group__row-value--empty" data-range-output>Any</span>
+      </div>
+      <div class="pa-range pa-range--single" data-range
+           data-key="children" data-label="Children"
+           data-min="0" data-max="8" data-step="1"
+           data-mode="single" data-bound="gte" data-value="0">
+        <div class="pa-range__rail">
+          <div class="pa-range__track"></div>
+          <div class="pa-range__fill" data-range-fill></div>
+          <button type="button" class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min" aria-hidden="true"></button>
+          <button type="button" class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max" aria-label="Minimum children"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================
+     COMPONENT REFERENCE
+     ================================ -->
+
+<!--
+TWO BLOCKS live in this file:
+  .pa-range         the slider primitive (single- or dual-thumb)
+  .pa-range-group   the compact multi-slider control (toggle + floating panel)
+
+═══ pa-range — SLIDER PRIMITIVE ═══
+
+STRUCTURE (you author this; JS drives positions via inline custom props):
+  .pa-range                 [data-range + per-row data-* config]
+    .pa-range__rail         travel track (thumbs inset half a handle each side)
+      .pa-range__track      the groove
+      .pa-range__fill       [data-range-fill] selected span (JS sets --_fill-*)
+      .pa-range__thumb--min / --max   [data-range-thumb]  draggable handles
+
+MODIFIERS:
+  .pa-range--single         one thumb (hides --min); pair with data-mode="single"
+  .pa-range--disabled       0.5 opacity + pointer-events:none
+  Handle shapes (cosmetic, mix per row, no JS — inner markup identical):
+    (none)                    round handle (default)
+    .pa-range--handle-rect    rounded rectangle
+    .pa-range--handle-bar     thin vertical bar "|"
+    .pa-range--handle-arrow   chevron handles "‹ ›"
+    .pa-range--handle-needle  downward-triangle needles "▽"
+  .pa-range--ticks-labeled  added by JS when data-tick-labels is set (reserves a
+                            label band below the track)
+
+STATE (JS toggles):
+  .pa-range__thumb--grabbing  during a drag — grabbing cursor + focus ring
+                              (same visual as the thumb's :active state)
+
+TICK MARKS (JS-built from data-ticks / data-ticks-minor / data-tick-labels):
+  .pa-range__ticks          container; rail's first child; painted behind track
+    .pa-range__tick           minor mark (inline --_pos)
+    .pa-range__tick--major    major mark (taller / thicker)
+  .pa-range__tick-labels    label band appended to the rail (major ticks only)
+    .pa-range__tick-label     one value label (inline --_pos)
+
+PER-ROW data-* CONFIG (on the .pa-range) — full list in the header comment at
+the top of this file: data-min/max/step, data-mode ("range"|"single"),
+data-bound ("gte"|"lte"), data-value / data-value-min / -max, data-prefix /
+data-suffix, data-thousands, data-ticks / -minor, data-tick-labels, data-snap-ticks.
+
+═══ pa-range-group — COMPACT MULTI-SLIDER ═══
+
+STRUCTURE:
+  .pa-range-group           [data-range-group]  inline-flex root
+    .pa-range-group__toggle [data-range-group-toggle]  summary button
+      .pa-range-group__summary  [data-range-group-summary]  JS fills w/ segments
+      .pa-range-group__caret    chevron (rotates when open)
+    .pa-range-group__panel  [data-range-group-panel]  floating (reparented to
+                            <body> while open; display:none until --open)
+      .pa-range-group__row              one dimension
+        .pa-range-group__row-head
+          .pa-range-group__row-label    dimension name
+          .pa-range-group__row-value    [data-range-output] live readout
+        .pa-range                       a slider row (per above)
+      .pa-range-group__actions          Reset / Apply footer
+        .pa-btn (data-range-group-reset / -apply)
+
+SUMMARY SEGMENTS (JS-built inside __summary; closed-state "Age 25–60 / …"):
+  .pa-range-group__seg-label            dimension name (uppercase, muted)
+  .pa-range-group__seg-value            its value (tabular figures)
+  .pa-range-group__seg-value--empty     "Any" placeholder (muted) when a
+                                        dimension sits at its full bound
+  .pa-range-group__seg-sep              " / " between segments
+
+STATES (JS toggles):
+  .pa-range-group--open                 on the root — rotates the caret
+  .pa-range-group__panel--open          on the panel — display:flex
+  .pa-range-group__row-value--empty     muted in-panel readout for an unbounded row
+
+THEMING: runtime --pa-range-* / --pa-range-group-* tokens (see the header
+comment + CSS-VARIABLES.md). NB the panel reparents to <body>, so per-instance
+token overrides belong on the __panel or the .pa-range rows, NOT the group root.
+
+DROP-IN: put a .pa-range-group in a .pa-filter-card__filters row as one control
+standing in for N sliders (see filter-card.html).
+
+STRUCTURE PATTERNS:
+
+Standalone dual-thumb slider:
+<div class="pa-range" data-range data-key="price" data-label="Price"
+     data-min="0" data-max="1000" data-value-min="100" data-value-max="800">
+  <div class="pa-range__rail">
+    <div class="pa-range__track"></div>
+    <div class="pa-range__fill" data-range-fill></div>
+    <button class="pa-range__thumb pa-range__thumb--min" data-range-thumb="min"></button>
+    <button class="pa-range__thumb pa-range__thumb--max" data-range-thumb="max"></button>
+  </div>
+</div>
+
+Single-thumb threshold (≥): add .pa-range--single + data-mode="single"
+data-bound="gte" data-value="N" — same rail; the --min thumb is hidden.
+-->
+

@@ -96,6 +96,30 @@
 
 
 <!-- ================================
+     BODY STATE HOOKS (theme mode + scroll lock)
+     More <body>-level classes, toggled by JS at runtime — orthogonal to the
+     layout/container flags above:
+       pa-mode-light / pa-mode-dark
+                          — active theme mode. Themes emit their --pa-* values
+                            at :root/.pa-mode-light and dark overrides at
+                            .pa-mode-dark, so flipping this class on <body>
+                            switches light/dark at runtime. Set exactly one.
+       pa-scroll-lock     — freezes body scroll while an overlay/panel is open
+                            (detail-panel, modal, mobile sidebar); remove it
+                            when the overlay closes.
+     ================================ -->
+
+<body class="pa-mode-dark">
+    <!-- Dark theme active -->
+</body>
+
+<!-- Light theme with body scroll frozen (e.g. a detail panel is open) -->
+<body class="pa-mode-light pa-scroll-lock">
+    <!-- … -->
+</body>
+
+
+<!-- ================================
      NAVBAR / HEADER
      A fixed burger anchor + three degradable zones (start / center / end)
      inside .pa-navbar__inner. The burger sits OUTSIDE the zones (it never
@@ -192,6 +216,61 @@ Notes on the navbar:
 
 
 <!-- ================================
+     NAVBAR SEARCH (pa-navbar-search)
+     A search affordance for the navbar centre slot (.pa-navbar__center).
+     Three modes share the .pa-navbar-search pill shell:
+       1. trigger (bare)   a button that OPENS the command palette
+       2. --field          a LIVE search input with a results dropdown
+       3. --input          a <form> that submits to a results page (no palette)
+     The palette component itself lives in command-palette.html.
+     ================================ -->
+
+<!-- 1. TRIGGER — looks like an input, functions as a button; opens the palette.
+     Shows a Cmd/Ctrl+K hint. Size variants match the input/button sizes. Below
+     $mobile-breakpoint the __placeholder + __shortcut hide (collapses to icon). -->
+<button class="pa-navbar-search" onclick="openCommandPalette()">
+    <span class="pa-navbar-search__icon">🔍</span>
+    <span class="pa-navbar-search__placeholder">Search or jump to…</span>
+    <span class="pa-navbar-search__shortcut">
+        <kbd>Ctrl</kbd>
+        <kbd>K</kbd>
+    </span>
+</button>
+
+<!-- Sizes (align with input / button sizes): -->
+<button class="pa-navbar-search pa-navbar-search--xs">…</button>
+<button class="pa-navbar-search pa-navbar-search--sm">…</button>
+<button class="pa-navbar-search pa-navbar-search--md">…</button>
+<button class="pa-navbar-search pa-navbar-search--lg">…</button>
+<button class="pa-navbar-search pa-navbar-search--xl">…</button>
+
+<!-- 2. --field — a LIVE search box (real <input> + results dropdown anchored
+     below). Independent of the palette; wire your own results into
+     .pa-search-autocomplete (toggle its [hidden] from JS). -->
+<div class="pa-navbar-search pa-navbar-search--field">
+    <span class="pa-navbar-search__icon">🔍</span>
+    <input type="text" class="pa-navbar-search__field" placeholder="Search…" aria-label="Search">
+    <div class="pa-search-autocomplete" hidden>
+        <div class="pa-search-autocomplete__item">
+            <span class="pa-search-autocomplete__item-icon">💻</span>
+            <span class="pa-search-autocomplete__item-name">MacBook Pro 16"</span>
+            <span class="pa-search-autocomplete__item-type">Product</span>
+        </div>
+    </div>
+</div>
+
+<!-- 3. --input — a real <input> wrapped in a <form>. Enter submits (native GET)
+     and navigates to a results page — no dropdown, no palette. Set action/method
+     to your route; name the input so it becomes the query param (?q=…). -->
+<form class="pa-navbar-search pa-navbar-search--input"
+      action="/search" method="get" role="search">
+    <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
+    <input type="search" name="q" class="pa-navbar-search__field"
+           placeholder="Search…" autocomplete="off" aria-label="Search">
+</form>
+
+
+<!-- ================================
      NAVBAR — RESPONSIVE COLLAPSE (progressive, priority-driven)
      Add data-pa-nav-collapse to .pa-navmenu and navbar-collapse.js walks
      the lowest-priority items out as the header narrows, restoring them as it
@@ -229,6 +308,25 @@ Notes on the navbar:
         <li class="pa-navmenu__item"><a href="/forms">Forms</a></li>
     </ul>
 </nav>
+
+<!-- Generated DOM (menu mode). navbar-collapse.js appends a "More" trigger
+     <li> to the nav and a detached panel <ul> parented to <body> (so it
+     escapes the navbar's overflow:hidden). While open, the trigger carries
+     .is-open (rotates .pa-navmenu__more-chevron) and the panel carries
+     .pa-navmenu__more-menu--open (a compound selector that outweighs the
+     base `.pa-navmenu__dropdown { display:none }` to reveal it):
+
+     <li class="pa-navmenu__item pa-navmenu__item--more is-open">
+       <a class="pa-navmenu__link">More
+         <span class="pa-navmenu__more-chevron" aria-hidden="true">›</span>
+       </a>
+     </li>
+     ... appended to <body>:
+     <ul class="pa-navmenu__dropdown pa-navmenu__more-menu pa-navmenu__more-menu--open">
+       <li class="pa-navmenu__item"><a href="/forms">Forms</a></li>
+       ... folded items; any nested __dropdown here renders FLAT (static) ...
+     </ul>
+-->
 
 <!-- SIDEBAR mode — folds into the sidebar under a "Menu" section heading.
      Target defaults to the first .pa-sidebar__nav > ul; override with
@@ -284,6 +382,35 @@ Notes on the navbar:
         </ul>
     </nav>
 </aside>
+
+
+<!-- ================================
+     SIDEBAR — SEARCH ROW (pa-sidebar__search)
+     A framed search affordance as the FIRST sidebar item. Two modes:
+       trigger    a button that opens the palette / your search
+       --input    a <form> whose magnifier is type="submit", so in an
+                  icon-collapse sidebar (field hidden) clicking the icon
+                  still submits (empty query → bare results page).
+     Counterpart of the navbar search above. Place inside the sidebar <ul>.
+     ================================ -->
+
+<!-- Trigger — collapses to just its icon in an icon-collapse sidebar. -->
+<li class="pa-sidebar__item">
+    <button type="button" class="pa-sidebar__search" onclick="openCommandPalette()">
+        <span class="pa-sidebar__icon" aria-hidden="true">🔍</span>
+        <span class="pa-sidebar__label">Search…</span>
+    </button>
+</li>
+
+<!-- Type-and-go — sidebar counterpart of pa-navbar-search--input. -->
+<li class="pa-sidebar__item">
+    <form class="pa-sidebar__search pa-sidebar__search--input"
+          action="/search" method="get" role="search">
+        <button type="submit" class="pa-sidebar__search-icon" aria-label="Search">🔍</button>
+        <input type="search" name="q" class="pa-sidebar__search-field"
+               placeholder="Search…" autocomplete="off" aria-label="Search">
+    </form>
+</li>
 
 
 <!-- ================================
@@ -464,8 +591,14 @@ Notes on the navbar:
      with a finger. This is pure CSS (@media (pointer: coarse)); no markup or
      class change is needed, the same .pa-sidebar-resize element adapts.
 
-     There is NO pa-layout__sidebar--resizable or --sticky modifier.
-     Earlier docs claimed these; they never existed in SCSS.
+     `.pa-layout__sidebar--resizable` is a JS activation marker, not a
+     styling class — it has no SCSS rules; the shipped driver keys off it to
+     decide which sidebar to wire and where to inject the handle. All styling
+     hooks are the `.pa-sidebar-resize` handle, `.pa-sidebar-resize--active`,
+     `body.pa-sidebar-resizing` / `.pa-sidebar-resized`, and the
+     `--pa-local-sidebar-*` vars. (There is NO `pa-layout__sidebar--sticky`
+     modifier — don't confuse it with the real body-level `pa-layout--sticky`
+     flag.)
      ================================ -->
 
 <!-- Fixed width via rem utility — overrides the CSS variable default -->
@@ -473,13 +606,14 @@ Notes on the navbar:
     <!-- 25rem (250px) — utility class wins because :where() has 0 specificity -->
 </aside>
 
-<!-- Resizable sidebar — user-drag-to-resize via handle + JS -->
-<aside class="pa-layout__sidebar">
+<!-- Resizable sidebar — add the --resizable marker; the shipped driver
+     (src/js/sidebar-resize.js) injects the .pa-sidebar-resize handle, wires
+     drag + touch, and persists the width. -->
+<aside class="pa-layout__sidebar pa-layout__sidebar--resizable">
     <nav class="pa-sidebar__nav">
         <!-- nav items -->
     </nav>
-    <!-- Handle element; styled absolute on inline-end edge -->
-    <div class="pa-sidebar-resize"></div>
+    <!-- .pa-sidebar-resize handle is created by the driver at runtime -->
 </aside>
 
 <!-- Width bounds set by the CSS variables below — JS should respect these: -->
@@ -598,6 +732,14 @@ BODY-LEVEL FLAGS (orthogonal — any combination is valid):
 - .sidebar-visible             Mobile sidebar overlay visible.
 - .pa-sidebar-resizing         Set by the resize JS during drag (locks
                                text selection, forces ew-resize cursor).
+- .pa-mode-light / .pa-mode-dark
+                               Active theme mode. Themes emit --pa-* values at
+                               :root/.pa-mode-light and dark overrides at
+                               .pa-mode-dark, so toggling this on <body> flips
+                               light/dark at runtime. Set exactly one.
+- .pa-scroll-lock              Freezes body scroll while an overlay/panel is
+                               open (detail-panel, modal, mobile sidebar);
+                               remove on close. Defined in _utilities.scss.
 
 NAVBAR HEADER SECTIONS (inside .pa-navbar__inner):
 - .pa-navbar__start            Start-anchored section; flex, gap.
@@ -622,9 +764,36 @@ NAVBAR ELEMENTS (inside header sections):
 - .pa-navmenu__dropdown         Hover-dropdown <ul> (absolute; card-bg;
                                box-shadow; z-index 1100).
 - .pa-navmenu__dropdown--level2 Nested dropdown shifted to the side.
+- Responsive-collapse (menu mode) generated elements — all built by
+  navbar-collapse.js, not hand-authored:
+    .pa-navmenu__item--more      The generated "More" trigger <li>
+                                 (position: relative; carries .is-open
+                                 while its panel is showing).
+    .pa-navmenu__more-chevron    The ›/▾ glyph; rotates 90° under .is-open.
+    .pa-navmenu__more-menu       The folded-items panel (a __dropdown
+                                 parented to <body>; z-index above the navbar).
+                                 Nested __dropdowns inside it render FLAT.
+    .pa-navmenu__more-menu--open Reveals the panel — compound selector that
+                                 beats the base __dropdown display:none.
 - .pa-page-header            Centre-section page title with ellipsis h2.
 - .pa-navbar__profile-btn      Right-side profile button (flex-shrink: 0).
 - .theme-switcher              Inline label + select styled for the header.
+
+NAVBAR SEARCH (centre-slot search; the palette lives in command-palette.html):
+- .pa-navbar-search            Pill shell. Bare = a button trigger that opens
+                               the command palette. Size variants --xs / --sm /
+                               --md / --lg / --xl match input/button heights.
+- .pa-navbar-search__icon      Leading search icon.
+- .pa-navbar-search__placeholder  Muted prompt text (flex:1, ellipsis). Hidden
+                               below $mobile-breakpoint.
+- .pa-navbar-search__shortcut  Trailing <kbd> row (Cmd/Ctrl+K hint). Hidden
+                               below $mobile-breakpoint.
+- .pa-navbar-search--field     Turns the pill into a LIVE search box (real input
+                               + .pa-search-autocomplete dropdown), not a trigger.
+- .pa-navbar-search--input     Turns the pill into a <form> whose native GET
+                               submit navigates to a results page on Enter — no
+                               dropdown, no palette.
+- .pa-navbar-search__field     The borderless <input> (shared by --field / --input).
 
 SIDEBAR:
 - .pa-layout__sidebar                  Sidebar column; width comes from
@@ -652,18 +821,36 @@ SIDEBAR BEM BLOCK:
 - .pa-sidebar__submenu          Nested <ul>; hidden by default.
 - .pa-sidebar__submenu--open    Visible state.
 
+SIDEBAR SEARCH (first sidebar item; counterpart of the navbar search):
+- .pa-sidebar__search           Framed search affordance for the sidebar top.
+                                Bare = a trigger; uses the shared .pa-sidebar__icon
+                                / __label; collapses to the icon in an
+                                icon-collapse sidebar.
+- .pa-sidebar__search--input    Type-and-go <form> counterpart: Enter navigates
+                                to the results page.
+- .pa-sidebar__search-icon      type="submit" magnifier; in an icon-collapse
+                                sidebar (field hidden) clicking it submits the
+                                empty query.
+- .pa-sidebar__search-field     The borderless <input>; hidden when the sidebar
+                                is icon-collapsed.
+
 RESIZE MECHANISM:
+- .pa-layout__sidebar--resizable JS activation marker (no SCSS) — put it on
+                                 the sidebar to opt into the shipped driver,
+                                 which injects the handle below.
 - .pa-sidebar-resize            Handle element inside the sidebar
-                                (absolute-positioned on the inline-end edge).
+                                (absolute-positioned on the inline-end edge);
+                                created by the driver at runtime.
 - .pa-sidebar-resize--active    Active state (highlighted during drag).
 - --pa-local-sidebar-width       runtime width; JS rewrites this on drag.
 - --pa-local-sidebar-min-width   floor (default 18rem).
 - --pa-local-sidebar-max-width   ceiling (default 50rem).
 - body.pa-sidebar-resizing       set by JS during drag to disable text
                                  selection + force ew-resize cursor.
-(NO .pa-layout__sidebar--resizable or --sticky — these were never in
- SCSS. The older snippet advertised them; the real knobs are the CSS
- variable + handle element above.)
+- body.pa-sidebar-resized        set by JS once dragged; honours the explicit
+                                 width in the tablet band (bypasses the cap).
+(NO .pa-layout__sidebar--sticky — that sidebar modifier never existed. Don't
+ confuse it with the real body-level .pa-layout--sticky flag.)
 
 RESPONSIVE BEHAVIOUR (built in):
 - Below $mobile-breakpoint (768px):
@@ -704,9 +891,8 @@ Constrained-width layout:
 </body>
 
 Resizable sidebar:
-<aside class="pa-layout__sidebar">
+<aside class="pa-layout__sidebar pa-layout__sidebar--resizable">
   <nav class="pa-sidebar__nav">…</nav>
-  <div class="pa-sidebar-resize"></div>
 </aside>
-<!-- + JS that updates --pa-local-sidebar-width on drag -->
+<!-- shipped driver injects .pa-sidebar-resize + updates --pa-local-sidebar-width -->
 -->

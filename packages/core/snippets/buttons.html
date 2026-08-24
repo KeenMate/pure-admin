@@ -310,6 +310,40 @@
   </div>
 </div>
 
+<!-- Generated DOM (overflow, collapsed). overflow.js appends ONE trigger and
+     one shared menu, then walks low-priority children into it. You never
+     author these classes — they're the retheming/aliasing hooks the JS emits:
+
+       .pa-overflow__trigger        The appended [⋮] "more" button. Ships as
+                                    `pa-btn pa-btn--xs pa-btn--icon-only
+                                    pa-btn--secondary pa-overflow__trigger`
+                                    (ghost variant via data-pa-overflow-trigger
+                                    ="ghost"). The element class carries no
+                                    look of its own — pure hook.
+       .pa-btn-split__menu          Reused as the trigger's dropdown container
+                                    (same styling as a split button's menu).
+       .pa-btn-split--in-overflow   Added to a folded .pa-btn-split so it
+                                    unfolds in place as an ATOMIC labeled group
+                                    instead of a flat row — its base class stays
+                                    so inner __menu / __item rules still match.
+       .pa-btn-split__group-label   The section heading the JS inserts above the
+                                    folded split button's options, keeping them
+                                    attached to their own label.
+
+     <button class="pa-btn pa-btn--xs pa-btn--icon-only pa-btn--secondary
+                    pa-overflow__trigger">⋮</button>
+     <div class="pa-btn-split__menu">
+       <div class="pa-btn-split__menu-inner">
+         <button class="pa-btn-split__item">Publish</button>       <!-- plain fold -->
+         <div class="pa-btn-split pa-btn-split--in-overflow">      <!-- atomic group -->
+           <div class="pa-btn-split__group-label">Run</div>
+           <button class="pa-btn-split__item">Run</button>
+           <button class="pa-btn-split__item">Run with options…</button>
+         </div>
+       </div>
+     </div>
+-->
+
 <!-- In a card header, use the card-flavored alias .pa-card__actions--overflow on
      the .pa-card__actions slot itself — the buttons and split button are its
      direct children (no inner wrapper). It auto-inits like a standalone
@@ -573,6 +607,27 @@ SPLIT BUTTON (.pa-btn-split):
   script that toggles --open classes and positions __menu. The demo
   uses demo/js/split-button.js — snippet authors will need to wire
   their own equivalent.
+
+  Inside a .pa-overflow toolbar (all JS-added — see the Generated DOM
+  note above the overflow examples):
+  - .pa-btn-split--in-overflow      A folded split button unfolds in place
+                                    as an atomic labeled group (base class
+                                    kept so inner __menu/__item still match).
+  - .pa-btn-split__group-label      Section heading the JS inserts above the
+                                    folded split button's own options.
+
+OVERFLOW TOOLBAR (.pa-overflow — progressive collapse; auto-inits):
+- .pa-overflow                    Constrained-width flex row; overflow.js
+                                  walks lowest-priority children into a menu
+                                  when it can't fit. Card alias:
+                                  .pa-card__actions--overflow.
+- .pa-overflow__trigger           The [⋮] "more" button the JS appends
+                                  (`pa-btn pa-btn--xs pa-btn--icon-only
+                                  pa-btn--secondary` by default; ghost via
+                                  data-pa-overflow-trigger="ghost"). A stable
+                                  retheming hook with no look of its own.
+- data-pa-actions-priority="N"    Higher survives longer (lowest folds first).
+- data-pa-actions-overflow-from   "end" (default) / "start" — which end folds.
 
 STRUCTURE PATTERNS:
 

@@ -240,6 +240,17 @@
 
 <div class="pa-banded-container">
   <div class="pa-banded">
+    <!-- Copyable row: --copy-hover reveals .pa-banded__copy on row hover
+         (use --copy-btn to keep it always visible). Same shared pattern
+         as pa-field / pa-desc-table — see COPY PATTERN below. -->
+    <div class="pa-banded__row pa-banded__row--copy-hover">
+      <div class="pa-banded__label">Reference</div>
+      <div class="pa-banded__value">INV-2026-0412
+        <button class="pa-banded__copy" type="button" aria-label="Copy reference">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+    </div>
     <div class="pa-banded__row">
       <div class="pa-banded__label">Status</div>
       <div class="pa-banded__value">Active</div>
@@ -269,9 +280,15 @@
      ================================ -->
 
 <div class="pa-accent-grid">
-  <div class="pa-accent-grid__item">
+  <!-- Copyable item: --copy-hover reveals .pa-accent-grid__copy on item
+       hover (--copy-btn keeps it always visible). Shared copy pattern. -->
+  <div class="pa-accent-grid__item pa-accent-grid__item--copy-hover">
     <div class="pa-accent-grid__label">Total revenue</div>
-    <div class="pa-accent-grid__value">$847,392</div>
+    <div class="pa-accent-grid__value">$847,392
+      <button class="pa-accent-grid__copy" type="button" aria-label="Copy value">
+        <i class="fas fa-copy"></i>
+      </button>
+    </div>
   </div>
   <div class="pa-accent-grid__item pa-accent-grid__item--success">
     <div class="pa-accent-grid__label">Conversion</div>

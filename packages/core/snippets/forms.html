@@ -67,8 +67,11 @@ font). No .pa-form-label class is needed — just use native <label>.
 <input type="text" class="pa-input pa-input--lg" placeholder="Large">
 <input type="text" class="pa-input pa-input--xl" placeholder="Extra large">
 
+<select class="pa-select pa-select--xs"><option>Extra small select</option></select>
 <select class="pa-select pa-select--sm"><option>Small select</option></select>
+<select class="pa-select"><option>Default select</option></select>
 <select class="pa-select pa-select--lg"><option>Large select</option></select>
+<select class="pa-select pa-select--xl"><option>Extra large select</option></select>
 
 
 <!-- TEXTAREA SIZES (sets height + min-height so it can grow but not collapse) -->
@@ -128,9 +131,15 @@ just stays neutral.
   <small class="pa-form-help pa-form-help--error">Please provide a valid value.</small>
 </div>
 
-<!-- Standalone modifier (no form-group required) -->
-<input type="text" class="pa-input pa-input--error" value="Inline error">
+<!-- Standalone modifiers (no form-group required). Both .pa-input and
+     .pa-select share the same three validation borders: --success /
+     --warning / --error. -->
+<input type="text" class="pa-input pa-input--success" value="Inline success">
+<input type="text" class="pa-input pa-input--warning" value="Inline warning">
+<input type="text" class="pa-input pa-input--error"   value="Inline error">
+<select class="pa-select pa-select--success"><option>Success</option></select>
 <select class="pa-select pa-select--warning"><option>Warning</option></select>
+<select class="pa-select pa-select--error"><option>Error</option></select>
 
 
 <!-- THEME COLOR SLOTS (1-9) -->
@@ -575,8 +584,17 @@ snippet — probably smart-filters.html):
                                Uses data-placeholder attribute for empty
                                state.
 - .pa-inline-query-editor + __layers / __highlights / __input
-- .pa-inline-query-token       + --field / --operator / --value / --keyword
-                               + --invalid (wavy red underline)
+- .pa-inline-query-token   — highlight pill; ONE type modifier per token,
+                             built by search-autocomplete-v2.js:
+    .pa-inline-query-token--field       recognised field name
+    .pa-inline-query-token--operator    =, >, contains, …
+    .pa-inline-query-token--value       the value literal
+    .pa-inline-query-token--keyword     AND / OR / NOT
+    .pa-inline-query-token--invalid     stacks ONLY on --field for an
+                                        unknown field (wavy red underline).
+  Resulting DOM the JS emits for an unrecognised field token:
+    <span class="pa-inline-query-token pa-inline-query-token--field
+                 pa-inline-query-token--invalid">statuz</span>
 - .pa-inline-query-autocomplete + rich __item substructure
 
 IMPLICIT BEHAVIOURS:
