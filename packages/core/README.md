@@ -6,6 +6,40 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc16
+
+- **Foundation namespace migrated to pure-css rc04 (BREAKING).** Every framework
+  CSS variable is renamed `--pa-*` → `--pc-*`, the grid classes `.pa-row` /
+  `.pa-col*` → `.pc-*`, and the light/dark mode classes `.pa-mode-*` →
+  `.pc-mode-*`. Migrate markup, `var()` reads, inline `style="--pa-…"`, and theme
+  overrides with a boundary-aware find/replace of `--pa-` → `--pc-` (plus the
+  grid/mode classes). Requires `@keenmate/pure-css` ≥ 1.0.0-rc04.
+- **Component tokens now emitted by pure-admin, not the foundation.** pure-css
+  rc04 ships only the base token contract; the ~165 component `--pc-*` variables
+  (buttons, cards, tables, alerts, panels, …) are emitted by the new
+  `output-pc-component-variables` mixin. Theme authors add
+  `@include output-pc-component-variables;` after `output-pc-css-variables`;
+  consumers of the compiled CSS are unaffected.
+- **Sizing & flex utilities single-sourced in pure-css.** The duplicate rem-height
+  classes `h-Nx` / `min-h-Nx` / `max-h-Nx` are retired for the foundation's
+  `hr-N` / `minhr-N` / `maxhr-N` (`r` = rem); viewport heights (`h-full` /
+  `h-screen`) and flex shorthands (`flex-1` / `flex-none` / …) now ship from
+  pure-css. Migrate `h-Nx` → `hr-N`.
+- **Checkbox & radio rework.** Label position (`--label-start` / `--label-end` /
+  `--label-top`), group orientation with a responsive auto-grid, and first-class
+  two-/three-state (indeterminate) checkboxes — all on the custom `.pa-checkbox`
+  / `.pa-radio` with no DOM branching.
+- **Required-field marker, driven by the native attribute.** A field with
+  `required` renders a `*` marker automatically — no extra class; it reads the
+  real `required` attribute (inputs and checkbox/radio labels alike).
+- **`pa-tabs--wrap-labels` — multi-line tab titles.** Long tab titles wrap onto
+  multiple lines with the row kept level (the flex row's `align-items: stretch`),
+  instead of forcing the whole tab row to wrap; cap the wrap point with `maxwr-*`.
+- **Smaller adds:** `pa-badge--color-{1..9}` theme-slot badges,
+  `pureAdmin.toast.danger()` (alias of `error()`), translatable copy-hint text
+  (`--pc-copy-hint-text` / `--pc-copied-text`), and form gaps renamed +
+  runtime-tunable via `--pc-*`.
+
 ## What's New in 2.9.0-rc15
 
 - **Search results component** — the new `pa-search-results` renders a page-level results list with four presets over one canonical item tree: `--compact` (dense one-liners), `--detailed` (icon tile + snippet + meta), `--grouped` (category headers), and `--cards` (a responsive grid). A code generator emits the same markup and only swaps the modifier.
@@ -13,11 +47,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 - **Type-and-go search boxes** — `.pa-navbar-search--input` and `.pa-sidebar__search--input` frame a real `<input>` in a `<form>` whose native GET submit navigates to a results page on Enter (no palette, no JS). The sidebar variant still submits from its collapsed icon-rail.
 - **Resizable command palette** — its width, top offset, and results height are now runtime CSS variables (`--pa-command-palette-width` / `-offset-top` / `-results-max-height`), with `--sm` / `--lg` / `--xl` size presets. Resize at `:root`, inline, or per-instance with no recompile.
 - **Fixed: overlays no longer shift the page sideways** — opening the command palette or a mobile drawer used to drop the scrollbar and jog the layout (and the fixed navbar) sideways. `scrollbar-gutter: stable` on `<html>` keeps the gutter reserved; the palette results are also clamped to the viewport so the footer never scrolls off a short window.
-
-## What's New in 2.9.0-rc13
-
-- **The header burger is now a fixed sibling of the layout zones.** It moved out of `.pa-navbar__start` to be `.pa-navbar__inner`'s first child — a fixed anchor beside the degradable start/center/end zones instead of tucked inside one, which matches the fit-engine model (a control that never collapses shouldn't live in a collapsible zone). Spacing is unchanged; the canonical snippet (`snippets/layout.html`) shows the new structure. Legacy tolerance: a burger left inside `.pa-navbar__start` still renders.
-- **Sidebar-less / burger-less layouts are now drop-in.** Because the burger is a flex sibling with `gap` (not a reserved slot), simply omitting it — and the `<aside class="pa-layout__sidebar">` — makes the header reclaim the space (brand flush-left) and `.pa-layout__content` fill full width, with zero CSS overrides.
 
 ## Installation
 
