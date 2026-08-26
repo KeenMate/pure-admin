@@ -25,7 +25,7 @@
     margin: 0;
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
-    color: var(--pa-navbar-text);
+    color: var(--pc-navbar-text);
     white-space: nowrap;
   }
 
@@ -35,7 +35,7 @@
     margin-inline-start: $spacing-xs;
     font-size: $font-size-xs;
     font-weight: $font-weight-normal;
-    color: var(--pa-navbar-text-secondary);
+    color: var(--pc-navbar-text-secondary);
   }
 }
 
@@ -66,10 +66,10 @@
 
       > a {
         text-decoration: none;
-        color: var(--pa-navbar-text-secondary);
+        color: var(--pc-navbar-text-secondary);
         font-weight: $font-weight-medium;
         padding: $spacing-xs $spacing-sm;
-        border-radius: var(--pa-border-radius);
+        border-radius: var(--pc-border-radius);
         transition: all $transition-fast $easing-snappy;
         font-size: $font-size-sm;
         display: flex;
@@ -77,16 +77,16 @@
 
         // Hover/active derive their pill background from `currentColor` — a
         // translucent tint of the link's OWN rendered text colour — not the
-        // content-area --pa-accent. The navbar sits on --pa-navbar-bg, which
+        // content-area --pc-accent. The navbar sits on --pc-navbar-bg, which
         // several themes set dark or to the accent colour itself (e.g. NATO's
         // navy bar) and then force the nav text light with !important while
-        // leaving --pa-navbar-text at its default dark value. A currentColor
+        // leaving --pc-navbar-text at its default dark value. A currentColor
         // tint tracks the actual text colour (light there, dark on light
         // bars), so the pill contrasts the bar on every theme; an accent
-        // or --pa-navbar-text tint would be dark-on-dark and vanish. Text
-        // brightens to --pa-navbar-text, which those themes override to match.
+        // or --pc-navbar-text tint would be dark-on-dark and vanish. Text
+        // brightens to --pc-navbar-text, which those themes override to match.
         &:hover {
-          color: var(--pa-navbar-text);
+          color: var(--pc-navbar-text);
           background-color: color-mix(in srgb, currentColor 12%, transparent);
         }
       }
@@ -99,7 +99,7 @@
       &.pa-navmenu__item--active > a {
         &,
         &:hover {
-          color: var(--pa-navbar-text);
+          color: var(--pc-navbar-text);
           background-color: color-mix(in srgb, currentColor 22%, transparent);
           font-weight: $font-weight-semibold;
         }
@@ -142,9 +142,9 @@
     top: 100%;
     inset-inline-start: 0; // RTL: flips to right: 0
     min-width: 19.2rem;
-    background-color: var(--pa-card-bg);
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
+    background-color: var(--pc-card-bg);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
     box-shadow: $shadow-lg;
     z-index: 1100;
     padding: $spacing-xs 0;
@@ -183,7 +183,7 @@
       a {
         display: block;
         padding: $spacing-sm $spacing-base;
-        color: var(--pa-text-color-1);
+        color: var(--pc-text-color-1);
         border-radius: 0;
         white-space: nowrap;
         text-decoration: none;
@@ -191,8 +191,8 @@
         font-size: $font-size-sm;
 
         &:hover {
-          background-color: var(--pa-accent-light);
-          color: var(--pa-accent);
+          background-color: var(--pc-accent-light);
+          color: var(--pc-accent);
         }
       }
     }
@@ -329,7 +329,7 @@
     margin: 0;
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
-    color: var(--pa-navbar-text);
+    color: var(--pc-navbar-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -356,8 +356,8 @@
   span {
     width: 100%;
     height: $burger-bar-height;
-    background-color: var(--pa-navbar-text);
-    border-radius: var(--pa-border-radius);
+    background-color: var(--pc-navbar-text);
+    border-radius: var(--pc-border-radius);
     transition: all $transition-normal $easing-snappy;
     transform-origin: center;
   }
@@ -388,7 +388,7 @@
   }
 
   &:hover span {
-    background-color: var(--pa-accent);
+    background-color: var(--pc-accent);
   }
 }
 
@@ -399,21 +399,21 @@
   gap: $spacing-sm;
 
   label {
-    color: var(--pa-navbar-text-secondary);
+    color: var(--pc-navbar-text-secondary);
     font-size: $font-size-sm;
   }
 
   select {
     padding: $spacing-xs $spacing-sm;
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
-    background-color: var(--pa-navbar-bg);
-    color: var(--pa-navbar-text);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
+    background-color: var(--pc-navbar-bg);
+    color: var(--pc-navbar-text);
     font-size: $font-size-sm;
 
     &:focus {
       outline: none;
-      border-color: var(--pa-accent);
+      border-color: var(--pc-accent);
     }
   }
 }

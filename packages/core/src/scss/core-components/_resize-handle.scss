@@ -45,10 +45,10 @@ $resize-knob-radius-lg: 6px !default;
   // gentle rounded-rect on the slim knob rather than turning into a pill. Square
   // themes (radius 0) stay square via min(). High-contrast fill / border / shadow
   // so the knob stands out on both light and dark surfaces.
-  border-radius: min(var(--pa-border-radius-lg), #{$resize-knob-radius});
-  background-color: var(--pa-card-bg);
-  border: $border-width-medium solid var(--pa-border-color);
-  color: var(--pa-text-color-2);
+  border-radius: min(var(--pc-border-radius-lg), #{$resize-knob-radius});
+  background-color: var(--pc-card-bg);
+  border: $border-width-medium solid var(--pc-border-color);
+  color: var(--pc-text-color-2);
   font-size: $font-size-lg;
   line-height: 1;
   box-shadow: $shadow-md;
@@ -65,12 +65,12 @@ $resize-knob-radius-lg: 6px !default;
       width: $resize-knob-thickness-lg;
       height: $resize-knob-length-lg;
     }
-    border-radius: min(var(--pa-border-radius-lg), #{$resize-knob-radius-lg});
+    border-radius: min(var(--pc-border-radius-lg), #{$resize-knob-radius-lg});
   }
 }
 
 // Dragging / hovering / focused: accent the knob (border + grip glyph).
 @mixin pa-resize-knob-active {
-  border-color: var(--pa-accent);
-  color: var(--pa-accent);
+  border-color: var(--pc-accent);
+  color: var(--pc-accent);
 }

@@ -9,6 +9,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed (BREAKING)
 
+- **Rem-height sizing utilities `h-Nx` / `min-h-Nx` / `max-h-Nx` retired** in favour
+  of pure-css's identical `hr-N` / `minhr-N` / `maxhr-N` (both are `Nrem`; `r` = rem,
+  matching `wr-N` for width). The duplicate set is removed from
+  `core-components/_utilities.scss`; the viewport (`h-full`/`h-screen`/…) and flex
+  shorthand (`flex-1`/…) utilities that lived here moved to pure-css too, so all
+  sizing/flex utilities are now single-sourced in the foundation (forwarded via
+  core's `utilities.scss` shim). Migrate markup with `h-Nx` → `hr-N`,
+  `min-h-Nx` → `minhr-N`, `max-h-Nx` → `maxhr-N` (demo + wrappers already migrated).
+- **Component CSS variables now emitted by pure-admin, not pure-css.** pure-css
+  rc04 narrowed its foundation contract to base tokens only; the ~165 component
+  `--pc-*` tokens (buttons, cards, tables, alerts, badges, tooltips, panels,
+  command palette, multiselect, sentiment scale, form spacing, derived contextual
+  surfaces, layout chrome) are now emitted via the new
+  **`output-pc-component-variables`** mixin. `main.scss` calls it alongside
+  `output-pc-css-variables`; **every theme must add
+  `@include output-pc-component-variables;`** after `output-pc-css-variables`
+  (all 16 bundled themes are updated). The mixins are still single-sourced from
+  pure-css via the `base-css-variables` shim. Consumers of the compiled
+  `core.css` / theme CSS are unaffected — the emitted token set is byte-for-token
+  identical, only reorganised across two mixins. Requires pure-css ≥ rc04.
+- **All framework CSS variables renamed `--pa-*` → `--pc-*`** (following pure-css
+  rc04's namespace de-brand). Every runtime custom property core reads and emits —
+  `--pa-accent`, `--pa-text-color-*`, `--pa-card-bg`, `--pa-border-*`, the
+  contextual/alert sets, `--pa-color-1..9`(`-text`), and every component-scoped
+  var (`--pa-command-palette-*`, `--pa-checkbox-group-col-min`, `--pa-copy-hint-text`,
+  …) — is now `--pc-*`. The emit mixins move too: `output-pa-css-variables` →
+  `output-pc-css-variables`, `output-pa-alert-variables-light/dark` →
+  `output-pc-alert-variables-*` (these live in pure-css, re-exported via the shim).
+  `--base-*` (web-component bridge) and `--page-loader-*` are unchanged. Migrate
+  consumers with a boundary-aware replace of `--pa-` → `--pc-` across stylesheets,
+  inline `style="--pa-…"`, and JS `getPropertyValue`/`setProperty` calls; themes
+  re-emit their `:root`/dark-mode blocks under `--pc-*`. Requires pure-css ≥ rc04.
 - **Grid classes are now `pc-*` (foundation-owned), not `pa-*`.** Following the
   pure-css rc04 grid rename, `.pa-row`/`.pa-col*`/`.pa-offset*`/`.pa-cq`/
   `.pa-hide*`/`.pa-show*` are gone — use `.pc-row`/`.pc-col*`/etc. The grid is a
@@ -52,6 +84,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **`pureAdmin.toast.danger()` — alias of `toast.error()`.** The toast API named the
+  danger toast `error()` (convention), which broke any call using the framework's
+  `danger` variant name (`pureAdmin.toast.danger(...)` was `undefined` → threw). Added
+  `danger()` (same `variant: 'danger'`) so the API matches the `danger` vocabulary used
+  everywhere else (`pa-btn--danger`, `pa-toast--danger`, `--pc-danger`); `error()` stays.
+  (Both the core module and the demo's toast-service copy.)
 - **Checkbox / radio label position + group orientation, and first-class two/
   three-state checkboxes.** Building on the existing custom `.pa-checkbox` (whose
   box + label were already separate flex children) and mirroring the fluent-ui
@@ -61,7 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `--label-start/-end/-top`; and `.pa-checkbox-group--horizontal` /
   `.pa-radio-group--horizontal` lay options in a wrapping row;
   `--grid` / `--2col` / `--3col` add CSS-grid auto-flow (options wrap into rows on
-  their own, responsive `--grid` via `auto-fill` + `--pa-checkbox-group-col-min`),
+  their own, responsive `--grid` via `auto-fill` + `--pc-checkbox-group-col-min`),
   mirroring `.pa-checkbox-list--grid/--2col/--3col`. Tri-state: the
   `:indeterminate` dash was already styled, but `indeterminate` is a DOM property,
   not an attribute — so a small `checkbox.js` sets it from `data-pa-indeterminate`
@@ -76,7 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   no asterisk anywhere in the SCSS or the `/forms` demo. The only pattern was a
   hand-placed `<span class="text-danger">*</span>` in the label (seen on the
   `/validations` page). Added `.pa-form-group:has(:required) > label::after`, which
-  appends a `--pa-danger` asterisk after a field's label whenever the group
+  appends a `--pc-danger` asterisk after a field's label whenever the group
   contains a `:required` control — no class to add, works for hand-authored markup
   and for wrappers that just pass `required` through. Field-label rule excludes
   checkbox / radio (their control lives inside the label); those get a dedicated
@@ -99,22 +137,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   dead space) for irregular label sets. Themes must be rebuilt to pick up the new
   class. (Also replaces the demo/snippet's dead `pa-tabs__item--w-{N}x` scale —
   which never had matching CSS — with the real `minwr-*`/`maxwr-*` utilities.)
-- **Translatable copy-hint text via `--pa-copy-hint-text` / `--pa-copied-text`.**
+- **Translatable copy-hint text via `--pc-copy-hint-text` / `--pc-copied-text`.**
   The clipboard affordance shared by `pa-field`, `pa-desc-table`, `pa-banded`, and
   `pa-accent-grid` rendered its hint through CSS `::after` with **hardcoded English**
   (`content: 'Click to copy'` / `'Copied!'`) — unreachable by any consumer, so
   wrappers that need i18n (svelte-pure-admin) had to suppress the `::after` and
   re-implement the hint with invented classes + a scoped stylesheet. The `content`
-  now reads `var(--pa-copy-hint-text, 'Click to copy')` /
-  `var(--pa-copied-text, 'Copied!')`; the English literals stay as the built-in
+  now reads `var(--pc-copy-hint-text, 'Click to copy')` /
+  `var(--pc-copied-text, 'Copied!')`; the English literals stay as the built-in
   fallback, so nothing changes until you set the variables. Because custom
   properties **inherit**, set them once on any ancestor (`:root` / `body`) and every
   copy component across the page obeys — no per-element attribute. Purely additive;
   no markup or class change.
 - **`pa-badge--color-{1..9}` — theme-colour slot badges.** Closes a gap where the
   badge was the only role-coloured surface without a numeric `--color-N` variant
-  (alerts, buttons, and cards all had one). Each paints `--pa-color-N` as the
-  background with a guaranteed-contrasting `--pa-color-N-text` label (mirroring the
+  (alerts, buttons, and cards all had one). Each paints `--pc-color-N` as the
+  background with a guaranteed-contrasting `--pc-color-N-text` label (mirroring the
   alert pattern; badges are filled-only, so no `--outline-color-N`). Before this,
   wrappers (svelte-pure-admin, keen-pure-admin) improvised a themed badge with the
   generic `pa-bg-color-N` utility, which only sets the background and left the text

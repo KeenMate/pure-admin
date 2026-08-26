@@ -39,10 +39,10 @@
   // Tooltip content
   &::before {
     content: attr(data-tooltip);
-    background-color: var(--pa-tooltip-bg);
-    color: var(--pa-tooltip-text);
+    background-color: var(--pc-tooltip-bg);
+    color: var(--pc-tooltip-text);
     padding: $spacing-xs $spacing-sm;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     font-size: $font-size-xs;
     white-space: nowrap;
     max-width: $tooltip-max-width;
@@ -89,7 +89,7 @@
     bottom: calc(100% + ($tooltip-arrow-size - 2px));
     left: 50%;
     transform: translateX(-50%) translateY(-$tooltip-offset);
-    border-top-color: var(--pa-tooltip-bg);
+    border-top-color: var(--pc-tooltip-bg);
   }
 
   &:hover::before,
@@ -113,7 +113,7 @@
     top: 50%;
     transform: translateX(-$tooltip-offset) translateY(-50%);
     border-top-color: transparent;
-    border-inline-end-color: var(--pa-tooltip-bg);
+    border-inline-end-color: var(--pc-tooltip-bg);
   }
 
   &--end:hover::before,
@@ -146,7 +146,7 @@
     left: 50%;
     transform: translateX(-50%) translateY($tooltip-offset);
     border-top-color: transparent;
-    border-bottom-color: var(--pa-tooltip-bg);
+    border-bottom-color: var(--pc-tooltip-bg);
   }
 
   &--bottom:hover::before,
@@ -170,7 +170,7 @@
     top: 50%;
     transform: translateX($tooltip-offset) translateY(-50%);
     border-top-color: transparent;
-    border-inline-start-color: var(--pa-tooltip-bg);
+    border-inline-start-color: var(--pc-tooltip-bg);
   }
 
   &--start:hover::before,
@@ -191,103 +191,103 @@
 
   // Color variants
   &--primary::before {
-    background-color: var(--pa-btn-primary-bg);
+    background-color: var(--pc-btn-primary-bg);
   }
   &--primary::after {
-    border-top-color: var(--pa-btn-primary-bg);
+    border-top-color: var(--pc-btn-primary-bg);
   }
   &--primary.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-inline-end-color: var(--pa-btn-primary-bg);
+    border-inline-end-color: var(--pc-btn-primary-bg);
   }
   &--primary.pa-tooltip--bottom::after {
     border-top-color: transparent;
-    border-bottom-color: var(--pa-btn-primary-bg);
+    border-bottom-color: var(--pc-btn-primary-bg);
   }
   &--primary.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-inline-start-color: var(--pa-btn-primary-bg);
+    border-inline-start-color: var(--pc-btn-primary-bg);
   }
 
   &--success::before {
-    background-color: var(--pa-btn-success-bg);
+    background-color: var(--pc-btn-success-bg);
   }
   &--success::after {
-    border-top-color: var(--pa-btn-success-bg);
+    border-top-color: var(--pc-btn-success-bg);
   }
   &--success.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-inline-end-color: var(--pa-btn-success-bg);
+    border-inline-end-color: var(--pc-btn-success-bg);
   }
   &--success.pa-tooltip--bottom::after {
     border-top-color: transparent;
-    border-bottom-color: var(--pa-btn-success-bg);
+    border-bottom-color: var(--pc-btn-success-bg);
   }
   &--success.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-inline-start-color: var(--pa-btn-success-bg);
+    border-inline-start-color: var(--pc-btn-success-bg);
   }
 
   &--warning::before {
-    background-color: var(--pa-btn-warning-bg);
-    color: var(--pa-text-color-1);
+    background-color: var(--pc-btn-warning-bg);
+    color: var(--pc-text-color-1);
   }
   &--warning::after {
-    border-top-color: var(--pa-btn-warning-bg);
+    border-top-color: var(--pc-btn-warning-bg);
   }
   &--warning.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-inline-end-color: var(--pa-btn-warning-bg);
+    border-inline-end-color: var(--pc-btn-warning-bg);
   }
   &--warning.pa-tooltip--bottom::after {
     border-top-color: transparent;
-    border-bottom-color: var(--pa-btn-warning-bg);
+    border-bottom-color: var(--pc-btn-warning-bg);
   }
   &--warning.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-inline-start-color: var(--pa-btn-warning-bg);
+    border-inline-start-color: var(--pc-btn-warning-bg);
   }
 
   &--danger::before {
-    background-color: var(--pa-btn-danger-bg);
+    background-color: var(--pc-btn-danger-bg);
   }
   &--danger::after {
-    border-top-color: var(--pa-btn-danger-bg);
+    border-top-color: var(--pc-btn-danger-bg);
   }
   &--danger.pa-tooltip--end::after {
     border-top-color: transparent;
-    border-inline-end-color: var(--pa-btn-danger-bg);
+    border-inline-end-color: var(--pc-btn-danger-bg);
   }
   &--danger.pa-tooltip--bottom::after {
     border-top-color: transparent;
-    border-bottom-color: var(--pa-btn-danger-bg);
+    border-bottom-color: var(--pc-btn-danger-bg);
   }
   &--danger.pa-tooltip--start::after {
     border-top-color: transparent;
-    border-inline-start-color: var(--pa-btn-danger-bg);
+    border-inline-start-color: var(--pc-btn-danger-bg);
   }
 
   // Numbered color variants (color-1 through color-9)
-  // These use theme-customizable colors from --pa-color-* CSS variables
+  // These use theme-customizable colors from --pc-color-* CSS variables
   @for $i from 1 through 9 {
     &--color-#{$i}::before {
-      background-color: var(--pa-color-#{$i});
-      color: var(--pa-color-#{$i}-text);
+      background-color: var(--pc-color-#{$i});
+      color: var(--pc-color-#{$i}-text);
     }
     &--color-#{$i}::after {
-      border-top-color: var(--pa-color-#{$i});
+      border-top-color: var(--pc-color-#{$i});
     }
     &--color-#{$i}.pa-tooltip--end::after {
       border-top-color: transparent;
-      border-inline-end-color: var(--pa-color-#{$i});
+      border-inline-end-color: var(--pc-color-#{$i});
     }
     &--color-#{$i}.pa-tooltip--bottom::after {
       border-top-color: transparent;
-      border-bottom-color: var(--pa-color-#{$i});
+      border-bottom-color: var(--pc-color-#{$i});
     }
     &--color-#{$i}.pa-tooltip--start::after {
       border-top-color: transparent;
-      border-inline-start-color: var(--pa-color-#{$i});
+      border-inline-start-color: var(--pc-color-#{$i});
     }
   }
 
@@ -306,7 +306,7 @@
     top: calc(100% + ($tooltip-arrow-size - 2px)) !important;
     transform: translateX(-50%) translateY($tooltip-offset) !important;
     border-top-color: transparent !important;
-    border-bottom-color: var(--pa-tooltip-bg) !important;
+    border-bottom-color: var(--pc-tooltip-bg) !important;
   }
 
   &--auto-flip-bottom:hover::before,
@@ -326,7 +326,7 @@
     bottom: calc(100% + ($tooltip-arrow-size - 2px)) !important;
     transform: translateX(-50%) translateY(-$tooltip-offset) !important;
     border-bottom-color: transparent !important;
-    border-top-color: var(--pa-tooltip-bg) !important;
+    border-top-color: var(--pc-tooltip-bg) !important;
   }
 
   &--auto-flip-top:hover::before,
@@ -348,7 +348,7 @@
     inset-inline-start: calc(100% + ($tooltip-arrow-size - 2px)) !important;
     transform: translateX(-$tooltip-offset) translateY(-50%) !important;
     border-inline-start-color: transparent !important;
-    border-inline-end-color: var(--pa-tooltip-bg) !important;
+    border-inline-end-color: var(--pc-tooltip-bg) !important;
   }
 
   &--auto-flip-end:hover::before,
@@ -381,7 +381,7 @@
     inset-inline-end: calc(100% + ($tooltip-arrow-size - 2px)) !important;
     transform: translateX($tooltip-offset) translateY(-50%) !important;
     border-inline-end-color: transparent !important;
-    border-inline-start-color: var(--pa-tooltip-bg) !important;
+    border-inline-start-color: var(--pc-tooltip-bg) !important;
   }
 
   &--auto-flip-start:hover::before,
@@ -415,19 +415,19 @@
     width: $popover-trigger-size;
     height: $popover-trigger-size;
     padding: 0;
-    border: $border-width-base solid var(--pa-border-color);
+    border: $border-width-base solid var(--pc-border-color);
     border-radius: 50%;
-    background-color: var(--pa-popover-content-bg);
-    color: var(--pa-text-color-2);
+    background-color: var(--pc-popover-content-bg);
+    color: var(--pc-text-color-2);
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     cursor: pointer;
     transition: all $transition-fast $easing-smooth;
 
     &:hover {
-      background-color: var(--pa-accent);
-      color: var(--pa-modal-content-bg);
-      border-color: var(--pa-accent);
+      background-color: var(--pc-accent);
+      color: var(--pc-modal-content-bg);
+      border-color: var(--pc-accent);
     }
   }
 
@@ -436,9 +436,9 @@
     display: none;
     min-width: $popover-min-width;
     max-width: $popover-max-width;
-    background-color: var(--pa-card-bg);
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
+    background-color: var(--pc-card-bg);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
     box-shadow: $shadow-lg;
     z-index: $popover-z-index;
 
@@ -454,14 +454,14 @@
     justify-content: space-between;
     padding: $popover-header-padding;
     border-bottom: $popover-header-border;
-    background-color: var(--pa-card-header-bg);
-    border-radius: var(--pa-border-radius) var(--pa-border-radius) 0 0;
+    background-color: var(--pc-card-header-bg);
+    border-radius: var(--pc-border-radius) var(--pc-border-radius) 0 0;
 
     h4 {
       margin: 0;
       font-size: $popover-title-font-size;
       font-weight: $font-weight-semibold;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
     }
   }
 
@@ -469,7 +469,7 @@
     padding: $spacing-base;
     font-size: $font-size-sm;
     line-height: $line-height-base;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     text-align: start; // RTL: flips to right
 
     p {
@@ -481,11 +481,11 @@
     }
 
     a {
-      color: var(--pa-accent);
+      color: var(--pc-accent);
       text-decoration: underline;
 
       &:hover {
-        color: var(--pa-accent-hover);
+        color: var(--pc-accent-hover);
       }
     }
 
@@ -496,8 +496,8 @@
 
     code {
       padding: $popover-code-padding-v $popover-code-padding-h;
-      background-color: color-mix(in srgb, var(--pa-text-color-2) 15%, transparent);
-      border-radius: var(--pa-border-radius-sm);
+      background-color: color-mix(in srgb, var(--pc-text-color-2) 15%, transparent);
+      border-radius: var(--pc-border-radius-sm);
       font-family: monospace;
       font-size: $popover-code-font-scale;
     }
@@ -508,7 +508,7 @@
     border: none;
     font-size: $font-size-lg;
     line-height: 1;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     cursor: pointer;
     padding: 0;
     width: $popover-close-size;
@@ -516,12 +516,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     transition: all $transition-fast $easing-smooth;
 
     &:hover {
-      background-color: color-mix(in srgb, var(--pa-text-color-2) 10%, transparent);
-      color: var(--pa-text-color-1);
+      background-color: color-mix(in srgb, var(--pc-text-color-2) 10%, transparent);
+      color: var(--pc-text-color-1);
     }
   }
 
@@ -555,10 +555,10 @@
 // ========================================
 
 .pa-tooltip-floating {
-  background-color: var(--pa-tooltip-bg);
-  color: var(--pa-tooltip-text);
+  background-color: var(--pc-tooltip-bg);
+  color: var(--pc-tooltip-text);
   padding: $spacing-xs $spacing-sm;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   font-size: $font-size-xs;
   white-space: nowrap;
   max-width: $tooltip-max-width;
@@ -576,30 +576,30 @@
 
   // Color variants
   &.pa-tooltip--primary {
-    background-color: var(--pa-btn-primary-bg);
-    color: var(--pa-btn-primary-text);
+    background-color: var(--pc-btn-primary-bg);
+    color: var(--pc-btn-primary-text);
   }
 
   &.pa-tooltip--success {
-    background-color: var(--pa-btn-success-bg);
-    color: var(--pa-btn-success-text);
+    background-color: var(--pc-btn-success-bg);
+    color: var(--pc-btn-success-text);
   }
 
   &.pa-tooltip--warning {
-    background-color: var(--pa-btn-warning-bg);
-    color: var(--pa-btn-warning-text);
+    background-color: var(--pc-btn-warning-bg);
+    color: var(--pc-btn-warning-text);
   }
 
   &.pa-tooltip--danger {
-    background-color: var(--pa-btn-danger-bg);
-    color: var(--pa-btn-danger-text);
+    background-color: var(--pc-btn-danger-bg);
+    color: var(--pc-btn-danger-text);
   }
 
   // Numbered color variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &.pa-tooltip--color-#{$i} {
-      background-color: var(--pa-color-#{$i});
-      color: var(--pa-color-#{$i}-text);
+      background-color: var(--pc-color-#{$i});
+      color: var(--pc-color-#{$i}-text);
     }
   }
 }

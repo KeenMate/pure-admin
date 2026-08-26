@@ -43,13 +43,13 @@ $strip-col-target: minmax(0, 1.6fr);
 /* Divider between data rows / between head and first row only. */
 .pa-kpi-strip__row + .pa-kpi-strip__row,
 .pa-kpi-strip__head-row + .pa-kpi-strip__row {
-  border-top: 1px solid var(--pa-border-color);
+  border-top: 1px solid var(--pc-border-color);
 }
 
 /* Hover host: subtle row highlight so the cursor-anchored popover has a
    clear "this row" anchor. */
 .pa-kpi-strip__row:hover {
-  background: var(--pa-surface-hover);
+  background: var(--pc-surface-hover);
 }
 
 /* ----- Header cells (uppercase mono captions) --------------------------- */
@@ -59,7 +59,7 @@ $strip-col-target: minmax(0, 1.6fr);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
 
   &--num { text-align: end; }
 }
@@ -71,7 +71,7 @@ $strip-col-target: minmax(0, 1.6fr);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 78%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 78%, transparent);
   line-height: 1.2;
 }
 
@@ -84,7 +84,7 @@ $strip-col-target: minmax(0, 1.6fr);
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
   white-space: nowrap;
   line-height: 1;
 
@@ -92,7 +92,7 @@ $strip-col-target: minmax(0, 1.6fr);
   .pa-kpi-strip__unit {
     font-size: 1.1rem;
     font-weight: 500;
-    color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+    color: color-mix(in srgb, var(--pc-text-color-1) 50%, transparent);
     margin: 0 0.2rem;
   }
 }
@@ -102,7 +102,7 @@ $strip-col-target: minmax(0, 1.6fr);
   font-family: var(--base-font-family-mono);
   font-size: 1.5rem;
   font-weight: 500;
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
   text-align: end;
   white-space: nowrap;
 }
@@ -114,13 +114,13 @@ $strip-col-target: minmax(0, 1.6fr);
   font-weight: 700;
   text-align: end;
   white-space: nowrap;
-  color: var(--pa-positive);
+  color: var(--pc-positive);
 
-  &--positive    { color: var(--pa-positive); }
-  &--negative    { color: var(--pa-negative); }
-  &--neutral     { color: var(--pa-neutral); }
-  &--up-strong   { color: var(--pa-very-positive); }
-  &--down-strong { color: var(--pa-very-negative); }
+  &--positive    { color: var(--pc-positive); }
+  &--negative    { color: var(--pc-negative); }
+  &--neutral     { color: var(--pc-neutral); }
+  &--up-strong   { color: var(--pc-very-positive); }
+  &--down-strong { color: var(--pc-very-negative); }
 }
 
 /* ----- VS TARGET (bar + pct stacked, capped at 100% visual) -------------
@@ -136,7 +136,7 @@ $strip-col-target: minmax(0, 1.6fr);
 .pa-kpi-strip__bar {
   position: relative;
   height: 0.5rem;
-  background: var(--pa-surface-track);
+  background: var(--pc-surface-track);
   overflow: hidden;
   border-radius: 0.1rem;
 }
@@ -145,13 +145,13 @@ $strip-col-target: minmax(0, 1.6fr);
   top: 0;
   left: 0;
   bottom: 0;
-  background: color-mix(in srgb, var(--pa-text-color-1) 40%, transparent);
+  background: color-mix(in srgb, var(--pc-text-color-1) 40%, transparent);
 }
 .pa-kpi-strip__bar-pct {
   font-family: var(--base-font-family-mono);
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--pa-text-secondary);
+  color: var(--pc-text-secondary);
   align-self: flex-end;
   line-height: 1;
 }

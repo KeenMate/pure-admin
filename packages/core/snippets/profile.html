@@ -46,7 +46,7 @@ to save horizontal space in the navbar.
     <!-- Click-to-close overlay (fills the viewport behind the content) -->
     <div class="pa-profile-panel__overlay" onclick="closeProfilePanel()"></div>
 
-    <!-- The panel body; width is driven by --pa-local-profile-panel-* vars -->
+    <!-- The panel body; width is driven by --pc-local-profile-panel-* vars -->
     <div class="pa-profile-panel__content">
 
         <!-- Header: avatar + info + close button -->
@@ -303,8 +303,8 @@ to save horizontal space in the navbar.
      applied to .pa-profile-panel__content will win.
 
      Default values:
-       --pa-local-profile-panel-width      (set from $profile-panel-width)
-       --pa-local-profile-panel-max-width  (set from $profile-panel-max-width)
+       --pc-local-profile-panel-width      (set from $profile-panel-width)
+       --pc-local-profile-panel-max-width  (set from $profile-panel-max-width)
 
      Override strategies:
        1. Utility class on __content        — wr-*, minwr-*, maxwr-*
@@ -325,8 +325,8 @@ to save horizontal space in the navbar.
 <!-- 3. App-wide default — set the CSS variable at :root (or on <html>) -->
 <style>
 :root {
-    --pa-local-profile-panel-width: 36rem;
-    --pa-local-profile-panel-max-width: 56rem;
+    --pc-local-profile-panel-width: 36rem;
+    --pc-local-profile-panel-max-width: 56rem;
 }
 </style>
 
@@ -432,14 +432,14 @@ HEADER:
 - .pa-profile-panel__close              Close button (top-end corner).
 
 Theme-colour design choices (why they're like this):
-- __name and __email use var(--pa-navbar-profile-name-color) — the same
+- __name and __email use var(--pc-navbar-profile-name-color) — the same
   colour the header uses for the user's name. This guarantees contrast
   against dark / coloured header backgrounds across all themes (body
   text colours would read wrong on a dark header).
-- Role uses the standard `.pa-badge` component (var(--pa-btn-secondary-bg)
+- Role uses the standard `.pa-badge` component (var(--pc-btn-secondary-bg)
   / -text by default), which themes already tune for both light and dark
   modes. Previously this was a custom `.pa-profile-panel__role` element
-  coupled to --pa-navbar-profile-name-color — that token is sized for the
+  coupled to --pc-navbar-profile-name-color — that token is sized for the
   header (e.g. black on yellow in Express) and went invisible on dark
   panel bodies. Migrated to `.pa-badge` in 2.9.0; older snippet markup
   using `pa-profile-panel__role` needs the class swap.
@@ -485,12 +485,12 @@ Two CSS custom properties, applied via a :where() rule on __content so
 utility classes beat the default:
 
   :root {
-    --pa-local-profile-panel-width:     $profile-panel-width;
-    --pa-local-profile-panel-max-width: $profile-panel-max-width;
+    --pc-local-profile-panel-width:     $profile-panel-width;
+    --pc-local-profile-panel-max-width: $profile-panel-max-width;
   }
   :where(.pa-profile-panel__content) {
-    width: var(--pa-local-profile-panel-width);
-    max-width: var(--pa-local-profile-panel-max-width);
+    width: var(--pc-local-profile-panel-width);
+    max-width: var(--pc-local-profile-panel-max-width);
   }
 
 Override options:

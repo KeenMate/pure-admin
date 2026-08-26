@@ -1,5 +1,5 @@
-<p>"Comparison gauges" KPI indicator. Each KPI is a goal-oriented progress bar — <strong>label · value</strong> on top, <strong>bar with a target tick</strong> in the middle, <strong>0 · tgt</strong> scale below. Bar fill is value/target, capped at 100% (overshoots are signalled by colour, not by overflowing the bar). Colours: <code>--pa-positive</code> for "on track", <code>--pa-warning</code> for "off-target / approaching limit", <code>--pa-neutral</code> for "no strong sentiment".</p>
-<p>Layout is a cell-min-driven <code>auto-fit</code> grid: cells stay at least <code>--pa-kpi-gauge-cell-min</code> wide (default <code>20rem</code>), the grid fits as many columns as the container allows, and the responsive cascade is intrinsic. <code>--max-2</code>…<code>--max-6</code> modifiers cap the column count while still collapsing on narrow containers. The canonical card below uses <code>--max-3</code> for a deterministic 2-row layout.</p>
+<p>"Comparison gauges" KPI indicator. Each KPI is a goal-oriented progress bar — <strong>label · value</strong> on top, <strong>bar with a target tick</strong> in the middle, <strong>0 · tgt</strong> scale below. Bar fill is value/target, capped at 100% (overshoots are signalled by colour, not by overflowing the bar). Colours: <code>--pc-positive</code> for "on track", <code>--pc-warning</code> for "off-target / approaching limit", <code>--pc-neutral</code> for "no strong sentiment".</p>
+<p>Layout is a cell-min-driven <code>auto-fit</code> grid: cells stay at least <code>--pc-kpi-gauge-cell-min</code> wide (default <code>20rem</code>), the grid fits as many columns as the container allows, and the responsive cascade is intrinsic. <code>--max-2</code>…<code>--max-6</code> modifiers cap the column count while still collapsing on narrow containers. The canonical card below uses <code>--max-3</code> for a deterministic 2-row layout.</p>
 
 
 
@@ -76,7 +76,7 @@
             </div>
 
             <!-- Server Capacity — over target → warning.
-                 Demonstrates `--pa-kpi-gauge-tick-pos`: bar's scale runs 0 → 100%,
+                 Demonstrates `--pc-kpi-gauge-tick-pos`: bar's scale runs 0 → 100%,
                  fill is the actual value (84.5%), tick sits at the target (80%).
                  The 4.5pp overshoot reads as "fill extends past the tick" —
                  more informative than the default "fill capped at 100%, tick
@@ -86,7 +86,7 @@
                     <div class="pa-kpi-gauge__label">Server Capacity</div>
                     <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">84.5</span><span class="pa-kpi-gauge__unit">%</span></div>
                 </div>
-                <div class="pa-kpi-gauge__bar" style="--pa-kpi-gauge-tick-pos: 80%"><div class="pa-kpi-gauge__fill" style="width: 84.5%"></div></div>
+                <div class="pa-kpi-gauge__bar" style="--pc-kpi-gauge-tick-pos: 80%"><div class="pa-kpi-gauge__fill" style="width: 84.5%"></div></div>
                 <div class="pa-kpi-gauge__scale"><span>0</span><span>100% · tgt 80%</span></div>
                 <div class="pa-kpi-detail" role="tooltip">
                     <div class="pa-kpi-detail__title">Server Capacity · 7D</div>
@@ -371,7 +371,7 @@
 
         <h4 class="mt-4">Bar semantics — two modes</h4>
         <p><strong>Default mode (0 → target scale):</strong> the bar's full width represents the target. Fill width = <code>value / target</code>, capped at 100%. Tick sits at the right edge marking target. Overshoots are signalled by the warning colour rather than by overflowing the bar. Best for metrics where "how close to target" is the only question.</p>
-        <p><strong>0 → max scale (override <code>--pa-kpi-gauge-tick-pos</code>):</strong> the bar's full width represents some wider scale (e.g. 0–100% capacity). Fill width = the raw value; tick slides inside the bar to mark the target position. Overshoots become visible as fill extending past the tick. See "Server Capacity" in the canonical card for an example. Best for metrics with a natural upper bound (capacity, threshold-style targets, percentages).</p>
+        <p><strong>0 → max scale (override <code>--pc-kpi-gauge-tick-pos</code>):</strong> the bar's full width represents some wider scale (e.g. 0–100% capacity). Fill width = the raw value; tick slides inside the bar to mark the target position. Overshoots become visible as fill extending past the tick. See "Server Capacity" in the canonical card for an example. Best for metrics with a natural upper bound (capacity, threshold-style targets, percentages).</p>
 
         <h4 class="mt-4">Sentiment colours</h4>
         <ul>
@@ -380,12 +380,12 @@
             <li><strong>negative</strong> (red) — actively bad / failing target.</li>
             <li><strong>neutral</strong> (grey) — informational, no strong sentiment.</li>
         </ul>
-        <p>The bar fill colour is set per-tile via <code>--pa-kpi-bar-color</code>; the four <code>.pa-kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
+        <p>The bar fill colour is set per-tile via <code>--pc-kpi-bar-color</code>; the four <code>.pa-kpi-gauge--*</code> modifiers each set this custom property, so adding a new sentiment is just one rule. The fill element reads from the property.</p>
 
         <h4 class="mt-4">Layout</h4>
-        <p><strong>Cell-min-driven <code>auto-fit</code> grid.</strong> The default <code>.pa-kpi-gauge-list__grid</code> packs as many columns as fit while keeping each cell at least <code>--pa-kpi-gauge-cell-min</code> wide (default <code>20rem</code>). No <code>@container</code> queries — the responsive cascade is intrinsic to the grid template. Override the cell-min per instance to change density: <code>style="--pa-kpi-gauge-cell-min: 24rem"</code> for fewer, wider columns; <code>16rem</code> for more, narrower ones.</p>
+        <p><strong>Cell-min-driven <code>auto-fit</code> grid.</strong> The default <code>.pa-kpi-gauge-list__grid</code> packs as many columns as fit while keeping each cell at least <code>--pc-kpi-gauge-cell-min</code> wide (default <code>20rem</code>). No <code>@container</code> queries — the responsive cascade is intrinsic to the grid template. Override the cell-min per instance to change density: <code>style="--pc-kpi-gauge-cell-min: 24rem"</code> for fewer, wider columns; <code>16rem</code> for more, narrower ones.</p>
         <p><strong>Cap-at-N modifiers.</strong> <code>--max-2</code>, <code>--max-3</code>, <code>--max-4</code>, <code>--max-5</code>, <code>--max-6</code> each cap the column count at N while still collapsing below the cell-min × N threshold (a ceiling, not a force). Pick the cap so your item count divides into clean rows. <code>--2col</code> is a separate deterministic modifier — exactly 2 columns regardless of cell-min or container width.</p>
-        <p><strong>Hairline dividers.</strong> The inter-tile dividers are <code>gap: 1px</code> on the grid over <code>background: var(--pa-border-color)</code>, with each tile painting <code>background: var(--pa-card-bg)</code> on top. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. Replaces the previous per-tile <code>border-right</code> + <code>border-bottom</code> + nth-child suppression, which only worked for the hardcoded 2-col layout. The card's outer border supplies the perimeter; the body still uses <code>padding: 0</code> so the dividers go edge-to-edge.</p>
+        <p><strong>Hairline dividers.</strong> The inter-tile dividers are <code>gap: 1px</code> on the grid over <code>background: var(--pc-border-color)</code>, with each tile painting <code>background: var(--pc-card-bg)</code> on top. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. Replaces the previous per-tile <code>border-right</code> + <code>border-bottom</code> + nth-child suppression, which only worked for the hardcoded 2-col layout. The card's outer border supplies the perimeter; the body still uses <code>padding: 0</code> so the dividers go edge-to-edge.</p>
 
         <h4 class="mt-4">Hover detail popover</h4>
         <p>Cursor-anchored via Floating UI's <code>computePosition</code> + a virtual reference element built from <code>e.clientX/clientY</code>. Same recipe as the other KPI showcases: <code>position: fixed</code>, <code>pointer-events: none</code>, popover moved to <code>&lt;body&gt;</code> on init to escape ancestor <code>overflow: hidden</code>.</p>
@@ -420,12 +420,12 @@
 
         <h4 class="mt-4">Layout CSS variables</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-kpi-gauge-cell-min</code> — minimum cell width for the <code>auto-fit</code> grid (default <code>20rem</code>). Smaller → more columns at the same container width; larger → fewer. Override per instance via <code>style="--pa-kpi-gauge-cell-min: 24rem"</code>.</li>
+            <li><code>--pc-kpi-gauge-cell-min</code> — minimum cell width for the <code>auto-fit</code> grid (default <code>20rem</code>). Smaller → more columns at the same container width; larger → fewer. Override per instance via <code>style="--pc-kpi-gauge-cell-min: 24rem"</code>.</li>
         </ul>
 
         <h4 class="mt-4">Gauge tile</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-gauge</code> — single gauge cell. Carries <code>--pa-kpi-bar-color</code> (set by sentiment modifiers below).</li>
+            <li><code>pa-kpi-gauge</code> — single gauge cell. Carries <code>--pc-kpi-bar-color</code> (set by sentiment modifiers below).</li>
             <li><code>pa-kpi-gauge--positive</code> — green fill (on track).</li>
             <li><code>pa-kpi-gauge--warning</code> — orange fill (off-target / approaching limit).</li>
             <li><code>pa-kpi-gauge--negative</code> — red fill (actively bad).</li>
@@ -443,10 +443,10 @@
 
         <h4 class="mt-4">Bar + target tick</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-gauge__bar</code> — track. Reads <code>--pa-kpi-gauge-tick-pos</code> for tick position (default <code>100%</code>).</li>
+            <li><code>pa-kpi-gauge__bar</code> — track. Reads <code>--pc-kpi-gauge-tick-pos</code> for tick position (default <code>100%</code>).</li>
             <li><code>pa-kpi-gauge__fill</code> — coloured fill. Width set inline per tile via <code>style="width: X%"</code>.</li>
-            <li><code>--pa-kpi-gauge-tick-pos</code> — custom property on <code>.pa-kpi-gauge__bar</code> setting the target tick's position. Default <code>100%</code> (right edge, matching 0→target scale). Override per-tile via <code>style="--pa-kpi-gauge-tick-pos: 80%"</code> when the bar represents a wider scale (e.g. 0→100% capacity, target at 80%).</li>
-            <li><code>--pa-kpi-gauge-tick-color</code> — custom property on <code>.pa-kpi-gauge__bar</code> setting the target tick's colour. Default <code>var(--pa-text-color-1)</code> (full opacity body text, so the tick stays readable against any sentiment fill colour). Override globally or per-tile for a quieter mark.</li>
+            <li><code>--pc-kpi-gauge-tick-pos</code> — custom property on <code>.pa-kpi-gauge__bar</code> setting the target tick's position. Default <code>100%</code> (right edge, matching 0→target scale). Override per-tile via <code>style="--pc-kpi-gauge-tick-pos: 80%"</code> when the bar represents a wider scale (e.g. 0→100% capacity, target at 80%).</li>
+            <li><code>--pc-kpi-gauge-tick-color</code> — custom property on <code>.pa-kpi-gauge__bar</code> setting the target tick's colour. Default <code>var(--pc-text-color-1)</code> (full opacity body text, so the tick stays readable against any sentiment fill colour). Override globally or per-tile for a quieter mark.</li>
         </ul>
 
         <h4 class="mt-4">Hover detail popover</h4>
@@ -458,9 +458,9 @@
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome.</li>
+            <li><code>--pc-very-positive</code> / <code>--pc-positive</code> / <code>--pc-neutral</code> / <code>--pc-negative</code> / <code>--pc-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pc-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pc-detail-bg</code> / <code>--pc-detail-text</code> / <code>--pc-detail-row-label</code> / <code>--pc-detail-title</code> / <code>--pc-detail-shadow</code> — popover chrome.</li>
         </ul>
     </div>
 </div>

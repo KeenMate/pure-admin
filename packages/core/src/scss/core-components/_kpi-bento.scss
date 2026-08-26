@@ -11,14 +11,14 @@
      · default (no modifier) — 6 tiles, hero on the left
      · `--hero-right`         — 6 tiles, mirror of default (hero on right)
      · `--5-tile`             — 5 tiles, hero + 4 supporting
-   Row height is a CSS variable (`--pa-kpi-bento-row-height`, default
+   Row height is a CSS variable (`--pc-kpi-bento-row-height`, default
    `12rem`) so authors can dial tile height per instance.
    ======================================== */
 @use '../variables' as *;
 
 .pa-kpi-bento {
   container-type: inline-size;
-  --pa-kpi-bento-row-height: 12rem;
+  --pc-kpi-bento-row-height: 12rem;
 }
 .pa-kpi-bento__body { padding: 1.6rem; }
 
@@ -26,7 +26,7 @@
 .pa-kpi-bento__grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(3, var(--pa-kpi-bento-row-height));
+  grid-template-rows: repeat(3, var(--pc-kpi-bento-row-height));
   grid-template-areas:
     "hero hero hero a    a    a"
     "hero hero hero b    b    b"
@@ -90,8 +90,8 @@
   position: relative;
   overflow: hidden;
   padding: 1.3rem 1.5rem;
-  border: 1px solid var(--pa-border-color);
-  background: var(--pa-card-bg);
+  border: 1px solid var(--pc-border-color);
+  background: var(--pc-card-bg);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto 1fr auto;
@@ -102,13 +102,13 @@
   gap: 0.4rem 1rem;
 
   /* Sparkline + delta sentiment cascade via currentColor. */
-  --pa-kpi-accent: var(--pa-positive);
+  --pc-kpi-accent: var(--pc-positive);
 
-  &--positive    { --pa-kpi-accent: var(--pa-positive); }
-  &--negative    { --pa-kpi-accent: var(--pa-negative); }
-  &--neutral     { --pa-kpi-accent: var(--pa-neutral); }
-  &--up-strong   { --pa-kpi-accent: var(--pa-very-positive); }
-  &--down-strong { --pa-kpi-accent: var(--pa-very-negative); }
+  &--positive    { --pc-kpi-accent: var(--pc-positive); }
+  &--negative    { --pc-kpi-accent: var(--pc-negative); }
+  &--neutral     { --pc-kpi-accent: var(--pc-neutral); }
+  &--up-strong   { --pc-kpi-accent: var(--pc-very-positive); }
+  &--down-strong { --pc-kpi-accent: var(--pc-very-negative); }
 
   &--hero {
     padding: 1.6rem 1.8rem;
@@ -129,7 +129,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 60%, transparent);
   z-index: 1;
   line-height: 1.2;
 }
@@ -138,7 +138,7 @@
   font-family: var(--base-font-family-mono);
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--pa-kpi-accent);
+  color: var(--pc-kpi-accent);
   z-index: 1;
   align-self: start;
   line-height: 1.2;
@@ -160,12 +160,12 @@
   font-size: clamp(2rem, 14cqi, 3.2rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 }
 .pa-kpi-bento-tile__unit {
   font-size: clamp(1.2rem, 7cqi, 1.6rem);
   font-weight: 500;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 50%, transparent);
   margin: 0 0.3rem;
 }
 
@@ -182,7 +182,7 @@
   bottom: 0;
   height: 65%;
   pointer-events: none;
-  color: var(--pa-kpi-accent);
+  color: var(--pc-kpi-accent);
   z-index: 0;
   display: flex;
   align-items: flex-end;
@@ -198,7 +198,7 @@
     fill: none;
     stroke: currentColor;
     stroke-opacity: 0.55;
-    stroke-width: var(--pa-chart-trendline-stroke);
+    stroke-width: var(--pc-chart-trendline-stroke);
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -213,5 +213,5 @@
   position: relative;
   display: block;
   width: 100%;
-  height: var(--pa-chart-trendline-height);
+  height: var(--pc-chart-trendline-height);
 }

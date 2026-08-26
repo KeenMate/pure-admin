@@ -10,10 +10,10 @@
   position: relative;
   padding: $card-footer-padding-v $card-footer-padding-h;
   margin-bottom: $spacing-base;
-  border-inline-start: $callout-border-width solid var(--pa-border-color); // RTL: flips to right
-  border-radius: var(--pa-border-radius);
+  border-inline-start: $callout-border-width solid var(--pc-border-color); // RTL: flips to right
+  border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
-  background-color: var(--pa-card-bg);
+  background-color: var(--pc-card-bg);
 
   // Remove margins when first/last child in card body
   .pa-card__body &:first-child {
@@ -25,40 +25,40 @@
 
   // Callout variants
   &--primary {
-    border-inline-start-color: var(--pa-accent);
-    background-color: color-mix(in srgb, var(--pa-accent) #{$opacity-subtle * 100%}, transparent);
+    border-inline-start-color: var(--pc-accent);
+    background-color: color-mix(in srgb, var(--pc-accent) #{$opacity-subtle * 100%}, transparent);
   }
 
   &--secondary {
-    border-inline-start-color: var(--pa-text-color-2);
-    background-color: color-mix(in srgb, var(--pa-text-color-2) 5%, transparent);
+    border-inline-start-color: var(--pc-text-color-2);
+    background-color: color-mix(in srgb, var(--pc-text-color-2) 5%, transparent);
   }
 
   &--success {
-    border-inline-start-color: var(--pa-success-bg);
-    background-color: var(--pa-success-bg-subtle);
+    border-inline-start-color: var(--pc-success-bg);
+    background-color: var(--pc-success-bg-subtle);
   }
 
   &--danger {
-    border-inline-start-color: var(--pa-danger-bg);
-    background-color: var(--pa-danger-bg-subtle);
+    border-inline-start-color: var(--pc-danger-bg);
+    background-color: var(--pc-danger-bg-subtle);
   }
 
   &--warning {
-    border-inline-start-color: var(--pa-warning-bg);
-    background-color: var(--pa-warning-bg-subtle);
+    border-inline-start-color: var(--pc-warning-bg);
+    background-color: var(--pc-warning-bg-subtle);
   }
 
   &--info {
-    border-inline-start-color: var(--pa-info-bg);
-    background-color: var(--pa-info-bg-subtle);
+    border-inline-start-color: var(--pc-info-bg);
+    background-color: var(--pc-info-bg-subtle);
   }
 
   // Theme color slot variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      border-inline-start-color: var(--pa-color-#{$i});
-      background-color: color-mix(in srgb, var(--pa-color-#{$i}) 10%, transparent);
+      border-inline-start-color: var(--pc-color-#{$i});
+      background-color: color-mix(in srgb, var(--pc-color-#{$i}) 10%, transparent);
     }
   }
 
@@ -129,7 +129,7 @@
   code {
     background-color: rgba(0, 0, 0, $opacity-subtle);
     padding: 0.1em 0.3em;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     font-size: 0.9em;
   }
 

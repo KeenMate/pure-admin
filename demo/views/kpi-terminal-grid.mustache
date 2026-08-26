@@ -808,7 +808,7 @@
         <p>The pill is on a <strong>different axis</strong> from the 5-step sentiment scale (<code>very-positive</code> / <code>positive</code> / <code>neutral</code> / <code>negative</code> / <code>very-negative</code>) used on <code>__value</code> and <code>__delta</code>. Sentiment is <em>direction of change</em> (ordinal — "how positive or negative is the movement"). The pill is <em>action urgency</em> (categorical — "does the operator need to do something"). They coexist intentionally: a tile can be <code>--very-negative</code> numerically (big drop) AND <code>--good</code> pill-wise if the drop is expected / on target — and vice versa, a flat-but-bad metric can be <code>--neutral</code> sentiment + <code>--warn</code> pill. Three levels rather than five because the action question is yes/no/maybe, not a five-step gradient.</p>
 
         <h4 class="mt-4">Color hierarchy via color-mix</h4>
-        <p>The design needs four distinct text levels — focal value, label, secondary unit, dim metadata. Theme tokens (<code>--pa-text-color-2/3/4</code>) didn't give enough contrast spread, so supporting text uses <code>color-mix(in srgb, var(--pa-text-color-1) X%, transparent)</code> with explicit alphas (72% label, 55% unit, 42% id and prev/delta row) and only <code>__num</code> is full <code>--pa-text-color-1</code>. Inverts cleanly in light themes (where <code>--pa-text-color-1</code> resolves to dark) so the hierarchy survives mode toggling without theme-specific overrides.</p>
+        <p>The design needs four distinct text levels — focal value, label, secondary unit, dim metadata. Theme tokens (<code>--pc-text-color-2/3/4</code>) didn't give enough contrast spread, so supporting text uses <code>color-mix(in srgb, var(--pc-text-color-1) X%, transparent)</code> with explicit alphas (72% label, 55% unit, 42% id and prev/delta row) and only <code>__num</code> is full <code>--pc-text-color-1</code>. Inverts cleanly in light themes (where <code>--pc-text-color-1</code> resolves to dark) so the hierarchy survives mode toggling without theme-specific overrides.</p>
 
         <h4 class="mt-4">--standalone modifier</h4>
         <p>Tiles inside a <code>.pa-kpi-terminal__grid</code> use grid-bookkeeping borders to share rules with their siblings. A tile placed directly inside a <code>.pc-col-*</code> (no surrounding grid) needs <code>pa-kpi-tile--standalone</code> to draw its own full border + card-bg + bottom margin so it doesn't look orphaned.</p>
@@ -897,9 +897,9 @@
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome (intentionally Bloomberg-dark by default; override for theme-aware popovers).</li>
+            <li><code>--pc-very-positive</code> / <code>--pc-positive</code> / <code>--pc-neutral</code> / <code>--pc-negative</code> / <code>--pc-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pc-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pc-detail-bg</code> / <code>--pc-detail-text</code> / <code>--pc-detail-row-label</code> / <code>--pc-detail-title</code> / <code>--pc-detail-shadow</code> — popover chrome (intentionally Bloomberg-dark by default; override for theme-aware popovers).</li>
         </ul>
     </div>
 </div>

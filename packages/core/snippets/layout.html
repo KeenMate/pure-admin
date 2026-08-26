@@ -100,7 +100,7 @@
      More <body>-level classes, toggled by JS at runtime — orthogonal to the
      layout/container flags above:
        pc-mode-light / pc-mode-dark
-                          — active theme mode. Themes emit their --pa-* values
+                          — active theme mode. Themes emit their --pc-* values
                             at :root/.pc-mode-light and dark overrides at
                             .pc-mode-dark, so flipping this class on <body>
                             switches light/dark at runtime. Set exactly one.
@@ -566,8 +566,8 @@ Notes on the navbar:
      SIDEBAR WIDTH / RESIZING
      The sidebar reads its width from a CSS custom property:
 
-       :root { --pa-local-sidebar-width: 28.8rem; }   /* default */
-       :where(.pa-layout__sidebar) { width: var(--pa-local-sidebar-width); }
+       :root { --pc-local-sidebar-width: 28.8rem; }   /* default */
+       :where(.pa-layout__sidebar) { width: var(--pc-local-sidebar-width); }
 
      :where() gives the rule zero specificity, so any utility class
      (.wr-*, .minwr-*, .maxwr-*) on the same element wins.
@@ -575,12 +575,12 @@ Notes on the navbar:
      A ready-made driver ships in this package at src/js/sidebar-resize.js
      (window.pureAdmin.components.sidebarResize). Add .pa-layout__sidebar--resizable to the
      sidebar and it creates the .pa-sidebar-resize handle, wires drag + touch,
-     reads its bounds from --pa-local-sidebar-min/max-width, persists to
+     reads its bounds from --pc-local-sidebar-min/max-width, persists to
      localStorage, and resets on double-click. To roll your own instead, wire JS
      that:
        1. On mousedown / touchstart: add body.pa-sidebar-resizing (locks
                         selection) + .pa-sidebar-resize--active (visual feedback)
-       2. On mousemove / touchmove: update --pa-local-sidebar-width on :root
+       2. On mousemove / touchmove: update --pc-local-sidebar-width on :root
                         or html
        3. On mouseup / touchend:   remove both classes; optionally persist
                         width to localStorage.
@@ -596,7 +596,7 @@ Notes on the navbar:
      decide which sidebar to wire and where to inject the handle. All styling
      hooks are the `.pa-sidebar-resize` handle, `.pa-sidebar-resize--active`,
      `body.pa-sidebar-resizing` / `.pa-sidebar-resized`, and the
-     `--pa-local-sidebar-*` vars. (There is NO `pa-layout__sidebar--sticky`
+     `--pc-local-sidebar-*` vars. (There is NO `pa-layout__sidebar--sticky`
      modifier — don't confuse it with the real body-level `pa-layout--sticky`
      flag.)
      ================================ -->
@@ -619,9 +619,9 @@ Notes on the navbar:
 <!-- Width bounds set by the CSS variables below — JS should respect these: -->
 <!--
   :root {
-    --pa-local-sidebar-width: 28.8rem;       /* default */
-    --pa-local-sidebar-min-width: 18rem;     /* floor   */
-    --pa-local-sidebar-max-width: 50rem;     /* ceiling */
+    --pc-local-sidebar-width: 28.8rem;       /* default */
+    --pc-local-sidebar-min-width: 18rem;     /* floor   */
+    --pc-local-sidebar-max-width: 50rem;     /* ceiling */
   }
 -->
 
@@ -733,7 +733,7 @@ BODY-LEVEL FLAGS (orthogonal — any combination is valid):
 - .pa-sidebar-resizing         Set by the resize JS during drag (locks
                                text selection, forces ew-resize cursor).
 - .pc-mode-light / .pc-mode-dark
-                               Active theme mode. Themes emit --pa-* values at
+                               Active theme mode. Themes emit --pc-* values at
                                :root/.pc-mode-light and dark overrides at
                                .pc-mode-dark, so toggling this on <body> flips
                                light/dark at runtime. Set exactly one.
@@ -797,7 +797,7 @@ NAVBAR SEARCH (centre-slot search; the palette lives in command-palette.html):
 
 SIDEBAR:
 - .pa-layout__sidebar                  Sidebar column; width comes from
-                                       --pa-local-sidebar-width via :where()
+                                       --pc-local-sidebar-width via :where()
                                        so utility classes override it.
 - .pa-layout__sidebar--icon-collapse   Collapses to a narrow icon bar under
                                        .sidebar-hidden; hover reveals labels
@@ -842,9 +842,9 @@ RESIZE MECHANISM:
                                 (absolute-positioned on the inline-end edge);
                                 created by the driver at runtime.
 - .pa-sidebar-resize--active    Active state (highlighted during drag).
-- --pa-local-sidebar-width       runtime width; JS rewrites this on drag.
-- --pa-local-sidebar-min-width   floor (default 18rem).
-- --pa-local-sidebar-max-width   ceiling (default 50rem).
+- --pc-local-sidebar-width       runtime width; JS rewrites this on drag.
+- --pc-local-sidebar-min-width   floor (default 18rem).
+- --pc-local-sidebar-max-width   ceiling (default 50rem).
 - body.pa-sidebar-resizing       set by JS during drag to disable text
                                  selection + force ew-resize cursor.
 - body.pa-sidebar-resized        set by JS once dragged; honours the explicit
@@ -894,5 +894,5 @@ Resizable sidebar:
 <aside class="pa-layout__sidebar pa-layout__sidebar--resizable">
   <nav class="pa-sidebar__nav">…</nav>
 </aside>
-<!-- shipped driver injects .pa-sidebar-resize + updates --pa-local-sidebar-width -->
+<!-- shipped driver injects .pa-sidebar-resize + updates --pc-local-sidebar-width -->
 -->

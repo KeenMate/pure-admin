@@ -8,7 +8,7 @@
  * Each <canvas data-kpi-chart> is rendered as a minimal Chart.js chart
  * (no axes, no grid, no legend, no tooltip) that:
  *   - reads its colour from the slot's resolved `color`. The KPI sentiment
- *     cascade sets `color: var(--pa-kpi-accent)` (or a sentiment token) on
+ *     cascade sets `color: var(--pc-kpi-accent)` (or a sentiment token) on
  *     the chart wrapper, so `currentColor` already carries the correct
  *     sentiment hue — the chart inherits it for free.
  *   - re-reads that colour on the `pa:theme-change` window event so it

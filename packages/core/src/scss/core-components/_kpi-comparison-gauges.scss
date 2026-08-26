@@ -5,7 +5,7 @@
    capped visually so overshoots are signalled by colour, not overflow.
 
    Layout is a cell-min-driven `auto-fit` grid — cells stay at least
-   `--pa-kpi-gauge-cell-min` wide, the grid fits as many columns as the
+   `--pc-kpi-gauge-cell-min` wide, the grid fits as many columns as the
    container allows, and the responsive cascade is intrinsic to the grid
    template (no `@container` queries). `--max-N` cap modifiers cap the
    column count at N while still collapsing below the cell-min × N
@@ -16,12 +16,12 @@
 .pa-kpi-gauge-list__body { padding: 0; }
 
 /* ----- Grid + hairline rules -------------------------------------------
-   Cell-min-driven responsive layout. Override `--pa-kpi-gauge-cell-min`
+   Cell-min-driven responsive layout. Override `--pc-kpi-gauge-cell-min`
    per instance to change density (smaller min → more columns at the same
    container width).
 
-   `gap: 1px` over `background: var(--pa-border-color)` with each tile
-   painting `background: var(--pa-card-bg)` on top — only the gap shows
+   `gap: 1px` over `background: var(--pc-border-color)` with each tile
+   painting `background: var(--pc-card-bg)` on top — only the gap shows
    through, giving single-pixel hairlines on every interior boundary
    regardless of column count. The card's outer border supplies the
    perimeter. Replaces the previous per-tile `border-right` +
@@ -29,9 +29,9 @@
    for the hardcoded 2-col layout. */
 .pa-kpi-gauge-list__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--pa-kpi-gauge-cell-min, 20rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--pc-kpi-gauge-cell-min, 20rem), 1fr));
   gap: 1px;
-  background: var(--pa-border-color);
+  background: var(--pc-border-color);
 }
 
 /* Modifier: force exactly 2 columns regardless of cell-min or container
@@ -39,7 +39,7 @@
 .pa-kpi-gauge-list__grid--2col { grid-template-columns: repeat(2, 1fr); }
 
 /* Cap-at-N modifiers: combine auto-fit with a ceiling on the column
-   count. Cells stay at least --pa-kpi-gauge-cell-min wide, but the grid
+   count. Cells stay at least --pc-kpi-gauge-cell-min wide, but the grid
    never exceeds N columns even when the container is wide enough to fit
    more. Below the cell-min × N threshold the grid still collapses
    responsively — these modifiers cap the maximum, not the minimum.
@@ -52,41 +52,41 @@
    Pick the cap so your item count divides into clean rows. */
 .pa-kpi-gauge-list__grid--max-2 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px) / 2)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-gauge-cell-min, 20rem), calc((100% - 1px) / 2)), 1fr));
 }
 .pa-kpi-gauge-list__grid--max-3 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 2) / 3)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 2) / 3)), 1fr));
 }
 .pa-kpi-gauge-list__grid--max-4 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 3) / 4)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 3) / 4)), 1fr));
 }
 .pa-kpi-gauge-list__grid--max-5 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 4) / 5)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 4) / 5)), 1fr));
 }
 .pa-kpi-gauge-list__grid--max-6 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 5) / 6)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-gauge-cell-min, 20rem), calc((100% - 1px * 5) / 6)), 1fr));
 }
 
 /* ----- Gauge tile (label/value head · bar · 0/tgt scale) ---------------- */
 .pa-kpi-gauge {
   position: relative;
-  background: var(--pa-card-bg);
+  background: var(--pc-card-bg);
   padding: 1.6rem 2rem;
   min-width: 0;
 
   /* Per-tile bar colour cascade — modifiers below set the var, the fill
      reads it. Cleaner than per-modifier-per-element rules; host apps can
-     override at the tile level via inline style="--pa-kpi-bar-color: …". */
-  --pa-kpi-bar-color: var(--pa-positive);
+     override at the tile level via inline style="--pc-kpi-bar-color: …". */
+  --pc-kpi-bar-color: var(--pc-positive);
 
-  &--positive { --pa-kpi-bar-color: var(--pa-positive); }
-  &--warning  { --pa-kpi-bar-color: var(--pa-warning); }
-  &--negative { --pa-kpi-bar-color: var(--pa-negative); }
-  &--neutral  { --pa-kpi-bar-color: color-mix(in srgb, var(--pa-text-color-1) 70%, transparent); }
+  &--positive { --pc-kpi-bar-color: var(--pc-positive); }
+  &--warning  { --pc-kpi-bar-color: var(--pc-warning); }
+  &--negative { --pc-kpi-bar-color: var(--pc-negative); }
+  &--neutral  { --pc-kpi-bar-color: color-mix(in srgb, var(--pc-text-color-1) 70%, transparent); }
 }
 
 /* ----- Head: label left, value right (baseline-aligned) ----------------- */
@@ -103,7 +103,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 60%, transparent);
 }
 .pa-kpi-gauge__value {
   font-family: var(--base-font-family-mono);
@@ -113,12 +113,12 @@
   font-size: 2.6rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 }
 .pa-kpi-gauge__unit {
   font-size: 1.3rem;
   font-weight: 500;
-  color: var(--pa-text-secondary);
+  color: var(--pc-text-secondary);
   margin-left: 0.2rem;
 }
 
@@ -126,35 +126,35 @@
 .pa-kpi-gauge__bar {
   /* Author-controlled tick position (default 100% — the target sits at the
      right edge of the bar's "0 → target" scale). Override per-tile via
-     style="--pa-kpi-gauge-tick-pos: 80%" if the bar represents a wider
+     style="--pc-kpi-gauge-tick-pos: 80%" if the bar represents a wider
      scale where the target sits inside the bar. */
-  --pa-kpi-gauge-tick-pos: 100%;
-  --pa-kpi-gauge-tick-color: var(--pa-text-color-1);
+  --pc-kpi-gauge-tick-pos: 100%;
+  --pc-kpi-gauge-tick-color: var(--pc-text-color-1);
 
   position: relative;
   height: 0.7rem;
-  background: var(--pa-surface-track);
+  background: var(--pc-surface-track);
   margin-bottom: 0.5rem;
   overflow: visible;     /* tick can sit just outside the track */
 
   /* Target tick — small bar slightly taller than the track. Centred on
-     --pa-kpi-gauge-tick-pos via the negative margin-left (matches half
+     --pc-kpi-gauge-tick-pos via the negative margin-left (matches half
      the tick width). Full opacity so it stays readable on dark themes
      against bright orange/green fills. */
   &::after {
     content: '';
     position: absolute;
-    left: var(--pa-kpi-gauge-tick-pos);
+    left: var(--pc-kpi-gauge-tick-pos);
     margin-left: -0.15rem;
     top: -0.2rem;
     bottom: -0.2rem;
     width: 0.3rem;
-    background: var(--pa-kpi-gauge-tick-color);
+    background: var(--pc-kpi-gauge-tick-color);
   }
 }
 .pa-kpi-gauge__fill {
   height: 100%;
-  background: var(--pa-kpi-bar-color);
+  background: var(--pc-kpi-bar-color);
   /* Width set inline per tile via style="width: X%". */
   transition: width 0.3s ease;
 }
@@ -165,5 +165,5 @@
   justify-content: space-between;
   font-family: var(--base-font-family-mono);
   font-size: 1.2rem;
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
 }

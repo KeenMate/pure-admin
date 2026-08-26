@@ -631,7 +631,7 @@
      ============================================================ -->
 
 <h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
-<p>The <code>pa-kpi-hero-main__chart</code> slot is a plain container — the hand-authored inline SVG sparkline is just the lightweight default. Drop a real charting library in and render <em>any</em> chart type: the example below uses a Chart.js <strong>bar chart</strong> so the difference from the default sparkline is obvious. It still inherits the layout box and the sentiment cascade for free — the chart wrapper sets <code>color: var(--pa-kpi-accent)</code>, so Chart.js reading <code>currentColor</code> picks up the right hue and re-colours on theme change. Markup below swaps a <code>&lt;canvas data-kpi-chart&gt;</code> in where the <code>&lt;svg&gt;</code> was; everything else is unchanged.</p>
+<p>The <code>pa-kpi-hero-main__chart</code> slot is a plain container — the hand-authored inline SVG sparkline is just the lightweight default. Drop a real charting library in and render <em>any</em> chart type: the example below uses a Chart.js <strong>bar chart</strong> so the difference from the default sparkline is obvious. It still inherits the layout box and the sentiment cascade for free — the chart wrapper sets <code>color: var(--pc-kpi-accent)</code>, so Chart.js reading <code>currentColor</code> picks up the right hue and re-colours on theme change. Markup below swaps a <code>&lt;canvas data-kpi-chart&gt;</code> in where the <code>&lt;svg&gt;</code> was; everything else is unchanged.</p>
 
 <div class="pa-card pa-kpi-hero-list">
     <div class="pa-card__header pa-kpi-header">
@@ -776,13 +776,13 @@
 
         <h4 class="mt-4">Hero (left column)</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-hero-main</code> — hero container. Carries <code>--pa-kpi-accent</code>.</li>
-            <li><code>pa-kpi-hero-main--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers setting <code>--pa-kpi-accent</code>.</li>
+            <li><code>pa-kpi-hero-main</code> — hero container. Carries <code>--pc-kpi-accent</code>.</li>
+            <li><code>pa-kpi-hero-main--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers setting <code>--pc-kpi-accent</code>.</li>
             <li><code>pa-kpi-hero-main__label</code> — uppercase mono caption.</li>
             <li><code>pa-kpi-hero-main__value</code> — focal number (<code>clamp(4rem, 17cqi, 7rem)</code>).</li>
             <li><code>pa-kpi-hero-main__num</code> / <code>pa-kpi-hero-main__unit</code> — numeric + unit spans.</li>
             <li><code>pa-kpi-hero-main__meta</code> — flex row carrying delta · period · target.</li>
-            <li><code>pa-kpi-hero-main__delta</code> — coloured Δ% (reads <code>--pa-kpi-accent</code>).</li>
+            <li><code>pa-kpi-hero-main__delta</code> — coloured Δ% (reads <code>--pc-kpi-accent</code>).</li>
             <li><code>pa-kpi-hero-main__period</code> — period descriptor (e.g. "vs last month").</li>
             <li><code>pa-kpi-hero-main__target</code> — target value pair.</li>
             <li><code>pa-kpi-hero-main__chart</code> — chart wrapper (flex-grow to absorb extra height).</li>
@@ -791,7 +791,7 @@
 
         <h4 class="mt-4">Side rail tile (right column)</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-hero-side</code> — single supporting tile. Carries <code>--pa-kpi-accent</code>.</li>
+            <li><code>pa-kpi-hero-side</code> — single supporting tile. Carries <code>--pc-kpi-accent</code>.</li>
             <li><code>pa-kpi-hero-side--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> — sentiment modifiers.</li>
             <li><code>pa-kpi-hero-side__label</code> — caption (top-left of internal 2×2 grid).</li>
             <li><code>pa-kpi-hero-side__value</code> — value spanning both rows on the right column.</li>
@@ -808,9 +808,9 @@
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome.</li>
+            <li><code>--pc-very-positive</code> / <code>--pc-positive</code> / <code>--pc-neutral</code> / <code>--pc-negative</code> / <code>--pc-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pc-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pc-detail-bg</code> / <code>--pc-detail-text</code> / <code>--pc-detail-row-label</code> / <code>--pc-detail-title</code> / <code>--pc-detail-shadow</code> — popover chrome.</li>
         </ul>
     </div>
 </div>

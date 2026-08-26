@@ -68,12 +68,12 @@
         top: 0;
         bottom: 0;
         padding: $spacing-sm $spacing-base;
-        background-color: var(--pa-sidebar-bg);
-        border: $border-width-base solid var(--pa-border-color);
+        background-color: var(--pc-sidebar-bg);
+        border: $border-width-base solid var(--pc-border-color);
         border-inline-start: none; // RTL: flips to border-right: none
         border-start-start-radius: 0;
-        border-start-end-radius: var(--pa-border-radius);
-        border-end-end-radius: var(--pa-border-radius);
+        border-start-end-radius: var(--pc-border-radius);
+        border-end-end-radius: var(--pc-border-radius);
         border-end-start-radius: 0;
         box-shadow: $shadow-md;
         white-space: nowrap;
@@ -96,12 +96,12 @@
       margin: 0;
       padding: 0;
       list-style: none;
-      background-color: var(--pa-sidebar-submenu-bg);
-      border: $border-width-base solid var(--pa-border-color);
+      background-color: var(--pc-sidebar-submenu-bg);
+      border: $border-width-base solid var(--pc-border-color);
       border-inline-start: none; // RTL: flips to border-right: none
       border-start-start-radius: 0;
-      border-start-end-radius: var(--pa-border-radius);
-      border-end-end-radius: var(--pa-border-radius);
+      border-start-end-radius: var(--pc-border-radius);
+      border-end-end-radius: var(--pc-border-radius);
       border-end-start-radius: 0;
       box-shadow: $shadow-md;
       z-index: 1001; // Higher than parent
@@ -120,12 +120,12 @@
         width: 100%;
 
         &:hover {
-          background-color: var(--pa-sidebar-submenu-hover-bg);
+          background-color: var(--pc-sidebar-submenu-hover-bg);
         }
 
         &--active {
-          background-color: var(--pa-sidebar-submenu-active-bg);
-          color: var(--pa-sidebar-submenu-active-text);
+          background-color: var(--pc-sidebar-submenu-active-bg);
+          color: var(--pc-sidebar-submenu-active-text);
         }
       }
 
@@ -168,12 +168,12 @@
         margin: 0;
         padding: 0;
         list-style: none;
-        background-color: var(--pa-sidebar-submenu-bg);
-        border: $border-width-base solid var(--pa-border-color);
+        background-color: var(--pc-sidebar-submenu-bg);
+        border: $border-width-base solid var(--pc-border-color);
         border-inline-start: none; // RTL: flips to border-right: none
         border-start-start-radius: 0;
-        border-start-end-radius: var(--pa-border-radius);
-        border-end-end-radius: var(--pa-border-radius);
+        border-start-end-radius: var(--pc-border-radius);
+        border-end-end-radius: var(--pc-border-radius);
         border-end-start-radius: 0;
         box-shadow: $shadow-md;
         z-index: 1002; // Higher than parent submenu
@@ -198,8 +198,8 @@ body:not(.sidebar-hidden) {
     // hard-coding it — otherwise this rule's specificity (0,3,0) beats the
     // zero-specificity `:where(.pa-layout__sidebar){width:var(...)}` base rule
     // and an expanded icon-collapse sidebar can't be drag-resized (the resize
-    // JS updates --pa-local-sidebar-width, which this would ignore).
-    width: var(--pa-local-sidebar-width);
+    // JS updates --pc-local-sidebar-width, which this would ignore).
+    width: var(--pc-local-sidebar-width);
 
     // Show labels when expanded
     .pa-sidebar__label {

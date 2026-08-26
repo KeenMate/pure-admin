@@ -39,7 +39,7 @@
     font-weight: $font-weight-semibold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   // --- Canonical result item ---
@@ -48,14 +48,14 @@
     align-items: flex-start;
     gap: $spacing-md;
     padding: $spacing-sm $spacing-md;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     color: inherit;
     text-decoration: none;
     transition: background-color $transition-fast $easing-snappy;
 
     &:hover,
     &--active {
-      background-color: var(--pa-table-hover-bg);
+      background-color: var(--pc-table-hover-bg);
     }
   }
 
@@ -81,14 +81,14 @@
   &__title {
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &__snippet {
     margin: 0;
     font-size: $font-size-sm;
     line-height: 1.45;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     // Clamp long snippets to two lines.
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -102,7 +102,7 @@
     align-items: center;
     gap: $spacing-xs;
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   // Full-text match highlight — wrap the matched fragment a backend returns
@@ -117,17 +117,17 @@
   // colour, medium weight) so it reads as an emphasis, not a marker pen. Every
   // facet is a CSS variable so a theme can retune it — e.g. gruvbox can swap the
   // orange wash for its own muted highlight — without a recompile. The tokens are
-  // component-neutral (--pa-search-mark-*) because the same contract also skins
+  // component-neutral (--pc-search-mark-*) because the same contract also skins
   // the inline autocomplete popover's <mark> (see _query-editor.scss), so a query
   // match highlights identically wherever it appears.
   &__mark,
   mark {
     padding: 0 0.15em;
     border-radius: 0.2rem;
-    background-color: var(--pa-search-mark-bg,
-      color-mix(in srgb, var(--pa-accent) 15%, transparent));
-    color: var(--pa-search-mark-color, inherit);
-    font-weight: var(--pa-search-mark-weight, #{$font-weight-medium});
+    background-color: var(--pc-search-mark-bg,
+      color-mix(in srgb, var(--pc-accent) 15%, transparent));
+    color: var(--pc-search-mark-color, inherit);
+    font-weight: var(--pc-search-mark-weight, #{$font-weight-medium});
   }
 
   // Meta items read as a middot-separated trail; the first has no leading dot.
@@ -144,8 +144,8 @@
     // Own pill metrics — don't borrow the badge component's $badge-* tokens.
     padding: 0.2rem $spacing-sm;
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
-    background-color: var(--pa-subtle-bg);
+    color: var(--pc-text-color-2);
+    background-color: var(--pc-subtle-bg);
     border-radius: 50rem; // pill
     white-space: nowrap;
   }
@@ -184,8 +184,8 @@
     width: 4rem;
     height: 4rem;
     font-size: $font-size-xl;
-    background-color: var(--pa-subtle-bg);
-    border-radius: var(--pa-border-radius);
+    background-color: var(--pc-subtle-bg);
+    border-radius: var(--pc-border-radius);
   }
 
   .pa-search-results__title {
@@ -202,7 +202,7 @@
   .pa-search-results__group-title {
     padding-bottom: $spacing-xs;
     margin-bottom: $spacing-xs;
-    border-bottom: $border-width-base solid var(--pa-border-color);
+    border-bottom: $border-width-base solid var(--pc-border-color);
   }
 
   .pa-search-results__item {
@@ -228,17 +228,17 @@
     align-items: flex-start;
     gap: $spacing-sm;
     padding: $spacing-md;
-    background-color: var(--pa-card-bg);
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius-lg);
+    background-color: var(--pc-card-bg);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius-lg);
     transition:
       border-color $transition-fast $easing-snappy,
       background-color $transition-fast $easing-snappy;
 
     &:hover,
     &--active {
-      border-color: var(--pa-accent);
-      background-color: var(--pa-card-bg);
+      border-color: var(--pc-accent);
+      background-color: var(--pc-card-bg);
     }
   }
 
@@ -246,8 +246,8 @@
     width: 3.6rem;
     height: 3.6rem;
     font-size: $font-size-xl;
-    background-color: var(--pa-subtle-bg);
-    border-radius: var(--pa-border-radius);
+    background-color: var(--pc-subtle-bg);
+    border-radius: var(--pc-border-radius);
   }
 
   .pa-search-results__content {

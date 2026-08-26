@@ -12,9 +12,9 @@
   align-items: flex-start;
   justify-content: center;
   // Runtime-overridable size (fallback = the compile-time SCSS default). Set
-  // --pa-command-palette-* at :root, inline, or per-instance to resize without
+  // --pc-command-palette-* at :root, inline, or per-instance to resize without
   // a recompile; the --sm/--lg/--xl modifiers below are presets that set width.
-  padding-top: var(--pa-command-palette-offset-top, #{$command-palette-offset-top});
+  padding-top: var(--pc-command-palette-offset-top, #{$command-palette-offset-top});
 
   &--active {
     display: flex;
@@ -23,15 +23,15 @@
   // Size presets — each sets the width + results-height vars the container and
   // results list read, so they compose with any inline override. Default (no
   // modifier) stays 60.8rem wide / 38.4rem tall.
-  &--sm { --pa-command-palette-width: 48rem;   --pa-command-palette-results-max-height: 28.8rem; }  // 480 / 288px
-  &--lg { --pa-command-palette-width: 76.8rem; --pa-command-palette-results-max-height: 51.2rem; }  // 768 / 512px
-  &--xl { --pa-command-palette-width: 89.6rem; --pa-command-palette-results-max-height: 64rem; }    // 896 / 640px
+  &--sm { --pc-command-palette-width: 48rem;   --pc-command-palette-results-max-height: 28.8rem; }  // 480 / 288px
+  &--lg { --pc-command-palette-width: 76.8rem; --pc-command-palette-results-max-height: 51.2rem; }  // 768 / 512px
+  &--xl { --pc-command-palette-width: 89.6rem; --pc-command-palette-results-max-height: 64rem; }    // 896 / 640px
 
   // Backdrop overlay
   &__backdrop {
     position: absolute;
     inset: 0; // RTL: full screen works in both directions
-    background-color: var(--pa-command-palette-backdrop-bg);
+    background-color: var(--pc-command-palette-backdrop-bg);
     backdrop-filter: blur($command-palette-backdrop-blur);
     animation: fadeIn $transition-normal $easing-smooth;
   }
@@ -40,9 +40,9 @@
   &__container {
     position: relative;
     width: 100%;
-    max-width: var(--pa-command-palette-width, #{$command-palette-width});
-    background-color: var(--pa-modal-content-bg);
-    border-radius: var(--pa-border-radius);
+    max-width: var(--pc-command-palette-width, #{$command-palette-width});
+    background-color: var(--pc-modal-content-bg);
+    border-radius: var(--pc-border-radius);
     box-shadow: $command-palette-shadow;
     animation: slideDown $transition-normal $easing-smooth;
     overflow: hidden;
@@ -51,7 +51,7 @@
   // Search input wrapper
   &__search {
     position: relative;
-    border-bottom: $border-width-base solid var(--pa-border-color);
+    border-bottom: $border-width-base solid var(--pc-border-color);
     padding: $spacing-sm;
   }
 
@@ -95,7 +95,7 @@
 
   &__token-prompt {
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-style: italic;
   }
 
@@ -108,10 +108,10 @@
     height: $command-palette-input-height;
     padding: $command-palette-input-padding-v $command-palette-input-padding-h;
     font-size: $command-palette-input-font-size;
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
-    background-color: var(--pa-input-bg);
-    color: var(--pa-text-color-1);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
+    background-color: var(--pc-input-bg);
+    color: var(--pc-text-color-1);
     outline: none;
     transition: border-color $transition-fast $easing-snappy;
 
@@ -121,7 +121,7 @@
     }
 
     &::placeholder {
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       opacity: $opacity-muted;
     }
   }
@@ -133,11 +133,11 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: $font-size-xs;
-    color: var(--pa-accent);
+    color: var(--pc-accent);
     font-weight: $font-weight-medium;
     padding: $spacing-xs $spacing-sm;
-    background-color: var(--pa-accent-light);
-    border-radius: var(--pa-border-radius-sm);
+    background-color: var(--pc-accent-light);
+    border-radius: var(--pc-border-radius-sm);
     opacity: 0;
     transition: opacity $transition-fast $easing-smooth;
 
@@ -154,8 +154,8 @@
     // on very short windows. The mobile media query below overrides this on
     // narrow screens; the fullscreen sheet manages its own height entirely.
     max-height: min(
-      var(--pa-command-palette-results-max-height, #{$command-palette-results-max-height}),
-      max(16rem, calc(100dvh - var(--pa-command-palette-offset-top, #{$command-palette-offset-top}) - 12rem))
+      var(--pc-command-palette-results-max-height, #{$command-palette-results-max-height}),
+      max(16rem, calc(100dvh - var(--pc-command-palette-offset-top, #{$command-palette-offset-top}) - 12rem))
     );
     overflow-y: auto;
     padding: $spacing-sm 0;
@@ -167,7 +167,7 @@
         content: '';
         position: absolute;
         inset: 0; // RTL: full overlay works in both directions
-        background-color: color-mix(in srgb, var(--pa-modal-content-bg) 70%, transparent);
+        background-color: color-mix(in srgb, var(--pc-modal-content-bg) 70%, transparent);
         pointer-events: none;
         z-index: 1;
       }
@@ -181,7 +181,7 @@
 
   &__home-section {
     &:not(:first-child) {
-      border-top: $border-width-base solid var(--pa-border-color);
+      border-top: $border-width-base solid var(--pc-border-color);
       margin-top: $spacing-xs;
       padding-top: $spacing-xs;
     }
@@ -191,7 +191,7 @@
     padding: $spacing-xs $command-palette-input-padding-h;
     font-size: $font-size-2xs;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -207,7 +207,7 @@
   &__empty {
     padding: $command-palette-empty-padding-v $command-palette-input-padding-h;
     text-align: center;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-size: $font-size-sm;
   }
 
@@ -218,7 +218,7 @@
     align-items: center;
     justify-content: center;
     gap: $spacing-sm;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-size: $font-size-sm;
 
     .pa-spinner {
@@ -237,11 +237,11 @@
     gap: $spacing-sm;
 
     &:hover {
-      background-color: var(--pa-command-palette-item-hover-bg);
+      background-color: var(--pc-command-palette-item-hover-bg);
     }
 
     &--active {
-      background-color: var(--pa-command-palette-item-active-bg);
+      background-color: var(--pc-command-palette-item-active-bg);
     }
   }
 
@@ -253,9 +253,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--pa-accent-light);
-    color: var(--pa-accent);
-    border-radius: var(--pa-border-radius-sm);
+    background-color: var(--pc-accent-light);
+    color: var(--pc-accent);
+    border-radius: var(--pc-border-radius-sm);
     font-size: $font-size-sm;
   }
 
@@ -268,24 +268,24 @@
   &__item-title {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     mark {
-      background-color: var(--pa-command-palette-highlight-bg);
-      color: var(--pa-command-palette-highlight-text);
+      background-color: var(--pc-command-palette-highlight-bg);
+      color: var(--pc-command-palette-highlight-text);
       font-weight: $font-weight-semibold;
       padding: 0 2px;
-      border-radius: var(--pa-border-radius-sm);
+      border-radius: var(--pc-border-radius-sm);
     }
   }
 
   &__item-meta {
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     margin: 0;
     margin-top: 2px;
     white-space: nowrap;
@@ -297,12 +297,12 @@
 
   // Footer with keyboard hints
   &__footer {
-    border-top: $border-width-base solid var(--pa-border-color);
+    border-top: $border-width-base solid var(--pc-border-color);
     padding: $spacing-sm $command-palette-input-padding-h;
     display: flex;
     gap: $spacing-base;
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   &__hint {
@@ -313,13 +313,13 @@
 
   &__key {
     padding: 2px $spacing-xs;
-    background-color: var(--pa-command-palette-key-bg);
-    color: var(--pa-command-palette-key-text);
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius-sm);
+    background-color: var(--pc-command-palette-key-bg);
+    color: var(--pc-command-palette-key-text);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius-sm);
     font-family: $body-font-family;
-    font-weight: var(--pa-command-palette-key-font-weight);
-    font-size: var(--pa-command-palette-key-font-size);
+    font-weight: var(--pc-command-palette-key-font-weight);
+    font-size: var(--pc-command-palette-key-font-size);
     line-height: 1;
   }
 
@@ -328,7 +328,7 @@
     padding: $spacing-sm $command-palette-input-padding-h $spacing-xs;
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -338,8 +338,8 @@
     padding: $spacing-xs $command-palette-input-padding-h;
     text-align: center;
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
-    border-top: $border-width-base solid var(--pa-border-color);
+    color: var(--pc-text-color-2);
+    border-top: $border-width-base solid var(--pc-border-color);
   }
 
   // Fullscreen-sheet title bar (mobile). Injected by the palette driver on
@@ -354,13 +354,13 @@
     gap: $spacing-sm;
     // env() clears a notch / status bar so the row isn't under the system UI.
     padding: calc(#{$spacing-sm} + env(safe-area-inset-top)) $command-palette-input-padding-h $spacing-sm;
-    border-bottom: $border-width-base solid var(--pa-border-color);
+    border-bottom: $border-width-base solid var(--pc-border-color);
   }
 
   &__fullscreen-title {
     font-size: $font-size-md;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &__close {
@@ -370,10 +370,10 @@
     width: $command-palette-input-height;
     height: $command-palette-input-height;
     padding: 0;
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
-    background-color: var(--pa-input-bg);
-    color: var(--pa-text-color-1);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
+    background-color: var(--pc-input-bg);
+    color: var(--pc-text-color-1);
     cursor: pointer;
     transition: border-color $transition-fast $easing-snappy;
 
@@ -503,9 +503,9 @@
   // modifiers below override both height and font-size.
   height: #{$base-input-size-md-height}rem;
   font-size: $font-size-sm;
-  background-color: var(--pa-input-bg);
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  background-color: var(--pc-input-bg);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
   cursor: pointer;
   transition: border-color $transition-fast $easing-snappy;
 
@@ -565,12 +565,12 @@
     border: none;
     outline: none;
     background: transparent;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     font-size: inherit;
     padding: 0;
 
     &::placeholder {
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       opacity: $opacity-muted;
     }
 
@@ -582,7 +582,7 @@
 
   &__placeholder {
     flex: 1;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -604,10 +604,10 @@
       font-family: $body-font-family;
       font-size: $font-size-2xs;
       font-weight: $font-weight-medium;
-      color: var(--pa-text-color-2);
-      background-color: var(--pa-subtle-bg);
-      border: $border-width-base solid var(--pa-border-color);
-      border-radius: var(--pa-border-radius-sm);
+      color: var(--pc-text-color-2);
+      background-color: var(--pc-subtle-bg);
+      border: $border-width-base solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius-sm);
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     }
   }
@@ -705,10 +705,10 @@
   font-weight: $font-weight-semibold;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
   margin: 0;
   padding-bottom: $spacing-xs;
-  border-bottom: $border-width-base solid var(--pa-border-color);
+  border-bottom: $border-width-base solid var(--pc-border-color);
 }
 
 .pa-shortcut-help__list {
@@ -742,25 +742,25 @@
   font-family: $body-font-family;
   font-size: $font-size-2xs;
   font-weight: $font-weight-medium;
-  color: var(--pa-text-color-1);
-  background-color: var(--pa-subtle-bg);
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius-sm);
+  color: var(--pc-text-color-1);
+  background-color: var(--pc-subtle-bg);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius-sm);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .pa-shortcut-help__separator {
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
   font-size: $font-size-xs;
 }
 
 .pa-shortcut-help__description {
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
   font-size: $font-size-sm;
 }
 
 .pa-shortcut-help__empty {
   text-align: center;
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
   padding: $spacing-xl;
 }

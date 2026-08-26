@@ -6,14 +6,14 @@
 
 // Local CSS variables for profile panel (runtime state, modified by JS for resize)
 :root {
-  --pa-local-profile-panel-width: #{$profile-panel-width};
-  --pa-local-profile-panel-max-width: #{$profile-panel-max-width};
+  --pc-local-profile-panel-width: #{$profile-panel-width};
+  --pc-local-profile-panel-max-width: #{$profile-panel-max-width};
 }
 
 // Profile panel content width - :where() for low specificity (utility classes can override)
 :where(.pa-profile-panel__content) {
-  width: var(--pa-local-profile-panel-width);
-  max-width: var(--pa-local-profile-panel-max-width);
+  width: var(--pc-local-profile-panel-width);
+  max-width: var(--pc-local-profile-panel-max-width);
 }
 
 // ====================
@@ -28,25 +28,25 @@
   background: none;
   border: none;
   padding: $spacing-xs $spacing-sm; // Match nav item padding
-  border-radius: var(--pa-border-radius);
-  color: var(--pa-navbar-text);  // Use header text color, not content text color
+  border-radius: var(--pc-border-radius);
+  color: var(--pc-navbar-text);  // Use header text color, not content text color
   cursor: pointer;
   font-size: $font-size-sm; // Apply to whole button (text and icon)
   transition: background-color $transition-fast $easing-snappy;
 
   &:hover {
-    background-color: var(--pa-accent-light);
+    background-color: var(--pc-accent-light);
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pa-accent);
+    outline: $focus-outline-width solid var(--pc-accent);
     outline-offset: $focus-outline-offset;
   }
 }
 
 .pa-navbar__profile-name {
   font-weight: $font-weight-medium;
-  color: var(--pa-navbar-profile-name-color);  // Use CSS variable for theme control
+  color: var(--pc-navbar-profile-name-color);  // Use CSS variable for theme control
 }
 
 // Profile panel
@@ -78,7 +78,7 @@
     inset-inline-start: 0; // RTL: flips to right
     width: 100vw;
     height: 100vh;
-    background-color: var(--pa-profile-overlay-bg);
+    background-color: var(--pc-profile-overlay-bg);
     cursor: pointer;
   }
 
@@ -87,7 +87,7 @@
     top: 0;
     inset-inline-end: 0; // RTL: flips to left
     height: 100vh;
-    background-color: var(--pa-card-bg);
+    background-color: var(--pc-card-bg);
     box-shadow: $shadow-profile-panel;
     transform: translateX(100%);
     transition: transform $transition-medium $easing-snappy;
@@ -103,8 +103,8 @@
 
   &__header {
     padding: $spacing-lg;
-    background-color: var(--pa-navbar-bg);
-    border-bottom: 1px solid var(--pa-border-color);
+    background-color: var(--pc-navbar-bg);
+    border-bottom: 1px solid var(--pc-border-color);
     display: flex;
     align-items: flex-start;
     gap: $spacing-base;
@@ -121,7 +121,7 @@
   &__avatar {
     width: $profile-avatar-size;
     height: $profile-avatar-size;
-    background-color: var(--pa-accent-light);
+    background-color: var(--pc-accent-light);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -131,7 +131,7 @@
 
   &__avatar-icon {
     font-size: $font-size-4xl;
-    color: var(--pa-accent);
+    color: var(--pc-accent);
   }
 
   &__info {
@@ -146,7 +146,7 @@
     font-weight: $font-weight-semibold;
     // Header bg can be dark/light/colored per theme — use the same var
     // the header itself uses for the user's name so contrast is guaranteed.
-    color: var(--pa-navbar-profile-name-color);
+    color: var(--pc-navbar-profile-name-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -155,7 +155,7 @@
   &__email {
     margin: 0 0 $spacing-sm 0;
     font-size: $font-size-sm;
-    color: var(--pa-navbar-profile-name-color);
+    color: var(--pc-navbar-profile-name-color);
     opacity: 0.75;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -165,7 +165,7 @@
   // Role badge: use the standard `.pa-badge` component in markup instead of
   // a custom `__role` element. Previously this declared its own bg/colour/
   // padding/uppercase styling — duplicating badge work that already existed
-  // in the framework, and coupling to `--pa-navbar-profile-name-color` which
+  // in the framework, and coupling to `--pc-navbar-profile-name-color` which
   // went invisible inside dark-mode panel bodies. Snippets and demo markup
   // updated accordingly in 2.9.0.
 
@@ -182,23 +182,23 @@
     align-items: center;
     justify-content: center;
     // Header-aware colour (like the name/email/tabs) — the close button lives in
-    // the panel HEADER (var(--pa-navbar-bg)), which is dark/coloured in many
-    // themes. Using the content token --pa-text-color-2 rendered near-invisible
-    // on a dark header (e.g. NATO's navy bar); --pa-navbar-profile-name-color is
+    // the panel HEADER (var(--pc-navbar-bg)), which is dark/coloured in many
+    // themes. Using the content token --pc-text-color-2 rendered near-invisible
+    // on a dark header (e.g. NATO's navy bar); --pc-navbar-profile-name-color is
     // theme-guaranteed to contrast the header. currentColor is what the masked
     // .pa-icon paints with, so this also fixes the close icon's visibility.
-    color: var(--pa-navbar-profile-name-color);
-    border-radius: var(--pa-border-radius);
+    color: var(--pc-navbar-profile-name-color);
+    border-radius: var(--pc-border-radius);
     transition: background-color $transition-fast $easing-snappy,
                 color $transition-fast $easing-snappy;
 
     &:hover {
-      background-color: var(--pa-accent-light);
-      color: var(--pa-accent);
+      background-color: var(--pc-accent-light);
+      color: var(--pc-accent);
     }
 
     &:focus {
-      outline: $focus-outline-width solid var(--pa-accent);
+      outline: $focus-outline-width solid var(--pc-accent);
       outline-offset: $focus-outline-offset;
     }
   }
@@ -229,20 +229,20 @@
     align-items: center;
     gap: $sidebar-item-gap;
     padding: $sidebar-padding;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     text-decoration: none;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     transition: background-color $transition-fast $easing-snappy,
                 color $transition-fast $easing-snappy;
     font-weight: $font-weight-medium;
 
     &:hover {
-      background-color: var(--pa-accent-light);
-      color: var(--pa-accent);
+      background-color: var(--pc-accent-light);
+      color: var(--pc-accent);
     }
 
     &:focus {
-      outline: $focus-outline-width solid var(--pa-accent);
+      outline: $focus-outline-width solid var(--pc-accent);
       outline-offset: $focus-outline-offset;
     }
   }
@@ -268,8 +268,8 @@
   &__footer {
     flex-shrink: 0;
     padding: $spacing-lg; // Matches header padding
-    border-top: $border-width-base solid var(--pa-border-color);
-    background-color: var(--pa-card-bg);
+    border-top: $border-width-base solid var(--pc-border-color);
+    background-color: var(--pc-card-bg);
     display: flex;
     flex-direction: column;
     gap: $spacing-md;
@@ -278,8 +278,8 @@
   // Tabs section
   &__tabs {
     padding: 0 $profile-panel-content-padding;
-    border-bottom: $border-width-base solid var(--pa-border-color);
-    background-color: var(--pa-navbar-bg);
+    border-bottom: $border-width-base solid var(--pc-border-color);
+    background-color: var(--pc-navbar-bg);
 
     .pa-tabs {
       border-bottom: none;
@@ -288,21 +288,21 @@
 
     // Icons inherit currentColor — use the header's name color (which is
     // theme-guaranteed to contrast with header-bg) with opacity for the
-    // inactive state instead of --pa-navbar-text-secondary, which some
+    // inactive state instead of --pc-navbar-text-secondary, which some
     // themes don't re-tone for colored headers.
     .pa-tabs__item {
-      color: var(--pa-navbar-profile-name-color);
+      color: var(--pc-navbar-profile-name-color);
       opacity: 0.6;
       border-bottom-color: transparent;
 
       &:hover {
         opacity: 0.85;
-        background-color: color-mix(in srgb, var(--pa-navbar-profile-name-color) 10%, transparent);
+        background-color: color-mix(in srgb, var(--pc-navbar-profile-name-color) 10%, transparent);
       }
 
       &--active {
         opacity: 1;
-        border-bottom-color: var(--pa-accent);
+        border-bottom-color: var(--pc-accent);
       }
     }
 
@@ -335,21 +335,21 @@
     align-items: center;
     gap: $sidebar-item-gap;
     padding: $sidebar-padding;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     text-decoration: none;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     cursor: pointer;
     transition: background-color $transition-fast $easing-snappy,
                 color $transition-fast $easing-snappy;
     font-weight: $font-weight-medium;
 
     &:hover {
-      background-color: var(--pa-accent-light);
-      color: var(--pa-accent);
+      background-color: var(--pc-accent-light);
+      color: var(--pc-accent);
     }
 
     &:focus {
-      outline: $focus-outline-width solid var(--pa-accent);
+      outline: $focus-outline-width solid var(--pc-accent);
       outline-offset: $focus-outline-offset;
     }
   }
@@ -374,9 +374,9 @@
     background: none;
     border: none;
     padding: $spacing-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     cursor: pointer;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     font-size: $font-size-sm;
     line-height: 1;
     transition: opacity $transition-fast $easing-snappy,
@@ -384,8 +384,8 @@
                 background-color $transition-fast $easing-snappy;
 
     &:hover {
-      color: var(--pa-danger-bg);
-      background-color: var(--pa-danger-bg-light);
+      color: var(--pc-danger-bg);
+      background-color: var(--pc-danger-bg-light);
     }
   }
 

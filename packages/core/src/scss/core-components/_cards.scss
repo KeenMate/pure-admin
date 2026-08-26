@@ -6,9 +6,9 @@
 
 // Cards
 .pa-card {
-  background: var(--pa-card-bg);
-  border: $card-border-width solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius-lg);
+  background: var(--pc-card-bg);
+  border: $card-border-width solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius-lg);
   margin-bottom: $spacing-base;
   box-shadow: $shadow-sm;
   transition: box-shadow $transition-fast $easing-snappy;
@@ -30,8 +30,8 @@
     // wedge of card background visible at each top corner — most obvious
     // on coloured variants (--primary/--success/--warning/--danger/--color-*)
     // where the wedge shows as a white sliver against the variant colour.
-    border-bottom: $border-width-base solid var(--pa-border-color);
-    background: var(--pa-card-header-bg);
+    border-bottom: $border-width-base solid var(--pc-border-color);
+    background: var(--pc-card-header-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -66,7 +66,7 @@
     h4,
     h5,
     h6 {
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       font-size: $font-size-base;
     }
 
@@ -93,14 +93,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       font-size: $font-size-sm;
       // Nudge the smaller description onto the title's baseline (see
       // $card-description-offset-y). `position: relative` keeps it in flow —
       // truncation/flex sizing are unaffected — it only shifts the paint.
       // Font-metric dependent, so themes can retune via the CSS variable.
       position: relative;
-      top: var(--pa-card-description-offset-y, #{$card-description-offset-y});
+      top: var(--pc-card-description-offset-y, #{$card-description-offset-y});
     }
 
     // Actions container - fixed, doesn't shrink
@@ -154,7 +154,7 @@
     // Underline modifier - accent border under heading inside card header
     &--underlined {
       h1, h2, h3, h4, h5, h6 {
-        border-bottom: $border-width-medium solid var(--pa-accent);
+        border-bottom: $border-width-medium solid var(--pc-accent);
         padding-bottom: $spacing-sm;
       }
 
@@ -165,7 +165,7 @@
       &.pa-card__header--underline-success h4,
       &.pa-card__header--underline-success h5,
       &.pa-card__header--underline-success h6 {
-        border-bottom-color: var(--pa-success-bg);
+        border-bottom-color: var(--pc-success-bg);
       }
 
       &.pa-card__header--underline-warning h1,
@@ -174,7 +174,7 @@
       &.pa-card__header--underline-warning h4,
       &.pa-card__header--underline-warning h5,
       &.pa-card__header--underline-warning h6 {
-        border-bottom-color: var(--pa-warning-bg);
+        border-bottom-color: var(--pc-warning-bg);
       }
 
       &.pa-card__header--underline-danger h1,
@@ -183,7 +183,7 @@
       &.pa-card__header--underline-danger h4,
       &.pa-card__header--underline-danger h5,
       &.pa-card__header--underline-danger h6 {
-        border-bottom-color: var(--pa-danger-bg);
+        border-bottom-color: var(--pc-danger-bg);
       }
 
       &.pa-card__header--underline-info h1,
@@ -192,7 +192,7 @@
       &.pa-card__header--underline-info h4,
       &.pa-card__header--underline-info h5,
       &.pa-card__header--underline-info h6 {
-        border-bottom-color: var(--pa-info-bg);
+        border-bottom-color: var(--pc-info-bg);
       }
 
       // Theme color slots (1-9)
@@ -203,7 +203,7 @@
         &.pa-card__header--underline-color-#{$i} h4,
         &.pa-card__header--underline-color-#{$i} h5,
         &.pa-card__header--underline-color-#{$i} h6 {
-          border-bottom-color: var(--pa-color-#{$i});
+          border-bottom-color: var(--pc-color-#{$i});
         }
       }
     }
@@ -254,7 +254,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       margin: 0;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       font-size: $font-size-base;
       font-weight: $font-weight-semibold;
       // Not `1` — line-height 1 clips glyph descenders (g, y, p) under
@@ -279,10 +279,10 @@
 
   &__footer {
     padding: $card-footer-padding-v $card-footer-padding-h;
-    border-top: $border-width-base solid var(--pa-border-color);
-    border-bottom-left-radius: var(--pa-border-radius-lg);
-    border-bottom-right-radius: var(--pa-border-radius-lg);
-    background: var(--pa-card-footer-bg);
+    border-top: $border-width-base solid var(--pc-border-color);
+    border-bottom-left-radius: var(--pc-border-radius-lg);
+    border-bottom-right-radius: var(--pc-border-radius-lg);
+    background: var(--pc-card-footer-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -369,7 +369,7 @@
   }
 
   &__meta {
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-size: $font-size-sm;
   }
 
@@ -378,12 +378,12 @@
   // variant — otherwise the default light-gray hairline shows as a visible
   // strip against the coloured surroundings (header bg + card border above).
   &--primary {
-    border-color: var(--pa-accent);
+    border-color: var(--pc-accent);
 
     .pa-card__header {
-      background-color: var(--pa-accent);
-      border-bottom-color: var(--pa-accent);
-      color: var(--pa-btn-primary-text);
+      background-color: var(--pc-accent);
+      border-bottom-color: var(--pc-accent);
+      color: var(--pc-btn-primary-text);
 
       h1,
       h2,
@@ -391,18 +391,18 @@
       h4,
       h5,
       h6 {
-        color: var(--pa-btn-primary-text);
+        color: var(--pc-btn-primary-text);
       }
     }
   }
 
   &--success {
-    border-color: var(--pa-success-bg);
+    border-color: var(--pc-success-bg);
 
     .pa-card__header {
-      background-color: var(--pa-success-bg);
-      border-bottom-color: var(--pa-success-bg);
-      color: var(--pa-btn-success-text);
+      background-color: var(--pc-success-bg);
+      border-bottom-color: var(--pc-success-bg);
+      color: var(--pc-btn-success-text);
 
       h1,
       h2,
@@ -410,18 +410,18 @@
       h4,
       h5,
       h6 {
-        color: var(--pa-btn-success-text);
+        color: var(--pc-btn-success-text);
       }
     }
   }
 
   &--warning {
-    border-color: var(--pa-warning-bg);
+    border-color: var(--pc-warning-bg);
 
     .pa-card__header {
-      background-color: var(--pa-warning-bg);
-      border-bottom-color: var(--pa-warning-bg);
-      color: var(--pa-btn-warning-text);
+      background-color: var(--pc-warning-bg);
+      border-bottom-color: var(--pc-warning-bg);
+      color: var(--pc-btn-warning-text);
 
       h1,
       h2,
@@ -429,18 +429,18 @@
       h4,
       h5,
       h6 {
-        color: var(--pa-btn-warning-text);
+        color: var(--pc-btn-warning-text);
       }
     }
   }
 
   &--danger {
-    border-color: var(--pa-danger-bg);
+    border-color: var(--pc-danger-bg);
 
     .pa-card__header {
-      background-color: var(--pa-danger-bg);
-      border-bottom-color: var(--pa-danger-bg);
-      color: var(--pa-btn-danger-text);
+      background-color: var(--pc-danger-bg);
+      border-bottom-color: var(--pc-danger-bg);
+      color: var(--pc-btn-danger-text);
 
       h1,
       h2,
@@ -448,7 +448,7 @@
       h4,
       h5,
       h6 {
-        color: var(--pa-btn-danger-text);
+        color: var(--pc-btn-danger-text);
       }
     }
   }
@@ -485,12 +485,12 @@
   // Live-data state — persistent tinted background reflecting latest change
   // JS swaps the class on each data update; color stays until next update
   &--live-up {
-    background-color: color-mix(in srgb, var(--pa-positive) 10%, transparent);
+    background-color: color-mix(in srgb, var(--pc-positive) 10%, transparent);
     transition: background-color 0.3s ease;
   }
 
   &--live-down {
-    background-color: color-mix(in srgb, var(--pa-negative) 10%, transparent);
+    background-color: color-mix(in srgb, var(--pc-negative) 10%, transparent);
     transition: background-color 0.3s ease;
   }
 
@@ -500,15 +500,15 @@
   }
 
   // Theme color variants (color-1 through color-9)
-  // These use theme-customizable colors from --pa-color-* CSS variables
+  // These use theme-customizable colors from --pc-color-* CSS variables
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      border-color: var(--pa-color-#{$i});
+      border-color: var(--pc-color-#{$i});
 
       .pa-card__header {
-        background-color: var(--pa-color-#{$i});
-        border-bottom-color: var(--pa-color-#{$i});
-        color: var(--pa-color-#{$i}-text);
+        background-color: var(--pc-color-#{$i});
+        border-bottom-color: var(--pc-color-#{$i});
+        color: var(--pc-color-#{$i}-text);
 
         h1,
         h2,
@@ -516,7 +516,7 @@
         h4,
         h5,
         h6 {
-          color: var(--pa-color-#{$i}-text);
+          color: var(--pc-color-#{$i}-text);
         }
       }
     }
@@ -525,27 +525,27 @@
   // Card tabs
   &__tabs {
     display: flex;
-    border-bottom: $border-width-base solid var(--pa-border-color);
-    background: var(--pa-card-tabs-bg);
+    border-bottom: $border-width-base solid var(--pc-border-color);
+    background: var(--pc-card-tabs-bg);
   }
 
   &__tab {
     padding: $card-footer-padding-v $card-footer-padding-h;
     border: none;
     background: none;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     cursor: pointer;
     transition: all $transition-fast $easing-snappy;
     border-bottom: $border-width-medium solid transparent;
 
     &:hover {
-      color: var(--pa-text-color-1);
-      background-color: color-mix(in srgb, var(--pa-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+      color: var(--pc-text-color-1);
+      background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
     }
 
     &--active {
-      color: var(--pa-accent);
-      border-bottom-color: var(--pa-accent);
+      color: var(--pc-accent);
+      border-bottom-color: var(--pc-accent);
     }
   }
 
@@ -568,21 +568,21 @@
     .pa-card__tab {
       padding: $card-tab-inline-padding-v $card-tab-inline-padding-h;
       border: none;
-      border-radius: var(--pa-border-radius);
+      border-radius: var(--pc-border-radius);
       font-size: $font-size-sm;
       background: transparent;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       cursor: pointer;
       transition: all $transition-fast $easing-snappy;
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pa-accent) #{$card-tab-hover-opacity * 100%}, transparent);
-        color: var(--pa-text-color-1);
+        background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+        color: var(--pc-text-color-1);
       }
 
       &--active {
-        background: var(--pa-accent);
-        color: var(--pa-btn-primary-text);
+        background: var(--pc-accent);
+        color: var(--pc-btn-primary-text);
       }
     }
   }
@@ -601,11 +601,11 @@ a.pa-card {
 
   // Reset heading colors inside clickable cards
   h1, h2, h3, h4, h5, h6 {
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   p {
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 }
 
@@ -614,18 +614,18 @@ a.pa-card {
   margin-bottom: $section-margin-v;
 
   > h3 {
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     margin-bottom: $spacing-base;
-    border-bottom: $border-width-medium solid var(--pa-accent);
+    border-bottom: $border-width-medium solid var(--pc-accent);
     padding-bottom: $spacing-sm;
   }
 }
 
 // Section title (standalone)
 .pa-section-title {
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
   margin-bottom: $spacing-base;
-  border-bottom: $border-width-medium solid var(--pa-accent);
+  border-bottom: $border-width-medium solid var(--pc-accent);
   padding-bottom: $spacing-sm;
 }
 

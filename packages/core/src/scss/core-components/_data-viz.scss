@@ -11,8 +11,8 @@
 .pa-progress {
   width: 100%;
   height: $progress-height;
-  background: var(--pa-surface-track);
-  border-radius: var(--pa-border-radius);
+  background: var(--pc-surface-track);
+  border-radius: var(--pc-border-radius);
   overflow: hidden;
   position: relative;
 
@@ -20,7 +20,7 @@
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: var(--pa-accent);
+    background: var(--pc-accent);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
@@ -32,11 +32,11 @@
     margin-bottom: $spacing-xs;
     font-size: $progress-label-font-size;
     font-weight: $progress-label-font-weight;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &__label-value {
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   // Size variants
@@ -53,10 +53,10 @@
   }
 
   // Color variants
-  &--success > .pa-progress__fill { background: var(--pa-success); }
-  &--warning > .pa-progress__fill { background: var(--pa-warning); }
-  &--danger > .pa-progress__fill  { background: var(--pa-danger); }
-  &--info > .pa-progress__fill    { background: var(--pa-info); }
+  &--success > .pa-progress__fill { background: var(--pc-success); }
+  &--warning > .pa-progress__fill { background: var(--pc-warning); }
+  &--danger > .pa-progress__fill  { background: var(--pc-danger); }
+  &--info > .pa-progress__fill    { background: var(--pc-info); }
 
   // Rounded (pill shape)
   &--rounded {
@@ -106,9 +106,9 @@
   display: flex;
   width: 100%;
   height: $stacked-bar-height;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   overflow: hidden;
-  background: var(--pa-surface-track);
+  background: var(--pc-surface-track);
 
   &__segment {
     height: 100%;
@@ -116,13 +116,13 @@
     transition: width $transition-medium $easing-smooth;
 
     // Default color
-    background: var(--pa-accent);
+    background: var(--pc-accent);
 
-    &--success { background: var(--pa-success); }
-    &--warning { background: var(--pa-warning); }
-    &--danger  { background: var(--pa-danger); }
-    &--info    { background: var(--pa-info); }
-    &--secondary { background: var(--pa-btn-secondary-bg); }
+    &--success { background: var(--pc-success); }
+    &--warning { background: var(--pc-warning); }
+    &--danger  { background: var(--pc-danger); }
+    &--info    { background: var(--pc-info); }
+    &--secondary { background: var(--pc-btn-secondary-bg); }
   }
 
   // Legend
@@ -138,21 +138,21 @@
     align-items: center;
     gap: $spacing-xs;
     font-size: $stacked-bar-legend-font-size;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   &__legend-swatch {
     width: $stacked-bar-legend-swatch-size;
     height: $stacked-bar-legend-swatch-size;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     flex-shrink: 0;
 
-    &--primary   { background: var(--pa-accent); }
-    &--success   { background: var(--pa-success); }
-    &--warning   { background: var(--pa-warning); }
-    &--danger    { background: var(--pa-danger); }
-    &--info      { background: var(--pa-info); }
-    &--secondary { background: var(--pa-btn-secondary-bg); }
+    &--primary   { background: var(--pc-accent); }
+    &--success   { background: var(--pc-success); }
+    &--warning   { background: var(--pc-warning); }
+    &--danger    { background: var(--pc-danger); }
+    &--info      { background: var(--pc-info); }
+    &--secondary { background: var(--pc-btn-secondary-bg); }
   }
 
   // Size variants
@@ -173,8 +173,8 @@
   height: $progress-ring-size;
   border-radius: 50%;
   background: conic-gradient(
-    var(--pa-accent) calc(var(--value, 0) * 3.6deg),
-    var(--pa-surface-track) 0deg
+    var(--pc-accent) calc(var(--value, 0) * 3.6deg),
+    var(--pc-surface-track) 0deg
   );
   display: flex;
   align-items: center;
@@ -185,7 +185,7 @@
     width: 70%;
     height: 70%;
     border-radius: 50%;
-    background: var(--pa-card-bg);
+    background: var(--pc-card-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -196,12 +196,12 @@
     font-size: $progress-ring-value-font-size;
     font-weight: $progress-ring-value-font-weight;
     line-height: 1;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &__label {
     font-size: $progress-ring-label-font-size;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     margin-top: $spacing-xs;
   }
 
@@ -235,29 +235,29 @@
   // Color variants
   &--success {
     background: conic-gradient(
-      var(--pa-success) calc(var(--value, 0) * 3.6deg),
-      var(--pa-surface-track) 0deg
+      var(--pc-success) calc(var(--value, 0) * 3.6deg),
+      var(--pc-surface-track) 0deg
     );
   }
 
   &--warning {
     background: conic-gradient(
-      var(--pa-warning) calc(var(--value, 0) * 3.6deg),
-      var(--pa-surface-track) 0deg
+      var(--pc-warning) calc(var(--value, 0) * 3.6deg),
+      var(--pc-surface-track) 0deg
     );
   }
 
   &--danger {
     background: conic-gradient(
-      var(--pa-danger) calc(var(--value, 0) * 3.6deg),
-      var(--pa-surface-track) 0deg
+      var(--pc-danger) calc(var(--value, 0) * 3.6deg),
+      var(--pc-surface-track) 0deg
     );
   }
 
   &--info {
     background: conic-gradient(
-      var(--pa-info) calc(var(--value, 0) * 3.6deg),
-      var(--pa-surface-track) 0deg
+      var(--pc-info) calc(var(--value, 0) * 3.6deg),
+      var(--pc-surface-track) 0deg
     );
   }
 }
@@ -269,14 +269,14 @@
 
 .pa-gauge {
   // Single token controls the active fill; colour variants override just this.
-  --pa-gauge-fill: var(--pa-accent);
+  --pc-gauge-fill: var(--pc-accent);
   // Total width of the gauge. Height auto-derives at half the width (the
   // gauge is a top semi-circle, so aspect ratio is fixed 2:1). Override
-  // per instance via style="--pa-gauge-size: 16rem".
-  --pa-gauge-size: #{$gauge-size};
+  // per instance via style="--pc-gauge-size: 16rem".
+  --pc-gauge-size: #{$gauge-size};
 
-  width: var(--pa-gauge-size);
-  height: calc(var(--pa-gauge-size) / 2);
+  width: var(--pc-gauge-size);
+  height: calc(var(--pc-gauge-size) / 2);
   // Reserve room for the absolutely-positioned __min / __max labels that
   // sit below the baseline. Without this, parents see only the half-circle
   // height (gauge-size / 2) and the labels collide with whatever's below.
@@ -286,14 +286,14 @@
 
   // Ring is drawn on a pseudo so the mask carves out a true donut hole
   // (transparent center) without affecting child content. The previous
-  // technique overlaid an opaque inner element with --pa-card-bg to fake
-  // the hole, which only worked when the gauge sat on a --pa-card-bg
+  // technique overlaid an opaque inner element with --pc-card-bg to fake
+  // the hole, which only worked when the gauge sat on a --pc-card-bg
   // surface; on any other background the "hole" showed as a coloured fill.
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: var(--pa-gauge-size) var(--pa-gauge-size) 0 0;
+    border-radius: var(--pc-gauge-size) var(--pc-gauge-size) 0 0;
     // Conic and mask must share the same centre (50% 100% — bottom-centre)
     // so the colour transitions and the ring boundaries are concentric.
     // Without "at 50% 100%" on the conic, its centre defaults to the
@@ -301,8 +301,8 @@
     // and producing wedge-thicker bottom corners.
     background: conic-gradient(
       from 0.75turn at 50% 100%,
-      var(--pa-gauge-fill) calc(var(--value, 0) * 1.8deg),
-      var(--pa-surface-track) 0deg
+      var(--pc-gauge-fill) calc(var(--value, 0) * 1.8deg),
+      var(--pc-surface-track) 0deg
     );
     -webkit-mask-image: radial-gradient(circle farthest-side at 50% 100%, transparent 0 70%, #000 70%);
     mask-image: radial-gradient(circle farthest-side at 50% 100%, transparent 0 70%, #000 70%);
@@ -327,7 +327,7 @@
     font-size: $gauge-value-font-size;
     font-weight: $gauge-value-font-weight;
     line-height: 1;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   // Axis row — gauge label (CPU / Memory / Temp / …) plus min/max
@@ -343,7 +343,7 @@
     margin-top: $spacing-xs;
     font-size: $font-size-2xs;
     line-height: 1.2rem;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     white-space: nowrap;
   }
 
@@ -357,22 +357,22 @@
   &__max { right: 0; }
 
   // Colour variants override only the fill token.
-  &--success { --pa-gauge-fill: var(--pa-success); }
-  &--warning { --pa-gauge-fill: var(--pa-warning); }
-  &--danger  { --pa-gauge-fill: var(--pa-danger); }
-  &--info    { --pa-gauge-fill: var(--pa-info); }
+  &--success { --pc-gauge-fill: var(--pc-success); }
+  &--warning { --pc-gauge-fill: var(--pc-warning); }
+  &--danger  { --pc-gauge-fill: var(--pc-danger); }
+  &--info    { --pc-gauge-fill: var(--pc-info); }
 
   // Multi-zone gauge replaces the entire gradient on the pseudo.
   &--zones::before {
     background: conic-gradient(
       from 0.75turn at 50% 100%,
-      var(--pa-success) 0deg,
-      var(--pa-success) 90deg,
-      var(--pa-warning) 90deg,
-      var(--pa-warning) 135deg,
-      var(--pa-danger) 135deg,
-      var(--pa-danger) 180deg,
-      var(--pa-surface-track) 180deg
+      var(--pc-success) 0deg,
+      var(--pc-success) 90deg,
+      var(--pc-warning) 90deg,
+      var(--pc-warning) 135deg,
+      var(--pc-danger) 135deg,
+      var(--pc-danger) 180deg,
+      var(--pc-surface-track) 180deg
     );
   }
 }
@@ -391,35 +391,35 @@
   &__value {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     line-height: 1;
   }
 
   &__track {
     width: 100%;
     height: $data-bar-height;
-    background: var(--pa-surface-track);
-    border-radius: var(--pa-border-radius-sm);
+    background: var(--pc-surface-track);
+    border-radius: var(--pc-border-radius-sm);
     overflow: hidden;
   }
 
   &__fill {
     height: 100%;
     width: var(--value, 0%);
-    background: var(--pa-accent);
+    background: var(--pc-accent);
     border-radius: inherit;
     transition: width $transition-medium $easing-smooth;
   }
 
   // Color variants
-  &--success .pa-data-bar__fill { background: var(--pa-success); }
-  &--warning .pa-data-bar__fill { background: var(--pa-warning); }
-  &--danger .pa-data-bar__fill  { background: var(--pa-danger); }
-  &--info .pa-data-bar__fill    { background: var(--pa-info); }
+  &--success .pa-data-bar__fill { background: var(--pc-success); }
+  &--warning .pa-data-bar__fill { background: var(--pc-warning); }
+  &--danger .pa-data-bar__fill  { background: var(--pc-danger); }
+  &--info .pa-data-bar__fill    { background: var(--pc-info); }
 
   // Negative variant (red, right-aligned)
   &--negative .pa-data-bar__fill {
-    background: var(--pa-danger);
+    background: var(--pc-danger);
     margin-inline-start: auto;
   }
 }
@@ -436,28 +436,28 @@
   gap: $heatmap-gap;
 
   &__cell {
-    border-radius: var(--pa-border-radius-sm);
-    background: var(--pa-surface-track);
+    border-radius: var(--pc-border-radius-sm);
+    background: var(--pc-surface-track);
 
-    &[data-level="1"] { background: color-mix(in srgb, var(--pa-accent) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pa-accent) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pa-accent) 65%, transparent); }
-    &[data-level="4"] { background: var(--pa-accent); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-accent) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-accent) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-accent) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-accent); }
   }
 
   // Color variants
   &--success .pa-heatmap__cell {
-    &[data-level="1"] { background: color-mix(in srgb, var(--pa-success) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pa-success) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pa-success) 65%, transparent); }
-    &[data-level="4"] { background: var(--pa-success); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-success) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-success) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-success) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-success); }
   }
 
   &--danger .pa-heatmap__cell {
-    &[data-level="1"] { background: color-mix(in srgb, var(--pa-danger) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pa-danger) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pa-danger) 65%, transparent); }
-    &[data-level="4"] { background: var(--pa-danger); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-danger) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-danger) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-danger) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-danger); }
   }
 
   // Legend
@@ -467,19 +467,19 @@
     gap: $heatmap-legend-gap;
     margin-top: $spacing-sm;
     font-size: $heatmap-legend-font-size;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   &__legend-cell {
     width: $heatmap-cell-size;
     height: $heatmap-cell-size;
-    border-radius: var(--pa-border-radius-sm);
-    background: var(--pa-surface-track);
+    border-radius: var(--pc-border-radius-sm);
+    background: var(--pc-surface-track);
 
-    &[data-level="1"] { background: color-mix(in srgb, var(--pa-accent) 20%, transparent); }
-    &[data-level="2"] { background: color-mix(in srgb, var(--pa-accent) 40%, transparent); }
-    &[data-level="3"] { background: color-mix(in srgb, var(--pa-accent) 65%, transparent); }
-    &[data-level="4"] { background: var(--pa-accent); }
+    &[data-level="1"] { background: color-mix(in srgb, var(--pc-accent) 20%, transparent); }
+    &[data-level="2"] { background: color-mix(in srgb, var(--pc-accent) 40%, transparent); }
+    &[data-level="3"] { background: color-mix(in srgb, var(--pc-accent) 65%, transparent); }
+    &[data-level="4"] { background: var(--pc-accent); }
   }
 
   // Compact variant (smaller cells, for inline use)
@@ -489,7 +489,7 @@
     gap: 0.1rem;
 
     .pa-heatmap__cell {
-      border-radius: var(--pa-border-radius-sm);
+      border-radius: var(--pc-border-radius-sm);
     }
   }
 }
@@ -508,17 +508,17 @@
   &__bar {
     width: $sparkline-bar-width;
     height: var(--value, 50%);
-    background: var(--pa-accent);
-    border-radius: var(--pa-border-radius-sm) var(--pa-border-radius-sm) 0 0;
+    background: var(--pc-accent);
+    border-radius: var(--pc-border-radius-sm) var(--pc-border-radius-sm) 0 0;
     transition: height $transition-medium $easing-smooth;
     min-height: 1px;
   }
 
   // Color variants
-  &--success .pa-sparkline__bar { background: var(--pa-success); }
-  &--warning .pa-sparkline__bar { background: var(--pa-warning); }
-  &--danger .pa-sparkline__bar  { background: var(--pa-danger); }
-  &--info .pa-sparkline__bar    { background: var(--pa-info); }
+  &--success .pa-sparkline__bar { background: var(--pc-success); }
+  &--warning .pa-sparkline__bar { background: var(--pc-warning); }
+  &--danger .pa-sparkline__bar  { background: var(--pc-danger); }
+  &--info .pa-sparkline__bar    { background: var(--pc-info); }
 
   // Size variants
   &--sm {
@@ -558,7 +558,7 @@
 
   &__label {
     font-size: $bar-list-label-font-size;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -568,15 +568,15 @@
   &__value {
     font-size: $bar-list-value-font-size;
     font-weight: $bar-list-value-font-weight;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     flex-shrink: 0;
   }
 
   &__bar {
     width: 100%;
     height: $bar-list-bar-height;
-    background: var(--pa-surface-track);
-    border-radius: var(--pa-border-radius-sm);
+    background: var(--pc-surface-track);
+    border-radius: var(--pc-border-radius-sm);
     overflow: hidden;
 
     &::after {
@@ -584,17 +584,17 @@
       display: block;
       height: 100%;
       width: var(--value, 0%);
-      background: var(--pa-accent);
+      background: var(--pc-accent);
       border-radius: inherit;
       transition: width $transition-medium $easing-smooth;
     }
   }
 
   // Color variants
-  &--success .pa-bar-list__bar::after { background: var(--pa-success); }
-  &--warning .pa-bar-list__bar::after { background: var(--pa-warning); }
-  &--danger .pa-bar-list__bar::after  { background: var(--pa-danger); }
-  &--info .pa-bar-list__bar::after    { background: var(--pa-info); }
+  &--success .pa-bar-list__bar::after { background: var(--pc-success); }
+  &--warning .pa-bar-list__bar::after { background: var(--pc-warning); }
+  &--danger .pa-bar-list__bar::after  { background: var(--pc-danger); }
+  &--info .pa-bar-list__bar::after    { background: var(--pc-info); }
 
   // Compact modifier (tighter spacing)
   &--compact {

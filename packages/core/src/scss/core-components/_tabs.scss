@@ -8,7 +8,7 @@
 .pa-tabs {
   display: flex;
   flex-wrap: wrap;
-  border-bottom: $border-width-base solid var(--pa-border-color);
+  border-bottom: $border-width-base solid var(--pc-border-color);
   gap: $spacing-sm;
   margin-bottom: $tabs-margin-bottom;
 
@@ -17,7 +17,7 @@
     padding: $btn-padding-v $btn-padding-h;
     border: none;
     background: none;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     cursor: pointer;
     transition: all $transition-fast $easing-snappy;
     border-bottom: $border-width-medium solid transparent;
@@ -28,13 +28,13 @@
     white-space: nowrap;
 
     &:hover {
-      color: var(--pa-text-color-1);
-      background-color: color-mix(in srgb, var(--pa-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+      color: var(--pc-text-color-1);
+      background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
     }
 
     &--active {
-      color: var(--pa-accent);
-      border-bottom-color: var(--pa-accent);
+      color: var(--pc-accent);
+      border-bottom-color: var(--pc-accent);
       font-weight: $font-weight-semibold;
     }
 
@@ -70,46 +70,46 @@
     gap: $spacing-sm;
 
     .pa-tabs__item {
-      border-radius: var(--pa-border-radius-lg);
+      border-radius: var(--pc-border-radius-lg);
       border: $border-width-base solid transparent;
-      background-color: var(--pa-main-bg);
+      background-color: var(--pc-main-bg);
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pa-accent) #{$tabs-pill-hover-opacity * 100%}, transparent);
-        border-color: color-mix(in srgb, var(--pa-accent) #{$tabs-pill-border-opacity * 100%}, transparent);
-        color: var(--pa-text-color-1);
+        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-pill-hover-opacity * 100%}, transparent);
+        border-color: color-mix(in srgb, var(--pc-accent) #{$tabs-pill-border-opacity * 100%}, transparent);
+        color: var(--pc-text-color-1);
       }
 
       &--active {
-        background-color: var(--pa-accent);
+        background-color: var(--pc-accent);
         color: white;
-        border-color: var(--pa-accent);
+        border-color: var(--pc-accent);
       }
     }
   }
 
   // Boxed variant
   &--boxed {
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius-lg);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius-lg);
     padding: $spacing-xs;
-    background-color: var(--pa-main-bg);
+    background-color: var(--pc-main-bg);
     gap: $spacing-xs;
 
     .pa-tabs__item {
-      border-radius: var(--pa-border-radius);
+      border-radius: var(--pc-border-radius);
       border: none;
       border-bottom: none;
       padding: $spacing-sm $spacing-md;
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pa-accent) #{$tabs-boxed-hover-opacity * 100%}, transparent);
-        color: var(--pa-text-color-1);
+        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-boxed-hover-opacity * 100%}, transparent);
+        color: var(--pc-text-color-1);
       }
 
       &--active {
-        background-color: var(--pa-card-bg);
-        color: var(--pa-text-color-1);
+        background-color: var(--pc-card-bg);
+        color: var(--pc-text-color-1);
         box-shadow: $shadow-sm;
       }
     }
@@ -119,7 +119,7 @@
   &--vertical {
     flex-direction: column;
     border-bottom: none;
-    border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
+    border-inline-end: $border-width-base solid var(--pc-border-color); // RTL: flips to border-left
     gap: 0;
     margin-bottom: 0;
     padding-inline-end: 0; // RTL: flips to padding-left
@@ -131,8 +131,8 @@
       border-bottom: none;
       border-inline-end: $border-width-medium solid transparent; // RTL: flips to border-left
       padding: $spacing-sm;
-      border-start-start-radius: var(--pa-border-radius); // RTL: top-right in RTL
-      border-end-start-radius: var(--pa-border-radius);   // RTL: bottom-right in RTL
+      border-start-start-radius: var(--pc-border-radius); // RTL: top-right in RTL
+      border-end-start-radius: var(--pc-border-radius);   // RTL: bottom-right in RTL
       border-start-end-radius: 0;
       border-end-end-radius: 0;
       gap: $tabs-vertical-item-gap;
@@ -140,12 +140,12 @@
       min-height: 4rem; // Default height for vertical tabs
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pa-accent) #{$tabs-vertical-hover-opacity * 100%}, transparent);
+        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-vertical-hover-opacity * 100%}, transparent);
       }
 
       &--active {
-        border-inline-end-color: var(--pa-accent); // RTL: flips to border-left-color
-        background-color: color-mix(in srgb, var(--pa-accent) #{$tabs-vertical-active-opacity * 100%}, transparent);
+        border-inline-end-color: var(--pc-accent); // RTL: flips to border-left-color
+        background-color: color-mix(in srgb, var(--pc-accent) #{$tabs-vertical-active-opacity * 100%}, transparent);
       }
 
       // Icon with fixed width (follows sidebar pattern)
@@ -227,8 +227,8 @@
       bottom: 0;
       width: $tabs-scroll-btn-width;
       border: none;
-      background: linear-gradient(to right, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
-      color: var(--pa-text-color-1);
+      background: linear-gradient(to right, color-mix(in srgb, var(--pc-main-bg) 95%, transparent), transparent);
+      color: var(--pc-text-color-1);
       cursor: pointer;
       z-index: 1;
       display: flex;
@@ -239,24 +239,24 @@
       pointer-events: none;
 
       &:hover {
-        background: linear-gradient(to right, var(--pa-main-bg), color-mix(in srgb, var(--pa-main-bg) 80%, transparent));
+        background: linear-gradient(to right, var(--pc-main-bg), color-mix(in srgb, var(--pc-main-bg) 80%, transparent));
       }
 
       &--start {
         inset-inline-start: 0; // RTL: flips to right
-        background: linear-gradient(to right, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+        background: linear-gradient(to right, color-mix(in srgb, var(--pc-main-bg) 95%, transparent), transparent);
 
         [dir="rtl"] & {
-          background: linear-gradient(to left, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+          background: linear-gradient(to left, color-mix(in srgb, var(--pc-main-bg) 95%, transparent), transparent);
         }
       }
 
       &--end {
         inset-inline-end: 0; // RTL: flips to left
-        background: linear-gradient(to left, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+        background: linear-gradient(to left, color-mix(in srgb, var(--pc-main-bg) 95%, transparent), transparent);
 
         [dir="rtl"] & {
-          background: linear-gradient(to right, color-mix(in srgb, var(--pa-main-bg) 95%, transparent), transparent);
+          background: linear-gradient(to right, color-mix(in srgb, var(--pc-main-bg) 95%, transparent), transparent);
         }
       }
 
@@ -304,7 +304,7 @@
   // Border top variant - active indicator on top instead of bottom
   &--border-top {
     border-bottom: none;
-    border-top: $border-width-base solid var(--pa-border-color);
+    border-top: $border-width-base solid var(--pc-border-color);
 
     .pa-tabs__item {
       border-bottom: none;
@@ -344,10 +344,10 @@
   &__container {
     // Bordered variant - wraps entire tabs system in card-like border
     &--bordered {
-      border: $border-width-base solid var(--pa-border-color);
-      border-radius: var(--pa-border-radius-lg);
+      border: $border-width-base solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius-lg);
       padding: $card-body-padding-v $card-body-padding-h;
-      background-color: var(--pa-card-bg);
+      background-color: var(--pc-card-bg);
       margin-bottom: $spacing-base; // Match pa-card margin
 
       // Remove bottom border from tabs since wrapper has border
@@ -355,7 +355,7 @@
         border-bottom: none;
         padding-bottom: $spacing-md;
         margin-bottom: 0;
-        border-bottom: $border-width-base solid var(--pa-border-color); // Divider between tabs and content
+        border-bottom: $border-width-base solid var(--pc-border-color); // Divider between tabs and content
       }
 
       // Remove top padding from content since wrapper provides spacing
@@ -367,17 +367,17 @@
     // Card variant - tabs act as card header (same height as pa-card__header)
     &--card {
       position: relative; // For dropdown positioning
-      border: $card-border-width solid var(--pa-border-color);
-      border-radius: var(--pa-border-radius-lg);
-      background-color: var(--pa-card-bg);
+      border: $card-border-width solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius-lg);
+      background-color: var(--pc-card-bg);
       box-shadow: $shadow-sm;
       margin-bottom: $spacing-base; // Match pa-card margin
 
       .pa-tabs {
         height: $card-header-min-height;
         padding: $card-header-padding-v $card-header-padding-h;
-        background: var(--pa-card-header-bg);
-        border-bottom: $border-width-base solid var(--pa-border-color);
+        background: var(--pc-card-header-bg);
+        border-bottom: $border-width-base solid var(--pc-border-color);
         box-sizing: border-box;
         border-top-left-radius: $card-border-radius;
         border-top-right-radius: $card-border-radius;
@@ -413,22 +413,22 @@
         padding: 0;
         border: none;
         background: transparent;
-        color: var(--pa-text-color-2);
+        color: var(--pc-text-color-2);
         cursor: pointer;
         transition: all $transition-fast $easing-snappy;
-        border-inline-start: $border-width-base solid var(--pa-border-color); // RTL: flips to border-right
+        border-inline-start: $border-width-base solid var(--pc-border-color); // RTL: flips to border-right
         margin: (-$card-header-padding-v) (-$card-header-padding-h) (-$card-header-padding-v) 0;
         box-sizing: content-box;
         height: $card-header-min-height;
 
         &:hover {
-          background-color: color-mix(in srgb, var(--pa-accent) #{$card-tab-hover-opacity * 100%}, transparent);
-          color: var(--pa-text-color-1);
+          background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+          color: var(--pc-text-color-1);
         }
 
         // When overflow contains the active tab
         &--has-active {
-          color: var(--pa-accent);
+          color: var(--pc-accent);
 
           &::after {
             content: '';
@@ -437,7 +437,7 @@
             left: 0;
             right: 0;
             height: $border-width-medium;
-            background: var(--pa-accent);
+            background: var(--pc-accent);
           }
         }
 
@@ -451,9 +451,9 @@
         top: $card-header-min-height;
         inset-inline-end: 0; // RTL: flips to left
         min-width: 15rem;
-        background: var(--pa-card-bg);
-        border: $card-border-width solid var(--pa-border-color);
-        border-radius: var(--pa-border-radius);
+        background: var(--pc-card-bg);
+        border: $card-border-width solid var(--pc-border-color);
+        border-radius: var(--pc-border-radius);
         box-shadow: $shadow-lg;
         z-index: $z-index-dropdown;
         display: none;
@@ -473,11 +473,11 @@
           white-space: nowrap;
 
           &:hover {
-            background-color: color-mix(in srgb, var(--pa-accent) #{$card-tab-hover-opacity * 100%}, transparent);
+            background-color: color-mix(in srgb, var(--pc-accent) #{$card-tab-hover-opacity * 100%}, transparent);
           }
 
           &--active {
-            background-color: color-mix(in srgb, var(--pa-accent) 10%, transparent);
+            background-color: color-mix(in srgb, var(--pc-accent) 10%, transparent);
             border-bottom: none;
           }
         }
@@ -498,15 +498,15 @@
 
     // Bordered variant - wraps entire tabs system in card-like border
     &--bordered {
-      border: $border-width-base solid var(--pa-border-color);
-      border-radius: var(--pa-border-radius-lg);
+      border: $border-width-base solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius-lg);
       padding: $card-body-padding-v $card-body-padding-h;
-      background-color: var(--pa-card-bg);
+      background-color: var(--pc-card-bg);
       margin-bottom: $spacing-base; // Match pa-card margin
 
       // Add divider between tabs and content (gap already provides spacing)
       .pa-tabs--vertical {
-        border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
+        border-inline-end: $border-width-base solid var(--pc-border-color); // RTL: flips to border-left
 
         // Make tab items full width so active border reaches divider
         .pa-tabs__item {

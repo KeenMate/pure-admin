@@ -13,38 +13,38 @@
   &__icon {
     width: $stat-icon-size;
     height: $stat-icon-size;
-    border-radius: var(--pa-border-radius-lg);
+    border-radius: var(--pc-border-radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: $font-size-xl;
 
     // Colour variants resolve via CSS custom properties so theme overrides
-    // (--pa-success-bg, --pa-warning-bg, etc.) cascade at runtime instead of
+    // (--pc-success-bg, --pc-warning-bg, etc.) cascade at runtime instead of
     // baking at SCSS compile time.
     &--primary {
-      background-color: var(--pa-accent-light);
-      color: var(--pa-accent);
+      background-color: var(--pc-accent-light);
+      color: var(--pc-accent);
     }
 
     &--success {
-      background-color: var(--pa-success-bg-light);
-      color: var(--pa-success-bg);
+      background-color: var(--pc-success-bg-light);
+      color: var(--pc-success-bg);
     }
 
     &--warning {
-      background-color: var(--pa-warning-bg-light);
-      color: var(--pa-warning-bg);
+      background-color: var(--pc-warning-bg-light);
+      color: var(--pc-warning-bg);
     }
 
     &--danger {
-      background-color: var(--pa-danger-bg-light);
-      color: var(--pa-danger-bg);
+      background-color: var(--pc-danger-bg-light);
+      color: var(--pc-danger-bg);
     }
 
     &--info {
-      background-color: var(--pa-info-bg-light);
-      color: var(--pa-info-bg);
+      background-color: var(--pc-info-bg-light);
+      color: var(--pc-info-bg);
     }
   }
 
@@ -55,12 +55,12 @@
   &__number {
     font-size: $font-size-2xl;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     margin-bottom: $stat-number-margin-bottom;
   }
 
   &__label {
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-size: $font-size-sm;
   }
 
@@ -76,14 +76,14 @@
       text-transform: uppercase;
       letter-spacing: $stat-label-letter-spacing;
       font-weight: $font-weight-semibold;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       margin-bottom: $spacing-xs;
     }
 
     .pa-stat__value {
       font-size: $font-size-4xl * 1.4;
       font-weight: $font-weight-bold;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       line-height: 1;
       margin-bottom: $spacing-xs;
     }
@@ -96,11 +96,11 @@
       font-size: $font-size-xs;
       font-weight: $font-weight-semibold;
 
-      &--very-positive { color: var(--pa-very-positive); }
-      &--positive      { color: var(--pa-positive); }
-      &--neutral       { color: var(--pa-neutral); }
-      &--negative      { color: var(--pa-negative); }
-      &--very-negative { color: var(--pa-very-negative); }
+      &--very-positive { color: var(--pc-very-positive); }
+      &--positive      { color: var(--pc-positive); }
+      &--neutral       { color: var(--pc-neutral); }
+      &--negative      { color: var(--pc-negative); }
+      &--very-negative { color: var(--pc-very-negative); }
     }
   }
 
@@ -120,7 +120,7 @@
     min-width: $stat-square-min-size;
     max-height: $stat-square-max-height;   // keep full-width tiles from growing into page-dominating banners
     position: relative;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     box-shadow: $shadow-md;
     margin: $spacing-sm;
     transition: transform $transition-fast $easing-snappy, box-shadow $transition-fast $easing-snappy;
@@ -167,23 +167,23 @@
 
     // Color variants — use CSS vars so theme overrides apply at runtime
     &.pa-stat--primary {
-      background-color: var(--pa-accent);
-      color: var(--pa-btn-primary-text);
+      background-color: var(--pc-accent);
+      color: var(--pc-btn-primary-text);
     }
 
     &.pa-stat--success {
-      background-color: var(--pa-success-bg);
-      color: var(--pa-btn-success-text);
+      background-color: var(--pc-success-bg);
+      color: var(--pc-btn-success-text);
     }
 
     &.pa-stat--info {
-      background-color: var(--pa-info-bg);
-      color: var(--pa-btn-info-text);
+      background-color: var(--pc-info-bg);
+      color: var(--pc-btn-info-text);
     }
 
     &.pa-stat--warning {
-      background-color: var(--pa-warning-bg);
-      color: var(--pa-btn-warning-text);
+      background-color: var(--pc-warning-bg);
+      color: var(--pc-btn-warning-text);
 
       // Warning is the one square variant with DARK text (on a light amber
       // surface). The number's default black text-shadow + drop-shadow stack is
@@ -198,13 +198,13 @@
     }
 
     &.pa-stat--danger {
-      background-color: var(--pa-danger-bg);
-      color: var(--pa-btn-danger-text);
+      background-color: var(--pc-danger-bg);
+      color: var(--pc-btn-danger-text);
     }
 
     &.pa-stat--secondary {
-      background-color: var(--pa-text-color-2);
-      color: var(--pa-btn-primary-text);
+      background-color: var(--pc-text-color-2);
+      color: var(--pc-btn-primary-text);
     }
 
     // ----------------------------------------------------------------
@@ -290,9 +290,9 @@
         text-overflow: ellipsis;
 
         // …opt-in sentiment tints (same scale as the hero variant's __change)
-        &--positive { color: var(--pa-positive); }
-        &--neutral  { color: var(--pa-neutral); }
-        &--negative { color: var(--pa-negative); }
+        &--positive { color: var(--pc-positive); }
+        &--neutral  { color: var(--pc-neutral); }
+        &--negative { color: var(--pc-negative); }
       }
       .pa-stat__context {
         flex: 0 0 auto;

@@ -21,14 +21,14 @@
 }
 .pa-kpi-terminal__tabs {
   display: inline-flex;
-  border: 1px solid var(--pa-border-color);
+  border: 1px solid var(--pc-border-color);
   border-radius: 0.4rem;
   overflow: hidden;
 }
 .pa-kpi-terminal__tab {
   background: transparent;
   border: 0;
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
   padding: 0.4rem 1.1rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.1rem;
@@ -38,12 +38,12 @@
   transition: background-color 0.1s ease-out, color 0.1s ease-out;
 
   &:hover {
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &.is-active {
-    background: var(--pa-text-color-1);
-    color: var(--pa-card-bg);
+    background: var(--pc-text-color-1);
+    color: var(--pc-card-bg);
   }
 }
 
@@ -65,8 +65,8 @@
   grid-template-columns: repeat(2, 1fr);
 
   .pa-kpi-tile {
-    border-bottom: 1px solid var(--pa-border-color);
-    border-right: 1px solid var(--pa-border-color);
+    border-bottom: 1px solid var(--pc-border-color);
+    border-right: 1px solid var(--pc-border-color);
   }
 }
 .pa-kpi-terminal__grid--2col {
@@ -86,8 +86,8 @@
      neighbour cells in a parent grid) — gets a full border + card bg so
      it doesn't look orphaned. */
   &--standalone {
-    background: var(--pa-card-bg);
-    border: 1px solid var(--pa-border-color);
+    background: var(--pc-card-bg);
+    border: 1px solid var(--pc-border-color);
     margin-bottom: 1.2rem;
 
     &:last-child { margin-bottom: 0; }
@@ -105,7 +105,7 @@
   margin-bottom: 0.3rem;
 }
 .pa-kpi-tile__id {
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
   font-weight: 600;
 }
 .pa-kpi-tile__status {
@@ -117,20 +117,20 @@
   line-height: 1.3;
 
   &--warn {
-    background: var(--pa-warning-bg);
-    color: var(--pa-btn-warning-text);
+    background: var(--pc-warning-bg);
+    color: var(--pc-btn-warning-text);
   }
 
   /* GOOD is the "default" state — text-only, no chrome */
   &--good {
     background: transparent;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     padding: 0.2rem 0;
   }
 
   &--neutral {
-    background: color-mix(in srgb, var(--pa-text-color-2) 25%, transparent);
-    color: var(--pa-text-color-1);
+    background: color-mix(in srgb, var(--pc-text-color-2) 25%, transparent);
+    color: var(--pc-text-color-1);
   }
 }
 
@@ -141,7 +141,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--pa-text-strong);
+  color: var(--pc-text-strong);
   margin-bottom: 0.8rem;
 }
 
@@ -159,23 +159,23 @@
   font-family: var(--base-font-family-mono);
   line-height: 1;
 
-  &--very-positive .pa-kpi-tile__num { color: var(--pa-very-positive); }
-  &--positive      .pa-kpi-tile__num { color: var(--pa-positive); }
-  &--neutral       .pa-kpi-tile__num { color: var(--pa-neutral); }
-  &--negative      .pa-kpi-tile__num { color: var(--pa-negative); }
-  &--very-negative .pa-kpi-tile__num { color: var(--pa-very-negative); }
+  &--very-positive .pa-kpi-tile__num { color: var(--pc-very-positive); }
+  &--positive      .pa-kpi-tile__num { color: var(--pc-positive); }
+  &--neutral       .pa-kpi-tile__num { color: var(--pc-neutral); }
+  &--negative      .pa-kpi-tile__num { color: var(--pc-negative); }
+  &--very-negative .pa-kpi-tile__num { color: var(--pc-very-negative); }
 }
 
 .pa-kpi-tile__num {
   font-size: 3.8rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 }
 .pa-kpi-tile__unit {
   font-size: 1.6rem;
   font-weight: 500;
-  color: var(--pa-text-secondary);
+  color: var(--pc-text-secondary);
 }
 
 /* ----- Previous-value + delta row -------------------------------------- */
@@ -187,27 +187,27 @@
   font-size: 1.3rem;
   margin-top: auto;     /* push to bottom of flex column */
   margin-bottom: 0.4rem;
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
 }
 .pa-kpi-tile__delta {
-  &--very-positive { color: var(--pa-very-positive); }
-  &--positive      { color: var(--pa-positive); }
-  &--neutral       { color: var(--pa-neutral); }
-  &--negative      { color: var(--pa-negative); }
-  &--very-negative { color: var(--pa-very-negative); }
+  &--very-positive { color: var(--pc-very-positive); }
+  &--positive      { color: var(--pc-positive); }
+  &--neutral       { color: var(--pc-neutral); }
+  &--negative      { color: var(--pc-negative); }
+  &--very-negative { color: var(--pc-very-negative); }
 }
 
 /* ----- Sparkline -------------------------------------------------------- */
 .pa-kpi-tile__spark {
   display: block;
   width: 100%;
-  height: var(--pa-chart-trendline-height);
+  height: var(--pc-chart-trendline-height);
   overflow: visible;
 
   polyline {
     fill: none;
     stroke: currentColor;
-    stroke-width: var(--pa-chart-trendline-stroke);
+    stroke-width: var(--pc-chart-trendline-stroke);
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -220,17 +220,17 @@
    for the SVG content (line) and the HTML dot (inside the wrap). */
 .pa-kpi-tile {
   &--up-strong   .pa-kpi-tile__spark,
-  &--up-strong   .pa-kpi-spark-wrap { color: var(--pa-very-positive); }
+  &--up-strong   .pa-kpi-spark-wrap { color: var(--pc-very-positive); }
 
   &--up          .pa-kpi-tile__spark,
-  &--up          .pa-kpi-spark-wrap { color: var(--pa-positive); }
+  &--up          .pa-kpi-spark-wrap { color: var(--pc-positive); }
 
   &--flat        .pa-kpi-tile__spark,
-  &--flat        .pa-kpi-spark-wrap { color: var(--pa-neutral); }
+  &--flat        .pa-kpi-spark-wrap { color: var(--pc-neutral); }
 
   &--down        .pa-kpi-tile__spark,
-  &--down        .pa-kpi-spark-wrap { color: var(--pa-negative); }
+  &--down        .pa-kpi-spark-wrap { color: var(--pc-negative); }
 
   &--down-strong .pa-kpi-tile__spark,
-  &--down-strong .pa-kpi-spark-wrap { color: var(--pa-very-negative); }
+  &--down-strong .pa-kpi-spark-wrap { color: var(--pc-very-negative); }
 }

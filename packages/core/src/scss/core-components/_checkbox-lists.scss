@@ -15,11 +15,11 @@
 
   &__item {
     position: relative;
-    border-bottom: $border-width-base solid var(--pa-border-color);
+    border-bottom: $border-width-base solid var(--pc-border-color);
     transition: background-color $transition-fast $easing-snappy;
 
     &:hover {
-      background-color: var(--pa-table-hover-bg);
+      background-color: var(--pc-table-hover-bg);
     }
 
     &:last-child {
@@ -35,7 +35,7 @@
     margin: 0;
     cursor: pointer;
     font-size: $font-size-sm;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     user-select: none;
     width: 100%;
 
@@ -69,7 +69,7 @@
     display: block;
     margin-top: $spacing-xs;
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   // Optional action buttons (outside label, positioned absolutely)
@@ -106,18 +106,18 @@
 
 // Bordered variant (border around entire list)
 .pa-checkbox-list--bordered {
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
 
   .pa-checkbox-list__item {
     &:first-child {
-      border-top-left-radius: var(--pa-border-radius);
-      border-top-right-radius: var(--pa-border-radius);
+      border-top-left-radius: var(--pc-border-radius);
+      border-top-right-radius: var(--pc-border-radius);
     }
 
     &:last-child {
-      border-bottom-left-radius: var(--pa-border-radius);
-      border-bottom-right-radius: var(--pa-border-radius);
+      border-bottom-left-radius: var(--pc-border-radius);
+      border-bottom-right-radius: var(--pc-border-radius);
     }
   }
 }
@@ -125,16 +125,16 @@
 // Striped variant (alternating row colors)
 .pa-checkbox-list--striped {
   .pa-checkbox-list__item:nth-child(even) {
-    background-color: var(--pa-table-stripe);
+    background-color: var(--pc-table-stripe);
   }
 }
 
 // Selected state styling
 .pa-checkbox-list__item--selected {
-  background-color: var(--pa-accent-light);
+  background-color: var(--pc-accent-light);
 
   &:hover {
-    background-color: var(--pa-accent-light);
+    background-color: var(--pc-accent-light);
   }
 }
 
@@ -158,7 +158,7 @@
   cursor: not-allowed;
 
   &:hover {
-    background-color: color-mix(in srgb, var(--pa-warning) 5%, transparent);
+    background-color: color-mix(in srgb, var(--pc-warning) 5%, transparent);
   }
 
   .pa-checkbox-list__checkbox {
@@ -172,7 +172,7 @@
 
     // Add lock icon before text
     .pa-checkbox-list__text {
-      color: var(--pa-warning);
+      color: var(--pc-warning);
 
       &::before {
         content: '🔒 ';
@@ -189,13 +189,13 @@
   gap: $spacing-md;
 
   .pa-checkbox-list__item {
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
     flex: 0 1 auto;
 
     &:hover {
-      border-color: var(--pa-accent);
-      background-color: var(--pa-accent-light);
+      border-color: var(--pc-accent);
+      background-color: var(--pc-accent-light);
     }
   }
 
@@ -211,12 +211,12 @@
   gap: $spacing-sm;
 
   .pa-checkbox-list__item {
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
 
     &:hover {
-      border-color: var(--pa-accent);
-      background-color: var(--pa-accent-light);
+      border-color: var(--pc-accent);
+      background-color: var(--pc-accent-light);
     }
   }
 }
@@ -229,7 +229,7 @@
 
   .pa-checkbox-list__item {
     &:nth-child(odd) {
-      border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to left
+      border-inline-end: $border-width-base solid var(--pc-border-color); // RTL: flips to left
     }
   }
 }
@@ -242,7 +242,7 @@
 
   .pa-checkbox-list__item {
     &:not(:nth-child(3n)) {
-      border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to left
+      border-inline-end: $border-width-base solid var(--pc-border-color); // RTL: flips to left
     }
   }
 }
@@ -284,6 +284,6 @@
 
   // Row selection styling
   tr.pa-table__row--selected {
-    background-color: var(--pa-accent-light);
+    background-color: var(--pc-accent-light);
   }
 }

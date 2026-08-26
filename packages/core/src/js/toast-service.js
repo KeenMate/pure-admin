@@ -235,6 +235,21 @@
     },
 
     /**
+     * Show a danger toast — alias of error(), named for the `danger` variant
+     * used everywhere else (pa-btn--danger, pa-toast--danger, --pc-danger).
+     * @param {string} message - Toast message
+     * @param {Object} options - Additional options
+     * @returns {string} - Toast ID
+     */
+    danger: function(message, options = {}) {
+      return createToast({
+        variant: 'danger',
+        message,
+        ...options
+      });
+    },
+
+    /**
      * Show a warning toast
      * @param {string} message - Toast message
      * @param {Object} options - Additional options

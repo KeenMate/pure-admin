@@ -391,12 +391,12 @@
             <div class="pc-row gap-sm" style="margin-bottom: 1.6rem;">
                 <div class="pc-col-100">
                     <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">
-                        <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pa-accent-light); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pa-accent); flex-shrink: 0;">
+                        <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-accent-light); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-accent); flex-shrink: 0;">
                             ${user.name.charAt(0)}
                         </div>
                         <div>
-                            <div style="font-weight: 600; font-size: 1.6rem; color: var(--pa-text-color-1);">${user.name}</div>
-                            <div style="color: var(--pa-text-color-2); font-size: 1.3rem;">${user.email}</div>
+                            <div style="font-weight: 600; font-size: 1.6rem; color: var(--pc-text-color-1);">${user.name}</div>
+                            <div style="color: var(--pc-text-color-2); font-size: 1.3rem;">${user.email}</div>
                         </div>
                     </div>
                 </div>
@@ -405,27 +405,27 @@
             <table class="pa-table pa-table--sm pa-table--borderless" style="margin-bottom: 0;">
                 <tbody>
                     <tr>
-                        <td style="width: 40%; color: var(--pa-text-color-2); font-weight: 500;">Role</td>
+                        <td style="width: 40%; color: var(--pc-text-color-2); font-weight: 500;">Role</td>
                         <td>${user.role}</td>
                     </tr>
                     <tr>
-                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Department</td>
+                        <td style="color: var(--pc-text-color-2); font-weight: 500;">Department</td>
                         <td>${user.department}</td>
                     </tr>
                     <tr>
-                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Phone</td>
+                        <td style="color: var(--pc-text-color-2); font-weight: 500;">Phone</td>
                         <td>${user.phone}</td>
                     </tr>
                     <tr>
-                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Location</td>
+                        <td style="color: var(--pc-text-color-2); font-weight: 500;">Location</td>
                         <td>${user.location}</td>
                     </tr>
                     <tr>
-                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Joined</td>
+                        <td style="color: var(--pc-text-color-2); font-weight: 500;">Joined</td>
                         <td>${user.joined}</td>
                     </tr>
                     <tr>
-                        <td style="color: var(--pa-text-color-2); font-weight: 500;">Status</td>
+                        <td style="color: var(--pc-text-color-2); font-weight: 500;">Status</td>
                         <td><span class="pa-badge ${statusClass}">${user.status}</span></td>
                     </tr>
                 </tbody>
@@ -565,7 +565,7 @@
             const diff = startX - currentX;
             const newWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, startWidth + diff));
             const remWidth = newWidth / 10;
-            document.documentElement.style.setProperty('--pa-local-detail-panel-width', remWidth + 'rem');
+            document.documentElement.style.setProperty('--pc-local-detail-panel-width', remWidth + 'rem');
         });
     }
 
@@ -599,7 +599,7 @@
     }
 
     function resetPanelWidth() {
-        document.documentElement.style.setProperty('--pa-local-detail-panel-width', '40rem');
+        document.documentElement.style.setProperty('--pc-local-detail-panel-width', '40rem');
         localStorage.removeItem(STORAGE_KEY_INLINE);
         localStorage.removeItem(STORAGE_KEY_OVERLAY);
     }
@@ -614,7 +614,7 @@
             const width = parseInt(saved, 10);
             if (width >= MIN_WIDTH && width <= MAX_WIDTH) {
                 const remWidth = width / 10;
-                document.documentElement.style.setProperty('--pa-local-detail-panel-width', remWidth + 'rem');
+                document.documentElement.style.setProperty('--pc-local-detail-panel-width', remWidth + 'rem');
             }
         }
     }

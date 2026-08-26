@@ -25,16 +25,16 @@
      ================================ -->
 
 <!--
---pa-*       Framework runtime tokens (the bulk of the surface).
+--pc-*       Framework runtime tokens (the bulk of the surface).
               Each theme sets these on :root. Examples:
-                --pa-accent             accent / brand colour
-                --pa-text-color-1       primary text
-                --pa-text-color-2       secondary / muted text
-                --pa-card-bg            card surface
-                --pa-border-color       borders
-                --pa-input-bg           input background
-                --pa-success-bg / --pa-danger-bg / --pa-warning-bg / --pa-info-bg
-                --pa-color-1 ... --pa-color-9 + --pa-color-N-text
+                --pc-accent             accent / brand colour
+                --pc-text-color-1       primary text
+                --pc-text-color-2       secondary / muted text
+                --pc-card-bg            card surface
+                --pc-border-color       borders
+                --pc-input-bg           input background
+                --pc-success-bg / --pc-danger-bg / --pc-warning-bg / --pc-info-bg
+                --pc-color-1 ... --pc-color-9 + --pc-color-N-text
                                         nine theme palette slots
               Override at :root for app-wide change, or on a section /
               element for localised changes.
@@ -62,20 +62,20 @@
 <style>
 /* App-wide accent + main background override */
 :root {
-    --pa-accent: #ff6b35;
-    --pa-main-bg: #fafafa;
+    --pc-accent: #ff6b35;
+    --pc-main-bg: #fafafa;
 }
 
 /* Scope to a single section without affecting the rest of the app */
 .special-section {
-    --pa-accent: #6b46c1;
-    --pa-card-bg: #ffffff;
+    --pc-accent: #6b46c1;
+    --pc-card-bg: #ffffff;
 }
 </style>
 
 
 <!-- ================================
-     COLOR-SLOT SYSTEM (--pa-color-1 .. --pa-color-9)
+     COLOR-SLOT SYSTEM (--pc-color-1 .. --pc-color-9)
      Themes pick nine palette colours. Most theme-coloured component
      variants (pa-btn--color-3, pa-badge--color-5, pa-table-card--
      color-7, pa-card--color-9, etc.) read directly from these slots,
@@ -83,21 +83,21 @@
      overrides.
 
      Each slot has a paired text colour for legibility:
-       --pa-color-N            (background / fill / border)
-       --pa-color-N-text       (text on top of the fill)
+       --pc-color-N            (background / fill / border)
+       --pc-color-N-text       (text on top of the fill)
      ================================ -->
 
 <style>
 :root {
-    --pa-color-1: #ef4444; --pa-color-1-text: #ffffff;
-    --pa-color-2: #f97316; --pa-color-2-text: #ffffff;
-    --pa-color-3: #f59e0b; --pa-color-3-text: #1f2937;
-    --pa-color-4: #84cc16; --pa-color-4-text: #1f2937;
-    --pa-color-5: #10b981; --pa-color-5-text: #ffffff;
-    --pa-color-6: #14b8a6; --pa-color-6-text: #ffffff;
-    --pa-color-7: #3b82f6; --pa-color-7-text: #ffffff;
-    --pa-color-8: #8b5cf6; --pa-color-8-text: #ffffff;
-    --pa-color-9: #ec4899; --pa-color-9-text: #ffffff;
+    --pc-color-1: #ef4444; --pc-color-1-text: #ffffff;
+    --pc-color-2: #f97316; --pc-color-2-text: #ffffff;
+    --pc-color-3: #f59e0b; --pc-color-3-text: #1f2937;
+    --pc-color-4: #84cc16; --pc-color-4-text: #1f2937;
+    --pc-color-5: #10b981; --pc-color-5-text: #ffffff;
+    --pc-color-6: #14b8a6; --pc-color-6-text: #ffffff;
+    --pc-color-7: #3b82f6; --pc-color-7-text: #ffffff;
+    --pc-color-8: #8b5cf6; --pc-color-8-text: #ffffff;
+    --pc-color-9: #ec4899; --pc-color-9-text: #ffffff;
 }
 </style>
 
@@ -216,9 +216,9 @@ function setTheme(name /* e.g. 'corporate', 'audi', 'minimal' */) {
      Several components use a low-specificity :where() rule for their
      dimensions so utility classes (.wr-*, .minwr-*, .maxwr-*) win
      without specificity battles. Same pattern in:
-       - sidebar (layout.html — --pa-local-sidebar-width)
-       - profile panel (profile.html — --pa-local-profile-panel-width)
-       - detail panel (detail-panel.html — --pa-local-detail-panel-width)
+       - sidebar (layout.html — --pc-local-sidebar-width)
+       - profile panel (profile.html — --pc-local-profile-panel-width)
+       - detail panel (detail-panel.html — --pc-local-detail-panel-width)
      ================================ -->
 
 <aside class="pa-layout__sidebar wr-25">
@@ -234,7 +234,7 @@ function setTheme(name /* e.g. 'corporate', 'audi', 'minimal' */) {
 LAYERS — pick the lightest one that does the job:
 
   1. RUNTIME (CSS vars)
-     Any --pa-*, --base-*, --page-loader-* variable on :root or any
+     Any --pc-*, --base-*, --page-loader-* variable on :root or any
      scope. Cascades into components automatically.
      Use for: brand colours, accent swap, mode toggles, per-section
      theming, page loader overrides.
@@ -260,12 +260,12 @@ LAYERS — pick the lightest one that does the job:
 
 CSS VARIABLE NAMESPACES:
 
-  --pa-*               Framework runtime tokens. Themes set these.
+  --pc-*               Framework runtime tokens. Themes set these.
                        Consumers override at :root for app-wide
                        changes, or scoped for sections.
 
-  --pa-color-{1..9}    Theme palette slots. Each has a paired
-  --pa-color-{1..9}-text   text colour for legible foregrounds.
+  --pc-color-{1..9}    Theme palette slots. Each has a paired
+  --pc-color-{1..9}-text   text colour for legible foregrounds.
                        Most theme-colour component variants read
                        from these slots (pa-btn--color-3,
                        pa-badge--color-5, pa-table-card--color-7…).
@@ -277,7 +277,7 @@ CSS VARIABLE NAMESPACES:
                        Rarely overridden directly. See
                        packages/core/CSS-VARIABLES.md for the full list.
 
-  --pa-local-*         Per-component runtime widths/dimensions
+  --pc-local-*         Per-component runtime widths/dimensions
                        (sidebar, profile panel, detail panel).
                        Applied via :where() so utility classes can
                        override without !important.
@@ -310,14 +310,14 @@ STRUCTURE PATTERNS:
 
 App-wide accent override:
 <style>
-  :root { --pa-accent: #ff6b35; }
+  :root { --pc-accent: #ff6b35; }
 </style>
 
 Section-scoped theme tweak:
 <style>
   .marketing-section {
-    --pa-accent: #6b46c1;
-    --pa-card-bg: #ffffff;
+    --pc-accent: #6b46c1;
+    --pc-card-bg: #ffffff;
   }
 </style>
 

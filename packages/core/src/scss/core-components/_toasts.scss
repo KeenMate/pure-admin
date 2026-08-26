@@ -61,9 +61,9 @@
 // ===== TOAST ITEM =====
 
 .pa-toast {
-  background-color: var(--pa-card-bg);
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  background-color: var(--pc-card-bg);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
   box-shadow: $shadow-lg;
   min-width: $toast-min-width;
   max-width: $toast-max-width;
@@ -156,7 +156,7 @@
   align-items: center;
   justify-content: center;
   font-size: $font-size-lg;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
 }
 
 // Toast content
@@ -168,13 +168,13 @@
 .pa-toast__title {
   font-weight: $font-weight-semibold;
   margin: 0 0 $spacing-xs 0;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
   font-size: $font-size-sm;
 }
 
 .pa-toast__message {
   margin: 0;
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
   font-size: $font-size-sm;
   line-height: $line-height-base;
 }
@@ -183,7 +183,7 @@
 .pa-toast__actions {
   margin-top: $spacing-base;
   padding-top: $spacing-base;
-  border-top: $border-width-base solid var(--pa-border-color);
+  border-top: $border-width-base solid var(--pc-border-color);
   display: flex;
   gap: $spacing-sm;
   flex-wrap: wrap;
@@ -194,7 +194,7 @@
   flex-shrink: 0;
   background: none;
   border: none;
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
   cursor: pointer;
   padding: 0;
   width: $toast-close-size;
@@ -202,18 +202,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   font-size: $font-size-lg;
   line-height: 1;
   transition: background-color $transition-fast ease, color $transition-fast ease;
 
   &:hover {
-    background-color: var(--pa-accent-hover);
-    color: var(--pa-text-color-1);
+    background-color: var(--pc-accent-hover);
+    color: var(--pc-text-color-1);
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pa-accent);
+    outline: $focus-outline-width solid var(--pc-accent);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -233,86 +233,86 @@
 
 // Primary toast
 .pa-toast--primary {
-  border-color: var(--pa-btn-primary-bg);
+  border-color: var(--pc-btn-primary-bg);
 
   .pa-toast__icon {
-    background-color: var(--pa-btn-primary-bg-light);
-    color: var(--pa-btn-primary-bg);
+    background-color: var(--pc-btn-primary-bg-light);
+    color: var(--pc-btn-primary-bg);
   }
 
   .pa-toast__progress {
-    color: var(--pa-btn-primary-bg);
+    color: var(--pc-btn-primary-bg);
   }
 }
 
 // Success toast
 .pa-toast--success {
-  border-color: var(--pa-btn-success-bg);
+  border-color: var(--pc-btn-success-bg);
 
   .pa-toast__icon {
-    background-color: var(--pa-success-bg-light);
-    color: var(--pa-btn-success-bg);
+    background-color: var(--pc-success-bg-light);
+    color: var(--pc-btn-success-bg);
   }
 
   .pa-toast__progress {
-    color: var(--pa-btn-success-bg);
+    color: var(--pc-btn-success-bg);
   }
 }
 
 // Danger toast
 .pa-toast--danger {
-  border-color: var(--pa-btn-danger-bg);
+  border-color: var(--pc-btn-danger-bg);
 
   .pa-toast__icon {
-    background-color: var(--pa-danger-bg-light);
-    color: var(--pa-btn-danger-bg);
+    background-color: var(--pc-danger-bg-light);
+    color: var(--pc-btn-danger-bg);
   }
 
   .pa-toast__progress {
-    color: var(--pa-btn-danger-bg);
+    color: var(--pc-btn-danger-bg);
   }
 }
 
 // Warning toast
 .pa-toast--warning {
-  border-color: var(--pa-btn-warning-bg);
+  border-color: var(--pc-btn-warning-bg);
 
   .pa-toast__icon {
-    background-color: var(--pa-warning-bg-light);
-    color: var(--pa-btn-warning-bg);
+    background-color: var(--pc-warning-bg-light);
+    color: var(--pc-btn-warning-bg);
   }
 
   .pa-toast__progress {
-    color: var(--pa-btn-warning-bg);
+    color: var(--pc-btn-warning-bg);
   }
 }
 
 // Info toast
 .pa-toast--info {
-  border-color: var(--pa-btn-info-bg);
+  border-color: var(--pc-btn-info-bg);
 
   .pa-toast__icon {
-    background-color: var(--pa-info-bg-light);
-    color: var(--pa-btn-info-bg);
+    background-color: var(--pc-info-bg-light);
+    color: var(--pc-btn-info-bg);
   }
 
   .pa-toast__progress {
-    color: var(--pa-btn-info-bg);
+    color: var(--pc-btn-info-bg);
   }
 }
 
 // Theme color slot variants (color-1 through color-9)
 @for $i from 1 through 9 {
   .pa-toast--color-#{$i} {
-    border-color: var(--pa-color-#{$i});
+    border-color: var(--pc-color-#{$i});
 
     .pa-toast__icon {
-      background-color: color-mix(in srgb, var(--pa-color-#{$i}) 15%, transparent);
-      color: var(--pa-color-#{$i});
+      background-color: color-mix(in srgb, var(--pc-color-#{$i}) 15%, transparent);
+      color: var(--pc-color-#{$i});
     }
 
     .pa-toast__progress {
-      color: var(--pa-color-#{$i});
+      color: var(--pc-color-#{$i});
     }
   }
 }
@@ -325,9 +325,9 @@
 }
 
 .pa-toast--filled-primary {
-  background-color: var(--pa-btn-primary-bg);
-  border-color: var(--pa-btn-primary-bg);
-  color: var(--pa-btn-primary-text);
+  background-color: var(--pc-btn-primary-bg);
+  border-color: var(--pc-btn-primary-bg);
+  color: var(--pc-btn-primary-text);
 
   .pa-toast__title,
   .pa-toast__message { color: inherit; }
@@ -337,9 +337,9 @@
 }
 
 .pa-toast--filled-success {
-  background-color: var(--pa-btn-success-bg);
-  border-color: var(--pa-btn-success-bg);
-  color: var(--pa-btn-success-text);
+  background-color: var(--pc-btn-success-bg);
+  border-color: var(--pc-btn-success-bg);
+  color: var(--pc-btn-success-text);
 
   .pa-toast__title,
   .pa-toast__message { color: inherit; }
@@ -349,9 +349,9 @@
 }
 
 .pa-toast--filled-danger {
-  background-color: var(--pa-btn-danger-bg);
-  border-color: var(--pa-btn-danger-bg);
-  color: var(--pa-btn-danger-text);
+  background-color: var(--pc-btn-danger-bg);
+  border-color: var(--pc-btn-danger-bg);
+  color: var(--pc-btn-danger-text);
 
   .pa-toast__title,
   .pa-toast__message { color: inherit; }
@@ -361,9 +361,9 @@
 }
 
 .pa-toast--filled-warning {
-  background-color: var(--pa-btn-warning-bg);
-  border-color: var(--pa-btn-warning-bg);
-  color: var(--pa-btn-warning-text);
+  background-color: var(--pc-btn-warning-bg);
+  border-color: var(--pc-btn-warning-bg);
+  color: var(--pc-btn-warning-text);
 
   .pa-toast__title,
   .pa-toast__message { color: inherit; }
@@ -373,9 +373,9 @@
 }
 
 .pa-toast--filled-info {
-  background-color: var(--pa-btn-info-bg);
-  border-color: var(--pa-btn-info-bg);
-  color: var(--pa-btn-info-text);
+  background-color: var(--pc-btn-info-bg);
+  border-color: var(--pc-btn-info-bg);
+  color: var(--pc-btn-info-text);
 
   .pa-toast__title,
   .pa-toast__message { color: inherit; }
@@ -387,9 +387,9 @@
 // Filled theme color slot variants (color-1 through color-9)
 @for $i from 1 through 9 {
   .pa-toast--filled-color-#{$i} {
-    background-color: var(--pa-color-#{$i});
-    border-color: var(--pa-color-#{$i});
-    color: var(--pa-color-#{$i}-text);
+    background-color: var(--pc-color-#{$i});
+    border-color: var(--pc-color-#{$i});
+    color: var(--pc-color-#{$i}-text);
 
     .pa-toast__title,
     .pa-toast__message { color: inherit; }

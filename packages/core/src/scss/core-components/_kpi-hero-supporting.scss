@@ -47,18 +47,18 @@
 .pa-kpi-hero-main {
   position: relative;
   padding: 1.8rem 2rem;
-  border: 1px solid var(--pa-border-color);
+  border: 1px solid var(--pc-border-color);
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
 
   /* Sentiment cascade — chart and delta inherit via currentColor. */
-  --pa-kpi-accent: var(--pa-positive);
+  --pc-kpi-accent: var(--pc-positive);
 
-  &--positive  { --pa-kpi-accent: var(--pa-positive); }
-  &--negative  { --pa-kpi-accent: var(--pa-negative); }
-  &--neutral   { --pa-kpi-accent: var(--pa-neutral); }
-  &--up-strong { --pa-kpi-accent: var(--pa-very-positive); }
+  &--positive  { --pc-kpi-accent: var(--pc-positive); }
+  &--negative  { --pc-kpi-accent: var(--pc-negative); }
+  &--neutral   { --pc-kpi-accent: var(--pc-neutral); }
+  &--up-strong { --pc-kpi-accent: var(--pc-very-positive); }
 }
 
 .pa-kpi-hero-main__label {
@@ -67,7 +67,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 60%, transparent);
 }
 
 .pa-kpi-hero-main__value {
@@ -83,12 +83,12 @@
   font-size: clamp(4rem, 17cqi, 7rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 }
 .pa-kpi-hero-main__unit {
   font-size: clamp(1.8rem, 8cqi, 3rem);
   font-weight: 500;
-  color: var(--pa-text-secondary);
+  color: var(--pc-text-secondary);
   margin: 0 0.1rem;
 }
 
@@ -105,17 +105,17 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0.4rem;
-  color: var(--pa-kpi-accent);
+  color: var(--pc-kpi-accent);
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 1.2;
 }
 .pa-kpi-hero-main__period {
-  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 60%, transparent);
   line-height: 1.3;
 }
 .pa-kpi-hero-main__target {
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 50%, transparent);
   text-align: end;
 }
 
@@ -128,14 +128,14 @@
   flex: 1 1 10rem;
   min-height: 10rem;
   margin-top: 0.6rem;
-  color: var(--pa-kpi-accent);
+  color: var(--pc-kpi-accent);
   display: flex;
   align-items: flex-end;     /* SVG wrap pinned to bottom */
 
   polyline {
     fill: none;
     stroke: currentColor;
-    stroke-width: var(--pa-chart-trendline-stroke);
+    stroke-width: var(--pc-chart-trendline-stroke);
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -150,7 +150,7 @@
   position: relative;
   display: block;
   width: 100%;
-  height: var(--pa-chart-trendline-height);
+  height: var(--pc-chart-trendline-height);
 
   svg {
     display: block;
@@ -164,7 +164,7 @@
 .pa-kpi-hero-side {
   position: relative;
   padding: 1.2rem 1.4rem;
-  border: 1px solid var(--pa-border-color);
+  border: 1px solid var(--pc-border-color);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
@@ -174,12 +174,12 @@
   row-gap: 0.4rem;
   align-items: center;
 
-  --pa-kpi-accent: var(--pa-positive);
+  --pc-kpi-accent: var(--pc-positive);
 
-  &--positive  { --pa-kpi-accent: var(--pa-positive); }
-  &--negative  { --pa-kpi-accent: var(--pa-negative); }
-  &--neutral   { --pa-kpi-accent: var(--pa-neutral); }
-  &--up-strong { --pa-kpi-accent: var(--pa-very-positive); }
+  &--positive  { --pc-kpi-accent: var(--pc-positive); }
+  &--negative  { --pc-kpi-accent: var(--pc-negative); }
+  &--neutral   { --pc-kpi-accent: var(--pc-neutral); }
+  &--up-strong { --pc-kpi-accent: var(--pc-very-positive); }
 }
 
 .pa-kpi-hero-side__label {
@@ -190,7 +190,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 60%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 60%, transparent);
   line-height: 1.25;
 }
 .pa-kpi-hero-side__value {
@@ -206,12 +206,12 @@
   font-size: 2.4rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 }
 .pa-kpi-hero-side__unit {
   font-size: 1.5rem;
   font-weight: 500;
-  color: var(--pa-text-secondary);
+  color: var(--pc-text-secondary);
   margin: 0 0.35rem;
 }
 .pa-kpi-hero-side__delta {
@@ -220,5 +220,5 @@
   font-family: var(--base-font-family-mono);
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--pa-kpi-accent);
+  color: var(--pc-kpi-accent);
 }

@@ -427,7 +427,7 @@
 <script>
 // Horizontal Bar Chart for Top Sales Products using D3.js.
 // Theme-aware: pulls colors and font from Pure Admin CSS custom properties
-// (--pa-accent, --pa-text-color-1/2, --pa-border-color) and inherits the
+// (--pc-accent, --pc-text-color-1/2, --pc-border-color) and inherits the
 // body font so it tracks every theme automatically.
 //
 // CSS vars are snapshotted at draw time, so re-render on `pa:theme-change`
@@ -452,10 +452,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reading from documentElement misses the mode override and yields the :root (dark-default) values.
         const rootStyle = getComputedStyle(document.body);
         const cssVar = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
-        const accentColor  = cssVar('--pa-accent',         '#3b82f6');
-        const textPrimary  = cssVar('--pa-text-color-1',   '#1f2937');
-        const textMuted    = cssVar('--pa-text-color-2',   '#6b7280');
-        const borderColor  = cssVar('--pa-border-color',   '#e5e7eb');
+        const accentColor  = cssVar('--pc-accent',         '#3b82f6');
+        const textPrimary  = cssVar('--pc-text-color-1',   '#1f2937');
+        const textMuted    = cssVar('--pc-text-color-2',   '#6b7280');
+        const borderColor  = cssVar('--pc-border-color',   '#e5e7eb');
         // SVG doesn't reliably inherit font-family across the SVG boundary in
         // all engines — read the theme's base font and apply explicitly.
         const fontFamily   = cssVar('--base-font-family',  'system-ui, sans-serif');

@@ -4,7 +4,7 @@
 //   - packages/core/COMPONENTS.md    (human-readable catalog)
 //
 // Source of truth = the compiled-from SCSS in src/scss. This script extracts
-// every `.pa-*` class SELECTOR (never --pa-* CSS variables), groups them via
+// every `.pa-*` class SELECTOR (never --pc-* CSS variables), groups them via
 // the hand-authored TAXONOMY below, and auto-detects which SCSS partial defines
 // each class plus which snippet / demo view references it. It FAILS if any
 // discovered block is not assigned to a component, so the catalog can never
@@ -24,7 +24,7 @@ const DEMO_VIEWS = join(CORE, '..', '..', 'demo', 'views');
 
 // ---- class-selector extraction -------------------------------------------
 // A BEM class: pa-<block>(-word)*(__<el>(-word)*)?(--<mod>(-word)*)?
-// Leading `.` required so we only catch selectors, not --pa-* custom props.
+// Leading `.` required so we only catch selectors, not --pc-* custom props.
 const CLASS_RE =
   /\.(pa-[a-z0-9]+(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*)?)/g;
 

@@ -15,7 +15,7 @@
 
   // Variant 1: Simple start-aligned timeline (like Timeline #1)
   &--simple {
-    border-inline-start: $timeline-simple-line-width solid var(--pa-border-color); // RTL: flips to right
+    border-inline-start: $timeline-simple-line-width solid var(--pc-border-color); // RTL: flips to right
     margin-inline-start: $timeline-simple-margin-left; // RTL: flips to right
     padding-inline-start: $timeline-simple-padding-left; // RTL: flips to right
 
@@ -36,70 +36,70 @@
         top: 0;
         width: $timeline-simple-dot-size;
         height: $timeline-simple-dot-size;
-        background: var(--pa-main-bg);
-        border: $timeline-simple-dot-border solid var(--pa-accent);
+        background: var(--pc-main-bg);
+        border: $timeline-simple-dot-border solid var(--pc-accent);
         border-radius: $timeline-simple-dot-border-radius;
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-accent) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-accent) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       // Marker color modifiers
       &--primary::before {
-        border-color: var(--pa-btn-primary-bg);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-btn-primary-bg) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-btn-primary-bg);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-btn-primary-bg) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--success::before {
-        border-color: var(--pa-success);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-success) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-success);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-success) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--warning::before {
-        border-color: var(--pa-warning);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-warning) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-warning);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-warning) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--danger::before {
-        border-color: var(--pa-danger);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-danger) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-danger);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-danger) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--info::before {
-        border-color: var(--pa-info);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-info) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-info);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-info) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       &--secondary::before {
-        border-color: var(--pa-text-color-2);
-        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pa-text-color-2) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
+        border-color: var(--pc-text-color-2);
+        box-shadow: $timeline-simple-dot-shadow-offset-x $timeline-simple-dot-shadow-offset-y $timeline-simple-dot-shadow-blur color-mix(in srgb, var(--pc-text-color-2) #{$timeline-simple-dot-shadow-opacity * 100%}, transparent);
       }
 
       // Filled/solid bullet modifier
       &--filled::before {
-        background: var(--pa-accent);
+        background: var(--pc-accent);
       }
 
       &--filled.pa-timeline__item--primary::before {
-        background: var(--pa-btn-primary-bg);
+        background: var(--pc-btn-primary-bg);
       }
 
       &--filled.pa-timeline__item--success::before {
-        background: var(--pa-success);
+        background: var(--pc-success);
       }
 
       &--filled.pa-timeline__item--warning::before {
-        background: var(--pa-warning);
+        background: var(--pc-warning);
       }
 
       &--filled.pa-timeline__item--danger::before {
-        background: var(--pa-danger);
+        background: var(--pc-danger);
       }
 
       &--filled.pa-timeline__item--info::before {
-        background: var(--pa-info);
+        background: var(--pc-info);
       }
 
       &--filled.pa-timeline__item--secondary::before {
-        background: var(--pa-text-color-2);
+        background: var(--pc-text-color-2);
       }
     }
 
@@ -107,13 +107,13 @@
       display: block;
       font-size: $font-size-sm;
       font-weight: $font-weight-semibold;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       margin-bottom: $spacing-xs;
     }
 
     .pa-timeline__content {
       font-size: $font-size-sm;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       line-height: $line-height-relaxed;
       margin-top: $timeline-simple-content-margin-top;
     }
@@ -131,7 +131,7 @@
       content: '';
       position: absolute;
       width: $timeline-block-line-width;
-      background: var(--pa-accent);
+      background: var(--pc-accent);
       top: 0;
       bottom: 0;
       left: 50%;
@@ -159,7 +159,7 @@
 
         .pa-timeline__content {
           padding: $timeline-block-content-padding-v $timeline-block-content-padding-extended $timeline-block-content-padding-v $timeline-block-content-padding-h;
-          border-radius: 0 var(--pa-border-radius) var(--pa-border-radius) 0;
+          border-radius: 0 var(--pc-border-radius) var(--pc-border-radius) 0;
         }
 
         // Dot
@@ -170,7 +170,7 @@
           height: $timeline-block-dot-size;
           top: $timeline-block-dot-top-offset;
           right: $timeline-block-dot-horizontal-offset;
-          background: var(--pa-main-bg);
+          background: var(--pc-main-bg);
           border: $timeline-block-dot-border solid $accent-color;
           border-radius: 50%;
           z-index: 1;
@@ -184,7 +184,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           right: $timeline-block-connector-horizontal-offset;
-          background: var(--pa-accent);
+          background: var(--pc-accent);
           z-index: 1;
         }
       }
@@ -204,7 +204,7 @@
 
         .pa-timeline__content {
           padding: $timeline-block-content-padding-v $timeline-block-content-padding-h $timeline-block-content-padding-v $timeline-block-content-padding-extended;
-          border-radius: var(--pa-border-radius) 0 0 var(--pa-border-radius);
+          border-radius: var(--pc-border-radius) 0 0 var(--pc-border-radius);
         }
 
         // Dot
@@ -215,7 +215,7 @@
           height: $timeline-block-dot-size;
           top: $timeline-block-dot-top-offset;
           left: $timeline-block-dot-horizontal-offset;
-          background: var(--pa-main-bg);
+          background: var(--pc-main-bg);
           border: $timeline-block-dot-border solid $accent-color;
           border-radius: 50%;
           z-index: 1;
@@ -229,7 +229,7 @@
           height: $timeline-block-connector-height;
           top: $timeline-block-connector-top-offset;
           left: $timeline-block-connector-horizontal-offset;
-          background: var(--pa-accent);
+          background: var(--pc-accent);
           z-index: 1;
         }
       }
@@ -242,7 +242,7 @@
       text-align: center;
       font-size: $font-size-sm;
       font-weight: $font-weight-bold;
-      color: var(--pa-accent);
+      color: var(--pc-accent);
       text-transform: uppercase;
       letter-spacing: $timeline-block-date-letter-spacing;
       z-index: 1;
@@ -256,30 +256,30 @@
       width: $timeline-block-icon-size;
       height: $timeline-block-icon-size;
       top: $timeline-block-icon-top-offset;
-      background: var(--pa-warning);
-      border: $timeline-block-icon-border solid var(--pa-accent);
+      background: var(--pc-warning);
+      border: $timeline-block-icon-border solid var(--pc-accent);
       border-radius: 50%;
       font-size: $font-size-lg;
-      color: var(--pa-accent);
+      color: var(--pc-accent);
       z-index: 1;
     }
 
     .pa-timeline__content {
-      background: var(--pa-warning);
+      background: var(--pc-warning);
       position: relative;
 
       h3 {
         margin: 0 0 $spacing-sm 0;
         font-size: $font-size-lg;
         font-weight: $font-weight-normal;
-        color: var(--pa-text-color-1);
+        color: var(--pc-text-color-1);
       }
 
       p {
         margin: 0;
         font-size: $font-size-base;
         line-height: $line-height-relaxed;
-        color: var(--pa-warning-text);
+        color: var(--pc-warning-text);
       }
     }
 
@@ -324,7 +324,7 @@
           &:nth-child(odd) .pa-timeline__content,
           &:nth-child(even) .pa-timeline__content {
             padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
-            border-radius: var(--pa-border-radius) 0 0 var(--pa-border-radius);
+            border-radius: var(--pc-border-radius) 0 0 var(--pc-border-radius);
           }
         }
       }
@@ -370,7 +370,7 @@
         &:nth-child(odd) .pa-timeline__content,
         &:nth-child(even) .pa-timeline__content {
           padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
-          border-radius: var(--pa-border-radius) 0 0 var(--pa-border-radius);
+          border-radius: var(--pc-border-radius) 0 0 var(--pc-border-radius);
         }
       }
     }
@@ -407,7 +407,7 @@
 
         .pa-timeline__content {
           padding: $spacing-xl $spacing-xl $spacing-xl calc($spacing-xl * 2 + 40px);
-          border-radius: var(--pa-border-radius) 0 0 var(--pa-border-radius);
+          border-radius: var(--pc-border-radius) 0 0 var(--pc-border-radius);
         }
       }
     }
@@ -447,7 +447,7 @@
 
         .pa-timeline__content {
           padding: $spacing-xl calc($spacing-xl * 2 + 40px) $spacing-xl $spacing-xl;
-          border-radius: 0 var(--pa-border-radius) var(--pa-border-radius) 0;
+          border-radius: 0 var(--pc-border-radius) var(--pc-border-radius) 0;
         }
       }
     }
@@ -471,11 +471,11 @@
     .pa-timeline__content {
       flex: 1;
       font-size: $font-size-sm;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       line-height: $line-height-relaxed;
 
       a {
-        color: var(--pa-accent);
+        color: var(--pc-accent);
         text-decoration: none;
         font-weight: $font-weight-medium;
 
@@ -485,7 +485,7 @@
       }
 
       time {
-        color: var(--pa-text-color-2);
+        color: var(--pc-text-color-2);
         font-size: $font-size-xs;
       }
     }
@@ -509,13 +509,13 @@
     .pa-timeline__comment {
       margin-top: $timeline-feed-comment-margin-top;
       padding: $timeline-feed-comment-padding;
-      background: var(--pa-card-bg);
-      border: $border-width-base solid var(--pa-border-color);
-      border-radius: var(--pa-border-radius);
+      background: var(--pc-card-bg);
+      border: $border-width-base solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius);
 
       p {
         margin: 0 0 $spacing-sm 0;
-        color: var(--pa-text-color-1);
+        color: var(--pc-text-color-1);
         line-height: $line-height-relaxed;
 
         &:last-child {
@@ -545,7 +545,7 @@
     .pa-timeline__date-label {
       font-size: $timeline-feed-date-label-font-size;
       font-weight: $font-weight-semibold;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       text-transform: uppercase;
       letter-spacing: $timeline-feed-date-label-letter-spacing;
     }
@@ -555,7 +555,7 @@
       flex-shrink: 0;
       width: $timeline-feed-time-width;
       font-size: $timeline-feed-time-font-size;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       font-weight: $font-weight-medium;
       text-align: end;
       padding-inline-end: $spacing-sm;
@@ -579,7 +579,7 @@
   &__loader-text {
     margin-top: $spacing-sm;
     font-size: $font-size-sm;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   &__load-more-wrapper {

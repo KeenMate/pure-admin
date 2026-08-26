@@ -10,8 +10,8 @@
      Source: core-components/_kpi-base.scss
      JS:     demo kpi-showcases.js (sparkline dot conversion + hover popovers)
 
-     These pieces are theme-aware via --pa-* runtime tokens (--pa-positive,
-     --pa-detail-*, etc.) — theme swaps re-tint them without a recompile.
+     These pieces are theme-aware via --pc-* runtime tokens (--pc-positive,
+     --pc-detail-*, etc.) — theme swaps re-tint them without a recompile.
      ================================ -->
 
 
@@ -65,7 +65,7 @@
 
      role="tooltip" for a11y. Body is a <dl> of dt/dd pairs. Add a sentiment
      class to a <dd> to tint the value: .pos (green), .neg (red), .warn (amber).
-     Override the --pa-detail-* tokens for a light / theme-aware variant.
+     Override the --pc-detail-* tokens for a light / theme-aware variant.
      ================================ -->
 
 <div class="pa-kpi-detail" role="tooltip">
@@ -143,7 +143,7 @@ LIVE INDICATOR:
 - .pa-kpi-live              Inline-flex mono "LIVE" caption. Place in a card
                            header or a .pa-kpi-sectionhead strip.
 - .pa-kpi-live__dot        The pulsing dot (pa-kpi-pulse keyframes, green via
-                           --pa-positive). Pure CSS, no JS.
+                           --pc-positive). Pure CSS, no JS.
 
 CARD CHROME (compose onto the card element, don't replace it):
 - .pa-kpi-header           Add to .pa-card__header — flex space-between + wrap:
@@ -157,12 +157,12 @@ HOVER DETAIL POPOVER:
 - .pa-kpi-detail           Popover root. role="tooltip". Authored inside the
                            tile; kpi-showcases.js relocates it to <body> and
                            positions it at the cursor (Floating UI). Dark by
-                           default — override --pa-detail-* for a light variant.
+                           default — override --pc-detail-* for a light variant.
 - .pa-kpi-detail__title    Uppercase mono header line.
 - .pa-kpi-detail dl/dt/dd  Definition list of metric rows.
 - dd.pos / dd.neg / dd.warn  Sentiment tint on a value cell
-                           (green / red / amber via --pa-positive / --pa-negative
-                           / --pa-warning).
+                           (green / red / amber via --pc-positive / --pc-negative
+                           / --pc-warning).
 
 CARD-LESS LAYOUTS:
 - .pa-kpi-sectionhead      Inline-end strip above tiles that sit directly in
@@ -197,7 +197,7 @@ STRUCTURE PATTERN (KPI card skeleton):
 </div>
 
 SENTIMENT MODIFIERS (shared convention, loop-generated per design so not
-individually catalogued). They only set a colour via the --pa-* sentiment
+individually catalogued). They only set a colour via the --pc-* sentiment
 tokens; the structure never changes. Pick exactly one per element. The exact
 set VARIES per design — see each design's reference block — but the families are:
   · chart tint (tile / spark-row): --up-strong / --up / --flat / --down / --down-strong
@@ -396,7 +396,7 @@ SPARKLINE-LIST REFERENCE (_kpi-sparkline-list.scss):
 <!-- ================================================================
      DESIGN 3 — COMPARISON GAUGES  (pa-kpi-gauge-list + pa-kpi-gauge)
      Progress-vs-target bars. The fill width is an INLINE style="width: N%"
-     (value ÷ target). A target tick sits at --pa-kpi-gauge-tick-pos (default
+     (value ÷ target). A target tick sits at --pc-kpi-gauge-tick-pos (default
      100%); override per bar for 0→max scales.
      SCSS: _kpi-comparison-gauges.scss
      ================================================================ -->
@@ -426,7 +426,7 @@ SPARKLINE-LIST REFERENCE (_kpi-sparkline-list.scss):
           <div class="pa-kpi-gauge__label">Server Capacity</div>
           <div class="pa-kpi-gauge__value"><span class="pa-kpi-gauge__num">84.5</span><span class="pa-kpi-gauge__unit">%</span></div>
         </div>
-        <div class="pa-kpi-gauge__bar" style="--pa-kpi-gauge-tick-pos: 80%"><div class="pa-kpi-gauge__fill" style="width: 84.5%"></div></div>
+        <div class="pa-kpi-gauge__bar" style="--pc-kpi-gauge-tick-pos: 80%"><div class="pa-kpi-gauge__fill" style="width: 84.5%"></div></div>
         <div class="pa-kpi-gauge__scale"><span>0</span><span>100% · tgt 80%</span></div>
       </div>
 
@@ -444,7 +444,7 @@ COMPARISON-GAUGES REFERENCE (_kpi-comparison-gauges.scss):
 - .pa-kpi-gauge-list          Namespace on .pa-card.
 - .pa-kpi-gauge-list__body    Card body, padding:0.
 - .pa-kpi-gauge-list__grid    auto-fit gauge grid (cell-min via
-                              --pa-kpi-gauge-cell-min).
+                              --pc-kpi-gauge-cell-min).
 - Column-count caps: .pa-kpi-gauge-list__grid--2col,
                      .pa-kpi-gauge-list__grid--max-2, .pa-kpi-gauge-list__grid--max-3,
                      .pa-kpi-gauge-list__grid--max-4, .pa-kpi-gauge-list__grid--max-5,
@@ -455,8 +455,8 @@ COMPARISON-GAUGES REFERENCE (_kpi-comparison-gauges.scss):
 - .pa-kpi-gauge__label        Uppercase metric name.
 - .pa-kpi-gauge__value        Value wrapper (__num + __unit).
 - .pa-kpi-gauge__num / __unit Focal number + affix.
-- .pa-kpi-gauge__bar          Track; reads --pa-kpi-gauge-tick-pos (default 100%)
-                              + --pa-kpi-gauge-tick-color for the target tick.
+- .pa-kpi-gauge__bar          Track; reads --pc-kpi-gauge-tick-pos (default 100%)
+                              + --pc-kpi-gauge-tick-color for the target tick.
 - .pa-kpi-gauge__fill         Coloured fill — width set INLINE (value ÷ target %).
 - .pa-kpi-gauge__scale        "0 … tgt {value}" end labels.
 -->
@@ -533,7 +533,7 @@ HERO-SUPPORTING REFERENCE (_kpi-hero-supporting.scss):
                          .pa-kpi-hero-list__layout--hero-3-4.
 - .pa-kpi-hero-list__rail     Vertical stack of supporting tiles.
 - .pa-kpi-hero-main           The hero panel (sentiment: --positive / --negative
-                              / --neutral / --up-strong via --pa-kpi-accent).
+                              / --neutral / --up-strong via --pc-kpi-accent).
 - .pa-kpi-hero-main__label    Uppercase caption.
 - .pa-kpi-hero-main__value    Focal value wrapper (__num + __unit).
 - .pa-kpi-hero-main__num / __unit  Container-query-scaled number + affix.

@@ -142,12 +142,12 @@
                 var initial = actor.name.charAt(0);
                 actorPanelBody.innerHTML =
                     '<div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">' +
-                        '<div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pa-accent-light, #e8eaf6); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pa-accent, #3b82f6); flex-shrink: 0; font-weight: 600;">' +
+                        '<div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pc-accent-light, #e8eaf6); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pc-accent, #3b82f6); flex-shrink: 0; font-weight: 600;">' +
                             initial +
                         '</div>' +
                         '<div>' +
-                            '<div style="font-weight: 600; font-size: 1.6rem; color: var(--pa-text-color-1);">' + actor.name + '</div>' +
-                            '<div style="color: var(--pa-text-color-2); font-size: 1.3rem;">' + actor.role + '</div>' +
+                            '<div style="font-weight: 600; font-size: 1.6rem; color: var(--pc-text-color-1);">' + actor.name + '</div>' +
+                            '<div style="color: var(--pc-text-color-2); font-size: 1.3rem;">' + actor.role + '</div>' +
                         '</div>' +
                     '</div>' +
                     '<div class="pa-fields">' +
@@ -217,7 +217,7 @@
             var diff = isRTL ? (e.clientX - startX) : (startX - e.clientX);
             var newWidth = startWidth + diff;
             newWidth = Math.max(280, Math.min(640, newWidth));
-            actorPanel.style.setProperty('--pa-local-detail-panel-width', newWidth + 'px');
+            actorPanel.style.setProperty('--pc-local-detail-panel-width', newWidth + 'px');
         });
 
         document.addEventListener('mouseup', function () {

@@ -1,10 +1,18 @@
 // ============================================================================
 // BASE CSS VARIABLES — shim to @keenmate/pure-css
 // ============================================================================
-// The `output-base-css-variables` / `output-pa-css-variables` /
-// `output-pa-alert-variables-{light,dark}` emit mixins now live in the
-// extracted foundation package @keenmate/pure-css and are single-sourced
-// from there.
+// The emit mixins are single-sourced from the foundation package
+// @keenmate/pure-css and re-exported here via @import:
+//   - output-base-css-variables         (--base-* web-component bridge)
+//   - output-pc-css-variables           (the BASE --pc-* foundation tokens)
+//   - output-pc-component-variables      (pure-admin's component --pc-* tokens)
+//   - output-pc-alert-variables-{light,dark}
+//
+// pure-css DEFINES all of them (they read the shared $-variable vocabulary that
+// lives in pure-css's variables/*), but only EMITS the base pair from its own
+// bundle. pure-admin ships the components, so pure-admin's main.scss + every
+// theme call output-pc-component-variables + output-pc-alert-* alongside the
+// base pair. See the header of pure-css's _base-css-variables.scss.
 //
 // MUST use `@import`, not `@use`/`@forward`. The emit mixins reference the
 // `$base-*` SCSS variables; a theme sets those BEFORE `@import`-ing this file,

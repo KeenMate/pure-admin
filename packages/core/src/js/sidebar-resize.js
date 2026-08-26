@@ -3,14 +3,14 @@
  *
  * Drag-to-resize the sidebar. Ships in core (next to navbar-collapse.js /
  * navbar-dropdown.js) so consumers don't have to vendor it out of the demo:
- * `--pa-local-sidebar-width` is documented in _sidebar.scss as "modified by JS
- * for resize", and the `.pa-sidebar-resize` handle + `--pa-local-sidebar-min-
- * width` / `--pa-local-sidebar-max-width` bounds are all core CSS — the driving
+ * `--pc-local-sidebar-width` is documented in _sidebar.scss as "modified by JS
+ * for resize", and the `.pa-sidebar-resize` handle + `--pc-local-sidebar-min-
+ * width` / `--pc-local-sidebar-max-width` bounds are all core CSS — the driving
  * script belongs here too.
  *
  * The drag bounds and rem<->px conversion are READ FROM CSS, not hardcoded:
- *   --pa-local-sidebar-min-width  (default 18rem)  — smallest drag width
- *   --pa-local-sidebar-max-width  (default 50rem)  — largest drag width
+ *   --pc-local-sidebar-min-width  (default 18rem)  — smallest drag width
+ *   --pc-local-sidebar-max-width  (default 50rem)  — largest drag width
  * and rem is converted using the actual root font-size (this framework uses a
  * 10px base, but a consumer/theme that changes it — or the min/max vars — stays
  * consistent with the drag limits automatically). Earlier versions baked in
@@ -30,7 +30,7 @@
 
     // Below this width the sidebar is an overlay drawer — resize is meaningless.
     // Single-sourced from window.pureAdmin.config.mobileBreakpoint (which derives
-    // from the --pa-mobile-breakpoint CSS var / SCSS $mobile-breakpoint), so this
+    // from the --pc-mobile-breakpoint CSS var / SCSS $mobile-breakpoint), so this
     // guard and the CSS `.pa-sidebar-resize { display: none }` mobile rule can't
     // drift apart. Falls back to 768 if the namespace isn't present yet.
     function mobileMax() {
@@ -68,8 +68,8 @@
     // Re-read the drag bounds from CSS (called at drag start, so a runtime theme
     // switch that changes the min/max is honoured without re-init).
     function refreshBounds() {
-        bounds.min = readPxVar('--pa-local-sidebar-min-width', 180);
-        bounds.max = readPxVar('--pa-local-sidebar-max-width', 500);
+        bounds.min = readPxVar('--pc-local-sidebar-min-width', 180);
+        bounds.max = readPxVar('--pc-local-sidebar-max-width', 500);
     }
 
     // --- init ----------------------------------------------------------------
@@ -115,12 +115,12 @@
     // draggable width (drag floor 18rem > 16rem cap) and the handle looks dead.
     function setSidebarWidth(width) {
         var rem = width / rootFontSize();
-        document.documentElement.style.setProperty('--pa-local-sidebar-width', rem + 'rem');
+        document.documentElement.style.setProperty('--pc-local-sidebar-width', rem + 'rem');
         document.body.classList.add('pa-sidebar-resized');
     }
 
     function getCurrentWidth() {
-        return sidebar ? sidebar.offsetWidth : readPxVar('--pa-local-sidebar-width', 288);
+        return sidebar ? sidebar.offsetWidth : readPxVar('--pc-local-sidebar-width', 288);
     }
 
     function startResize(e) {
@@ -189,7 +189,7 @@
     // Reset by dropping the inline override so the stylesheet default applies
     // (the base $sidebar-width, or the tablet cap in the 769–1024px band).
     function resetWidth() {
-        document.documentElement.style.removeProperty('--pa-local-sidebar-width');
+        document.documentElement.style.removeProperty('--pc-local-sidebar-width');
         document.body.classList.remove('pa-sidebar-resized');
         localStorage.removeItem(STORAGE_KEY);
     }

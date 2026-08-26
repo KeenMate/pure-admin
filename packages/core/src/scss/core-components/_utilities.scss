@@ -74,61 +74,14 @@ $_font-base-sizes: (9, 10, 11, 12);
 }
 
 
-// Min-height utilities (rem-based)
-.min-h-2x { min-height: 2rem; }   // 32px
-.min-h-3x { min-height: 3rem; }   // 48px
-.min-h-5x { min-height: 5rem; }   // 80px
-.min-h-8x { min-height: 8rem; }   // 128px
-.min-h-10x { min-height: 10rem; } // 160px
-.min-h-12x { min-height: 12rem; } // 192px
-.min-h-15x { min-height: 15rem; } // 240px
-.min-h-20x { min-height: 20rem; } // 320px
-.min-h-25x { min-height: 25rem; } // 400px
-.min-h-30x { min-height: 30rem; } // 480px
-
-// Fixed height utilities (rem-based) - for scrollable containers
-.h-2x { height: 2rem; }   // 32px
-.h-3x { height: 3rem; }   // 48px
-.h-5x { height: 5rem; }   // 80px
-.h-8x { height: 8rem; }   // 128px
-.h-10x { height: 10rem; } // 160px
-.h-12x { height: 12rem; } // 192px
-.h-15x { height: 15rem; } // 240px
-.h-20x { height: 20rem; } // 320px
-.h-25x { height: 25rem; } // 400px
-.h-30x { height: 30rem; } // 480px
-.h-40x { height: 40rem; } // 640px
-.h-50x { height: 50rem; } // 800px
-
-// Max-height utilities (rem-based) - useful for limiting content height
-.max-h-5x { max-height: 5rem; }   // 80px
-.max-h-8x { max-height: 8rem; }   // 128px
-.max-h-10x { max-height: 10rem; } // 160px
-.max-h-12x { max-height: 12rem; } // 192px
-.max-h-15x { max-height: 15rem; } // 240px
-.max-h-20x { max-height: 20rem; } // 320px
-.max-h-25x { max-height: 25rem; } // 400px
-.max-h-30x { max-height: 30rem; } // 480px
-.max-h-40x { max-height: 40rem; } // 640px
-.max-h-50x { max-height: 50rem; } // 800px
-
-// Percentage-based height utilities - for filling available space
-.h-full { height: 100%; }
-.h-screen { height: 100vh; }
-.min-h-full { min-height: 100%; }
-.min-h-screen { min-height: 100vh; }
-.max-h-full { max-height: 100%; }
-.max-h-screen { max-height: 100vh; }
-
-// Flex utilities - for filling available space in flex containers
-.flex-1 { flex: 1 1 0%; }           // Grow and shrink equally, ignore content size
-.flex-auto { flex: 1 1 auto; }      // Grow and shrink, based on content size
-.flex-initial { flex: 0 1 auto; }   // Shrink but don't grow (default)
-.flex-none { flex: none; }          // Don't grow or shrink
-.flex-grow { flex-grow: 1; }        // Grow to fill space
-.flex-grow-0 { flex-grow: 0; }      // Don't grow
-.flex-shrink { flex-shrink: 1; }    // Allow shrinking
-.flex-shrink-0 { flex-shrink: 0; }  // Don't shrink
+// Sizing (rem heights, viewport heights) + flex-fill utilities moved to
+// @keenmate/pure-css's utilities.scss — they are universal foundation
+// utilities, single-sourced there (forwarded via core's utilities.scss shim):
+//   - rem heights:  h-Nx/min-h-Nx/max-h-Nx  →  hr-N/minhr-N/maxhr-N (the
+//     foundation's existing rem scale; `r` = rem, matching wr-N for width)
+//   - viewport:     h-full, h-screen, min-h-full/screen, max-h-full/screen
+//   - flex fill:    flex-1, flex-auto, flex-initial, flex-none, flex-grow,
+//     flex-shrink (alongside pure-css's flex-grow-0/1, flex-shrink-0/1)
 
 // Overflow utilities - pair with height/max-height for scrollable content
 .overflow-auto { overflow: auto; }
@@ -179,7 +132,7 @@ $_font-base-sizes: (9, 10, 11, 12);
 // ========================================
 .pa-text {
   font-size: $font-size-sm;  // 1.4rem (14px) - default
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 
   // Size modifiers
   &--xs {
@@ -200,11 +153,11 @@ $_font-base-sizes: (9, 10, 11, 12);
 
   // Color modifiers
   &--primary {
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &--secondary {
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   // Alignment modifiers (logical properties for RTL support)
@@ -224,7 +177,7 @@ $_font-base-sizes: (9, 10, 11, 12);
   // Semantic variants (compound styles)
   &--caption {
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     margin-bottom: $spacing-sm;
   }
 
@@ -309,9 +262,9 @@ $_font-base-sizes: (9, 10, 11, 12);
     justify-content: space-between;
     padding: $spacing-md;
     margin-bottom: $spacing-sm;
-    background-color: var(--pa-card-bg);
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
+    background-color: var(--pc-card-bg);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
 
     .user-name {
       font-weight: $font-weight-medium;
@@ -339,9 +292,9 @@ $_font-base-sizes: (9, 10, 11, 12);
 // Theme color utilities (color-1 through color-9)
 // Use these to apply theme colors to any element
 @for $i from 1 through 9 {
-  .pa-bg-color-#{$i} { background-color: var(--pa-color-#{$i}); }
-  .pa-text-color-#{$i} { color: var(--pa-color-#{$i}); }
-  .pa-border-color-#{$i} { border-color: var(--pa-color-#{$i}); }
+  .pa-bg-color-#{$i} { background-color: var(--pc-color-#{$i}); }
+  .pa-text-color-#{$i} { color: var(--pc-color-#{$i}); }
+  .pa-border-color-#{$i} { border-color: var(--pc-color-#{$i}); }
 }
 
 // ========================================

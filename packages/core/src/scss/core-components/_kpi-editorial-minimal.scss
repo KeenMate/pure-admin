@@ -12,21 +12,21 @@
 
 /* ----- Grid + hairline rules -------------------------------------------
    Cell-min-driven responsive layout: cells stay at least
-   --pa-kpi-edit-cell-min wide; the grid fits as many columns as the
+   --pc-kpi-edit-cell-min wide; the grid fits as many columns as the
    container allows. No @container queries — `auto-fit + minmax` handles
    the cascade intrinsically. Override the min per instance to change
    density (smaller min → more columns at the same container width).
 
-   `gap: 1px` over `background: var(--pa-border-color)` with each tile
-   painting `background: var(--pa-card-bg)` on top — only the gap shows
+   `gap: 1px` over `background: var(--pc-border-color)` with each tile
+   painting `background: var(--pc-card-bg)` on top — only the gap shows
    through, giving single-pixel hairlines on every interior boundary
    regardless of column count. The card's outer border supplies the
    perimeter. */
 .pa-kpi-edit__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--pa-kpi-edit-cell-min, 14rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--pc-kpi-edit-cell-min, 14rem), 1fr));
   gap: 1px;
-  background: var(--pa-border-color);
+  background: var(--pc-border-color);
 }
 
 /* Modifier: force exactly 2 columns regardless of cell-min or container
@@ -35,7 +35,7 @@
 .pa-kpi-edit__grid--2col { grid-template-columns: repeat(2, 1fr); }
 
 /* Cap-at-N modifiers: combine auto-fit with a ceiling on the column
-   count. Cells stay at least --pa-kpi-edit-cell-min wide, but the grid
+   count. Cells stay at least --pc-kpi-edit-cell-min wide, but the grid
    never exceeds N columns even when the container is wide enough to fit
    more. Below the cell-min × N threshold the grid still collapses
    responsively — these modifiers cap the maximum, not the minimum.
@@ -53,23 +53,23 @@
    count divides into clean rows. */
 .pa-kpi-edit__grid--max-2 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px) / 2)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-edit-cell-min, 14rem), calc((100% - 1px) / 2)), 1fr));
 }
 .pa-kpi-edit__grid--max-3 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 2) / 3)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-edit-cell-min, 14rem), calc((100% - 1px * 2) / 3)), 1fr));
 }
 .pa-kpi-edit__grid--max-4 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 3) / 4)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-edit-cell-min, 14rem), calc((100% - 1px * 3) / 4)), 1fr));
 }
 .pa-kpi-edit__grid--max-5 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 4) / 5)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-edit-cell-min, 14rem), calc((100% - 1px * 4) / 5)), 1fr));
 }
 .pa-kpi-edit__grid--max-6 {
   grid-template-columns:
-    repeat(auto-fit, minmax(max(var(--pa-kpi-edit-cell-min, 14rem), calc((100% - 1px * 5) / 6)), 1fr));
+    repeat(auto-fit, minmax(max(var(--pc-kpi-edit-cell-min, 14rem), calc((100% - 1px * 5) / 6)), 1fr));
 }
 
 /* ----- Tile (editorial spacing leans on the 2.4rem padding) -------------
@@ -78,7 +78,7 @@
    the grid packs more cells into the same row. */
 .pa-kpi-edit__tile {
   container-type: inline-size;
-  background: var(--pa-card-bg);
+  background: var(--pc-card-bg);
   padding: 2.4rem 2rem;
   display: flex;
   flex-direction: column;
@@ -89,7 +89,7 @@
   /* Hover host: faint wash so the cursor-anchored popover has a clear
      "this tile" anchor. */
   &:hover {
-    background: color-mix(in srgb, var(--pa-text-color-1) 4%, var(--pa-card-bg));
+    background: color-mix(in srgb, var(--pc-text-color-1) 4%, var(--pc-card-bg));
   }
 }
 
@@ -100,7 +100,7 @@
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 50%, transparent);
   line-height: 1.3;
 }
 
@@ -120,7 +120,7 @@
   font-weight: 200;
   letter-spacing: -0.02em;
   line-height: 1;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
   display: flex;
   align-items: baseline;
   gap: 0.2rem;
@@ -133,7 +133,7 @@
 .pa-kpi-edit__unit {
   font-size: 0.4em;
   font-weight: 300;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 50%, transparent);
   letter-spacing: 0;
 }
 
@@ -150,22 +150,22 @@
 .pa-kpi-edit__delta {
   font-weight: 700;
   white-space: nowrap;
-  color: var(--pa-positive);
+  color: var(--pc-positive);
 
-  &--positive    { color: var(--pa-positive); }
-  &--negative    { color: var(--pa-negative); }
-  &--neutral     { color: var(--pa-neutral); }
-  &--up-strong   { color: var(--pa-very-positive); }
-  &--down-strong { color: var(--pa-very-negative); }
+  &--positive    { color: var(--pc-positive); }
+  &--negative    { color: var(--pc-negative); }
+  &--neutral     { color: var(--pc-neutral); }
+  &--up-strong   { color: var(--pc-very-positive); }
+  &--down-strong { color: var(--pc-very-negative); }
 }
 .pa-kpi-edit__target {
   font-weight: 500;
-  color: color-mix(in srgb, var(--pa-text-color-1) 50%, transparent);
+  color: color-mix(in srgb, var(--pc-text-color-1) 50%, transparent);
   white-space: nowrap;
 
   em {
     font-style: normal;
-    color: color-mix(in srgb, var(--pa-text-color-1) 38%, transparent);
+    color: color-mix(in srgb, var(--pc-text-color-1) 38%, transparent);
     margin-right: 0.5rem;
   }
 }

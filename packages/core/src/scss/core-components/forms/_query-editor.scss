@@ -17,7 +17,7 @@
     bottom: 0;
     padding: $input-padding-v $input-padding-h;
     border: $border-width-base solid transparent;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     font-size: $font-size-sm;
     font-family: inherit;
     white-space: pre-wrap;
@@ -31,24 +31,24 @@
     position: relative;
     z-index: 1;
     background: transparent;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &__field {
     display: inline;
-    background-color: color-mix(in srgb, var(--pa-accent) 15%, transparent);
-    color: var(--pa-accent);
+    background-color: color-mix(in srgb, var(--pc-accent) 15%, transparent);
+    color: var(--pc-accent);
     padding: 0.2rem 0.4rem;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     font-weight: $font-weight-medium;
   }
 
   &__operator {
     display: inline;
-    background-color: color-mix(in srgb, var(--pa-success) 15%, transparent);
-    color: var(--pa-success);
+    background-color: color-mix(in srgb, var(--pc-success) 15%, transparent);
+    color: var(--pc-success);
     padding: 0.2rem 0.4rem;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     font-weight: $font-weight-medium;
   }
 }
@@ -57,9 +57,9 @@
 .pa-search-autocomplete {
   position: absolute;
   z-index: 1000;
-  background: var(--pa-input-bg);
+  background: var(--pc-input-bg);
   border: $border-width-base solid $border-color;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   box-shadow: $shadow-lg;
   max-height: 24rem;
   overflow-y: auto;
@@ -76,18 +76,18 @@
 
     &:hover,
     &--active {
-      background-color: var(--pa-table-hover-bg);
+      background-color: var(--pc-table-hover-bg);
     }
 
     &-name {
       font-weight: $font-weight-medium;
-      color: var(--pa-accent);
+      color: var(--pc-accent);
     }
 
     &-type {
       margin-inline-start: auto; // RTL: flips to right
       font-size: $font-size-xs;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       opacity: 0.7;
     }
   }
@@ -96,31 +96,31 @@
     padding: $spacing-xs $spacing-md;
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    background-color: var(--pa-card-header-bg);
-    border-bottom: $border-width-base solid var(--pa-border-color);
+    background-color: var(--pc-card-header-bg);
+    border-bottom: $border-width-base solid var(--pc-border-color);
   }
 
   &__empty {
     padding: $spacing-md;
     text-align: center;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-size: $font-size-sm;
   }
 
   // Full-text match highlight inside results (the inline navbar search and the
   // palette-field autocomplete wrap matched text in <mark>). Shares the neutral
-  // --pa-search-mark-* contract with the search-results page so a match looks the
+  // --pc-search-mark-* contract with the search-results page so a match looks the
   // same everywhere — and re-skins off the UA yellow to a restrained accent wash.
   mark {
     padding: 0 0.15em;
     border-radius: 0.2rem;
-    background-color: var(--pa-search-mark-bg,
-      color-mix(in srgb, var(--pa-accent) 15%, transparent));
-    color: var(--pa-search-mark-color, inherit);
-    font-weight: var(--pa-search-mark-weight, #{$font-weight-medium});
+    background-color: var(--pc-search-mark-bg,
+      color-mix(in srgb, var(--pc-accent) 15%, transparent));
+    color: var(--pc-search-mark-color, inherit);
+    font-weight: var(--pc-search-mark-weight, #{$font-weight-medium});
   }
 }
 
@@ -130,10 +130,10 @@
   width: 100%;
   padding: $input-padding-v $input-padding-h;
   border: $border-width-base solid $border-color;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
-  background-color: var(--pa-input-bg);
-  color: var(--pa-text-color-1);
+  background-color: var(--pc-input-bg);
+  color: var(--pc-text-color-1);
   cursor: text;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -148,7 +148,7 @@
 
   &:empty::before {
     content: attr(data-placeholder);
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     opacity: 0.7;
     pointer-events: none;
   }
@@ -185,7 +185,7 @@
     bottom: 0;
     padding: $input-padding-v $input-padding-h;
     border: $border-width-base solid transparent;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     font-size: $font-size-sm;
     font-family: $body-font-family;
     white-space: pre-wrap;
@@ -193,7 +193,7 @@
     pointer-events: none;
     overflow: hidden;
     line-height: 1.5;
-    background-color: var(--pa-input-bg);
+    background-color: var(--pc-input-bg);
     z-index: 1;
   }
 
@@ -203,12 +203,12 @@
     width: 100%;
     padding: $input-padding-v $input-padding-h;
     border: $border-width-base solid $border-color;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
     font-size: $font-size-sm;
     font-family: $body-font-family;
     background: transparent;
     color: transparent;
-    caret-color: var(--pa-text-color-1);
+    caret-color: var(--pc-text-color-1);
     resize: none;
     overflow: hidden;
     line-height: 1.5;
@@ -222,7 +222,7 @@
     }
 
     &::placeholder {
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       opacity: 0.7;
     }
   }
@@ -234,29 +234,29 @@
   font-weight: $font-weight-medium;
 
   &--field {
-    background-color: color-mix(in srgb, var(--pa-accent) 15%, transparent);
-    color: var(--pa-text-color-1);
+    background-color: color-mix(in srgb, var(--pc-accent) 15%, transparent);
+    color: var(--pc-text-color-1);
 
     &.pa-inline-query-token--invalid {
-      background-color: color-mix(in srgb, var(--pa-danger) 15%, transparent);
-      color: var(--pa-text-color-1);
+      background-color: color-mix(in srgb, var(--pc-danger) 15%, transparent);
+      color: var(--pc-text-color-1);
       text-decoration: wavy underline;
     }
   }
 
   &--operator {
-    background-color: color-mix(in srgb, var(--pa-text-color-2) 15%, transparent);
-    color: var(--pa-text-color-1);
+    background-color: color-mix(in srgb, var(--pc-text-color-2) 15%, transparent);
+    color: var(--pc-text-color-1);
   }
 
   &--value {
-    background-color: color-mix(in srgb, var(--pa-success) 15%, transparent);
-    color: var(--pa-text-color-1);
+    background-color: color-mix(in srgb, var(--pc-success) 15%, transparent);
+    color: var(--pc-text-color-1);
   }
 
   &--keyword {
-    background-color: color-mix(in srgb, var(--pa-warning) 15%, transparent);
-    color: var(--pa-text-color-1);
+    background-color: color-mix(in srgb, var(--pc-warning) 15%, transparent);
+    color: var(--pc-text-color-1);
     font-style: italic;
   }
 }
@@ -265,9 +265,9 @@
 .pa-inline-query-autocomplete {
   position: absolute;
   z-index: 1000;
-  background: var(--pa-input-bg);
+  background: var(--pc-input-bg);
   border: $border-width-base solid $border-color;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   box-shadow: $shadow-lg;
   max-height: 24rem;
   overflow-y: auto;
@@ -284,7 +284,7 @@
 
     &:hover,
     &--active {
-      background-color: var(--pa-table-hover-bg);
+      background-color: var(--pc-table-hover-bg);
     }
 
     &-icon {
@@ -308,7 +308,7 @@
     &-type {
       display: block;
       font-size: $font-size-xs;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       opacity: 0.7;
       line-height: 1.3;
     }
@@ -317,9 +317,9 @@
       flex-shrink: 0;
       font-size: $font-size-xs;
       padding: 0.2rem 0.6rem;
-      background-color: color-mix(in srgb, var(--pa-text-color-2) 10%, transparent);
-      color: var(--pa-text-color-2);
-      border-radius: var(--pa-border-radius-sm);
+      background-color: color-mix(in srgb, var(--pc-text-color-2) 10%, transparent);
+      color: var(--pc-text-color-2);
+      border-radius: var(--pc-border-radius-sm);
       font-family: $body-font-family;
     }
   }

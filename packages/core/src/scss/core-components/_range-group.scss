@@ -28,23 +28,23 @@
    ---------------------------------------- */
 
 // SCSS values are the compile-time DEFAULTS; every one is also exposed as a
-// runtime --pa-range-* token (consumed via `var(--pa-range-x, <default>)`), so
+// runtime --pc-range-* token (consumed via `var(--pc-range-x, <default>)`), so
 // a theme or a per-instance inline style can retint/resize a slider without a
 // recompile and without touching the global emit mixin. Colour tokens fall
 // back to the shared framework cascade; dimension tokens fall back to these
 // SCSS values. Overridable at :root, on .pc-mode-*, or on any .pa-range /
 // .pa-range-group ancestor. Runtime tokens:
-//   --pa-range-track                track colour            (→ --pa-surface-track)
-//   --pa-range-fill                 selected-range fill     (→ --pa-accent)
-//   --pa-range-thumb-bg             handle interior         (→ --pa-card-bg)
-//   --pa-range-thumb-border         handle ring/bar/chevron (→ --pa-accent)
-//   --pa-range-thumb-border-hover   handle on hover         (→ --pa-accent-hover)
-//   --pa-range-focus-ring           thumb focus/active ring (→ --pa-accent-light)
-//   --pa-range-tick                 minor tick-mark colour  (→ --pa-border-color)
-//   --pa-range-tick-major           major tick-mark colour  (→ --pa-text-tertiary)
-//   --pa-range-track-height         track/fill thickness    (→ 0.4rem)
-//   --pa-range-thumb-size           default round handle Ø  (→ 1.6rem)
-//   --pa-range-group-panel-min-width  floating panel width  (→ 32rem)
+//   --pc-range-track                track colour            (→ --pc-surface-track)
+//   --pc-range-fill                 selected-range fill     (→ --pc-accent)
+//   --pc-range-thumb-bg             handle interior         (→ --pc-card-bg)
+//   --pc-range-thumb-border         handle ring/bar/chevron (→ --pc-accent)
+//   --pc-range-thumb-border-hover   handle on hover         (→ --pc-accent-hover)
+//   --pc-range-focus-ring           thumb focus/active ring (→ --pc-accent-light)
+//   --pc-range-tick                 minor tick-mark colour  (→ --pc-border-color)
+//   --pc-range-tick-major           major tick-mark colour  (→ --pc-text-tertiary)
+//   --pc-range-track-height         track/fill thickness    (→ 0.4rem)
+//   --pc-range-thumb-size           default round handle Ø  (→ 1.6rem)
+//   --pc-range-group-panel-min-width  floating panel width  (→ 32rem)
 // NOTE: the __panel is reparented to <body> while open (to escape overflow
 // clipping), so a per-instance override must sit on the __panel or the
 // .pa-range rows (they travel with it) — or at :root / theme level. Tokens
@@ -101,27 +101,27 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
 .pa-range__rail {
   position: absolute;
   // Inset tracks the handle size so extreme-position thumbs stay on the track
-  // even if --pa-range-thumb-size is overridden.
-  inset-inline: calc(var(--pa-range-thumb-size, #{$range-thumb-size}) / 2);
+  // even if --pc-range-thumb-size is overridden.
+  inset-inline: calc(var(--pc-range-thumb-size, #{$range-thumb-size}) / 2);
   top: 50%;
   transform: translateY(-50%);
-  height: var(--pa-range-track-height, #{$range-track-height});
+  height: var(--pc-range-track-height, #{$range-track-height});
 }
 
 .pa-range__track {
   position: absolute;
   inset: 0;
   border-radius: 999px;
-  background-color: var(--pa-range-track, var(--pa-surface-track));
+  background-color: var(--pc-range-track, var(--pc-surface-track));
 }
 
 .pa-range__fill {
   position: absolute;
   top: 0;
   bottom: 0;
-  height: var(--pa-range-track-height, #{$range-fill-height});
+  height: var(--pc-range-track-height, #{$range-fill-height});
   border-radius: 999px;
-  background-color: var(--pa-range-fill, var(--pa-accent));
+  background-color: var(--pc-range-fill, var(--pc-accent));
   // JS sets these as 0–100% — logical, so RTL flips automatically.
   inset-inline-start: var(--_fill-start, 0%);
   inset-inline-end: var(--_fill-end, 0%);
@@ -150,14 +150,14 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   margin-inline-start: calc(#{$range-tick-width} / -2);
   transform: translateY(-50%);
   border-radius: 999px;
-  background-color: var(--pa-range-tick, var(--pa-border-color));
+  background-color: var(--pc-range-tick, var(--pc-border-color));
 }
 
 .pa-range__tick--major {
   width: $range-tick-major-width;
   height: $range-tick-major-height;
   margin-inline-start: calc(#{$range-tick-major-width} / -2);
-  background-color: var(--pa-range-tick-major, var(--pa-text-tertiary));
+  background-color: var(--pc-range-tick-major, var(--pc-text-tertiary));
 }
 
 // Labels (opt-in via data-tick-labels). Sit in a band below the track; JS
@@ -175,7 +175,7 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   inset-inline-start: var(--_pos, 0%);
   transform: translateX(-50%);   // symmetric box centring; position flips via inset
   font-size: $font-size-2xs;
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
@@ -183,8 +183,8 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
 .pa-range__thumb {
   // Handle dimensions come from private props so the centring margin (and
   // the shape modifiers below) stay in one place. Default = round handle.
-  --_thumb-w: var(--pa-range-thumb-size, #{$range-thumb-size});
-  --_thumb-h: var(--pa-range-thumb-size, #{$range-thumb-size});
+  --_thumb-w: var(--pc-range-thumb-size, #{$range-thumb-size});
+  --_thumb-h: var(--pc-range-thumb-size, #{$range-thumb-size});
 
   position: absolute;
   top: 50%;
@@ -198,26 +198,26 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   width: var(--_thumb-w);
   height: var(--_thumb-h);
   padding: 0;
-  border: $range-thumb-border solid var(--pa-range-thumb-border, var(--pa-accent));
+  border: $range-thumb-border solid var(--pc-range-thumb-border, var(--pc-accent));
   border-radius: 50%;
-  background-color: var(--pa-range-thumb-bg, var(--pa-card-bg));
+  background-color: var(--pc-range-thumb-bg, var(--pc-card-bg));
   cursor: grab;
   touch-action: none;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 
   &:hover {
-    border-color: var(--pa-range-thumb-border-hover, var(--pa-accent-hover));
+    border-color: var(--pc-range-thumb-border-hover, var(--pc-accent-hover));
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pa-accent-light));
+    box-shadow: 0 0 0 0.3rem var(--pc-range-focus-ring, var(--pc-accent-light));
   }
 
   &:active,
   &.pa-range__thumb--grabbing {
     cursor: grabbing;
-    box-shadow: 0 0 0 0.3rem var(--pa-range-focus-ring, var(--pa-accent-light));
+    box-shadow: 0 0 0 0.3rem var(--pc-range-focus-ring, var(--pc-accent-light));
   }
 }
 
@@ -230,7 +230,7 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
 .pa-range--handle-rect .pa-range__thumb {
   --_thumb-w: 1.2rem;
   --_thumb-h: 1.9rem;
-  border-radius: var(--pa-border-radius-sm);
+  border-radius: var(--pc-border-radius-sm);
 }
 
 // Thin vertical bar ("|") — solid accent, reads as a divider.
@@ -238,9 +238,9 @@ $range-tick-label-space:  1.6rem;   // extra row height reserved when labelled
   --_thumb-w: 0.35rem;
   --_thumb-h: 2.2rem;
   border-radius: 999px;
-  background-color: var(--pa-range-thumb-border, var(--pa-accent));
+  background-color: var(--pc-range-thumb-border, var(--pc-accent));
 
-  &:hover { background-color: var(--pa-range-thumb-border-hover, var(--pa-accent-hover)); }
+  &:hover { background-color: var(--pc-range-thumb-border-hover, var(--pc-accent-hover)); }
 }
 
 // Chevron handles ("‹ ›"). A rounded-rect grip with a CSS chevron drawn on
@@ -256,7 +256,7 @@ $range-chevron-nudge: $range-chevron-size * 0.354;   // ≈ size / (2√2)
 .pa-range--handle-arrow .pa-range__thumb {
   --_thumb-w: 1.6rem;
   --_thumb-h: 2rem;
-  border-radius: var(--pa-border-radius-sm);
+  border-radius: var(--pc-border-radius-sm);
 
   &::before {
     content: '';
@@ -266,8 +266,8 @@ $range-chevron-nudge: $range-chevron-size * 0.354;   // ≈ size / (2√2)
     width: $range-chevron-size;
     height: $range-chevron-size;
     // top+end borders rotated 45° form a "›" (points toward inline-end).
-    border-block-start: $range-thumb-border solid var(--pa-range-thumb-border, var(--pa-accent));
-    border-inline-end: $range-thumb-border solid var(--pa-range-thumb-border, var(--pa-accent));
+    border-block-start: $range-thumb-border solid var(--pc-range-thumb-border, var(--pc-accent));
+    border-inline-end: $range-thumb-border solid var(--pc-range-thumb-border, var(--pc-accent));
     transform: translateX(#{-$range-chevron-nudge}) translate(-50%, -50%) rotate(45deg);
   }
 }
@@ -289,7 +289,7 @@ $range-needle-height: 1.1rem;   // fits above the track centre within the row
   --_thumb-h: #{$range-thumb-tall};
   background-color: transparent;
   border-color: transparent;
-  border-radius: var(--pa-border-radius-sm);   // shapes the focus halo only
+  border-radius: var(--pc-border-radius-sm);   // shapes the focus halo only
 
   &::before {
     content: '';
@@ -299,13 +299,13 @@ $range-needle-height: 1.1rem;   // fits above the track centre within the row
     width: $range-needle-width;
     height: $range-needle-height;
     margin-inline-start: calc(#{$range-needle-width} / -2);
-    background-color: var(--pa-range-thumb-border, var(--pa-accent));
+    background-color: var(--pc-range-thumb-border, var(--pc-accent));
     clip-path: polygon(50% 100%, 0 0, 100% 0);  // flat top, point down
     transition: background-color 0.15s ease;
   }
 
   &:hover::before {
-    background-color: var(--pa-range-thumb-border-hover, var(--pa-accent-hover));
+    background-color: var(--pc-range-thumb-border-hover, var(--pc-accent-hover));
   }
 }
 
@@ -343,10 +343,10 @@ $range-group-panel-row-gap:    $spacing-lg;
   gap: $spacing-md;
   width: 100%;
   padding: $range-group-toggle-padding-v $range-group-toggle-padding-h;
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
-  background-color: var(--pa-input-bg);
-  color: var(--pa-text-color-1);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
+  background-color: var(--pc-input-bg);
+  color: var(--pc-text-color-1);
   font-size: $font-size-sm;
   line-height: 1.3;
   text-align: start;
@@ -354,13 +354,13 @@ $range-group-panel-row-gap:    $spacing-lg;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
   &:hover {
-    border-color: var(--pa-accent-hover);
+    border-color: var(--pc-accent-hover);
   }
 
   &:focus-visible {
     outline: none;
-    border-color: var(--pa-accent);
-    box-shadow: 0 0 0 0.3rem var(--pa-accent-light);
+    border-color: var(--pc-accent);
+    box-shadow: 0 0 0 0.3rem var(--pc-accent-light);
   }
 }
 
@@ -382,31 +382,31 @@ $range-group-panel-row-gap:    $spacing-lg;
   font-weight: $font-weight-semibold;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
 }
 
 .pa-range-group__seg-value {
   font-weight: $font-weight-medium;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
   font-variant-numeric: tabular-nums;
 }
 
 // "Any" placeholder value — muted so active dimensions read as the signal.
 .pa-range-group__seg-value--empty {
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
   font-weight: $font-weight-normal;
 }
 
 // The " / " separators between segments.
 .pa-range-group__seg-sep {
-  color: var(--pa-text-tertiary);
+  color: var(--pc-text-tertiary);
   margin-inline: 0.4rem;
 }
 
 .pa-range-group__caret {
   flex-shrink: 0;
   font-size: $font-size-xs;
-  color: var(--pa-text-secondary);
+  color: var(--pc-text-secondary);
   transition: transform 0.2s ease;
 }
 
@@ -420,12 +420,12 @@ $range-group-panel-row-gap:    $spacing-lg;
   display: none;
   flex-direction: column;
   gap: $range-group-panel-row-gap;
-  min-width: var(--pa-range-group-panel-min-width, #{$range-group-panel-min-width});
+  min-width: var(--pc-range-group-panel-min-width, #{$range-group-panel-min-width});
   padding: $range-group-panel-padding;
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius-lg);
-  background-color: var(--pa-card-bg);
-  box-shadow: var(--pa-detail-shadow);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius-lg);
+  background-color: var(--pc-card-bg);
+  box-shadow: var(--pc-detail-shadow);
   z-index: $z-index-dropdown;
 
   &.pa-range-group__panel--open {
@@ -449,7 +449,7 @@ $range-group-panel-row-gap:    $spacing-lg;
 .pa-range-group__row-label {
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 }
 
 .pa-range-group__row-value {
@@ -457,10 +457,10 @@ $range-group-panel-row-gap:    $spacing-lg;
   font-weight: $font-weight-medium;
   font-variant-numeric: tabular-nums;
   // Tracks the fill colour so retinting the slider retints its readout too.
-  color: var(--pa-range-fill, var(--pa-accent));
+  color: var(--pc-range-fill, var(--pc-accent));
 
   &.pa-range-group__row-value--empty {
-    color: var(--pa-text-tertiary);
+    color: var(--pc-text-tertiary);
   }
 }
 
@@ -470,5 +470,5 @@ $range-group-panel-row-gap:    $spacing-lg;
   gap: $spacing-sm;
   margin-top: $spacing-xs;
   padding-top: $range-group-panel-row-gap;
-  border-top: $border-width-base solid var(--pa-border-color);
+  border-top: $border-width-base solid var(--pc-border-color);
 }

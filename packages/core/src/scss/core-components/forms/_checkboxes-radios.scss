@@ -25,10 +25,10 @@
   // rows by themselves (no hand-authored row markup). --grid is responsive
   // (column count follows container width via auto-fill); --2col / --3col force
   // a fixed count. Mirrors .pa-checkbox-list--grid / --2col / --3col. Tune the
-  // responsive minimum with --pa-checkbox-group-col-min.
+  // responsive minimum with --pc-checkbox-group-col-min.
   &--grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--pa-checkbox-group-col-min, 12rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--pc-checkbox-group-col-min, 12rem), 1fr));
     gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
   }
 
@@ -60,7 +60,7 @@
   gap: var(--pc-choice-inner-gap, #{$spacing-sm});
   cursor: pointer;
   font-size: $font-size-sm;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
   user-select: none;
 
   // Hide native checkbox (visually hidden but accessible)
@@ -77,9 +77,9 @@
     position: relative;
     width: $checkbox-size;
     height: $checkbox-size;
-    border: $checkbox-border-width solid var(--pa-checkbox-border-color);
-    border-radius: var(--pa-border-radius-sm);
-    background-color: var(--pa-checkbox-bg);
+    border: $checkbox-border-width solid var(--pc-checkbox-border-color);
+    border-radius: var(--pc-border-radius-sm);
+    background-color: var(--pc-checkbox-bg);
     transition: all $checkbox-transition $easing-snappy;
     flex-shrink: 0;
 
@@ -93,19 +93,19 @@
 
   // Hover state
   &:hover &__box {
-    border-color: var(--pa-checkbox-border-color-hover);
+    border-color: var(--pc-checkbox-border-color-hover);
   }
 
   // Focus state (keyboard navigation)
   input:focus-visible + &__box {
-    box-shadow: var(--pa-checkbox-focus-shadow);
-    border-color: var(--pa-checkbox-border-color-checked);
+    box-shadow: var(--pc-checkbox-focus-shadow);
+    border-color: var(--pc-checkbox-border-color-checked);
   }
 
   // Checked state
   input:checked + &__box {
-    background-color: var(--pa-checkbox-bg-checked);
-    border-color: var(--pa-checkbox-border-color-checked);
+    background-color: var(--pc-checkbox-bg-checked);
+    border-color: var(--pc-checkbox-border-color-checked);
 
     &::after {
       display: block;
@@ -114,7 +114,7 @@
       top: 10%;
       width: 30%;
       height: 55%;
-      border: solid var(--pa-checkbox-checkmark-color);
+      border: solid var(--pc-checkbox-checkmark-color);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
@@ -122,8 +122,8 @@
 
   // Indeterminate state (dash)
   input:indeterminate + &__box {
-    background-color: var(--pa-checkbox-bg-indeterminate);
-    border-color: var(--pa-checkbox-border-color-checked);
+    background-color: var(--pc-checkbox-bg-indeterminate);
+    border-color: var(--pc-checkbox-border-color-checked);
 
     &::after {
       display: block;
@@ -132,7 +132,7 @@
       top: 45%;
       width: 60%;
       height: 0;
-      border: solid var(--pa-checkbox-checkmark-color);
+      border: solid var(--pc-checkbox-checkmark-color);
       border-width: 0 0 2px 0;
       transform: none;
     }
@@ -168,7 +168,7 @@
       top: 50%;
       width: 60%;
       height: 0;
-      border: solid var(--pa-checkbox-checkmark-color);
+      border: solid var(--pc-checkbox-checkmark-color);
       border-width: 0 0 2px 0;
       transform: translate(-50%, -50%) rotate(45deg);
     }
@@ -181,7 +181,7 @@
       top: 50%;
       width: 60%;
       height: 0;
-      border: solid var(--pa-checkbox-checkmark-color);
+      border: solid var(--pc-checkbox-checkmark-color);
       border-width: 0 0 2px 0;
       transform: translate(-50%, -50%) rotate(-45deg);
     }
@@ -238,7 +238,7 @@
   gap: var(--pc-choice-inner-gap, #{$spacing-sm});
   cursor: pointer;
   font-size: $font-size-sm;
-  color: var(--pa-text-color-1);
+  color: var(--pc-text-color-1);
 
   input {
     margin: 0;
@@ -309,6 +309,6 @@
 .pa-radio:has(input:required) .pa-radio__label::after {
   content: '*';
   margin-inline-start: 0.2rem;
-  color: var(--pa-danger);
+  color: var(--pc-danger);
   font-weight: $font-weight-medium;
 }

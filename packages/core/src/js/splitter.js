@@ -9,7 +9,7 @@
  *   data-pa-splitter-id="key"        (enables localStorage persistence)
  *   data-pa-splitter-step="10"        (keyboard step in px; default 10)
  *   data-pa-splitter-rail-size="40"   (rail width in px; default reads
- *                                      --pa-splitter-rail-size from
+ *                                      --pc-splitter-rail-size from
  *                                      getComputedStyle, then 40 literal)
  *   data-pa-splitter-minimize-threshold="0.40"
  *                                     (drag-to-minimize snap ratio of the
@@ -87,7 +87,7 @@
     }
 
     // Rail size resolution: per-instance attribute wins, then the
-    // --pa-splitter-rail-size CSS variable (themes / inline-style overrides),
+    // --pc-splitter-rail-size CSS variable (themes / inline-style overrides),
     // then a hardcoded 40px floor. Without the CSS-var path the SCSS variable
     // $splitter-rail-size was effectively dead — themes could rename it and
     // nothing happened at the JS layer.
@@ -106,7 +106,7 @@
         }
         try {
             var probe = root.ownerDocument.createElement('div');
-            probe.style.cssText = 'position:absolute;visibility:hidden;height:0;width:var(--pa-splitter-rail-size, 40px);';
+            probe.style.cssText = 'position:absolute;visibility:hidden;height:0;width:var(--pc-splitter-rail-size, 40px);';
             root.appendChild(probe);
             var resolved = probe.offsetWidth;
             root.removeChild(probe);

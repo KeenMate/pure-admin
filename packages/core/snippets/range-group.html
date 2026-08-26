@@ -39,9 +39,9 @@
      :root, on .pc-mode-*, or per-instance). NB: the __panel reparents to
      <body> while open, so a per-instance override belongs on the __panel or
      the .pa-range rows, not the group root. See CSS-VARIABLES.md.
-       --pa-range-track / -fill / -thumb-bg / -thumb-border[-hover] / -focus-ring
-       --pa-range-tick / -tick-major
-       --pa-range-track-height / -thumb-size / --pa-range-group-panel-min-width
+       --pc-range-track / -fill / -thumb-bg / -thumb-border[-hover] / -focus-ring
+       --pc-range-tick / -tick-major
+       --pc-range-track-height / -thumb-size / --pc-range-group-panel-min-width
 
      Drop it into a .pa-filter-card__filters row as one control that stands
      in for N sliders. See filter-card.html.
@@ -303,7 +303,7 @@ STATES (JS toggles):
   .pa-range-group__panel--open          on the panel — display:flex
   .pa-range-group__row-value--empty     muted in-panel readout for an unbounded row
 
-THEMING: runtime --pa-range-* / --pa-range-group-* tokens (see the header
+THEMING: runtime --pc-range-* / --pc-range-group-* tokens (see the header
 comment + CSS-VARIABLES.md). NB the panel reparents to <body>, so per-instance
 token overrides belong on the __panel or the .pa-range rows, NOT the group root.
 

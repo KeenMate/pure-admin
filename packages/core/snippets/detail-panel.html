@@ -21,7 +21,7 @@
 <!-- ================================
      1) INLINE SPLIT-VIEW MODE
      Table on the start side, panel on the end. Panel has width: 0
-     when closed, expands to --pa-local-detail-panel-width when --open.
+     when closed, expands to --pc-local-detail-panel-width when --open.
      ================================ -->
 
 <div class="pa-detail-view">
@@ -199,12 +199,12 @@
      .pa-detail-view__panel so utility classes win without !important.
 
        :root {
-         --pa-local-detail-panel-width:     $detail-panel-width;
-         --pa-local-detail-panel-max-width: $detail-panel-max-width;
+         --pc-local-detail-panel-width:     $detail-panel-width;
+         --pc-local-detail-panel-max-width: $detail-panel-max-width;
        }
        :where(.pa-detail-view__panel) {
-         width:     var(--pa-local-detail-panel-width);
-         max-width: var(--pa-local-detail-panel-max-width);
+         width:     var(--pc-local-detail-panel-width);
+         max-width: var(--pc-local-detail-panel-max-width);
        }
 
      Override strategies (ordered by scope):
@@ -221,7 +221,7 @@
 </div>
 
 <!-- Clamp between floor and ceiling (good when combined with the
-     resize handle — the drag JS writes to --pa-local-detail-panel-width,
+     resize handle — the drag JS writes to --pc-local-detail-panel-width,
      and this clamps how far it can go). -->
 <div class="pa-detail-view__panel pa-detail-view__panel--open minwr-25 maxwr-50">
     <!-- … -->
@@ -230,8 +230,8 @@
 <!-- App-wide default override -->
 <style>
     :root {
-        --pa-local-detail-panel-width: 40rem;
-        --pa-local-detail-panel-max-width: 70rem;
+        --pc-local-detail-panel-width: 40rem;
+        --pc-local-detail-panel-max-width: 70rem;
     }
 </style>
 
@@ -306,7 +306,7 @@ function closeMobileOverlay() {
 }
 
 // Resize handle — wire up on page load if the panel is resizable.
-// The contract: write to --pa-local-detail-panel-width at :root (or on
+// The contract: write to --pc-local-detail-panel-width at :root (or on
 // the panel) during drag, add .pa-detail-panel-resizing on <body> to
 // disable text selection, remove on mouseup.
 (function setupDetailPanelResize() {
@@ -326,7 +326,7 @@ function closeMobileOverlay() {
             // Drag toward inline-start = widen panel on inline-end; invert in RTL.
             const dir = document.documentElement.dir === 'rtl' ? +1 : -1;
             const next = Math.max(200, startWidth + dir * (ev.clientX - startX));
-            document.documentElement.style.setProperty('--pa-local-detail-panel-width', next + 'px');
+            document.documentElement.style.setProperty('--pc-local-detail-panel-width', next + 'px');
         };
         const onUp = () => {
             document.body.classList.remove('pa-detail-panel-resizing');
@@ -405,14 +405,14 @@ RESIZE HANDLE:
                                            text selection + force
                                            col-resize cursor.
 
-Drag contract: write to --pa-local-detail-panel-width at :root or on
+Drag contract: write to --pc-local-detail-panel-width at :root or on
 the panel element while dragging; remove the body class on mouseup.
 
 
 WIDTH CONTROL (CSS variables — override without specificity battles):
 
-  --pa-local-detail-panel-width      runtime width (rewrite on resize)
-  --pa-local-detail-panel-max-width  upper bound
+  --pc-local-detail-panel-width      runtime width (rewrite on resize)
+  --pc-local-detail-panel-max-width  upper bound
 
 Applied via :where(.pa-detail-view__panel) { width / max-width } so
 .wr-{n} / .minwr-{n} / .maxwr-{n} utility classes beat the default.
@@ -426,7 +426,7 @@ Override paths:
 TABLE ROW SELECTION:
 
 - .pa-table tbody tr.is-selected           SCSS colours the row with
-                                           --pa-detail-panel-selected-bg
+                                           --pc-detail-panel-selected-bg
                                            and keeps the colour on hover
                                            so "which row am I viewing?"
                                            stays obvious when the detail

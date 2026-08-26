@@ -1,5 +1,5 @@
 <p>"Bento layout" KPI indicator. <strong>Asymmetric tile sizes, sparkline as a low-opacity background</strong> on each tile, big numerals layered over the chart in the lower-left corner. Hero (Monthly Revenue) spans two rows on the left; two stacked tiles on the right (top); three equal tiles below — magazine-style mixed sizes rather than a uniform grid. Card-level container query collapses the whole bento to a single-column stack when the host card narrows below 700px so the same markup works in narrow page-grid cells.</p>
-<p>Layout modifiers on <code>.pa-kpi-bento__grid</code> swap the named-area template without changing markup: default (no modifier) puts the hero on the left, <code>--hero-right</code> mirrors it, <code>--5-tile</code> drops to 5 tiles (hero + 4 supporting). Row height is a CSS variable (<code>--pa-kpi-bento-row-height</code>, default <code>12rem</code>) for taller/shorter tile rows per instance.</p>
+<p>Layout modifiers on <code>.pa-kpi-bento__grid</code> swap the named-area template without changing markup: default (no modifier) puts the hero on the left, <code>--hero-right</code> mirrors it, <code>--5-tile</code> drops to 5 tiles (hero + 4 supporting). Row height is a CSS variable (<code>--pc-kpi-bento-row-height</code>, default <code>12rem</code>) for taller/shorter tile rows per instance.</p>
 
 
 
@@ -980,7 +980,7 @@
      ============================================================ -->
 
 <h3>Custom chart library · <code>Chart.js</code> in the chart slot</h3>
-<p>The <code>pa-kpi-bento-tile__chart</code> slot is a plain positioned container — the inline SVG sparkline is just the lightweight default. Each tile below swaps a <code>&lt;canvas data-kpi-chart&gt;</code> in where the <code>&lt;svg&gt;</code> was, rendering a Chart.js <strong>bar chart</strong> as the tile background instead of the area sparkline — visibly a different chart, same slot. The tile still sets <code>color: var(--pa-kpi-accent)</code>, so the bars read <code>currentColor</code> for their sentiment hue and re-colour on theme change — no per-tile chart config needed.</p>
+<p>The <code>pa-kpi-bento-tile__chart</code> slot is a plain positioned container — the inline SVG sparkline is just the lightweight default. Each tile below swaps a <code>&lt;canvas data-kpi-chart&gt;</code> in where the <code>&lt;svg&gt;</code> was, rendering a Chart.js <strong>bar chart</strong> as the tile background instead of the area sparkline — visibly a different chart, same slot. The tile still sets <code>color: var(--pc-kpi-accent)</code>, so the bars read <code>currentColor</code> for their sentiment hue and re-colour on theme change — no per-tile chart config needed.</p>
 
 <div class="pa-card pa-kpi-bento">
     <div class="pa-card__header pa-kpi-header">
@@ -1152,7 +1152,7 @@
         <p>To add a new layout, declare a sibling modifier with a different <code>grid-template-areas</code> using the same area names (<code>hero</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>) and the existing nth-child assignments map source order to those areas automatically.</p>
 
         <h4 class="mt-4">Row height as a CSS variable</h4>
-        <p>The grid's row height is exposed as <code>--pa-kpi-bento-row-height</code> (default <code>12rem</code>) on <code>.pa-kpi-bento</code>. Override per instance for taller or shorter tiles: <code>style="--pa-kpi-bento-row-height: 14rem"</code>. The three rows of the default layout share the same height (= total grid height is 3× the row variable), so the variable controls both the per-row tile height and the overall card body height.</p>
+        <p>The grid's row height is exposed as <code>--pc-kpi-bento-row-height</code> (default <code>12rem</code>) on <code>.pa-kpi-bento</code>. Override per instance for taller or shorter tiles: <code>style="--pc-kpi-bento-row-height: 14rem"</code>. The three rows of the default layout share the same height (= total grid height is 3× the row variable), so the variable controls both the per-row tile height and the overall card body height.</p>
 
         <h4 class="mt-4">Sparkline-behind-value layering</h4>
         <p>Each tile is an internal 2-row grid (<code>"label delta" / "value value"</code>). The value sits at the bottom-left layered over an absolutely-positioned chart underneath it (<code>z-index: 1</code> on the value, <code>z-index: 0</code> on the chart). The sparkline reads <em>through</em> behind the digits rather than living in its own column. Polygon fill is <code>opacity: 0.10</code> and polyline is <code>stroke-opacity: 0.55</code> so the chart doesn't compete with the headline number.</p>
@@ -1180,7 +1180,7 @@
     <div class="pa-card__body">
         <h4>Card structure</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-bento</code> — page-namespace class on <code>.pa-card</code>. Declares <code>--pa-kpi-bento-row-height</code> (default <code>12rem</code>).</li>
+            <li><code>pa-kpi-bento</code> — page-namespace class on <code>.pa-card</code>. Declares <code>--pc-kpi-bento-row-height</code> (default <code>12rem</code>).</li>
             <li><code>pa-kpi-header</code> — flex header with title + LIVE indicator.</li>
             <li><code>pa-kpi-live</code> / <code>pa-kpi-live__dot</code> — LIVE pill + animated dot.</li>
             <li><code>pa-kpi-bento__body</code> — card body with internal padding (the bento's outer breathing room).</li>
@@ -1196,20 +1196,20 @@
 
         <h4 class="mt-4">Layout CSS variables</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-kpi-bento-row-height</code> — row height for all three rows of the grid (default <code>12rem</code>). Override per instance via <code>style="--pa-kpi-bento-row-height: 14rem"</code>.</li>
+            <li><code>--pc-kpi-bento-row-height</code> — row height for all three rows of the grid (default <code>12rem</code>). Override per instance via <code>style="--pc-kpi-bento-row-height: 14rem"</code>.</li>
         </ul>
 
         <h4 class="mt-4">Tiles</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-bento-tile</code> — single tile (declares its own <code>container-type: inline-size</code> for cqi-relative typography). Carries <code>--pa-kpi-accent</code>.</li>
+            <li><code>pa-kpi-bento-tile</code> — single tile (declares its own <code>container-type: inline-size</code> for cqi-relative typography). Carries <code>--pc-kpi-accent</code>.</li>
             <li><code>pa-kpi-bento-tile--hero</code> — hero modifier: bigger value (<code>22cqi</code>), bigger min-height in collapsed mode.</li>
-            <li><code>pa-kpi-bento-tile--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> / <code>--down-strong</code> — sentiment modifiers setting <code>--pa-kpi-accent</code> on the tile.</li>
+            <li><code>pa-kpi-bento-tile--positive</code> / <code>--negative</code> / <code>--neutral</code> / <code>--up-strong</code> / <code>--down-strong</code> — sentiment modifiers setting <code>--pc-kpi-accent</code> on the tile.</li>
         </ul>
 
         <h4 class="mt-4">Tile content</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
             <li><code>pa-kpi-bento-tile__label</code> — uppercase mono caption (top-left of the internal 2-row grid).</li>
-            <li><code>pa-kpi-bento-tile__delta</code> — coloured Δ% (top-right; reads <code>--pa-kpi-accent</code>).</li>
+            <li><code>pa-kpi-bento-tile__delta</code> — coloured Δ% (top-right; reads <code>--pc-kpi-accent</code>).</li>
             <li><code>pa-kpi-bento-tile__value</code> — focal number row (bottom span of the tile, layered over the chart at <code>z-index: 1</code>).</li>
             <li><code>pa-kpi-bento-tile__num</code> / <code>pa-kpi-bento-tile__unit</code> — numeric + unit spans inside <code>__value</code>.</li>
             <li><code>pa-kpi-bento-tile__chart</code> — absolutely-positioned chart wrapper (<code>z-index: 0</code>, sits behind the value).</li>
@@ -1225,9 +1225,9 @@
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome.</li>
+            <li><code>--pc-very-positive</code> / <code>--pc-positive</code> / <code>--pc-neutral</code> / <code>--pc-negative</code> / <code>--pc-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pc-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pc-detail-bg</code> / <code>--pc-detail-text</code> / <code>--pc-detail-row-label</code> / <code>--pc-detail-title</code> / <code>--pc-detail-shadow</code> — popover chrome.</li>
         </ul>
     </div>
 </div>

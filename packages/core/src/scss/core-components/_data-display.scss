@@ -10,7 +10,7 @@
   padding: $field-copy-padding;
   background: transparent;
   border: none;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   cursor: pointer;
   transition: opacity $field-copy-transition, background $field-copy-transition;
 
@@ -69,7 +69,7 @@
       padding: $field-copy-padding;
       background: transparent;
       border: none;
-      border-radius: var(--pa-border-radius);
+      border-radius: var(--pc-border-radius);
       cursor: pointer;
       opacity: $field-copy-opacity;
       transition: opacity $field-copy-transition, background $field-copy-transition;
@@ -92,7 +92,7 @@
       }
 
       &::after {
-        content: var(--pa-copy-hint-text, 'Click to copy');
+        content: var(--pc-copy-hint-text, 'Click to copy');
         font-size: $font-size-2xs;
         opacity: 0;
         margin-inline-start: $spacing-sm; // RTL: flips to right
@@ -118,7 +118,7 @@
       padding: $field-copy-padding;
       background: transparent;
       border: none;
-      border-radius: var(--pa-border-radius);
+      border-radius: var(--pc-border-radius);
       cursor: pointer;
       opacity: 0;
       transition: opacity $field-copy-transition, background $field-copy-transition;
@@ -137,9 +137,9 @@
   // Copied feedback state
   &--copied {
     .pa-field__value::after {
-      content: var(--pa-copied-text, 'Copied!') !important;
+      content: var(--pc-copied-text, 'Copied!') !important;
       opacity: 1 !important;
-      color: var(--pa-success);
+      color: var(--pc-success);
     }
   }
 }
@@ -288,9 +288,9 @@
   // ------------------------------------------------------------------
   &--striped {
     .pa-field:nth-child(odd) {
-      background: var(--pa-table-stripe);
+      background: var(--pc-table-stripe);
       padding: $fields-bordered-padding;
-      border-radius: var(--pa-border-radius);
+      border-radius: var(--pc-border-radius);
     }
 
     .pa-field:nth-child(even) {
@@ -355,20 +355,20 @@
   &--filled {
     background: $fields-filled-bg;
     padding: $fields-filled-padding;
-    border-radius: var(--pa-border-radius);
+    border-radius: var(--pc-border-radius);
   }
 
   // ------------------------------------------------------------------
   // COLOR VARIANTS: theme colors for border and filled background
-  // Uses --pa-color-{1-9} CSS variables
+  // Uses --pc-color-{1-9} CSS variables
   // ------------------------------------------------------------------
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      border-left-color: var(--pa-color-#{$i});
+      border-left-color: var(--pc-color-#{$i});
 
       // When combined with --filled, tint the background
       &.pa-fields--filled {
-        background: color-mix(in srgb, var(--pa-color-#{$i}) 10%, transparent);
+        background: color-mix(in srgb, var(--pc-color-#{$i}) 10%, transparent);
       }
     }
   }
@@ -405,7 +405,7 @@
       letter-spacing: normal;
       opacity: 1;
       font-weight: $font-weight-normal;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
     }
 
     .pa-field__value {
@@ -413,7 +413,7 @@
       min-width: 0;
       font-size: $fields-linear-font-size;
       font-weight: $font-weight-medium;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
     }
   }
 
@@ -441,39 +441,39 @@
       letter-spacing: normal;
       opacity: 1;
       font-weight: $font-weight-normal;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
     }
 
     .pa-field__value {
       background: $fields-chips-value-bg;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       font-weight: $fields-chips-value-font-weight;
       padding: $fields-chips-value-padding-v $fields-chips-value-padding-h;
-      border-radius: var(--pa-border-radius);
+      border-radius: var(--pc-border-radius);
       font-size: $fields-chips-value-font-size;
 
       // Status chips use role colours. The framework reliably defines all
-      // four --pa-{role} and --pa-{role}-bg-light tokens, so no fallback
-      // needed. (Previous --pa-success-color refs were broken — they didn't
+      // four --pc-{role} and --pc-{role}-bg-light tokens, so no fallback
+      // needed. (Previous --pc-success-color refs were broken — they didn't
       // exist, so chips silently used the hardcoded RGB fallbacks below.)
       &--success {
-        background: var(--pa-success-bg-light);
-        color: var(--pa-success);
+        background: var(--pc-success-bg-light);
+        color: var(--pc-success);
       }
 
       &--warning {
-        background: var(--pa-warning-bg-light);
-        color: var(--pa-warning);
+        background: var(--pc-warning-bg-light);
+        color: var(--pc-warning);
       }
 
       &--danger {
-        background: var(--pa-danger-bg-light);
-        color: var(--pa-danger);
+        background: var(--pc-danger-bg-light);
+        color: var(--pc-danger);
       }
 
       &--info {
-        background: var(--pa-info-bg-light);
-        color: var(--pa-info);
+        background: var(--pc-info-bg-light);
+        color: var(--pc-info);
       }
     }
   }
@@ -496,8 +496,8 @@
 .pa-desc-table {
   display: grid;
   grid-template-columns: repeat($desc-table-cols, auto 1fr);
-  border: $border-width-thin solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  border: $border-width-thin solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
   overflow: hidden;
 
   &--cols-2 {
@@ -518,17 +518,17 @@
   &__label,
   &__value {
     padding: $desc-table-cell-padding-v $desc-table-cell-padding-h;
-    border-bottom: $border-width-thin solid var(--pa-border-color);
+    border-bottom: $border-width-thin solid var(--pc-border-color);
     font-size: $desc-table-font-size;
     line-height: $line-height-base;
   }
 
   &__label {
     background: $desc-table-label-bg;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-weight: $font-weight-normal;
     white-space: nowrap;
-    border-inline-end: $border-width-thin solid var(--pa-border-color);
+    border-inline-end: $border-width-thin solid var(--pc-border-color);
 
     &::after {
       content: ':';
@@ -537,9 +537,9 @@
   }
 
   &__value {
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     font-weight: $desc-table-value-font-weight;
-    border-inline-end: $border-width-thin solid var(--pa-border-color);
+    border-inline-end: $border-width-thin solid var(--pc-border-color);
     min-width: 0;
 
     &--full {
@@ -675,7 +675,7 @@
     }
 
     &::after {
-      content: var(--pa-copy-hint-text, 'Click to copy');
+      content: var(--pc-copy-hint-text, 'Click to copy');
       font-size: $font-size-2xs;
       opacity: 0;
       margin-inline-start: $spacing-sm;
@@ -688,9 +688,9 @@
   }
 
   &__value--copied::after {
-    content: var(--pa-copied-text, 'Copied!') !important;
+    content: var(--pc-copied-text, 'Copied!') !important;
     opacity: 1 !important;
-    color: var(--pa-success);
+    color: var(--pc-success);
   }
 }
 
@@ -712,21 +712,21 @@
     &--total {
       margin-top: $dot-leaders-total-margin-top;
       padding-top: $dot-leaders-total-padding-top;
-      border-top: $dot-leaders-total-border-width solid var(--pa-text-color-1);
+      border-top: $dot-leaders-total-border-width solid var(--pc-text-color-1);
     }
   }
 
   &__label {
     font-size: $dot-leaders-font-size;
     font-weight: $dot-leaders-label-font-weight;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     white-space: nowrap;
     flex-shrink: 0;
   }
 
   &__leader {
     flex: 1;
-    border-bottom: $dot-leaders-leader-width dotted var(--pa-border-color);
+    border-bottom: $dot-leaders-leader-width dotted var(--pc-border-color);
     margin: 0 $dot-leaders-leader-margin;
     margin-bottom: 0.25em;
     min-width: $dot-leaders-leader-min-width;
@@ -735,7 +735,7 @@
   &__value {
     font-size: $dot-leaders-font-size;
     font-weight: $dot-leaders-value-font-weight;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     white-space: nowrap;
     text-align: end;
     font-variant-numeric: tabular-nums;
@@ -743,7 +743,7 @@
 
   &__item--total &__label {
     font-weight: $dot-leaders-total-font-weight;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &__item--total &__value {
@@ -758,8 +758,8 @@
 // ============================================================================
 
 .pa-prop-card {
-  border: $border-width-thin solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  border: $border-width-thin solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
   overflow: hidden;
 
   &__header {
@@ -768,9 +768,9 @@
     font-size: $prop-card-header-font-size;
     text-transform: uppercase;
     letter-spacing: $prop-card-header-letter-spacing;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     background: $prop-card-header-bg;
-    border-bottom: $border-width-thin solid var(--pa-border-color);
+    border-bottom: $border-width-thin solid var(--pc-border-color);
   }
 
   &__row {
@@ -788,13 +788,13 @@
   }
 
   &__label {
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-weight: $font-weight-normal;
     flex-shrink: 0;
   }
 
   &__value {
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     font-weight: $font-weight-medium;
     text-align: end;
     overflow-wrap: anywhere;
@@ -865,13 +865,13 @@
 // ============================================================================
 
 .pa-banded {
-  border: $border-width-thin solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  border: $border-width-thin solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
   overflow: hidden;
 
   &__row {
     display: flex;
-    border-bottom: $border-width-thin solid var(--pa-border-color);
+    border-bottom: $border-width-thin solid var(--pc-border-color);
     font-size: $banded-font-size;
     align-items: stretch;
 
@@ -885,9 +885,9 @@
     width: $banded-label-width;
     padding: $banded-label-padding-v $banded-label-padding-h;
     background: $banded-label-bg;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     font-weight: $banded-label-font-weight;
-    border-inline-end: $border-width-thin solid var(--pa-border-color);
+    border-inline-end: $border-width-thin solid var(--pc-border-color);
     display: flex;
     align-items: flex-start;
   }
@@ -895,7 +895,7 @@
   &__value {
     flex: 1;
     padding: $banded-value-padding-v $banded-value-padding-h;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     font-weight: $font-weight-normal;
     display: flex;
     align-items: flex-start;
@@ -939,7 +939,7 @@
     & &__label {
       width: auto !important;
       border-inline-end: none;
-      border-bottom: $border-width-thin solid var(--pa-border-color);
+      border-bottom: $border-width-thin solid var(--pc-border-color);
     }
 
     & &__label,
@@ -956,7 +956,7 @@
     & &__label {
       width: auto !important;
       border-inline-end: none;
-      border-bottom: $border-width-thin solid var(--pa-border-color);
+      border-bottom: $border-width-thin solid var(--pc-border-color);
     }
 
     & &__label,
@@ -1004,7 +1004,7 @@
     }
 
     &::after {
-      content: var(--pa-copy-hint-text, 'Click to copy');
+      content: var(--pc-copy-hint-text, 'Click to copy');
       font-size: $font-size-2xs;
       opacity: 0;
       margin-inline-start: $spacing-sm;
@@ -1017,9 +1017,9 @@
   }
 
   &__row--copied &__value::after {
-    content: var(--pa-copied-text, 'Copied!') !important;
+    content: var(--pc-copied-text, 'Copied!') !important;
     opacity: 1 !important;
-    color: var(--pa-success);
+    color: var(--pc-success);
   }
 }
 
@@ -1036,18 +1036,18 @@
   &__item {
     padding: $accent-grid-item-padding-v $accent-grid-item-padding-h;
     padding-inline-start: $accent-grid-item-padding-start;
-    border-inline-start: $accent-grid-border-width solid var(--pa-accent);
+    border-inline-start: $accent-grid-border-width solid var(--pc-accent);
 
-    &--success { border-inline-start-color: var(--pa-success); }
-    &--warning { border-inline-start-color: var(--pa-warning); }
-    &--danger  { border-inline-start-color: var(--pa-danger); }
-    &--info    { border-inline-start-color: var(--pa-info); }
+    &--success { border-inline-start-color: var(--pc-success); }
+    &--warning { border-inline-start-color: var(--pc-warning); }
+    &--danger  { border-inline-start-color: var(--pc-danger); }
+    &--info    { border-inline-start-color: var(--pc-info); }
   }
 
   &__label {
     font-size: $accent-grid-label-font-size;
     font-weight: $accent-grid-label-font-weight;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     margin-bottom: $accent-grid-label-margin-bottom;
     text-transform: uppercase;
     letter-spacing: $accent-grid-label-letter-spacing;
@@ -1056,7 +1056,7 @@
   &__value {
     font-size: $accent-grid-value-font-size;
     font-weight: $accent-grid-value-font-weight;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     line-height: $accent-grid-value-line-height;
   }
 
@@ -1101,7 +1101,7 @@
     }
 
     &::after {
-      content: var(--pa-copy-hint-text, 'Click to copy');
+      content: var(--pc-copy-hint-text, 'Click to copy');
       font-size: $font-size-2xs;
       opacity: 0;
       margin-inline-start: $spacing-sm;
@@ -1114,8 +1114,8 @@
   }
 
   &__item--copied &__value::after {
-    content: var(--pa-copied-text, 'Copied!') !important;
+    content: var(--pc-copied-text, 'Copied!') !important;
     opacity: 1 !important;
-    color: var(--pa-success);
+    color: var(--pc-success);
   }
 }

@@ -7,19 +7,19 @@
 
 // Local CSS variables for sidebar (runtime state, modified by JS for resize)
 :root {
-  --pa-local-sidebar-width: #{$sidebar-width};
-  --pa-local-sidebar-min-width: 18rem;
-  --pa-local-sidebar-max-width: 50rem;
+  --pc-local-sidebar-width: #{$sidebar-width};
+  --pc-local-sidebar-min-width: 18rem;
+  --pc-local-sidebar-max-width: 50rem;
 }
 
 // Sidebar layout element - width in :where() for low specificity (utility classes can override)
 :where(.pa-layout__sidebar) {
-  width: var(--pa-local-sidebar-width);
+  width: var(--pc-local-sidebar-width);
 }
 
 .pa-layout__sidebar {
-  background-color: var(--pa-sidebar-bg);
-  border-inline-end: $border-width-base solid var(--pa-border-color); // RTL: flips to border-left
+  background-color: var(--pc-sidebar-bg);
+  border-inline-end: $border-width-base solid var(--pc-border-color); // RTL: flips to border-left
   flex-shrink: 0;
   position: relative;
 }
@@ -127,7 +127,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     font-weight: $font-weight-semibold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--pa-sidebar-text-secondary);
+    color: var(--pc-sidebar-text-secondary);
     user-select: none;
 
     // First heading shouldn't push the whole nav down
@@ -145,7 +145,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     margin: $spacing-xs $spacing-base;
     padding: 0;
     border: 0;
-    border-top: $border-width-base solid var(--pa-border-color);
+    border-top: $border-width-base solid var(--pc-border-color);
     list-style: none;
   }
 
@@ -154,7 +154,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     align-items: center;
     gap: $sidebar-item-gap;
     padding: $sidebar-padding;
-    color: var(--pa-sidebar-text-secondary);
+    color: var(--pc-sidebar-text-secondary);
     text-decoration: none;
     font-weight: $font-weight-medium;
     border-inline-end: $border-width-thick solid transparent; // RTL: flips to border-left
@@ -164,14 +164,14 @@ body.pa-layout--sticky .pa-layout__sidebar {
     }
 
     &:hover {
-      color: var(--pa-sidebar-text);
-      background-color: var(--pa-accent-light);
+      color: var(--pc-sidebar-text);
+      background-color: var(--pc-accent-light);
     }
 
     &--active {
-      color: var(--pa-accent);
-      background-color: var(--pa-accent-hover);
-      border-inline-end-color: var(--pa-accent); // RTL: flips to border-left-color
+      color: var(--pc-accent);
+      background-color: var(--pc-accent-hover);
+      border-inline-end-color: var(--pc-accent); // RTL: flips to border-left-color
       font-weight: $font-weight-semibold;
     }
   }
@@ -196,10 +196,10 @@ body.pa-layout--sticky .pa-layout__sidebar {
     // a single axis).
     height: #{$base-input-size-md-height}rem;
     padding: 0 $spacing-base;
-    color: var(--pa-text-color-2);
-    background-color: var(--pa-input-bg);
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius);
+    color: var(--pc-text-color-2);
+    background-color: var(--pc-input-bg);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius);
     text-align: start; // RTL: flips to right
     font-weight: $font-weight-medium;
     cursor: pointer;
@@ -216,7 +216,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
 
     &:hover {
       border-color: $input-focus-border-color;
-      color: var(--pa-sidebar-text);
+      color: var(--pc-sidebar-text);
     }
 
     // Collapsed sidebar: drop the frame, icon-only, matching link padding so the
@@ -267,12 +267,12 @@ body.pa-layout--sticky .pa-layout__sidebar {
         border: none;
         outline: none;
         background: transparent;
-        color: var(--pa-sidebar-text);
+        color: var(--pc-sidebar-text);
         font: inherit;
         padding: 0;
 
         &::placeholder {
-          color: var(--pa-text-color-2);
+          color: var(--pc-text-color-2);
           opacity: $opacity-muted;
         }
 
@@ -300,7 +300,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     align-items: center;
     gap: $sidebar-item-gap;
     padding: $sidebar-padding;
-    color: var(--pa-sidebar-text-secondary);
+    color: var(--pc-sidebar-text-secondary);
     background: none;
     border: none;
     width: 100%;
@@ -313,13 +313,13 @@ body.pa-layout--sticky .pa-layout__sidebar {
     }
 
     &:hover {
-      color: var(--pa-sidebar-text);
-      background-color: var(--pa-accent-light);
+      color: var(--pc-sidebar-text);
+      background-color: var(--pc-accent-light);
     }
 
     &--active {
-      color: var(--pa-accent);
-      background-color: var(--pa-accent-hover);
+      color: var(--pc-accent);
+      background-color: var(--pc-accent-hover);
     }
   }
 
@@ -354,7 +354,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     margin: 0;
     padding: 0;
     display: none;
-    background-color: var(--pa-sidebar-submenu-bg);
+    background-color: var(--pc-sidebar-submenu-bg);
 
     &--open {
       display: block;
@@ -368,13 +368,13 @@ body.pa-layout--sticky .pa-layout__sidebar {
     border-inline-end: $border-width-medium solid transparent; // RTL: flips to border-left
 
     &:hover {
-      background-color: var(--pa-sidebar-submenu-hover-bg);
+      background-color: var(--pc-sidebar-submenu-hover-bg);
     }
 
     &--active {
-      background-color: var(--pa-sidebar-submenu-active-bg);
-      color: var(--pa-sidebar-submenu-active-text);
-      border-inline-end-color: var(--pa-accent); // RTL: flips to border-left-color
+      background-color: var(--pc-sidebar-submenu-active-bg);
+      color: var(--pc-sidebar-submenu-active-text);
+      border-inline-end-color: var(--pc-accent); // RTL: flips to border-left-color
     }
   }
 
@@ -391,7 +391,7 @@ body.pa-layout--sticky .pa-layout__sidebar {
     border-inline-end: $border-width-base solid transparent; // RTL: flips to border-left
 
     &--active {
-      border-inline-end-color: var(--pa-accent); // RTL: flips to border-left-color
+      border-inline-end-color: var(--pc-accent); // RTL: flips to border-left-color
     }
   }
 

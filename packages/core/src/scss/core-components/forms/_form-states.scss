@@ -7,31 +7,31 @@
 // Input States
 .pa-input--error,
 .pa-select--error {
-  border-color: var(--pa-danger-bg);
+  border-color: var(--pc-danger-bg);
 
   &:focus {
-    border-color: var(--pa-danger-bg);
-    box-shadow: 0 0 0 $focus-ring-width var(--pa-danger-bg-light);
+    border-color: var(--pc-danger-bg);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-danger-bg-light);
   }
 }
 
 .pa-input--success,
 .pa-select--success {
-  border-color: var(--pa-success-bg);
+  border-color: var(--pc-success-bg);
 
   &:focus {
-    border-color: var(--pa-success-bg);
-    box-shadow: 0 0 0 $focus-ring-width var(--pa-success-bg-light);
+    border-color: var(--pc-success-bg);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-success-bg-light);
   }
 }
 
 .pa-input--warning,
 .pa-select--warning {
-  border-color: var(--pa-warning-bg);
+  border-color: var(--pc-warning-bg);
 
   &:focus {
-    border-color: var(--pa-warning-bg);
-    box-shadow: 0 0 0 $focus-ring-width var(--pa-warning-bg-light);
+    border-color: var(--pc-warning-bg);
+    box-shadow: 0 0 0 $focus-ring-width var(--pc-warning-bg-light);
   }
 }
 
@@ -39,11 +39,11 @@
 .pa-form-group--error {
   .pa-input,
   .pa-select {
-    border-color: var(--pa-danger-bg);
+    border-color: var(--pc-danger-bg);
 
     &:focus {
-      border-color: var(--pa-danger-bg);
-      box-shadow: 0 0 0 $focus-ring-width var(--pa-danger-bg-light);
+      border-color: var(--pc-danger-bg);
+      box-shadow: 0 0 0 $focus-ring-width var(--pc-danger-bg-light);
     }
   }
 }
@@ -51,11 +51,11 @@
 .pa-form-group--success {
   .pa-input,
   .pa-select {
-    border-color: var(--pa-success-bg);
+    border-color: var(--pc-success-bg);
 
     &:focus {
-      border-color: var(--pa-success-bg);
-      box-shadow: 0 0 0 $focus-ring-width var(--pa-success-bg-light);
+      border-color: var(--pc-success-bg);
+      box-shadow: 0 0 0 $focus-ring-width var(--pc-success-bg-light);
     }
   }
 }
@@ -63,11 +63,11 @@
 .pa-form-group--warning {
   .pa-input,
   .pa-select {
-    border-color: var(--pa-warning-bg);
+    border-color: var(--pc-warning-bg);
 
     &:focus {
-      border-color: var(--pa-warning-bg);
-      box-shadow: 0 0 0 $focus-ring-width var(--pa-warning-bg-light);
+      border-color: var(--pc-warning-bg);
+      box-shadow: 0 0 0 $focus-ring-width var(--pc-warning-bg-light);
     }
   }
 }
@@ -78,39 +78,39 @@
   // Gap between a control and its help / error text.
   margin-top: var(--pc-help-gap, #{$form-help-margin-top});
   font-size: $font-size-xs;
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
 
   &--error {
-    color: var(--pa-danger-bg);
+    color: var(--pc-danger-bg);
   }
 
   &--success {
-    color: var(--pa-success-bg);
+    color: var(--pc-success-bg);
   }
 
   &--warning {
-    color: var(--pa-warning-bg);
+    color: var(--pc-warning-bg);
   }
 }
 
 // Theme Color Variants for Help Text (color-1 through color-9)
 @for $i from 1 through 9 {
   .pa-form-help--color-#{$i} {
-    color: var(--pa-color-#{$i});
+    color: var(--pc-color-#{$i});
   }
 }
 
 // Theme Color Variants for Inputs (color-1 through color-9)
-// These use theme-customizable colors from --pa-color-* CSS variables
+// These use theme-customizable colors from --pc-color-* CSS variables
 @for $i from 1 through 9 {
   .pa-input--color-#{$i},
   .pa-select--color-#{$i},
   .pa-textarea--color-#{$i} {
-    border-color: var(--pa-color-#{$i});
+    border-color: var(--pc-color-#{$i});
 
     &:focus {
-      border-color: var(--pa-color-#{$i});
-      box-shadow: 0 0 0 $focus-ring-width color-mix(in srgb, var(--pa-color-#{$i}) 25%, transparent);
+      border-color: var(--pc-color-#{$i});
+      box-shadow: 0 0 0 $focus-ring-width color-mix(in srgb, var(--pc-color-#{$i}) 25%, transparent);
     }
   }
 }

@@ -291,6 +291,80 @@
                 </div>
             </div>
 
+<!-- Per-tab width: real-world example (User / Order / Invoice / Packages / Deliveries) -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Per-Tab Width &mdash; Real-World Example</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <div class="pa-alert pa-alert--info">
+                        A mixed label set like <em>User / Order / Invoice / Packages / Deliveries and returns</em> has a
+                        too-narrow first tab and a too-wide last one. Give every tab a <code>minwr-*</code> floor so the
+                        short ones stop looking cramped, and cap the long one with <code>maxwr-*</code> (plus
+                        <code>pa-tabs--wrap-labels</code> so it wraps) &mdash; the row then stays tidy and level.
+                    </div>
+
+                    <h4>Floor every tab at 8rem (<code>minwr-8</code>), cap + wrap the long one (<code>maxwr-15</code>)</h4>
+                    <div class="pa-tabs pa-tabs--wrap-labels">
+                        <button class="pa-tabs__item minwr-8 pa-tabs__item--active" onclick="switchTab(this, 'rw-tab-1')">User</button>
+                        <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'rw-tab-2')">Order</button>
+                        <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'rw-tab-3')">Invoice</button>
+                        <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'rw-tab-4')">Packages</button>
+                        <button class="pa-tabs__item minwr-8 maxwr-15" onclick="switchTab(this, 'rw-tab-5')">Deliveries and returns</button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="rw-tab-1"><h4>User</h4><p>Account holder details.</p></div>
+                        <div class="pa-tabs__panel" id="rw-tab-2"><h4>Order</h4><p>Order summary and line items.</p></div>
+                        <div class="pa-tabs__panel" id="rw-tab-3"><h4>Invoice</h4><p>Billing and payment status.</p></div>
+                        <div class="pa-tabs__panel" id="rw-tab-4"><h4>Packages</h4><p>Parcels in this shipment.</p></div>
+                        <div class="pa-tabs__panel" id="rw-tab-5"><h4>Deliveries and returns</h4><p>Tracking, delivery attempts and returns &mdash; the long tab wraps to two lines while the short tabs hold their 8rem floor and stretch to match its height.</p></div>
+                    </div>
+
+                    <h4 style="margin-top: 1.5rem;">Prefer one line? Drop <code>--wrap-labels</code> and let the long tab grow past the floor</h4>
+                    <div class="pa-tabs">
+                        <button class="pa-tabs__item minwr-8 pa-tabs__item--active" onclick="switchTab(this, 'rw1-tab-1')">User</button>
+                        <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'rw1-tab-2')">Order</button>
+                        <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'rw1-tab-3')">Invoice</button>
+                        <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'rw1-tab-4')">Packages</button>
+                        <button class="pa-tabs__item minwr-8" onclick="switchTab(this, 'rw1-tab-5')">Deliveries and returns</button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="rw1-tab-1"><p>Same 8rem floor, no cap &mdash; the four short tabs are uniform and only &ldquo;Deliveries and returns&rdquo; grows to fit its text.</p></div>
+                        <div class="pa-tabs__panel" id="rw1-tab-2"><p>Order.</p></div>
+                        <div class="pa-tabs__panel" id="rw1-tab-3"><p>Invoice.</p></div>
+                        <div class="pa-tabs__panel" id="rw1-tab-4"><p>Packages.</p></div>
+                        <div class="pa-tabs__panel" id="rw1-tab-5"><p>Deliveries and returns.</p></div>
+                    </div>
+
+                    <h4 style="margin-top: 1.5rem;">Center the label inside each tab &mdash; add <code>justify-content-center</code> to the item</h4>
+                    <div class="pa-tabs pa-tabs--wrap-labels">
+                        <button class="pa-tabs__item minwr-8 justify-content-center pa-tabs__item--active" onclick="switchTab(this, 'rwc-tab-1')">User</button>
+                        <button class="pa-tabs__item minwr-8 justify-content-center" onclick="switchTab(this, 'rwc-tab-2')">Order</button>
+                        <button class="pa-tabs__item minwr-8 justify-content-center" onclick="switchTab(this, 'rwc-tab-3')">Invoice</button>
+                        <button class="pa-tabs__item minwr-8 justify-content-center" onclick="switchTab(this, 'rwc-tab-4')">Packages</button>
+                        <button class="pa-tabs__item minwr-8 maxwr-15 justify-content-center" onclick="switchTab(this, 'rwc-tab-5')">Deliveries and returns</button>
+                    </div>
+                    <div class="pa-tabs__content">
+                        <div class="pa-tabs__panel pa-tabs__panel--active" id="rwc-tab-1"><p>Same floored tabs, but the label is centered within each tab instead of start-aligned.</p></div>
+                        <div class="pa-tabs__panel" id="rwc-tab-2"><p>Order.</p></div>
+                        <div class="pa-tabs__panel" id="rwc-tab-3"><p>Invoice.</p></div>
+                        <div class="pa-tabs__panel" id="rwc-tab-4"><p>Packages.</p></div>
+                        <div class="pa-tabs__panel" id="rwc-tab-5"><p>Deliveries and returns.</p></div>
+                    </div>
+
+                    <div class="pa-alert pa-alert--info" style="margin-top: 1rem;">
+                        <strong>Note:</strong> when a tab is wider than its text (via <code>minwr-*</code>/<code>wr-*</code>),
+                        the label is <em>start-aligned</em> by default. Add the <code>justify-content-center</code> utility
+                        &mdash; the tab item is a flexbox &mdash; to center it (or <code>justify-content-end</code> to
+                        end-align). That utility ships in <code>@keenmate/pure-css</code>. It is <em>not</em> the same as
+                        <code>pa-tabs--centered</code>, which centers the whole tab group within the bar rather than the
+                        label inside each tab.
+                    </div>
+                </div>
+            </div>
+
             <!-- Two Column Grid: Pills Style + Pills with Icons -->
             <div class="pc-row">
                 <div class="pc-col-100 pc-col-md-50">
@@ -441,6 +515,54 @@
                                 <div class="pa-tabs__panel" id="boxed-tab-3">
                                     <p>Pull request reviews and merges.</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vertical Tabs - Minimum Rail Width -->
+            <div class="pa-card">
+                <div class="pa-card__header">
+                    <div class="pa-card__title">
+                        <h3 class="pa-card__title-text">Vertical Tabs &mdash; Minimum Rail Width</h3>
+                    </div>
+                </div>
+                <div class="pa-card__body">
+                    <p class="mb-4">
+                        By default the vertical tab rail sizes to its content, so short labels make a narrow column.
+                        Add a min-width utility to <code>.pa-tabs--vertical</code> to keep the rail a consistent width &mdash;
+                        handy for settings-style navigation. Here the rail uses <code>minwr-20</code>
+                        (<code>min-width: 20rem</code>); swap for <code>minwr-15</code> / <code>minwr-25</code> to taste,
+                        or <code>minw-25</code> for a percentage. These utilities ship in <code>@keenmate/pure-css</code>.
+                    </p>
+                    <div class="pa-tabs__vertical-layout">
+                        <div class="pa-tabs pa-tabs--vertical minwr-20">
+                            <button class="pa-tabs__item pa-tabs__item--active" onclick="switchTab(this, 'vmin-tab-1')">
+                                <i class="fa-solid fa-user"></i>
+                                <span>Profile</span>
+                            </button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'vmin-tab-2')">
+                                <i class="fa-solid fa-lock"></i>
+                                <span>Privacy</span>
+                            </button>
+                            <button class="pa-tabs__item" onclick="switchTab(this, 'vmin-tab-3')">
+                                <i class="fa-solid fa-plug"></i>
+                                <span>Integrations</span>
+                            </button>
+                        </div>
+                        <div class="pa-tabs__content" style="flex: 1;">
+                            <div class="pa-tabs__panel pa-tabs__panel--active" id="vmin-tab-1">
+                                <h4>Profile</h4>
+                                <p>The rail stays at least <code>20rem</code> wide no matter how short the labels are.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="vmin-tab-2">
+                                <h4>Privacy</h4>
+                                <p>Short labels no longer collapse the tab column to a cramped width.</p>
+                            </div>
+                            <div class="pa-tabs__panel" id="vmin-tab-3">
+                                <h4>Integrations</h4>
+                                <p>Pair with <code>maxwr-*</code> to also cap the rail, or drop the min-width to let it hug content.</p>
                             </div>
                         </div>
                     </div>

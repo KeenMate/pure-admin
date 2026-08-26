@@ -10,15 +10,15 @@
   align-items: center;
   gap: $spacing-xs;
   padding: $spacing-xs $spacing-sm;
-  background-color: var(--pa-btn-secondary-bg);
-  color: var(--pa-btn-secondary-text);
+  background-color: var(--pc-btn-secondary-bg);
+  color: var(--pc-btn-secondary-text);
   font-size: $font-size-xs;
 
   line-height: 1;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   border: $border-width-base solid transparent;
   transition: all $transition-fast $easing-snappy;
 
@@ -55,56 +55,56 @@
 
   // Color variations
   &--primary {
-    background-color: var(--pa-btn-primary-bg);
-    color: var(--pa-btn-primary-text);
-    border-color: var(--pa-btn-primary-bg);
+    background-color: var(--pc-btn-primary-bg);
+    color: var(--pc-btn-primary-text);
+    border-color: var(--pc-btn-primary-bg);
   }
 
   &--secondary {
-    background-color: var(--pa-btn-secondary-bg);
-    color: var(--pa-btn-secondary-text);
-    border-color: var(--pa-btn-secondary-bg);
+    background-color: var(--pc-btn-secondary-bg);
+    color: var(--pc-btn-secondary-text);
+    border-color: var(--pc-btn-secondary-bg);
   }
 
   &--success {
-    background-color: var(--pa-btn-success-bg);
-    color: var(--pa-btn-success-text);
-    border-color: var(--pa-btn-success-bg);
+    background-color: var(--pc-btn-success-bg);
+    color: var(--pc-btn-success-text);
+    border-color: var(--pc-btn-success-bg);
   }
 
   &--warning {
-    background-color: var(--pa-btn-warning-bg);
-    color: var(--pa-btn-warning-text);
-    border-color: var(--pa-btn-warning-bg);
+    background-color: var(--pc-btn-warning-bg);
+    color: var(--pc-btn-warning-text);
+    border-color: var(--pc-btn-warning-bg);
   }
 
   &--danger {
-    background-color: var(--pa-btn-danger-bg);
-    color: var(--pa-btn-danger-text);
-    border-color: var(--pa-btn-danger-bg);
+    background-color: var(--pc-btn-danger-bg);
+    color: var(--pc-btn-danger-text);
+    border-color: var(--pc-btn-danger-bg);
   }
 
   &--info {
-    background-color: var(--pa-btn-info-bg);
-    color: var(--pa-btn-info-text);
-    border-color: var(--pa-btn-info-bg);
+    background-color: var(--pc-btn-info-bg);
+    color: var(--pc-btn-info-text);
+    border-color: var(--pc-btn-info-bg);
   }
 
   &--light {
-    background-color: var(--pa-btn-light-bg);
-    color: var(--pa-btn-light-text);
-    border-color: var(--pa-btn-light-bg);
+    background-color: var(--pc-btn-light-bg);
+    color: var(--pc-btn-light-text);
+    border-color: var(--pc-btn-light-bg);
   }
 
   &--dark {
-    background-color: var(--pa-btn-dark-bg);
-    color: var(--pa-btn-dark-text);
-    border-color: var(--pa-btn-dark-bg);
+    background-color: var(--pc-btn-dark-bg);
+    color: var(--pc-btn-dark-text);
+    border-color: var(--pc-btn-dark-bg);
   }
 
   // Theme color slot variants (color-1 through color-9).
-  // Mirrors the alert / button / card --color-N pairs: --pa-color-N paints the
-  // background while --pa-color-N-text supplies a guaranteed-contrasting label,
+  // Mirrors the alert / button / card --color-N pairs: --pc-color-N paints the
+  // background while --pc-color-N-text supplies a guaranteed-contrasting label,
   // so a theme-slot badge can never land dark-text-on-dark. This is the blessed
   // element for a numeric theme-colour badge — before it existed, wrappers
   // (svelte-pure-admin, keen-pure-admin) improvised with the generic
@@ -113,9 +113,9 @@
   // the filled half of the alert pattern is mirrored.
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      background-color: var(--pa-color-#{$i});
-      color: var(--pa-color-#{$i}-text);
-      border-color: var(--pa-color-#{$i});
+      background-color: var(--pc-color-#{$i});
+      color: var(--pc-color-#{$i}-text);
+      border-color: var(--pc-color-#{$i});
     }
   }
 

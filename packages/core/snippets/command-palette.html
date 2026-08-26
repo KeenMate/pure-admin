@@ -221,9 +221,9 @@
 For an arbitrary size, override the runtime CSS variables instead of using a
 preset (they fall back to the SCSS defaults, so no recompile needed):
   .pa-command-palette {
-    --pa-command-palette-width: 70rem;
-    --pa-command-palette-offset-top: 8rem;
-    --pa-command-palette-results-max-height: 50vh;
+    --pc-command-palette-width: 70rem;
+    --pc-command-palette-offset-top: 8rem;
+    --pc-command-palette-results-max-height: 50vh;
   }
 -->
 
@@ -381,13 +381,13 @@ PALETTE SHELL (pa-command-palette):
                                         xl 89.6/64rem); default 60.8/38.4rem.
 - .pa-command-palette__backdrop         Blurred fullscreen backdrop; fadeIn animated.
 - .pa-command-palette__container        Centred card holding the UI. max-width is
-                                        var(--pa-command-palette-width) with the
+                                        var(--pc-command-palette-width) with the
                                         $command-palette-width SCSS default as
                                         fallback; slideDown animation on open.
 
 Runtime size knobs (override to resize without a recompile; each falls back to
-its SCSS default): --pa-command-palette-width, --pa-command-palette-offset-top,
---pa-command-palette-results-max-height.
+its SCSS default): --pc-command-palette-width, --pc-command-palette-offset-top,
+--pc-command-palette-results-max-height.
 
 MOBILE FULLSCREEN SHEET (all JS-managed — added by the palette driver via
 pureAdmin.device classification, NOT a width media query: a narrowed DESKTOP
@@ -424,7 +424,7 @@ SEARCH ROW:
 
 RESULTS ZONE (swap contents inside __results):
 - .pa-command-palette__results          Scrollable results container. max-height
-                                        is var(--pa-command-palette-results-max-
+                                        is var(--pc-command-palette-results-max-
                                         height), clamped to the viewport so the
                                         footer never scrolls off a short window;
                                         drops to 60vh under mobile breakpoint.

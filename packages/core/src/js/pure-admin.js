@@ -201,12 +201,12 @@
     }
 
     // mobileBreakpoint (px) — SINGLE-SOURCED from SCSS $mobile-breakpoint via the
-    // --pa-mobile-breakpoint CSS var (see _layout-responsive.scss), not a JS
+    // --pc-mobile-breakpoint CSS var (see _layout-responsive.scss), not a JS
     // literal. Honour an explicit consumer override; else derive from CSS; else
     // 768. A blocking theme/main <link> precedes this script, so the var is
     // readable by the time this runs.
     if (cfg.mobileBreakpoint == null) {
-      cfg.mobileBreakpoint = readCssNumber('--pa-mobile-breakpoint', 768);
+      cfg.mobileBreakpoint = readCssNumber('--pc-mobile-breakpoint', 768);
     }
 
     // typingDebounceDelay (ms) — debounce for search / autocomplete / filter
@@ -228,16 +228,16 @@
     }
 
     // transition.* (ms) + easing — MIRROR the SCSS motion scale via the
-    // --pa-transition-* / --pa-easing-snappy CSS vars, for the rare JS that must
+    // --pc-transition-* / --pc-easing-snappy CSS vars, for the rare JS that must
     // sequence on a CSS transition (e.g. act after a drawer slide) instead of
     // hardcoding a magic ms. CSS stays the source of truth.
     cfg.transition = cfg.transition || {};
     fillDefaults(cfg.transition, {
-      fast: readCssMs('--pa-transition-fast', 100),
-      normal: readCssMs('--pa-transition-normal', 150),
-      medium: readCssMs('--pa-transition-medium', 250),
-      slow: readCssMs('--pa-transition-slow', 300),
-      easing: readCssString('--pa-easing-snappy', 'ease-out')
+      fast: readCssMs('--pc-transition-fast', 100),
+      normal: readCssMs('--pc-transition-normal', 150),
+      medium: readCssMs('--pc-transition-medium', 250),
+      slow: readCssMs('--pc-transition-slow', 300),
+      easing: readCssString('--pc-easing-snappy', 'ease-out')
     });
 
     // toast.* — defaults for pureAdmin.toast, relocated here from

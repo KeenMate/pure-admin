@@ -274,8 +274,8 @@ Sizes: `0`, `xs`, `sm`, `md`, `base`, `lg`, `xl`, `2xl`, `auto`
 - `.pa-card__footer` - Card footer
 - **Semantic variants:** `.pa-card--primary/success/danger/warning`
 - **Theme color variants:** `.pa-card--color-1` through `.pa-card--color-9`
-  - Uses `--pa-color-N` for header background and border
-  - Text color automatically adjusts via `--pa-color-N-text` for readability
+  - Uses `--pc-color-N` for header background and border
+  - Text color automatically adjusts via `--pc-color-N-text` for readability
 - `.pa-card--ghost` - Invisible container (no background, border, or shadow) — layout wrapper only
 - `.pa-card--stat` - Compact padding for stat cards
 - **Live-data states** (persistent tinted background for real-time dashboards):
@@ -405,7 +405,7 @@ macOS Spotlight-style search with multi-step commands, context search, and globa
 
 **Context Label** — `__context` element shows the active command name (e.g., "Assign to User") or search context (e.g., "Searching in Products"). Positioned inside `__input-wrapper` relative to the input.
 
-**Search Highlighting** — Matching text in result titles is wrapped in `<mark>` elements, styled with `--pa-command-palette-highlight-bg` and `--pa-command-palette-highlight-text`. Highlights persist during keyboard navigation.
+**Search Highlighting** — Matching text in result titles is wrapped in `<mark>` elements, styled with `--pc-command-palette-highlight-bg` and `--pc-command-palette-highlight-text`. Highlights persist during keyboard navigation.
 
 **Keyboard:** `↑↓` navigate, `Enter`/`Tab` select (or submit free text), `Esc` close, `Alt+key` command hotkeys.
 
@@ -429,7 +429,7 @@ macOS Spotlight-style search with multi-step commands, context search, and globa
 - `.pa-command-palette__item-title` - Title (supports `<mark>` for highlights)
 - `.pa-command-palette__item-meta` - Subtitle/metadata (shows `[code]` prefix when present)
 - `.pa-command-palette__shortcut` - Hotkey badge group (flex container)
-- `.pa-command-palette__key` - Keyboard key badge (themeable via `--pa-command-palette-key-bg/key-text`)
+- `.pa-command-palette__key` - Keyboard key badge (themeable via `--pc-command-palette-key-bg/key-text`)
 - `.pa-command-palette__token-prompt` - Step prompt text between token badges
 - `.pa-command-palette__footer` - Keyboard hints bar
 - `.pa-command-palette__empty` - Empty state message
@@ -449,7 +449,7 @@ macOS Spotlight-style search with multi-step commands, context search, and globa
 - `.pa-tooltip--top/end/bottom/start` - Positioning (RTL-aware: end = right in LTR, left in RTL)
 - `.pa-tooltip--primary/success/warning/danger` - Semantic variants
 - `.pa-tooltip--color-1` through `.pa-tooltip--color-9` - Theme color variants
-  - Text color automatically adjusts via `--pa-color-N-text` for readability
+  - Text color automatically adjusts via `--pc-color-N-text` for readability
 - `.pa-tooltip--multiline` - Multiline tooltips
 - `.pa-popover` - Base popover (requires JavaScript)
 - `.pa-popover--sm/md/lg` - Sizes
@@ -676,8 +676,8 @@ Wrap data display components in these containers to enable responsive behavior b
 - `.pa-text-color-1` through `.pa-text-color-9` - Text color slots
 - `.pa-border-color-1` through `.pa-border-color-9` - Border color slots
 - **CSS Variables:**
-  - `--pa-color-1` through `--pa-color-9` - Background colors (theme-defined)
-  - `--pa-color-1-text` through `--pa-color-9-text` - Contrast text colors for readability on colored backgrounds
+  - `--pc-color-1` through `--pc-color-9` - Background colors (theme-defined)
+  - `--pc-color-1-text` through `--pc-color-9-text` - Contrast text colors for readability on colored backgrounds
 
 ## SCSS Variables
 

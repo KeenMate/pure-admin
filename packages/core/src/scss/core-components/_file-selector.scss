@@ -27,7 +27,7 @@
 
   &__filename {
     font-size: $font-size-sm;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -38,21 +38,21 @@
 .pa-file-dropzone {
   position: relative;
   border: 3.2px dashed $border-color;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   padding: $spacing-xl;
   text-align: center;
   transition: all $transition-fast $easing-snappy;
-  background: var(--pa-input-bg);
+  background: var(--pc-input-bg);
   cursor: pointer;
 
   &:hover {
-    border-color: var(--pa-accent);
-    background: color-mix(in srgb, var(--pa-accent) 5%, transparent);
+    border-color: var(--pc-accent);
+    background: color-mix(in srgb, var(--pc-accent) 5%, transparent);
   }
 
   &--active {
-    border-color: var(--pa-accent);
-    background: color-mix(in srgb, var(--pa-accent) 10%, transparent);
+    border-color: var(--pc-accent);
+    background: color-mix(in srgb, var(--pc-accent) 10%, transparent);
     border-style: solid;
   }
 
@@ -78,18 +78,18 @@
 
   &__text {
     font-size: $font-size-base;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     margin-bottom: $spacing-xs;
 
     strong {
-      color: var(--pa-accent);
+      color: var(--pc-accent);
       font-weight: $font-weight-semibold;
     }
   }
 
   &__hint {
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   // Compact mode: Files inside dropzone
@@ -99,7 +99,7 @@
     margin: (-$spacing-xl) (-$spacing-xl) $spacing-md (-$spacing-xl);
     text-align: center;
     font-size: $font-size-sm;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
 
     &-icon {
       display: inline-block;
@@ -120,15 +120,15 @@
     flex-direction: column;
     align-items: center;
     padding: $spacing-sm;
-    border: $border-width-base solid var(--pa-border-color);
-    border-radius: var(--pa-border-radius-sm);
-    background: var(--pa-card-bg);
+    border: $border-width-base solid var(--pc-border-color);
+    border-radius: var(--pc-border-radius-sm);
+    background: var(--pc-card-bg);
     position: relative;
     cursor: default;
     transition: all $transition-fast $easing-snappy;
 
     &:hover {
-      border-color: var(--pa-accent);
+      border-color: var(--pc-accent);
       box-shadow: 0 1.6px 4.8px rgba(0, 0, 0, 0.1);
     }
 
@@ -139,7 +139,7 @@
 
     &-name {
       font-size: $font-size-2xs;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -149,7 +149,7 @@
 
     &-size {
       font-size: $font-size-2xs;
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       margin-top: $spacing-xs;
     }
 
@@ -160,7 +160,7 @@
       width: 2rem;
       height: 2rem;
       border: none;
-      background: var(--pa-danger);
+      background: var(--pc-danger);
       color: #ffffff;
       cursor: pointer;
       border-radius: 50%;
@@ -183,7 +183,7 @@
 
     &-remove:hover {
       transform: scale(1.1);
-      background: color-mix(in srgb, var(--pa-danger) 90%, transparent);
+      background: color-mix(in srgb, var(--pc-danger) 90%, transparent);
     }
   }
 
@@ -191,9 +191,9 @@
   &__image-card {
     position: relative;
     aspect-ratio: 1;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     overflow: hidden;
-    border: $border-width-base solid var(--pa-border-color);
+    border: $border-width-base solid var(--pc-border-color);
     cursor: default;
 
     img {
@@ -231,7 +231,7 @@
     }
 
     &-remove:hover {
-      background: var(--pa-danger);
+      background: var(--pc-danger);
       transform: scale(1.1);
     }
   }
@@ -242,18 +242,18 @@
     border: none;
     background: transparent;
     font-size: $font-size-base;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
 
     &-line {
       display: inline-block;
       margin-bottom: 0;
       padding: $spacing-xs $spacing-sm;
-      border-radius: var(--pa-border-radius-sm);
+      border-radius: var(--pc-border-radius-sm);
       cursor: pointer;
       transition: background-color $transition-fast $easing-snappy;
 
       &:hover {
-        background-color: color-mix(in srgb, var(--pa-accent) 10%, transparent);
+        background-color: color-mix(in srgb, var(--pc-accent) 10%, transparent);
       }
 
       &:not(:last-child)::after {
@@ -267,11 +267,11 @@
 
     &-count {
       font-weight: $font-weight-medium;
-      color: var(--pa-accent);
+      color: var(--pc-accent);
     }
 
     &-size {
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
       font-weight: normal;
     }
 
@@ -279,7 +279,7 @@
       display: block;
       margin-top: $spacing-xs;
       font-style: italic;
-      color: var(--pa-text-color-1);
+      color: var(--pc-text-color-1);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -297,9 +297,9 @@
   top: 0;
   left: 0;
   z-index: 10000;
-  background: var(--pa-card-bg);
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  background: var(--pc-card-bg);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
   box-shadow: 0 6.4px 32px rgba(0, 0, 0, 0.15);
   max-width: 80rem;
   width: 90vw;
@@ -311,9 +311,9 @@
     position: absolute;
     width: 12.8px;
     height: 12.8px;
-    background: var(--pa-card-bg);
+    background: var(--pc-card-bg);
     transform: rotate(45deg);
-    border: $border-width-base solid var(--pa-border-color);
+    border: $border-width-base solid var(--pc-border-color);
     z-index: -1;
 
     &[data-popper-arrow] {
@@ -323,7 +323,7 @@
 
   &__header {
     padding: $spacing-md $spacing-lg;
-    border-bottom: $border-width-base solid var(--pa-border-color);
+    border-bottom: $border-width-base solid var(--pc-border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -332,7 +332,7 @@
   &__title {
     font-size: $font-size-base;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   &__close {
@@ -340,9 +340,9 @@
     height: 2.4rem;
     border: none;
     background: transparent;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     cursor: pointer;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     font-size: $font-size-xl;
     line-height: 1;
     transition: all $transition-fast $easing-snappy;
@@ -351,8 +351,8 @@
     justify-content: center;
 
     &:hover {
-      background: color-mix(in srgb, var(--pa-text-color-2) 10%, transparent);
-      color: var(--pa-text-color-1);
+      background: color-mix(in srgb, var(--pc-text-color-2) 10%, transparent);
+      color: var(--pc-text-color-1);
     }
   }
 
@@ -370,15 +370,15 @@
     thead {
       position: sticky;
       top: 0;
-      background: var(--pa-card-bg);
+      background: var(--pc-card-bg);
       z-index: 1;
     }
 
     th {
       text-align: start; // RTL: flips to right
       padding: $spacing-xs $spacing-sm;
-      border-bottom: $border-width-base solid var(--pa-border-color);
-      color: var(--pa-text-color-2);
+      border-bottom: $border-width-base solid var(--pc-border-color);
+      color: var(--pc-text-color-2);
       font-weight: $font-weight-semibold;
       font-size: $font-size-xs;
       text-transform: uppercase;
@@ -386,17 +386,17 @@
 
     td {
       padding: $spacing-xs $spacing-sm;
-      border-bottom: $border-width-base solid var(--pa-border-color);
-      color: var(--pa-text-color-1);
+      border-bottom: $border-width-base solid var(--pc-border-color);
+      color: var(--pc-text-color-1);
     }
 
     tbody tr {
       &:hover {
-        background: color-mix(in srgb, var(--pa-accent) 5%, transparent);
+        background: color-mix(in srgb, var(--pc-accent) 5%, transparent);
       }
 
       &.uploading {
-        background: color-mix(in srgb, var(--pa-accent) 10%, transparent);
+        background: color-mix(in srgb, var(--pc-accent) 10%, transparent);
       }
     }
   }
@@ -409,7 +409,7 @@
   }
 
   &__file-size {
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     white-space: nowrap;
   }
 
@@ -419,22 +419,22 @@
 
   &__progress-bar {
     height: 6.4px;
-    background: color-mix(in srgb, var(--pa-accent) 20%, transparent);
-    border-radius: var(--pa-border-radius-sm);
+    background: color-mix(in srgb, var(--pc-accent) 20%, transparent);
+    border-radius: var(--pc-border-radius-sm);
     overflow: hidden;
     margin-bottom: $spacing-xs;
   }
 
   &__progress-fill {
     height: 100%;
-    background: var(--pa-accent);
-    border-radius: var(--pa-border-radius-sm);
+    background: var(--pc-accent);
+    border-radius: var(--pc-border-radius-sm);
     transition: width 0.48s ease;
   }
 
   &__progress-text {
     font-size: $font-size-2xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
   }
 
   &__status {
@@ -443,19 +443,19 @@
     text-transform: uppercase;
 
     &--pending {
-      color: var(--pa-text-color-2);
+      color: var(--pc-text-color-2);
     }
 
     &--uploading {
-      color: var(--pa-accent);
+      color: var(--pc-accent);
     }
 
     &--complete {
-      color: var(--pa-success);
+      color: var(--pc-success);
     }
 
     &--error {
-      color: var(--pa-danger);
+      color: var(--pc-danger);
     }
   }
 
@@ -468,11 +468,11 @@
   &__remove-btn {
     width: 3.2rem;
     height: 3.2rem;
-    border: $border-width-base solid var(--pa-border-color);
-    background: var(--pa-card-bg);
-    color: var(--pa-danger);
+    border: $border-width-base solid var(--pc-border-color);
+    background: var(--pc-card-bg);
+    color: var(--pc-danger);
     cursor: pointer;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     font-size: $font-size-2xl;
     line-height: 1;
     transition: all $transition-fast $easing-snappy;
@@ -482,9 +482,9 @@
     font-weight: $font-weight-bold;
 
     &:hover {
-      background: var(--pa-danger);
+      background: var(--pc-danger);
       color: #ffffff;
-      border-color: var(--pa-danger);
+      border-color: var(--pc-danger);
       transform: scale(1.1);
     }
   }
@@ -501,13 +501,13 @@
   &--detailed {
     .pa-file-item {
       padding: $spacing-sm;
-      border: $border-width-base solid var(--pa-border-color);
-      border-radius: var(--pa-border-radius);
+      border: $border-width-base solid var(--pc-border-color);
+      border-radius: var(--pc-border-radius);
       margin-bottom: $spacing-sm;
       display: flex;
       align-items: center;
       gap: $spacing-sm;
-      background: var(--pa-input-bg);
+      background: var(--pc-input-bg);
 
       &:last-child {
         margin-bottom: 0;
@@ -530,9 +530,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: color-mix(in srgb, var(--pa-accent) 10%, transparent);
-    border-radius: var(--pa-border-radius);
-    color: var(--pa-accent);
+    background: color-mix(in srgb, var(--pc-accent) 10%, transparent);
+    border-radius: var(--pc-border-radius);
+    color: var(--pc-accent);
   }
 
   &__info {
@@ -543,7 +543,7 @@
   &__name {
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -551,7 +551,7 @@
 
   &__meta {
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     margin-top: $spacing-xs;
   }
 
@@ -561,9 +561,9 @@
     height: 2.4rem;
     border: none;
     background: transparent;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     cursor: pointer;
-    border-radius: var(--pa-border-radius-sm);
+    border-radius: var(--pc-border-radius-sm);
     font-size: $font-size-lg;
     line-height: 1;
     transition: all $transition-fast $easing-snappy;
@@ -572,8 +572,8 @@
     justify-content: center;
 
     &:hover {
-      background: color-mix(in srgb, var(--pa-danger) 10%, transparent);
-      color: var(--pa-danger);
+      background: color-mix(in srgb, var(--pc-danger) 10%, transparent);
+      color: var(--pc-danger);
     }
 
     &::before {
@@ -598,9 +598,9 @@
 .pa-file-preview {
   position: relative;
   aspect-ratio: 1;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   overflow: hidden;
-  border: $border-width-base solid var(--pa-border-color);
+  border: $border-width-base solid var(--pc-border-color);
 
   &__image {
     width: 100%;
@@ -627,7 +627,7 @@
     justify-content: center;
 
     &:hover {
-      background: var(--pa-danger);
+      background: var(--pc-danger);
       transform: scale(1.1);
     }
 
@@ -657,21 +657,21 @@
 
   &__bar {
     height: 6.4px;
-    background: color-mix(in srgb, var(--pa-accent) 20%, transparent);
-    border-radius: var(--pa-border-radius-sm);
+    background: color-mix(in srgb, var(--pc-accent) 20%, transparent);
+    border-radius: var(--pc-border-radius-sm);
     overflow: hidden;
   }
 
   &__fill {
     height: 100%;
-    background: var(--pa-accent);
-    border-radius: var(--pa-border-radius-sm);
+    background: var(--pc-accent);
+    border-radius: var(--pc-border-radius-sm);
     transition: width 0.48s ease;
   }
 
   &__text {
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     margin-top: $spacing-xs;
     display: flex;
     justify-content: space-between;
@@ -683,11 +683,11 @@
     font-weight: $font-weight-semibold;
 
     &--complete {
-      color: var(--pa-success);
+      color: var(--pc-success);
     }
 
     &--error {
-      color: var(--pa-danger);
+      color: var(--pc-danger);
     }
   }
 }
@@ -754,10 +754,10 @@
 
 // Drag Overlay (for data-overlay-target feature)
 .pa-file-dropzone-overlay {
-  background: color-mix(in srgb, var(--pa-accent) 15%, transparent);
+  background: color-mix(in srgb, var(--pc-accent) 15%, transparent);
   backdrop-filter: blur(3.2px);
-  border: 4.8px dashed var(--pa-accent);
-  border-radius: var(--pa-border-radius);
+  border: 4.8px dashed var(--pc-accent);
+  border-radius: var(--pc-border-radius);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -776,6 +776,6 @@
   &__text {
     font-size: $font-size-xl;
     font-weight: $font-weight-semibold;
-    color: var(--pa-accent);
+    color: var(--pc-accent);
   }
 }

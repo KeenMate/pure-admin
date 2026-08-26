@@ -489,7 +489,7 @@
         <p>Each <code>.pa-kpi-strip__row</code> is its own grid sharing the same column template. This gives per-row hover hosts (needed for the cursor-anchored detail popover) while keeping cells aligned across rows because every row uses identical <code>fr</code>-units. CSS subgrid would be more semantically accurate but would duplicate the same effective layout in more lines.</p>
 
         <h4 class="mt-4">Bar + percent in the target column</h4>
-        <p>The "vs target" column carries a tiny progress bar with the percent value pinned below it. Bar fill is theme-neutral grey via <code>color-mix(in srgb, var(--pa-text-color-1) 40%, transparent)</code>; the percent value (e.g. "97%" vs "108%" vs "54%") signals overshoot/undershoot, so colour reinforcement isn't needed. Bar is visually capped at 100% so over-target metrics read as "fully filled" rather than overflowing.</p>
+        <p>The "vs target" column carries a tiny progress bar with the percent value pinned below it. Bar fill is theme-neutral grey via <code>color-mix(in srgb, var(--pc-text-color-1) 40%, transparent)</code>; the percent value (e.g. "97%" vs "108%" vs "54%") signals overshoot/undershoot, so colour reinforcement isn't needed. Bar is visually capped at 100% so over-target metrics read as "fully filled" rather than overflowing.</p>
 
         <h4 class="mt-4">Column toggle modifiers</h4>
         <p><code>metric</code> and <code>now</code> are mandatory. <code>prev</code>, <code>delta</code>, and <code>target</code> are independently optional via <code>pa-kpi-strip--no-prev</code>, <code>--no-delta</code>, <code>--no-target</code> on the card root. The modifiers compose freely, so the visible column count lands anywhere from 5 (no toggles) down to 2 (all three optional columns dropped: metric + now only). The framework precomputes a <code>grid-template-columns</code> selector for every combination, so consumers only toggle the classes — no manual track-width tuning.</p>
@@ -558,9 +558,9 @@
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step semantic sentiment scale.</li>
-            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome.</li>
+            <li><code>--pc-very-positive</code> / <code>--pc-positive</code> / <code>--pc-neutral</code> / <code>--pc-negative</code> / <code>--pc-very-negative</code> — 5-step semantic sentiment scale.</li>
+            <li><code>--pc-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pc-detail-bg</code> / <code>--pc-detail-text</code> / <code>--pc-detail-row-label</code> / <code>--pc-detail-title</code> / <code>--pc-detail-shadow</code> — popover chrome.</li>
         </ul>
     </div>
 </div>

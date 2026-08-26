@@ -22,17 +22,17 @@
   height: 3.2rem;
   background: none;
   border: none;
-  border-radius: var(--pa-border-radius);
-  color: var(--pa-navbar-text);
+  border-radius: var(--pc-border-radius);
+  color: var(--pc-navbar-text);
   cursor: pointer;
   transition: background-color $transition-fast $easing-snappy;
 
   &:hover {
-    background-color: var(--pa-accent-light);
+    background-color: var(--pc-accent-light);
   }
 
   &:focus {
-    outline: $focus-outline-width solid var(--pa-accent);
+    outline: $focus-outline-width solid var(--pc-accent);
     outline-offset: $focus-outline-offset;
   }
 }
@@ -71,9 +71,9 @@
   right: 0;
   width: 35.2rem;
   max-height: 44.8rem;
-  background-color: var(--pa-card-bg);
-  border: $border-width-base solid var(--pa-border-color);
-  border-radius: var(--pa-border-radius);
+  background-color: var(--pc-card-bg);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
   box-shadow: $shadow-2xl;
   z-index: $z-index-profile-panel; // Same as profile panel (5000)
   display: none;
@@ -88,7 +88,7 @@
 // Panel header
 .pa-notifications__header {
   padding: $spacing-sm $spacing-base;
-  border-bottom: $border-width-base solid var(--pa-border-color);
+  border-bottom: $border-width-base solid var(--pc-border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -98,7 +98,7 @@
     margin: 0;
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 }
 
@@ -106,14 +106,14 @@
   background: none;
   border: none;
   padding: 0;
-  color: var(--pa-accent);
+  color: var(--pc-accent);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: color $transition-fast $easing-snappy;
 
   &:hover {
-    color: var(--pa-accent-hover);
+    color: var(--pc-accent-hover);
   }
 }
 
@@ -131,7 +131,7 @@
   display: flex;
   gap: $spacing-sm;
   padding: $spacing-sm $spacing-base;
-  border-bottom: $border-width-base solid var(--pa-border-color);
+  border-bottom: $border-width-base solid var(--pc-border-color);
   transition: background-color $transition-fast $easing-snappy;
   cursor: pointer;
 
@@ -140,15 +140,15 @@
   }
 
   &:hover {
-    background-color: var(--pa-accent-light);
+    background-color: var(--pc-accent-light);
   }
 
   // Unread notification (darker background)
   &--unread {
-    background-color: color-mix(in srgb, var(--pa-accent) 5%, transparent);
+    background-color: color-mix(in srgb, var(--pc-accent) 5%, transparent);
 
     &:hover {
-      background-color: color-mix(in srgb, var(--pa-accent) 10%, transparent);
+      background-color: color-mix(in srgb, var(--pc-accent) 10%, transparent);
     }
   }
 }
@@ -162,33 +162,33 @@
   align-items: center;
   justify-content: center;
   font-size: $font-size-base;
-  color: var(--pa-accent);
+  color: var(--pc-accent);
   border: 1px solid transparent;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
 
   &--primary {
-    border-color: var(--pa-btn-primary-bg);
-    color: var(--pa-btn-primary-bg);
+    border-color: var(--pc-btn-primary-bg);
+    color: var(--pc-btn-primary-bg);
   }
 
   &--success {
-    border-color: var(--pa-success);
-    color: var(--pa-success);
+    border-color: var(--pc-success);
+    color: var(--pc-success);
   }
 
   &--warning {
-    border-color: var(--pa-warning);
-    color: var(--pa-warning);
+    border-color: var(--pc-warning);
+    color: var(--pc-warning);
   }
 
   &--danger {
-    border-color: var(--pa-danger);
-    color: var(--pa-danger);
+    border-color: var(--pc-danger);
+    color: var(--pc-danger);
   }
 
   &--secondary {
-    border-color: var(--pa-text-color-2);
-    color: var(--pa-text-color-2);
+    border-color: var(--pc-text-color-2);
+    color: var(--pc-text-color-2);
   }
 }
 
@@ -201,13 +201,13 @@
     margin: 0 0 0.2rem 0;
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
-    color: var(--pa-text-color-1);
+    color: var(--pc-text-color-1);
   }
 
   p {
     margin: 0 0 0.2rem 0;
     font-size: $font-size-xs;
-    color: var(--pa-text-color-2);
+    color: var(--pc-text-color-2);
     line-height: 1.3;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -219,7 +219,7 @@
 
 .pa-notifications__time {
   font-size: $font-size-2xs;
-  color: var(--pa-text-color-2);
+  color: var(--pc-text-color-2);
   font-weight: $font-weight-normal;
   opacity: 0.7;
 }
@@ -227,18 +227,18 @@
 // Panel footer
 .pa-notifications__footer {
   padding: $spacing-sm $spacing-base;
-  border-top: $border-width-base solid var(--pa-border-color);
+  border-top: $border-width-base solid var(--pc-border-color);
   text-align: center;
 
   a {
-    color: var(--pa-accent);
+    color: var(--pc-accent);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     text-decoration: none;
     transition: color $transition-fast $easing-snappy;
 
     &:hover {
-      color: var(--pa-accent-hover);
+      color: var(--pc-accent-hover);
     }
   }
 }
@@ -314,7 +314,7 @@
       justify-content: flex-end;
       margin-top: $spacing-sm;
       padding-top: $spacing-sm;
-      border-top: $border-width-base solid var(--pa-border-color);
+      border-top: $border-width-base solid var(--pc-border-color);
     }
   }
 }

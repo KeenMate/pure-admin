@@ -463,10 +463,10 @@
         <p>Executive dashboards / weekly review pages. The design's identity is restraint — one big light-weight number per tile, hairline rules, generous space, no chart chrome. Best when the operator wants "how are we doing" at a glance and reads the supporting context only on hover. If you need sparklines, status pills, or trend indication directly in the tile, pick a different showcase.</p>
 
         <h4 class="mt-4">Hairline rules</h4>
-        <p>Dividers between cells are painted by <code>gap: 1px</code> on <code>.pa-kpi-edit__grid</code> over a <code>background: var(--pa-border-color)</code>; each tile paints <code>--pa-card-bg</code> over its own area. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. The card's outer border supplies the perimeter — render the card with <code>.pa-kpi-edit__body</code> at zero padding (table-card mode) so the rules go edge-to-edge.</p>
+        <p>Dividers between cells are painted by <code>gap: 1px</code> on <code>.pa-kpi-edit__grid</code> over a <code>background: var(--pc-border-color)</code>; each tile paints <code>--pc-card-bg</code> over its own area. Only the gap shows through, giving single-pixel hairlines on every interior boundary regardless of column count. The card's outer border supplies the perimeter — render the card with <code>.pa-kpi-edit__body</code> at zero padding (table-card mode) so the rules go edge-to-edge.</p>
 
         <h4 class="mt-4">Picking the column count</h4>
-        <p>Default is cell-min-driven: <code>grid-template-columns: repeat(auto-fit, minmax(var(--pa-kpi-edit-cell-min, 14rem), 1fr))</code>. Cells stay at least <code>--pa-kpi-edit-cell-min</code> wide (override per instance to change density); the grid fits as many columns as the container allows. No <code>@container</code> queries — the responsive cascade is intrinsic to the grid template.</p>
+        <p>Default is cell-min-driven: <code>grid-template-columns: repeat(auto-fit, minmax(var(--pc-kpi-edit-cell-min, 14rem), 1fr))</code>. Cells stay at least <code>--pc-kpi-edit-cell-min</code> wide (override per instance to change density); the grid fits as many columns as the container allows. No <code>@container</code> queries — the responsive cascade is intrinsic to the grid template.</p>
         <p>Two override families when the cell-min default isn't enough:</p>
         <ul>
             <li><code>pa-kpi-edit__grid--2col</code> — forces exactly 2 columns regardless of cell-min or container width. Use for "always a 2×N grid" placements.</li>
@@ -511,10 +511,10 @@
 
         <h4 class="mt-4">Grid + tiles</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>pa-kpi-edit__grid</code> — grid container. Default <code>grid-template-columns: repeat(auto-fit, minmax(var(--pa-kpi-edit-cell-min, 14rem), 1fr))</code>. <code>gap: 1px</code> over <code>--pa-border-color</code> background paints the hairlines.</li>
+            <li><code>pa-kpi-edit__grid</code> — grid container. Default <code>grid-template-columns: repeat(auto-fit, minmax(var(--pc-kpi-edit-cell-min, 14rem), 1fr))</code>. <code>gap: 1px</code> over <code>--pc-border-color</code> background paints the hairlines.</li>
             <li><code>pa-kpi-edit__grid--2col</code> — forces exactly 2 columns regardless of width.</li>
             <li><code>pa-kpi-edit__grid--max-2</code> / <code>--max-3</code> / <code>--max-4</code> / <code>--max-5</code> / <code>--max-6</code> — caps the column count at N. Still collapses below the cell-min × N threshold; just won't exceed N on wide widths. Uses <code>minmax(max(cell-min, calc((100% − gap × (N−1)) / N)), 1fr)</code> so cell-min wins on narrow widths and the calc wins on wide widths.</li>
-            <li><code>pa-kpi-edit__tile</code> — single KPI cell. <code>2.4rem 2rem</code> padding, <code>--pa-card-bg</code> over the grid background. <code>container-type: inline-size</code> so the value's <code>cqi</code> font-size measures per-cell.</li>
+            <li><code>pa-kpi-edit__tile</code> — single KPI cell. <code>2.4rem 2rem</code> padding, <code>--pc-card-bg</code> over the grid background. <code>container-type: inline-size</code> so the value's <code>cqi</code> font-size measures per-cell.</li>
         </ul>
 
         <h4 class="mt-4">Tile content</h4>
@@ -546,16 +546,16 @@
 
         <h4 class="mt-4">Showcase-scoped CSS variables</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-kpi-edit-cell-min</code> (default <code>14rem</code>) — minimum cell width that drives the auto-fit grid. Smaller → more columns at the same container width; larger → fewer columns. Override per instance: <code>&lt;div class="pa-kpi-edit__grid" style="--pa-kpi-edit-cell-min: 18rem"&gt;</code>.</li>
+            <li><code>--pc-kpi-edit-cell-min</code> (default <code>14rem</code>) — minimum cell width that drives the auto-fit grid. Smaller → more columns at the same container width; larger → fewer columns. Override per instance: <code>&lt;div class="pa-kpi-edit__grid" style="--pc-kpi-edit-cell-min: 18rem"&gt;</code>.</li>
         </ul>
 
         <h4 class="mt-4">Framework tokens used by this showcase</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>--pa-very-positive</code> / <code>--pa-positive</code> — green sentiment scale.</li>
-            <li><code>--pa-neutral</code> — grey for "no meaningful change".</li>
-            <li><code>--pa-negative</code> / <code>--pa-very-negative</code> — red sentiment scale.</li>
-            <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
-            <li><code>--pa-detail-bg</code> / <code>--pa-detail-text</code> / <code>--pa-detail-row-label</code> / <code>--pa-detail-title</code> / <code>--pa-detail-shadow</code> — popover chrome (Bloomberg-dark by default; override for theme-aware popovers).</li>
+            <li><code>--pc-very-positive</code> / <code>--pc-positive</code> — green sentiment scale.</li>
+            <li><code>--pc-neutral</code> — grey for "no meaningful change".</li>
+            <li><code>--pc-negative</code> / <code>--pc-very-negative</code> — red sentiment scale.</li>
+            <li><code>--pc-warning</code> — orange "off-target / approaching limit" signal.</li>
+            <li><code>--pc-detail-bg</code> / <code>--pc-detail-text</code> / <code>--pc-detail-row-label</code> / <code>--pc-detail-title</code> / <code>--pc-detail-shadow</code> — popover chrome (Bloomberg-dark by default; override for theme-aware popovers).</li>
         </ul>
     </div>
 </div>

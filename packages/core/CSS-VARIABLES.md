@@ -104,7 +104,7 @@ These variables are designed for web component integration and follow a semantic
 
 ---
 
-## `--pa-*` Variables (Pure Admin Framework)
+## `--pc-*` Variables (Pure Admin Framework)
 
 These variables control the appearance of Pure Admin framework components.
 
@@ -112,191 +112,191 @@ These variables control the appearance of Pure Admin framework components.
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-main-bg` | Main background (cards, modals) |
-| `--pa-page-bg` | Page background |
-| `--pa-subtle-bg` | Subtle/muted area background |
-| `--pa-text-color-1` | Primary text color |
-| `--pa-text-color-2` | Secondary text color |
-| `--pa-accent` | Accent color |
-| `--pa-accent-hover` | Accent hover |
-| `--pa-accent-light` | Light accent background |
-| `--pa-border-color` | Border color |
+| `--pc-main-bg` | Main background (cards, modals) |
+| `--pc-page-bg` | Page background |
+| `--pc-subtle-bg` | Subtle/muted area background |
+| `--pc-text-color-1` | Primary text color |
+| `--pc-text-color-2` | Secondary text color |
+| `--pc-accent` | Accent color |
+| `--pc-accent-hover` | Accent hover |
+| `--pc-accent-light` | Light accent background |
+| `--pc-border-color` | Border color |
 
 ### Layout - Navbar
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-navbar-bg` | Navbar background |
-| `--pa-navbar-border-color` | Navbar border |
-| `--pa-navbar-text` | Navbar text |
-| `--pa-navbar-text-secondary` | Navbar secondary text |
-| `--pa-navbar-profile-name-color` | Profile name color |
+| `--pc-navbar-bg` | Navbar background |
+| `--pc-navbar-border-color` | Navbar border |
+| `--pc-navbar-text` | Navbar text |
+| `--pc-navbar-text-secondary` | Navbar secondary text |
+| `--pc-navbar-profile-name-color` | Profile name color |
 
 ### Layout - Sidebar
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-sidebar-bg` | Sidebar background |
-| `--pa-sidebar-text` | Sidebar text |
-| `--pa-sidebar-text-secondary` | Sidebar secondary text |
-| `--pa-sidebar-submenu-bg` | Submenu background |
-| `--pa-sidebar-submenu-hover-bg` | Submenu hover |
-| `--pa-sidebar-submenu-active-bg` | Submenu active |
+| `--pc-sidebar-bg` | Sidebar background |
+| `--pc-sidebar-text` | Sidebar text |
+| `--pc-sidebar-text-secondary` | Sidebar secondary text |
+| `--pc-sidebar-submenu-bg` | Submenu background |
+| `--pc-sidebar-submenu-hover-bg` | Submenu hover |
+| `--pc-sidebar-submenu-active-bg` | Submenu active |
 
 ### Layout - Footer
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-footer-bg` | Footer background |
-| `--pa-footer-border-color` | Footer border |
+| `--pc-footer-bg` | Footer background |
+| `--pc-footer-border-color` | Footer border |
 
 ### Buttons
 
 | Variant | Variables |
 |---------|-----------|
-| **Primary** | `--pa-btn-primary-bg`, `--pa-btn-primary-bg-hover`, `--pa-btn-primary-bg-light`, `--pa-btn-primary-text` |
-| **Secondary** | `--pa-btn-secondary-bg`, `--pa-btn-secondary-bg-hover`, `--pa-btn-secondary-text` |
-| **Success** | `--pa-btn-success-bg`, `--pa-btn-success-bg-hover`, `--pa-btn-success-text` |
-| **Danger** | `--pa-btn-danger-bg`, `--pa-btn-danger-bg-hover`, `--pa-btn-danger-text` |
-| **Warning** | `--pa-btn-warning-bg`, `--pa-btn-warning-bg-hover`, `--pa-btn-warning-text` |
-| **Info** | `--pa-btn-info-bg`, `--pa-btn-info-bg-hover`, `--pa-btn-info-text` |
-| **Light** | `--pa-btn-light-bg`, `--pa-btn-light-bg-hover`, `--pa-btn-light-text` |
-| **Dark** | `--pa-btn-dark-bg`, `--pa-btn-dark-bg-hover`, `--pa-btn-dark-text` |
+| **Primary** | `--pc-btn-primary-bg`, `--pc-btn-primary-bg-hover`, `--pc-btn-primary-bg-light`, `--pc-btn-primary-text` |
+| **Secondary** | `--pc-btn-secondary-bg`, `--pc-btn-secondary-bg-hover`, `--pc-btn-secondary-text` |
+| **Success** | `--pc-btn-success-bg`, `--pc-btn-success-bg-hover`, `--pc-btn-success-text` |
+| **Danger** | `--pc-btn-danger-bg`, `--pc-btn-danger-bg-hover`, `--pc-btn-danger-text` |
+| **Warning** | `--pc-btn-warning-bg`, `--pc-btn-warning-bg-hover`, `--pc-btn-warning-text` |
+| **Info** | `--pc-btn-info-bg`, `--pc-btn-info-bg-hover`, `--pc-btn-info-text` |
+| **Light** | `--pc-btn-light-bg`, `--pc-btn-light-bg-hover`, `--pc-btn-light-text` |
+| **Dark** | `--pc-btn-dark-bg`, `--pc-btn-dark-bg-hover`, `--pc-btn-dark-text` |
 
 ### Contextual/Semantic Colors
 
 | Variant | Variables |
 |---------|-----------|
-| **Success** | `--pa-success-bg`, `--pa-success-bg-hover`, `--pa-success-bg-light`, `--pa-success-bg-subtle`, `--pa-success-border`, `--pa-success-text`, `--pa-success-text-light` |
-| **Danger** | `--pa-danger-bg`, `--pa-danger-bg-hover`, `--pa-danger-bg-light`, `--pa-danger-bg-subtle`, `--pa-danger-border`, `--pa-danger-text`, `--pa-danger-text-light` |
-| **Warning** | `--pa-warning-bg`, `--pa-warning-bg-hover`, `--pa-warning-bg-light`, `--pa-warning-bg-subtle`, `--pa-warning-border`, `--pa-warning-text`, `--pa-warning-text-light` |
-| **Info** | `--pa-info-bg`, `--pa-info-bg-hover`, `--pa-info-bg-light`, `--pa-info-bg-subtle`, `--pa-info-border`, `--pa-info-text`, `--pa-info-text-light` |
+| **Success** | `--pc-success-bg`, `--pc-success-bg-hover`, `--pc-success-bg-light`, `--pc-success-bg-subtle`, `--pc-success-border`, `--pc-success-text`, `--pc-success-text-light` |
+| **Danger** | `--pc-danger-bg`, `--pc-danger-bg-hover`, `--pc-danger-bg-light`, `--pc-danger-bg-subtle`, `--pc-danger-border`, `--pc-danger-text`, `--pc-danger-text-light` |
+| **Warning** | `--pc-warning-bg`, `--pc-warning-bg-hover`, `--pc-warning-bg-light`, `--pc-warning-bg-subtle`, `--pc-warning-border`, `--pc-warning-text`, `--pc-warning-text-light` |
+| **Info** | `--pc-info-bg`, `--pc-info-bg-hover`, `--pc-info-bg-light`, `--pc-info-bg-subtle`, `--pc-info-border`, `--pc-info-text`, `--pc-info-text-light` |
 
 ### Cards
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-card-bg` | Card background |
-| `--pa-card-header-bg` | Card header background |
-| `--pa-card-footer-bg` | Card footer background |
-| `--pa-card-tabs-bg` | Card tabs background |
+| `--pc-card-bg` | Card background |
+| `--pc-card-header-bg` | Card header background |
+| `--pc-card-footer-bg` | Card footer background |
+| `--pc-card-tabs-bg` | Card tabs background |
 
-Consumed with an inline fallback (`var(--pa-card-description-offset-y, <default>)`),
-so it is **not** emitted by the `output-pa-css-variables` mixin — set it at `:root`,
+Consumed with an inline fallback (`var(--pc-card-description-offset-y, <default>)`),
+so it is **not** emitted by the `output-pc-css-variables` mixin — set it at `:root`,
 on `.pc-mode-*`, or on any card ancestor to retune without a recompile.
 
 | Variable | Purpose | Falls back to |
 |----------|---------|---------------|
-| `--pa-card-description-offset-y` | Vertical nudge dropping the header `.pa-card__description` (smaller font) onto the title's baseline under the header's center alignment. Font-metric dependent — retune per theme font, or set `0` to disable. | `$card-description-offset-y` (`1px`) |
+| `--pc-card-description-offset-y` | Vertical nudge dropping the header `.pa-card__description` (smaller font) onto the title's baseline under the header's center alignment. Font-metric dependent — retune per theme font, or set `0` to disable. | `$card-description-offset-y` (`1px`) |
 
 ### Forms - Input
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-input-bg` | Input background |
-| `--pa-input-border` | Input border |
-| `--pa-input-text` | Input text |
-| `--pa-input-focus-border-color` | Input focus border |
-| `--pa-select-focus-border-color` | Select focus border |
-| `--pa-textarea-focus-border-color` | Textarea focus border |
+| `--pc-input-bg` | Input background |
+| `--pc-input-border` | Input border |
+| `--pc-input-text` | Input text |
+| `--pc-input-focus-border-color` | Input focus border |
+| `--pc-select-focus-border-color` | Select focus border |
+| `--pc-textarea-focus-border-color` | Textarea focus border |
 
 ### Forms - Checkbox
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-checkbox-border-color` | Checkbox border |
-| `--pa-checkbox-border-color-hover` | Checkbox hover border |
-| `--pa-checkbox-border-color-checked` | Checkbox checked border |
-| `--pa-checkbox-bg` | Checkbox background |
-| `--pa-checkbox-bg-checked` | Checkbox checked background |
-| `--pa-checkbox-bg-indeterminate` | Checkbox indeterminate background |
-| `--pa-checkbox-checkmark-color` | Checkmark color |
-| `--pa-checkbox-focus-shadow` | Checkbox focus shadow |
+| `--pc-checkbox-border-color` | Checkbox border |
+| `--pc-checkbox-border-color-hover` | Checkbox hover border |
+| `--pc-checkbox-border-color-checked` | Checkbox checked border |
+| `--pc-checkbox-bg` | Checkbox background |
+| `--pc-checkbox-bg-checked` | Checkbox checked background |
+| `--pc-checkbox-bg-indeterminate` | Checkbox indeterminate background |
+| `--pc-checkbox-checkmark-color` | Checkmark color |
+| `--pc-checkbox-focus-shadow` | Checkbox focus shadow |
 
 ### Forms - Input Group
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-input-group-prepend-bg` | Prepend background |
-| `--pa-input-group-prepend-text` | Prepend text |
-| `--pa-input-group-append-bg` | Append background |
-| `--pa-input-group-append-text` | Append text |
+| `--pc-input-group-prepend-bg` | Prepend background |
+| `--pc-input-group-prepend-text` | Prepend text |
+| `--pc-input-group-append-bg` | Append background |
+| `--pc-input-group-append-text` | Append text |
 
 ### Tables
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-table-bg` | Table background |
-| `--pa-table-header-bg` | Table header background |
-| `--pa-table-stripe` | Striped row background |
-| `--pa-table-hover-bg` | Row hover background |
-| `--pa-table-hover-accent-color` | Row hover accent border |
+| `--pc-table-bg` | Table background |
+| `--pc-table-header-bg` | Table header background |
+| `--pc-table-stripe` | Striped row background |
+| `--pc-table-hover-bg` | Row hover background |
+| `--pc-table-hover-accent-color` | Row hover accent border |
 
 ### Modals
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-modal-overlay-bg` | Modal overlay |
-| `--pa-modal-content-bg` | Modal content background |
+| `--pc-modal-overlay-bg` | Modal overlay |
+| `--pc-modal-content-bg` | Modal content background |
 
 ### Alerts
 
 | Variant | Variables |
 |---------|-----------|
-| **Success** | `--pa-alert-success-bg`, `--pa-alert-success-border`, `--pa-alert-success-text` |
-| **Danger** | `--pa-alert-danger-bg`, `--pa-alert-danger-border`, `--pa-alert-danger-text` |
-| **Warning** | `--pa-alert-warning-bg`, `--pa-alert-warning-border`, `--pa-alert-warning-text` |
-| **Info** | `--pa-alert-info-bg`, `--pa-alert-info-border`, `--pa-alert-info-text` |
+| **Success** | `--pc-alert-success-bg`, `--pc-alert-success-border`, `--pc-alert-success-text` |
+| **Danger** | `--pc-alert-danger-bg`, `--pc-alert-danger-border`, `--pc-alert-danger-text` |
+| **Warning** | `--pc-alert-warning-bg`, `--pc-alert-warning-border`, `--pc-alert-warning-text` |
+| **Info** | `--pc-alert-info-bg`, `--pc-alert-info-border`, `--pc-alert-info-text` |
 
 ### Badges
 
 | Variant | Variables |
 |---------|-----------|
-| **Success** | `--pa-badge-success-bg`, `--pa-badge-success-text` |
-| **Warning** | `--pa-badge-warning-bg`, `--pa-badge-warning-text` |
-| **Info** | `--pa-badge-info-bg`, `--pa-badge-info-text` |
-| **Danger** | `--pa-badge-danger-bg`, `--pa-badge-danger-text` |
+| **Success** | `--pc-badge-success-bg`, `--pc-badge-success-text` |
+| **Warning** | `--pc-badge-warning-bg`, `--pc-badge-warning-text` |
+| **Info** | `--pc-badge-info-bg`, `--pc-badge-info-text` |
+| **Danger** | `--pc-badge-danger-bg`, `--pc-badge-danger-text` |
 
 ### Composite Badges
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-composite-badge-icon-bg` | Icon section background |
-| `--pa-composite-badge-label-bg` | Label background |
-| `--pa-composite-badge-label-text` | Label text |
-| `--pa-composite-badge-label-hover-bg` | Label hover |
+| `--pc-composite-badge-icon-bg` | Icon section background |
+| `--pc-composite-badge-label-bg` | Label background |
+| `--pc-composite-badge-label-text` | Label text |
+| `--pc-composite-badge-label-hover-bg` | Label hover |
 
 ### Tooltips & Popovers
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-tooltip-bg` | Tooltip background |
-| `--pa-tooltip-text` | Tooltip text |
-| `--pa-popover-content-bg` | Popover background |
-| `--pa-popover-text-light` | Popover light text |
-| `--pa-popover-text-dark` | Popover dark text |
+| `--pc-tooltip-bg` | Tooltip background |
+| `--pc-tooltip-text` | Tooltip text |
+| `--pc-popover-content-bg` | Popover background |
+| `--pc-popover-text-light` | Popover light text |
+| `--pc-popover-text-dark` | Popover dark text |
 
 ### Loaders
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-loader-overlay-bg` | Loader overlay |
+| `--pc-loader-overlay-bg` | Loader overlay |
 
 ### Profile Panel
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-profile-overlay-bg` | Profile panel overlay |
+| `--pc-profile-overlay-bg` | Profile panel overlay |
 
 ### Command Palette
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-command-palette-backdrop-bg` | Backdrop |
-| `--pa-command-palette-item-hover-bg` | Item hover |
-| `--pa-command-palette-item-active-bg` | Item active |
-| `--pa-command-palette-highlight-bg` | Search highlight background |
-| `--pa-command-palette-highlight-text` | Search highlight text |
+| `--pc-command-palette-backdrop-bg` | Backdrop |
+| `--pc-command-palette-item-hover-bg` | Item hover |
+| `--pc-command-palette-item-active-bg` | Item active |
+| `--pc-command-palette-highlight-bg` | Search highlight background |
+| `--pc-command-palette-highlight-text` | Search highlight text |
 
 **Runtime sizing** (not emitted by the theme mixins — each falls back to its
 compile-time SCSS default, so setting one at `:root`, inline, or per-instance
@@ -304,9 +304,9 @@ resizes the palette without a recompile):
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `--pa-command-palette-width` | Container max-width | `60.8rem` |
-| `--pa-command-palette-offset-top` | Gap above the palette | `12.8rem` |
-| `--pa-command-palette-results-max-height` | Results scroll height | `38.4rem` |
+| `--pc-command-palette-width` | Container max-width | `60.8rem` |
+| `--pc-command-palette-offset-top` | Gap above the palette | `12.8rem` |
+| `--pc-command-palette-results-max-height` | Results scroll height | `38.4rem` |
 
 Size presets that set both width **and** results height for you (add on
 `.pa-command-palette`): `--sm` (48 / 28.8rem), `--lg` (76.8 / 51.2rem),
@@ -327,61 +327,61 @@ without a recompile:
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `--pa-search-mark-bg` | Highlight background | `color-mix(in srgb, var(--pa-accent) 15%, transparent)` |
-| `--pa-search-mark-color` | Highlight text colour | `inherit` |
-| `--pa-search-mark-weight` | Highlight font weight | `500` (medium) |
+| `--pc-search-mark-bg` | Highlight background | `color-mix(in srgb, var(--pc-accent) 15%, transparent)` |
+| `--pc-search-mark-color` | Highlight text colour | `inherit` |
+| `--pc-search-mark-weight` | Highlight font weight | `500` (medium) |
 
 (The command palette's own result highlight is separate — see
-`--pa-command-palette-highlight-bg/-text` above.)
+`--pc-command-palette-highlight-bg/-text` above.)
 
 ### Multiselect
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-multiselect-dropdown-bg` | Dropdown background |
-| `--pa-multiselect-dropdown-border` | Dropdown border |
-| `--pa-multiselect-dropdown-text` | Dropdown text |
-| `--pa-multiselect-hint-bg` | Hint background |
-| `--pa-multiselect-hint-border` | Hint border |
-| `--pa-multiselect-option-hover-bg` | Option hover |
-| `--pa-multiselect-pill-bg` | Selected pill background |
-| `--pa-multiselect-pill-border` | Selected pill border |
+| `--pc-multiselect-dropdown-bg` | Dropdown background |
+| `--pc-multiselect-dropdown-border` | Dropdown border |
+| `--pc-multiselect-dropdown-text` | Dropdown text |
+| `--pc-multiselect-hint-bg` | Hint background |
+| `--pc-multiselect-hint-border` | Hint border |
+| `--pc-multiselect-option-hover-bg` | Option hover |
+| `--pc-multiselect-pill-bg` | Selected pill background |
+| `--pc-multiselect-pill-border` | Selected pill border |
 
 ### Range Group
 
-Consumed with an inline fallback (`var(--pa-range-x, <default>)`), so these are
-**not** emitted by the `output-pa-css-variables` mixin — set them at `:root`, on
+Consumed with an inline fallback (`var(--pc-range-x, <default>)`), so these are
+**not** emitted by the `output-pc-css-variables` mixin — set them at `:root`, on
 `.pc-mode-*`, or on any `.pa-range` / `.pa-range-group` ancestor (or per-instance
 `style="…"`) to retint/resize sliders without a recompile. Unset, each resolves
 to the framework default shown, so a `var()` reference never collapses to nothing.
 
 | Variable | Purpose | Falls back to |
 |----------|---------|---------------|
-| `--pa-range-track` | Slider track colour | `--pa-surface-track` |
-| `--pa-range-fill` | Selected-range fill (and value readout) | `--pa-accent` |
-| `--pa-range-thumb-bg` | Handle interior | `--pa-card-bg` |
-| `--pa-range-thumb-border` | Handle ring / bar / chevron colour | `--pa-accent` |
-| `--pa-range-thumb-border-hover` | Handle colour on hover | `--pa-accent-hover` |
-| `--pa-range-focus-ring` | Thumb focus / active ring | `--pa-accent-light` |
-| `--pa-range-tick` | Minor tick-mark colour | `--pa-border-color` |
-| `--pa-range-tick-major` | Major tick-mark colour | `--pa-text-tertiary` |
-| `--pa-range-track-height` | Track / fill thickness | `0.4rem` |
-| `--pa-range-thumb-size` | Default round handle diameter | `1.6rem` |
-| `--pa-range-group-panel-min-width` | Floating panel min width | `32rem` |
+| `--pc-range-track` | Slider track colour | `--pc-surface-track` |
+| `--pc-range-fill` | Selected-range fill (and value readout) | `--pc-accent` |
+| `--pc-range-thumb-bg` | Handle interior | `--pc-card-bg` |
+| `--pc-range-thumb-border` | Handle ring / bar / chevron colour | `--pc-accent` |
+| `--pc-range-thumb-border-hover` | Handle colour on hover | `--pc-accent-hover` |
+| `--pc-range-focus-ring` | Thumb focus / active ring | `--pc-accent-light` |
+| `--pc-range-tick` | Minor tick-mark colour | `--pc-border-color` |
+| `--pc-range-tick-major` | Major tick-mark colour | `--pc-text-tertiary` |
+| `--pc-range-track-height` | Track / fill thickness | `0.4rem` |
+| `--pc-range-thumb-size` | Default round handle diameter | `1.6rem` |
+| `--pc-range-group-panel-min-width` | Floating panel min width | `32rem` |
 
 ### Custom Theme Colors
 
 | Variable | Purpose |
 |----------|---------|
-| `--pa-color-1` | Theme-defined branded color 1 |
-| `--pa-color-2` | Theme-defined branded color 2 |
-| `--pa-color-3` | Theme-defined branded color 3 |
-| `--pa-color-4` | Theme-defined branded color 4 |
-| `--pa-color-5` | Theme-defined branded color 5 |
-| `--pa-color-6` | Theme-defined branded color 6 |
-| `--pa-color-7` | Theme-defined branded color 7 |
-| `--pa-color-8` | Theme-defined branded color 8 |
-| `--pa-color-9` | Theme-defined branded color 9 |
+| `--pc-color-1` | Theme-defined branded color 1 |
+| `--pc-color-2` | Theme-defined branded color 2 |
+| `--pc-color-3` | Theme-defined branded color 3 |
+| `--pc-color-4` | Theme-defined branded color 4 |
+| `--pc-color-5` | Theme-defined branded color 5 |
+| `--pc-color-6` | Theme-defined branded color 6 |
+| `--pc-color-7` | Theme-defined branded color 7 |
+| `--pc-color-8` | Theme-defined branded color 8 |
+| `--pc-color-9` | Theme-defined branded color 9 |
 
 ### Data Display — Copy Hint (i18n)
 
@@ -391,8 +391,8 @@ yourself (on any ancestor; they inherit) to translate the copy affordance shared
 
 | Variable | Purpose | Fallback |
 |----------|---------|----------|
-| `--pa-copy-hint-text` | `--copy-click` hover hint text | `'Click to copy'` |
-| `--pa-copied-text` | `--copied` post-copy feedback text | `'Copied!'` |
+| `--pc-copy-hint-text` | `--copy-click` hover hint text | `'Click to copy'` |
+| `--pc-copied-text` | `--copied` post-copy feedback text | `'Copied!'` |
 
 ---
 
@@ -401,7 +401,7 @@ yourself (on any ancestor; they inherit) to translate the copy affordance shared
 | Category | Count |
 |----------|-------|
 | `--base-*` variables | 71 |
-| `--pa-*` variables | 124 |
+| `--pc-*` variables | 124 |
 | **Total** | **195** |
 
 ---

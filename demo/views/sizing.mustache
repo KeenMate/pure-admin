@@ -1,17 +1,27 @@
 <style>
     .demo-box {
-        background: var(--pa-accent-light, rgba(59, 130, 246, 0.1));
-        border: 1px solid var(--pa-accent, #3b82f6);
+        background: var(--pc-accent-light, rgba(59, 130, 246, 0.1));
+        border: 1px solid var(--pc-accent, #3b82f6);
         border-radius: 4px;
     }
     .demo-box-alt {
-        background: var(--pa-card-bg);
-        border: 1px solid var(--pa-border-color);
+        background: var(--pc-card-bg);
+        border: 1px solid var(--pc-border-color);
         border-radius: 4px;
     }
 </style>
 
 <p>Utilities for controlling element dimensions and flex behavior. Use these to create layouts that fill available space.</p>
+
+<div class="pa-callout pa-callout--info mb-4">
+    <strong>Where these classes come from:</strong> all sizing + flex utilities
+    (<code>w-*</code>/<code>h-*</code> percentages, <code>wr-*</code>/<code>hr-*</code>
+    rem sizes, <code>minw-*</code>/<code>maxh-*</code>/… min-max, <code>h-full</code>/<code>h-screen</code>
+    viewport, and <code>flex-1</code>/<code>flex-none</code>/…) ship in
+    <code>@keenmate/pure-css</code> — the foundation package — not pure-admin core.
+    Rem sizes use the <code>hr-</code>/<code>wr-</code> naming (the <code>r</code> is for
+    <em>rem</em>: <code>hr-10</code> = <code>height: 10rem</code>).
+</div>
 
 <!-- Height Utilities -->
 <div class="pa-section">
@@ -29,17 +39,17 @@
                 </div>
                 <div class="pa-card__body">
                     <div class="d-flex gap-sm" style="align-items: flex-end;">
-                        <div class="h-5x demo-box p-sm text-center" style="width: 6rem;">
-                            <code>.h-5x</code><br><small>5rem</small>
+                        <div class="hr-5 demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.hr-5</code><br><small>5rem</small>
                         </div>
-                        <div class="h-8x demo-box p-sm text-center" style="width: 6rem;">
-                            <code>.h-8x</code><br><small>8rem</small>
+                        <div class="hr-8 demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.hr-8</code><br><small>8rem</small>
                         </div>
-                        <div class="h-10x demo-box p-sm text-center" style="width: 6rem;">
-                            <code>.h-10x</code><br><small>10rem</small>
+                        <div class="hr-10 demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.hr-10</code><br><small>10rem</small>
                         </div>
-                        <div class="h-15x demo-box p-sm text-center" style="width: 6rem;">
-                            <code>.h-15x</code><br><small>15rem</small>
+                        <div class="hr-15 demo-box p-sm text-center" style="width: 6rem;">
+                            <code>.hr-15</code><br><small>15rem</small>
                         </div>
                     </div>
                 </div>
@@ -56,11 +66,11 @@
                 </div>
                 <div class="pa-card__body">
                     <div class="d-flex gap-sm" style="align-items: flex-start;">
-                        <div class="min-h-10x demo-box p-sm text-center" style="width: 8rem;">
-                            <code>.min-h-10x</code><br><small>Content can grow</small>
+                        <div class="minhr-10 demo-box p-sm text-center" style="width: 8rem;">
+                            <code>.minhr-10</code><br><small>Content can grow</small>
                         </div>
-                        <div class="min-h-15x demo-box p-sm text-center" style="width: 8rem;">
-                            <code>.min-h-15x</code><br><small>Minimum 15rem</small>
+                        <div class="minhr-15 demo-box p-sm text-center" style="width: 8rem;">
+                            <code>.minhr-15</code><br><small>Minimum 15rem</small>
                         </div>
                     </div>
                 </div>
@@ -78,7 +88,7 @@
                     <p>Fill parent container with .h-full or viewport with .h-screen</p>
                 </div>
                 <div class="pa-card__body">
-                    <div class="h-20x demo-box-alt p-sm">
+                    <div class="hr-20 demo-box-alt p-sm">
                         <div class="h-full demo-box d-flex align-items-center justify-content-center">
                             <code>.h-full</code> fills parent (100%)
                         </div>
@@ -96,7 +106,7 @@
                     <p>Combine .max-h-{size}x with .overflow-y-auto for scrollable areas</p>
                 </div>
                 <div class="pa-card__body">
-                    <div class="max-h-15x overflow-y-auto demo-box-alt p-sm">
+                    <div class="maxhr-15 overflow-y-auto demo-box-alt p-sm">
                         <p>This container has a max height of 15rem.</p>
                         <p>When content exceeds this height, it becomes scrollable.</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -126,7 +136,7 @@
                     <p>Items grow equally to fill space, ignoring content size</p>
                 </div>
                 <div class="pa-card__body">
-                    <div class="d-flex gap-sm h-10x">
+                    <div class="d-flex gap-sm hr-10">
                         <div class="flex-1 demo-box p-sm d-flex align-items-center justify-content-center">
                             <code>.flex-1</code>
                         </div>
@@ -150,7 +160,7 @@
                     <p>Items grow based on content size</p>
                 </div>
                 <div class="pa-card__body">
-                    <div class="d-flex gap-sm h-10x">
+                    <div class="d-flex gap-sm hr-10">
                         <div class="flex-auto demo-box p-sm d-flex align-items-center justify-content-center">
                             Short
                         </div>
@@ -176,7 +186,7 @@
                     <p>Mixed: one item grows, others stay fixed</p>
                 </div>
                 <div class="pa-card__body">
-                    <div class="d-flex gap-sm h-10x">
+                    <div class="d-flex gap-sm hr-10">
                         <div class="flex-shrink-0 demo-box-alt p-sm d-flex align-items-center" style="width: 8rem;">
                             Fixed width
                         </div>
@@ -200,7 +210,7 @@
                     <p>Item doesn't grow or shrink</p>
                 </div>
                 <div class="pa-card__body">
-                    <div class="d-flex gap-sm h-10x">
+                    <div class="d-flex gap-sm hr-10">
                         <div class="flex-1 demo-box p-sm d-flex align-items-center justify-content-center">
                             <code>.flex-1</code>
                         </div>
@@ -256,12 +266,12 @@
             <div class="pa-card">
                 <div class="pa-card__header">
                     <div class="pa-card__title">
-                        <h4 class="pa-card__title-text">With .min-h-30x</h4>
+                        <h4 class="pa-card__title-text">With .minhr-30</h4>
                     </div>
                     <p>Table card maintains minimum height for detail panel</p>
                 </div>
                 <div class="pa-card__body p-0">
-                    <div class="pa-table-card min-h-30x" style="margin: 0; box-shadow: none;">
+                    <div class="pa-table-card minhr-30" style="margin: 0; box-shadow: none;">
                         <div class="pa-table-card__body">
                             <table class="pa-table pa-table--hover">
                                 <thead>
@@ -303,7 +313,7 @@
         &lt;/div&gt;
 
         &lt;!-- Table card fills remaining space --&gt;
-        &lt;div class="pa-table-card flex-1 min-h-30x"&gt;
+        &lt;div class="pa-table-card flex-1 minhr-30"&gt;
             &lt;div class="pa-table-card__body h-full"&gt;
                 &lt;div class="pa-detail-view h-full"&gt;
                     &lt;!-- table + detail panel --&gt;
@@ -325,9 +335,9 @@
         </div>
         <div class="pa-card__body p-0">
             <!-- Simulated viewport container -->
-            <div class="h-50x d-flex flex-column" style="border: 2px dashed var(--pa-border-color);">
+            <div class="hr-50 d-flex flex-column" style="border: 2px dashed var(--pc-border-color);">
                 <!-- Filters (fixed height, doesn't grow) -->
-                <div class="flex-shrink-0 p-sm" style="background: var(--pa-card-header-bg); border-bottom: 1px solid var(--pa-border-color);">
+                <div class="flex-shrink-0 p-sm" style="background: var(--pc-card-header-bg); border-bottom: 1px solid var(--pc-border-color);">
                     <div class="d-flex gap-sm align-items-center">
                         <input type="text" class="pa-input pa-input--sm" placeholder="Search..." style="width: 20rem;">
                         <select class="pa-input pa-input--sm" style="width: 12rem;">
@@ -449,9 +459,9 @@ function closeSizingPanel() {
     <div class="pa-card__body">
         <h4>Fixed Height (rem-based)</h4>
         <ul class="pa-list-basic pa-list-basic--compact">
-            <li><code>.h-2x</code> through <code>.h-50x</code> - Fixed heights (2rem to 50rem)</li>
-            <li><code>.min-h-2x</code> through <code>.min-h-30x</code> - Minimum heights</li>
-            <li><code>.max-h-5x</code> through <code>.max-h-50x</code> - Maximum heights</li>
+            <li><code>.hr-2</code> through <code>.hr-50</code> - Fixed heights (2rem to 50rem)</li>
+            <li><code>.minhr-2</code> through <code>.minhr-30</code> - Minimum heights</li>
+            <li><code>.maxhr-5</code> through <code>.maxhr-50</code> - Maximum heights</li>
         </ul>
 
         <h4 class="mt-4">Percentage / Viewport Height</h4>

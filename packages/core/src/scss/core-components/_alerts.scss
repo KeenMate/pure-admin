@@ -10,7 +10,7 @@
   padding: $alert-padding-v $alert-padding-h;
   margin-bottom: $spacing-base;
   border: $border-width-base solid transparent;
-  border-radius: var(--pa-border-radius);
+  border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
   display: flex;
   flex-wrap: wrap;
@@ -31,96 +31,96 @@
 
   // Basic alert variants - using theme colors with subtle backgrounds
   &--primary {
-    color: var(--pa-accent);
-    background-color: color-mix(in srgb, var(--pa-accent) #{$opacity-subtle * 100%}, transparent);
-    border-color: color-mix(in srgb, var(--pa-accent) #{$opacity-border * 100%}, transparent);
+    color: var(--pc-accent);
+    background-color: color-mix(in srgb, var(--pc-accent) #{$opacity-subtle * 100%}, transparent);
+    border-color: color-mix(in srgb, var(--pc-accent) #{$opacity-border * 100%}, transparent);
   }
 
   &--secondary {
-    color: var(--pa-text-color-2);
-    background-color: color-mix(in srgb, var(--pa-text-color-2) 15%, transparent);
-    border-color: var(--pa-border-color);
+    color: var(--pc-text-color-2);
+    background-color: color-mix(in srgb, var(--pc-text-color-2) 15%, transparent);
+    border-color: var(--pc-border-color);
   }
 
   &--success {
-    color: var(--pa-alert-success-text);
-    background-color: var(--pa-alert-success-bg);
-    border-color: var(--pa-alert-success-border);
+    color: var(--pc-alert-success-text);
+    background-color: var(--pc-alert-success-bg);
+    border-color: var(--pc-alert-success-border);
   }
 
   &--danger {
-    color: var(--pa-alert-danger-text);
-    background-color: var(--pa-alert-danger-bg);
-    border-color: var(--pa-alert-danger-border);
+    color: var(--pc-alert-danger-text);
+    background-color: var(--pc-alert-danger-bg);
+    border-color: var(--pc-alert-danger-border);
     text-transform: $alert-danger-text-transform;
   }
 
   &--warning {
-    color: var(--pa-alert-warning-text);
-    background-color: var(--pa-alert-warning-bg);
-    border-color: var(--pa-alert-warning-border);
+    color: var(--pc-alert-warning-text);
+    background-color: var(--pc-alert-warning-bg);
+    border-color: var(--pc-alert-warning-border);
   }
 
   &--info {
-    color: var(--pa-alert-info-text);
-    background-color: var(--pa-alert-info-bg);
-    border-color: var(--pa-alert-info-border);
+    color: var(--pc-alert-info-text);
+    background-color: var(--pc-alert-info-bg);
+    border-color: var(--pc-alert-info-border);
   }
 
   &--light {
-    color: var(--pa-text-color-1);
-    background-color: color-mix(in srgb, var(--pa-text-color-1) 5%, transparent);
-    border-color: var(--pa-border-color);
+    color: var(--pc-text-color-1);
+    background-color: color-mix(in srgb, var(--pc-text-color-1) 5%, transparent);
+    border-color: var(--pc-border-color);
   }
 
   &--dark {
-    color: var(--pa-text-color-1);
-    background-color: color-mix(in srgb, var(--pa-text-color-1) 5%, transparent);
-    border-color: color-mix(in srgb, var(--pa-text-color-1) 10%, transparent);
+    color: var(--pc-text-color-1);
+    background-color: color-mix(in srgb, var(--pc-text-color-1) 5%, transparent);
+    border-color: color-mix(in srgb, var(--pc-text-color-1) 10%, transparent);
   }
 
   // Outline variants
   &--outline-primary {
-    color: var(--pa-accent);
-    border-color: var(--pa-accent);
+    color: var(--pc-accent);
+    border-color: var(--pc-accent);
     background-color: transparent;
   }
 
   &--outline-success {
-    color: var(--pa-success-bg);
-    border-color: var(--pa-success-bg);
+    color: var(--pc-success-bg);
+    border-color: var(--pc-success-bg);
     background-color: transparent;
   }
 
   &--outline-danger {
-    color: var(--pa-danger-bg);
-    border-color: var(--pa-danger-bg);
+    color: var(--pc-danger-bg);
+    border-color: var(--pc-danger-bg);
     background-color: transparent;
   }
 
   &--outline-warning {
-    color: var(--pa-warning-bg);
-    border-color: var(--pa-warning-bg);
+    color: var(--pc-warning-bg);
+    border-color: var(--pc-warning-bg);
     background-color: transparent;
   }
 
   &--outline-info {
-    color: var(--pa-info-bg);
-    border-color: var(--pa-info-bg);
+    color: var(--pc-info-bg);
+    border-color: var(--pc-info-bg);
     background-color: transparent;
   }
 
   // Theme color slot variants (color-1 through color-9)
   @for $i from 1 through 9 {
     &--color-#{$i} {
-      color: var(--pa-color-#{$i}-text);
-      background-color: var(--pa-color-#{$i});
-      border-color: var(--pa-color-#{$i});
+      color: var(--pc-color-#{$i}-text);
+      background-color: var(--pc-color-#{$i});
+      border-color: var(--pc-color-#{$i});
     }
 
     &--outline-color-#{$i} {
-      color: var(--pa-color-#{$i});
-      border-color: var(--pa-color-#{$i});
+      color: var(--pc-color-#{$i});
+      border-color: var(--pc-color-#{$i});
       background-color: transparent;
     }
   }
