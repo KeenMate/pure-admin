@@ -40,8 +40,8 @@
       on this page is the renderer; it bundles the store inside.
     </p>
 
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-callout pa-callout--info">
           <p class="pa-callout__heading"><code>@keenmate/web-dropzone-core</code> — the store</p>
           <div class="pa-callout__content">
@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-callout pa-callout--primary">
           <p class="pa-callout__heading"><code>@keenmate/web-dropzone</code> — the renderer</p>
           <div class="pa-callout__content">
@@ -116,15 +116,15 @@
   </div>
   <div class="pa-card__body">
     <p>Four visual entry points for picking files.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>card (default) — bordered drop zone</label>
           <web-dropzone selector-appearance="card" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
           <small class="pa-form-text">Click anywhere on the card to browse, or drag-and-drop files.</small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>button — accent button, no drag zone</label>
           <web-dropzone selector-appearance="button" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
@@ -132,15 +132,15 @@
         </div>
       </div>
     </div>
-    <div class="pa-row" style="margin-top: 1rem;">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row" style="margin-top: 1rem;">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>minimal — icon-only with count badge</label>
           <web-dropzone selector-appearance="minimal" list-appearance="list" accept="*/*" icon="📎" max-file-count="5"></web-dropzone>
           <small class="pa-form-text">Compact button; the badge appears when files are picked.</small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>native — button + text label, like <code>&lt;input type="file"&gt;</code></label>
           <web-dropzone selector-appearance="native" list-appearance="none" accept="*/*" max-file-count="5" select-files-text="Choose Files"></web-dropzone>
@@ -160,41 +160,41 @@
   </div>
   <div class="pa-card__body">
     <p>How the picked files are presented — from a simple vertical list to badge pills or a hidden popover.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>list (default) — simple rows</label>
           <web-dropzone list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>detailed — icon + size + MIME</label>
           <web-dropzone list-appearance="detailed" accept="*/*" max-file-count="5"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>grid — image preview thumbnails</label>
           <web-dropzone list-appearance="grid" accept="image/*" max-file-count="6" prompt-text="Drop images"></web-dropzone>
         </div>
       </div>
     </div>
-    <div class="pa-row" style="margin-top: 1rem;">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row" style="margin-top: 1rem;">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>badges — inline composite pills</label>
           <web-dropzone list-appearance="badges" accept="*/*" max-file-count="6" prompt-text="Drop files (badges appear inline)"></web-dropzone>
           <small class="pa-form-text">Same badge surface as <code>web-multiselect</code>. Add <code>show-thumbnails</code> for image previews.</small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>badges + <code>show-thumbnails</code></label>
           <web-dropzone list-appearance="badges" show-thumbnails accept="image/*" max-file-count="6" prompt-text="Drop images for badge thumbnails"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>popover — list hidden, click summary to open</label>
           <web-dropzone list-appearance="popover" accept="image/*,.pdf" max-file-size="5MB" max-file-count="10"></web-dropzone>
@@ -202,21 +202,21 @@
         </div>
       </div>
     </div>
-    <div class="pa-row" style="margin-top: 1rem;">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row" style="margin-top: 1rem;">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>none — list not rendered (caller handles it)</label>
           <web-dropzone id="list-none" list-appearance="none" accept="*/*" max-file-count="5"></web-dropzone>
           <small class="pa-form-text">Picked: <span id="list-none-out">(none)</span></small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label><code>max-visible-files="3"</code> — caps rows, "Show N more" reveals the rest</label>
           <web-dropzone list-appearance="detailed" max-visible-files="3" accept="*/*" max-file-count="20"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label><code>--dz-file-list-max-height</code> — CSS height cap + internal scroll</label>
           <web-dropzone list-appearance="detailed" accept="*/*" max-file-count="20" style="--dz-file-list-max-height: 18rem;"></web-dropzone>
@@ -235,20 +235,20 @@
   </div>
   <div class="pa-card__body">
     <p>Density variants for the card selector. Only meaningful when <code>selector-appearance="card"</code>.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>minimal — thin horizontal row</label>
           <web-dropzone card-size="minimal" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>compact (default)</label>
           <web-dropzone card-size="compact" list-appearance="list" accept="*/*" max-file-count="5"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>big — tall showcase with Browse button</label>
           <web-dropzone
@@ -275,20 +275,20 @@
   </div>
   <div class="pa-card__body">
     <p>Render the file list <em>inside</em> the dropzone area instead of below it — useful when vertical space is constrained.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>files-inside + list</label>
           <web-dropzone files-inside list-appearance="list" accept="*/*" max-file-count="5" prompt-text="Drop files"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>files-inside + detailed</label>
           <web-dropzone files-inside list-appearance="detailed" accept="*/*" max-file-count="5" prompt-text="Drop files"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>files-inside + grid</label>
           <web-dropzone files-inside list-appearance="grid" accept="image/*" max-file-count="6" prompt-text="Drop images"></web-dropzone>
@@ -307,22 +307,22 @@
   </div>
   <div class="pa-card__body">
     <p>Mixing the three axes covers the patterns users actually want.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>Inline attachments — button + badges</label>
           <web-dropzone selector-appearance="button" list-appearance="badges" accept="*/*" max-file-count="5" select-files-text="📎 Attach"></web-dropzone>
           <small class="pa-form-text">Slack / Gmail-style attachment pattern.</small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>Toolbar icon — minimal + popover</label>
           <web-dropzone selector-appearance="minimal" list-appearance="popover" accept="image/*,.pdf" max-file-size="5MB" max-file-count="10" icon="📎"></web-dropzone>
           <small class="pa-form-text">Click icon → picker. After files exist → toggles popover.</small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>Landing hero — big card</label>
           <web-dropzone
@@ -356,14 +356,14 @@
       picker, and the list, overall-progress strip, and floating status indicator are rendered by separate
       satellites — anywhere on the page.
     </p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>Store + picker only</label>
           <web-dropzone id="sat-store" controls="picker" accept="*/*" multiple max-file-count="10" prompt-text="Drop files — surfaces render on the right"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label><code>&lt;web-dropzone-progress&gt;</code> — overall strip</label>
           <web-dropzone-progress for="sat-store"></web-dropzone-progress>
@@ -395,8 +395,8 @@
       <code>item-controls</code> picks which <strong>parts of each file row</strong> render. Both are
       comma-separated; an absent attribute means "render all". Toggle the boxes and add a file to watch it recompose.
     </p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <web-dropzone id="controls-demo"
             selector-appearance="card"
@@ -407,7 +407,7 @@
           <small class="pa-form-text">Live: <code id="controls-demo-attrs"></code></small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <fieldset style="border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius); padding: 0.5rem 1rem 0.85rem; margin: 0 0 1rem;">
           <legend style="font-size: 1.2rem; padding: 0 0.4rem;"><code>controls</code> — surfaces</legend>
           <label class="pa-checkbox-inline"><input type="checkbox" data-ctrl="picker" checked> picker</label>
@@ -439,15 +439,15 @@
   </div>
   <div class="pa-card__body">
     <p>Count- or state-based progress behaviour needs no dedicated attributes — compose it from the primitives above plus the <code>change</code> event and <code>auto-upload</code>.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>Per-row bars only at 4+ files <em>(count-based)</em></label>
           <web-dropzone id="recipe-count" list-appearance="detailed" accept="*/*" multiple max-file-count="8"></web-dropzone>
           <small class="pa-form-text">1–3 files → global strip only. 4+ → both bars. Only the per-row <code>progress</code> token toggles.</small>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>Global strip only after upload starts <em>(state-based)</em></label>
           <web-dropzone id="recipe-onstart" auto-upload="false" list-appearance="detailed" accept="*/*" multiple max-file-count="8"></web-dropzone>
@@ -470,16 +470,16 @@
   </div>
   <div class="pa-card__body">
     <p>Positioning uses Floating UI, so it auto-flips on viewport collisions. The attribute sets the preferred initial placement.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group"><label>bottom-start (default)</label>
           <web-dropzone list-appearance="popover" popover-placement="bottom-start" accept="*/*"></web-dropzone></div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group"><label>bottom</label>
           <web-dropzone list-appearance="popover" popover-placement="bottom" accept="*/*"></web-dropzone></div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group"><label>bottom-end</label>
           <web-dropzone list-appearance="popover" popover-placement="bottom-end" accept="*/*"></web-dropzone></div>
       </div>
@@ -496,34 +496,34 @@
   </div>
   <div class="pa-card__body">
     <p>The <code>multiple</code> attribute defaults to <code>true</code>. Set <code>multiple="false"</code> to lock to a single file. <code>accept</code> uses the same syntax as native <code>&lt;input type="file"&gt;</code>.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>Multiple (default)</label>
           <web-dropzone display-mode="detailed" prompt-text="Drop one or more files" accept="*/*"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>Single only — <code>multiple="false"</code></label>
           <web-dropzone multiple="false" display-mode="detailed" prompt-text="Drop a single file" hint-text="Replaces any existing selection" accept="*/*"></web-dropzone>
         </div>
       </div>
     </div>
-    <div class="pa-row" style="margin-top: 1rem;">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row" style="margin-top: 1rem;">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>Images only — <code>image/*</code></label>
           <web-dropzone accept="image/*" display-mode="grid" prompt-text="Drop images"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>PDF or Word — <code>.pdf,.doc,.docx</code></label>
           <web-dropzone accept=".pdf,.doc,.docx" display-mode="detailed" prompt-text="Drop documents"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>Min size + count — form validity</label>
           <form onsubmit="event.preventDefault(); (window.pureAdmin &amp;&amp; pureAdmin.toast ? pureAdmin.toast.success('Form submitted (valid).') : alert('Form submitted (valid).'));">
@@ -546,14 +546,14 @@
   </div>
   <div class="pa-card__body">
     <p>The <code>disabled</code> attribute follows HTML convention. The original single-axis <code>display-mode</code> still works as a shorthand (<code>list</code> / <code>detailed</code> / <code>grid</code> / <code>compact</code>=popover); when both are set, the orthogonal attribute wins.</p>
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>Disabled dropzone</label>
           <web-dropzone disabled display-mode="detailed" prompt-text="This dropzone is disabled"></web-dropzone>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label>Toggle via JS</label>
           <web-dropzone id="toggle-disabled" display-mode="detailed" accept="*/*"></web-dropzone>
@@ -562,7 +562,7 @@
           </div>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-1-3">
+      <div class="pc-col-100 pc-col-md-1-3">
         <div class="pa-form-group">
           <label><code>display-mode="compact"</code> (= popover)</label>
           <web-dropzone display-mode="compact" accept="image/*,.pdf" max-file-size="5MB" max-file-count="10"></web-dropzone>
@@ -580,8 +580,8 @@
     </div>
   </div>
   <div class="pa-card__body">
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>Live event log</label>
           <web-dropzone id="api-demo" display-mode="detailed" accept="*/*"></web-dropzone>
@@ -591,7 +591,7 @@
           </div>
         </div>
       </div>
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <div class="pa-form-group">
           <label>Events</label>
           <pre id="api-log" class="text-xs" style="height: 16rem; overflow-y: auto; padding: 0.75rem; background: var(--base-subtle-bg, var(--pa-main-bg)); border-radius: var(--pa-border-radius); margin: 0;">(none yet — drop or pick a file)</pre>

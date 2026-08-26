@@ -9,7 +9,40 @@
 .pa-radio-group {
   display: flex;
   flex-direction: column;
-  gap: $form-scale;
+  // Gap BETWEEN options. --pc-choice-gap overrides just this; it falls back to
+  // the shared --pc-form-gap, then the $form-gap default.
+  gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap}));
+
+  // Horizontal orientation — options lay out in a wrapping row instead of a
+  // column (mirrors the "orientation: horizontal | vertical" contract).
+  &--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+  }
+
+  // Grid layout — options auto-flow into as many columns as fit and wrap into
+  // rows by themselves (no hand-authored row markup). --grid is responsive
+  // (column count follows container width via auto-fill); --2col / --3col force
+  // a fixed count. Mirrors .pa-checkbox-list--grid / --2col / --3col. Tune the
+  // responsive minimum with --pa-checkbox-group-col-min.
+  &--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--pa-checkbox-group-col-min, 12rem), 1fr));
+    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+  }
+
+  &--2col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+  }
+
+  &--3col {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+  }
 }
 
 // ============================================================================
@@ -21,7 +54,10 @@
 .pa-checkbox {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-sm;
+  // Gap between the box and its label (the tight inner gap). Shared with
+  // .pa-radio so checkbox / radio option rows match. --pc-choice-inner-gap
+  // overrides it; default is the tight $spacing-sm (not the looser --pc-form-gap).
+  gap: var(--pc-choice-inner-gap, #{$spacing-sm});
   cursor: pointer;
   font-size: $font-size-sm;
   color: var(--pa-text-color-1);
@@ -161,6 +197,34 @@
       cursor: not-allowed;
     }
   }
+
+  // ----- Label position -----------------------------------------------------
+  // Default (no modifier) = label AFTER the box ("end"). The box + label are
+  // separate flex children, so position is a layout-only change (no DOM move),
+  // mirroring the "labelPosition: top | start | end" contract. Source order
+  // stays box→label for a predictable accessible name; --start/--top only
+  // re-order the visible label.
+  &--label-end {
+    flex-direction: row;
+    align-items: center;
+    .pa-checkbox__label { order: 0; }
+  }
+
+  // For start/top the box should hug the label, not stretch across the row.
+  // align-self opts the checkbox out of a .pa-checkbox-group's default
+  // align-items: stretch (which would otherwise blow it to full width and let
+  // the flex:1 label push the box to the far edge / center the stack).
+  &--label-start {
+    align-self: flex-start;
+    .pa-checkbox__label { order: -1; flex: 0 1 auto; }
+  }
+
+  &--label-top {
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: flex-start;
+    .pa-checkbox__label { order: -1; flex: 0 0 auto; }
+  }
 }
 
 // ============================================================================
@@ -169,7 +233,9 @@
 .pa-radio {
   display: flex;
   align-items: center;
-  gap: $form-scale;
+  // Gap between the input and its label — shared with .pa-checkbox (was the
+  // looser $form-gap; now matches the checkbox's tight inner gap).
+  gap: var(--pc-choice-inner-gap, #{$spacing-sm});
   cursor: pointer;
   font-size: $font-size-sm;
   color: var(--pa-text-color-1);
@@ -202,4 +268,47 @@
     width: $checkbox-size-xl;
     height: $checkbox-size-xl;
   }
+
+  // Label element. Bare-text radios (<label class="pa-radio"><input> Text</label>)
+  // keep rendering as legacy tolerance, but wrapping the text in
+  // .pa-radio__label is required for label positioning (bare text is an
+  // anonymous flex item and can't be re-ordered).
+  &__label {
+    flex: 1;
+  }
+
+  // ----- Label position (matches .pa-checkbox) ------------------------------
+  &--label-end {
+    flex-direction: row;
+    align-items: center;
+    .pa-radio__label { order: 0; }
+  }
+
+  &--label-start {
+    align-self: flex-start;
+    .pa-radio__label { order: -1; flex: 0 1 auto; }
+  }
+
+  &--label-top {
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: flex-start;
+    .pa-radio__label { order: -1; flex: 0 0 auto; }
+  }
+}
+
+// ============================================================================
+// Required marker on checkbox / radio option labels
+// ============================================================================
+// The form-group required rule (see _form-layout.scss) deliberately excludes
+// .pa-checkbox / .pa-radio because their label WRAPS the control. Here the
+// marker instead targets the option's own .pa-*__label, so a required checkbox
+// or radio shows a danger asterisk after its text — following the label to
+// whichever position (start / end / top) it sits in.
+.pa-checkbox:has(input:required) .pa-checkbox__label::after,
+.pa-radio:has(input:required) .pa-radio__label::after {
+  content: '*';
+  margin-inline-start: 0.2rem;
+  color: var(--pa-danger);
+  font-weight: $font-weight-medium;
 }

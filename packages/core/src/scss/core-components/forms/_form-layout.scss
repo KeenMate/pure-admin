@@ -6,17 +6,18 @@
 
 // Form Elements
 .pa-form-group {
-  margin-bottom: $form-group-margin-bottom;
+  // Gap BETWEEN fields (one .pa-form-group = one field).
+  margin-bottom: var(--pc-field-gap, #{$form-group-margin-bottom});
 
   // Remove margins when first/last child in card body (direct, in forms+grids, or in grid columns)
   .pa-card__body > &:first-child,
-  .pa-card__body > .pa-form > .pa-row > [class*="pa-col"]:first-child > &:first-child,
-  .pa-card__body > [class*="pa-col"]:first-child > &:first-child {
+  .pa-card__body > .pa-form > .pc-row > [class*="pc-col"]:first-child > &:first-child,
+  .pa-card__body > [class*="pc-col"]:first-child > &:first-child {
     margin-top: 0;
   }
   .pa-card__body > &:last-child,
-  .pa-card__body > .pa-form > .pa-row > [class*="pa-col"]:last-child > &:last-child,
-  .pa-card__body > [class*="pa-col"]:last-child > &:last-child {
+  .pa-card__body > .pa-form > .pc-row > [class*="pc-col"]:last-child > &:last-child,
+  .pa-card__body > [class*="pc-col"]:last-child > &:last-child {
     margin-bottom: 0;
   }
 }
@@ -25,7 +26,8 @@
 .pa-form-group--horizontal {
   display: flex;
   align-items: flex-start;
-  gap: $spacing-base;
+  // Horizontal field: gap between the label column and the input column.
+  gap: var(--pc-field-horizontal-gap, #{$spacing-base});
 
   label {
     flex-shrink: 0;
@@ -49,8 +51,9 @@
     label {
       display: flex;
       align-items: center;
-      gap: $form-scale;
-      margin-bottom: $form-label-margin-bottom;
+      gap: var(--pc-form-gap, #{$form-gap});
+      // A field's label → its control.
+      margin-bottom: var(--pc-label-gap, #{$form-label-margin-bottom});
       color: var(--pa-text-color-1);
       font-weight: $font-weight-medium;
       font-size: $font-size-sm;
@@ -58,9 +61,32 @@
   }
 
   .pa-form-actions {
-    margin-top: $spacing-base;
+    // Space above the actions row (last field → buttons).
+    margin-top: var(--pc-form-actions-offset, #{$spacing-base});
     display: flex;
-    gap: $form-scale;
+    // Gap between footer buttons. --pc-form-actions-gap overrides just this,
+    // falling back to the shared --pc-form-gap.
+    gap: var(--pc-form-actions-gap, var(--pc-form-gap, #{$form-gap}));
     flex-wrap: wrap;
   }
+}
+
+// Required-field marker
+// Driven purely by the native `required` attribute on the control — no extra
+// class needed. Whenever a form group contains a :required input / select /
+// textarea, a danger-coloured asterisk is appended after that field's label.
+// Works for hand-authored markup and for wrappers that just pass `required`
+// through. Checkbox / radio labels are excluded (their control sits inside the
+// label, so an appended asterisk would land after the option text).
+.pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after {
+  content: '*';
+  margin-inline-start: 0.2rem;
+  color: var(--pa-danger);
+  font-weight: $font-weight-medium;
+}
+
+// Inside .pa-form the label is a flex row whose `gap` already spaces the
+// marker, so drop the extra margin there.
+.pa-form .pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after {
+  margin-inline-start: 0;
 }

@@ -154,7 +154,7 @@ Height and flex utilities for dynamic layouts:
 Themes support light/dark modes via CSS classes on `<body>`:
 
 ```html
-<body class="pa-mode-dark">
+<body class="pc-mode-dark">
 ```
 
 The Dark theme also supports color accent variants:
@@ -173,7 +173,7 @@ The mode/variant classes go on **`<body>`**, not `<html>`. CSS custom-property v
 const styles = getComputedStyle(document.body);
 const textColor = styles.getPropertyValue('--pa-text-color-1').trim();
 
-// ❌ wrong — reads <html>, misses .pa-mode-light overrides on <body>
+// ❌ wrong — reads <html>, misses .pc-mode-light overrides on <body>
 getComputedStyle(document.documentElement).getPropertyValue('--pa-text-color-1');
 ```
 
@@ -185,7 +185,7 @@ Code that **snapshots** CSS vars at draw time (D3 charts, canvas, baked SVG fill
 
 ```js
 // Mode toggler
-document.body.classList.toggle('pa-mode-dark');
+document.body.classList.toggle('pc-mode-dark');
 window.dispatchEvent(new CustomEvent('pa:theme-change', { detail: { kind: 'mode' } }));
 ```
 

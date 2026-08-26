@@ -23,14 +23,16 @@ font). No .pa-form-label class is needed — just use native <label>.
 -->
 
 <form class="pa-form">
+  <!-- Required field: the native `required` attribute auto-appends a
+       danger asterisk after the label (no class needed). -->
   <div class="pa-form-group">
     <label for="username">Username</label>
-    <input type="text" class="pa-input" id="username" placeholder="Enter username">
+    <input type="text" class="pa-input" id="username" placeholder="Enter username" required>
   </div>
 
   <div class="pa-form-group">
     <label for="email">Email</label>
-    <input type="email" class="pa-input" id="email" placeholder="your@email.com">
+    <input type="email" class="pa-input" id="email" placeholder="your@email.com" required>
   </div>
 
   <div class="pa-form-group">
@@ -246,11 +248,22 @@ via JS (the SCSS listens for `input:indeterminate`):
 
 
 <!-- RADIO BUTTONS (native styling + sizes) -->
+<!-- Canonical shape wraps the text in .pa-radio__label. Bare text
+     (<label class="pa-radio"><input> Option 1</label>) still renders as
+     legacy tolerance, but the span is required for label positioning
+     (bare text is an anonymous flex item and can't be re-ordered). -->
 
 <div class="pa-radio-group">
-  <label class="pa-radio"><input type="radio" name="radioGroup" checked> Option 1</label>
-  <label class="pa-radio"><input type="radio" name="radioGroup"> Option 2</label>
-  <label class="pa-radio"><input type="radio" name="radioGroup" disabled> Option 3 (disabled)</label>
+  <label class="pa-radio"><input type="radio" name="radioGroup" checked> <span class="pa-radio__label">Option 1</span></label>
+  <label class="pa-radio"><input type="radio" name="radioGroup"> <span class="pa-radio__label">Option 2</span></label>
+  <label class="pa-radio"><input type="radio" name="radioGroup" disabled> <span class="pa-radio__label">Option 3 (disabled)</span></label>
+</div>
+
+<!-- Label position (needs .pa-radio__label). Default is label-end. -->
+<div class="pa-radio-group pa-radio-group--horizontal">
+  <label class="pa-radio pa-radio--label-end"><input type="radio" name="posDemo" checked> <span class="pa-radio__label">End</span></label>
+  <label class="pa-radio pa-radio--label-start"><input type="radio" name="posDemo"> <span class="pa-radio__label">Start</span></label>
+  <label class="pa-radio pa-radio--label-top"><input type="radio" name="posDemo"> <span class="pa-radio__label">Top</span></label>
 </div>
 
 <!-- Radio sizes scale the native input (wrapper stays flex) -->
@@ -392,20 +405,20 @@ builders. Each token is a pa-badge plus a close button.
 <!-- MULTI-COLUMN FORMS WITH THE GRID -->
 
 <form class="pa-form">
-  <div class="pa-row">
-    <div class="pa-col-100 pa-col-md-1-3">
+  <div class="pc-row">
+    <div class="pc-col-100 pc-col-md-1-3">
       <div class="pa-form-group">
         <label for="fname">First Name</label>
         <input type="text" id="fname" class="pa-input" placeholder="John">
       </div>
     </div>
-    <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-col-100 pc-col-md-1-3">
       <div class="pa-form-group">
         <label for="lname">Last Name</label>
         <input type="text" id="lname" class="pa-input" placeholder="Doe">
       </div>
     </div>
-    <div class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-col-100 pc-col-md-1-3">
       <div class="pa-form-group">
         <label for="mail">Email</label>
         <input type="email" id="mail" class="pa-input" placeholder="john@example.com">
@@ -428,14 +441,14 @@ builders. Each token is a pa-badge plus a close button.
   </div>
   <div class="pa-card__body">
     <form class="pa-form">
-      <div class="pa-row">
-        <div class="pa-col-100 pa-col-md-1-2">
+      <div class="pc-row">
+        <div class="pc-col-100 pc-col-md-1-2">
           <div class="pa-form-group">
             <label for="first">First Name</label>
             <input type="text" id="first" class="pa-input" placeholder="John">
           </div>
         </div>
-        <div class="pa-col-100 pa-col-md-1-2">
+        <div class="pc-col-100 pc-col-md-1-2">
           <div class="pa-form-group">
             <label for="last">Last Name</label>
             <input type="text" id="last" class="pa-input" placeholder="Doe">
@@ -481,7 +494,21 @@ NOT .pa-textarea):
 - .pa-form-group--warning
 - .pa-form-group--error
 
-(No .pa-form-group--required class — use the native `required` attribute.)
+(No .pa-form-group--required class — see REQUIRED FIELDS below.)
+
+REQUIRED FIELDS:
+There is no required class or modifier. Put the native `required`
+attribute on the control and the framework appends a danger-coloured
+asterisk after that group's label automatically — via
+.pa-form-group:has(:required) > label::after. Nothing to add to the
+label; it is purely attribute-driven, so wrappers just pass `required`
+through and hand-authored markup gets the marker for free. Checkbox /
+radio labels are excluded (the control lives inside the label).
+
+  <div class="pa-form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" class="pa-input" required>
+  </div>
 
 LABELS:
 Inside .pa-form .pa-form-group, a bare <label> gets framework styling
@@ -538,11 +565,22 @@ States:
                                `el.indeterminate = true` instead)
 
 - .pa-checkbox-group           Vertical flex stack
+- .pa-checkbox-group--horizontal  Wrapping row instead of a column
 
 RADIO:
 - .pa-radio                    <label> wrapper for a native radio input
+- .pa-radio__label             Text label (canonical). Bare text still renders,
+                               but the span is required for label positioning.
 - .pa-radio--xs / --sm / --lg / --xl    Size variants (scale the input)
+- .pa-radio--label-end         Label after the input (DEFAULT).
+- .pa-radio--label-start       Label before the input.
+- .pa-radio--label-top         Label stacked above the input.
+- Required: `required` on the <input> appends a danger asterisk to
+  .pa-radio__label (.pa-radio:has(input:required)).
 - .pa-radio-group              Vertical flex stack
+- .pa-radio-group--horizontal  Wrapping row instead of a column
+- .pa-radio-group--grid        CSS-grid auto-flow (options wrap into rows by
+                               themselves; --2col / --3col force a fixed count)
 
 INPUT GROUP (prepend / append / button — RTL-aware via logical borders):
 - .pa-input-group
@@ -637,11 +675,11 @@ Tri-state checkbox (indeterminate set via JS):
 
 Multi-column form with grid:
 <form class="pa-form">
-  <div class="pa-row">
-    <div class="pa-col-100 pa-col-md-1-2">
+  <div class="pc-row">
+    <div class="pc-col-100 pc-col-md-1-2">
       <div class="pa-form-group">…</div>
     </div>
-    <div class="pa-col-100 pa-col-md-1-2">
+    <div class="pc-col-100 pc-col-md-1-2">
       <div class="pa-form-group">…</div>
     </div>
   </div>

@@ -115,6 +115,8 @@
     <script src="/src/js/pa-stat-fit.js"></script>
     <!-- Range group (compact multi-range filter: floating slider panel) -->
     <script src="/src/js/range-group.js"></script>
+    <!-- Checkbox (static indeterminate + tri-state cycling) -->
+    <script src="/src/js/checkbox.js"></script>
     <!-- Privacy-friendly analytics by Plausible -->
     <script async src="https://stats.keenmate.services/js/pa-TBkiKKHcNPQuFC2Z7YQ1l.js"></script>
     <script>
@@ -187,10 +189,10 @@
                 ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
                 : savedThemeMode;
             if (resolvedThemeMode === 'dark') {
-                document.body.classList.add('pa-mode-dark');
+                document.body.classList.add('pc-mode-dark');
                 document.body.dataset.theme = 'dark'; // For web components (web-grid, etc.)
             } else if (resolvedThemeMode === 'light') {
-                document.body.classList.add('pa-mode-light');
+                document.body.classList.add('pc-mode-light');
                 document.body.dataset.theme = 'light';
             }
 

@@ -315,14 +315,14 @@ $header-bg: #1e293b;
 @import '@keenmate/pure-admin-core/src/scss/base-css-variables';
 
 // 5. Emit CSS variables at :root, light-mode by default
-:root, .pa-mode-light {
+:root, .pc-mode-light {
   @include output-base-css-variables;
   @include output-pa-css-variables;
   @include output-pa-alert-variables-light;
 }
 
-// 6. Dark mode block — overrides --pa-* values at .pa-mode-dark
-.pa-mode-dark {
+// 6. Dark mode block — overrides --pa-* values at .pc-mode-dark
+.pc-mode-dark {
   --pa-main-bg: #{$dark-bg};
   // ... per-token dark overrides
   @include output-pa-alert-variables-dark;

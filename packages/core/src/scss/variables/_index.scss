@@ -16,3 +16,14 @@
 // ============================================================================
 
 @import '@keenmate/pure-css/src/scss/variables/index';
+
+// ----------------------------------------------------------------------------
+// $form-gap — the honestly-named form-gap token. Owned upstream by pure-css
+// (rc04+, where $form-scale became a deprecated alias of $form-gap). This line
+// is a transitional safety net: on pure-css rc04+ it is a no-op (pure-css sets
+// $form-gap first); on older pure-css (rc03, $form-scale only) it derives
+// $form-gap from $form-scale so core keeps building either way. $form-gap is
+// only ever used as a `gap:` value; the runtime counterpart is --pc-form-gap.
+// Drop this line once the pure-css floor is >= rc04.
+$form-gap: $form-scale !default;
+

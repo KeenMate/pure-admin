@@ -33,12 +33,25 @@
   <span class="pa-checkbox__label">Checked</span>
 </label>
 
+<!-- Static indeterminate (the "mixed" dash). `indeterminate` is a DOM property,
+     not an HTML attribute, so it can't be set in markup alone. Mark the input
+     with data-pa-indeterminate and checkbox.js sets it on init (or set
+     el.indeterminate = true yourself). -->
 <label class="pa-checkbox">
-  <input type="checkbox" id="indeterminate-demo">
+  <input type="checkbox" data-pa-indeterminate>
   <span class="pa-checkbox__box"></span>
-  <span class="pa-checkbox__label">Indeterminate</span>
+  <span class="pa-checkbox__label">Indeterminate (mixed)</span>
 </label>
-<script>document.getElementById('indeterminate-demo').indeterminate = true;</script>
+
+<!-- Three-state cycler: data-pa-tristate on the .pa-checkbox makes each click
+     cycle unchecked → checked → indeterminate. Flip the order with
+     data-pa-tristate-order="indeterminate-first". Two-state is just a plain
+     .pa-checkbox with no data-pa-tristate. -->
+<label class="pa-checkbox" data-pa-tristate>
+  <input type="checkbox">
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Three-state (click to cycle)</span>
+</label>
 
 <!-- Size Variants -->
 <label class="pa-checkbox pa-checkbox--xs">
@@ -102,6 +115,40 @@
   <span class="pa-checkbox__box"></span>
   <span class="pa-checkbox__label">Disabled checked</span>
 </label>
+
+<!-- Label position — default (no modifier) is label AFTER the box ("end").
+     The box + label are separate flex children, so --label-start / --label-top
+     just re-order the visible label; source order stays box→label. -->
+<label class="pa-checkbox pa-checkbox--label-start">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Label start</span>
+</label>
+
+<label class="pa-checkbox pa-checkbox--label-top">
+  <input type="checkbox" checked>
+  <span class="pa-checkbox__box"></span>
+  <span class="pa-checkbox__label">Label top</span>
+</label>
+
+<!-- Horizontal group — options wrap in a row instead of stacking. -->
+<div class="pa-checkbox-group pa-checkbox-group--horizontal">
+  <label class="pa-checkbox">
+    <input type="checkbox" checked>
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Red</span>
+  </label>
+  <label class="pa-checkbox">
+    <input type="checkbox">
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Green</span>
+  </label>
+  <label class="pa-checkbox">
+    <input type="checkbox">
+    <span class="pa-checkbox__box"></span>
+    <span class="pa-checkbox__label">Blue</span>
+  </label>
+</div>
 
 <!-- Checkbox Group (form-layout container)
      A plain flex-column wrapper that stacks standalone .pa-checkbox items
@@ -509,11 +556,31 @@ CUSTOM CHECKBOX COMPONENT (pa-checkbox — see forms.html for full docs):
 - .pa-checkbox--x               Swap the checkmark for an X.
 - .pa-checkbox--disabled        Explicit disabled style
                                 (also auto-applied via :has(input:disabled)).
-- Indeterminate: set via JS — `el.indeterminate = true`. The HTML
-  attribute alone does nothing.
+- .pa-checkbox--label-end       Label after the box (DEFAULT — modifier is
+                                optional, use it to override an inherited state).
+- .pa-checkbox--label-start     Label before the box.
+- .pa-checkbox--label-top       Label stacked above the box.
+- Required: put `required` on the <input>. A danger asterisk is appended to
+  the .pa-checkbox__label automatically (.pa-checkbox:has(input:required)) —
+  unlike plain fields, checkbox/radio mark the OPTION label, not a field label.
+
+TWO-STATE vs THREE-STATE (checkbox.js drives the property, since `indeterminate`
+is a DOM property, not an HTML attribute):
+- Two-state                     A plain .pa-checkbox — checked / unchecked.
+- data-pa-indeterminate         On the <input>: checkbox.js sets the mixed
+                                (indeterminate) dash on init. Static, no cycling.
+- data-pa-tristate              On the .pa-checkbox <label>: each click cycles
+                                unchecked → checked → indeterminate.
+- data-pa-tristate-order="indeterminate-first"
+                                Cycle unchecked → indeterminate → checked instead.
+  (You can still drive it manually with `el.indeterminate = true` if you don't
+   load checkbox.js.)
 
 CHECKBOX GROUP (.pa-checkbox-group — form-layout container):
-- .pa-checkbox-group            Flex column with a $form-scale gap that
+- .pa-checkbox-group            Flex column. Gap BETWEEN options = --pc-choice-gap
+                                (falls back to the shared --pc-form-gap). The gap
+                                between a box and its label is a separate token,
+                                --pc-choice-inner-gap. This container
                                 stacks standalone .pa-checkbox items in a
                                 form. Shares its rule with .pa-radio-group.
                                 Distinct from .pa-checkbox-list, which is a
@@ -522,6 +589,14 @@ CHECKBOX GROUP (.pa-checkbox-group — form-layout container):
                                 checkboxes lined up, the list when you want
                                 selectable rows with states/descriptions/
                                 actions.
+- .pa-checkbox-group--horizontal  Lay options out in a wrapping row instead of
+                                a column (mirrors radio-group orientation).
+- .pa-checkbox-group--grid       CSS-grid auto-flow: options fill as many columns
+                                as fit and wrap into rows by themselves (responsive
+                                via auto-fill; tune the min column with
+                                --pa-checkbox-group-col-min, default 12rem).
+- .pa-checkbox-group--2col / --3col  Fixed 2- / 3-column grid.
+  (Same three layout modifiers apply to .pa-radio-group.)
 
 CHECKBOX LIST (.pa-checkbox-list):
 

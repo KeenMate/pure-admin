@@ -29,7 +29,7 @@ Tracks which snippets have been cross-checked against their SCSS source and when
 | `tables.html` | 2026-04-24 | `core-components/_tables.scss` (covers `.pa-table`, `.pa-table-container`, `.pa-table-card`), `core-components/_pagers.scss` (covers `.pa-pager`, `.pa-load-more`) | [e34ca85](../../../commit/e34ca85) |
 | `lists.html` | 2026-04-24 | `core-components/_lists.scss` | [894b0dd](../../../commit/894b0dd) |
 | `tooltips.html` | 2026-04-24 | `core-components/_tooltips.scss` | [b2d196b](../../../commit/b2d196b) |
-| `grid.html` | 2026-04-24 | `core-components/_grid.scss`, `utilities.scss` (.pa-cq), `variables/_spacing.scss` ($grid-breakpoints) | [0bd9f16](../../../commit/0bd9f16) |
+| `grid.html` | 2026-04-24 | `core-components/_grid.scss`, `utilities.scss` (.pc-cq), `variables/_spacing.scss` ($grid-breakpoints) | [0bd9f16](../../../commit/0bd9f16) |
 | `utilities.html` | 2026-04-24 | `utilities.scss` (main utilities), `core-components/_utilities.scss` (components-adjacent helpers), `variables/_spacing.scss` (spacing scale) | [20df758](../../../commit/20df758) |
 | `cards.html` | 2026-04-24 | `core-components/_cards.scss` | [4a67018](../../../commit/4a67018) |
 | `forms.html` | 2026-04-24 | `core-components/forms/` (all 7 files: _form-layout, _form-inputs, _form-states, _input-groups, _input-wrapper, _checkboxes-radios, _query-editor) | [272f141](../../../commit/272f141) |
@@ -123,8 +123,8 @@ place:
   uniform two-family scheme; in reality gauges use `--warning` and strip/edit/bento
   deltas use `--up-strong/--down-strong` (not `--very-*`). Rewrote as a per-family
   breakdown pointing to each design's own reference.
-- **`utilities.html` — invented `pa-col--start/end`.** Line 702 listed it as a
-  logical RTL-flipping utility; no such class exists (real `pa-col--*` modifiers
+- **`utilities.html` — invented `pc-col--start/end`.** Line 702 listed it as a
+  logical RTL-flipping utility; no such class exists (real `pc-col--*` modifiers
   are `--grow/--shrink/--no-padding`). Removed it; kept the real `text-start/end`
   (+ `.pa-text--start/--end`).
 
@@ -159,7 +159,7 @@ re-verified by hand before fixing. Defects found and fixed:
   virtual-scroll.html already documents this correctly, so timeline was the
   outlier. Replaced with `.pa-spinner pa-spinner--primary` + a note that the
   demo's `.pa-loader` wrapper is an inert JS-visibility hook.
-- **`utilities.html` — invented `pa-col--start/end`** (removed) and **`text-muted`**
+- **`utilities.html` — invented `pc-col--start/end`** (removed) and **`text-muted`**
   (removed; alias line for a class that doesn't exist).
 - **`typography.html` — `.text-muted`** in the semantic-colour reference (removed;
   `grep -c '.text-muted' main.css` = 0). Same invented alias as utilities.html.

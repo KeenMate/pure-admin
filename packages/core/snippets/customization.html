@@ -8,7 +8,7 @@
        1. RUNTIME — CSS variables on :root or any scope
                     (theme-aware, no rebuild, supports mode switching)
        2. MODE / VARIANT body classes
-                    (toggle .pa-mode-dark, .pa-color-* on <body>)
+                    (toggle .pc-mode-dark, .pa-color-* on <body>)
        3. THEME SWAP
                     (load a different /dist/css/themes/<name>.css)
        4. BUILD-TIME SCSS overrides
@@ -113,8 +113,8 @@
 <script>
 function setThemeMode(mode /* 'light' | 'dark' */) {
     const body = document.body;
-    body.classList.remove('pa-mode-light', 'pa-mode-dark');
-    body.classList.add(`pa-mode-${mode}`);
+    body.classList.remove('pc-mode-light', 'pc-mode-dark');
+    body.classList.add(`pc-mode-${mode}`);
     body.dataset.theme = mode; // for web components keyed on data-theme
     localStorage.setItem('theme-mode', mode);
 }
@@ -240,7 +240,7 @@ LAYERS — pick the lightest one that does the job:
      theming, page loader overrides.
 
   2. MODE / VARIANT BODY CLASSES (set by JS)
-     - .pa-mode-light / .pa-mode-dark
+     - .pc-mode-light / .pc-mode-dark
      - .pa-color-{name}      (theme-defined colour variants)
      - data-theme="light"|"dark"   (web components keyed on data-theme)
      Use for: user-controlled theme / mode toggles.
@@ -322,7 +322,7 @@ Section-scoped theme tweak:
 </style>
 
 Light/dark toggle (body class set by JS):
-<body class="pa-mode-dark" data-theme="dark">…</body>
+<body class="pc-mode-dark" data-theme="dark">…</body>
 
 Theme swap at runtime:
 <link id="theme-css" rel="stylesheet" href="/dist/css/themes/corporate.css">

@@ -192,8 +192,8 @@ In Docker builds, themes are automatically fetched via `/api/bundle`. No local t
 ### Theme Modes & Variants
 
 Themes support light/dark modes via CSS classes on `<body>`:
-- `.pa-mode-light` - Force light mode
-- `.pa-mode-dark` - Force dark mode
+- `.pc-mode-light` - Force light mode
+- `.pc-mode-dark` - Force dark mode
 
 The Dark theme supports color accent variants:
 - `.pa-color-blue` - Blue accent

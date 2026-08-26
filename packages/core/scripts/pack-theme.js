@@ -304,8 +304,8 @@ ${theme.modes && theme.modes.supported && theme.modes.supported.length > 1
   ? `This theme supports ${modesText} modes. Add the mode class to toggle:
 
 \`\`\`html
-<body class="pa-mode-dark">  <!-- dark mode -->
-<body class="pa-mode-light"> <!-- light mode -->
+<body class="pc-mode-dark">  <!-- dark mode -->
+<body class="pc-mode-light"> <!-- light mode -->
 \`\`\``
   : `This theme supports ${modesText} mode.`}
 

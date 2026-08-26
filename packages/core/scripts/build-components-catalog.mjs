@@ -120,8 +120,8 @@ function dedicatedDocs(stems, comp, ext) {
 const TAXONOMY = [
   // ---------------- Layout & shell ----------------
   { key: 'layout', name: 'Layout shell', category: 'Layout & shell',
-    desc: 'Top-level page frame: header / sidebar / main / footer zones, sticky mode, and the theme light/dark + scroll-lock body hooks.',
-    blocks: ['pa-layout', 'pa-mode', 'pa-mode-dark', 'pa-scroll-lock'] },
+    desc: 'Top-level page frame: header / sidebar / main / footer zones, sticky mode, and the scroll-lock body hook. (Light/dark mode scopes are now the foundation-owned .pc-mode-* classes — see pure-css.)',
+    blocks: ['pa-layout', 'pa-scroll-lock'] },
   { key: 'navbar', name: 'Navbar', category: 'Layout & shell',
     desc: 'Top application bar with start/center/end zones, mobile burger, and profile button.',
     blocks: ['pa-navbar'] },
@@ -146,9 +146,10 @@ const TAXONOMY = [
   { key: 'container', name: 'Width containers', category: 'Layout & shell',
     desc: 'Max-width centering containers (sm/md/lg/xl/2xl).',
     blocks: ['pa-container-sm', 'pa-container-md', 'pa-container-lg', 'pa-container-xl', 'pa-container-2xl'] },
-  { key: 'grid', name: 'Grid (row/col)', category: 'Layout & shell',
-    desc: 'Flexbox row + column primitives. pa-col-* percentage/responsive variants are generated utilities (see utilities.scss).',
-    blocks: ['pa-row', 'pa-col'] },
+  // Grid (pc-row / pc-col*) moved to the @keenmate/pure-css foundation and is
+  // now pc-* prefixed — it is no longer a pure-admin pa-* component, so it is
+  // not part of this catalog (the generator only tracks .pa-* classes). See
+  // pure-css for the grid contract.
 
   // ---------------- Surfaces ----------------
   { key: 'card', name: 'Card', category: 'Surfaces',
@@ -334,7 +335,7 @@ const TAXONOMY = [
 
   // ---------------- Utilities & state hooks ----------------
   { key: 'utilities', name: 'Utilities & state hooks', category: 'Utilities & state hooks',
-    desc: 'Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers, fit-hidden. See utilities.scss for the full utility set (spacing, sizing, pa-col-* percentages, logical margins, etc.).',
+    desc: 'Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers, fit-hidden. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).',
     blocks: ['pa-text', 'pa-text-color', 'pa-link', 'pa-fit-hidden', 'pa-font-base', 'pa-font-mobile', 'pa-font-responsive', 'pa-bg-color', 'pa-border-color'] },
 ];
 

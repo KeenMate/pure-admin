@@ -7,8 +7,85 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed (BREAKING)
+
+- **Grid classes are now `pc-*` (foundation-owned), not `pa-*`.** Following the
+  pure-css rc04 grid rename, `.pa-row`/`.pa-col*`/`.pa-offset*`/`.pa-cq`/
+  `.pa-hide*`/`.pa-show*` are gone — use `.pc-row`/`.pc-col*`/etc. The grid is a
+  pure-css foundation primitive (pure-admin only shims it), so it no longer
+  carries the `pa-` brand and is no longer part of the pa-* component catalog.
+  Core layout, all demo pages, and snippets are migrated. Requires pure-css
+  ≥ rc04. Migrate consuming markup with a boundary-aware replace (do NOT touch
+  `pa-color-*`).
+- **Light/dark mode classes renamed `.pa-mode-*` → `.pc-mode-*`** (foundation-owned,
+  following pure-css rc04). Dark-mode component rules, the mode-toggle JS, and the
+  demo now use `.pc-mode-dark`/`.pc-mode-light`. `.pa-modal` is unaffected.
+
+### Changed
+
+- **Form gaps: named honestly, split semantically, tunable at runtime.** The
+  pure-css `$form-scale` token (misleading — it reads like a sizing multiplier but
+  is only ever a `gap:` value) is renamed to `$form-gap` (with `$form-scale` kept
+  as a deprecated alias). More importantly, the single overloaded gap is now split
+  into per-context CSS variables, each falling back to a shared `--pc-form-gap`
+  (which falls back to `$form-gap`), so one knob moves them all *or* you override
+  one:
+  - `--pc-choice-gap` — space **between** checkbox/radio options (group + grid/
+    horizontal row-gap)
+  - `--pc-choice-inner-gap` — space between a checkbox/radio **control and its
+    label** (now a shared token for both; default `$spacing-sm`)
+  - `--pc-form-actions-gap` — space between **footer buttons**
+  - `--pc-form-gap` — the shared fallback (also the label↔inline-icon gap)
+
+  The **complete** form-spacing anatomy is now runtime-tunable via `--pc-*` (both
+  axes, single-sourced in pure-css rc04) — the vertical rhythm that used to be
+  compile-time-only margins is promoted too:
+  - `--pc-field-gap` — **between fields** (was `$form-group-margin-bottom`)
+  - `--pc-label-gap` — a field's **label → control** (was `$form-label-margin-bottom`)
+  - `--pc-help-gap` — a **control → help/error text** (was `$form-help-margin-top`)
+  - `--pc-form-actions-offset` — **last field → actions row** (was a hardcoded `$spacing-base`)
+  - `--pc-field-horizontal-gap` — horizontal field **label col → input col** (was hardcoded)
+
+  Every var falls back to its original SCSS default, so all values are unchanged;
+  each is now overridable on any scope (e.g. `--pc-field-gap: 1.6rem` on a `.pa-form`
+  to loosen a cramped form).
+
 ### Added
 
+- **Checkbox / radio label position + group orientation, and first-class two/
+  three-state checkboxes.** Building on the existing custom `.pa-checkbox` (whose
+  box + label were already separate flex children) and mirroring the fluent-ui
+  contract: `.pa-checkbox--label-start / --label-top` (and explicit `--label-end`
+  default) re-order the visible label with no DOM change; `.pa-radio` gains a real
+  `.pa-radio__label` element (bare text stays legacy) plus the same
+  `--label-start/-end/-top`; and `.pa-checkbox-group--horizontal` /
+  `.pa-radio-group--horizontal` lay options in a wrapping row;
+  `--grid` / `--2col` / `--3col` add CSS-grid auto-flow (options wrap into rows on
+  their own, responsive `--grid` via `auto-fill` + `--pa-checkbox-group-col-min`),
+  mirroring `.pa-checkbox-list--grid/--2col/--3col`. Tri-state: the
+  `:indeterminate` dash was already styled, but `indeterminate` is a DOM property,
+  not an attribute — so a small `checkbox.js` sets it from `data-pa-indeterminate`
+  (static "mixed") and cycles unchecked → checked → indeterminate on a
+  `data-pa-tristate` checkbox (order flippable via
+  `data-pa-tristate-order="indeterminate-first"`), the same imperative approach
+  svelte-treeview uses. Registered as `window.pureAdmin.components.checkbox`.
+  Themes must be rebuilt. (Demo + snippets updated; two-state is just a plain
+  `.pa-checkbox`.)
+- **Required-field marker, driven by the native `required` attribute.** Forms had
+  no way to mark a field required — no class, no `[required]`/`:required` styling,
+  no asterisk anywhere in the SCSS or the `/forms` demo. The only pattern was a
+  hand-placed `<span class="text-danger">*</span>` in the label (seen on the
+  `/validations` page). Added `.pa-form-group:has(:required) > label::after`, which
+  appends a `--pa-danger` asterisk after a field's label whenever the group
+  contains a `:required` control — no class to add, works for hand-authored markup
+  and for wrappers that just pass `required` through. Field-label rule excludes
+  checkbox / radio (their control lives inside the label); those get a dedicated
+  marker instead — `.pa-checkbox:has(input:required) .pa-checkbox__label` (and the
+  radio equivalent) append the asterisk to the OPTION label, following it to
+  whichever label position it sits in. Inside `.pa-form` the label is a
+  flex row whose `gap` spaces the marker; elsewhere a small `margin-inline-start`
+  handles it. Themes must be rebuilt to pick up the rule. (Documented in
+  `forms.html`; a couple of `/forms` fields now set `required` to show it.)
 - **`pa-tabs--wrap-labels` — multi-line tab titles with unified height.** Tab
   items are `white-space: nowrap` by default, so a long title (e.g. "Complaints
   and missed items" next to "Orders") could only overflow or force the whole row

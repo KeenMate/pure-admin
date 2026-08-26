@@ -388,8 +388,8 @@
     function renderUserDetails(user) {
         const statusClass = user.status === 'Active' ? 'pa-badge--success' : 'pa-badge--secondary';
         return `
-            <div class="pa-row gap-sm" style="margin-bottom: 1.6rem;">
-                <div class="pa-col-100">
+            <div class="pc-row gap-sm" style="margin-bottom: 1.6rem;">
+                <div class="pc-col-100">
                     <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.6rem;">
                         <div style="width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--pa-accent-light); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: var(--pa-accent); flex-shrink: 0;">
                             ${user.name.charAt(0)}

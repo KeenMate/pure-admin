@@ -40,8 +40,8 @@
         <!-- Content wrapper (scrolls in sticky mode) -->
         <div class="pa-layout__content">
             <!-- Main content — sets container-type: inline-size, so
-                 pa-col-sm-* / -md-* / -lg-* / -xl-* grid responsiveness
-                 works automatically for any pa-row nested inside. -->
+                 pc-col-sm-* / -md-* / -lg-* / -xl-* grid responsiveness
+                 works automatically for any pc-row nested inside. -->
             <main class="pa-layout__main">
                 <!-- Your page content here -->
             </main>
@@ -99,22 +99,22 @@
      BODY STATE HOOKS (theme mode + scroll lock)
      More <body>-level classes, toggled by JS at runtime — orthogonal to the
      layout/container flags above:
-       pa-mode-light / pa-mode-dark
+       pc-mode-light / pc-mode-dark
                           — active theme mode. Themes emit their --pa-* values
-                            at :root/.pa-mode-light and dark overrides at
-                            .pa-mode-dark, so flipping this class on <body>
+                            at :root/.pc-mode-light and dark overrides at
+                            .pc-mode-dark, so flipping this class on <body>
                             switches light/dark at runtime. Set exactly one.
        pa-scroll-lock     — freezes body scroll while an overlay/panel is open
                             (detail-panel, modal, mobile sidebar); remove it
                             when the overlay closes.
      ================================ -->
 
-<body class="pa-mode-dark">
+<body class="pc-mode-dark">
     <!-- Dark theme active -->
 </body>
 
 <!-- Light theme with body scroll frozen (e.g. a detail panel is open) -->
-<body class="pa-mode-light pa-scroll-lock">
+<body class="pc-mode-light pa-scroll-lock">
     <!-- … -->
 </body>
 
@@ -709,7 +709,7 @@ LAYOUT SHELL:
 - .pa-layout__main             Main content region. Sets
                                container-type: inline-size — this is
                                WHY responsive grid classes
-                               (pa-col-sm-*, -md-*, etc.) work inside
+                               (pc-col-sm-*, -md-*, etc.) work inside
                                the layout automatically.
 - .pa-layout__footer           Page footer; flex row with start/center/end
                                sections (responsive — center hidden on mobile).
@@ -732,10 +732,10 @@ BODY-LEVEL FLAGS (orthogonal — any combination is valid):
 - .sidebar-visible             Mobile sidebar overlay visible.
 - .pa-sidebar-resizing         Set by the resize JS during drag (locks
                                text selection, forces ew-resize cursor).
-- .pa-mode-light / .pa-mode-dark
+- .pc-mode-light / .pc-mode-dark
                                Active theme mode. Themes emit --pa-* values at
-                               :root/.pa-mode-light and dark overrides at
-                               .pa-mode-dark, so toggling this on <body> flips
+                               :root/.pc-mode-light and dark overrides at
+                               .pc-mode-dark, so toggling this on <body> flips
                                light/dark at runtime. Set exactly one.
 - .pa-scroll-lock              Freezes body scroll while an overlay/panel is
                                open (detail-panel, modal, mobile sidebar);

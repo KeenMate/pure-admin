@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **2.9.0-rc15** · **67** components · **170** blocks · **655** class selectors.
+Framework version **2.9.0-rc15** · **66** components · **166** blocks · **652** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -21,7 +21,6 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 | Sidebar | `pa-sidebar` | Layout & shell | ✓ | ✓ |
 | Footer | `pa-footer` | Layout & shell | ✓ | ✗ |
 | Width containers | `pa-container-2xl` | Layout & shell | ✓ | ✗ |
-| Grid (row/col) | `pa-col` | Layout & shell | ✓ | ✓ |
 | Card | `pa-card` | Surfaces | ✓ | ✓ |
 | Section | `pa-section` | Surfaces | ✓ | ✗ |
 | Splitter | `pa-splitter` | Surfaces | ✓ | ✓ |
@@ -84,12 +83,12 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 
 ### Layout shell — `pa-layout`
 
-Top-level page frame: header / sidebar / main / footer zones, sticky mode, and the theme light/dark + scroll-lock body hooks.
+Top-level page frame: header / sidebar / main / footer zones, sticky mode, and the scroll-lock body hook. (Light/dark mode scopes are now the foundation-owned .pc-mode-* classes — see pure-css.)
 
-- **Blocks:** `pa-layout`, `pa-mode`, `pa-mode-dark`, `pa-scroll-lock`
+- **Blocks:** `pa-layout`, `pa-scroll-lock`
 - **Elements:** `pa-layout__content`, `pa-layout__footer`, `pa-layout__inner`, `pa-layout__main`, `pa-layout__sidebar`
 - **Modifiers / states:** `pa-layout--sticky`, `pa-layout__sidebar--icon-collapse`
-- **SCSS:** `core-components/_utilities.scss`, `core-components/forms/_form-inputs.scss`, `core-components/layout/_layout-container.scss`
+- **SCSS:** `core-components/_utilities.scss`, `core-components/layout/_layout-container.scss`
 - **Snippet:** `layout.html`
 - **Demo:** `layout.mustache`, `layouts.mustache`
 
@@ -172,15 +171,6 @@ Max-width centering containers (sm/md/lg/xl/2xl).
 - **SCSS:** —
 - **Snippet:** `layout.html`
 - **Demo:** ✗ none
-
-### Grid (row/col) — `pa-col`
-
-Flexbox row + column primitives. pa-col-* percentage/responsive variants are generated utilities (see utilities.scss).
-
-- **Blocks:** `pa-col`, `pa-row`
-- **SCSS:** —
-- **Snippet:** `grid.html`
-- **Demo:** `grid.mustache`
 
 ## Surfaces
 
@@ -354,6 +344,7 @@ Custom-styled checkbox (box + label) and checkbox group.
 Custom-styled radio and radio group.
 
 - **Blocks:** `pa-radio`, `pa-radio-group`
+- **Elements:** `pa-radio__label`
 - **SCSS:** `core-components/forms/_checkboxes-radios.scss`
 - **Snippet:** `forms.html`
 - **Demo:** ✗ none
@@ -779,7 +770,7 @@ Mask-based icon element (pa-icon--x etc.).
 
 ### Utilities & state hooks — `pa-bg-color`
 
-Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers, fit-hidden. See utilities.scss for the full utility set (spacing, sizing, pa-col-* percentages, logical margins, etc.).
+Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers, fit-hidden. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).
 
 - **Blocks:** `pa-bg-color`, `pa-border-color`, `pa-fit-hidden`, `pa-font-base`, `pa-font-mobile`, `pa-font-responsive`, `pa-link`, `pa-text`, `pa-text-color`
 - **SCSS:** `core-components/_utilities.scss`, `core-components/layout/_navbar-elements.scss`

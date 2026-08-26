@@ -254,10 +254,10 @@
         // Apply a concrete mode class ('light'/'dark') to <body>. No persistence —
         // callers decide what value ('light'/'dark'/'auto') to store.
         const applyModeClass = (mode, manifest) => {
-            const cssClassPattern = manifest?.modeCssClass || manifest?.modes?.cssClass || 'pa-mode-{mode}';
+            const cssClassPattern = manifest?.modeCssClass || manifest?.modes?.cssClass || 'pc-mode-{mode}';
 
             // Remove all mode classes
-            body.classList.remove('pa-mode-light', 'pa-mode-dark');
+            body.classList.remove('pc-mode-light', 'pc-mode-dark');
 
             // Apply new mode class
             body.classList.add(cssClassPattern.replace('{mode}', mode));

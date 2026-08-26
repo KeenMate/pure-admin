@@ -183,7 +183,7 @@ These variables control the appearance of Pure Admin framework components.
 
 Consumed with an inline fallback (`var(--pa-card-description-offset-y, <default>)`),
 so it is **not** emitted by the `output-pa-css-variables` mixin — set it at `:root`,
-on `.pa-mode-*`, or on any card ancestor to retune without a recompile.
+on `.pc-mode-*`, or on any card ancestor to retune without a recompile.
 
 | Variable | Purpose | Falls back to |
 |----------|---------|---------------|
@@ -351,7 +351,7 @@ without a recompile:
 
 Consumed with an inline fallback (`var(--pa-range-x, <default>)`), so these are
 **not** emitted by the `output-pa-css-variables` mixin — set them at `:root`, on
-`.pa-mode-*`, or on any `.pa-range` / `.pa-range-group` ancestor (or per-instance
+`.pc-mode-*`, or on any `.pa-range` / `.pa-range-group` ancestor (or per-instance
 `style="…"`) to retint/resize sliders without a recompile. Unset, each resolves
 to the framework default shown, so a `var()` reference never collapses to nothing.
 
