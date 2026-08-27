@@ -1,0 +1,197 @@
+<style>
+    /* The "stage" is the resizable frame whose width the slider controls; the fit
+       row inside it is width:100%, so narrowing the stage narrows the row and the
+       Fit engine's ResizeObserver re-settles it. Capped at 100% so it never
+       exceeds the viewport — on a phone it's already at the narrow end. */
+    .fit-stage {
+        max-width: 100%;
+        margin-block: 0.75rem;
+        border: 1px dashed var(--pc-border-color);
+        border-radius: 8px;
+        transition: max-width 0.08s ease;
+    }
+
+    .fit-slider-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        font-size: var(--pc-font-size-sm, 1.4rem);
+        color: var(--pc-text-color-2);
+    }
+    .fit-slider-row input[type="range"] { flex: 1; min-width: 0; }
+    .fit-slider-row output { font-variant-numeric: tabular-nums; min-width: 4.5ch; text-align: end; }
+
+    /* Fit rows: a plain flex row. Children don't shrink (flex:0 0 auto) + never
+       wrap — so the engine folds them instead of the browser squishing them. */
+    .fit-toolbar,
+    .fit-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    .fit-toolbar > *,
+    .fit-bar > * { flex: 0 0 auto; white-space: nowrap; }
+    /* Keep each step's icon + label on ONE line, so the engine folds the button
+       rather than the button wrapping its own content when cramped. */
+    .fit-toolbar [data-pa-fit-step] {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        white-space: nowrap;
+    }
+
+    .fit-bar {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--pc-border-color);
+        border-radius: 8px;
+        background: var(--pc-card-bg);
+    }
+    .fit-bar__count { font-weight: 600; margin-inline-end: 0.25rem; }
+    .fit-chip {
+        font-size: var(--pc-font-size-xs, 1.2rem);
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        background: var(--pc-subtle-bg, rgba(0,0,0,0.05));
+        color: var(--pc-text-color-2);
+    }
+    /* Push the pinned Export button to the far end. */
+    .fit-bar__spacer { flex: 1 1 auto !important; }
+</style>
+
+<p>
+    The Fit engine (<code>fit.js</code>) shrinks a horizontal row to fit its
+    container — degrading the least-important slots first, lowest priority first,
+    and restoring them as space returns. It powers the navbar, but it's not
+    navbar-only: call <code>pureAdmin.components.fit.init(el)</code> on any flex
+    row (a toolbar, a filter bar, a card's action cluster).
+</p>
+
+<div class="pa-callout pa-callout--info mb-4">
+    <strong>The vocabulary.</strong>
+    <code>data-pa-fit="hide|steps|sidebar"</code> makes an element a slot;
+    <code>data-pa-fit-priority</code> orders them (lower goes first);
+    <code>data-pa-fit-auto</code> on a container folds in <em>every</em> child
+    without tagging each; <code>data-pa-fit-ignore</code> pins one out entirely;
+    and <code>pureAdmin.config.fit.defaultPriority</code> (or a container's
+    <code>data-pa-fit-default-priority</code>) sets the fallback rank.
+    <strong>Drag the sliders</strong> — or just open this page on a narrow phone —
+    to watch each row fold.
+</div>
+
+<!-- ============================================================
+     EXAMPLE 1 — Card toolbar: shrink, don't lose (steps + ignore)
+     ============================================================ -->
+<h3 class="mt-4 mb-2">1 · Card toolbar — shrink, don't lose</h3>
+<p>
+    A <code>steps</code> slot degrades <strong>full label → icon-only → gone</strong>
+    instead of vanishing outright, so an action stays reachable as an icon before
+    it's dropped. Here <strong>Save</strong> is pinned full
+    (<code>data-pa-fit-ignore</code>); <strong>Duplicate</strong> and
+    <strong>Export</strong> shrink to icons (higher priority survives longer);
+    <strong>Delete</strong> is un-tagged, so it inherits the toolbar's
+    <code>data-pa-fit-default-priority="20"</code> and drops first.
+</p>
+
+<div class="fit-slider-row">
+    <span>Container width</span>
+    <input type="range" min="200" max="720" value="360"
+           oninput="fitSetWidth('stage1', this.value)" aria-label="Example 1 width">
+    <output id="stage1-w">360px</output>
+</div>
+
+<div class="fit-stage" id="stage1" style="max-width: 360px">
+    <div class="pa-card" style="margin: 0">
+        <div class="pa-card__header">
+            <div class="pa-card__title"><span class="pa-card__title-text">Sales Overview</span></div>
+        </div>
+        <div class="pa-card__body">
+            <div id="ex1-toolbar" class="fit-toolbar" data-pa-fit-auto data-pa-fit-default-priority="20">
+                <button class="pa-btn pa-btn--primary" data-pa-fit-ignore>
+                    <span class="pa-btn__icon">💾</span> Save
+                </button>
+                <button class="pa-btn" data-pa-fit="steps" data-pa-fit-priority="40">
+                    <span data-pa-fit-step="0"><span class="pa-btn__icon">⧉</span> Duplicate</span>
+                    <span data-pa-fit-step="1" class="pa-fit-hidden"><span class="pa-btn__icon">⧉</span></span>
+                </button>
+                <button class="pa-btn" data-pa-fit="steps" data-pa-fit-priority="30">
+                    <span data-pa-fit-step="0"><span class="pa-btn__icon">⬇️</span> Export</span>
+                    <span data-pa-fit-step="1" class="pa-fit-hidden"><span class="pa-btn__icon">⬇️</span></span>
+                </button>
+                <button class="pa-btn">
+                    <span class="pa-btn__icon">🗑️</span> Delete
+                </button>
+            </div>
+            <p class="mt-3 mb-0" style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
+                Drag left: Delete drops → Export shrinks to its icon, then drops →
+                Duplicate shrinks → only Save remains, always full.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     EXAMPLE 2 — Results bar: auto + hide + default-priority
+     ============================================================ -->
+<h3 class="mt-5 mb-2">2 · Results bar — drop the supplementary (auto + hide)</h3>
+<p>
+    The whole bar is armed with <code>data-pa-fit-auto</code>, so every chip
+    participates without being tagged. The count and the <strong>Export</strong>
+    button carry <code>data-pa-fit-ignore</code> (always present); the status
+    chips drop by priority; the two un-ranked chips inherit the bar's
+    <code>data-pa-fit-default-priority="10"</code> and go first.
+</p>
+
+<div class="fit-slider-row">
+    <span>Container width</span>
+    <input type="range" min="200" max="720" value="420"
+           oninput="fitSetWidth('stage2', this.value)" aria-label="Example 2 width">
+    <output id="stage2-w">420px</output>
+</div>
+
+<div class="fit-stage" id="stage2" style="max-width: 420px; border: 0">
+    <div id="ex2-bar" class="fit-bar" data-pa-fit-auto data-pa-fit-default-priority="10">
+        <span class="fit-bar__count" data-pa-fit-ignore>1,248 orders</span>
+        <span class="fit-chip">Updated 2m ago</span>
+        <span class="fit-chip">Synced</span>
+        <span class="fit-chip" data-pa-fit-priority="30">Status: Paid</span>
+        <span class="fit-chip" data-pa-fit-priority="40">Region: EU</span>
+        <span class="pa-badge pa-badge--primary" data-pa-fit-priority="50">Filtered</span>
+        <span class="fit-bar__spacer" data-pa-fit-ignore></span>
+        <button class="pa-btn pa-btn--sm pa-btn--primary" data-pa-fit-ignore>Export</button>
+    </div>
+</div>
+<p class="mt-2" style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
+    Drag left: “Updated / Synced” go first (default priority 10) → Status → Region
+    → Filtered. The order count and Export never move.
+</p>
+
+<div class="pa-callout pa-callout--warning mt-4">
+    <strong>Right tool check.</strong> Fit is 1-D and horizontal: it shrinks a row.
+    Use <code>steps</code> when an item must stay reachable (shrink, don't lose),
+    and <code>hide</code> only for supplementary content. It is <em>not</em> a
+    form-reflow engine — for fields wrapping to new lines, use the grid / flex-wrap.
+</div>
+
+<script>
+    (function () {
+        function fitInit(id) {
+            var el = document.getElementById(id);
+            if (el && window.pureAdmin && pureAdmin.components && pureAdmin.components.fit) {
+                pureAdmin.components.fit.init(el);
+            }
+        }
+        fitInit('ex1-toolbar');
+        fitInit('ex2-bar');
+
+        // Slider → stage width. The fit rows are width:100% of the stage, so the
+        // engine's ResizeObserver re-settles them automatically.
+        window.fitSetWidth = function (stageId, w) {
+            var stage = document.getElementById(stageId);
+            if (stage) stage.style.maxWidth = w + 'px';
+            var out = document.getElementById(stageId + '-w');
+            if (out) out.textContent = w + 'px';
+        };
+    })();
+</script>

@@ -5,6 +5,38 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc17] - 2026-08-27
+
+### Added
+
+- **Fit engine — group opt-in / opt-out.** `data-pa-fit-auto` on a container
+  folds ALL its direct children into the fit set without tagging each: children
+  with their own `data-pa-fit` keep it, the rest become implicit `hide` slots at
+  the default priority. `data-pa-fit-ignore` pins an element out of the fit set
+  entirely, even inside an armed container (burger, notification bell, profile
+  avatar, a form's submit button).
+- **Configurable default priority.** A slot's priority now resolves element
+  `data-pa-fit-priority` → nearest ancestor `data-pa-fit-default-priority` →
+  `pureAdmin.config.fit.defaultPriority` → `0`, so the verbose per-element
+  attribute is rarely needed. Lower still degrades first; an un-ranked slot yields
+  before any explicitly-ranked one.
+- **Fit is no longer navbar-only.** The engine is container-generic — call
+  `pureAdmin.components.fit.init(el)` on any horizontal flex row (toolbar, filter
+  bar, a card's action cluster). Exposed as `pureAdmin.components.fit`; the
+  navbar's `navFit` name is retained as an alias.
+- **Demo — "Fit to Size" page** (`/components/fit-to-size`): two live,
+  slider-driven examples — a card toolbar using `steps` + `ignore` (shrink
+  label → icon, don't lose) and a results bar using `auto` + `hide` +
+  `default-priority`.
+
+### Changed (BREAKING)
+
+- **`src/js/navbar-fit.js` renamed to `src/js/fit.js`** (the engine is
+  container-generic now). Consumers importing
+  `@keenmate/pure-admin-core/js/navbar-fit.js` must switch to `.../js/fit.js`.
+  The runtime API name `pureAdmin.components.navFit` is unchanged — it's kept as
+  an alias of the new `pureAdmin.components.fit`.
+
 ## [2.9.0-rc16] - 2026-08-26 [PUBLISHED]
 
 ### Changed (BREAKING)
