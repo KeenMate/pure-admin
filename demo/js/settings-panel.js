@@ -64,7 +64,7 @@
             if (pos) body.dataset.searchPosition = pos;
             else delete body.dataset.searchPosition;
             // Showing/hiding a trigger changes the header's content, so re-run the
-            // fit engine to re-settle priorities (navbar-fit.js).
+            // fit engine to re-settle priorities (fit.js).
             if (window.pureAdmin && pureAdmin.components && pureAdmin.components.navFit) {
                 pureAdmin.components.navFit.relayoutAll();
             }

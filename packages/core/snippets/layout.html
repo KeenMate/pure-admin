@@ -168,16 +168,22 @@
             </nav>
         </div>
 
-        <!-- CENTER: page title (flexes + truncates) -->
+        <!-- CENTER: page title (flexes + truncates). data-pa-fit makes it a fit
+             slot so it hides (priority 20) before the brand shrinks — see the
+             Fit note below. -->
         <div class="pa-navbar__center">
-            <div class="pa-page-header">
+            <div class="pa-page-header" data-pa-fit="hide" data-pa-fit-priority="20">
                 <h2>Dashboard</h2>
             </div>
         </div>
 
-        <!-- END: right nav, notifications, profile -->
-        <div class="pa-navbar__end">
-            <nav class="pa-navmenu">
+        <!-- END: right nav, notifications, profile.
+             data-pa-fit-auto arms the zone — every child joins the fit set. Drop
+             a search / actions in here and they fold first (implicit hide at the
+             default priority); the nav, bell and profile carry data-pa-fit-ignore
+             so they're pinned and stay reachable. -->
+        <div class="pa-navbar__end" data-pa-fit-auto>
+            <nav class="pa-navmenu" data-pa-fit-ignore>
                 <ul>
                     <li><a href="/alerts">Alerts</a></li>
                 </ul>
@@ -186,14 +192,14 @@
             <!-- pa-notifications is defined in _notifications.scss, not
                  layout — see the (pending) notifications snippet for
                  the full variant set. -->
-            <div class="pa-notifications">
+            <div class="pa-notifications" data-pa-fit-ignore>
                 <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
                     <span class="pa-notifications__icon">🔔</span>
                     <span class="pa-notifications__badge">3</span>
                 </button>
             </div>
 
-            <button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+            <button class="pa-navbar__profile-btn" data-pa-fit-ignore onclick="toggleProfilePanel()" aria-label="User Profile">
                 <span class="pa-btn__icon">👤</span>
                 <span class="pa-navbar__profile-name">John Doe</span>
             </button>
@@ -212,6 +218,21 @@ Notes on the navbar:
 - WITHOUT data-pa-nav-collapse (below), .pa-navmenu is hidden entirely
   on mobile (max-width: $mobile-breakpoint) — navigation is expected in the
   sidebar. Add data-pa-nav-collapse to keep it responsive instead.
+
+Navbar Fit (fit.js) — priority-driven degradation as the row narrows:
+- data-pa-fit="hide|steps|sidebar"  Make an element a fit slot. It yields
+  (hide), climbs a ladder of data-pa-fit-step children (steps), or relocates
+  into the sidebar (sidebar) when the row can't fit everything.
+- data-pa-fit-priority="N"          Degrade order — LOWER goes first. When
+  omitted it falls back to the container's data-pa-fit-default-priority, then
+  pureAdmin.config.fit.defaultPriority, then 0 (so an un-ranked slot drops first).
+- data-pa-fit-auto                  On a container: fold ALL its direct children
+  into the fit set without tagging each. Declared children keep their own config;
+  the rest become implicit hide slots at the default priority.
+- data-pa-fit-ignore                Pin an element — never a slot, even inside a
+  data-pa-fit-auto zone (burger, bell, profile, a form's submit button).
+The engine auto-inits on .pa-navbar__inner; call pureAdmin.components.fit.init(el)
+to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 -->
 
 

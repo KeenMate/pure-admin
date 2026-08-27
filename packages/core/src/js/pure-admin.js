@@ -263,6 +263,18 @@
       warning: { icon: '⚠', title: 'Warning' },
       info: { icon: 'ℹ', title: 'Information' }
     });
+
+    // fit.* — the Fit engine (fit.js). defaultPriority is the priority a slot
+    // falls back to when it declares data-pa-fit but no data-pa-fit-priority, and
+    // the priority of implicit children folded in by a data-pa-fit-auto container.
+    // Lower degrades first, so 0 means an un-ranked slot yields before any
+    // explicitly-ranked one. A container's data-pa-fit-default-priority overrides
+    // this for its subtree. Lets you skip the (verbose) per-element attribute in
+    // the common case.
+    cfg.fit = cfg.fit || {};
+    fillDefaults(cfg.fit, {
+      defaultPriority: 0
+    });
   })(pa.config);
 
   // --- device: capability-first device classification -----------------------

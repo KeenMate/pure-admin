@@ -185,7 +185,7 @@
             log('relayout done', { collapsed: strategy.count ? strategy.count() : '?' });
         }
 
-        // Register this nav's relayout so navbar-fit can fold navs BEFORE it
+        // Register this nav's relayout so fit.js can fold navs BEFORE it
         // measures the header (otherwise it measures an un-folded nav, thinks the
         // row overflows, and over-degrades the other slots).
         relayouts.push(relayout);
@@ -477,7 +477,7 @@
         for (var i = 0; i < nodes.length; i++) init(nodes[i]);
     }
 
-    // Re-fold every nav synchronously. navbar-fit calls this before it measures,
+    // Re-fold every nav synchronously. fit.js calls this before it measures,
     // so it sees navs at their collapsed width rather than over-degrading the
     // rest of the header to make room for items that were about to fold anyway.
     function relayoutAll() {

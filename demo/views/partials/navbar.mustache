@@ -17,7 +17,7 @@
             <!-- Brand. The wordmark is a fit "steps" slot (Pure Admin → PA) and
                  the version tag a fit "hide" slot, so as the header narrows the
                  version drops first (priority 10), then the wordmark shrinks to
-                 a monogram (priority 30). See navbar-fit.js. -->
+                 a monogram (priority 30). See fit.js. -->
             <div class="pa-app-header">
                 <h1><span class="pa-app-header__name" data-pa-fit="steps" data-pa-fit-priority="30"><span data-pa-fit-step="0">Pure Admin</span><span data-pa-fit-step="1" class="pa-fit-hidden">PA</span></span>{{#coreVersion}}<span class="pa-app-header__version" data-pa-fit="hide" data-pa-fit-priority="10">v{{coreVersion}}</span>{{/coreVersion}}</h1>
             </div>
@@ -121,8 +121,11 @@
             </div>
         </div>
 
-        <!-- End Section: End Nav, Notifications, Profile -->
-        <div class="pa-navbar__end">
+        <!-- End Section: End Nav, Notifications, Profile.
+             data-pa-fit-auto arms the zone: every child joins the fit set, so the
+             search folds by its own priority (25) while the End nav, bell and
+             profile are held put with data-pa-fit-ignore (must stay reachable). -->
+        <div class="pa-navbar__end" data-pa-fit-auto>
             <!-- B) Compact search box before the bell: opens the Ctrl+K palette
                  (which becomes a fullscreen sheet on phones). Hidden until selected. -->
             <button type="button" class="pa-navbar-search" id="navbarSearchTrigger" hidden
@@ -147,7 +150,7 @@
             </form>
 
             <!-- End Navigation Links -->
-            <nav class="pa-navmenu">
+            <nav class="pa-navmenu" data-pa-fit-ignore>
                 <ul>
                     <li><a href="/components/alerts">Alerts</a></li>
                     <li><a href="/tables/standard">Tables</a></li>
@@ -155,7 +158,7 @@
             </nav>
 
             <!-- Notification Bell -->
-            <div class="pa-notifications">
+            <div class="pa-notifications" data-pa-fit-ignore>
                 <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
                     <span class="pa-notifications__icon">🔔</span>
                     <span class="pa-notifications__badge">3</span>
@@ -215,7 +218,7 @@
             </div>
 
             <!-- Profile Button -->
-            <button class="pa-navbar__profile-btn" onclick="toggleProfilePanel()" aria-label="User Profile">
+            <button class="pa-navbar__profile-btn" data-pa-fit-ignore onclick="toggleProfilePanel()" aria-label="User Profile">
                 <span class="pa-btn__icon">👤</span>
                 <span class="pa-navbar__profile-name">John Doe</span>
             </button>

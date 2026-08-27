@@ -68,3 +68,66 @@ test('header degrades strictly by priority across widths, restores when wide', a
   s = await state(page);
   expect(s).toMatchObject({ version: true, title: true, search: true, wordmarkFull: true, monogram: false });
 });
+
+// data-pa-fit-auto arms a container so untagged children fold too; a declared
+// data-pa-fit still keeps its own priority; data-pa-fit-ignore pins an element
+// out of the fit set entirely. Driven through a controlled row injected into the
+// live demo (real CSS + the real fit.js engine), sized directly.
+test('fit-auto folds untagged children by priority; fit-ignore stays pinned', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForTimeout(80);
+
+  await page.evaluate(() => {
+    const host = document.createElement('div');
+    host.id = 'fitHost';
+    host.style.cssText = 'position:fixed;top:120px;left:0;width:600px;z-index:99999;background:#fff';
+    // Three equal 150px items in an armed row: IMPL has no data-pa-fit (implicit,
+    // default priority 0 → folds first), RANK is a declared slot at priority 50,
+    // PIN carries data-pa-fit-ignore (never folds).
+    host.innerHTML =
+      '<div class="pa-navbar__inner" data-pa-fit-auto style="width:100%">' +
+        '<div id="ft-impl" style="flex:0 0 auto;width:150px">IMPL</div>' +
+        '<div id="ft-rank" data-pa-fit="hide" data-pa-fit-priority="50" style="flex:0 0 auto;width:150px">RANK</div>' +
+        '<button id="ft-pin" data-pa-fit-ignore style="flex:0 0 auto;width:150px">PIN</button>' +
+      '</div>';
+    document.body.appendChild(host);
+    (window as any).pureAdmin.components.fit.init(host.firstElementChild);
+  });
+
+  const vis = (id: string) => page.evaluate((i) => {
+    const el = document.getElementById(i);
+    return !!el && getComputedStyle(el).display !== 'none';
+  }, id);
+  const setWidth = async (w: number) => {
+    await page.evaluate((px) => {
+      document.getElementById('fitHost')!.style.width = px + 'px';
+      (window as any).pureAdmin.components.fit.relayoutAll();
+    }, w);
+    await page.waitForTimeout(120);
+  };
+
+  // Wide — everything fits, nothing folded.
+  await setWidth(600);
+  expect(await vis('ft-impl')).toBe(true);
+  expect(await vis('ft-rank')).toBe(true);
+  expect(await vis('ft-pin')).toBe(true);
+
+  // Tight — one item must go: the implicit slot (priority 0) folds before the
+  // declared priority-50 slot; the ignored button never participates.
+  await setWidth(360);
+  expect(await vis('ft-impl')).toBe(false);
+  expect(await vis('ft-rank')).toBe(true);
+  expect(await vis('ft-pin')).toBe(true);
+
+  // Tighter — the declared slot folds too; the ignored button still stays.
+  await setWidth(200);
+  expect(await vis('ft-rank')).toBe(false);
+  expect(await vis('ft-pin')).toBe(true);
+
+  // Widen back — reset-then-degrade restores the folded slots.
+  await setWidth(600);
+  expect(await vis('ft-impl')).toBe(true);
+  expect(await vis('ft-rank')).toBe(true);
+
+  await page.evaluate(() => document.getElementById('fitHost')?.remove());
+});
