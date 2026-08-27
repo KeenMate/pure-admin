@@ -6,6 +6,33 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc17
+
+- **Container Breakpoint engine — the JS counterpart to a CSS container query.** A
+  `@container` rule can only show/hide; the new `container-breakpoint.js` watches
+  an element's width and maps it to a **named mode** from declared rem/px
+  thresholds, firing `pa:breakpoint` only when the mode flips — so a wrapper can
+  *mount* the right branch instead of building an off-screen chart/widget just to
+  hide it. Reflects `[data-mode]`, toggles the shared `.d-none` on `data-pa-show`
+  children, and has a hysteresis dead-band against boundary flapping. Wire it
+  declaratively (`data-pa-breakpoints`) or programmatically
+  (`pureAdmin.components.containerBreakpoint.observe`).
+- **Fit engine — arm a whole container, pin individual items out.**
+  `data-pa-fit-auto` on a container folds every child into the fit set without
+  tagging each; `data-pa-fit-ignore` pins one out (a burger, a bell, a submit
+  button), even inside an armed container.
+- **Fit priority now has a fallback ladder.** A slot resolves
+  `data-pa-fit-priority` → ancestor `data-pa-fit-default-priority` →
+  `pureAdmin.config.fit.defaultPriority` → `0`, so the verbose per-element
+  attribute is rarely needed.
+- **Fit is no longer navbar-only.** The engine is container-generic —
+  `pureAdmin.components.fit.init(el)` shrinks any horizontal flex row (a toolbar,
+  a filter bar, a card's action cluster), not just the navbar.
+- **`navbar-fit.js` is now `fit.js` (BREAKING).** Update
+  `@keenmate/pure-admin-core/js/navbar-fit.js` imports to `.../js/fit.js`; the
+  runtime `pureAdmin.components.navFit` name stays as an alias of the new
+  `pureAdmin.components.fit`.
+
 ## What's New in 2.9.0-rc16
 
 - **Foundation namespace migrated to pure-css rc04 (BREAKING).** Every framework
@@ -39,14 +66,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
   `pureAdmin.toast.danger()` (alias of `error()`), translatable copy-hint text
   (`--pc-copy-hint-text` / `--pc-copied-text`), and form gaps renamed +
   runtime-tunable via `--pc-*`.
-
-## What's New in 2.9.0-rc15
-
-- **Search results component** — the new `pa-search-results` renders a page-level results list with four presets over one canonical item tree: `--compact` (dense one-liners), `--detailed` (icon tile + snippet + meta), `--grouped` (category headers), and `--cards` (a responsive grid). A code generator emits the same markup and only swaps the modifier.
-- **Full-text match highlighting, unified everywhere** — wrap a matched fragment in `<mark>` (the shape Elasticsearch / Postgres `ts_headline` return) and it renders as a restrained, accent-derived wash — now identical across the results page *and* the inline navbar / autocomplete search, which previously fell back to the browser's yellow. Theme-tunable via `--pa-search-mark-bg` / `-color` / `-weight`.
-- **Type-and-go search boxes** — `.pa-navbar-search--input` and `.pa-sidebar__search--input` frame a real `<input>` in a `<form>` whose native GET submit navigates to a results page on Enter (no palette, no JS). The sidebar variant still submits from its collapsed icon-rail.
-- **Resizable command palette** — its width, top offset, and results height are now runtime CSS variables (`--pa-command-palette-width` / `-offset-top` / `-results-max-height`), with `--sm` / `--lg` / `--xl` size presets. Resize at `:root`, inline, or per-instance with no recompile.
-- **Fixed: overlays no longer shift the page sideways** — opening the command palette or a mobile drawer used to drop the scrollbar and jog the layout (and the fixed navbar) sideways. `scrollbar-gutter: stable` on `<html>` keeps the gutter reserved; the palette results are also clamped to the viewport so the footer never scrolls off a short window.
 
 ## Installation
 
