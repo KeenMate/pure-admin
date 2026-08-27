@@ -25,9 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   bar, a card's action cluster). Exposed as `pureAdmin.components.fit`; the
   navbar's `navFit` name is retained as an alias.
 - **Demo — "Fit to Size" page** (`/components/fit-to-size`): two live,
-  slider-driven examples — a card toolbar using `steps` + `ignore` (shrink
-  label → icon, don't lose) and a results bar using `auto` + `hide` +
-  `default-priority`.
+  slider-driven examples — a card toolbar using the fit engine (`steps` + `ignore`
+  + `auto` + `default-priority`: shrink label → icon, don't lose), and a product
+  card that swaps a Chart.js sparkline for `pa-stat` KPIs via a CSS container query
+  (the right tool for a 2-D layout swap vs. the engine's 1-D row fold).
 
 ### Changed (BREAKING)
 

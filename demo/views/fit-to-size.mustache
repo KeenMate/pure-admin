@@ -22,17 +22,15 @@
     .fit-slider-row input[type="range"] { flex: 1; min-width: 0; }
     .fit-slider-row output { font-variant-numeric: tabular-nums; min-width: 4.5ch; text-align: end; }
 
-    /* Fit rows: a plain flex row. Children don't shrink (flex:0 0 auto) + never
-       wrap — so the engine folds them instead of the browser squishing them. */
-    .fit-toolbar,
-    .fit-bar {
+    /* Fit row (example 1): a plain flex row. Children don't shrink (flex:0 0 auto)
+       + never wrap — so the engine folds them instead of the browser squishing. */
+    .fit-toolbar {
         display: flex;
         align-items: center;
         gap: 0.5rem;
         width: 100%;
     }
-    .fit-toolbar > *,
-    .fit-bar > * { flex: 0 0 auto; white-space: nowrap; }
+    .fit-toolbar > * { flex: 0 0 auto; white-space: nowrap; }
     /* Keep each step's icon + label on ONE line, so the engine folds the button
        rather than the button wrapping its own content when cramped. */
     .fit-toolbar [data-pa-fit-step] {
@@ -42,22 +40,18 @@
         white-space: nowrap;
     }
 
-    .fit-bar {
-        padding: 0.5rem 0.75rem;
-        border: 1px solid var(--pc-border-color);
-        border-radius: 8px;
-        background: var(--pc-card-bg);
+    /* Example 2 uses a CSS CONTAINER QUERY (not the fit engine): the card is the
+       query container and its own width swaps the chart for compact KPIs. These
+       are the only non-component styles here — every visible piece is a real pa-*. */
+    /* NB: pure-admin's root font-size is 10px, so 1rem = 10px — 45rem = 450px. */
+    .fit-cq { container-type: inline-size; }
+    .fit-cq__chart { width: 20rem; height: 10rem; }
+    .fit-cq__chart { display: none; }              /* narrow default → show the KPIs */
+    .fit-cq__kpi { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+    @container (min-width: 45rem) {
+        .fit-cq__chart { display: block; }         /* wide (≥450px) → show the chart */
+        .fit-cq__kpi { display: none; }
     }
-    .fit-bar__count { font-weight: 600; margin-inline-end: 0.25rem; }
-    .fit-chip {
-        font-size: var(--pc-font-size-xs, 1.2rem);
-        padding: 0.2rem 0.6rem;
-        border-radius: 999px;
-        background: var(--pc-subtle-bg, rgba(0,0,0,0.05));
-        color: var(--pc-text-color-2);
-    }
-    /* Push the pinned Export button to the far end. */
-    .fit-bar__spacer { flex: 1 1 auto !important; }
 </style>
 
 <p>
@@ -132,46 +126,65 @@
 </div>
 
 <!-- ============================================================
-     EXAMPLE 2 — Results bar: auto + hide + default-priority
+     EXAMPLE 2 — Product card: chart ↔ KPI via a CSS container query
      ============================================================ -->
-<h3 class="mt-5 mb-2">2 · Results bar — drop the supplementary (auto + hide)</h3>
+<h3 class="mt-5 mb-2">2 · Product card — chart ↔ KPI</h3>
 <p>
-    The whole bar is armed with <code>data-pa-fit-auto</code>, so every chip
-    participates without being tagged. The count and the <strong>Export</strong>
-    button carry <code>data-pa-fit-ignore</code> (always present); the status
-    chips drop by priority; the two un-ranked chips inherit the bar's
-    <code>data-pa-fit-default-priority="10"</code> and go first.
+    A different job needs a different tool. Swapping a rich <strong>chart</strong>
+    for compact <strong>KPI numbers</strong> is a 2-D layout change, not a 1-D row
+    fold — so this one is a pure CSS <strong>container query</strong> on the card,
+    no JS engine. Left half stays product info (category, title, code); the right
+    half shows the Chart.js sparkline while there's room and swaps to a
+    <code>pa-stat</code> KPI once the card narrows past <code>45rem</code> (450px). Every
+    visible piece — <code>pa-card</code>, <code>pa-badge</code>, <code>pa-stat</code>,
+    the chart — is a real component.
 </p>
 
 <div class="fit-slider-row">
     <span>Container width</span>
-    <input type="range" min="200" max="720" value="420"
+    <input type="range" min="260" max="720" value="640"
            oninput="fitSetWidth('stage2', this.value)" aria-label="Example 2 width">
-    <output id="stage2-w">420px</output>
+    <output id="stage2-w">640px</output>
 </div>
 
-<div class="fit-stage" id="stage2" style="max-width: 420px; border: 0">
-    <div id="ex2-bar" class="fit-bar" data-pa-fit-auto data-pa-fit-default-priority="10">
-        <span class="fit-bar__count" data-pa-fit-ignore>1,248 orders</span>
-        <span class="fit-chip">Updated 2m ago</span>
-        <span class="fit-chip">Synced</span>
-        <span class="fit-chip" data-pa-fit-priority="30">Status: Paid</span>
-        <span class="fit-chip" data-pa-fit-priority="40">Region: EU</span>
-        <span class="pa-badge pa-badge--primary" data-pa-fit-priority="50">Filtered</span>
-        <span class="fit-bar__spacer" data-pa-fit-ignore></span>
-        <button class="pa-btn pa-btn--sm pa-btn--primary" data-pa-fit-ignore>Export</button>
+<div class="fit-stage" id="stage2" style="max-width: 640px; border: 0">
+    <div class="pa-card fit-cq" style="margin: 0">
+        <div class="pa-card__body d-flex" style="align-items: center; gap: 1.5rem">
+            <div class="flex-1" style="min-width: 0">
+                <span class="pa-badge pa-badge--color-3">Beverages</span>
+                <h4 class="mt-2 mb-1">Arabica Cold Brew</h4>
+                <div style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
+                    <code>SKU-4471</code> · 1 L bottle
+                </div>
+            </div>
+            <div style="flex: 0 0 auto">
+                <div class="fit-cq__chart"><canvas id="ex2-chart"></canvas></div>
+                <div class="fit-cq__kpi">
+                    <div class="pa-stat">
+                        <div class="pa-stat__icon pa-stat__icon--success">📈</div>
+                        <div class="pa-stat__content">
+                            <div class="pa-stat__number">$847K</div>
+                            <div class="pa-stat__label">Revenue</div>
+                        </div>
+                    </div>
+                    <span class="pa-badge pa-badge--success">▲ 12.5%</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <p class="mt-2" style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
-    Drag left: “Updated / Synced” go first (default priority 10) → Status → Region
-    → Filtered. The order count and Export never move.
+    Drag left (or view on a phone): past <code>45rem</code> the chart gives way to
+    the KPI stat — same data, denser. Drag right to bring the chart back.
 </p>
 
 <div class="pa-callout pa-callout--warning mt-4">
-    <strong>Right tool check.</strong> Fit is 1-D and horizontal: it shrinks a row.
-    Use <code>steps</code> when an item must stay reachable (shrink, don't lose),
-    and <code>hide</code> only for supplementary content. It is <em>not</em> a
-    form-reflow engine — for fields wrapping to new lines, use the grid / flex-wrap.
+    <strong>Right tool check.</strong> Two techniques, two jobs. The fit
+    <em>engine</em> (example 1) shrinks a 1-D <strong>row</strong> of items —
+    <code>steps</code> to keep something reachable, <code>hide</code> for
+    supplementary bits. A <strong>container query</strong> (example 2) is for a
+    2-D <strong>layout swap</strong> — chart ↔ KPI, sidebar ↔ drawer. Neither is a
+    form-reflow engine: for fields wrapping to new lines, use the grid / flex-wrap.
 </div>
 
 <script>
@@ -182,16 +195,44 @@
                 pureAdmin.components.fit.init(el);
             }
         }
-        fitInit('ex1-toolbar');
-        fitInit('ex2-bar');
+        fitInit('ex1-toolbar');   // example 2 is a pure CSS container query — no JS engine
 
-        // Slider → stage width. The fit rows are width:100% of the stage, so the
-        // engine's ResizeObserver re-settles them automatically.
+        // Slider → stage width. Example 1's fit row (width:100% of the stage) is
+        // re-settled by the engine's ResizeObserver; example 2's card is the
+        // container-query container, so its own width drives the chart ↔ KPI swap.
         window.fitSetWidth = function (stageId, w) {
             var stage = document.getElementById(stageId);
             if (stage) stage.style.maxWidth = w + 'px';
             var out = document.getElementById(stageId + '-w');
             if (out) out.textContent = w + 'px';
         };
+
+        // Example 2's Chart.js sparkline. Created while the card is wide (chart
+        // visible) so it renders at a real size; Chart.js's own ResizeObserver
+        // re-fits it when the container query shows it again after a narrow spell.
+        if (window.Chart) {
+            var canvas = document.getElementById('ex2-chart');
+            if (canvas) {
+                var accent = (getComputedStyle(document.documentElement)
+                    .getPropertyValue('--pc-accent') || '#3b82f6').trim();
+                new Chart(canvas, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            data: [612, 640, 606, 701, 760, 803, 847],
+                            borderColor: accent,
+                            backgroundColor: 'rgba(59, 130, 246, 0.12)',
+                            fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                        scales: { x: { display: false }, y: { display: false } }
+                    }
+                });
+            }
+        }
     })();
 </script>
