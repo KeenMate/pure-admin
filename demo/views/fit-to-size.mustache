@@ -52,6 +52,92 @@
         .fit-cq__chart { display: block; }         /* wide (≥450px) → show the chart */
         .fit-cq__kpi { display: none; }
     }
+
+    /* Example 3 uses ONE CSS container query that restyles the card on
+       SEVERAL axes at three widths — panels grid → tabs → icon-tabs, plus a
+       header that sheds supplier / packaging / trend. Demo-only layout classes
+       are prefixed .prod; every visible piece (pa-badge, pa-stat, pa-tabs,
+       pa-dot-leaders) is a real component. Root font 10px → 1rem = 10px. */
+    .prod { container-type: inline-size; }
+
+    .prod__header {
+        display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem;
+    }
+    .prod__title { margin: 0.4rem 0 0.3rem; }
+    .prod__meta { color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem); }
+    .prod__price { flex: 0 0 auto; text-align: end; }
+    .prod__price-num { font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .prod__price-trend { margin-top: 0.4rem; }
+
+    /* Header detail + trend badge start hidden; they appear as the card widens. */
+    .prod__meta-pkg, .prod__meta-sup, .prod__price-trend { display: none; }
+
+    /* DEFAULT (narrowest): tabbed, one panel at a time, tabs are ICON-ONLY. */
+    .prod__tabs { margin-top: 1.2rem; }
+    /* Re-assert the tab item's flex row + gap. The buttons carry .pa-tooltip
+       (for the icon-only width), and .pa-tooltip's display:inline-block would
+       otherwise clobber .pa-tabs__item's own display:flex — collapsing the gap
+       so the icon touches the label. This two-class selector wins. */
+    .prod__tabs .pa-tabs__item { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .prod__tabs .pa-tabs__item span { display: none; }   /* icon-only until there's room */
+    .prod__panels { margin-top: 1.2rem; }
+    .prod__panel { display: none; }
+    .prod__panel--active { display: block; }
+    .prod__panel-title { display: none; }                 /* the tab label already names it */
+
+    /* MEDIUM (≥34rem / 340px): tab TEXT appears; header regains packaging + trend. */
+    @container (min-width: 34rem) {
+        .prod__tabs .pa-tabs__item span { display: inline; }
+        .prod__meta-pkg { display: inline; }
+        .prod__price-trend { display: inline-flex; }
+    }
+
+    /* WIDE (≥64rem / 640px): drop the tabs, lay the three panels side-by-side,
+       reveal the per-panel titles and the supplier line. */
+    @container (min-width: 64rem) {
+        .prod__tabs { display: none; }
+        .prod__panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+        .prod__panel { display: block; }
+        .prod__panel + .prod__panel {
+            padding-inline-start: 1.6rem;
+            border-inline-start: 1px solid var(--pc-border-color);
+        }
+        .prod__panel-title { display: block; }
+        .prod__meta-sup { display: inline; }
+    }
+
+    /* Example 4 — the SAME multi-level product card as example 3, but driven by
+       the Container Breakpoint engine instead of a CSS @container. NOTE: .prodx
+       does NOT set container-type, so no @container fires here — the swaps are
+       driven by the engine: data-pa-show toggles the shared .d-none (a class you
+       can watch in devtools), and [data-mode="grid"] does the one real 2-D layout
+       change. Swappable pieces are VISIBLE by default; the engine hides the
+       out-of-mode ones. Structural rules below mirror example 3's .prod. */
+    .prodx__header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
+    .prodx__title { margin: 0.4rem 0 0.3rem; }
+    .prodx__meta { color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem); }
+    .prodx__price { flex: 0 0 auto; text-align: end; }
+    .prodx__price-num { font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .prodx__chart { height: 8rem; margin-top: 1.2rem; }
+    .prodx__tabs { margin-top: 1.2rem; }
+    /* flex-gap fix: .pa-tooltip's display:inline-block would clobber the tab item's
+       flex, colliding the icon and label (see example 3). */
+    .prodx__tabs .pa-tabs__item { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .prodx__panels { margin-top: 1.2rem; }
+    /* tabs / icons modes: one panel at a time (standard tab pattern) */
+    .prodx__panel { display: none; }
+    .prodx__panel--active { display: block; }
+    /* grid mode: the one genuine 2-D layout change — three panels side-by-side */
+    .prodx[data-mode="grid"] .prodx__panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+    .prodx[data-mode="grid"] .prodx__panel { display: block; }
+    .prodx[data-mode="grid"] .prodx__panel + .prodx__panel { padding-inline-start: 1.6rem; border-inline-start: 1px solid var(--pc-border-color); }
+    .ex4-log {
+        margin-top: 0.8rem; max-height: 9rem; overflow: auto;
+        font-size: var(--pc-font-size-xs, 1.2rem);
+        font-family: var(--pc-font-family-mono, ui-monospace, monospace);
+        color: var(--pc-text-color-2);
+    }
+    .ex4-log > div { padding: 0.15rem 0; border-bottom: 1px dashed var(--pc-border-color); }
 </style>
 
 <p>
@@ -178,13 +264,307 @@
     the KPI stat — same data, denser. Drag right to bring the chart back.
 </p>
 
+<h4 class="mt-4 mb-2">Same card, no slider — resize your browser window</h4>
+<p style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
+    Identical card, but with <strong>no <code>.fit-stage</code> wrapper and no
+    slider</strong> — it's just full-width in the page. The container query reads
+    the card's <em>real</em> width, so drag your browser window narrower and the
+    chart becomes the KPI on its own. (The sidebar eats ~250px, so the card hits
+    the 450px breakpoint while the window is still ~730px.) This is the production
+    behaviour; the slider above only simulated it.
+</p>
+<div class="pa-card fit-cq" style="margin: 0">
+    <div class="pa-card__body d-flex" style="align-items: center; gap: 1.5rem">
+        <div class="flex-1" style="min-width: 0">
+            <span class="pa-badge pa-badge--color-3">Beverages</span>
+            <h4 class="mt-2 mb-1">Arabica Cold Brew</h4>
+            <div style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
+                <code>SKU-4471</code> · 1 L bottle
+            </div>
+        </div>
+        <div style="flex: 0 0 auto">
+            <div class="fit-cq__chart"><canvas id="ex2b-chart"></canvas></div>
+            <div class="fit-cq__kpi">
+                <div class="pa-stat">
+                    <div class="pa-stat__icon pa-stat__icon--success">📈</div>
+                    <div class="pa-stat__content">
+                        <div class="pa-stat__number">$847K</div>
+                        <div class="pa-stat__label">Revenue</div>
+                    </div>
+                </div>
+                <span class="pa-badge pa-badge--success">▲ 12.5%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     EXAMPLE 3 — Rich product card: multi-level degrade (one CQ, 3 widths)
+     ============================================================ -->
+<h3 class="mt-5 mb-2">3 · Rich product card — degrade on multiple levels</h3>
+<p>
+    The real power shows when one card restyles on <strong>several axes at once</strong>.
+    This product card is a single CSS <strong>container query</strong> with three
+    widths. As it narrows, the three data panels
+    (<strong>Orders · Stock · Sales</strong>) collapse from a
+    <strong>3-column grid</strong> into <strong>tabs</strong>, then the tab labels
+    drop to <strong>icons only</strong>; in step, the header sheds its supplier,
+    then its packaging line and trend badge. Every visible piece —
+    <code>pa-badge</code>, <code>pa-stat</code>, <code>pa-tabs</code>,
+    <code>pa-dot-leaders</code> — is a real component; only the layout switches.
+</p>
+
+<div class="fit-slider-row">
+    <span>Container width</span>
+    <input type="range" min="260" max="880" value="760"
+           oninput="fitSetWidth('stage3', this.value)" aria-label="Example 3 width">
+    <output id="stage3-w">760px</output>
+</div>
+
+<div class="fit-stage" id="stage3" style="max-width: 760px; border: 0">
+    <div class="pa-card prod" style="margin: 0">
+        <div class="pa-card__body">
+
+            <!-- Header: identity + price — both shed detail as the card narrows -->
+            <div class="prod__header">
+                <div style="min-width: 0">
+                    <span class="pa-badge pa-badge--color-3">Beverages</span>
+                    <h4 class="prod__title">Arabica Cold Brew</h4>
+                    <div class="prod__meta"><code>SKU-4471</code><span class="prod__meta-pkg"> · 1 L bottle · 12 per case</span><span class="prod__meta-sup"> · Yirgacheffe Co-op</span></div>
+                </div>
+                <div class="prod__price">
+                    <div class="prod__price-num">$4.80</div>
+                    <span class="pa-badge pa-badge--success prod__price-trend">▲ 12.5%</span>
+                </div>
+            </div>
+
+            <!-- Tab strip: only rendered in the tabbed (narrow / medium) form.
+                 Icon-only until the card is wide enough for the labels. -->
+            <div class="pa-tabs pa-tabs--full prod__tabs">
+                <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" data-tooltip="Orders" data-panel="orders" onclick="prodTab(this)">
+                    <i class="fa-solid fa-cart-shopping"></i><span>Orders</span>
+                </button>
+                <button class="pa-tabs__item pa-tooltip" data-tooltip="Stock" data-panel="stock" onclick="prodTab(this)">
+                    <i class="fa-solid fa-boxes-stacked"></i><span>Stock</span>
+                </button>
+                <button class="pa-tabs__item pa-tooltip" data-tooltip="Sales" data-panel="sales" onclick="prodTab(this)">
+                    <i class="fa-solid fa-chart-line"></i><span>Sales</span>
+                </button>
+            </div>
+
+            <!-- Panels: a 3-col grid when wide; one-at-a-time under the tabs when narrow -->
+            <div class="prod__panels">
+                <div class="prod__panel prod__panel--active" data-panel="orders">
+                    <h5 class="prod__panel-title mb-1">Orders</h5>
+                    <div class="pa-stat">
+                        <div class="pa-stat__icon pa-stat__icon--primary">📦</div>
+                        <div class="pa-stat__content">
+                            <div class="pa-stat__number">1,204</div>
+                            <div class="pa-stat__label">Orders · 30d</div>
+                        </div>
+                    </div>
+                    <div class="pa-dot-leaders mt-2">
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Open</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">38</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Fulfilled</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">1,142</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Returned</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">24</span></div>
+                    </div>
+                </div>
+                <div class="prod__panel" data-panel="stock">
+                    <h5 class="prod__panel-title mb-1">Stock</h5>
+                    <div class="pa-stat">
+                        <div class="pa-stat__icon pa-stat__icon--warning">🏬</div>
+                        <div class="pa-stat__content">
+                            <div class="pa-stat__number">8,450</div>
+                            <div class="pa-stat__label">On hand</div>
+                        </div>
+                    </div>
+                    <div class="pa-dot-leaders mt-2">
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Reserved</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">1,120</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Available</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">7,330</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Reorder at</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">2,000</span></div>
+                    </div>
+                </div>
+                <div class="prod__panel" data-panel="sales">
+                    <h5 class="prod__panel-title mb-1">Sales</h5>
+                    <div class="pa-stat">
+                        <div class="pa-stat__icon pa-stat__icon--success">💰</div>
+                        <div class="pa-stat__content">
+                            <div class="pa-stat__number">$847K</div>
+                            <div class="pa-stat__label">Revenue · 30d</div>
+                        </div>
+                    </div>
+                    <div class="pa-dot-leaders mt-2">
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Units</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">12.4k</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Avg order</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">$68.30</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Margin</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">41%</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<p class="mt-2" style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
+    Three levels, one query. <strong>≥640px</strong> → the 3-panel grid;
+    <strong>340–640px</strong> → tabbed with labels; <strong>&lt;340px</strong> →
+    icon-only tabs. Drag slowly and watch the header drop its supplier, packaging,
+    then trend badge at the matching steps — nothing is re-fetched or re-rendered,
+    the same markup just re-flows.
+</p>
+
+<!-- ============================================================
+     EXAMPLE 4 — Same multi-level card as #3, but ENGINE-driven
+     ============================================================ -->
+<h3 class="mt-5 mb-2">4 · Same card, on the engine — with a chart it builds on demand</h3>
+<p>
+    This is example 3's product card again — the same three-level degrade
+    (<strong>3-panel grid → tabs → icon tabs</strong>) with the same header
+    trimming — but driven by the <strong>Container Breakpoint engine</strong>
+    instead of a CSS <code>@container</code>. Why bother, if CSS already did it?
+    Two things CSS can't: the engine toggles a <strong>real <code>.d-none</code>
+    class</strong> you can watch hop in devtools (not an invisible computed
+    <code>display:none</code>), and it fires an <strong>event</strong> — so the
+    grid-only <strong>revenue chart</strong> is <em>built only when the card is
+    wide enough to show it, and destroyed otherwise</em>. Watch the log.
+</p>
+<p style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
+    <code>data-pa-breakpoints='{"icons":0,"tabs":34,"grid":64}'</code> names the
+    three modes; each swappable piece carries <code>data-pa-show="grid"</code> /
+    <code>"grid tabs"</code> / <code>"tabs"</code> and the engine toggles
+    <code>.d-none</code> on the ones out of mode. <code>[data-mode="grid"]</code>
+    still does the one thing that's a real layout change rather than a show/hide —
+    the 2-D panels grid — and the <code>pa:breakpoint</code> event drives the
+    chart's build / destroy. Every visible piece is a real <code>pa-*</code> component.
+</p>
+
+<div class="pa-callout pa-callout--info mb-3">
+    <strong>What the numbers mean.</strong> The values in
+    <code>data-pa-breakpoints</code> are <strong>rem</strong> — minimum widths of
+    the <em>card itself</em> (its content-box inline size), not the viewport and
+    not percentages. pure-admin's root font-size is <code>10px</code>, so
+    <code>34</code> = 340px and <code>64</code> = 640px — the same numbers as the
+    <code>@container</code> breakpoints in example 3. The engine picks the
+    <strong>largest</strong> mode whose width the card has passed (700px → grid,
+    500px → tabs). Prefer pixels? Add
+    <code>data-pa-breakpoint-unit="px"</code> and write
+    <code>{"icons":0,"tabs":340,"grid":640}</code> — identical behaviour.
+    Percent isn't a unit here on purpose: "does this layout fit" is an
+    absolute-pixel question (label widths, gaps, padding); for viewport-relative
+    rules reach for a CSS media query instead.
+</div>
+
+<div class="fit-slider-row">
+    <span>Container width</span>
+    <input type="range" min="260" max="880" value="760"
+           oninput="fitSetWidth('stage4', this.value)" aria-label="Example 4 width">
+    <output id="stage4-w">760px</output>
+</div>
+
+<div class="fit-stage" id="stage4" style="max-width: 760px; border: 0">
+    <div class="pa-card prodx" id="ex4" style="margin: 0"
+         data-pa-breakpoints='{"icons":0,"tabs":34,"grid":64}' data-pa-breakpoint-initial="tabs">
+        <div class="pa-card__body">
+
+            <!-- Header — sheds supplier (grid only), then packaging + trend (grid/tabs) -->
+            <div class="prodx__header">
+                <div style="min-width: 0">
+                    <span class="pa-badge pa-badge--color-3">Beverages</span>
+                    <h4 class="prodx__title">Arabica Cold Brew</h4>
+                    <div class="prodx__meta"><code>SKU-4471</code><span data-pa-show="grid tabs"> · 1 L bottle · 12 per case</span><span class="d-none" data-pa-show="grid"> · Yirgacheffe Co-op</span></div>
+                </div>
+                <div class="prodx__price">
+                    <div class="prodx__price-num">$4.80</div>
+                    <span class="pa-badge pa-badge--success" data-pa-show="grid tabs">▲ 12.5%</span>
+                </div>
+            </div>
+
+            <!-- Hero revenue chart — ONLY in grid mode. The engine's pa:breakpoint
+                 event builds the Chart.js instance on entering grid and destroys it
+                 on leaving (mount on demand). Pre-stamped d-none to match initial="tabs". -->
+            <div class="prodx__chart d-none" data-pa-show="grid"><canvas id="ex4-chart"></canvas></div>
+
+            <!-- Tab strip — only in tabs/icons; labels only in tabs (icons → icon-only) -->
+            <div class="pa-tabs pa-tabs--full prodx__tabs" data-pa-show="tabs icons">
+                <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" data-tooltip="Orders" data-panel="orders" onclick="prodxTab(this)">
+                    <i class="fa-solid fa-cart-shopping"></i><span data-pa-show="tabs">Orders</span>
+                </button>
+                <button class="pa-tabs__item pa-tooltip" data-tooltip="Stock" data-panel="stock" onclick="prodxTab(this)">
+                    <i class="fa-solid fa-boxes-stacked"></i><span data-pa-show="tabs">Stock</span>
+                </button>
+                <button class="pa-tabs__item pa-tooltip" data-tooltip="Sales" data-panel="sales" onclick="prodxTab(this)">
+                    <i class="fa-solid fa-chart-line"></i><span data-pa-show="tabs">Sales</span>
+                </button>
+            </div>
+
+            <!-- Panels — 3-col grid in grid mode; one-at-a-time under the tabs otherwise -->
+            <div class="prodx__panels">
+                <div class="prodx__panel prodx__panel--active" data-panel="orders">
+                    <h5 class="prodx__panel-title mb-1 d-none" data-pa-show="grid">Orders</h5>
+                    <div class="pa-stat">
+                        <div class="pa-stat__icon pa-stat__icon--primary">📦</div>
+                        <div class="pa-stat__content">
+                            <div class="pa-stat__number">1,204</div>
+                            <div class="pa-stat__label">Orders · 30d</div>
+                        </div>
+                    </div>
+                    <div class="pa-dot-leaders mt-2">
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Open</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">38</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Fulfilled</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">1,142</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Returned</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">24</span></div>
+                    </div>
+                </div>
+                <div class="prodx__panel" data-panel="stock">
+                    <h5 class="prodx__panel-title mb-1 d-none" data-pa-show="grid">Stock</h5>
+                    <div class="pa-stat">
+                        <div class="pa-stat__icon pa-stat__icon--warning">🏬</div>
+                        <div class="pa-stat__content">
+                            <div class="pa-stat__number">8,450</div>
+                            <div class="pa-stat__label">On hand</div>
+                        </div>
+                    </div>
+                    <div class="pa-dot-leaders mt-2">
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Reserved</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">1,120</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Available</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">7,330</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Reorder at</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">2,000</span></div>
+                    </div>
+                </div>
+                <div class="prodx__panel" data-panel="sales">
+                    <h5 class="prodx__panel-title mb-1 d-none" data-pa-show="grid">Sales</h5>
+                    <div class="pa-stat">
+                        <div class="pa-stat__icon pa-stat__icon--success">💰</div>
+                        <div class="pa-stat__content">
+                            <div class="pa-stat__number">$847K</div>
+                            <div class="pa-stat__label">Revenue · 30d</div>
+                        </div>
+                    </div>
+                    <div class="pa-dot-leaders mt-2">
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Units</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">12.4k</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Avg order</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">$68.30</span></div>
+                        <div class="pa-dot-leaders__item"><span class="pa-dot-leaders__label">Margin</span><span class="pa-dot-leaders__leader"></span><span class="pa-dot-leaders__value">41%</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="ex4-log" id="ex4-log" aria-live="polite"></div>
+
 <div class="pa-callout pa-callout--warning mt-4">
     <strong>Right tool check.</strong> Two techniques, two jobs. The fit
     <em>engine</em> (example 1) shrinks a 1-D <strong>row</strong> of items —
     <code>steps</code> to keep something reachable, <code>hide</code> for
     supplementary bits. A <strong>container query</strong> (example 2) is for a
-    2-D <strong>layout swap</strong> — chart ↔ KPI, sidebar ↔ drawer. Neither is a
-    form-reflow engine: for fields wrapping to new lines, use the grid / flex-wrap.
+    2-D <strong>layout swap</strong> — chart ↔ KPI, sidebar ↔ drawer, and
+    (example 3) several swaps stacked into one query: panels → tabs → icons plus
+    header trimming, all keyed off the card's own width. And when the hidden
+    branch is <strong>expensive</strong> (a chart, a date-picker, a shadow-DOM
+    widget), reach past CSS for the <strong>Container Breakpoint engine</strong>
+    (example 4): same width thresholds, but it emits an event so JS can
+    <em>build the widget only when its mode is on screen and tear it down
+    otherwise</em> — the piece a Svelte/LiveView wrapper turns into real
+    mount/unmount. None of these is a form-reflow engine: for fields wrapping to
+    new lines, use the grid / flex-wrap.
 </div>
 
 <script>
@@ -195,7 +575,22 @@
                 pureAdmin.components.fit.init(el);
             }
         }
-        fitInit('ex1-toolbar');   // example 2 is a pure CSS container query — no JS engine
+        fitInit('ex1-toolbar');   // examples 2 & 3 are pure CSS container queries — no JS engine
+
+        // Example 3 tab switching (only visible in the tabbed / narrow form; the
+        // wide 3-panel grid ignores it since every panel shows). Scoped to the
+        // clicked card so multiple product cards wouldn't cross-talk.
+        window.prodTab = function (btn) {
+            var card = btn.closest('.prod');
+            if (!card) return;
+            var panel = btn.getAttribute('data-panel');
+            card.querySelectorAll('.prod__tabs .pa-tabs__item').forEach(function (t) {
+                t.classList.toggle('pa-tabs__item--active', t === btn);
+            });
+            card.querySelectorAll('.prod__panel').forEach(function (p) {
+                p.classList.toggle('prod__panel--active', p.getAttribute('data-panel') === panel);
+            });
+        };
 
         // Slider → stage width. Example 1's fit row (width:100% of the stage) is
         // re-settled by the engine's ResizeObserver; example 2's card is the
@@ -211,10 +606,12 @@
         // visible) so it renders at a real size; Chart.js's own ResizeObserver
         // re-fits it when the container query shows it again after a narrow spell.
         if (window.Chart) {
-            var canvas = document.getElementById('ex2-chart');
-            if (canvas) {
-                var accent = (getComputedStyle(document.documentElement)
-                    .getPropertyValue('--pc-accent') || '#3b82f6').trim();
+            var accent = (getComputedStyle(document.documentElement)
+                .getPropertyValue('--pc-accent') || '#3b82f6').trim();
+            // Both cards (slider-driven and window-driven) get the same sparkline.
+            ['ex2-chart', 'ex2b-chart'].forEach(function (id) {
+                var canvas = document.getElementById(id);
+                if (!canvas) return;
                 new Chart(canvas, {
                     type: 'line',
                     data: {
@@ -232,7 +629,79 @@
                         scales: { x: { display: false }, y: { display: false } }
                     }
                 });
-            }
+            });
         }
+    })();
+</script>
+
+<script>
+    // Example 4 — the engine-driven twin of example 3. container-breakpoint.js
+    // auto-wires the card (data-pa-breakpoints), toggles .d-none on the
+    // data-pa-show pieces, reflects [data-mode], and fires 'pa:breakpoint'. We use
+    // that event to BUILD the hero revenue chart only in 'grid' mode and DESTROY
+    // it otherwise — the "mount on demand" a Svelte {#if} would automate — and to
+    // switch tabs. prodxTab handles clicks in the tabbed (narrow) modes.
+    (function () {
+        var card = document.getElementById('ex4');
+        if (!card) return;
+        var logEl = document.getElementById('ex4-log');
+        var chart = null, builds = 0;
+
+        function log(msg) {
+            if (!logEl) return;
+            var line = document.createElement('div');
+            line.textContent = msg;
+            logEl.insertBefore(line, logEl.firstChild);
+        }
+
+        function buildChart() {
+            var canvas = document.getElementById('ex4-chart');
+            if (!canvas || !window.Chart) return null;
+            var accent = (getComputedStyle(document.documentElement)
+                .getPropertyValue('--pc-accent') || '#3b82f6').trim();
+            return new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        data: [612, 640, 606, 701, 760, 803, 847],
+                        borderColor: accent, backgroundColor: 'rgba(59, 130, 246, 0.12)',
+                        fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+        }
+
+        // Tab switching for the tabbed (narrow) modes — scoped to this card.
+        window.prodxTab = function (btn) {
+            var panel = btn.getAttribute('data-panel');
+            card.querySelectorAll('.prodx__tabs .pa-tabs__item').forEach(function (t) {
+                t.classList.toggle('pa-tabs__item--active', t === btn);
+            });
+            card.querySelectorAll('.prodx__panel').forEach(function (p) {
+                p.classList.toggle('prodx__panel--active', p.getAttribute('data-panel') === panel);
+            });
+        };
+
+        log('waiting — the revenue Chart.js instance is NOT built until the card reaches grid mode (~640px)');
+        card.addEventListener('pa:breakpoint', function (e) {
+            var w = Math.round(e.detail.width);
+            log('mode → ' + e.detail.mode + ' (card ' + w + 'px)');
+            if (e.detail.mode === 'grid') {
+                if (!chart) {
+                    chart = buildChart();
+                    if (chart) { builds++; log('  ▶ built revenue chart instance #' + builds); }
+                }
+            } else if (chart) {
+                chart.destroy();
+                chart = null;
+                log('  ✕ destroyed chart (not grid mode)');
+            }
+        });
     })();
 </script>

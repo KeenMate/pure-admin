@@ -9,6 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Container Breakpoint engine** (`src/js/container-breakpoint.js`) — the JS
+  counterpart to a CSS container query, for the case CSS can't cover: skipping
+  work. A `@container` rule can only show/hide; this watches an element's
+  content-box inline size with a `ResizeObserver`, maps it to a **named mode**
+  from author-declared width thresholds (`{ compact: 0, comfy: 34, wide: 64 }`,
+  rem or px), and emits a change **only when the mode flips** — so a framework
+  wrapper can conditionally *mount* branches (never building the off-screen
+  Chart.js / picker / shadow-DOM widget for a mode that isn't showing).
+  Complements `fit.js`: fit is content-measured (renders every variant to size
+  it, so it can't avoid mounting losers); this is threshold-declared (the losers
+  never need to exist). Programmatic
+  `pureAdmin.components.containerBreakpoint.observe(el, opts, cb)` returns a
+  `{ current, remeasure, destroy }` handle; declarative `data-pa-breakpoints`
+  JSON auto-wires and reflects the mode into `data-mode` (so CSS can key off
+  `[data-mode]`) plus dispatches a `pa:breakpoint` CustomEvent (for framework
+  hooks). Descendants tagged `data-pa-show="mode…"` appear only in the listed
+  modes — the engine toggles the shared `.d-none` utility onto the rest (a class,
+  not inline `display`, so it reverts to natural display when shown and is
+  visible hopping in devtools, like `fit.js`'s `pa-fit-hidden`; class overridable
+  via `config.containerBreakpoint.hiddenClass`). A `hysteresis` dead-band (default `1`, via
+  `pureAdmin.config.containerBreakpoint.hysteresis`) stops a width parked on a
+  boundary from flapping the mode — important because a flip here mounts/unmounts,
+  not just a cheap CSS toggle.
 - **Fit engine — group opt-in / opt-out.** `data-pa-fit-auto` on a container
   folds ALL its direct children into the fit set without tagging each: children
   with their own `data-pa-fit` keep it, the rest become implicit `hide` slots at
@@ -24,11 +47,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `pureAdmin.components.fit.init(el)` on any horizontal flex row (toolbar, filter
   bar, a card's action cluster). Exposed as `pureAdmin.components.fit`; the
   navbar's `navFit` name is retained as an alias.
-- **Demo — "Fit to Size" page** (`/components/fit-to-size`): two live,
-  slider-driven examples — a card toolbar using the fit engine (`steps` + `ignore`
-  + `auto` + `default-priority`: shrink label → icon, don't lose), and a product
-  card that swaps a Chart.js sparkline for `pa-stat` KPIs via a CSS container query
-  (the right tool for a 2-D layout swap vs. the engine's 1-D row fold).
+- **Demo — "Fit to Size" page** (`/components/fit-to-size`): four live,
+  slider-driven examples — a card toolbar using the fit engine (`steps` / `ignore`
+  / `auto` / `default-priority`: shrink label → icon, don't lose); a chart↔KPI
+  product card via a CSS container query (right tool for a 2-D swap vs. the
+  engine's 1-D row fold); a rich product card that degrades on three levels at
+  once (3-panel grid → tabs → icon tabs, plus header trimming); and the same
+  multi-level card rebuilt on the Container Breakpoint engine — `data-pa-show` /
+  `.d-none` for the show/hide pieces and a `pa:breakpoint` listener that builds /
+  destroys a Chart.js hero on demand.
 
 ### Changed (BREAKING)
 

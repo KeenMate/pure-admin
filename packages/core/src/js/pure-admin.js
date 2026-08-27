@@ -275,6 +275,22 @@
     fillDefaults(cfg.fit, {
       defaultPriority: 0
     });
+
+    // containerBreakpoint.* — the Container Breakpoint engine (container-breakpoint.js).
+    // hysteresis is the dead-band (in each observer's own unit, rem by default)
+    // applied at every threshold so an element parked on a boundary doesn't flip
+    // its mode every resize frame — important because a mode change here MOUNTS /
+    // UNMOUNTS a branch in the wrapper, not just a cheap CSS show/hide. Per-call
+    // opts.hysteresis overrides this.
+    cfg.containerBreakpoint = cfg.containerBreakpoint || {};
+    fillDefaults(cfg.containerBreakpoint, {
+      hysteresis: 1,
+      // Utility class the engine toggles on [data-pa-show] descendants to hide
+      // them outside their mode(s). A class (not inline display) so it reverts
+      // to natural display when shown and is visible in devtools. Defaults to
+      // pure-css's .d-none (display:none !important).
+      hiddenClass: 'd-none'
+    });
   })(pa.config);
 
   // --- device: capability-first device classification -----------------------
