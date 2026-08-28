@@ -5,14 +5,25 @@ sink-refactor) and `navbar-collapse.js` implement the *same* algorithm; the plan
 is to fold the nav's unique behaviour into `fit.js` as sinks + a nav adapter and
 delete `navbar-collapse.js`.
 
-Status: **Stage 1 core DONE + verified.** The nav engine is ported into `fit.js`
-behind a coexisting opt-in `data-pa-fit-nav`, so the live navbar (still on
-`navbar-collapse.js`) is untouched. **The measurement go/no-go is GREEN** — fit's
-new nav-mode (bbox-sum vs `nav.clientWidth`) folds the real demo nav into the
-sidebar (incl. the dropdown→toggle-group rebuild) and the "More" menu, and
-restores on widen, with priority + active-pinning intact and zero console errors.
-Remaining: **Stage 2** — flip demo + wrappers to `data-pa-fit-nav` and delete
-`navbar-collapse.js`. Backward-compat is not a concern (day-old RC).
+Status: **DONE — one engine.** `navbar-collapse.js` is deleted; nav collapse lives
+entirely in `fit.js` (`data-pa-fit-nav`). Verified end-to-end.
+
+- **core + demo (committed):** engine ported; measurement go/no-go GREEN (bbox-sum
+  vs `nav.clientWidth`); demo navbar folds into the sidebar (incl.
+  dropdown→toggle-group) and restores; `navbar-collapse.js` deleted, script tag
+  gone, snippet updated. Playwright-verified on :3000, zero console errors.
+- **svelte (committed):** `NavMenu`/`NavItem` emit `data-pa-fit-nav*`, init via
+  `fit.initNav`; loader case + `PaNavCollapse` type removed; `fit` typed with the
+  nav methods. svelte-check 0 errors; docs nav folds via fit (verified against a
+  local core overlay — **needs core >rc17 published** for the docs' npm dep).
+- **keen (IMPLEMENTED + verified, NOT committed — entangled tree):** re-vendored
+  `navbar_fit_core.js`; new `PureAdminNavFitCollapse` hook → `fit.initNav`; deleted
+  `navbar_collapse*.js`; `nav_menu`/`nav_item` emit `data-pa-fit-nav*`;
+  `keen_pure_admin.js` swapped. `mix compile` + esbuild bundle clean. Left
+  uncommitted because keen's tree carries unrelated rc14/rc17 WIP — fold into that
+  commit. See `../keen-pure-admin/RC17_PROGRESS.md`.
+
+Backward-compat was not a concern (day-old RC).
 
 ### fit.js nav API (Stage 1, shipped)
 - Opt in: `<nav class="pa-navmenu" data-pa-fit-nav="sidebar|menu|off">`.
