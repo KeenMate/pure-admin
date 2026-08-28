@@ -518,6 +518,8 @@
     if (pa && pa.components && pa.components.navCollapse && pa.components.navCollapse.relayoutAll) {
       pa.components.navCollapse.relayoutAll();
     }
+    // Fit-managed navs (data-pa-fit-nav) fold first too — same reason.
+    relayoutAllNav();
 
     var guard = 0;
     while (overflowing(container) && guard++ < 100) {
@@ -570,16 +572,322 @@
     containers.forEach(schedule);
   }
 
+  // ======================================================================
+  // NAV COLLAPSE — a nav is a fit container whose ITEMS degrade (Option A:
+  // ported from navbar-collapse.js into the one engine). A nav's <li>s fold,
+  // lowest-priority first, into a sink chosen by data-pa-fit-nav
+  // ("sidebar" | "menu" | "off"), restoring as space returns.
+  //
+  //   <nav class="pa-navmenu" data-pa-fit-nav="sidebar"
+  //        data-pa-fit-nav-label="Menu"&gt;…
+  //
+  // Per-<li>: data-pa-fit-nav-priority (lower drops first),
+  //   data-pa-nav-icon (sidebar icon), data-pa-fit-nav="hide" (drop, don't
+  //   relocate). Nav config: data-pa-fit-nav-target (sidebar <ul> selector),
+  //   data-pa-fit-nav-label / -icon, data-pa-fit-nav-more-label (menu).
+  //
+  // Measurement is NAV-specific — sums the <li> bounding widths vs
+  // nav.clientWidth (the nav is overflow:visible so item hover-dropdowns aren't
+  // clipped), NOT scrollWidth. This is the key reason it lived in its own file;
+  // now it's one engine with a per-container measure.
+  // ======================================================================
+  var NAV_SELECTOR = '.pa-navmenu[data-pa-fit-nav]';
+  var navRelayouts = [];
+
+  function navDirectChild(parent, tag) {
+    for (var c = parent.firstElementChild; c; c = c.nextElementSibling) {
+      if (c.tagName && c.tagName.toLowerCase() === tag) return c;
+    }
+    return null;
+  }
+  function navEscapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // MENU sink — fold items into a generated "More ▾" nav dropdown (on <body>).
+  function navMenuStrategy(nav, ul) {
+    var moreLabel = nav.getAttribute('data-pa-fit-nav-more-label') || 'More';
+    var moreLi = document.createElement('li');
+    moreLi.className = 'pa-navmenu__item pa-navmenu__item--more';
+    var moreLink = document.createElement('a');
+    moreLink.href = '#';
+    moreLink.className = 'pa-navmenu__link';
+    moreLink.setAttribute('aria-haspopup', 'true');
+    moreLink.setAttribute('aria-expanded', 'false');
+    moreLink.innerHTML = navEscapeHtml(moreLabel) +
+      ' <span class="pa-navmenu__more-chevron" aria-hidden="true">›</span>';
+    moreLi.appendChild(moreLink);
+    ul.appendChild(moreLi);
+    moreLi.style.display = 'none';
+
+    var menu = document.createElement('ul');
+    menu.className = 'pa-navmenu__dropdown pa-navmenu__more-menu';
+    menu.setAttribute('role', 'menu');
+    document.body.appendChild(menu);
+
+    function position() {
+      var r = moreLink.getBoundingClientRect();
+      menu.style.position = 'fixed';
+      menu.style.top = (r.bottom + 4) + 'px';
+      menu.style.left = 'auto';
+      menu.style.right = (window.innerWidth - r.right) + 'px';
+    }
+    function isOpen() { return menu.classList.contains('pa-navmenu__more-menu--open'); }
+    function openMenu() {
+      if (menu.children.length === 0) return;
+      position();
+      menu.classList.add('pa-navmenu__more-menu--open');
+      moreLi.classList.add('is-open');
+      moreLink.setAttribute('aria-expanded', 'true');
+      window.addEventListener('scroll', position, true);
+      window.addEventListener('resize', position);
+      setTimeout(function () { document.addEventListener('mousedown', onDocClick); }, 0);
+    }
+    function closeMenu() {
+      menu.classList.remove('pa-navmenu__more-menu--open');
+      moreLi.classList.remove('is-open');
+      moreLink.setAttribute('aria-expanded', 'false');
+      window.removeEventListener('scroll', position, true);
+      window.removeEventListener('resize', position);
+      document.removeEventListener('mousedown', onDocClick);
+    }
+    function onDocClick(e) {
+      if (menu.contains(e.target) || moreLi.contains(e.target)) return;
+      closeMenu();
+    }
+    moreLink.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      if (isOpen()) closeMenu(); else openMenu();
+    });
+    menu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setTimeout(closeMenu, 0);
+    });
+
+    return {
+      count: function () { return menu.children.length; },
+      restore: function (el) { if (el.parentNode === menu) ul.insertBefore(el, moreLi); },
+      afterRestore: function () { moreLi.style.display = 'none'; closeMenu(); },
+      onFits: function () {},
+      onOverflow: function () {},
+      collapse: function (el) { moreLi.style.display = ''; menu.appendChild(el); }
+    };
+  }
+
+  // SIDEBAR sink — build genuine .pa-sidebar__* markup from each nav item under
+  // an injected section heading. Leaf → link item; dropdown parent → collapsible
+  // toggle group (chevron, starts closed, parent's own page first). The original
+  // nav <li> is kept detached and re-inserted on restore.
+  function navSidebarStrategy(nav, ul) {
+    var targetSel = nav.getAttribute('data-pa-fit-nav-target');
+    var target = targetSel ? document.querySelector(targetSel) : document.querySelector('.pa-sidebar__nav > ul');
+    var label = nav.getAttribute('data-pa-fit-nav-label') || 'Menu';
+    var defaultIcon = nav.getAttribute('data-pa-fit-nav-icon');
+    if (defaultIcon == null) defaultIcon = '•';
+
+    var section = null, divider = null;
+    function ensureSection() {
+      if (!target) return null;
+      if (!section) {
+        section = document.createElement('li');
+        section.className = 'pa-sidebar__section';
+        section.setAttribute('data-pa-nav-injected', '');
+        section.textContent = label;
+      }
+      if (!divider) {
+        divider = document.createElement('li');
+        divider.className = 'pa-sidebar__divider';
+        divider.setAttribute('data-pa-nav-injected', '');
+        divider.setAttribute('aria-hidden', 'true');
+      }
+      if (section.parentNode !== target) target.insertBefore(section, target.firstChild);
+      if (divider.parentNode !== target) target.insertBefore(divider, section.nextSibling);
+      return section;
+    }
+    function removeSection() {
+      if (section && section.parentNode) section.parentNode.removeChild(section);
+      if (divider && divider.parentNode) divider.parentNode.removeChild(divider);
+    }
+    function labelOf(a) { return (a ? a.textContent : '').replace(/\s*[›»>]+\s*$/, '').trim(); }
+    function iconHtml(icon) { return icon ? '<span class="pa-sidebar__icon">' + navEscapeHtml(icon) + '</span>' : ''; }
+    function labelHtml(text) { return '<span class="pa-sidebar__label">' + navEscapeHtml(text) + '</span>'; }
+    function buildLinkItem(text, href, icon, active) {
+      var li = document.createElement('li');
+      li.className = 'pa-sidebar__item';
+      var a = document.createElement('a');
+      a.className = 'pa-sidebar__link' + (active ? ' pa-sidebar__link--active' : '');
+      a.setAttribute('href', href == null ? '#' : href);
+      a.innerHTML = iconHtml(icon) + labelHtml(text);
+      li.appendChild(a);
+      return li;
+    }
+    function buildSidebarItem(navLi) {
+      var link = navDirectChild(navLi, 'a');
+      var sub = navDirectChild(navLi, 'ul');
+      var icon = navLi.getAttribute('data-pa-nav-icon');
+      if (icon == null) icon = defaultIcon;
+      var text = labelOf(link);
+      var href = link ? link.getAttribute('href') : null;
+      var active = navLi.classList.contains('pa-navmenu__item--active');
+      var isReal = href && href !== '#' && href.charAt(href.length - 1) !== '#';
+      if (!sub) return buildLinkItem(text, href, icon, active);
+
+      var li = document.createElement('li');
+      li.className = 'pa-sidebar__item' + (active ? ' pa-sidebar__item--open' : '');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pa-sidebar__toggle';
+      btn.setAttribute('aria-expanded', active ? 'true' : 'false');
+      btn.innerHTML = iconHtml(icon) + labelHtml(text) +
+        '<span class="pa-sidebar__chevron" aria-hidden="true">›</span>';
+      li.appendChild(btn);
+      var submenu = document.createElement('ul');
+      submenu.className = 'pa-sidebar__submenu' + (active ? ' pa-sidebar__submenu--open' : '');
+      if (isReal) submenu.appendChild(buildLinkItem(text, href, icon, active));
+      for (var c = sub.firstElementChild; c; c = c.nextElementSibling) {
+        if (c.tagName && c.tagName.toLowerCase() === 'li') submenu.appendChild(buildSidebarItem(c));
+      }
+      li.appendChild(submenu);
+      btn.addEventListener('click', function () {
+        var open = !li.classList.contains('pa-sidebar__item--open');
+        li.classList.toggle('pa-sidebar__item--open', open);
+        submenu.classList.toggle('pa-sidebar__submenu--open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      return li;
+    }
+
+    return {
+      count: function () { return target ? target.querySelectorAll('[data-pa-nav-collapsed]').length : 0; },
+      restore: function (el) {
+        if (el.__paCollapsed) {
+          var node = el.__paSidebarNode;
+          if (node && node.parentNode) node.parentNode.removeChild(node);
+          el.__paSidebarNode = null;
+          el.__paCollapsed = false;
+        }
+        ul.appendChild(el);
+      },
+      afterRestore: function () {
+        if (target && !target.querySelector('[data-pa-nav-collapsed]')) removeSection();
+      },
+      onFits: function () { removeSection(); },
+      onOverflow: function () {},
+      collapse: function (el) {
+        if (!target || el.__paCollapsed) return;
+        ensureSection();
+        var node = buildSidebarItem(el);
+        node.setAttribute('data-pa-nav-collapsed', '');
+        el.__paSidebarNode = node;
+        el.__paCollapsed = true;
+        if (el.parentNode) el.parentNode.removeChild(el);
+        target.insertBefore(node, section.nextSibling);
+      }
+    };
+  }
+
+  function initNav(nav) {
+    if (!nav || nav.__paFitNavInit) return;
+    var mode = nav.getAttribute('data-pa-fit-nav') || 'menu';
+    if (mode === 'off') return;
+    if (mode !== 'menu' && mode !== 'sidebar') mode = 'menu';
+    nav.__paFitNavInit = true;
+
+    var ul = nav.querySelector(':scope > ul');
+    if (!ul) return;
+
+    var items = Array.prototype.slice.call(ul.children).filter(function (el) { return el.nodeType === 1; });
+    if (items.length === 0) return;
+
+    var ordered = items.map(function (el, idx) {
+      var raw = parseInt(el.getAttribute('data-pa-fit-nav-priority'), 10);
+      var priority = isNaN(raw) ? 0 : raw;
+      var hide = el.getAttribute('data-pa-fit-nav') === 'hide';
+      return { el: el, priority: priority, domIndex: idx, hide: hide };
+    });
+    var dropOrder = ordered.slice().sort(function (a, b) {
+      if (a.priority !== b.priority) return a.priority - b.priority;
+      return b.domIndex - a.domIndex;
+    });
+
+    var strategy = (mode === 'sidebar') ? navSidebarStrategy(nav, ul) : navMenuStrategy(nav, ul);
+
+    function contentWidth() {
+      var cs = getComputedStyle(ul);
+      var gap = parseFloat(cs.columnGap) || parseFloat(cs.gap) || 0;
+      var total = 0, count = 0, kids = ul.children;
+      for (var i = 0; i < kids.length; i++) {
+        var k = kids[i];
+        if (k.nodeType !== 1) continue;
+        if (getComputedStyle(k).display === 'none') continue;
+        total += k.getBoundingClientRect().width;
+        count++;
+      }
+      if (count > 1) total += gap * (count - 1);
+      return total;
+    }
+    function overflowing() { return contentWidth() > nav.clientWidth + 1; }
+
+    function relayout() {
+      ordered.slice().sort(function (a, b) { return a.domIndex - b.domIndex; })
+        .forEach(function (item) {
+          if (item.hide) item.el.style.display = '';
+          strategy.restore(item.el);
+        });
+      strategy.afterRestore();
+
+      if (!overflowing()) { strategy.onFits(); return; }
+
+      strategy.onOverflow();
+      for (var i = 0; i < dropOrder.length; i++) {
+        if (!overflowing()) break;
+        if (dropOrder[i].hide) dropOrder[i].el.style.display = 'none';
+        else strategy.collapse(dropOrder[i].el);
+      }
+    }
+
+    navRelayouts.push(relayout);
+    (typeof requestAnimationFrame === 'function' ? requestAnimationFrame : function (f) { f(); })(relayout);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      var ro = new ResizeObserver(function () { relayout(); });
+      ro.observe(nav);
+      var inner = nav.closest('.pa-navbar__inner') || nav.parentNode;
+      if (inner) ro.observe(inner);
+    } else if (window.pureAdmin && window.pureAdmin.events) {
+      window.pureAdmin.events.on('viewport:resize', relayout);
+    } else {
+      window.addEventListener('resize', relayout);
+    }
+  }
+
+  function initAllNav(scope) {
+    var root = scope || document;
+    var els = root.querySelectorAll(NAV_SELECTOR);
+    for (var i = 0; i < els.length; i++) initNav(els[i]);
+  }
+  function relayoutAllNav() { navRelayouts.forEach(function (fn) { fn(); }); }
+
+  // Register the two nav sinks by name so a custom nav target is possible and
+  // the fit + nav paths share one registry.
+  registerSink('nav-sidebar', { nav: navSidebarStrategy });
+  registerSink('nav-menu', { nav: navMenuStrategy });
+
   var pa = (window.pureAdmin = window.pureAdmin || {});
-  var api = { init: init, initAll: initAll, relayoutAll: relayoutAll, registerSink: registerSink };
+  var api = {
+    init: init, initAll: initAll, relayoutAll: relayoutAll, registerSink: registerSink,
+    initNav: initNav, initAllNav: initAllNav, relayoutAllNav: relayoutAllNav
+  };
   // `fit` is the canonical name (the engine is container-generic now); `navFit`
   // stays as a back-compat alias for existing callers.
   (pa.components = pa.components || {}).fit = api;
   pa.components.navFit = api;
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { initAll(); });
+    document.addEventListener('DOMContentLoaded', function () { initAll(); initAllNav(); });
   } else {
     initAll();
+    initAllNav();
   }
 })();

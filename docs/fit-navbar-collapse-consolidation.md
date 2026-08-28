@@ -5,8 +5,25 @@ sink-refactor) and `navbar-collapse.js` implement the *same* algorithm; the plan
 is to fold the nav's unique behaviour into `fit.js` as sinks + a nav adapter and
 delete `navbar-collapse.js`.
 
-Status: **scoping only — nothing implemented.** Backward-compat is not a concern
-(both are day-old RC surface).
+Status: **Stage 1 core DONE + verified.** The nav engine is ported into `fit.js`
+behind a coexisting opt-in `data-pa-fit-nav`, so the live navbar (still on
+`navbar-collapse.js`) is untouched. **The measurement go/no-go is GREEN** — fit's
+new nav-mode (bbox-sum vs `nav.clientWidth`) folds the real demo nav into the
+sidebar (incl. the dropdown→toggle-group rebuild) and the "More" menu, and
+restores on widen, with priority + active-pinning intact and zero console errors.
+Remaining: **Stage 2** — flip demo + wrappers to `data-pa-fit-nav` and delete
+`navbar-collapse.js`. Backward-compat is not a concern (day-old RC).
+
+### fit.js nav API (Stage 1, shipped)
+- Opt in: `<nav class="pa-navmenu" data-pa-fit-nav="sidebar|menu|off">`.
+- Per-item: `data-pa-fit-nav-priority` (lower drops first), `data-pa-fit-nav="hide"`
+  (drop, don't relocate), `data-pa-nav-icon` (sidebar icon).
+- Nav config: `data-pa-fit-nav-target` (sidebar `<ul>` selector),
+  `data-pa-fit-nav-label` / `-icon`, `data-pa-fit-nav-more-label`.
+- API: `pureAdmin.components.fit.initNav(nav)` / `initAllNav(scope)` /
+  `relayoutAllNav()`; auto-inits `.pa-navmenu[data-pa-fit-nav]` at DOMContentLoaded.
+- The main header relayout pre-folds fit-managed navs (`relayoutAllNav()`), same
+  as it already pre-folds `navCollapse`.
 
 ---
 
