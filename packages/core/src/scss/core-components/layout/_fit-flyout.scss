@@ -1,0 +1,74 @@
+/* ========================================
+   Fit — Floating-menu sink (fit.js)
+   The self-contained relocation target for
+   data-pa-fit="relocate" data-pa-fit-target="floating-menu".
+   fit.js creates the trigger (pinned in the container) + panel (on <body>)
+   on demand and toggles --open; this styles them. No sidebar dependency.
+   ======================================== */
+@use '../../variables' as *;
+
+// Trigger — a compact "•••" button fit pins at the end of the container. Hidden
+// (inline style) by the engine until at least one slot lives in the panel.
+.pa-fit-flyout__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 2.8rem;
+  height: 2.8rem;
+  padding: 0;
+  border: $border-width-base solid transparent;
+  border-radius: var(--pc-border-radius);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover { background: var(--pc-hover-bg, rgba(0, 0, 0, 0.05)); }
+  &:focus-visible { outline: 2px solid var(--pc-accent-color); outline-offset: 1px; }
+  &[aria-expanded='true'] { background: var(--pc-hover-bg, rgba(0, 0, 0, 0.08)); }
+}
+
+// The three dots, drawn so the sink needs no icon-font dependency.
+.pa-fit-flyout__dots {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  &::before { inset-inline-start: -0.7rem; }
+  &::after { inset-inline-start: 0.7rem; }
+}
+
+// Panel — appended to <body>, positioned by JS (fixed, near the trigger).
+.pa-fit-flyout__panel {
+  position: fixed;
+  z-index: $z-index-navbar + 10;
+  display: none;
+  min-width: 20rem;
+  max-width: 32rem;
+  padding: $spacing-sm;
+  background: var(--pc-card-bg);
+  border: $border-width-base solid var(--pc-border-color);
+  border-radius: var(--pc-border-radius);
+  box-shadow: $shadow-lg;
+
+  &--open { display: block; }
+}
+
+// Each relocated slot is wrapped in an item row inside the panel.
+.pa-fit-flyout__item {
+  padding: $spacing-xs $spacing-sm;
+
+  & + & { border-top: $border-width-base solid var(--pc-border-color); }
+}

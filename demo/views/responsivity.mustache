@@ -1,0 +1,340 @@
+<style>
+    /* Demo-only layout + a scoped mirror of core's _fit-flyout.scss so the live
+       relocate demo looks right BEFORE the themes are rebuilt (the demo loads
+       theme CSS, not core main.css). Once themes ship the fit-flyout partial
+       these rules are redundant but harmless. Every VISIBLE UI piece is a real
+       pa-* component; the resp-* classes are demo scaffolding only. */
+
+    /* Resizable stage — the frame whose width the slider controls. The fit row
+       inside is width:100%, so narrowing the stage re-settles the engine. */
+    .resp-stage {
+        max-width: 100%;
+        margin-block: 0.75rem;
+        border: 1px dashed var(--pc-border-color);
+        border-radius: 8px;
+        padding: 0.75rem;
+        transition: max-width 0.08s ease;
+    }
+    .resp-slider-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        font-size: var(--pc-font-size-sm, 1.4rem);
+        color: var(--pc-text-color-2);
+    }
+    .resp-slider-row input[type="range"] { flex: 1; min-width: 0; }
+    .resp-slider-row output { font-variant-numeric: tabular-nums; min-width: 4.5ch; text-align: end; }
+
+    /* The fit row: a flex bar whose children keep their intrinsic width and
+       never wrap, so the engine folds a slot instead of the browser squishing. */
+    .resp-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        width: 100%;
+    }
+    .resp-bar > * { flex: 0 0 auto; white-space: nowrap; }
+    .resp-bar__brand { font-weight: 700; }
+    .resp-bar__spacer { flex: 1 1 auto; min-width: 0; }
+    .resp-stats { display: inline-flex; gap: 0.4rem; }
+
+    /* Code samples. */
+    .resp-code {
+        margin: 0.5rem 0 1.25rem;
+        padding: 1rem 1.25rem;
+        background: var(--pc-code-bg, var(--pc-main-bg));
+        border: 1px solid var(--pc-border-color);
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: var(--pc-font-family-mono, ui-monospace, monospace);
+        font-size: 1.3rem;
+        line-height: 1.6;
+        color: var(--pc-text-color);
+    }
+    .resp-legend { font-size: var(--pc-font-size-sm, 1.4rem); color: var(--pc-text-color-2); }
+
+    /* ---- Fallback mirror of core _fit-flyout.scss (see note above) ---------- */
+    .pa-fit-flyout__trigger {
+        display: inline-flex; align-items: center; justify-content: center;
+        flex: 0 0 auto; width: 2.8rem; height: 2.8rem; padding: 0;
+        border: 1px solid transparent; border-radius: var(--pc-border-radius);
+        background: transparent; color: inherit; cursor: pointer;
+    }
+    .pa-fit-flyout__trigger:hover { background: var(--pc-hover-bg, rgba(0,0,0,.05)); }
+    .pa-fit-flyout__trigger[aria-expanded="true"] { background: var(--pc-hover-bg, rgba(0,0,0,.08)); }
+    .pa-fit-flyout__dots,
+    .pa-fit-flyout__dots::before,
+    .pa-fit-flyout__dots::after {
+        width: .4rem; height: .4rem; border-radius: 50%; background: currentColor;
+    }
+    .pa-fit-flyout__dots { position: relative; }
+    .pa-fit-flyout__dots::before,
+    .pa-fit-flyout__dots::after { content: ""; position: absolute; top: 0; }
+    .pa-fit-flyout__dots::before { inset-inline-start: -.7rem; }
+    .pa-fit-flyout__dots::after { inset-inline-start: .7rem; }
+    .pa-fit-flyout__panel {
+        position: fixed; z-index: 4010; display: none;
+        min-width: 20rem; max-width: 32rem; padding: 0.5rem;
+        background: var(--pc-card-bg); border: 1px solid var(--pc-border-color);
+        border-radius: var(--pc-border-radius); box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+    .pa-fit-flyout__panel--open { display: block; }
+    .pa-fit-flyout__item { padding: 0.4rem 0.5rem; }
+    .pa-fit-flyout__item + .pa-fit-flyout__item { border-top: 1px solid var(--pc-border-color); }
+</style>
+
+<h1 class="mb-2">Responsivity — how it works</h1>
+<p class="resp-legend mb-4">
+    Two small JavaScript engines let a component react to <strong>the space it is
+    actually given</strong> — not the size of the window. That is the difference
+    between a media query (asks the viewport) and a <em>container</em> query (asks
+    the box). Pure Admin ships both a CSS-native path and a JS path, because some
+    responsive moves (mounting a chart, moving a block into a menu) can't be done
+    in CSS alone.
+</p>
+
+<div class="pa-callout pa-callout--info mb-4">
+    <strong>The big idea.</strong> A sidebar, a split pane, or a card in a grid
+    can be narrow while the window is wide. Viewport media queries can't see that.
+    Everything on this page keys off an <em>element's own width</em>, so a
+    component adapts correctly wherever you drop it.
+</div>
+
+<!-- ============================================================
+     THE TWO ENGINES
+     ============================================================ -->
+<h2 class="mt-4 mb-2">The two engines</h2>
+<div class="pa-table-wrapper mb-4">
+    <table class="pa-table pa-table--bordered">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Fit <code>fit.js</code></th>
+                <th>Container Breakpoint <code>container-breakpoint.js</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Decides by</strong></td>
+                <td>Measuring content — "does the row still fit?"</td>
+                <td>Declared width thresholds — "which named band am I in?"</td>
+            </tr>
+            <tr>
+                <td><strong>Output</strong></td>
+                <td>Degrades slots one at a time (hide / step-down / relocate)</td>
+                <td>One named <code>mode</code> reflected to <code>[data-mode]</code></td>
+            </tr>
+            <tr>
+                <td><strong>Best for</strong></td>
+                <td>A row of things competing for one line (toolbars, the navbar)</td>
+                <td>A component that restyles wholesale at set sizes (grid → tabs → icons)</td>
+            </tr>
+            <tr>
+                <td><strong>Event</strong></td>
+                <td><code>pa:fit-relocate</code> (on a relocated slot)</td>
+                <td><code>pa:breakpoint</code> (on mode flip)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ============================================================
+     FIT ENGINE
+     ============================================================ -->
+<h2 class="mt-4 mb-2">1 · Fit — degrade a row to fit</h2>
+<p>
+    Fit watches a horizontal container and, when the content can't fit, degrades
+    the <strong>lowest-priority slot first</strong>, restoring as space returns.
+    The navbar auto-inits; any other flex row opts in with
+    <code>pureAdmin.components.fit.init(el)</code>. You mark participants with
+    attributes:
+</p>
+
+<pre class="resp-code">&lt;div class="toolbar" data-pa-fit-default-priority="20"&gt;
+  &lt;span data-pa-fit="steps" data-pa-fit-priority="30"&gt;   &lt;!-- full → smaller → gone --&gt;
+    &lt;span data-pa-fit-step="0"&gt;Pure Admin&lt;/span&gt;
+    &lt;span data-pa-fit-step="1"&gt;PA&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span data-pa-fit="hide" data-pa-fit-priority="10"&gt;v2.9.0&lt;/span&gt; &lt;!-- drops first --&gt;
+  &lt;button data-pa-fit-ignore&gt;Save&lt;/button&gt;                 &lt;!-- pinned, never yields --&gt;
+&lt;/div&gt;</pre>
+
+<ul class="resp-legend mb-4">
+    <li><code>data-pa-fit="hide"</code> — remove the slot when it must yield.</li>
+    <li><code>data-pa-fit="steps"</code> — show the largest ranked variant that fits (logo → wordmark → monogram).</li>
+    <li><code>data-pa-fit="relocate"</code> — move the slot somewhere else entirely (next section).</li>
+    <li><code>data-pa-fit-priority</code> — lower degrades first; <code>data-pa-fit-auto</code> folds in every child of a container; <code>data-pa-fit-ignore</code> pins one out.</li>
+</ul>
+
+<!-- ============================================================
+     RELOCATION + SINKS  (the new part — LIVE demo)
+     ============================================================ -->
+<h2 class="mt-4 mb-2">2 · Relocation — fit decides, a <em>sink</em> places</h2>
+<p>
+    A <code>relocate</code> slot doesn't just hide — it <strong>moves out of the
+    row</strong> into a named destination and comes back on widen. Crucially, the
+    Fit engine only <strong>decides</strong> a slot must yield; <em>where</em> it
+    goes is a pluggable <strong>sink</strong> named by
+    <code>data-pa-fit-target</code>. Two sinks ship built-in:
+</p>
+<ul class="resp-legend mb-3">
+    <li><code>target="floating-menu"</code> — folds into a "•••" flyout panel. Self-contained; needs no sidebar.</li>
+    <li><code>target="sidebar"</code> — rebuilds the slot as a sidebar list item.</li>
+    <li><em>your own</em> — <code>pureAdmin.components.fit.registerSink('name', { out, in })</code>.</li>
+</ul>
+
+<p class="resp-legend"><strong>Live — drag to narrow the bar.</strong> The badge
+    cluster is one <code>relocate</code> slot targeting <code>floating-menu</code>;
+    when the bar runs out of room it folds into the "•••" panel, and returns when
+    you widen. "New" is pinned with <code>data-pa-fit-ignore</code>.</p>
+
+<div class="resp-slider-row">
+    <span>Bar width</span>
+    <input type="range" min="240" max="720" value="720"
+           oninput="respSetWidth(this.value)" aria-label="Relocate demo width">
+    <output id="resp-w">720px</output>
+</div>
+
+<div class="resp-stage" id="respStage" style="max-width: 720px">
+    <div class="resp-bar" id="respBar">
+        <span class="resp-bar__brand">Acme Console</span>
+        <span class="resp-stats"
+              data-pa-fit="relocate" data-pa-fit-target="floating-menu" data-pa-fit-priority="10">
+            <span class="pa-badge pa-badge--color-1">Users&nbsp;123</span>
+            <span class="pa-badge pa-badge--color-3">Rooms&nbsp;23</span>
+            <span class="pa-badge pa-badge--color-5">Subs&nbsp;45</span>
+        </span>
+        <span class="resp-bar__spacer"></span>
+        <button class="pa-btn pa-btn--sm pa-btn--primary" data-pa-fit-ignore>New</button>
+    </div>
+</div>
+
+<pre class="resp-code">&lt;span data-pa-fit="relocate" data-pa-fit-target="floating-menu"&gt;
+  &lt;span class="pa-badge"&gt;Users 123&lt;/span&gt; …
+&lt;/span&gt;</pre>
+
+<div class="pa-callout pa-callout--success mb-4">
+    <strong>Why a sink registry?</strong> The engine used to hard-code "move into
+    the sidebar." Extracting the destination means one generic detector serves
+    many placements — sidebar, flyout, or anything you register — and it's the
+    seam that lets the navbar live in the foundation layer while the
+    sidebar-specific sink stays in the admin layer.
+</div>
+
+<!-- ============================================================
+     THE EVENT + MANAGED MODE (framework story)
+     ============================================================ -->
+<h2 class="mt-4 mb-2">3 · The event &amp; hands-off mode (Svelte / Phoenix)</h2>
+<p>
+    Before it moves anything, Fit fires a cancelable
+    <code>pa:fit-relocate</code> event on the slot
+    (<code>detail = { action: 'out' | 'in', target, container }</code>). A plain
+    HTML page lets the built-in sink do the DOM move. A reactive framework does
+    the opposite: it <strong>owns placement itself</strong>.
+</p>
+<p>
+    Set <code>data-pa-fit-managed</code> (or call <code>preventDefault()</code>)
+    and Fit performs <strong>no DOM surgery</strong> — it only hides the slot
+    in-row and tells you it flipped. The framework then re-renders the block in
+    its new home <em>from state</em>. That solves the staleness trap: a moved DOM
+    node keeps its old <code>Users: 123</code>; a re-render is bound to the live
+    store, so the relocated copy is always fresh.
+</p>
+
+<pre class="resp-code">// fit fires a DOM CustomEvent on the slot. In managed mode NO node is moved —
+// you attach the listener the way your framework attaches DOM listeners.
+// Plain JS (works everywhere):
+el.addEventListener('pa:fit-relocate', (e) =&gt; {
+  relocated = (e.detail.action === 'out');   // then RE-RENDER the block from state
+});
+
+// In Svelte you'd wire that in an action / onMount (NOT an `onpa:...` attribute —
+// the colon isn't valid there), then render whichever home is current — one
+// source of truth, always fresh, never a moved stale node:
+{#if relocated}
+  &lt;Flyout&gt;&lt;Stats {users} {rooms} {subs} /&gt;&lt;/Flyout&gt;
+{:else}
+  &lt;Stats {users} {rooms} {subs} /&gt;
+{/if}</pre>
+
+<div class="pa-callout pa-callout--info mb-4">
+    Same contract in Phoenix LiveView: the hook forwards <code>pa:fit-relocate</code>
+    with <code>pushEvent</code>, the server assigns the mode, and only the branch
+    for the current placement is rendered — never a stale off-screen copy.
+</div>
+
+<!-- ============================================================
+     CONTAINER BREAKPOINT
+     ============================================================ -->
+<h2 class="mt-4 mb-2">4 · Container Breakpoint — named modes at set widths</h2>
+<p>
+    When a component restyles <em>wholesale</em> at set sizes — not a row shedding
+    pieces, but a card that becomes a grid, then tabs, then icons — declare width
+    thresholds and let the engine name the band. It's the JS counterpart to a CSS
+    <code>@container</code> query, for the cases CSS can't reach (mount a chart,
+    push to the server).
+</p>
+
+<pre class="resp-code">&lt;div phx-hook="…" data-pa-breakpoints='{"icons":0,"tabs":34,"grid":64}'
+     data-pa-breakpoint-initial="tabs"&gt;
+  &lt;div data-pa-show="grid"&gt;…rich grid…&lt;/div&gt;        &lt;!-- .d-none unless mode = grid --&gt;
+  &lt;div data-pa-show="tabs icons"&gt;…compact…&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+<ul class="resp-legend mb-3">
+    <li>Thresholds are <strong>rem</strong> by default (root font is 10px, so <code>34</code> = 340px, <code>64</code> = 640px); add <code>data-pa-breakpoint-unit="px"</code> for pixels.</li>
+    <li>The engine reflects the band to <code>[data-mode]</code> (CSS can key off it) and toggles <code>.d-none</code> on <code>data-pa-show</code> pieces.</li>
+    <li>It fires <code>pa:breakpoint</code> only on a flip — the hook for "mount on demand" (build the chart in <code>grid</code>, destroy it otherwise).</li>
+    <li>A small <strong>hysteresis</strong> dead-band stops flip-flopping right at a threshold — important, because a flip mounts/unmounts, not just a CSS toggle.</li>
+</ul>
+
+<div class="pa-callout pa-callout--info mb-4">
+    See it live on the <a href="/components/fit-to-size">Fit to Size</a> page —
+    Example 4 builds a Chart.js instance only once the card reaches
+    <code>grid</code> mode and destroys it below, logging every flip.
+</div>
+
+<!-- ============================================================
+     WHICH DO I USE
+     ============================================================ -->
+<h2 class="mt-4 mb-2">Which one do I reach for?</h2>
+<div class="pa-callout pa-callout--warning mb-4">
+    <strong>Row of items fighting for one line?</strong> Fit — it measures and
+    sheds by priority.<br>
+    <strong>One component that reshapes at set widths?</strong> Container
+    Breakpoint — it names the band and you style/mount per mode.<br>
+    <strong>Purely cosmetic swap with no mount/DOM move?</strong> A plain CSS
+    <code>@container</code> query — no JS at all. Reach for an engine only when a
+    move needs JavaScript: relocating a node, or mounting/destroying on demand.
+</div>
+
+<p class="resp-legend">
+    Ready to see Fit degrade real cards and toolbars across several strategies?
+    Head to <a href="/components/fit-to-size">Fit to Size</a> for the worked,
+    slider-driven examples.
+</p>
+
+<script>
+    (function () {
+        // Wire the live relocate bar into the Fit engine and drive its width
+        // from the slider (the engine's ResizeObserver re-settles on change).
+        function respInit() {
+            var bar = document.getElementById('respBar');
+            if (bar && window.pureAdmin && pureAdmin.components && pureAdmin.components.fit) {
+                pureAdmin.components.fit.init(bar);
+            }
+        }
+        window.respSetWidth = function (w) {
+            var stage = document.getElementById('respStage');
+            if (stage) stage.style.maxWidth = w + 'px';
+            var out = document.getElementById('resp-w');
+            if (out) out.textContent = w + 'px';
+        };
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', respInit);
+        } else {
+            respInit();
+        }
+    })();
+</script>

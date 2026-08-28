@@ -18,8 +18,13 @@
  *                             that fits, degrading step 0 → 1 → 2 … → hidden.
  *                             The A/B/C idea: e.g. full logo → wordmark →
  *                             monogram, or a search pill → just its icon.
- *   data-pa-fit="sidebar"   — relocate the slot into the sidebar (like the nav's
- *                             own sidebar collapse), restored on widen.
+ *   data-pa-fit="relocate"  — move the slot OUT of the row into a named
+ *                             destination when it must yield, restored on widen.
+ *                             WHERE it goes is a registered sink named by
+ *                             data-pa-fit-target ("sidebar" | "floating-menu" |
+ *                             a custom sink you register). fit only DECIDES;
+ *                             the sink PLACES. `data-pa-fit="sidebar"` is sugar
+ *                             for relocate + target=sidebar.
  *
  *   data-pa-fit-priority="N"  — degrade order; LOWER degrades first. When omitted,
  *                               resolves to the nearest ancestor's
@@ -27,8 +32,16 @@
  *                               pureAdmin.config.fit.defaultPriority, else 0.
  *   data-pa-fit-step="0"      — on a `steps` slot's DIRECT children; 0 = largest
  *                               / the default. Numbers, ascending = smaller.
- *   data-pa-fit-sidebar-target="#sel"  — (sidebar) the <ul> to move into
- *                                        (default: first `.pa-sidebar__nav > ul`).
+ *   data-pa-fit-target="sidebar"       — (relocate) which sink places the slot.
+ *   data-pa-fit-target-selector="#sel" — (relocate) destination element for sinks
+ *                                        that need one (sidebar: the <ul> to move
+ *                                        into; default: first `.pa-sidebar__nav > ul`).
+ *   data-pa-fit-managed                — (relocate) HANDS-OFF: fit fires the event
+ *                                        + hides the slot in-row but does NOT move
+ *                                        the DOM. A framework wrapper owns placement
+ *                                        and re-renders the block from state (fresh
+ *                                        data, never a stale moved node). Same effect
+ *                                        as calling preventDefault() on the event.
  *
  * Group opt-in / opt-out (so you don't have to tag every child):
  *
@@ -67,10 +80,19 @@
  * Coordinates with navbar-collapse.js automatically: hiding a slot changes the
  * nav's available width, whose own ResizeObserver then re-folds its items.
  *
+ * Relocation events (on the slot element, bubbling):
+ *   pa:fit-relocate  — CustomEvent, cancelable. detail = { action:'out'|'in',
+ *                      target, container }. Fires once per flip. preventDefault()
+ *                      (or data-pa-fit-managed) → fit performs NO DOM move; the
+ *                      listener owns placement.
+ *
  * Public API (on window.pureAdmin.components.fit, alias .navFit):
- *   init(container)  — wire one fit container (idempotent)
- *   initAll(scope)   — wire every navbar fit container under scope
- *   relayoutAll()    — force a re-measure (e.g. after markup changes)
+ *   init(container)          — wire one fit container (idempotent)
+ *   initAll(scope)           — wire every navbar fit container under scope
+ *   relayoutAll()            — force a re-measure (e.g. after markup changes)
+ *   registerSink(name, sink) — add a relocation destination. sink =
+ *                              { out(el, ctx) -> mount|false, in(el, ctx) }.
+ *                              Built-ins: 'sidebar', 'floating-menu'.
  */
 (function () {
   'use strict';
@@ -123,9 +145,15 @@
   function describeSlot(el, container, implicit) {
     var strategy = 'hide';
     var steps = [];
+    var target = null;
     if (!implicit) {
       strategy = el.getAttribute('data-pa-fit') || 'hide';
-      if (strategy !== 'hide' && strategy !== 'steps' && strategy !== 'sidebar') strategy = 'hide';
+      // 'sidebar' is sugar for relocate → the built-in 'sidebar' sink.
+      if (strategy === 'sidebar') { strategy = 'relocate'; target = 'sidebar'; }
+      if (strategy !== 'hide' && strategy !== 'steps' && strategy !== 'relocate') strategy = 'hide';
+      if (strategy === 'relocate') {
+        target = el.getAttribute('data-pa-fit-target') || target || 'sidebar';
+      }
       if (strategy === 'steps') {
         var children = el.children;
         for (var c = 0; c < children.length; c++) {
@@ -137,12 +165,11 @@
     return {
       el: el,
       strategy: strategy,
+      target: target,          // relocate: name of the destination sink
       priority: resolvePriority(el, container),
       steps: steps,
       domIndex: 0,   // assigned after the document-order sort below
       state: 0,      // current degradation level
-      inSidebar: false,
-      home: null,    // { parent, next } saved when relocated
       // maxState: how far a slot can degrade.
       maxState: strategy === 'steps' ? steps.length /* last step + then hidden */ : 1
     };
@@ -233,48 +260,207 @@
       setHidden(slot.el, s >= slot.steps.length);
     } else if (slot.strategy === 'hide') {
       setHidden(slot.el, s >= 1);
-    } else if (slot.strategy === 'sidebar') {
-      // In-row proxy while measuring: hidden means "will live in the sidebar".
-      // Only hide here if it's still in the row; if already relocated it's out.
-      if (!slot.inSidebar) setHidden(slot.el, s >= 1);
+    } else if (slot.strategy === 'relocate') {
+      // Every relayout starts by pulling relocated nodes home (resetAll), so a
+      // relocate slot is always in-row during measurement. Hidden here means
+      // "won't fit — will move to its sink (or a managed wrapper renders it
+      // elsewhere)". reconcileRelocate acts on the settled state afterwards.
+      setHidden(slot.el, s >= 1);
     }
   }
 
-  function defaultSidebarTarget(container) {
-    // Prefer a sidebar in the same document; fall back to none.
-    var ul = document.querySelector('.pa-sidebar__nav > ul');
-    return ul || null;
+  // --- Relocation: fit decides, a SINK places -----------------------------
+  // fit.js only decides a slot must yield; WHERE it goes is a registered sink
+  // keyed by data-pa-fit-target. A sink is:
+  //   out(el, ctx) -> mount | false   place `el`; return an opaque mount (passed
+  //                                   back to in), or false to refuse (→ acts
+  //                                   like `hide`). Do NOT manage `el`'s home —
+  //                                   the engine leaves a placeholder and moves
+  //                                   `el` back itself.
+  //   in(el, ctx)                     tear down the destination wrapper; ctx.mount
+  //                                   is what out() returned. The engine has
+  //                                   already moved `el` back to its placeholder.
+  // Before invoking a sink, fit fires a cancelable `pa:fit-relocate` on the
+  // element. A framework (svelte/phoenix) preventDefault()s it — or the slot /
+  // container carries data-pa-fit-managed — to own placement itself: it hides
+  // in-row (already done) and re-renders the block from state, so restored
+  // content is always fresh, never a stale moved node.
+  var sinks = {};
+  function registerSink(name, sink) { if (name && sink) sinks[name] = sink; }
+
+  function isManaged(slot, container) {
+    return slot.el.hasAttribute('data-pa-fit-managed') ||
+      (container.nodeType === 1 && container.hasAttribute('data-pa-fit-managed'));
   }
 
-  // Reconcile sidebar relocation against the settled states (diff, so we only
-  // touch the DOM when membership actually flips).
-  function reconcileSidebar(container, slots) {
+  function dispatchRelocate(slot, action, container) {
+    var detail = { action: action, target: slot.target, container: container };
+    var ev;
+    try {
+      ev = new CustomEvent('pa:fit-relocate', { bubbles: true, cancelable: true, detail: detail });
+    } catch (e) {
+      ev = document.createEvent('CustomEvent');
+      ev.initCustomEvent('pa:fit-relocate', true, true, detail);
+    }
+    slot.el.dispatchEvent(ev);
+    return ev;
+  }
+
+  // Physically move a slot out through its sink, leaving a placeholder comment
+  // at its home so it restores to the exact spot. Returns a record, or null if
+  // the sink refused / is unknown (slot then behaves like `hide`).
+  function relocateOut(slot, container) {
+    var el = slot.el, sink = sinks[slot.target];
+    if (!sink) return null;
+    var placeholder = document.createComment('pa-fit-slot');
+    el.parentNode.insertBefore(placeholder, el);
+    setHidden(el, false); // visible in its new home
+    var mount = sink.out(el, { container: container, target: slot.target });
+    if (mount === false || mount == null) {
+      // Refused (e.g. no sidebar present). Undo: pull el back, drop placeholder,
+      // hide in row.
+      if (el.parentNode !== placeholder.parentNode) placeholder.parentNode.insertBefore(el, placeholder);
+      placeholder.parentNode.removeChild(placeholder);
+      setHidden(el, true);
+      return null;
+    }
+    return { el: el, placeholder: placeholder, sink: sink, target: slot.target, mount: mount };
+  }
+
+  // Move a relocated node home and tear down its sink wrapper.
+  function restoreRec(rec) {
+    if (rec.placeholder && rec.placeholder.parentNode) {
+      rec.placeholder.parentNode.insertBefore(rec.el, rec.placeholder);
+      rec.placeholder.parentNode.removeChild(rec.placeholder);
+    }
+    try { if (rec.sink && rec.sink.in) rec.sink.in(rec.el, { target: rec.target, mount: rec.mount }); } catch (e) {}
+    setHidden(rec.el, false);
+  }
+
+  // Pull every relocated node back home so the next measure sees natural width
+  // and collectSlots finds the full set again. This is what makes relocation a
+  // pure function of width (restore-on-widen falls out for free).
+  function resetAll(entry) {
+    if (!entry.relocs || !entry.relocs.length) return;
+    var recs = entry.relocs; entry.relocs = [];
+    for (var i = 0; i < recs.length; i++) restoreRec(recs[i]);
+  }
+
+  // After the degrade loop settles, relocate slots whose state says "out".
+  // Events fire only on a real flip (deduped via el.__paFitOut) so a framework
+  // listener isn't spammed every resize frame.
+  function reconcileRelocate(entry, container, slots) {
     slots.forEach(function (slot) {
-      if (slot.strategy !== 'sidebar') return;
+      if (slot.strategy !== 'relocate') return;
       var wantOut = slot.state >= 1;
-      if (wantOut && !slot.inSidebar) {
-        var target = slot.el.getAttribute('data-pa-fit-sidebar-target');
-        target = target ? document.querySelector(target) : defaultSidebarTarget(container);
-        if (!target) { return; } // no sidebar → leave hidden in row (proxy already applied)
-        slot.home = { parent: slot.el.parentNode, next: slot.el.nextSibling };
-        var li = document.createElement('li');
-        li.className = 'pa-sidebar__item pa-fit-relocated';
-        setHidden(slot.el, false); // visible in its new sidebar home
-        li.appendChild(slot.el);
-        target.appendChild(li);
-        slot.wrapper = li;
-        slot.inSidebar = true;
-      } else if (!wantOut && slot.inSidebar) {
-        if (slot.home && slot.home.parent) {
-          slot.home.parent.insertBefore(slot.el, slot.home.next || null);
-        }
-        if (slot.wrapper && slot.wrapper.parentNode) slot.wrapper.parentNode.removeChild(slot.wrapper);
-        slot.wrapper = null;
-        slot.inSidebar = false;
-        setHidden(slot.el, false);
+      var was = slot.el.__paFitOut === true;
+      if (wantOut !== was) dispatchRelocateFlip(slot, wantOut, container, entry);
+      else if (wantOut && !isManaged(slot, container)) {
+        // No user-visible flip, but resetAll pulled it home this pass — put it
+        // back out (no event) so a stable narrow width keeps it relocated.
+        var rec = relocateOut(slot, container);
+        if (rec) entry.relocs.push(rec);
       }
     });
   }
+
+  function dispatchRelocateFlip(slot, wantOut, container, entry) {
+    var ev = dispatchRelocate(slot, wantOut ? 'out' : 'in', container);
+    slot.el.__paFitOut = wantOut;
+    // Managed / prevented: the framework owns placement. Node stays hidden
+    // in-row (applyMeasureState); nothing to move. Restore ('in') is likewise
+    // the framework's job.
+    if (ev.defaultPrevented || isManaged(slot, container)) return;
+    if (wantOut) {
+      var rec = relocateOut(slot, container);
+      if (rec) entry.relocs.push(rec);
+    }
+    // Non-managed 'in' already happened in resetAll() at the top of relayout.
+  }
+
+  // --- Built-in sink: sidebar --------------------------------------------
+  // Rebuilds the slot as a sidebar list item under the app sidebar's nav <ul>.
+  // Target <ul>: data-pa-fit-target-selector (or legacy data-pa-fit-sidebar-target),
+  // else the first `.pa-sidebar__nav > ul`.
+  registerSink('sidebar', {
+    out: function (el, ctx) {
+      var sel = el.getAttribute('data-pa-fit-target-selector') || el.getAttribute('data-pa-fit-sidebar-target');
+      var ul = sel ? document.querySelector(sel) : document.querySelector('.pa-sidebar__nav > ul');
+      if (!ul) return false;
+      var li = document.createElement('li');
+      li.className = 'pa-sidebar__item pa-fit-relocated';
+      li.appendChild(el);
+      ul.appendChild(li);
+      return { wrapper: li };
+    },
+    in: function (el, ctx) {
+      var li = ctx.mount && ctx.mount.wrapper; // el already moved home by the engine
+      if (li && li.parentNode) li.parentNode.removeChild(li);
+    }
+  });
+
+  // --- Built-in sink: floating-menu --------------------------------------
+  // Self-contained flyout — needs no sidebar, so it works on sidebar-less pages.
+  // One trigger (pinned in the container, ignored by fit) + one panel (on body)
+  // per container, created lazily and hidden when empty.
+  var flyouts = [];
+  function flyoutFor(container) {
+    for (var i = 0; i < flyouts.length; i++) if (flyouts[i].container === container) return flyouts[i];
+    var trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'pa-fit-flyout__trigger';
+    trigger.setAttribute('data-pa-fit-ignore', '');
+    trigger.setAttribute('aria-label', 'More');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.style.display = 'none';
+    trigger.innerHTML = '<span class="pa-fit-flyout__dots" aria-hidden="true"></span>';
+    var panel = document.createElement('div');
+    panel.className = 'pa-fit-flyout__panel';
+    var f = { container: container, trigger: trigger, panel: panel, count: 0 };
+    function reposition() {
+      var r = trigger.getBoundingClientRect();
+      panel.style.top = (r.bottom + 4) + 'px';
+      panel.style.left = 'auto';
+      panel.style.right = Math.max(4, window.innerWidth - r.right) + 'px';
+    }
+    function close() { panel.classList.remove('pa-fit-flyout__panel--open'); trigger.setAttribute('aria-expanded', 'false'); }
+    function open() { reposition(); panel.classList.add('pa-fit-flyout__panel--open'); trigger.setAttribute('aria-expanded', 'true'); }
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (panel.classList.contains('pa-fit-flyout__panel--open')) close(); else open();
+    });
+    document.addEventListener('click', function (e) {
+      if (e.target !== trigger && !trigger.contains(e.target) && !panel.contains(e.target)) close();
+    });
+    window.addEventListener('resize', function () {
+      if (panel.classList.contains('pa-fit-flyout__panel--open')) reposition();
+    });
+    f.close = close;
+    container.appendChild(trigger);
+    document.body.appendChild(panel);
+    flyouts.push(f);
+    return f;
+  }
+  registerSink('floating-menu', {
+    out: function (el, ctx) {
+      var f = flyoutFor(ctx.container);
+      var item = document.createElement('div');
+      item.className = 'pa-fit-flyout__item pa-fit-relocated';
+      item.appendChild(el);
+      f.panel.appendChild(item);
+      f.count++;
+      f.trigger.style.display = '';
+      return { wrapper: item, flyout: f };
+    },
+    in: function (el, ctx) {
+      var m = ctx.mount || {};
+      if (m.wrapper && m.wrapper.parentNode) m.wrapper.parentNode.removeChild(m.wrapper);
+      if (m.flyout) {
+        m.flyout.count = Math.max(0, m.flyout.count - 1);
+        if (m.flyout.count === 0) { m.flyout.trigger.style.display = 'none'; m.flyout.close && m.flyout.close(); }
+      }
+    }
+  });
 
   // A section's CONTENT width. For a flex-GROWING section (the centre slot,
   // flex:1) scrollWidth reports the inflated box, not the content — so removing
@@ -314,6 +500,11 @@
 
   function relayout(entry) {
     var container = entry.container;
+
+    // Pull any relocated nodes home FIRST, so we measure natural width and
+    // collectSlots sees the full set again (relocation = pure function of width).
+    resetAll(entry);
+
     var slots = entry.slots = collectSlots(container);
 
     // Reset every slot to natural, then degrade until it fits. Deterministic:
@@ -336,7 +527,7 @@
       applyMeasureState(s);
     }
 
-    reconcileSidebar(container, slots);
+    reconcileRelocate(entry, container, slots);
   }
 
   function schedule(entry) {
@@ -354,7 +545,7 @@
     if (!armedSelf && !container.querySelector('[data-pa-fit], [data-pa-fit-auto]')) return;
     container.__paFitInit = true;
 
-    var entry = { container: container, slots: [], raf: null };
+    var entry = { container: container, slots: [], raf: null, relocs: [] };
     containers.push(entry);
 
     schedule(entry);
@@ -380,7 +571,7 @@
   }
 
   var pa = (window.pureAdmin = window.pureAdmin || {});
-  var api = { init: init, initAll: initAll, relayoutAll: relayoutAll };
+  var api = { init: init, initAll: initAll, relayoutAll: relayoutAll, registerSink: registerSink };
   // `fit` is the canonical name (the engine is container-generic now); `navFit`
   // stays as a back-compat alias for existing callers.
   (pa.components = pa.components || {}).fit = api;

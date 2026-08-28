@@ -372,6 +372,10 @@ app.get('/components/fit-to-size', (req, res) => {
     renderWithLayout(res, 'fit-to-size', { pageTitle: 'Fit to Size', currentPage: 'fit-to-size', isFitToSize: true });
 });
 
+app.get('/responsivity', (req, res) => {
+    renderWithLayout(res, 'responsivity', { pageTitle: 'Responsivity — How It Works', currentPage: 'responsivity', isResponsivity: true });
+});
+
 app.get('/components/grid', (req, res) => {
     renderWithLayout(res, 'grid', { pageTitle: 'Grid System', currentPage: 'grid', isGrid: true });
 });
