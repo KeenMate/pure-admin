@@ -22,17 +22,18 @@
                 <h1><span class="pa-app-header__name" data-pa-fit="steps" data-pa-fit-priority="30"><span data-pa-fit-step="0">Pure Admin</span><span data-pa-fit-step="1" class="pa-fit-hidden">PA</span></span>{{#coreVersion}}<span class="pa-app-header__version" data-pa-fit="hide" data-pa-fit-priority="10">v{{coreVersion}}</span>{{/coreVersion}}</h1>
             </div>
 
-            <!-- Left Navigation Links. data-pa-nav-collapse="sidebar" moves the
+            <!-- Left Navigation Links. data-pa-fit-nav="sidebar" moves the
                  lowest-priority items into the sidebar (as standard
                  .pa-sidebar__* items under a "Menu" section heading) as the
-                 header narrows, restoring them as it widens (navbar-collapse.js).
-                 The active item is auto-pinned; Dashboard is also explicitly
-                 pinned via data-pa-nav-priority. Omitted in the simple layout —
-                 it folds into a sidebar that isn't there. -->
+                 header narrows, restoring them as it widens — the one Fit engine
+                 (fit.js) now owns nav collapse too. The active item is
+                 auto-pinned; Dashboard is also explicitly pinned via
+                 data-pa-fit-nav-priority. Omitted in the simple layout — it
+                 folds into a sidebar that isn't there. -->
             {{^simpleLayout}}
-            <nav class="pa-navmenu" data-pa-nav-collapse="sidebar" data-pa-nav-collapse-label="Menu">
+            <nav class="pa-navmenu" data-pa-fit-nav="sidebar" data-pa-fit-nav-label="Menu">
                 <ul>
-                    <li class="pa-navmenu__item{{#isDashboard}} pa-navmenu__item--active{{/isDashboard}}" data-pa-nav-priority="10" data-pa-nav-icon="📊"><a href="/">Dashboard</a></li>
+                    <li class="pa-navmenu__item{{#isDashboard}} pa-navmenu__item--active{{/isDashboard}}" data-pa-fit-nav-priority="10" data-pa-nav-icon="📊"><a href="/">Dashboard</a></li>
                     <li class="pa-navmenu__item pa-navmenu__item--has-dropdown{{#isComponents}} pa-navmenu__item--active{{/isComponents}}" data-pa-nav-icon="🧩">
                         <a href="/components/overview" class="pa-navmenu__link">Components</a>
                         <ul class="pa-navmenu__dropdown">
@@ -84,12 +85,12 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- data-pa-nav-collapse="hide": rather than fold into the
+                    <!-- data-pa-fit-nav="hide": rather than fold into the
                          sidebar when space runs out, this item just hides. Fitting
                          here because its children (Theme Variables, Colors,
                          Helpers) already live in the main sidebar, so nothing is
                          lost when it disappears on narrow screens. -->
-                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown" data-pa-nav-icon="🎨" data-pa-nav-collapse="hide">
+                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown" data-pa-nav-icon="🎨" data-pa-fit-nav="hide">
                         <a href="/design/theme-variables" class="pa-navmenu__link">Design</a>
                         <ul class="pa-navmenu__dropdown">
                             <li><a href="/design/theme-variables">Theme Variables</a></li>

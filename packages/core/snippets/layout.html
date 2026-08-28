@@ -293,26 +293,26 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 
 <!-- ================================
      NAVBAR — RESPONSIVE COLLAPSE (progressive, priority-driven)
-     Add data-pa-nav-collapse to .pa-navmenu and navbar-collapse.js walks
+     Add data-pa-fit-nav to .pa-navmenu and the one Fit engine (fit.js) walks
      the lowest-priority items out as the header narrows, restoring them as it
      widens — the same measure-and-drop model as the .pa-overflow toolbar.
 
-       data-pa-nav-collapse="menu"     items fold into a generated "More ▾"
+       data-pa-fit-nav="menu"     items fold into a generated "More ▾"
                                        dropdown (self-contained; no sidebar
                                        needed; nested dropdowns render FLAT).
-       data-pa-nav-collapse="sidebar"  items move into the sidebar as native
+       data-pa-fit-nav="sidebar"  items move into the sidebar as native
                                        .pa-sidebar__* items under a section
                                        heading (needs a sidebar).
 
-     Priority: data-pa-nav-priority on each <li> (default 0, lowest drops
+     Priority: data-pa-fit-nav-priority on each <li> (default 0, lowest drops
      first). The --active item is auto-pinned so the current page never folds.
      ================================ -->
 
 <!-- MENU mode — folds into a "More" dropdown -->
 <nav class="pa-navmenu"
-     data-pa-nav-collapse="menu" data-pa-nav-more-label="More">
+     data-pa-fit-nav="menu" data-pa-fit-nav-more-label="More">
     <ul>
-        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-nav-priority="10">
+        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-fit-nav-priority="10">
             <a href="/">Dashboard</a>
         </li>
         <li class="pa-navmenu__item">
@@ -330,7 +330,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
     </ul>
 </nav>
 
-<!-- Generated DOM (menu mode). navbar-collapse.js appends a "More" trigger
+<!-- Generated DOM (menu mode). The Fit engine appends a "More" trigger
      <li> to the nav and a detached panel <ul> parented to <body> (so it
      escapes the navbar's overflow:hidden). While open, the trigger carries
      .is-open (rotates .pa-navmenu__more-chevron) and the panel carries
@@ -351,11 +351,11 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 
 <!-- SIDEBAR mode — folds into the sidebar under a "Menu" section heading.
      Target defaults to the first .pa-sidebar__nav > ul; override with
-     data-pa-nav-collapse-target="#your-sidebar-ul-selector". -->
+     data-pa-fit-nav-target="#your-sidebar-ul-selector". -->
 <nav class="pa-navmenu"
-     data-pa-nav-collapse="sidebar" data-pa-nav-collapse-label="Menu">
+     data-pa-fit-nav="sidebar" data-pa-fit-nav-label="Menu">
     <ul>
-        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-nav-priority="10">
+        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-fit-nav-priority="10">
             <a href="/">Dashboard</a>
         </li>
         <li class="pa-navmenu__item"><a href="/reports">Reports</a></li>

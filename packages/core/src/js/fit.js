@@ -1,12 +1,13 @@
 /**
  * Pure Admin — Fit (priority-driven container degradation)
  *
- * Generalises the priority/collapse idea from `navbar-collapse.js` (which folds
- * NAV MENU items) to EVERY slot in a horizontal container: brand, version, page
- * title, a search box, actions — or, on any flex row (a toolbar, a filter bar, a
- * form's action row), whatever you put in it. When the row can't fit all its
- * content, slots degrade one at a time, LOWEST PRIORITY FIRST, each using its
- * declared strategy, until the row fits. When space returns, everything restores.
+ * The one priority-driven degradation engine. Folds EVERY slot in a horizontal
+ * container: brand, version, page title, a search box, actions — or, on any flex
+ * row (a toolbar, a filter bar, a form's action row), whatever you put in it. It
+ * ALSO folds NAV MENU items (the former navbar-collapse.js, now merged here — see
+ * the NAV COLLAPSE section below). When the row can't fit all its content, slots
+ * degrade one at a time, LOWEST PRIORITY FIRST, each using its declared strategy,
+ * until the row fits. When space returns, everything restores.
  *
  * The navbar (`.pa-navbar__inner`) auto-inits; any other container opts in with
  * `pureAdmin.components.fit.init(el)` (aliased `navFit` for back-compat).
@@ -77,8 +78,9 @@
  * hysteresis, no oscillation) and sidesteps the "freed space is absorbed by the
  * flex:1 centre slot, so a restore is undetectable" trap.
  *
- * Coordinates with navbar-collapse.js automatically: hiding a slot changes the
- * nav's available width, whose own ResizeObserver then re-folds its items.
+ * Nav folding is coordinated in-engine: the header relayout pre-folds every
+ * fit-managed nav (relayoutAllNav) before it measures, so it never over-degrades
+ * the header to fit items the nav sheds anyway.
  *
  * Relocation events (on the slot element, bubbling):
  *   pa:fit-relocate  — CustomEvent, cancelable. detail = { action:'out'|'in',
@@ -514,11 +516,6 @@
     // Fold any collapsing nav FIRST (at the natural, widest slot state), so we
     // measure against a nav that's already shed what it can — otherwise we'd
     // over-degrade the header to fit items that fold into the sidebar anyway.
-    var pa = window.pureAdmin;
-    if (pa && pa.components && pa.components.navCollapse && pa.components.navCollapse.relayoutAll) {
-      pa.components.navCollapse.relayoutAll();
-    }
-    // Fit-managed navs (data-pa-fit-nav) fold first too — same reason.
     relayoutAllNav();
 
     var guard = 0;
