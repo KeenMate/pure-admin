@@ -33,8 +33,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   match their new home: `data-pc-fit*`, `data-pc-fit-nav`, `data-pc-breakpoints`,
   `data-pc-show`, `.pc-fit-hidden`/`.pc-fit-flyout`, and the `pc:fit-relocate` /
   `pc:breakpoint` custom events.
-- **Depends on `@keenmate/pure-css` `^1.0.0-rc05`** (was a foundation of tokens +
-  reboot + grid + utilities; now also ships the app shell CSS **and** JS).
+- **Depends on `@keenmate/pure-css` `^1.0.0-rc06`** (was a foundation of tokens +
+  reboot + grid + utilities; now also ships the app shell CSS **and** JS). rc06
+  also brings two foundation changes that reach core: (a) the relocated shell
+  partials now carry `--base-*` fallbacks so a standalone pure-css page renders a
+  styled navbar/sidebar without pure-admin's `--pc-*` component tokens — no visual
+  change here since core still emits them; and (b) the `--pc-border-radius*` scale
+  is now derived from the `--base-border-radius-*` contract the web/svelte
+  components already use. **Rendered radii grow slightly to match the ecosystem:
+  `-sm` 2px → 4px, unsuffixed (md) 4px → 6px, `-lg` 8px unchanged** — applied
+  across the ~169 core references to those tokens; overriding `--base-border-radius-*`
+  now re-rounds pure-css elements and the components together.
 
 ### Added
 
