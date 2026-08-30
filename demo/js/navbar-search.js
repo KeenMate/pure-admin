@@ -1,7 +1,7 @@
 /**
  * Navbar inline search (search position "A") — a LIVE search box with its own
  * results dropdown, independent of the Ctrl+K command palette. This is demo
- * behavior: Pure Admin ships the markup + CSS (.pa-navbar-search--field +
+ * behavior: Pure Admin ships the markup + CSS (.pc-navbar-search--field +
  * .pa-search-autocomplete), and a consumer wires results however they like
  * (their API, their router). Here we filter a small demo dataset.
  *

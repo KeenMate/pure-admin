@@ -1,518 +1,518 @@
 <!-- Sidebar -->
-<aside class="pa-layout__sidebar{{#sidebarMode}} pa-layout__sidebar--{{sidebarMode}}{{/sidebarMode}}">
-    <nav class="pa-sidebar__nav">
+<aside class="pc-layout__sidebar{{#sidebarMode}} pc-layout__sidebar--{{sidebarMode}}{{/sidebarMode}}">
+    <nav class="pc-sidebar__nav">
         <ul>
             <!-- C) Sidebar search: a trigger that opens the Ctrl+K palette
                  (fullscreen sheet on phones). Hidden until selected in settings. -->
-            <li class="pa-sidebar__item">
-                <button type="button" class="pa-sidebar__search" id="sidebarSearchTrigger" hidden
+            <li class="pc-sidebar__item">
+                <button type="button" class="pc-sidebar__search" id="sidebarSearchTrigger" hidden
                         onclick="window.pureAdmin && pureAdmin.commandPalette && pureAdmin.commandPalette.open()">
-                    <span class="pa-sidebar__icon" aria-hidden="true">🔍</span>
-                    <span class="pa-sidebar__label">Search…</span>
+                    <span class="pc-sidebar__icon" aria-hidden="true">🔍</span>
+                    <span class="pc-sidebar__label">Search…</span>
                 </button>
             </li>
 
             <!-- E) Sidebar type-and-go search: a real input in a <form>; Enter (or
                  clicking the submit icon when the sidebar is collapsed) navigates to
                  /search?q=…. Hidden until selected in settings. -->
-            <li class="pa-sidebar__item">
-                <form class="pa-sidebar__search pa-sidebar__search--input" id="sidebarSearchGo" hidden
+            <li class="pc-sidebar__item">
+                <form class="pc-sidebar__search pc-sidebar__search--input" id="sidebarSearchGo" hidden
                       action="/search" method="get" role="search">
-                    <button type="submit" class="pa-sidebar__search-icon" aria-label="Search">🔍</button>
-                    <input type="search" name="q" class="pa-sidebar__search-field"
+                    <button type="submit" class="pc-sidebar__search-icon" aria-label="Search">🔍</button>
+                    <input type="search" name="q" class="pc-sidebar__search-field"
                            placeholder="Search…" autocomplete="off" aria-label="Search">
                 </form>
             </li>
 
-            <li class="pa-sidebar__item"><a href="/getting-started" class="pa-sidebar__link {{#isGettingStarted}}pa-sidebar__link--active{{/isGettingStarted}}">
-                <span class="pa-sidebar__icon">🚀</span>
-                <span class="pa-sidebar__label">Getting Started</span>
+            <li class="pc-sidebar__item"><a href="/getting-started" class="pc-sidebar__link {{#isGettingStarted}}pc-sidebar__link--active{{/isGettingStarted}}">
+                <span class="pc-sidebar__icon">🚀</span>
+                <span class="pc-sidebar__label">Getting Started</span>
             </a></li>
 
-            <li class="pa-sidebar__item"><a href="/examples/simple-app" class="pa-sidebar__link">
-                <span class="pa-sidebar__icon">📄</span>
-                <span class="pa-sidebar__label">Simple App (no sidebar)</span>
+            <li class="pc-sidebar__item"><a href="/examples/simple-app" class="pc-sidebar__link">
+                <span class="pc-sidebar__icon">📄</span>
+                <span class="pc-sidebar__label">Simple App (no sidebar)</span>
             </a></li>
 
-            <li class="pa-sidebar__item"><a href="/" class="pa-sidebar__link {{#isDashboard}}pa-sidebar__link--active{{/isDashboard}}">
-                <span class="pa-sidebar__icon">📊</span>
-                <span class="pa-sidebar__label">Dashboard</span>
+            <li class="pc-sidebar__item"><a href="/" class="pc-sidebar__link {{#isDashboard}}pc-sidebar__link--active{{/isDashboard}}">
+                <span class="pc-sidebar__icon">📊</span>
+                <span class="pc-sidebar__label">Dashboard</span>
             </a></li>
 
-            <li class="pa-sidebar__item"><a href="/changelog" class="pa-sidebar__link {{#isChangelog}}pa-sidebar__link--active{{/isChangelog}}">
-                <span class="pa-sidebar__icon">📋</span>
-                <span class="pa-sidebar__label">Changelog</span>
+            <li class="pc-sidebar__item"><a href="/changelog" class="pc-sidebar__link {{#isChangelog}}pc-sidebar__link--active{{/isChangelog}}">
+                <span class="pc-sidebar__icon">📋</span>
+                <span class="pc-sidebar__label">Changelog</span>
             </a></li>
 
-            <li class="pa-sidebar__item"><a href="/design/theme-variables" class="pa-sidebar__link {{#isThemeVariables}}pa-sidebar__link--active{{/isThemeVariables}}">
-                <span class="pa-sidebar__icon">🎨</span>
-                <span class="pa-sidebar__label">Theme Variables</span>
+            <li class="pc-sidebar__item"><a href="/design/theme-variables" class="pc-sidebar__link {{#isThemeVariables}}pc-sidebar__link--active{{/isThemeVariables}}">
+                <span class="pc-sidebar__icon">🎨</span>
+                <span class="pc-sidebar__label">Theme Variables</span>
             </a></li>
 
-            <li class="pa-sidebar__item"><a href="/design/colors" class="pa-sidebar__link {{#isColors}}pa-sidebar__link--active{{/isColors}}">
-                <span class="pa-sidebar__icon">🌈</span>
-                <span class="pa-sidebar__label">Colors</span>
+            <li class="pc-sidebar__item"><a href="/design/colors" class="pc-sidebar__link {{#isColors}}pc-sidebar__link--active{{/isColors}}">
+                <span class="pc-sidebar__icon">🌈</span>
+                <span class="pc-sidebar__label">Colors</span>
             </a></li>
 
             <!-- Tools -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">🛠️</span>
-                    <span class="pa-sidebar__label">Tools</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">🛠️</span>
+                    <span class="pc-sidebar__label">Tools</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/tools/rtl-test" class="pa-sidebar__link {{#isRtlTest}}pa-sidebar__link--active{{/isRtlTest}}">
-                        <span class="pa-sidebar__icon">↔️</span>
-                        <span class="pa-sidebar__label">RTL Test</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/tools/rtl-test" class="pc-sidebar__link {{#isRtlTest}}pc-sidebar__link--active{{/isRtlTest}}">
+                        <span class="pc-sidebar__icon">↔️</span>
+                        <span class="pc-sidebar__label">RTL Test</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/tools/font-test" class="pa-sidebar__link">
-                        <span class="pa-sidebar__icon">🔤</span>
-                        <span class="pa-sidebar__label">Font Tuning</span>
+                    <li class="pc-sidebar__item"><a href="/tools/font-test" class="pc-sidebar__link">
+                        <span class="pc-sidebar__icon">🔤</span>
+                        <span class="pc-sidebar__label">Font Tuning</span>
                     </a></li>
                 </ul>
             </li>
 
-            <li class="pa-sidebar__item"><a href="/design/helpers" class="pa-sidebar__link {{#isHelpers}}pa-sidebar__link--active{{/isHelpers}}">
-                <span class="pa-sidebar__icon">🔧</span>
-                <span class="pa-sidebar__label">Helpers</span>
+            <li class="pc-sidebar__item"><a href="/design/helpers" class="pc-sidebar__link {{#isHelpers}}pc-sidebar__link--active{{/isHelpers}}">
+                <span class="pc-sidebar__icon">🔧</span>
+                <span class="pc-sidebar__label">Helpers</span>
             </a></li>
 
             <!-- Responsivity -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">📐</span>
-                    <span class="pa-sidebar__label">Responsivity</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">📐</span>
+                    <span class="pc-sidebar__label">Responsivity</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/responsivity" class="pa-sidebar__link {{#isResponsivity}}pa-sidebar__link--active{{/isResponsivity}}">
-                        <span class="pa-sidebar__icon">📖</span>
-                        <span class="pa-sidebar__label">How It Works</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/responsivity" class="pc-sidebar__link {{#isResponsivity}}pc-sidebar__link--active{{/isResponsivity}}">
+                        <span class="pc-sidebar__icon">📖</span>
+                        <span class="pc-sidebar__label">How It Works</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/fit-to-size" class="pa-sidebar__link {{#isFitToSize}}pa-sidebar__link--active{{/isFitToSize}}">
-                        <span class="pa-sidebar__icon">↔️</span>
-                        <span class="pa-sidebar__label">Fit to Size</span>
+                    <li class="pc-sidebar__item"><a href="/components/fit-to-size" class="pc-sidebar__link {{#isFitToSize}}pc-sidebar__link--active{{/isFitToSize}}">
+                        <span class="pc-sidebar__icon">↔️</span>
+                        <span class="pc-sidebar__label">Fit to Size</span>
                     </a></li>
                 </ul>
             </li>
 
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">🧩</span>
-                    <span class="pa-sidebar__label">Components</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">🧩</span>
+                    <span class="pc-sidebar__label">Components</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/components/overview" class="pa-sidebar__link {{#isComponents}}pa-sidebar__link--active{{/isComponents}}">
-                        <span class="pa-sidebar__icon">🧩</span>
-                        <span class="pa-sidebar__label">Overview</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/components/overview" class="pc-sidebar__link {{#isComponents}}pc-sidebar__link--active{{/isComponents}}">
+                        <span class="pc-sidebar__icon">🧩</span>
+                        <span class="pc-sidebar__label">Overview</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/buttons" class="pa-sidebar__link {{#isButtons}}pa-sidebar__link--active{{/isButtons}}">
-                        <span class="pa-sidebar__icon">🔘</span>
-                        <span class="pa-sidebar__label">Buttons</span>
+                    <li class="pc-sidebar__item"><a href="/components/buttons" class="pc-sidebar__link {{#isButtons}}pc-sidebar__link--active{{/isButtons}}">
+                        <span class="pc-sidebar__icon">🔘</span>
+                        <span class="pc-sidebar__label">Buttons</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/inputs" class="pa-sidebar__link {{#isInputs}}pa-sidebar__link--active{{/isInputs}}">
-                        <span class="pa-sidebar__icon">✏️</span>
-                        <span class="pa-sidebar__label">Inputs</span>
+                    <li class="pc-sidebar__item"><a href="/components/inputs" class="pc-sidebar__link {{#isInputs}}pc-sidebar__link--active{{/isInputs}}">
+                        <span class="pc-sidebar__icon">✏️</span>
+                        <span class="pc-sidebar__label">Inputs</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/validations" class="pa-sidebar__link {{#isValidations}}pa-sidebar__link--active{{/isValidations}}">
-                        <span class="pa-sidebar__icon">✓</span>
-                        <span class="pa-sidebar__label">Validations</span>
+                    <li class="pc-sidebar__item"><a href="/components/validations" class="pc-sidebar__link {{#isValidations}}pc-sidebar__link--active{{/isValidations}}">
+                        <span class="pc-sidebar__icon">✓</span>
+                        <span class="pc-sidebar__label">Validations</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/forms" class="pa-sidebar__link {{#isForms}}pa-sidebar__link--active{{/isForms}}">
-                        <span class="pa-sidebar__icon">📝</span>
-                        <span class="pa-sidebar__label">Forms</span>
+                    <li class="pc-sidebar__item"><a href="/forms" class="pc-sidebar__link {{#isForms}}pc-sidebar__link--active{{/isForms}}">
+                        <span class="pc-sidebar__icon">📝</span>
+                        <span class="pc-sidebar__label">Forms</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/date-picker" class="pa-sidebar__link {{#isDatePicker}}pa-sidebar__link--active{{/isDatePicker}}">
-                        <span class="pa-sidebar__icon">📅</span>
-                        <span class="pa-sidebar__label">Date Picker</span>
+                    <li class="pc-sidebar__item"><a href="/components/date-picker" class="pc-sidebar__link {{#isDatePicker}}pc-sidebar__link--active{{/isDatePicker}}">
+                        <span class="pc-sidebar__icon">📅</span>
+                        <span class="pc-sidebar__label">Date Picker</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/multiselect" class="pa-sidebar__link {{#isMultiselect}}pa-sidebar__link--active{{/isMultiselect}}">
-                        <span class="pa-sidebar__icon">🔽</span>
-                        <span class="pa-sidebar__label">Multiselect</span>
+                    <li class="pc-sidebar__item"><a href="/components/multiselect" class="pc-sidebar__link {{#isMultiselect}}pc-sidebar__link--active{{/isMultiselect}}">
+                        <span class="pc-sidebar__icon">🔽</span>
+                        <span class="pc-sidebar__label">Multiselect</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/data-grid" class="pa-sidebar__link {{#isDataGrid}}pa-sidebar__link--active{{/isDataGrid}}">
-                        <span class="pa-sidebar__icon">📊</span>
-                        <span class="pa-sidebar__label">Data Grid</span>
+                    <li class="pc-sidebar__item"><a href="/components/data-grid" class="pc-sidebar__link {{#isDataGrid}}pc-sidebar__link--active{{/isDataGrid}}">
+                        <span class="pc-sidebar__icon">📊</span>
+                        <span class="pc-sidebar__label">Data Grid</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/svelte-treeview" class="pa-sidebar__link {{#isSvelteTreeview}}pa-sidebar__link--active{{/isSvelteTreeview}}">
-                        <span class="pa-sidebar__icon">🌳</span>
-                        <span class="pa-sidebar__label">Svelte Treeview</span>
+                    <li class="pc-sidebar__item"><a href="/components/svelte-treeview" class="pc-sidebar__link {{#isSvelteTreeview}}pc-sidebar__link--active{{/isSvelteTreeview}}">
+                        <span class="pc-sidebar__icon">🌳</span>
+                        <span class="pc-sidebar__label">Svelte Treeview</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/file-selector" class="pa-sidebar__link {{#isFileSelector}}pa-sidebar__link--active{{/isFileSelector}}">
-                        <span class="pa-sidebar__icon">📁</span>
-                        <span class="pa-sidebar__label">File Upload</span>
+                    <li class="pc-sidebar__item"><a href="/components/file-selector" class="pc-sidebar__link {{#isFileSelector}}pc-sidebar__link--active{{/isFileSelector}}">
+                        <span class="pc-sidebar__icon">📁</span>
+                        <span class="pc-sidebar__label">File Upload</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/cards" class="pa-sidebar__link {{#isCards}}pa-sidebar__link--active{{/isCards}}">
-                        <span class="pa-sidebar__icon">🃏</span>
-                        <span class="pa-sidebar__label">Cards</span>
+                    <li class="pc-sidebar__item"><a href="/components/cards" class="pc-sidebar__link {{#isCards}}pc-sidebar__link--active{{/isCards}}">
+                        <span class="pc-sidebar__icon">🃏</span>
+                        <span class="pc-sidebar__label">Cards</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/sizing" class="pa-sidebar__link {{#isSizing}}pa-sidebar__link--active{{/isSizing}}">
-                        <span class="pa-sidebar__icon">📐</span>
-                        <span class="pa-sidebar__label">Sizing & Layout</span>
+                    <li class="pc-sidebar__item"><a href="/components/sizing" class="pc-sidebar__link {{#isSizing}}pc-sidebar__link--active{{/isSizing}}">
+                        <span class="pc-sidebar__icon">📐</span>
+                        <span class="pc-sidebar__label">Sizing & Layout</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/grid" class="pa-sidebar__link {{#isGrid}}pa-sidebar__link--active{{/isGrid}}">
-                        <span class="pa-sidebar__icon">⊞</span>
-                        <span class="pa-sidebar__label">Grid System</span>
+                    <li class="pc-sidebar__item"><a href="/components/grid" class="pc-sidebar__link {{#isGrid}}pc-sidebar__link--active{{/isGrid}}">
+                        <span class="pc-sidebar__icon">⊞</span>
+                        <span class="pc-sidebar__label">Grid System</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/tabs" class="pa-sidebar__link {{#isTabs}}pa-sidebar__link--active{{/isTabs}}">
-                        <span class="pa-sidebar__icon">📑</span>
-                        <span class="pa-sidebar__label">Tabs</span>
+                    <li class="pc-sidebar__item"><a href="/components/tabs" class="pc-sidebar__link {{#isTabs}}pc-sidebar__link--active{{/isTabs}}">
+                        <span class="pc-sidebar__icon">📑</span>
+                        <span class="pc-sidebar__label">Tabs</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/badges" class="pa-sidebar__link {{#isBadges}}pa-sidebar__link--active{{/isBadges}}">
-                        <span class="pa-sidebar__icon">🏷️</span>
-                        <span class="pa-sidebar__label">Badges</span>
+                    <li class="pc-sidebar__item"><a href="/components/badges" class="pc-sidebar__link {{#isBadges}}pc-sidebar__link--active{{/isBadges}}">
+                        <span class="pc-sidebar__icon">🏷️</span>
+                        <span class="pc-sidebar__label">Badges</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/lists" class="pa-sidebar__link {{#isLists}}pa-sidebar__link--active{{/isLists}}">
-                        <span class="pa-sidebar__icon">📃</span>
-                        <span class="pa-sidebar__label">Lists</span>
+                    <li class="pc-sidebar__item"><a href="/components/lists" class="pc-sidebar__link {{#isLists}}pc-sidebar__link--active{{/isLists}}">
+                        <span class="pc-sidebar__icon">📃</span>
+                        <span class="pc-sidebar__label">Lists</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/checkbox-lists" class="pa-sidebar__link {{#isCheckboxLists}}pa-sidebar__link--active{{/isCheckboxLists}}">
-                        <span class="pa-sidebar__icon">☑️</span>
-                        <span class="pa-sidebar__label">Checkbox Lists</span>
+                    <li class="pc-sidebar__item"><a href="/components/checkbox-lists" class="pc-sidebar__link {{#isCheckboxLists}}pc-sidebar__link--active{{/isCheckboxLists}}">
+                        <span class="pc-sidebar__icon">☑️</span>
+                        <span class="pc-sidebar__label">Checkbox Lists</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/code" class="pa-sidebar__link {{#isCode}}pa-sidebar__link--active{{/isCode}}">
-                        <span class="pa-sidebar__icon">💻</span>
-                        <span class="pa-sidebar__label">Code</span>
+                    <li class="pc-sidebar__item"><a href="/components/code" class="pc-sidebar__link {{#isCode}}pc-sidebar__link--active{{/isCode}}">
+                        <span class="pc-sidebar__icon">💻</span>
+                        <span class="pc-sidebar__label">Code</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/alerts" class="pa-sidebar__link {{#isAlerts}}pa-sidebar__link--active{{/isAlerts}}">
-                        <span class="pa-sidebar__icon">⚠️</span>
-                        <span class="pa-sidebar__label">Alerts</span>
+                    <li class="pc-sidebar__item"><a href="/components/alerts" class="pc-sidebar__link {{#isAlerts}}pc-sidebar__link--active{{/isAlerts}}">
+                        <span class="pc-sidebar__icon">⚠️</span>
+                        <span class="pc-sidebar__label">Alerts</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/callouts" class="pa-sidebar__link {{#isCallouts}}pa-sidebar__link--active{{/isCallouts}}">
-                        <span class="pa-sidebar__icon">📌</span>
-                        <span class="pa-sidebar__label">Callouts</span>
+                    <li class="pc-sidebar__item"><a href="/components/callouts" class="pc-sidebar__link {{#isCallouts}}pc-sidebar__link--active{{/isCallouts}}">
+                        <span class="pc-sidebar__icon">📌</span>
+                        <span class="pc-sidebar__label">Callouts</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/toasts" class="pa-sidebar__link {{#isToasts}}pa-sidebar__link--active{{/isToasts}}">
-                        <span class="pa-sidebar__icon">🔔</span>
-                        <span class="pa-sidebar__label">Toasts</span>
+                    <li class="pc-sidebar__item"><a href="/components/toasts" class="pc-sidebar__link {{#isToasts}}pc-sidebar__link--active{{/isToasts}}">
+                        <span class="pc-sidebar__icon">🔔</span>
+                        <span class="pc-sidebar__label">Toasts</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/loaders" class="pa-sidebar__link {{#isLoaders}}pa-sidebar__link--active{{/isLoaders}}">
-                        <span class="pa-sidebar__icon">⏳</span>
-                        <span class="pa-sidebar__label">Loaders</span>
+                    <li class="pc-sidebar__item"><a href="/components/loaders" class="pc-sidebar__link {{#isLoaders}}pc-sidebar__link--active{{/isLoaders}}">
+                        <span class="pc-sidebar__icon">⏳</span>
+                        <span class="pc-sidebar__label">Loaders</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/pagers" class="pa-sidebar__link {{#isPagers}}pa-sidebar__link--active{{/isPagers}}">
-                        <span class="pa-sidebar__icon">📄</span>
-                        <span class="pa-sidebar__label">Pagers</span>
+                    <li class="pc-sidebar__item"><a href="/components/pagers" class="pc-sidebar__link {{#isPagers}}pc-sidebar__link--active{{/isPagers}}">
+                        <span class="pc-sidebar__icon">📄</span>
+                        <span class="pc-sidebar__label">Pagers</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/tooltips" class="pa-sidebar__link {{#isTooltips}}pa-sidebar__link--active{{/isTooltips}}">
-                        <span class="pa-sidebar__icon">💬</span>
-                        <span class="pa-sidebar__label">Tooltips</span>
+                    <li class="pc-sidebar__item"><a href="/components/tooltips" class="pc-sidebar__link {{#isTooltips}}pc-sidebar__link--active{{/isTooltips}}">
+                        <span class="pc-sidebar__icon">💬</span>
+                        <span class="pc-sidebar__label">Tooltips</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/modals" class="pa-sidebar__link {{#isModals}}pa-sidebar__link--active{{/isModals}}">
-                        <span class="pa-sidebar__icon">🔳</span>
-                        <span class="pa-sidebar__label">Modals</span>
+                    <li class="pc-sidebar__item"><a href="/components/modals" class="pc-sidebar__link {{#isModals}}pc-sidebar__link--active{{/isModals}}">
+                        <span class="pc-sidebar__icon">🔳</span>
+                        <span class="pc-sidebar__label">Modals</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/modal-dialogs" class="pa-sidebar__link {{#isModalDialogs}}pa-sidebar__link--active{{/isModalDialogs}}">
-                        <span class="pa-sidebar__icon">💬</span>
-                        <span class="pa-sidebar__label">Modal Dialogs</span>
+                    <li class="pc-sidebar__item"><a href="/components/modal-dialogs" class="pc-sidebar__link {{#isModalDialogs}}pc-sidebar__link--active{{/isModalDialogs}}">
+                        <span class="pc-sidebar__icon">💬</span>
+                        <span class="pc-sidebar__label">Modal Dialogs</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/popconfirm" class="pa-sidebar__link {{#isPopconfirm}}pa-sidebar__link--active{{/isPopconfirm}}">
-                        <span class="pa-sidebar__icon">💬</span>
-                        <span class="pa-sidebar__label">Popconfirm</span>
+                    <li class="pc-sidebar__item"><a href="/components/popconfirm" class="pc-sidebar__link {{#isPopconfirm}}pc-sidebar__link--active{{/isPopconfirm}}">
+                        <span class="pc-sidebar__icon">💬</span>
+                        <span class="pc-sidebar__label">Popconfirm</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/command-palette" class="pa-sidebar__link {{#isCommandPalette}}pa-sidebar__link--active{{/isCommandPalette}}">
-                        <span class="pa-sidebar__icon">🔍</span>
-                        <span class="pa-sidebar__label">Command Palette</span>
+                    <li class="pc-sidebar__item"><a href="/components/command-palette" class="pc-sidebar__link {{#isCommandPalette}}pc-sidebar__link--active{{/isCommandPalette}}">
+                        <span class="pc-sidebar__icon">🔍</span>
+                        <span class="pc-sidebar__label">Command Palette</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/detail-panel" class="pa-sidebar__link {{#isDetailPanel}}pa-sidebar__link--active{{/isDetailPanel}}">
-                        <span class="pa-sidebar__icon">📋</span>
-                        <span class="pa-sidebar__label">Detail Panel</span>
+                    <li class="pc-sidebar__item"><a href="/components/detail-panel" class="pc-sidebar__link {{#isDetailPanel}}pc-sidebar__link--active{{/isDetailPanel}}">
+                        <span class="pc-sidebar__icon">📋</span>
+                        <span class="pc-sidebar__label">Detail Panel</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/splitter" class="pa-sidebar__link {{#isSplitter}}pa-sidebar__link--active{{/isSplitter}}">
-                        <span class="pa-sidebar__icon">↔️</span>
-                        <span class="pa-sidebar__label">Splitter</span>
+                    <li class="pc-sidebar__item"><a href="/components/splitter" class="pc-sidebar__link {{#isSplitter}}pc-sidebar__link--active{{/isSplitter}}">
+                        <span class="pc-sidebar__icon">↔️</span>
+                        <span class="pc-sidebar__label">Splitter</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/overflow" class="pa-sidebar__link {{#isOverflow}}pa-sidebar__link--active{{/isOverflow}}">
-                        <span class="pa-sidebar__icon">⋯</span>
-                        <span class="pa-sidebar__label">Overflow</span>
+                    <li class="pc-sidebar__item"><a href="/components/overflow" class="pc-sidebar__link {{#isOverflow}}pc-sidebar__link--active{{/isOverflow}}">
+                        <span class="pc-sidebar__icon">⋯</span>
+                        <span class="pc-sidebar__label">Overflow</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/range-group" class="pa-sidebar__link {{#isRangeGroup}}pa-sidebar__link--active{{/isRangeGroup}}">
-                        <span class="pa-sidebar__icon">🎚️</span>
-                        <span class="pa-sidebar__label">Range Group</span>
+                    <li class="pc-sidebar__item"><a href="/components/range-group" class="pc-sidebar__link {{#isRangeGroup}}pc-sidebar__link--active{{/isRangeGroup}}">
+                        <span class="pc-sidebar__icon">🎚️</span>
+                        <span class="pc-sidebar__label">Range Group</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/data-display" class="pa-sidebar__link {{#isDataDisplay}}pa-sidebar__link--active{{/isDataDisplay}}">
-                        <span class="pa-sidebar__icon">👁️</span>
-                        <span class="pa-sidebar__label">Data Display</span>
+                    <li class="pc-sidebar__item"><a href="/components/data-display" class="pc-sidebar__link {{#isDataDisplay}}pc-sidebar__link--active{{/isDataDisplay}}">
+                        <span class="pc-sidebar__icon">👁️</span>
+                        <span class="pc-sidebar__label">Data Display</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/data-display-2" class="pa-sidebar__link {{#isDataDisplay2}}pa-sidebar__link--active{{/isDataDisplay2}}">
-                        <span class="pa-sidebar__icon">👁️</span>
-                        <span class="pa-sidebar__label">Data Display v2</span>
+                    <li class="pc-sidebar__item"><a href="/components/data-display-2" class="pc-sidebar__link {{#isDataDisplay2}}pc-sidebar__link--active{{/isDataDisplay2}}">
+                        <span class="pc-sidebar__icon">👁️</span>
+                        <span class="pc-sidebar__label">Data Display v2</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/data-visualization" class="pa-sidebar__link {{#isDataVisualization}}pa-sidebar__link--active{{/isDataVisualization}}">
-                        <span class="pa-sidebar__icon">📈</span>
-                        <span class="pa-sidebar__label">Data Visualization</span>
+                    <li class="pc-sidebar__item"><a href="/components/data-visualization" class="pc-sidebar__link {{#isDataVisualization}}pc-sidebar__link--active{{/isDataVisualization}}">
+                        <span class="pc-sidebar__icon">📈</span>
+                        <span class="pc-sidebar__label">Data Visualization</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/components/notifications" class="pa-sidebar__link {{#isNotifications}}pa-sidebar__link--active{{/isNotifications}}">
-                        <span class="pa-sidebar__icon">🔔</span>
-                        <span class="pa-sidebar__label">Notifications</span>
+                    <li class="pc-sidebar__item"><a href="/components/notifications" class="pc-sidebar__link {{#isNotifications}}pc-sidebar__link--active{{/isNotifications}}">
+                        <span class="pc-sidebar__icon">🔔</span>
+                        <span class="pc-sidebar__label">Notifications</span>
                     </a></li>
                 </ul>
             </li>
 
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">📋</span>
-                    <span class="pa-sidebar__label">Tables</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">📋</span>
+                    <span class="pc-sidebar__label">Tables</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/tables/standard" class="pa-sidebar__link {{#isTables}}pa-sidebar__link--active{{/isTables}}">
-                        <span class="pa-sidebar__icon">📊</span>
-                        <span class="pa-sidebar__label">Standard Tables</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/tables/standard" class="pc-sidebar__link {{#isTables}}pc-sidebar__link--active{{/isTables}}">
+                        <span class="pc-sidebar__icon">📊</span>
+                        <span class="pc-sidebar__label">Standard Tables</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/tables/sizing" class="pa-sidebar__link {{#isTablesSizing}}pa-sidebar__link--active{{/isTablesSizing}}">
-                        <span class="pa-sidebar__icon">📏</span>
-                        <span class="pa-sidebar__label">Table Sizing</span>
+                    <li class="pc-sidebar__item"><a href="/tables/sizing" class="pc-sidebar__link {{#isTablesSizing}}pc-sidebar__link--active{{/isTablesSizing}}">
+                        <span class="pc-sidebar__icon">📏</span>
+                        <span class="pc-sidebar__label">Table Sizing</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/tables/responsive" class="pa-sidebar__link {{#isTablesResponsive}}pa-sidebar__link--active{{/isTablesResponsive}}">
-                        <span class="pa-sidebar__icon">📱</span>
-                        <span class="pa-sidebar__label">Responsive</span>
+                    <li class="pc-sidebar__item"><a href="/tables/responsive" class="pc-sidebar__link {{#isTablesResponsive}}pc-sidebar__link--active{{/isTablesResponsive}}">
+                        <span class="pc-sidebar__icon">📱</span>
+                        <span class="pc-sidebar__label">Responsive</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/tables/filters" class="pa-sidebar__link {{#isTableFilters}}pa-sidebar__link--active{{/isTableFilters}}">
-                        <span class="pa-sidebar__icon">🔍</span>
-                        <span class="pa-sidebar__label">Filters</span>
+                    <li class="pc-sidebar__item"><a href="/tables/filters" class="pc-sidebar__link {{#isTableFilters}}pc-sidebar__link--active{{/isTableFilters}}">
+                        <span class="pc-sidebar__icon">🔍</span>
+                        <span class="pc-sidebar__label">Filters</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/tables/smart-filters" class="pa-sidebar__link {{#isSmartFilters}}pa-sidebar__link--active{{/isSmartFilters}}">
-                        <span class="pa-sidebar__icon">✨</span>
-                        <span class="pa-sidebar__label">Smart Filters</span>
+                    <li class="pc-sidebar__item"><a href="/tables/smart-filters" class="pc-sidebar__link {{#isSmartFilters}}pc-sidebar__link--active{{/isSmartFilters}}">
+                        <span class="pc-sidebar__icon">✨</span>
+                        <span class="pc-sidebar__label">Smart Filters</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/tables/multi-select" class="pa-sidebar__link {{#isTableMultiSelect}}pa-sidebar__link--active{{/isTableMultiSelect}}">
-                        <span class="pa-sidebar__icon">☑️</span>
-                        <span class="pa-sidebar__label">Multi-Select</span>
+                    <li class="pc-sidebar__item"><a href="/tables/multi-select" class="pc-sidebar__link {{#isTableMultiSelect}}pc-sidebar__link--active{{/isTableMultiSelect}}">
+                        <span class="pc-sidebar__icon">☑️</span>
+                        <span class="pc-sidebar__label">Multi-Select</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/tables/comparison" class="pa-sidebar__link {{#isComparison}}pa-sidebar__link--active{{/isComparison}}">
-                        <span class="pa-sidebar__icon">⚖️</span>
-                        <span class="pa-sidebar__label">Comparison</span>
+                    <li class="pc-sidebar__item"><a href="/tables/comparison" class="pc-sidebar__link {{#isComparison}}pc-sidebar__link--active{{/isComparison}}">
+                        <span class="pc-sidebar__icon">⚖️</span>
+                        <span class="pc-sidebar__label">Comparison</span>
                     </a></li>
                 </ul>
             </li>
 
             <!-- Timeline -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">⏱️</span>
-                    <span class="pa-sidebar__label">Timeline</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">⏱️</span>
+                    <span class="pc-sidebar__label">Timeline</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/timeline/simple" class="pa-sidebar__link {{#isTimelineSimple}}pa-sidebar__link--active{{/isTimelineSimple}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Simple</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/timeline/simple" class="pc-sidebar__link {{#isTimelineSimple}}pc-sidebar__link--active{{/isTimelineSimple}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Simple</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/timeline/block" class="pa-sidebar__link {{#isTimelineBlock}}pa-sidebar__link--active{{/isTimelineBlock}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Block</span>
+                    <li class="pc-sidebar__item"><a href="/timeline/block" class="pc-sidebar__link {{#isTimelineBlock}}pc-sidebar__link--active{{/isTimelineBlock}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Block</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/timeline/feed" class="pa-sidebar__link {{#isTimeline}}pa-sidebar__link--active{{/isTimeline}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Feed</span>
+                    <li class="pc-sidebar__item"><a href="/timeline/feed" class="pc-sidebar__link {{#isTimeline}}pc-sidebar__link--active{{/isTimeline}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Feed</span>
                     </a></li>
                 </ul>
             </li>
 
             <!-- KPI -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">📊</span>
-                    <span class="pa-sidebar__label">KPI</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">📊</span>
+                    <span class="pc-sidebar__label">KPI</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/kpi/terminal-grid" class="pa-sidebar__link {{#isKpiTerminalGrid}}pa-sidebar__link--active{{/isKpiTerminalGrid}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Terminal grid</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/kpi/terminal-grid" class="pc-sidebar__link {{#isKpiTerminalGrid}}pc-sidebar__link--active{{/isKpiTerminalGrid}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Terminal grid</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/kpi/sparkline-list" class="pa-sidebar__link {{#isKpiSparklineList}}pa-sidebar__link--active{{/isKpiSparklineList}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Sparkline list</span>
+                    <li class="pc-sidebar__item"><a href="/kpi/sparkline-list" class="pc-sidebar__link {{#isKpiSparklineList}}pc-sidebar__link--active{{/isKpiSparklineList}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Sparkline list</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/kpi/comparison-gauges" class="pa-sidebar__link {{#isKpiComparisonGauges}}pa-sidebar__link--active{{/isKpiComparisonGauges}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Comparison gauges</span>
+                    <li class="pc-sidebar__item"><a href="/kpi/comparison-gauges" class="pc-sidebar__link {{#isKpiComparisonGauges}}pc-sidebar__link--active{{/isKpiComparisonGauges}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Comparison gauges</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/kpi/hero-supporting" class="pa-sidebar__link {{#isKpiHeroSupporting}}pa-sidebar__link--active{{/isKpiHeroSupporting}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Hero + supporting</span>
+                    <li class="pc-sidebar__item"><a href="/kpi/hero-supporting" class="pc-sidebar__link {{#isKpiHeroSupporting}}pc-sidebar__link--active{{/isKpiHeroSupporting}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Hero + supporting</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/kpi/bento" class="pa-sidebar__link {{#isKpiBento}}pa-sidebar__link--active{{/isKpiBento}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Bento layout</span>
+                    <li class="pc-sidebar__item"><a href="/kpi/bento" class="pc-sidebar__link {{#isKpiBento}}pc-sidebar__link--active{{/isKpiBento}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Bento layout</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/kpi/numeric-strip" class="pa-sidebar__link {{#isKpiNumericStrip}}pa-sidebar__link--active{{/isKpiNumericStrip}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Numeric strip</span>
+                    <li class="pc-sidebar__item"><a href="/kpi/numeric-strip" class="pc-sidebar__link {{#isKpiNumericStrip}}pc-sidebar__link--active{{/isKpiNumericStrip}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Numeric strip</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/kpi/editorial-minimal" class="pa-sidebar__link {{#isKpiEditorialMinimal}}pa-sidebar__link--active{{/isKpiEditorialMinimal}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Editorial minimal</span>
+                    <li class="pc-sidebar__item"><a href="/kpi/editorial-minimal" class="pc-sidebar__link {{#isKpiEditorialMinimal}}pc-sidebar__link--active{{/isKpiEditorialMinimal}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Editorial minimal</span>
                     </a></li>
                 </ul>
             </li>
 
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">⚡</span>
-                    <span class="pa-sidebar__label">Virtual Scroll</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">⚡</span>
+                    <span class="pc-sidebar__label">Virtual Scroll</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/virtual-scroll/demo" class="pa-sidebar__link {{#isVirtualScroll}}pa-sidebar__link--active{{/isVirtualScroll}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Demo</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/virtual-scroll/demo" class="pc-sidebar__link {{#isVirtualScroll}}pc-sidebar__link--active{{/isVirtualScroll}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Demo</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/virtual-scroll/code" class="pa-sidebar__link {{#isVirtualScrollCode}}pa-sidebar__link--active{{/isVirtualScrollCode}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Code Examples</span>
+                    <li class="pc-sidebar__item"><a href="/virtual-scroll/code" class="pc-sidebar__link {{#isVirtualScrollCode}}pc-sidebar__link--active{{/isVirtualScrollCode}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Code Examples</span>
                     </a></li>
                 </ul>
             </li>
 
             <!-- Practical Examples -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">🎬</span>
-                    <span class="pa-sidebar__label">Practical Examples</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">🎬</span>
+                    <span class="pc-sidebar__label">Practical Examples</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item"><a href="/showcases/kpi-dashboard" class="pa-sidebar__link {{#isKpiDashboard}}pa-sidebar__link--active{{/isKpiDashboard}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">KPI Dashboard</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item"><a href="/showcases/kpi-dashboard" class="pc-sidebar__link {{#isKpiDashboard}}pc-sidebar__link--active{{/isKpiDashboard}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">KPI Dashboard</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/showcases/stat-fit-lab" class="pa-sidebar__link {{#isStatFitLab}}pa-sidebar__link--active{{/isStatFitLab}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Stat Fit Lab</span>
+                    <li class="pc-sidebar__item"><a href="/showcases/stat-fit-lab" class="pc-sidebar__link {{#isStatFitLab}}pc-sidebar__link--active{{/isStatFitLab}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Stat Fit Lab</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/showcases/movies" class="pa-sidebar__link {{#isMovies}}pa-sidebar__link--active{{/isMovies}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Movies</span>
+                    <li class="pc-sidebar__item"><a href="/showcases/movies" class="pc-sidebar__link {{#isMovies}}pc-sidebar__link--active{{/isMovies}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Movies</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/showcases/movies/detail?id=1" class="pa-sidebar__link {{#isMovieDetail}}pa-sidebar__link--active{{/isMovieDetail}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Movie Detail</span>
+                    <li class="pc-sidebar__item"><a href="/showcases/movies/detail?id=1" class="pc-sidebar__link {{#isMovieDetail}}pc-sidebar__link--active{{/isMovieDetail}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Movie Detail</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/showcases/movies-panel" class="pa-sidebar__link {{#isMoviesPanel}}pa-sidebar__link--active{{/isMoviesPanel}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Movies + Panel</span>
+                    <li class="pc-sidebar__item"><a href="/showcases/movies-panel" class="pc-sidebar__link {{#isMoviesPanel}}pc-sidebar__link--active{{/isMoviesPanel}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Movies + Panel</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="/showcases/form-demo" class="pa-sidebar__link {{#isFormDemo}}pa-sidebar__link--active{{/isFormDemo}}">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Form Demo</span>
+                    <li class="pc-sidebar__item"><a href="/showcases/form-demo" class="pc-sidebar__link {{#isFormDemo}}pc-sidebar__link--active{{/isFormDemo}}">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Form Demo</span>
                     </a></li>
                 </ul>
             </li>
 
             <!-- Test: Mixed Icons (some with, some without) -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">🧪</span>
-                    <span class="pa-sidebar__label">Test Menu</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">🧪</span>
+                    <span class="pc-sidebar__label">Test Menu</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
+                <ul class="pc-sidebar__submenu">
                     <!-- WITH icon -->
-                    <li class="pa-sidebar__item"><a href="#test1" class="pa-sidebar__link">
-                        <span class="pa-sidebar__icon">✓</span>
-                        <span class="pa-sidebar__label">With Icon</span>
+                    <li class="pc-sidebar__item"><a href="#test1" class="pc-sidebar__link">
+                        <span class="pc-sidebar__icon">✓</span>
+                        <span class="pc-sidebar__label">With Icon</span>
                     </a></li>
                     <!-- WITHOUT icon -->
-                    <li class="pa-sidebar__item"><a href="#test2" class="pa-sidebar__link">
-                        <span class="pa-sidebar__label">No Icon Item</span>
+                    <li class="pc-sidebar__item"><a href="#test2" class="pc-sidebar__link">
+                        <span class="pc-sidebar__label">No Icon Item</span>
                     </a></li>
                     <!-- WITH bullet icon -->
-                    <li class="pa-sidebar__item"><a href="#test3" class="pa-sidebar__link">
-                        <span class="pa-sidebar__icon">•</span>
-                        <span class="pa-sidebar__label">Bullet Icon</span>
+                    <li class="pc-sidebar__item"><a href="#test3" class="pc-sidebar__link">
+                        <span class="pc-sidebar__icon">•</span>
+                        <span class="pc-sidebar__label">Bullet Icon</span>
                     </a></li>
                     <!-- WITHOUT icon -->
-                    <li class="pa-sidebar__item"><a href="#test4" class="pa-sidebar__link">
-                        <span class="pa-sidebar__label">Another No Icon</span>
+                    <li class="pc-sidebar__item"><a href="#test4" class="pc-sidebar__link">
+                        <span class="pc-sidebar__label">Another No Icon</span>
                     </a></li>
                 </ul>
             </li>
 
             <!-- Demo multi-level menu -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">⚙️</span>
-                    <span class="pa-sidebar__label">Level 1</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">⚙️</span>
+                    <span class="pc-sidebar__label">Level 1</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item">
-                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                            <span class="pa-sidebar__icon">🔧</span>
-                            <span class="pa-sidebar__label">Level 1.1</span>
-                            <span class="pa-sidebar__chevron">›</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item">
+                        <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pc-sidebar__icon">🔧</span>
+                            <span class="pc-sidebar__label">Level 1.1</span>
+                            <span class="pc-sidebar__chevron">›</span>
                         </button>
-                        <ul class="pa-sidebar__submenu">
-                            <li class="pa-sidebar__item"><a href="#general" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.1.1</span>
+                        <ul class="pc-sidebar__submenu">
+                            <li class="pc-sidebar__item"><a href="#general" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.1.1</span>
                             </a></li>
-                            <li class="pa-sidebar__item"><a href="#security" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.1.2</span>
+                            <li class="pc-sidebar__item"><a href="#security" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.1.2</span>
                             </a></li>
-                            <li class="pa-sidebar__item"><a href="#notifications" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.1.3</span>
+                            <li class="pc-sidebar__item"><a href="#notifications" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.1.3</span>
                             </a></li>
-                            <li class="pa-sidebar__item"><a href="#backup" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.1.4</span>
+                            <li class="pc-sidebar__item"><a href="#backup" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.1.4</span>
                             </a></li>
                         </ul>
                     </li>
-                    <li class="pa-sidebar__item">
-                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                            <span class="pa-sidebar__icon">👥</span>
-                            <span class="pa-sidebar__label">Level 1.2</span>
-                            <span class="pa-sidebar__chevron">›</span>
+                    <li class="pc-sidebar__item">
+                        <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pc-sidebar__icon">👥</span>
+                            <span class="pc-sidebar__label">Level 1.2</span>
+                            <span class="pc-sidebar__chevron">›</span>
                         </button>
-                        <ul class="pa-sidebar__submenu">
-                            <li class="pa-sidebar__item"><a href="#profile" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.2.1</span>
+                        <ul class="pc-sidebar__submenu">
+                            <li class="pc-sidebar__item"><a href="#profile" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.2.1</span>
                             </a></li>
-                            <li class="pa-sidebar__item"><a href="#preferences" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.2.2</span>
+                            <li class="pc-sidebar__item"><a href="#preferences" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.2.2</span>
                             </a></li>
-                            <li class="pa-sidebar__item"><a href="#privacy" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.2.3</span>
+                            <li class="pc-sidebar__item"><a href="#privacy" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.2.3</span>
                             </a></li>
                         </ul>
                     </li>
-                    <li class="pa-sidebar__item"><a href="#appearance" class="pa-sidebar__link">
-                        <span class="pa-sidebar__icon">🎨</span>
-                        <span class="pa-sidebar__label">Level 1.3</span>
+                    <li class="pc-sidebar__item"><a href="#appearance" class="pc-sidebar__link">
+                        <span class="pc-sidebar__icon">🎨</span>
+                        <span class="pc-sidebar__label">Level 1.3</span>
                     </a></li>
-                    <li class="pa-sidebar__item"><a href="#integrations" class="pa-sidebar__link">
-                        <span class="pa-sidebar__icon">🔌</span>
-                        <span class="pa-sidebar__label">Level 1.4</span>
+                    <li class="pc-sidebar__item"><a href="#integrations" class="pc-sidebar__link">
+                        <span class="pc-sidebar__icon">🔌</span>
+                        <span class="pc-sidebar__label">Level 1.4</span>
                     </a></li>
-                    <li class="pa-sidebar__item">
-                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                            <span class="pa-sidebar__icon">🌐</span>
-                            <span class="pa-sidebar__label">Level 1.5</span>
-                            <span class="pa-sidebar__chevron">›</span>
+                    <li class="pc-sidebar__item">
+                        <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pc-sidebar__icon">🌐</span>
+                            <span class="pc-sidebar__label">Level 1.5</span>
+                            <span class="pc-sidebar__chevron">›</span>
                         </button>
-                        <ul class="pa-sidebar__submenu">
-                            <li class="pa-sidebar__item"><a href="#api" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.5.1</span>
+                        <ul class="pc-sidebar__submenu">
+                            <li class="pc-sidebar__item"><a href="#api" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.5.1</span>
                             </a></li>
-                            <li class="pa-sidebar__item"><a href="#webhooks" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.5.2</span>
+                            <li class="pc-sidebar__item"><a href="#webhooks" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.5.2</span>
                             </a></li>
-                            <li class="pa-sidebar__item"><a href="#logs" class="pa-sidebar__link">
-                                <span class="pa-sidebar__icon">•</span>
-                                <span class="pa-sidebar__label">Level 1.5.3</span>
+                            <li class="pc-sidebar__item"><a href="#logs" class="pc-sidebar__link">
+                                <span class="pc-sidebar__icon">•</span>
+                                <span class="pc-sidebar__label">Level 1.5.3</span>
                             </a></li>
                         </ul>
                     </li>

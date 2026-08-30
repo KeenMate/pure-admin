@@ -8,12 +8,12 @@
     <p>
       Hierarchical tree component from <code>@keenmate/svelte-treeview</code> — a Svelte 5 library
       with keyboard navigation, multi-select, checkboxes, drag-and-drop, and customizable styling
-      via <code>--ltree-*</code> CSS variables.
+      via <code>--stv-*</code> CSS variables.
     </p>
     <p>
       <strong>Demo:</strong> a small Svelte 5 app mounted into the page below. Theme switching
       affects both the pure-admin chrome (form controls, cards) and the treeview's own surfaces
-      where its <code>--ltree-*</code> tokens fall back to <code>--base-*</code> / <code>--pa-*</code> tokens.
+      where its <code>--stv-*</code> tokens fall back to <code>--base-*</code> / <code>--pa-*</code> tokens.
     </p>
     <p>
       <strong>Note:</strong> unlike <code>web-multiselect</code>, this is NOT a custom element —
@@ -33,6 +33,28 @@
   <div class="pa-card__body">
     <!-- Mount point for the Svelte app. main.ts mounts <App /> here. -->
     <div id="treeview-app"></div>
+  </div>
+</div>
+
+<!-- Drag & drop between two trees -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">Drag &amp; Drop Between Two Trees</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      Two independent trees. Dragging a node <strong>within</strong> a tree reorders it (a move,
+      auto-handled by the library); dragging a node <strong>across</strong> to the other tree
+      copies its whole subtree in (placed by the demo in <code>onNodeDrop</code> via
+      <code>copyNodeWithDescendants</code>, since the library can't move nodes that live in
+      another tree). Multi-select drag, per-node pinning, and the built-in
+      <code>Ctrl/Cmd + C / X / V</code> clipboard (a shared singleton across both trees) are all
+      wired up.
+    </p>
+    <!-- Mount point for the drag-and-drop Svelte app. main.ts mounts <DndApp /> here. -->
+    <div id="treeview-dnd-app"></div>
   </div>
 </div>
 

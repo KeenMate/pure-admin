@@ -3,10 +3,10 @@
      Pure Admin Visual Framework
 
      SCSS lives in core-components/layout/ as a subfolder:
-       _layout-container.scss   .pa-layout, container widths, footer
-       _navbar.scss             .pa-navbar + header sections
+       _layout-container.scss   .pc-layout, container widths, footer
+       _navbar.scss             .pc-navbar + header sections
        _navbar-elements.scss    burger, brand, nav, dropdowns, title, profile
-       _sidebar.scss            .pa-layout__sidebar + .pa-sidebar BEM block
+       _sidebar.scss            .pc-layout__sidebar + .pc-sidebar BEM block
        _sidebar-states.scss     hidden, icon-collapse, flyouts
        _layout-responsive.scss  mobile / tablet media queries
      ================================ -->
@@ -19,18 +19,18 @@
      ================================ -->
 
 <!-- Navbar (position: fixed, full width by default) -->
-<nav class="pa-navbar">
-    <div class="pa-navbar__inner">
+<nav class="pc-navbar">
+    <div class="pc-navbar__inner">
         <!-- Header sections go here — see NAVBAR section below for a full example -->
     </div>
 </nav>
 
 <!-- Layout wrapper (sits below navbar thanks to margin-top: $navbar-height) -->
-<div class="pa-layout">
+<div class="pc-layout">
     <!-- Inner: sidebar + content (flex row) -->
-    <div class="pa-layout__inner">
-        <aside class="pa-layout__sidebar">
-            <nav class="pa-sidebar__nav">
+    <div class="pc-layout__inner">
+        <aside class="pc-layout__sidebar">
+            <nav class="pc-sidebar__nav">
                 <ul>
                     <!-- Sidebar items go here — see SIDEBAR sections below -->
                 </ul>
@@ -38,25 +38,25 @@
         </aside>
 
         <!-- Content wrapper (scrolls in sticky mode) -->
-        <div class="pa-layout__content">
+        <div class="pc-layout__content">
             <!-- Main content — sets container-type: inline-size, so
                  pc-col-sm-* / -md-* / -lg-* / -xl-* grid responsiveness
                  works automatically for any pc-row nested inside. -->
-            <main class="pa-layout__main">
+            <main class="pc-layout__main">
                 <!-- Your page content here -->
             </main>
         </div>
     </div>
 
-    <!-- Footer — sibling of __inner, inside .pa-layout -->
-    <footer class="pa-layout__footer">
-        <div class="pa-footer__start">
+    <!-- Footer — sibling of __inner, inside .pc-layout -->
+    <footer class="pc-layout__footer">
+        <div class="pc-footer__start">
             <p>&copy; 2024 Pure Admin Framework</p>
         </div>
-        <div class="pa-footer__center">
+        <div class="pc-footer__center">
             <!-- Optional centre content; hidden on mobile by default -->
         </div>
-        <div class="pa-footer__end">
+        <div class="pc-footer__end">
             <span>App version: 1.2.1</span>
             <a href="#">Open Source Licenses</a>
         </div>
@@ -64,7 +64,7 @@
 </div>
 
 <!-- Footer end with vertical stack (for many small items) -->
-<div class="pa-footer__end pa-footer__end--vertical">
+<div class="pc-footer__end pc-footer__end--vertical">
     <span>Version 1.2.1</span>
     <span>Build 2341</span>
     <a href="#">Licenses</a>
@@ -74,23 +74,23 @@
 <!-- ================================
      LAYOUT MODES (body-level flags)
      Two orthogonal mode flags applied to <body>:
-       pa-layout--sticky    — body overflow: hidden; .pa-layout is
+       pc-layout--sticky    — body overflow: hidden; .pc-layout is
                               100vh, content wrapper scrolls internally.
                               Good for "app" feel with fixed sidebar.
        (none)               — default; body scrolls naturally, footer
                               reaches viewport bottom via min-height.
 
-     Container widths (also body classes — constrain both .pa-navbar
-     and .pa-layout max-width):
-       pa-container-sm      768px
-       pa-container-md      1024px
-       pa-container-lg      1280px
-       pa-container-xl      1600px
-       pa-container-2xl     1920px
+     Container widths (also body classes — constrain both .pc-navbar
+     and .pc-layout max-width):
+       pc-container-sm      768px
+       pc-container-md      1024px
+       pc-container-lg      1280px
+       pc-container-xl      1600px
+       pc-container-2xl     1920px
        (none)               fluid / full width
      ================================ -->
 
-<body class="pa-layout--sticky pa-container-lg">
+<body class="pc-layout--sticky pc-container-lg">
     <!-- Sticky mode, constrained to 1280px -->
 </body>
 
@@ -122,42 +122,42 @@
 <!-- ================================
      NAVBAR / HEADER
      A fixed burger anchor + three degradable zones (start / center / end)
-     inside .pa-navbar__inner. The burger sits OUTSIDE the zones (it never
+     inside .pc-navbar__inner. The burger sits OUTSIDE the zones (it never
      collapses), so it's __inner's first child, a sibling of the zones.
      ================================ -->
 
-<nav class="pa-navbar">
-    <div class="pa-navbar__inner">
-        <!-- Burger — fixed anchor, always visible (no data-pa-fit). -->
-        <button class="pa-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+<nav class="pc-navbar">
+    <div class="pc-navbar__inner">
+        <!-- Burger — fixed anchor, always visible (no data-pc-fit). -->
+        <button class="pc-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
             <span></span><span></span><span></span>
         </button>
 
         <!-- START: brand, left nav -->
-        <div class="pa-navbar__start">
-            <div class="pa-app-header">
+        <div class="pc-navbar__start">
+            <div class="pc-app-header">
                 <h1>Pure Admin</h1>
             </div>
 
-            <!-- Nav: pa-navmenu auto-styles its direct child <ul> > <li> > <a>.
+            <!-- Nav: pc-navmenu auto-styles its direct child <ul> > <li> > <a>.
                  No additional classes needed on list items or anchors, except
-                 pa-navmenu__item--active on the <li> of the current section. -->
-            <nav class="pa-navmenu">
+                 pc-navmenu__item--active on the <li> of the current section. -->
+            <nav class="pc-navmenu">
                 <ul>
-                    <li class="pa-navmenu__item--active"><a href="/">Dashboard</a></li>
+                    <li class="pc-navmenu__item--active"><a href="/">Dashboard</a></li>
                     <li><a href="/components">Components</a></li>
 
                     <!-- Hover-triggered dropdown -->
-                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
-                        <a href="#" class="pa-navmenu__link">More</a>
-                        <ul class="pa-navmenu__dropdown">
+                    <li class="pc-navmenu__item pc-navmenu__item--has-dropdown">
+                        <a href="#" class="pc-navmenu__link">More</a>
+                        <ul class="pc-navmenu__dropdown">
                             <li><a href="/forms">Forms</a></li>
                             <li><a href="/tables">Tables</a></li>
 
                             <!-- Nested dropdown (level 2) -->
-                            <li class="pa-navmenu__item--has-dropdown">
+                            <li class="pc-navmenu__item--has-dropdown">
                                 <a href="#">Reports ›</a>
-                                <ul class="pa-navmenu__dropdown pa-navmenu__dropdown--level2">
+                                <ul class="pc-navmenu__dropdown pc-navmenu__dropdown--level2">
                                     <li><a href="/reports/daily">Daily</a></li>
                                     <li><a href="/reports/weekly">Weekly</a></li>
                                 </ul>
@@ -168,22 +168,22 @@
             </nav>
         </div>
 
-        <!-- CENTER: page title (flexes + truncates). data-pa-fit makes it a fit
+        <!-- CENTER: page title (flexes + truncates). data-pc-fit makes it a fit
              slot so it hides (priority 20) before the brand shrinks — see the
              Fit note below. -->
-        <div class="pa-navbar__center">
-            <div class="pa-page-header" data-pa-fit="hide" data-pa-fit-priority="20">
+        <div class="pc-navbar__center">
+            <div class="pc-page-header" data-pc-fit="hide" data-pc-fit-priority="20">
                 <h2>Dashboard</h2>
             </div>
         </div>
 
         <!-- END: right nav, notifications, profile.
-             data-pa-fit-auto arms the zone — every child joins the fit set. Drop
+             data-pc-fit-auto arms the zone — every child joins the fit set. Drop
              a search / actions in here and they fold first (implicit hide at the
-             default priority); the nav, bell and profile carry data-pa-fit-ignore
+             default priority); the nav, bell and profile carry data-pc-fit-ignore
              so they're pinned and stay reachable. -->
-        <div class="pa-navbar__end" data-pa-fit-auto>
-            <nav class="pa-navmenu" data-pa-fit-ignore>
+        <div class="pc-navbar__end" data-pc-fit-auto>
+            <nav class="pc-navmenu" data-pc-fit-ignore>
                 <ul>
                     <li><a href="/alerts">Alerts</a></li>
                 </ul>
@@ -192,16 +192,16 @@
             <!-- pa-notifications is defined in _notifications.scss, not
                  layout — see the (pending) notifications snippet for
                  the full variant set. -->
-            <div class="pa-notifications" data-pa-fit-ignore>
+            <div class="pa-notifications" data-pc-fit-ignore>
                 <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
                     <span class="pa-notifications__icon">🔔</span>
                     <span class="pa-notifications__badge">3</span>
                 </button>
             </div>
 
-            <button class="pa-navbar__profile-btn" data-pa-fit-ignore onclick="toggleProfilePanel()" aria-label="User Profile">
+            <button class="pc-navbar__profile-btn" data-pc-fit-ignore onclick="toggleProfilePanel()" aria-label="User Profile">
                 <span class="pa-btn__icon">👤</span>
-                <span class="pa-navbar__profile-name">John Doe</span>
+                <span class="pc-navbar__profile-name">John Doe</span>
             </button>
         </div>
     </div>
@@ -209,37 +209,37 @@
 
 <!--
 Notes on the navbar:
-- Position a .pa-navmenu by which zone you place it in
-  (.pa-navbar__start vs .pa-navbar__end) — there are no per-side
+- Position a .pc-navmenu by which zone you place it in
+  (.pc-navbar__start vs .pc-navbar__end) — there are no per-side
   modifier classes; the zone determines the side.
-- .pa-navmenu__item--has-dropdown uses position: static so the
+- .pc-navmenu__item--has-dropdown uses position: static so the
   dropdown positions relative to the navbar, not this specific item.
-- Mark the current section with .pa-navmenu__item--active on its <li>.
-- WITHOUT data-pa-nav-collapse (below), .pa-navmenu is hidden entirely
+- Mark the current section with .pc-navmenu__item--active on its <li>.
+- WITHOUT data-pa-nav-collapse (below), .pc-navmenu is hidden entirely
   on mobile (max-width: $mobile-breakpoint) — navigation is expected in the
   sidebar. Add data-pa-nav-collapse to keep it responsive instead.
 
 Navbar Fit (fit.js) — priority-driven degradation as the row narrows:
-- data-pa-fit="hide|steps|sidebar"  Make an element a fit slot. It yields
-  (hide), climbs a ladder of data-pa-fit-step children (steps), or relocates
+- data-pc-fit="hide|steps|sidebar"  Make an element a fit slot. It yields
+  (hide), climbs a ladder of data-pc-fit-step children (steps), or relocates
   into the sidebar (sidebar) when the row can't fit everything.
-- data-pa-fit-priority="N"          Degrade order — LOWER goes first. When
-  omitted it falls back to the container's data-pa-fit-default-priority, then
+- data-pc-fit-priority="N"          Degrade order — LOWER goes first. When
+  omitted it falls back to the container's data-pc-fit-default-priority, then
   pureAdmin.config.fit.defaultPriority, then 0 (so an un-ranked slot drops first).
-- data-pa-fit-auto                  On a container: fold ALL its direct children
+- data-pc-fit-auto                  On a container: fold ALL its direct children
   into the fit set without tagging each. Declared children keep their own config;
   the rest become implicit hide slots at the default priority.
-- data-pa-fit-ignore                Pin an element — never a slot, even inside a
-  data-pa-fit-auto zone (burger, bell, profile, a form's submit button).
-The engine auto-inits on .pa-navbar__inner; call pureAdmin.components.fit.init(el)
+- data-pc-fit-ignore                Pin an element — never a slot, even inside a
+  data-pc-fit-auto zone (burger, bell, profile, a form's submit button).
+The engine auto-inits on .pc-navbar__inner; call pureAdmin.components.fit.init(el)
 to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 -->
 
 
 <!-- ================================
-     NAVBAR SEARCH (pa-navbar-search)
-     A search affordance for the navbar centre slot (.pa-navbar__center).
-     Three modes share the .pa-navbar-search pill shell:
+     NAVBAR SEARCH (pc-navbar-search)
+     A search affordance for the navbar centre slot (.pc-navbar__center).
+     Three modes share the .pc-navbar-search pill shell:
        1. trigger (bare)   a button that OPENS the command palette
        2. --field          a LIVE search input with a results dropdown
        3. --input          a <form> that submits to a results page (no palette)
@@ -249,28 +249,28 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 <!-- 1. TRIGGER — looks like an input, functions as a button; opens the palette.
      Shows a Cmd/Ctrl+K hint. Size variants match the input/button sizes. Below
      $mobile-breakpoint the __placeholder + __shortcut hide (collapses to icon). -->
-<button class="pa-navbar-search" onclick="openCommandPalette()">
-    <span class="pa-navbar-search__icon">🔍</span>
-    <span class="pa-navbar-search__placeholder">Search or jump to…</span>
-    <span class="pa-navbar-search__shortcut">
+<button class="pc-navbar-search" onclick="openCommandPalette()">
+    <span class="pc-navbar-search__icon">🔍</span>
+    <span class="pc-navbar-search__placeholder">Search or jump to…</span>
+    <span class="pc-navbar-search__shortcut">
         <kbd>Ctrl</kbd>
         <kbd>K</kbd>
     </span>
 </button>
 
 <!-- Sizes (align with input / button sizes): -->
-<button class="pa-navbar-search pa-navbar-search--xs">…</button>
-<button class="pa-navbar-search pa-navbar-search--sm">…</button>
-<button class="pa-navbar-search pa-navbar-search--md">…</button>
-<button class="pa-navbar-search pa-navbar-search--lg">…</button>
-<button class="pa-navbar-search pa-navbar-search--xl">…</button>
+<button class="pc-navbar-search pc-navbar-search--xs">…</button>
+<button class="pc-navbar-search pc-navbar-search--sm">…</button>
+<button class="pc-navbar-search pc-navbar-search--md">…</button>
+<button class="pc-navbar-search pc-navbar-search--lg">…</button>
+<button class="pc-navbar-search pc-navbar-search--xl">…</button>
 
 <!-- 2. --field — a LIVE search box (real <input> + results dropdown anchored
      below). Independent of the palette; wire your own results into
      .pa-search-autocomplete (toggle its [hidden] from JS). -->
-<div class="pa-navbar-search pa-navbar-search--field">
-    <span class="pa-navbar-search__icon">🔍</span>
-    <input type="text" class="pa-navbar-search__field" placeholder="Search…" aria-label="Search">
+<div class="pc-navbar-search pc-navbar-search--field">
+    <span class="pc-navbar-search__icon">🔍</span>
+    <input type="text" class="pc-navbar-search__field" placeholder="Search…" aria-label="Search">
     <div class="pa-search-autocomplete" hidden>
         <div class="pa-search-autocomplete__item">
             <span class="pa-search-autocomplete__item-icon">💻</span>
@@ -283,83 +283,83 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 <!-- 3. --input — a real <input> wrapped in a <form>. Enter submits (native GET)
      and navigates to a results page — no dropdown, no palette. Set action/method
      to your route; name the input so it becomes the query param (?q=…). -->
-<form class="pa-navbar-search pa-navbar-search--input"
+<form class="pc-navbar-search pc-navbar-search--input"
       action="/search" method="get" role="search">
-    <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
-    <input type="search" name="q" class="pa-navbar-search__field"
+    <span class="pc-navbar-search__icon" aria-hidden="true">🔍</span>
+    <input type="search" name="q" class="pc-navbar-search__field"
            placeholder="Search…" autocomplete="off" aria-label="Search">
 </form>
 
 
 <!-- ================================
      NAVBAR — RESPONSIVE COLLAPSE (progressive, priority-driven)
-     Add data-pa-fit-nav to .pa-navmenu and the one Fit engine (fit.js) walks
+     Add data-pc-fit-nav to .pc-navmenu and the one Fit engine (fit.js) walks
      the lowest-priority items out as the header narrows, restoring them as it
      widens — the same measure-and-drop model as the .pa-overflow toolbar.
 
-       data-pa-fit-nav="menu"     items fold into a generated "More ▾"
+       data-pc-fit-nav="menu"     items fold into a generated "More ▾"
                                        dropdown (self-contained; no sidebar
                                        needed; nested dropdowns render FLAT).
-       data-pa-fit-nav="sidebar"  items move into the sidebar as native
-                                       .pa-sidebar__* items under a section
+       data-pc-fit-nav="sidebar"  items move into the sidebar as native
+                                       .pc-sidebar__* items under a section
                                        heading (needs a sidebar).
 
-     Priority: data-pa-fit-nav-priority on each <li> (default 0, lowest drops
+     Priority: data-pc-fit-nav-priority on each <li> (default 0, lowest drops
      first). The --active item is auto-pinned so the current page never folds.
      ================================ -->
 
 <!-- MENU mode — folds into a "More" dropdown -->
-<nav class="pa-navmenu"
-     data-pa-fit-nav="menu" data-pa-fit-nav-more-label="More">
+<nav class="pc-navmenu"
+     data-pc-fit-nav="menu" data-pc-fit-nav-more-label="More">
     <ul>
-        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-fit-nav-priority="10">
+        <li class="pc-navmenu__item pc-navmenu__item--active" data-pc-fit-nav-priority="10">
             <a href="/">Dashboard</a>
         </li>
-        <li class="pa-navmenu__item">
+        <li class="pc-navmenu__item">
             <a href="/reports">Reports</a>
         </li>
         <!-- has-dropdown items keep their submenu; inside "More" it renders flat -->
-        <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
-            <a href="/components" class="pa-navmenu__link">Components</a>
-            <ul class="pa-navmenu__dropdown">
+        <li class="pc-navmenu__item pc-navmenu__item--has-dropdown">
+            <a href="/components" class="pc-navmenu__link">Components</a>
+            <ul class="pc-navmenu__dropdown">
                 <li><a href="/components/buttons">Buttons</a></li>
                 <li><a href="/components/cards">Cards</a></li>
             </ul>
         </li>
-        <li class="pa-navmenu__item"><a href="/forms">Forms</a></li>
+        <li class="pc-navmenu__item"><a href="/forms">Forms</a></li>
     </ul>
 </nav>
 
 <!-- Generated DOM (menu mode). The Fit engine appends a "More" trigger
      <li> to the nav and a detached panel <ul> parented to <body> (so it
      escapes the navbar's overflow:hidden). While open, the trigger carries
-     .is-open (rotates .pa-navmenu__more-chevron) and the panel carries
-     .pa-navmenu__more-menu--open (a compound selector that outweighs the
-     base `.pa-navmenu__dropdown { display:none }` to reveal it):
+     .is-open (rotates .pc-navmenu__more-chevron) and the panel carries
+     .pc-navmenu__more-menu--open (a compound selector that outweighs the
+     base `.pc-navmenu__dropdown { display:none }` to reveal it):
 
-     <li class="pa-navmenu__item pa-navmenu__item--more is-open">
-       <a class="pa-navmenu__link">More
-         <span class="pa-navmenu__more-chevron" aria-hidden="true">›</span>
+     <li class="pc-navmenu__item pc-navmenu__item--more is-open">
+       <a class="pc-navmenu__link">More
+         <span class="pc-navmenu__more-chevron" aria-hidden="true">›</span>
        </a>
      </li>
      ... appended to <body>:
-     <ul class="pa-navmenu__dropdown pa-navmenu__more-menu pa-navmenu__more-menu--open">
-       <li class="pa-navmenu__item"><a href="/forms">Forms</a></li>
+     <ul class="pc-navmenu__dropdown pc-navmenu__more-menu pc-navmenu__more-menu--open">
+       <li class="pc-navmenu__item"><a href="/forms">Forms</a></li>
        ... folded items; any nested __dropdown here renders FLAT (static) ...
      </ul>
 -->
 
 <!-- SIDEBAR mode — folds into the sidebar under a "Menu" section heading.
-     Target defaults to the first .pa-sidebar__nav > ul; override with
-     data-pa-fit-nav-target="#your-sidebar-ul-selector". -->
-<nav class="pa-navmenu"
-     data-pa-fit-nav="sidebar" data-pa-fit-nav-label="Menu">
+     Target defaults to the first .pc-sidebar__nav > ul; override with
+     data-pc-fit-nav-target="#your-sidebar-ul-selector". -->
+<nav class="pc-navmenu"
+     data-pc-fit-nav="sidebar" data-pc-fit-nav-label="Menu">
     <ul>
-        <li class="pa-navmenu__item pa-navmenu__item--active" data-pa-fit-nav-priority="10">
+        <li class="pc-navmenu__item pc-navmenu__item--active" data-pc-fit-nav-priority="10">
             <a href="/">Dashboard</a>
         </li>
-        <li class="pa-navmenu__item"><a href="/reports">Reports</a></li>
-        <li class="pa-navmenu__item"><a href="/forms">Forms</a></li>
+        <li class="pc-navmenu__item"><a href="/reports">Reports</a></li>
+        <li class="pc-navmenu__item"><a href="/forms">Forms</a></li>
     </ul>
 </nav>
 
@@ -379,25 +379,25 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      SIDEBAR — BASIC MENU
      ================================ -->
 
-<aside class="pa-layout__sidebar">
-    <nav class="pa-sidebar__nav">
+<aside class="pc-layout__sidebar">
+    <nav class="pc-sidebar__nav">
         <ul>
-            <li class="pa-sidebar__item">
-                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
-                    <span class="pa-sidebar__icon">📊</span>
-                    <span class="pa-sidebar__label">Dashboard</span>
+            <li class="pc-sidebar__item">
+                <a href="/" class="pc-sidebar__link pc-sidebar__link--active">
+                    <span class="pc-sidebar__icon">📊</span>
+                    <span class="pc-sidebar__label">Dashboard</span>
                 </a>
             </li>
-            <li class="pa-sidebar__item">
-                <a href="/components" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">🧩</span>
-                    <span class="pa-sidebar__label">Components</span>
+            <li class="pc-sidebar__item">
+                <a href="/components" class="pc-sidebar__link">
+                    <span class="pc-sidebar__icon">🧩</span>
+                    <span class="pc-sidebar__label">Components</span>
                 </a>
             </li>
-            <li class="pa-sidebar__item">
-                <a href="/forms" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">📝</span>
-                    <span class="pa-sidebar__label">Forms</span>
+            <li class="pc-sidebar__item">
+                <a href="/forms" class="pc-sidebar__link">
+                    <span class="pc-sidebar__icon">📝</span>
+                    <span class="pc-sidebar__label">Forms</span>
                 </a>
             </li>
         </ul>
@@ -406,7 +406,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 
 
 <!-- ================================
-     SIDEBAR — SEARCH ROW (pa-sidebar__search)
+     SIDEBAR — SEARCH ROW (pc-sidebar__search)
      A framed search affordance as the FIRST sidebar item. Two modes:
        trigger    a button that opens the palette / your search
        --input    a <form> whose magnifier is type="submit", so in an
@@ -416,19 +416,19 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      ================================ -->
 
 <!-- Trigger — collapses to just its icon in an icon-collapse sidebar. -->
-<li class="pa-sidebar__item">
-    <button type="button" class="pa-sidebar__search" onclick="openCommandPalette()">
-        <span class="pa-sidebar__icon" aria-hidden="true">🔍</span>
-        <span class="pa-sidebar__label">Search…</span>
+<li class="pc-sidebar__item">
+    <button type="button" class="pc-sidebar__search" onclick="openCommandPalette()">
+        <span class="pc-sidebar__icon" aria-hidden="true">🔍</span>
+        <span class="pc-sidebar__label">Search…</span>
     </button>
 </li>
 
-<!-- Type-and-go — sidebar counterpart of pa-navbar-search--input. -->
-<li class="pa-sidebar__item">
-    <form class="pa-sidebar__search pa-sidebar__search--input"
+<!-- Type-and-go — sidebar counterpart of pc-navbar-search--input. -->
+<li class="pc-sidebar__item">
+    <form class="pc-sidebar__search pc-sidebar__search--input"
           action="/search" method="get" role="search">
-        <button type="submit" class="pa-sidebar__search-icon" aria-label="Search">🔍</button>
-        <input type="search" name="q" class="pa-sidebar__search-field"
+        <button type="submit" class="pc-sidebar__search-icon" aria-label="Search">🔍</button>
+        <input type="search" name="q" class="pc-sidebar__search-field"
                placeholder="Search…" autocomplete="off" aria-label="Search">
     </form>
 </li>
@@ -437,34 +437,34 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 <!-- ================================
      SIDEBAR — WITH FLAT SECTION HEADINGS
      Group links under non-interactive labels with
-     <li class="pa-sidebar__section">. Use this when the groups are always
+     <li class="pc-sidebar__section">. Use this when the groups are always
      visible (docs-style nav); for collapsible groups use the __toggle +
      __submenu variant below instead. Section and links are siblings in the
      same <ul>.
      ================================ -->
 
-<aside class="pa-layout__sidebar">
-    <nav class="pa-sidebar__nav">
+<aside class="pc-layout__sidebar">
+    <nav class="pc-sidebar__nav">
         <ul>
-            <li class="pa-sidebar__section">Project</li>
-            <li class="pa-sidebar__item">
-                <a href="/" class="pa-sidebar__link pa-sidebar__link--active">
-                    <span class="pa-sidebar__icon">📊</span>
-                    <span class="pa-sidebar__label">Dashboard</span>
+            <li class="pc-sidebar__section">Project</li>
+            <li class="pc-sidebar__item">
+                <a href="/" class="pc-sidebar__link pc-sidebar__link--active">
+                    <span class="pc-sidebar__icon">📊</span>
+                    <span class="pc-sidebar__label">Dashboard</span>
                 </a>
             </li>
 
-            <li class="pa-sidebar__section">Guides</li>
-            <li class="pa-sidebar__item">
-                <a href="/getting-started" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">🚀</span>
-                    <span class="pa-sidebar__label">Getting Started</span>
+            <li class="pc-sidebar__section">Guides</li>
+            <li class="pc-sidebar__item">
+                <a href="/getting-started" class="pc-sidebar__link">
+                    <span class="pc-sidebar__icon">🚀</span>
+                    <span class="pc-sidebar__label">Getting Started</span>
                 </a>
             </li>
-            <li class="pa-sidebar__item">
-                <a href="/forms" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">📝</span>
-                    <span class="pa-sidebar__label">Forms</span>
+            <li class="pc-sidebar__item">
+                <a href="/forms" class="pc-sidebar__link">
+                    <span class="pc-sidebar__icon">📝</span>
+                    <span class="pc-sidebar__label">Forms</span>
                 </a>
             </li>
         </ul>
@@ -474,39 +474,39 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 
 <!-- ================================
      SIDEBAR — WITH COLLAPSIBLE SUBMENU
-     Use <button class="pa-sidebar__toggle"> for collapsible parents and
-     <a class="pa-sidebar__link"> for leaves. Submenu opens when the
+     Use <button class="pc-sidebar__toggle"> for collapsible parents and
+     <a class="pc-sidebar__link"> for leaves. Submenu opens when the
      parent <li> gets --open and the <ul> gets --open.
      ================================ -->
 
-<aside class="pa-layout__sidebar">
-    <nav class="pa-sidebar__nav">
+<aside class="pc-layout__sidebar">
+    <nav class="pc-sidebar__nav">
         <ul>
-            <li class="pa-sidebar__item">
-                <a href="/" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">📊</span>
-                    <span class="pa-sidebar__label">Dashboard</span>
+            <li class="pc-sidebar__item">
+                <a href="/" class="pc-sidebar__link">
+                    <span class="pc-sidebar__icon">📊</span>
+                    <span class="pc-sidebar__label">Dashboard</span>
                 </a>
             </li>
 
             <!-- Collapsible (parent is a button, not a link) -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">📋</span>
-                    <span class="pa-sidebar__label">Tables</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">📋</span>
+                    <span class="pc-sidebar__label">Tables</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
-                    <li class="pa-sidebar__item">
-                        <a href="/tables" class="pa-sidebar__link">
-                            <span class="pa-sidebar__icon">•</span>
-                            <span class="pa-sidebar__label">Standard</span>
+                <ul class="pc-sidebar__submenu">
+                    <li class="pc-sidebar__item">
+                        <a href="/tables" class="pc-sidebar__link">
+                            <span class="pc-sidebar__icon">•</span>
+                            <span class="pc-sidebar__label">Standard</span>
                         </a>
                     </li>
-                    <li class="pa-sidebar__item">
-                        <a href="/tables-lazy" class="pa-sidebar__link">
-                            <span class="pa-sidebar__icon">•</span>
-                            <span class="pa-sidebar__label">Lazy Loading</span>
+                    <li class="pc-sidebar__item">
+                        <a href="/tables-lazy" class="pc-sidebar__link">
+                            <span class="pc-sidebar__icon">•</span>
+                            <span class="pc-sidebar__label">Lazy Loading</span>
                         </a>
                     </li>
                 </ul>
@@ -523,30 +523,30 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      indentation is RTL-aware.
      ================================ -->
 
-<aside class="pa-layout__sidebar">
-    <nav class="pa-sidebar__nav">
+<aside class="pc-layout__sidebar">
+    <nav class="pc-sidebar__nav">
         <ul>
             <!-- Level 1 -->
-            <li class="pa-sidebar__item">
-                <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                    <span class="pa-sidebar__icon">⚙️</span>
-                    <span class="pa-sidebar__label">Settings</span>
-                    <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+                <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                    <span class="pc-sidebar__icon">⚙️</span>
+                    <span class="pc-sidebar__label">Settings</span>
+                    <span class="pc-sidebar__chevron">›</span>
                 </button>
-                <ul class="pa-sidebar__submenu">
+                <ul class="pc-sidebar__submenu">
                     <!-- Level 2 -->
-                    <li class="pa-sidebar__item">
-                        <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                            <span class="pa-sidebar__icon">🔧</span>
-                            <span class="pa-sidebar__label">Advanced</span>
-                            <span class="pa-sidebar__chevron">›</span>
+                    <li class="pc-sidebar__item">
+                        <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                            <span class="pc-sidebar__icon">🔧</span>
+                            <span class="pc-sidebar__label">Advanced</span>
+                            <span class="pc-sidebar__chevron">›</span>
                         </button>
-                        <ul class="pa-sidebar__submenu">
+                        <ul class="pc-sidebar__submenu">
                             <!-- Level 3 -->
-                            <li class="pa-sidebar__item">
-                                <a href="/settings/advanced/security" class="pa-sidebar__link">
-                                    <span class="pa-sidebar__icon">•</span>
-                                    <span class="pa-sidebar__label">Security</span>
+                            <li class="pc-sidebar__item">
+                                <a href="/settings/advanced/security" class="pc-sidebar__link">
+                                    <span class="pc-sidebar__icon">•</span>
+                                    <span class="pc-sidebar__label">Security</span>
                                 </a>
                             </li>
                         </ul>
@@ -571,14 +571,14 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 <!-- Icon-collapse sidebar: hidden state shows a narrow icon bar with
      hover flyouts for labels and submenus. When not hidden, renders
      at normal width with labels visible. -->
-<aside class="pa-layout__sidebar pa-layout__sidebar--icon-collapse">
-    <!-- Same pa-sidebar__nav markup as above. No content changes needed —
+<aside class="pc-layout__sidebar pc-layout__sidebar--icon-collapse">
+    <!-- Same pc-sidebar__nav markup as above. No content changes needed —
          the CSS handles the collapse/flyout behaviour automatically. -->
 </aside>
 
 <!-- Default sidebar with no modifier: hides entirely under .sidebar-hidden,
      shows fully otherwise. -->
-<aside class="pa-layout__sidebar">
+<aside class="pc-layout__sidebar">
     <!-- nav -->
 </aside>
 
@@ -588,19 +588,19 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      The sidebar reads its width from a CSS custom property:
 
        :root { --pc-local-sidebar-width: 28.8rem; }   /* default */
-       :where(.pa-layout__sidebar) { width: var(--pc-local-sidebar-width); }
+       :where(.pc-layout__sidebar) { width: var(--pc-local-sidebar-width); }
 
      :where() gives the rule zero specificity, so any utility class
      (.wr-*, .minwr-*, .maxwr-*) on the same element wins.
 
      A ready-made driver ships in this package at src/js/sidebar-resize.js
-     (window.pureAdmin.components.sidebarResize). Add .pa-layout__sidebar--resizable to the
-     sidebar and it creates the .pa-sidebar-resize handle, wires drag + touch,
+     (window.pureAdmin.components.sidebarResize). Add .pc-layout__sidebar--resizable to the
+     sidebar and it creates the .pc-sidebar-resize handle, wires drag + touch,
      reads its bounds from --pc-local-sidebar-min/max-width, persists to
      localStorage, and resets on double-click. To roll your own instead, wire JS
      that:
-       1. On mousedown / touchstart: add body.pa-sidebar-resizing (locks
-                        selection) + .pa-sidebar-resize--active (visual feedback)
+       1. On mousedown / touchstart: add body.pc-sidebar-resizing (locks
+                        selection) + .pc-sidebar-resize--active (visual feedback)
        2. On mousemove / touchmove: update --pc-local-sidebar-width on :root
                         or html
        3. On mouseup / touchend:   remove both classes; optionally persist
@@ -610,31 +610,31 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
      COARSE pointers (touch) it automatically widens its hit area and shows a
      persistent grip pill on the edge — no hover to rely on — so it's grabbable
      with a finger. This is pure CSS (@media (pointer: coarse)); no markup or
-     class change is needed, the same .pa-sidebar-resize element adapts.
+     class change is needed, the same .pc-sidebar-resize element adapts.
 
-     `.pa-layout__sidebar--resizable` is a JS activation marker, not a
+     `.pc-layout__sidebar--resizable` is a JS activation marker, not a
      styling class — it has no SCSS rules; the shipped driver keys off it to
      decide which sidebar to wire and where to inject the handle. All styling
-     hooks are the `.pa-sidebar-resize` handle, `.pa-sidebar-resize--active`,
-     `body.pa-sidebar-resizing` / `.pa-sidebar-resized`, and the
-     `--pc-local-sidebar-*` vars. (There is NO `pa-layout__sidebar--sticky`
-     modifier — don't confuse it with the real body-level `pa-layout--sticky`
+     hooks are the `.pc-sidebar-resize` handle, `.pc-sidebar-resize--active`,
+     `body.pc-sidebar-resizing` / `.pc-sidebar-resized`, and the
+     `--pc-local-sidebar-*` vars. (There is NO `pc-layout__sidebar--sticky`
+     modifier — don't confuse it with the real body-level `pc-layout--sticky`
      flag.)
      ================================ -->
 
 <!-- Fixed width via rem utility — overrides the CSS variable default -->
-<aside class="pa-layout__sidebar wr-25">
+<aside class="pc-layout__sidebar wr-25">
     <!-- 25rem (250px) — utility class wins because :where() has 0 specificity -->
 </aside>
 
 <!-- Resizable sidebar — add the --resizable marker; the shipped driver
-     (src/js/sidebar-resize.js) injects the .pa-sidebar-resize handle, wires
+     (src/js/sidebar-resize.js) injects the .pc-sidebar-resize handle, wires
      drag + touch, and persists the width. -->
-<aside class="pa-layout__sidebar pa-layout__sidebar--resizable">
-    <nav class="pa-sidebar__nav">
+<aside class="pc-layout__sidebar pc-layout__sidebar--resizable">
+    <nav class="pc-sidebar__nav">
         <!-- nav items -->
     </nav>
-    <!-- .pa-sidebar-resize handle is created by the driver at runtime -->
+    <!-- .pc-sidebar-resize handle is created by the driver at runtime -->
 </aside>
 
 <!-- Width bounds set by the CSS variables below — JS should respect these: -->
@@ -663,7 +663,7 @@ to run it on any other flex row (a toolbar, a filter bar, a form's action row).
 - burger-menu (no .active) → three bars (☰) — sidebar visible / shown
 - burger-menu.active        → X shape          — sidebar hidden / closed
 Animation: ~150ms ease-out. Top/bottom bars rotate; middle bar fades.
-The class .pa-navbar__burger is just a layout-position helper; the
+The class .pc-navbar__burger is just a layout-position helper; the
 visual animation lives on .burger-menu. In the header it's __inner's
 first child — a FIXED sibling of the start/center/end zones, not inside
 start — so it never participates in the fit engine's collapse.
@@ -694,21 +694,21 @@ function toggleSidebar() {
 
 // Toggle collapsible submenu — flips --open on the parent item + the <ul>.
 function toggleSubmenu(button) {
-    const parentItem = button.closest('.pa-sidebar__item');
-    const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+    const parentItem = button.closest('.pc-sidebar__item');
+    const submenu = parentItem.querySelector('.pc-sidebar__submenu');
     if (!submenu) return;
 
-    const isOpen = parentItem.classList.contains('pa-sidebar__item--open');
+    const isOpen = parentItem.classList.contains('pc-sidebar__item--open');
     if (isOpen) {
-        parentItem.classList.remove('pa-sidebar__item--open');
-        submenu.classList.remove('pa-sidebar__submenu--open');
+        parentItem.classList.remove('pc-sidebar__item--open');
+        submenu.classList.remove('pc-sidebar__submenu--open');
     } else {
-        parentItem.classList.add('pa-sidebar__item--open');
-        submenu.classList.add('pa-sidebar__submenu--open');
+        parentItem.classList.add('pc-sidebar__item--open');
+        submenu.classList.add('pc-sidebar__submenu--open');
     }
 
     // Optional: persist per-menu open state
-    const id = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
+    const id = button.querySelector('.pc-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
     localStorage.setItem(`submenu-${id}`, !isOpen ? 'open' : 'closed');
 }
 </script>
@@ -720,38 +720,38 @@ function toggleSubmenu(button) {
 
 <!--
 LAYOUT SHELL:
-- .pa-navbar                   Fixed top bar (position: fixed, z-index $z-index-navbar).
-- .pa-navbar__inner            Inner flex container (padding, gap).
-- .pa-layout                   Below navbar (margin-top: $navbar-height);
+- .pc-navbar                   Fixed top bar (position: fixed, z-index $z-index-navbar).
+- .pc-navbar__inner            Inner flex container (padding, gap).
+- .pc-layout                   Below navbar (margin-top: $navbar-height);
                                flex column, max-width 100%.
-- .pa-layout__inner            Flex row hosting sidebar + content.
-- .pa-layout__content          Wraps <main>; overflow-y: auto so the
+- .pc-layout__inner            Flex row hosting sidebar + content.
+- .pc-layout__content          Wraps <main>; overflow-y: auto so the
                                content area is always scrollable.
-- .pa-layout__main             Main content region. Sets
+- .pc-layout__main             Main content region. Sets
                                container-type: inline-size — this is
                                WHY responsive grid classes
                                (pc-col-sm-*, -md-*, etc.) work inside
                                the layout automatically.
-- .pa-layout__footer           Page footer; flex row with start/center/end
+- .pc-layout__footer           Page footer; flex row with start/center/end
                                sections (responsive — center hidden on mobile).
 
 FOOTER SECTIONS:
-- .pa-footer__start            Anchored to inline-start (copyright, etc.)
-- .pa-footer__center           Flexible middle
-- .pa-footer__end              Anchored to inline-end (version info, links)
-- .pa-footer__end--vertical    Stack end items vertically (flex-column)
+- .pc-footer__start            Anchored to inline-start (copyright, etc.)
+- .pc-footer__center           Flexible middle
+- .pc-footer__end              Anchored to inline-end (version info, links)
+- .pc-footer__end--vertical    Stack end items vertically (flex-column)
 
 BODY-LEVEL FLAGS (orthogonal — any combination is valid):
-- .pa-layout--sticky           Fixed-viewport mode: body overflow: hidden;
-                               .pa-layout is 100vh; content wrapper scrolls.
-- .pa-container-sm / -md / -lg / -xl / -2xl
-                               Constrains .pa-navbar AND .pa-layout max-width
+- .pc-layout--sticky           Fixed-viewport mode: body overflow: hidden;
+                               .pc-layout is 100vh; content wrapper scrolls.
+- .pc-container-sm / -md / -lg / -xl / -2xl
+                               Constrains .pc-navbar AND .pc-layout max-width
                                to 768 / 1024 / 1280 / 1600 / 1920 px
                                respectively. Navbar and layout both get
                                margin-inline: auto to stay centred.
 - .sidebar-hidden              Desktop sidebar collapse / hide state.
 - .sidebar-visible             Mobile sidebar overlay visible.
-- .pa-sidebar-resizing         Set by the resize JS during drag (locks
+- .pc-sidebar-resizing         Set by the resize JS during drag (locks
                                text selection, forces ew-resize cursor).
 - .pc-mode-light / .pc-mode-dark
                                Active theme mode. Themes emit --pc-* values at
@@ -762,120 +762,120 @@ BODY-LEVEL FLAGS (orthogonal — any combination is valid):
                                open (detail-panel, modal, mobile sidebar);
                                remove on close. Defined in _utilities.scss.
 
-NAVBAR HEADER SECTIONS (inside .pa-navbar__inner):
-- .pa-navbar__start            Start-anchored section; flex, gap.
-- .pa-navbar__center           Flexible middle (flex: 1; min-width: 0).
-- .pa-navbar__end              End-anchored section; margin-inline-start: auto.
+NAVBAR HEADER SECTIONS (inside .pc-navbar__inner):
+- .pc-navbar__start            Start-anchored section; flex, gap.
+- .pc-navbar__center           Flexible middle (flex: 1; min-width: 0).
+- .pc-navbar__end              End-anchored section; margin-inline-start: auto.
 
 NAVBAR ELEMENTS (inside header sections):
-- .pa-navbar__burger           Wrapper for the burger-menu button.
+- .pc-navbar__burger           Wrapper for the burger-menu button.
 - .burger-menu                 The animated three-bar button itself.
 - .burger-menu.active          X-shape state (bars rotate + middle fades).
-- .pa-app-header            Logo / brand area; h1 styled automatically.
-- .pa-navmenu              Nav container; auto-styles direct
+- .pc-app-header            Logo / brand area; h1 styled automatically.
+- .pc-navmenu              Nav container; auto-styles direct
                                ul > li > a descendants (no classes needed
                                on list items / anchors). Position it by which
                                zone it sits in — no per-side modifier classes.
-- .pa-navmenu__item         Explicit li class (same behaviour as bare <li>).
-- .pa-navmenu__item--has-dropdown
-                               Parent li that reveals a child .pa-navmenu__dropdown
+- .pc-navmenu__item         Explicit li class (same behaviour as bare <li>).
+- .pc-navmenu__item--has-dropdown
+                               Parent li that reveals a child .pc-navmenu__dropdown
                                on hover. Uses position: static so the
                                dropdown positions relative to the navbar.
-- .pa-navmenu__link         Optional anchor class (flex + gap for icon+text).
-- .pa-navmenu__dropdown         Hover-dropdown <ul> (absolute; card-bg;
+- .pc-navmenu__link         Optional anchor class (flex + gap for icon+text).
+- .pc-navmenu__dropdown         Hover-dropdown <ul> (absolute; card-bg;
                                box-shadow; z-index 1100).
-- .pa-navmenu__dropdown--level2 Nested dropdown shifted to the side.
+- .pc-navmenu__dropdown--level2 Nested dropdown shifted to the side.
 - Responsive-collapse (menu mode) generated elements — all built by
   navbar-collapse.js, not hand-authored:
-    .pa-navmenu__item--more      The generated "More" trigger <li>
+    .pc-navmenu__item--more      The generated "More" trigger <li>
                                  (position: relative; carries .is-open
                                  while its panel is showing).
-    .pa-navmenu__more-chevron    The ›/▾ glyph; rotates 90° under .is-open.
-    .pa-navmenu__more-menu       The folded-items panel (a __dropdown
+    .pc-navmenu__more-chevron    The ›/▾ glyph; rotates 90° under .is-open.
+    .pc-navmenu__more-menu       The folded-items panel (a __dropdown
                                  parented to <body>; z-index above the navbar).
                                  Nested __dropdowns inside it render FLAT.
-    .pa-navmenu__more-menu--open Reveals the panel — compound selector that
+    .pc-navmenu__more-menu--open Reveals the panel — compound selector that
                                  beats the base __dropdown display:none.
-- .pa-page-header            Centre-section page title with ellipsis h2.
-- .pa-navbar__profile-btn      Right-side profile button (flex-shrink: 0).
+- .pc-page-header            Centre-section page title with ellipsis h2.
+- .pc-navbar__profile-btn      Right-side profile button (flex-shrink: 0).
 - .theme-switcher              Inline label + select styled for the header.
 
 NAVBAR SEARCH (centre-slot search; the palette lives in command-palette.html):
-- .pa-navbar-search            Pill shell. Bare = a button trigger that opens
+- .pc-navbar-search            Pill shell. Bare = a button trigger that opens
                                the command palette. Size variants --xs / --sm /
                                --md / --lg / --xl match input/button heights.
-- .pa-navbar-search__icon      Leading search icon.
-- .pa-navbar-search__placeholder  Muted prompt text (flex:1, ellipsis). Hidden
+- .pc-navbar-search__icon      Leading search icon.
+- .pc-navbar-search__placeholder  Muted prompt text (flex:1, ellipsis). Hidden
                                below $mobile-breakpoint.
-- .pa-navbar-search__shortcut  Trailing <kbd> row (Cmd/Ctrl+K hint). Hidden
+- .pc-navbar-search__shortcut  Trailing <kbd> row (Cmd/Ctrl+K hint). Hidden
                                below $mobile-breakpoint.
-- .pa-navbar-search--field     Turns the pill into a LIVE search box (real input
+- .pc-navbar-search--field     Turns the pill into a LIVE search box (real input
                                + .pa-search-autocomplete dropdown), not a trigger.
-- .pa-navbar-search--input     Turns the pill into a <form> whose native GET
+- .pc-navbar-search--input     Turns the pill into a <form> whose native GET
                                submit navigates to a results page on Enter — no
                                dropdown, no palette.
-- .pa-navbar-search__field     The borderless <input> (shared by --field / --input).
+- .pc-navbar-search__field     The borderless <input> (shared by --field / --input).
 
 SIDEBAR:
-- .pa-layout__sidebar                  Sidebar column; width comes from
+- .pc-layout__sidebar                  Sidebar column; width comes from
                                        --pc-local-sidebar-width via :where()
                                        so utility classes override it.
-- .pa-layout__sidebar--icon-collapse   Collapses to a narrow icon bar under
+- .pc-layout__sidebar--icon-collapse   Collapses to a narrow icon bar under
                                        .sidebar-hidden; hover reveals labels
                                        + submenus as flyouts.
                                        (Expanded when NOT .sidebar-hidden.)
 
 SIDEBAR BEM BLOCK:
-- .pa-sidebar__nav              <nav> wrapper for the menu ul.
-- .pa-sidebar__item             <li> menu item.
-- .pa-sidebar__item--open       Submenu-open state — set by JS when
-                                toggling a .pa-sidebar__toggle parent.
+- .pc-sidebar__nav              <nav> wrapper for the menu ul.
+- .pc-sidebar__item             <li> menu item.
+- .pc-sidebar__item--open       Submenu-open state — set by JS when
+                                toggling a .pc-sidebar__toggle parent.
                                 Rotates the chevron 90° (−90° in RTL).
-- .pa-sidebar__link             Leaf link (flex: icon + label, optional hover).
-- .pa-sidebar__link--active     Active leaf state — accent colour +
+- .pc-sidebar__link             Leaf link (flex: icon + label, optional hover).
+- .pc-sidebar__link--active     Active leaf state — accent colour +
                                 accent border-inline-end accent bar.
-- .pa-sidebar__toggle           Collapsible parent (<button>, not <a>).
-- .pa-sidebar__toggle--active   Active collapsible state (kept open manually).
-- .pa-sidebar__icon             Fixed-width icon slot ($sidebar-icon-size).
-- .pa-sidebar__label            Text label (flex: 1; ellipsis on overflow).
-- .pa-sidebar__chevron          Right-pointing indicator; rotates on --open.
-- .pa-sidebar__submenu          Nested <ul>; hidden by default.
-- .pa-sidebar__submenu--open    Visible state.
+- .pc-sidebar__toggle           Collapsible parent (<button>, not <a>).
+- .pc-sidebar__toggle--active   Active collapsible state (kept open manually).
+- .pc-sidebar__icon             Fixed-width icon slot ($sidebar-icon-size).
+- .pc-sidebar__label            Text label (flex: 1; ellipsis on overflow).
+- .pc-sidebar__chevron          Right-pointing indicator; rotates on --open.
+- .pc-sidebar__submenu          Nested <ul>; hidden by default.
+- .pc-sidebar__submenu--open    Visible state.
 
 SIDEBAR SEARCH (first sidebar item; counterpart of the navbar search):
-- .pa-sidebar__search           Framed search affordance for the sidebar top.
-                                Bare = a trigger; uses the shared .pa-sidebar__icon
+- .pc-sidebar__search           Framed search affordance for the sidebar top.
+                                Bare = a trigger; uses the shared .pc-sidebar__icon
                                 / __label; collapses to the icon in an
                                 icon-collapse sidebar.
-- .pa-sidebar__search--input    Type-and-go <form> counterpart: Enter navigates
+- .pc-sidebar__search--input    Type-and-go <form> counterpart: Enter navigates
                                 to the results page.
-- .pa-sidebar__search-icon      type="submit" magnifier; in an icon-collapse
+- .pc-sidebar__search-icon      type="submit" magnifier; in an icon-collapse
                                 sidebar (field hidden) clicking it submits the
                                 empty query.
-- .pa-sidebar__search-field     The borderless <input>; hidden when the sidebar
+- .pc-sidebar__search-field     The borderless <input>; hidden when the sidebar
                                 is icon-collapsed.
 
 RESIZE MECHANISM:
-- .pa-layout__sidebar--resizable JS activation marker (no SCSS) — put it on
+- .pc-layout__sidebar--resizable JS activation marker (no SCSS) — put it on
                                  the sidebar to opt into the shipped driver,
                                  which injects the handle below.
-- .pa-sidebar-resize            Handle element inside the sidebar
+- .pc-sidebar-resize            Handle element inside the sidebar
                                 (absolute-positioned on the inline-end edge);
                                 created by the driver at runtime.
-- .pa-sidebar-resize--active    Active state (highlighted during drag).
+- .pc-sidebar-resize--active    Active state (highlighted during drag).
 - --pc-local-sidebar-width       runtime width; JS rewrites this on drag.
 - --pc-local-sidebar-min-width   floor (default 18rem).
 - --pc-local-sidebar-max-width   ceiling (default 50rem).
-- body.pa-sidebar-resizing       set by JS during drag to disable text
+- body.pc-sidebar-resizing       set by JS during drag to disable text
                                  selection + force ew-resize cursor.
-- body.pa-sidebar-resized        set by JS once dragged; honours the explicit
+- body.pc-sidebar-resized        set by JS once dragged; honours the explicit
                                  width in the tablet band (bypasses the cap).
-(NO .pa-layout__sidebar--sticky — that sidebar modifier never existed. Don't
- confuse it with the real body-level .pa-layout--sticky flag.)
+(NO .pc-layout__sidebar--sticky — that sidebar modifier never existed. Don't
+ confuse it with the real body-level .pc-layout--sticky flag.)
 
 RESPONSIVE BEHAVIOUR (built in):
 - Below $mobile-breakpoint (768px):
-    - .pa-navmenu hides entirely.
+    - .pc-navmenu hides entirely.
     - Theme-switcher label hides.
     - body:not(.sidebar-visible) hides the sidebar (width: 0).
     - .sidebar-visible renders sidebar as a fixed-position overlay
@@ -888,32 +888,32 @@ RESPONSIVE BEHAVIOUR (built in):
 STRUCTURE PATTERNS:
 
 Minimal app shell:
-<body class="pa-layout--sticky">
-  <nav class="pa-navbar"><div class="pa-navbar__inner">
-    <div class="pa-navbar__start">…</div>
-    <div class="pa-navbar__center"><div class="pa-page-header"><h2>Page</h2></div></div>
-    <div class="pa-navbar__end">…</div>
+<body class="pc-layout--sticky">
+  <nav class="pc-navbar"><div class="pc-navbar__inner">
+    <div class="pc-navbar__start">…</div>
+    <div class="pc-navbar__center"><div class="pc-page-header"><h2>Page</h2></div></div>
+    <div class="pc-navbar__end">…</div>
   </div></nav>
 
-  <div class="pa-layout">
-    <div class="pa-layout__inner">
-      <aside class="pa-layout__sidebar">…</aside>
-      <div class="pa-layout__content">
-        <main class="pa-layout__main">…</main>
+  <div class="pc-layout">
+    <div class="pc-layout__inner">
+      <aside class="pc-layout__sidebar">…</aside>
+      <div class="pc-layout__content">
+        <main class="pc-layout__main">…</main>
       </div>
     </div>
-    <footer class="pa-layout__footer">…</footer>
+    <footer class="pc-layout__footer">…</footer>
   </div>
 </body>
 
 Constrained-width layout:
-<body class="pa-container-lg">
+<body class="pc-container-lg">
   …navbar + layout… (both limited to 1280px, centred)
 </body>
 
 Resizable sidebar:
-<aside class="pa-layout__sidebar pa-layout__sidebar--resizable">
-  <nav class="pa-sidebar__nav">…</nav>
+<aside class="pc-layout__sidebar pc-layout__sidebar--resizable">
+  <nav class="pc-sidebar__nav">…</nav>
 </aside>
-<!-- shipped driver injects .pa-sidebar-resize + updates --pc-local-sidebar-width -->
+<!-- shipped driver injects .pc-sidebar-resize + updates --pc-local-sidebar-width -->
 -->

@@ -484,7 +484,7 @@
    Button that opens the command palette
    ======================================== */
 
-.pa-navbar-search {
+.pc-navbar-search {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
@@ -619,7 +619,7 @@
 // that fills it; the dropdown reuses the shared .pa-search-autocomplete popup,
 // anchored to the field's bottom edge. Independent of the command palette — a
 // consumer wires its own results.
-.pa-navbar-search--field {
+.pc-navbar-search--field {
   cursor: text;
   position: relative; // anchor for the results popup
   width: 100%;
@@ -628,7 +628,7 @@
   // Fixed icon box so the typed text starts at a predictable x — glyphs like 🔍 vs
   // 💻 render at different widths, so without this the field text and the result
   // titles below wouldn't share a left edge.
-  .pa-navbar-search__icon {
+  .pc-navbar-search__icon {
     width: $font-size-lg;
     display: inline-flex;
     justify-content: center;
@@ -666,13 +666,13 @@
 // only styles the shell + shared __field; the consumer sets the form's
 // action/method (svelte-pure-admin, Phoenix, etc. wire their own route). A form
 // carrying a single text field submits on Enter with no submit button needed.
-.pa-navbar-search--input {
+.pc-navbar-search--input {
   cursor: text;
 }
 
 // Responsive: hide shortcut on small screens
 @media (max-width: $mobile-breakpoint) {
-  .pa-navbar-search {
+  .pc-navbar-search {
     &__placeholder {
       display: none;
     }

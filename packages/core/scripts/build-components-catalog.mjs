@@ -119,33 +119,20 @@ function dedicatedDocs(stems, comp, ext) {
 // ---- TAXONOMY: every discovered block must appear in exactly one entry ----
 const TAXONOMY = [
   // ---------------- Layout & shell ----------------
-  { key: 'layout', name: 'Layout shell', category: 'Layout & shell',
-    desc: 'Top-level page frame: header / sidebar / main / footer zones, sticky mode, and the scroll-lock body hook. (Light/dark mode scopes are now the foundation-owned .pc-mode-* classes — see pure-css.)',
-    blocks: ['pa-layout', 'pa-scroll-lock'] },
-  { key: 'navbar', name: 'Navbar', category: 'Layout & shell',
-    desc: 'Top application bar with start/center/end zones, mobile burger, and profile button.',
-    blocks: ['pa-navbar'] },
-  { key: 'navbar-search', name: 'Navbar search', category: 'Layout & shell',
-    desc: 'Inline search field embedded in the navbar (opens the command palette).',
-    blocks: ['pa-navbar-search'] },
-  { key: 'app-header', name: 'App header', category: 'Layout & shell',
-    desc: 'Branding/title block at the top of the app shell.',
-    blocks: ['pa-app-header'] },
-  { key: 'page-header', name: 'Page header', category: 'Layout & shell',
-    desc: 'Per-page title + actions header below the navbar.',
-    blocks: ['pa-page-header'] },
-  { key: 'navmenu', name: 'Nav menu', category: 'Layout & shell',
-    desc: 'Horizontal navigation menu with dropdowns and priority-driven overflow "more" menu.',
-    blocks: ['pa-navmenu'] },
-  { key: 'sidebar', name: 'Sidebar', category: 'Layout & shell',
-    desc: 'Collapsible side navigation with nested submenus, search, and drag-to-resize (marker + resize handle + resizing/resized body states).',
-    blocks: ['pa-sidebar', 'pa-sidebar-resize', 'pa-sidebar-resized', 'pa-sidebar-resizing'] },
-  { key: 'footer', name: 'Footer', category: 'Layout & shell',
-    desc: 'App footer with start/center/end content zones (container is pa-layout__footer).',
-    blocks: ['pa-footer'] },
-  { key: 'container', name: 'Width containers', category: 'Layout & shell',
-    desc: 'Max-width centering containers (sm/md/lg/xl/2xl).',
-    blocks: ['pa-container-sm', 'pa-container-md', 'pa-container-lg', 'pa-container-xl', 'pa-container-2xl'] },
+  // The app shell — layout scaffold (pc-layout), navbar (+ search), app/page
+  // headers, nav menu, sidebar (+ resize), footer, and width containers — moved
+  // to the @keenmate/pure-css foundation and is now pc-* prefixed. The generator
+  // only tracks .pa-* classes, so those components now live in pure-css's
+  // contract, not this catalog. See pure-css for the shell contract. What REMAINS
+  // in pure-admin from the old "Layout & shell" group:
+  { key: 'scroll-lock', name: 'Scroll lock', category: 'Layout & shell',
+    desc: 'Body hook (utility) that locks background scroll while a drawer/overlay is open.',
+    blocks: ['pa-scroll-lock'] },
+  // Fit flyout (the fit engine's self-contained "•••" overflow panel, relocation
+  // target for data-pc-fit-target="floating-menu") moved to the
+  // @keenmate/pure-css foundation together with the fit engine (fit.js) and is
+  // now pc-* prefixed (pc-fit-flyout__*). The generator only tracks .pa-* classes,
+  // so it is no longer part of this catalog. See pure-css for the fit contract.
   // Grid (pc-row / pc-col*) moved to the @keenmate/pure-css foundation and is
   // now pc-* prefixed — it is no longer a pure-admin pa-* component, so it is
   // not part of this catalog (the generator only tracks .pa-* classes). See
@@ -335,8 +322,8 @@ const TAXONOMY = [
 
   // ---------------- Utilities & state hooks ----------------
   { key: 'utilities', name: 'Utilities & state hooks', category: 'Utilities & state hooks',
-    desc: 'Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers, fit-hidden. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).',
-    blocks: ['pa-text', 'pa-text-color', 'pa-link', 'pa-fit-hidden', 'pa-font-base', 'pa-font-mobile', 'pa-font-responsive', 'pa-bg-color', 'pa-border-color'] },
+    desc: 'Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).',
+    blocks: ['pa-text', 'pa-text-color', 'pa-link', 'pa-font-base', 'pa-font-mobile', 'pa-font-responsive', 'pa-bg-color', 'pa-border-color'] },
 ];
 
 // Explicit doc homes. Many components are documented in a SHARED category file

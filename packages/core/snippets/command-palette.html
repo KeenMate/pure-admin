@@ -4,7 +4,7 @@
 
      Three co-located components in _command-palette.scss:
        pa-command-palette     macOS Spotlight-style search modal
-       pa-navbar-search       The clickable "search pill" in the navbar
+       pc-navbar-search       The clickable "search pill" in the navbar
                               that triggers the palette
        pa-shortcut-help       Modal content for an all-shortcuts help dialog
 
@@ -239,31 +239,31 @@ preset (they fall back to the SCSS defaults, so no recompile needed):
 
 
 <!-- ================================
-     TRIGGERING THE PALETTE (pa-navbar-search pill)
-     The palette is opened by a pa-navbar-search pill (or Ctrl/Cmd+K, or a
-     sidebar pa-sidebar__search trigger). A minimal trigger is shown below.
+     TRIGGERING THE PALETTE (pc-navbar-search pill)
+     The palette is opened by a pc-navbar-search pill (or Ctrl/Cmd+K, or a
+     sidebar pc-sidebar__search trigger). A minimal trigger is shown below.
      The full navbar/sidebar search family — the pill plus its --field (live)
      and --input (type-and-go) modes and the sidebar counterparts — is
      documented in layout.html.
      ================================ -->
 
-<button class="pa-navbar-search" onclick="openCommandPalette()">
-    <span class="pa-navbar-search__icon">🔍</span>
-    <span class="pa-navbar-search__placeholder">Search or jump to…</span>
-    <span class="pa-navbar-search__shortcut">
+<button class="pc-navbar-search" onclick="openCommandPalette()">
+    <span class="pc-navbar-search__icon">🔍</span>
+    <span class="pc-navbar-search__placeholder">Search or jump to…</span>
+    <span class="pc-navbar-search__shortcut">
         <kbd>Ctrl</kbd>
         <kbd>K</kbd>
     </span>
 </button>
 
 <!-- Full navbar-search modes (sizes, --field live search, --input type-and-go)
-     and the sidebar search (pa-sidebar__search / --input): see layout.html. -->
+     and the sidebar search (pc-sidebar__search / --input): see layout.html. -->
 
 
 <!-- ================================
      SEARCH AUTOCOMPLETE (pa-search-autocomplete)
      The live-search results dropdown. Shared: it's the list a
-     pa-navbar-search--field (see layout.html), a sidebar search, or the query
+     pc-navbar-search--field (see layout.html), a sidebar search, or the query
      editor drops below its input. Populate rows + toggle [hidden] from your JS.
      ================================ -->
 
@@ -469,9 +469,9 @@ FOOTER:
 
 
 NAVBAR / SIDEBAR SEARCH — moved to layout.html:
-The palette is opened by a .pa-navbar-search pill (or Ctrl/Cmd+K, or a
-.pa-sidebar__search trigger). Those navbar/sidebar search elements —
-.pa-navbar-search (--field / --input / size variants) and .pa-sidebar__search
+The palette is opened by a .pc-navbar-search pill (or Ctrl/Cmd+K, or a
+.pc-sidebar__search trigger). Those navbar/sidebar search elements —
+.pc-navbar-search (--field / --input / size variants) and .pc-sidebar__search
 (--input) — are shell components documented in layout.html.
 
 
@@ -512,10 +512,10 @@ STRUCTURE PATTERNS:
 
 Navbar trigger + full palette together:
 <!-- In header -->
-<button class="pa-navbar-search" onclick="openCommandPalette()">
-  <span class="pa-navbar-search__icon">🔍</span>
-  <span class="pa-navbar-search__placeholder">Search…</span>
-  <span class="pa-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+<button class="pc-navbar-search" onclick="openCommandPalette()">
+  <span class="pc-navbar-search__icon">🔍</span>
+  <span class="pc-navbar-search__placeholder">Search…</span>
+  <span class="pc-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
 </button>
 
 <!-- Near </body> -->

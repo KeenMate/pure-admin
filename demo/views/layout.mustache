@@ -65,16 +65,18 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Chart.js — used by the KPI showcase "custom chart library" examples -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <!-- Pure Admin runtime namespace (window.pureAdmin: events, viewport, debug) — load first -->
+    <!-- Pure CSS foundation runtime (window.pureCss: events, viewport, device, config) — load FIRST -->
+    <script src="/pure-css-js/pure-css.js"></script>
+    <!-- Pure Admin runtime facade (window.pureAdmin adopts pureCss buses by reference) — load after pure-css -->
     <script src="/src/js/pure-admin.js"></script>
     <!-- Command Palette -->
     <script src="/src/js/command-palette.js"></script>
     <!-- Navbar inline search (search position "A") — demo-only behavior -->
     <script src="/src/js/navbar-search.js"></script>
-    <!-- Fit — priority-driven container degradation (data-pa-fit / -auto / -ignore) -->
-    <script src="/src/js/fit.js"></script>
-    <!-- Container Breakpoint — element width → named mode (data-pa-breakpoints / data-mode) -->
-    <script src="/src/js/container-breakpoint.js"></script>
+    <!-- Fit — priority-driven container degradation (data-pc-fit / -auto / -ignore) — moved to pure-css -->
+    <script src="/pure-css-js/fit.js"></script>
+    <!-- Container Breakpoint — element width → named mode (data-pc-breakpoints / data-mode) — moved to pure-css -->
+    <script src="/pure-css-js/container-breakpoint.js"></script>
     <!-- Toast Service -->
     <script src="/src/js/toast-service.js"></script>
     <!-- Tooltips & Popovers -->
@@ -102,16 +104,16 @@
         };
     </script>
     <script src="/src/js/settings-panel.js"></script>
-    <!-- Sidebar Resize -->
-    <script src="/src/js/sidebar-resize.js"></script>
+    <!-- Sidebar Resize — moved to pure-css -->
+    <script src="/pure-css-js/sidebar-resize.js"></script>
     <script src="/src/js/split-button.js"></script>
     <!-- Splitter -->
     <script src="/src/js/splitter.js"></script>
     <!-- Overflow (progressive-collapse row primitive; card-actions variant included) -->
     <script src="/src/js/overflow.js"></script>
-    <!-- Nav collapse now lives in the one Fit engine (fit.js, data-pa-fit-nav) -->
-    <!-- Navbar dropdown (touch support: first-tap-opens for hover dropdowns) -->
-    <script src="/src/js/navbar-dropdown.js"></script>
+    <!-- Nav collapse now lives in the one Fit engine (fit.js, data-pc-fit-nav) -->
+    <!-- Navbar dropdown (touch support: first-tap-opens for hover dropdowns) — moved to pure-css -->
+    <script src="/pure-css-js/navbar-dropdown.js"></script>
     <!-- Stat fit (fit-to-box number for pa-stat--square[data-pa-stat-fit]) -->
     <script src="/src/js/pa-stat-fit.js"></script>
     <!-- Range group (compact multi-range filter: floating slider panel) -->
@@ -217,7 +219,7 @@
             // Apply sidebar mode to body immediately
             const sidebarMode = '{{sidebarMode}}';
             if (sidebarMode === 'sticky') {
-                document.body.classList.add('pa-layout--sticky');
+                document.body.classList.add('pc-layout--sticky');
             }
 
             // Apply container width to body immediately
@@ -250,27 +252,27 @@
     {{{partials.navbar}}}
 
     <!-- Layout Container (below navbar) -->
-    <div class="pa-layout" id="layoutContainer">
+    <div class="pc-layout" id="layoutContainer">
         <!-- Layout Inner: Sidebar + Content ({{^simpleLayout}}sidebar{{/simpleLayout}}{{#simpleLayout}}no sidebar — content fills full width{{/simpleLayout}}) -->
-        <div class="pa-layout__inner">
+        <div class="pc-layout__inner">
             {{^simpleLayout}}{{{partials.sidebar}}}{{/simpleLayout}}
 
             <!-- Restore submenu states immediately to prevent FOUC -->
             <script>
                 (function() {
-                    document.querySelectorAll('.pa-sidebar__toggle').forEach(button => {
-                        const label = button.querySelector('.pa-sidebar__label');
+                    document.querySelectorAll('.pc-sidebar__toggle').forEach(button => {
+                        const label = button.querySelector('.pc-sidebar__label');
                         if (!label) return;
 
                         const submenuId = label.textContent.toLowerCase().replace(/\s+/g, '-');
                         const savedState = localStorage.getItem(`submenu-${submenuId}`);
 
                         if (savedState === 'open') {
-                            const parentItem = button.closest('.pa-sidebar__item');
-                            const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+                            const parentItem = button.closest('.pc-sidebar__item');
+                            const submenu = parentItem.querySelector('.pc-sidebar__submenu');
                             if (submenu) {
-                                parentItem.classList.add('pa-sidebar__item--open');
-                                submenu.classList.add('pa-sidebar__submenu--open');
+                                parentItem.classList.add('pc-sidebar__item--open');
+                                submenu.classList.add('pc-sidebar__submenu--open');
                             }
                         }
                     });
@@ -278,10 +280,10 @@
             </script>
 
             <!-- Layout Content: Main only -->
-            <div class="pa-layout__content">
+            <div class="pc-layout__content">
                 <!-- Main Content -->
-                <main class="pa-layout__main">
-                    <div class="pa-layout__main__inner">
+                <main class="pc-layout__main">
+                    <div class="pc-layout__main__inner">
                         {{{body}}}
                     </div>
                 </main>
@@ -289,25 +291,25 @@
         </div>
 
         <!-- Footer (outside inner, inside layout) -->
-        <footer class="pa-layout__footer">
+        <footer class="pc-layout__footer">
             <!-- Start Section -->
-            <div class="pa-footer__start self-start">
+            <div class="pc-footer__start self-start">
                 <p class="m-0">&copy; 2024 Pure Admin Visual Framework</p>
             </div>
 
             <!-- Center Section (flexible) -->
-            <div class="pa-footer__center">
+            <div class="pc-footer__center">
                 <!-- Optional center content -->
             </div>
 
             <!-- End Section (vertical layout) -->
-            <div class="pa-footer__end pa-footer__end--vertical">
+            <div class="pc-footer__end pc-footer__end--vertical">
                 <span class="text-sm text-secondary">App version: 1.2.1</span>
                 <span class="text-sm text-secondary">Database version: 2.3.1</span>
                 <a href="#" class="text-sm">Open Source Licenses</a>
             </div>
         </footer>
-    </div><!-- /.pa-layout -->
+    </div><!-- /.pc-layout -->
 
     <!-- Command Palette -->
     <div class="pa-command-palette" id="commandPalette">
@@ -529,7 +531,7 @@
         function toggleSidebar() {
             const body = document.body;
             const burgerMenu = document.querySelector('.burger-menu');
-            const sidebar = document.querySelector('.pa-layout__sidebar');
+            const sidebar = document.querySelector('.pc-layout__sidebar');
             const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
             const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
 
@@ -612,12 +614,12 @@
             const body = document.body;
             if (!body.classList.contains('sidebar-visible')) return;
 
-            const sidebar = document.querySelector('.pa-layout__sidebar');
+            const sidebar = document.querySelector('.pc-layout__sidebar');
             const burger = document.querySelector('.burger-menu');
 
             // Close on any tap OUTSIDE the drawer itself. The backdrop is a CSS
             // ::before on body.sidebar-visible, so a tap on the scrim strip can
-            // report body OR the underlying .pa-layout element as the target —
+            // report body OR the underlying .pc-layout element as the target —
             // the old `event.target === body` check missed the latter and left
             // the drawer stuck open. Exclude the burger (it has its own toggle
             // handler; otherwise the opening tap would immediately re-close).
@@ -742,7 +744,7 @@
         // Close panels when clicking outside
         document.addEventListener('click', (e) => {
             const profilePanel = document.getElementById('profilePanel');
-            const profileBtn = document.querySelector('.pa-navbar__profile-btn');
+            const profileBtn = document.querySelector('.pc-navbar__profile-btn');
             const notificationsPanel = document.getElementById('notificationsPanel');
             const notificationsBtn = document.querySelector('.pa-notifications__btn');
 
@@ -761,24 +763,24 @@
 
         // Sidebar Submenu Functions - No accordion behavior for multilevel support
         function toggleSubmenu(button) {
-            const parentItem = button.closest('.pa-sidebar__item');
-            const submenu = parentItem.querySelector('.pa-sidebar__submenu');
+            const parentItem = button.closest('.pc-sidebar__item');
+            const submenu = parentItem.querySelector('.pc-sidebar__submenu');
 
             if (!submenu) return;
 
-            const isOpen = parentItem.classList.contains('pa-sidebar__item--open');
+            const isOpen = parentItem.classList.contains('pc-sidebar__item--open');
 
             // Simply toggle current submenu without closing others
             if (isOpen) {
-                parentItem.classList.remove('pa-sidebar__item--open');
-                submenu.classList.remove('pa-sidebar__submenu--open');
+                parentItem.classList.remove('pc-sidebar__item--open');
+                submenu.classList.remove('pc-sidebar__submenu--open');
             } else {
-                parentItem.classList.add('pa-sidebar__item--open');
-                submenu.classList.add('pa-sidebar__submenu--open');
+                parentItem.classList.add('pc-sidebar__item--open');
+                submenu.classList.add('pc-sidebar__submenu--open');
             }
 
             // Save state to localStorage
-            const submenuId = button.querySelector('.pa-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
+            const submenuId = button.querySelector('.pc-sidebar__label').textContent.toLowerCase().replace(/\s+/g, '-');
             localStorage.setItem(`submenu-${submenuId}`, !isOpen ? 'open' : 'closed');
         }
 
@@ -792,11 +794,11 @@
             });
 
             // Close all open submenus
-            document.querySelectorAll('.pa-sidebar__item--open').forEach(item => {
-                item.classList.remove('pa-sidebar__item--open');
+            document.querySelectorAll('.pc-sidebar__item--open').forEach(item => {
+                item.classList.remove('pc-sidebar__item--open');
             });
-            document.querySelectorAll('.pa-sidebar__submenu--open').forEach(submenu => {
-                submenu.classList.remove('pa-sidebar__submenu--open');
+            document.querySelectorAll('.pc-sidebar__submenu--open').forEach(submenu => {
+                submenu.classList.remove('pc-sidebar__submenu--open');
             });
 
             console.log('All submenu states cleared');

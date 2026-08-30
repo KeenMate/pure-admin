@@ -270,7 +270,7 @@ app.get('/', (req, res) => {
 });
 
 // Search results — the landing page for the type-and-go search variants
-// (pa-navbar-search--input / pa-sidebar__search--input), which submit here via a
+// (pc-navbar-search--input / pc-sidebar__search--input), which submit here via a
 // native GET. Demo only: it just echoes ?q= so the redirect lands somewhere real;
 // a real app runs the query. {{q}} is Mustache-escaped in the view, so it's safe.
 app.get('/search', (req, res) => {
@@ -702,6 +702,15 @@ app.use('/src/js', express.static(path.join(__dirname, 'js'), {
 // …then fall back to the core package's published src/js for any component whose
 // JS lives only in core (single source of truth — no demo copy to keep in sync).
 app.use('/src/js', express.static(path.join(corePackagePath, 'src', 'js'), {
+    maxAge: 0,
+    etag: true
+}));
+
+// Pure CSS foundation JS (the moved shell engines + the pureCss runtime).
+// The 4 shell engines (fit, navbar-dropdown, sidebar-resize, container-breakpoint)
+// + pure-css.js moved DOWN into @keenmate/pure-css; the demo loads them from here
+// (classic IIFE scripts). Resolved through the workspace node_modules symlink.
+app.use('/pure-css-js', express.static(path.join(__dirname, '..', 'node_modules', '@keenmate', 'pure-css', 'src', 'js'), {
     maxAge: 0,
     etag: true
 }));

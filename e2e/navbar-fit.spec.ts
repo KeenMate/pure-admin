@@ -20,8 +20,8 @@ async function state(page) {
       version: vis('.pa-app-header__version'),
       title: vis('.pa-page-header'),
       search: vis('#navbarSearchTrigger'),
-      wordmarkFull: vis('[data-pa-fit-step="0"]'),
-      monogram: vis('[data-pa-fit-step="1"]')
+      wordmarkFull: vis('[data-pc-fit-step="0"]'),
+      monogram: vis('[data-pc-fit-step="1"]')
     };
   });
 }
@@ -69,8 +69,8 @@ test('header degrades strictly by priority across widths, restores when wide', a
   expect(s).toMatchObject({ version: true, title: true, search: true, wordmarkFull: true, monogram: false });
 });
 
-// data-pa-fit-auto arms a container so untagged children fold too; a declared
-// data-pa-fit still keeps its own priority; data-pa-fit-ignore pins an element
+// data-pc-fit-auto arms a container so untagged children fold too; a declared
+// data-pc-fit still keeps its own priority; data-pc-fit-ignore pins an element
 // out of the fit set entirely. Driven through a controlled row injected into the
 // live demo (real CSS + the real fit.js engine), sized directly.
 test('fit-auto folds untagged children by priority; fit-ignore stays pinned', async ({ page }) => {
@@ -81,14 +81,14 @@ test('fit-auto folds untagged children by priority; fit-ignore stays pinned', as
     const host = document.createElement('div');
     host.id = 'fitHost';
     host.style.cssText = 'position:fixed;top:120px;left:0;width:600px;z-index:99999;background:#fff';
-    // Three equal 150px items in an armed row: IMPL has no data-pa-fit (implicit,
+    // Three equal 150px items in an armed row: IMPL has no data-pc-fit (implicit,
     // default priority 0 → folds first), RANK is a declared slot at priority 50,
-    // PIN carries data-pa-fit-ignore (never folds).
+    // PIN carries data-pc-fit-ignore (never folds).
     host.innerHTML =
-      '<div class="pa-navbar__inner" data-pa-fit-auto style="width:100%">' +
+      '<div class="pa-navbar__inner" data-pc-fit-auto style="width:100%">' +
         '<div id="ft-impl" style="flex:0 0 auto;width:150px">IMPL</div>' +
-        '<div id="ft-rank" data-pa-fit="hide" data-pa-fit-priority="50" style="flex:0 0 auto;width:150px">RANK</div>' +
-        '<button id="ft-pin" data-pa-fit-ignore style="flex:0 0 auto;width:150px">PIN</button>' +
+        '<div id="ft-rank" data-pc-fit="hide" data-pc-fit-priority="50" style="flex:0 0 auto;width:150px">RANK</div>' +
+        '<button id="ft-pin" data-pc-fit-ignore style="flex:0 0 auto;width:150px">PIN</button>' +
       '</div>';
     document.body.appendChild(host);
     (window as any).pureAdmin.components.fit.init(host.firstElementChild);

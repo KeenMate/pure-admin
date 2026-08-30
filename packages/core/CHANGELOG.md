@@ -5,6 +5,69 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc18] - 2026-08-30 [PUBLISHED]
+
+### Changed
+
+- **BREAKING — the app shell moved to `@keenmate/pure-css` and is now `pc-*`
+  prefixed.** The navbar, sidebar, layout scaffold, footer, width containers,
+  and the resize-handle primitive were relocated into the foundation package:
+  `.pa-navbar*` → `.pc-navbar*`, `.pa-sidebar*` → `.pc-sidebar*`, `.pa-layout*`
+  → `.pc-layout*`, `.pa-footer*` → `.pc-footer*`, `.pa-container-*` →
+  `.pc-container-*`, plus `pa-app-header`/`pa-page-header`/`pa-navmenu`. Core now
+  re-exports the shell SCSS via `@forward '@keenmate/pure-css/...'` shims, so the
+  bundled `dist/css/main.css` is byte-identical for these components — but any
+  hand-authored markup and downstream wrappers must switch to the `pc-*` classes.
+  Data/admin components (cards, tables, KPI, command palette, …) stay `pa-*`.
+- **BREAKING — the shell JS engines moved to `@keenmate/pure-css`.** `fit.js`,
+  `navbar-dropdown.js`, `sidebar-resize.js`, and `container-breakpoint.js` now
+  live in the foundation and register on `window.pureCss`. Core keeps one-line
+  ES shims at `src/js/<engine>.js` (so `@keenmate/pure-admin-core/js/fit.js`
+  still resolves), and `src/js/pure-admin.js` is now an **adopt-and-extend
+  facade**: it shares pure-css's `config`/`events`/`viewport` by reference and
+  makes `window.pureAdmin.components` read through to `window.pureCss.components`
+  via `Object.create`. Result: existing `window.pureAdmin.components.fit` call
+  sites keep working with zero changes, while a standalone pure-css page gets a
+  working shell on its own.
+- **BREAKING — fit-engine hooks are now `pc-`/`data-pc-`/`pc:` prefixed** to
+  match their new home: `data-pc-fit*`, `data-pc-fit-nav`, `data-pc-breakpoints`,
+  `data-pc-show`, `.pc-fit-hidden`/`.pc-fit-flyout`, and the `pc:fit-relocate` /
+  `pc:breakpoint` custom events.
+- **Depends on `@keenmate/pure-css` `^1.0.0-rc05`** (was a foundation of tokens +
+  reboot + grid + utilities; now also ships the app shell CSS **and** JS).
+
+### Added
+
+- **Pluggable relocation sinks for the fit engine.** `data-pc-fit="relocate"` +
+  `data-pc-fit-target="sidebar|floating-menu|#custom"` names a *destination*, not
+  a mechanism; register your own with `fit.registerSink(name, { out, in })`. Ships
+  a self-contained `floating-menu` sink (a `•••` overflow flyout, no sidebar
+  dependency) alongside the `sidebar` sink. fit is now a pure detector that emits
+  a cancelable `pc:fit-relocate` event; `data-pc-fit-managed` opts a slot into
+  "hands-off" mode so a framework re-renders it from state instead of fit moving
+  a (potentially stale) DOM node.
+- **Nav collapse merged into the fit engine** (`data-pc-fit-nav`, `fit.initNav`).
+  Progressive top-nav collapse into the sidebar (recursive rebuild:
+  leaf → link, dropdown → collapsible toggle group) or a generated "More ▾" menu
+  now runs on the one degradation engine, with nav-specific bbox measurement so
+  hover-dropdowns aren't clipped.
+- **Responsivity demo** — a new `/responsivity` explainer covering both engines
+  (fit + container-breakpoint), the sink architecture, and a live floating-menu
+  relocate demo; "Fit to Size" moved under it.
+
+### Removed
+
+- **`navbar-collapse.js` — deleted.** Its entire engine (sidebar rebuild + "More"
+  menu + nav measurement) was ported into `fit.js`; nav collapse is now
+  `data-pc-fit-nav`. `data-pa-fit="sidebar"` remains as a legacy alias for
+  `relocate target=sidebar`.
+
+### Fixed
+
+- **Restore-on-widen for relocated slots now actually works.** The old `sidebar`
+  strategy moved a node out of its container so the engine could never find it to
+  restore; relocation is now a pure function of width (placeholder-based reset).
+
 ## [2.9.0-rc17] - 2026-08-27 [PUBLISHED]
 
 ### Added

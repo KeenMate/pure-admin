@@ -20,6 +20,7 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 
 | Component | Block | Status | Reason |
 |---|---|:--:|---|
+| Scroll lock | `pa-scroll-lock` | todo | Dedicated snippet owed. |
 | Settings panel | `pa-settings-panel` | deferred | Demo-internal composition; no standalone public contract yet. |
 | Data-viz primitives | `pa-bar-list` | deferred | D3-driven; a static HTML snippet is too thin to be useful. Documented via demo only. |
 | Logic tree | `pa-logic-tree` | deferred | API not yet stable — a snippet would chase a moving target. |
@@ -27,5 +28,5 @@ The systematic sweep behind the snippet walkthrough: for each `pa-*` component i
 
 ## Full structural coverage + reference block
 
-`Layout shell`, `Navbar`, `Navbar search`, `App header`, `Page header`, `Nav menu`, `Sidebar`, `Footer`, `Width containers`, `Card`, `Section`, `Splitter`, `Modal`, `Tabs`, `Detail panel`, `Profile panel`, `Table card`, `Form layout`, `Text input`, `Textarea`, `Select`, `Input group`, `Input wrapper / token field`, `Checkbox`, `Radio`, `Checkbox list`, `Range slider`, `Range group`, `Inline query editor`, `Filter card`, `Button`, `Pager`, `Popconfirm`, `Table`, `Comparison table`, `List`, `Code block`, `Data display (field lists)`, `Statistics / stat cards`, `KPI showcase — shared base`, `KPI showcase — terminal`, `KPI showcase — sparkline list`, `KPI showcase — comparison gauges`, `KPI showcase — hero + supporting`, `KPI showcase — bento`, `KPI showcase — numeric strip`, `KPI showcase — editorial minimal`, `Alert`, `Callout`, `Toast`, `Notifications`, `Tooltip`, `Popover`, `Loaders / spinners`, `Timeline`, `Badge`, `Label`, `Composite badge`, `Command palette`, `Search results`, `Icon`, `Utilities & state hooks`
+`Card`, `Section`, `Splitter`, `Modal`, `Tabs`, `Detail panel`, `Profile panel`, `Table card`, `Form layout`, `Text input`, `Textarea`, `Select`, `Input group`, `Input wrapper / token field`, `Checkbox`, `Radio`, `Checkbox list`, `Range slider`, `Range group`, `Inline query editor`, `Filter card`, `Button`, `Pager`, `Popconfirm`, `Table`, `Comparison table`, `List`, `Code block`, `Data display (field lists)`, `Statistics / stat cards`, `KPI showcase — shared base`, `KPI showcase — terminal`, `KPI showcase — sparkline list`, `KPI showcase — comparison gauges`, `KPI showcase — hero + supporting`, `KPI showcase — bento`, `KPI showcase — numeric strip`, `KPI showcase — editorial minimal`, `Alert`, `Callout`, `Toast`, `Notifications`, `Tooltip`, `Popover`, `Loaders / spinners`, `Timeline`, `Badge`, `Label`, `Composite badge`, `Command palette`, `Search results`, `Icon`, `Utilities & state hooks`
 

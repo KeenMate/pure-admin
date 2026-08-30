@@ -387,18 +387,18 @@
             // Sidebar behavior
             const sidebarBehavior = localStorage.getItem('sidebar-behavior') || 'hide';
             sidebarBehaviorSelector.value = sidebarBehavior;
-            const sidebar = document.querySelector('.pa-layout__sidebar');
+            const sidebar = document.querySelector('.pc-layout__sidebar');
             const burgerMenu = document.querySelector('.burger-menu');
             const isMobile = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
             if (sidebar) {
-                sidebar.classList.remove('pa-layout__sidebar--icon-collapse');
+                sidebar.classList.remove('pc-layout__sidebar--icon-collapse');
                 if (isMobile) {
                     // Mobile: sidebar is always hidden initially, burger shows hamburger
                     if (burgerMenu) {
                         burgerMenu.classList.remove('active');
                     }
                 } else if (sidebarBehavior === 'icon-collapse') {
-                    sidebar.classList.add('pa-layout__sidebar--icon-collapse');
+                    sidebar.classList.add('pc-layout__sidebar--icon-collapse');
                     // In icon-collapse mode, check if expanded or collapsed
                     const isExpanded = !body.classList.contains('sidebar-hidden');
                     if (burgerMenu) {
@@ -424,7 +424,7 @@
             const isSidebarResizable = localStorage.getItem('sidebar-resizable') === 'true';
             sidebarResizable.checked = isSidebarResizable;
             if (isSidebarResizable && sidebar) {
-                sidebar.classList.add('pa-layout__sidebar--resizable');
+                sidebar.classList.add('pc-layout__sidebar--resizable');
                 // Trigger resize init if the module is loaded
                 if (window.pureAdmin.components.sidebarResize && window.pureAdmin.components.sidebarResize.init) {
                     window.pureAdmin.components.sidebarResize.init();
@@ -470,7 +470,7 @@
             }
 
             // Container width - read from body class
-            const containerWidthClasses = ['pa-container-sm', 'pa-container-md', 'pa-container-lg', 'pa-container-xl', 'pa-container-2xl'];
+            const containerWidthClasses = ['pc-container-sm', 'pc-container-md', 'pc-container-lg', 'pc-container-xl', 'pc-container-2xl'];
             let currentContainerWidth = 'fluid';
             for (const cls of containerWidthClasses) {
                 if (body.classList.contains(cls)) {
@@ -481,7 +481,7 @@
             containerWidthSelector.value = currentContainerWidth;
 
             // Sidebar mode - check if body has sticky class
-            const currentSidebarMode = body.classList.contains('pa-layout--sticky') ? 'sticky' : '';
+            const currentSidebarMode = body.classList.contains('pc-layout--sticky') ? 'sticky' : '';
             sidebarModeSelector.value = currentSidebarMode;
         };
 
@@ -607,19 +607,19 @@
 
         // Sidebar resizable toggle
         sidebarResizable.addEventListener('change', (e) => {
-            const sidebar = document.querySelector('.pa-layout__sidebar');
+            const sidebar = document.querySelector('.pc-layout__sidebar');
             if (e.target.checked) {
-                sidebar.classList.add('pa-layout__sidebar--resizable');
+                sidebar.classList.add('pc-layout__sidebar--resizable');
                 localStorage.setItem('sidebar-resizable', 'true');
                 // Initialize resize functionality
                 if (window.pureAdmin.components.sidebarResize && window.pureAdmin.components.sidebarResize.init) {
                     window.pureAdmin.components.sidebarResize.init();
                 }
             } else {
-                sidebar.classList.remove('pa-layout__sidebar--resizable');
+                sidebar.classList.remove('pc-layout__sidebar--resizable');
                 localStorage.setItem('sidebar-resizable', 'false');
                 // Remove resize handle if it exists
-                const handle = sidebar.querySelector('.pa-sidebar-resize');
+                const handle = sidebar.querySelector('.pc-sidebar-resize');
                 if (handle) handle.remove();
             }
         });
@@ -711,16 +711,16 @@
         // Sidebar behavior change
         sidebarBehaviorSelector.addEventListener('change', (e) => {
             const behavior = e.target.value;
-            const sidebar = document.querySelector('.pa-layout__sidebar');
+            const sidebar = document.querySelector('.pc-layout__sidebar');
             const burgerMenu = document.querySelector('.burger-menu');
 
             if (sidebar) {
-                sidebar.classList.remove('pa-layout__sidebar--icon-collapse');
+                sidebar.classList.remove('pc-layout__sidebar--icon-collapse');
                 document.body.classList.remove('sidebar-hidden');
 
                 if (behavior === 'icon-collapse') {
                     // Show icon-only sidebar in collapsed state
-                    sidebar.classList.add('pa-layout__sidebar--icon-collapse');
+                    sidebar.classList.add('pc-layout__sidebar--icon-collapse');
                     // Start in collapsed state (icon bar showing)
                     if (burgerMenu) burgerMenu.classList.remove('active'); // Not expanded, show hamburger
                     localStorage.setItem('sidebar-hidden', 'false'); // Not fully hidden, just in icon mode

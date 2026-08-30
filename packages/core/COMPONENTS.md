@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **2.9.0-rc15** · **66** components · **166** blocks · **652** class selectors.
+Framework version **2.9.0-rc17** · **58** components · **149** blocks · **601** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -12,15 +12,7 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 
 | Component | Block | Category | Snippet | Demo |
 |---|---|---|:--:|:--:|
-| Layout shell | `pa-layout` | Layout & shell | ✓ | ✓ |
-| Navbar | `pa-navbar` | Layout & shell | ✓ | ✓ |
-| Navbar search | `pa-navbar-search` | Layout & shell | ✓ | ✓ |
-| App header | `pa-app-header` | Layout & shell | ✓ | ✗ |
-| Page header | `pa-page-header` | Layout & shell | ✓ | ✗ |
-| Nav menu | `pa-navmenu` | Layout & shell | ✓ | ✗ |
-| Sidebar | `pa-sidebar` | Layout & shell | ✓ | ✓ |
-| Footer | `pa-footer` | Layout & shell | ✓ | ✗ |
-| Width containers | `pa-container-2xl` | Layout & shell | ✓ | ✗ |
+| Scroll lock | `pa-scroll-lock` | Layout & shell | ✗ | ✗ |
 | Card | `pa-card` | Surfaces | ✓ | ✓ |
 | Section | `pa-section` | Surfaces | ✓ | ✗ |
 | Splitter | `pa-splitter` | Surfaces | ✓ | ✓ |
@@ -81,95 +73,13 @@ This catalog is the checklist for validating generated markup in the svelte / ph
 
 ## Layout & shell
 
-### Layout shell — `pa-layout`
+### Scroll lock — `pa-scroll-lock`
 
-Top-level page frame: header / sidebar / main / footer zones, sticky mode, and the scroll-lock body hook. (Light/dark mode scopes are now the foundation-owned .pc-mode-* classes — see pure-css.)
+Body hook (utility) that locks background scroll while a drawer/overlay is open.
 
-- **Blocks:** `pa-layout`, `pa-scroll-lock`
-- **Elements:** `pa-layout__content`, `pa-layout__footer`, `pa-layout__inner`, `pa-layout__main`, `pa-layout__sidebar`
-- **Modifiers / states:** `pa-layout--sticky`, `pa-layout__sidebar--icon-collapse`
-- **SCSS:** `core-components/_utilities.scss`, `core-components/layout/_layout-container.scss`
-- **Snippet:** `layout.html`
-- **Demo:** `layout.mustache`, `layouts.mustache`
-
-### Navbar — `pa-navbar`
-
-Top application bar with start/center/end zones, mobile burger, and profile button.
-
-- **Blocks:** `pa-navbar`
-- **Elements:** `pa-navbar__burger`, `pa-navbar__center`, `pa-navbar__end`, `pa-navbar__inner`, `pa-navbar__profile-btn`, `pa-navbar__profile-name`, `pa-navbar__start`
-- **SCSS:** `core-components/layout/_navbar.scss`
-- **Snippet:** `layout.html`
-- **Demo:** `navbar.mustache`
-
-### Navbar search — `pa-navbar-search`
-
-Inline search field embedded in the navbar (opens the command palette).
-
-- **Blocks:** `pa-navbar-search`
-- **Elements:** `pa-navbar-search__icon`
-- **Modifiers / states:** `pa-navbar-search--field`, `pa-navbar-search--input`
-- **SCSS:** `core-components/_command-palette.scss`
-- **Snippet:** `layout.html`
-- **Demo:** `navbar.mustache`
-
-### App header — `pa-app-header`
-
-Branding/title block at the top of the app shell.
-
-- **Blocks:** `pa-app-header`
-- **SCSS:** `core-components/layout/_navbar-elements.scss`
-- **Snippet:** `layout.html`
-- **Demo:** ✗ none
-
-### Page header — `pa-page-header`
-
-Per-page title + actions header below the navbar.
-
-- **Blocks:** `pa-page-header`
-- **SCSS:** `core-components/layout/_navbar-elements.scss`
-- **Snippet:** `layout.html`
-- **Demo:** ✗ none
-
-### Nav menu — `pa-navmenu`
-
-Horizontal navigation menu with dropdowns and priority-driven overflow "more" menu.
-
-- **Blocks:** `pa-navmenu`
-- **Elements:** `pa-navmenu__dropdown`
-- **Modifiers / states:** `pa-navmenu__item--active`, `pa-navmenu__item--has-dropdown`, `pa-navmenu__more-menu--open`
-- **SCSS:** `core-components/layout/_layout-responsive.scss`, `core-components/layout/_navbar-elements.scss`
-- **Snippet:** `layout.html`
-- **Demo:** ✗ none
-
-### Sidebar — `pa-sidebar`
-
-Collapsible side navigation with nested submenus, search, and drag-to-resize (marker + resize handle + resizing/resized body states).
-
-- **Blocks:** `pa-sidebar`, `pa-sidebar-resize`, `pa-sidebar-resized`, `pa-sidebar-resizing`
-- **Elements:** `pa-sidebar__chevron`, `pa-sidebar__icon`, `pa-sidebar__item`, `pa-sidebar__label`, `pa-sidebar__link`, `pa-sidebar__nav`, `pa-sidebar__search-field`, `pa-sidebar__search-icon`, `pa-sidebar__submenu`, `pa-sidebar__toggle`
-- **Modifiers / states:** `pa-sidebar__item--open`
-- **SCSS:** `core-components/layout/_layout-responsive.scss`, `core-components/layout/_sidebar.scss`
-- **Snippet:** `layout.html`
-- **Demo:** `sidebar.mustache`
-
-### Footer — `pa-footer`
-
-App footer with start/center/end content zones (container is pa-layout__footer).
-
-- **Blocks:** —
-- **Elements:** `pa-footer__center`, `pa-footer__end`, `pa-footer__start`
-- **SCSS:** `core-components/layout/_layout-container.scss`
-- **Snippet:** `layout.html`
-- **Demo:** ✗ none
-
-### Width containers — `pa-container-2xl`
-
-Max-width centering containers (sm/md/lg/xl/2xl).
-
-- **Blocks:** `pa-container-2xl`, `pa-container-lg`, `pa-container-md`, `pa-container-sm`, `pa-container-xl`
-- **SCSS:** —
-- **Snippet:** `layout.html`
+- **Blocks:** `pa-scroll-lock`
+- **SCSS:** `core-components/_utilities.scss`
+- **Snippet:** ✗ none
 - **Demo:** ✗ none
 
 ## Surfaces
@@ -770,9 +680,9 @@ Mask-based icon element (pa-icon--x etc.).
 
 ### Utilities & state hooks — `pa-bg-color`
 
-Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers, fit-hidden. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).
+Standalone helper classes (not components): text/link helpers, responsive font hooks, colour helpers. See utilities.scss for the full utility set (spacing, sizing, pc-col-* percentages, logical margins, etc.).
 
-- **Blocks:** `pa-bg-color`, `pa-border-color`, `pa-fit-hidden`, `pa-font-base`, `pa-font-mobile`, `pa-font-responsive`, `pa-link`, `pa-text`, `pa-text-color`
-- **SCSS:** `core-components/_utilities.scss`, `core-components/layout/_navbar-elements.scss`
+- **Blocks:** `pa-bg-color`, `pa-border-color`, `pa-font-base`, `pa-font-mobile`, `pa-font-responsive`, `pa-link`, `pa-text`, `pa-text-color`
+- **SCSS:** `core-components/_utilities.scss`
 - **Snippet:** `utilities.html`
 - **Demo:** ✗ none

@@ -55,33 +55,33 @@
     .resp-legend { font-size: var(--pc-font-size-sm, 1.4rem); color: var(--pc-text-color-2); }
 
     /* ---- Fallback mirror of core _fit-flyout.scss (see note above) ---------- */
-    .pa-fit-flyout__trigger {
+    .pc-fit-flyout__trigger {
         display: inline-flex; align-items: center; justify-content: center;
         flex: 0 0 auto; width: 2.8rem; height: 2.8rem; padding: 0;
         border: 1px solid transparent; border-radius: var(--pc-border-radius);
         background: transparent; color: inherit; cursor: pointer;
     }
-    .pa-fit-flyout__trigger:hover { background: var(--pc-hover-bg, rgba(0,0,0,.05)); }
-    .pa-fit-flyout__trigger[aria-expanded="true"] { background: var(--pc-hover-bg, rgba(0,0,0,.08)); }
-    .pa-fit-flyout__dots,
-    .pa-fit-flyout__dots::before,
-    .pa-fit-flyout__dots::after {
+    .pc-fit-flyout__trigger:hover { background: var(--pc-hover-bg, rgba(0,0,0,.05)); }
+    .pc-fit-flyout__trigger[aria-expanded="true"] { background: var(--pc-hover-bg, rgba(0,0,0,.08)); }
+    .pc-fit-flyout__dots,
+    .pc-fit-flyout__dots::before,
+    .pc-fit-flyout__dots::after {
         width: .4rem; height: .4rem; border-radius: 50%; background: currentColor;
     }
-    .pa-fit-flyout__dots { position: relative; }
-    .pa-fit-flyout__dots::before,
-    .pa-fit-flyout__dots::after { content: ""; position: absolute; top: 0; }
-    .pa-fit-flyout__dots::before { inset-inline-start: -.7rem; }
-    .pa-fit-flyout__dots::after { inset-inline-start: .7rem; }
-    .pa-fit-flyout__panel {
+    .pc-fit-flyout__dots { position: relative; }
+    .pc-fit-flyout__dots::before,
+    .pc-fit-flyout__dots::after { content: ""; position: absolute; top: 0; }
+    .pc-fit-flyout__dots::before { inset-inline-start: -.7rem; }
+    .pc-fit-flyout__dots::after { inset-inline-start: .7rem; }
+    .pc-fit-flyout__panel {
         position: fixed; z-index: 4010; display: none;
         min-width: 20rem; max-width: 32rem; padding: 0.5rem;
         background: var(--pc-card-bg); border: 1px solid var(--pc-border-color);
         border-radius: var(--pc-border-radius); box-shadow: 0 4px 12px rgba(0,0,0,.15);
     }
-    .pa-fit-flyout__panel--open { display: block; }
-    .pa-fit-flyout__item { padding: 0.4rem 0.5rem; }
-    .pa-fit-flyout__item + .pa-fit-flyout__item { border-top: 1px solid var(--pc-border-color); }
+    .pc-fit-flyout__panel--open { display: block; }
+    .pc-fit-flyout__item { padding: 0.4rem 0.5rem; }
+    .pc-fit-flyout__item + .pc-fit-flyout__item { border-top: 1px solid var(--pc-border-color); }
 </style>
 
 <h1 class="mb-2">Responsivity — how it works</h1>
@@ -132,8 +132,8 @@
             </tr>
             <tr>
                 <td><strong>Event</strong></td>
-                <td><code>pa:fit-relocate</code> (on a relocated slot)</td>
-                <td><code>pa:breakpoint</code> (on mode flip)</td>
+                <td><code>pc:fit-relocate</code> (on a relocated slot)</td>
+                <td><code>pc:breakpoint</code> (on mode flip)</td>
             </tr>
         </tbody>
     </table>
@@ -151,20 +151,20 @@
     attributes:
 </p>
 
-<pre class="resp-code">&lt;div class="toolbar" data-pa-fit-default-priority="20"&gt;
-  &lt;span data-pa-fit="steps" data-pa-fit-priority="30"&gt;   &lt;!-- full → smaller → gone --&gt;
-    &lt;span data-pa-fit-step="0"&gt;Pure Admin&lt;/span&gt;
-    &lt;span data-pa-fit-step="1"&gt;PA&lt;/span&gt;
+<pre class="resp-code">&lt;div class="toolbar" data-pc-fit-default-priority="20"&gt;
+  &lt;span data-pc-fit="steps" data-pc-fit-priority="30"&gt;   &lt;!-- full → smaller → gone --&gt;
+    &lt;span data-pc-fit-step="0"&gt;Pure Admin&lt;/span&gt;
+    &lt;span data-pc-fit-step="1"&gt;PA&lt;/span&gt;
   &lt;/span&gt;
-  &lt;span data-pa-fit="hide" data-pa-fit-priority="10"&gt;v2.9.0&lt;/span&gt; &lt;!-- drops first --&gt;
-  &lt;button data-pa-fit-ignore&gt;Save&lt;/button&gt;                 &lt;!-- pinned, never yields --&gt;
+  &lt;span data-pc-fit="hide" data-pc-fit-priority="10"&gt;v2.9.0&lt;/span&gt; &lt;!-- drops first --&gt;
+  &lt;button data-pc-fit-ignore&gt;Save&lt;/button&gt;                 &lt;!-- pinned, never yields --&gt;
 &lt;/div&gt;</pre>
 
 <ul class="resp-legend mb-4">
-    <li><code>data-pa-fit="hide"</code> — remove the slot when it must yield.</li>
-    <li><code>data-pa-fit="steps"</code> — show the largest ranked variant that fits (logo → wordmark → monogram).</li>
-    <li><code>data-pa-fit="relocate"</code> — move the slot somewhere else entirely (next section).</li>
-    <li><code>data-pa-fit-priority</code> — lower degrades first; <code>data-pa-fit-auto</code> folds in every child of a container; <code>data-pa-fit-ignore</code> pins one out.</li>
+    <li><code>data-pc-fit="hide"</code> — remove the slot when it must yield.</li>
+    <li><code>data-pc-fit="steps"</code> — show the largest ranked variant that fits (logo → wordmark → monogram).</li>
+    <li><code>data-pc-fit="relocate"</code> — move the slot somewhere else entirely (next section).</li>
+    <li><code>data-pc-fit-priority</code> — lower degrades first; <code>data-pc-fit-auto</code> folds in every child of a container; <code>data-pc-fit-ignore</code> pins one out.</li>
 </ul>
 
 <!-- ============================================================
@@ -176,7 +176,7 @@
     row</strong> into a named destination and comes back on widen. Crucially, the
     Fit engine only <strong>decides</strong> a slot must yield; <em>where</em> it
     goes is a pluggable <strong>sink</strong> named by
-    <code>data-pa-fit-target</code>. Two sinks ship built-in:
+    <code>data-pc-fit-target</code>. Two sinks ship built-in:
 </p>
 <ul class="resp-legend mb-3">
     <li><code>target="floating-menu"</code> — folds into a "•••" flyout panel. Self-contained; needs no sidebar.</li>
@@ -187,7 +187,7 @@
 <p class="resp-legend"><strong>Live — drag to narrow the bar.</strong> The badge
     cluster is one <code>relocate</code> slot targeting <code>floating-menu</code>;
     when the bar runs out of room it folds into the "•••" panel, and returns when
-    you widen. "New" is pinned with <code>data-pa-fit-ignore</code>.</p>
+    you widen. "New" is pinned with <code>data-pc-fit-ignore</code>.</p>
 
 <div class="resp-slider-row">
     <span>Bar width</span>
@@ -200,17 +200,17 @@
     <div class="resp-bar" id="respBar">
         <span class="resp-bar__brand">Acme Console</span>
         <span class="resp-stats"
-              data-pa-fit="relocate" data-pa-fit-target="floating-menu" data-pa-fit-priority="10">
+              data-pc-fit="relocate" data-pc-fit-target="floating-menu" data-pc-fit-priority="10">
             <span class="pa-badge pa-badge--color-1">Users&nbsp;123</span>
             <span class="pa-badge pa-badge--color-3">Rooms&nbsp;23</span>
             <span class="pa-badge pa-badge--color-5">Subs&nbsp;45</span>
         </span>
         <span class="resp-bar__spacer"></span>
-        <button class="pa-btn pa-btn--sm pa-btn--primary" data-pa-fit-ignore>New</button>
+        <button class="pa-btn pa-btn--sm pa-btn--primary" data-pc-fit-ignore>New</button>
     </div>
 </div>
 
-<pre class="resp-code">&lt;span data-pa-fit="relocate" data-pa-fit-target="floating-menu"&gt;
+<pre class="resp-code">&lt;span data-pc-fit="relocate" data-pc-fit-target="floating-menu"&gt;
   &lt;span class="pa-badge"&gt;Users 123&lt;/span&gt; …
 &lt;/span&gt;</pre>
 
@@ -228,13 +228,13 @@
 <h2 class="mt-4 mb-2">3 · The event &amp; hands-off mode (Svelte / Phoenix)</h2>
 <p>
     Before it moves anything, Fit fires a cancelable
-    <code>pa:fit-relocate</code> event on the slot
+    <code>pc:fit-relocate</code> event on the slot
     (<code>detail = { action: 'out' | 'in', target, container }</code>). A plain
     HTML page lets the built-in sink do the DOM move. A reactive framework does
     the opposite: it <strong>owns placement itself</strong>.
 </p>
 <p>
-    Set <code>data-pa-fit-managed</code> (or call <code>preventDefault()</code>)
+    Set <code>data-pc-fit-managed</code> (or call <code>preventDefault()</code>)
     and Fit performs <strong>no DOM surgery</strong> — it only hides the slot
     in-row and tells you it flipped. The framework then re-renders the block in
     its new home <em>from state</em>. That solves the staleness trap: a moved DOM
@@ -245,7 +245,7 @@
 <pre class="resp-code">// fit fires a DOM CustomEvent on the slot. In managed mode NO node is moved —
 // you attach the listener the way your framework attaches DOM listeners.
 // Plain JS (works everywhere):
-el.addEventListener('pa:fit-relocate', (e) =&gt; {
+el.addEventListener('pc:fit-relocate', (e) =&gt; {
   relocated = (e.detail.action === 'out');   // then RE-RENDER the block from state
 });
 
@@ -259,7 +259,7 @@ el.addEventListener('pa:fit-relocate', (e) =&gt; {
 {/if}</pre>
 
 <div class="pa-callout pa-callout--info mb-4">
-    Same contract in Phoenix LiveView: the hook forwards <code>pa:fit-relocate</code>
+    Same contract in Phoenix LiveView: the hook forwards <code>pc:fit-relocate</code>
     with <code>pushEvent</code>, the server assigns the mode, and only the branch
     for the current placement is rendered — never a stale off-screen copy.
 </div>
@@ -276,16 +276,16 @@ el.addEventListener('pa:fit-relocate', (e) =&gt; {
     push to the server).
 </p>
 
-<pre class="resp-code">&lt;div phx-hook="…" data-pa-breakpoints='{"icons":0,"tabs":34,"grid":64}'
-     data-pa-breakpoint-initial="tabs"&gt;
-  &lt;div data-pa-show="grid"&gt;…rich grid…&lt;/div&gt;        &lt;!-- .d-none unless mode = grid --&gt;
-  &lt;div data-pa-show="tabs icons"&gt;…compact…&lt;/div&gt;
+<pre class="resp-code">&lt;div phx-hook="…" data-pc-breakpoints='{"icons":0,"tabs":34,"grid":64}'
+     data-pc-breakpoint-initial="tabs"&gt;
+  &lt;div data-pc-show="grid"&gt;…rich grid…&lt;/div&gt;        &lt;!-- .d-none unless mode = grid --&gt;
+  &lt;div data-pc-show="tabs icons"&gt;…compact…&lt;/div&gt;
 &lt;/div&gt;</pre>
 
 <ul class="resp-legend mb-3">
-    <li>Thresholds are <strong>rem</strong> by default (root font is 10px, so <code>34</code> = 340px, <code>64</code> = 640px); add <code>data-pa-breakpoint-unit="px"</code> for pixels.</li>
-    <li>The engine reflects the band to <code>[data-mode]</code> (CSS can key off it) and toggles <code>.d-none</code> on <code>data-pa-show</code> pieces.</li>
-    <li>It fires <code>pa:breakpoint</code> only on a flip — the hook for "mount on demand" (build the chart in <code>grid</code>, destroy it otherwise).</li>
+    <li>Thresholds are <strong>rem</strong> by default (root font is 10px, so <code>34</code> = 340px, <code>64</code> = 640px); add <code>data-pc-breakpoint-unit="px"</code> for pixels.</li>
+    <li>The engine reflects the band to <code>[data-mode]</code> (CSS can key off it) and toggles <code>.d-none</code> on <code>data-pc-show</code> pieces.</li>
+    <li>It fires <code>pc:breakpoint</code> only on a flip — the hook for "mount on demand" (build the chart in <code>grid</code>, destroy it otherwise).</li>
     <li>A small <strong>hysteresis</strong> dead-band stops flip-flopping right at a threshold — important, because a flip mounts/unmounts, not just a CSS toggle.</li>
 </ul>
 

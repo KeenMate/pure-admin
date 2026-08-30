@@ -187,13 +187,13 @@ localStorage.setItem('font-size', 'large');
 <div class="d-inline-flex">inline-flex</div>
 
 <!-- JS state hook (not a hand-authored utility). fit.js toggles
-     .pa-fit-hidden to drop a header slot / an inactive priority step from
+     .pc-fit-hidden to drop a header slot / an inactive priority step from
      the row. It's display:none !important (beats a component's own display,
-     e.g. .pa-navbar-search { display:flex }); "show" just removes the class
+     e.g. .pc-navbar-search { display:flex }); "show" just removes the class
      so the element reverts to its stylesheet display. Author non-first fit
      steps WITH this class so only the largest variant shows before JS runs
      (no stacked-variant flash, no-JS-safe). -->
-<div class="pa-navbar-search pa-fit-hidden">Inactive fit step (hidden until fit.js promotes it)</div>
+<div class="pc-navbar-search pc-fit-hidden">Inactive fit step (hidden until fit.js promotes it)</div>
 
 
 <!-- ================================
@@ -449,7 +449,7 @@ localStorage.setItem('font-size', 'large');
      CONTAINER QUERY HELPER
      Used to establish a containment context for the grid's responsive
      column classes (pc-col-sm-*, -md-*, etc.) outside the default
-     .pa-layout__main ancestor. See grid.html for the full story.
+     .pc-layout__main ancestor. See grid.html for the full story.
      ================================ -->
 
 <div class="pc-cq">
@@ -595,7 +595,7 @@ GAP (on flex / grid containers):
 
 DISPLAY:
 - d-none · d-inline · d-inline-block · d-block · d-flex · d-inline-flex
-- pa-fit-hidden      JS state hook (fit.js), NOT a utility you toggle
+- pc-fit-hidden      JS state hook (fit.js), NOT a utility you toggle
                      by hand. display:none !important so it beats a
                      component's own display; removing the class reverts to
                      the element's stylesheet display. Pre-seed inactive fit
@@ -694,7 +694,7 @@ BODY MODES:
 CONTAINER QUERIES:
 - pc-cq                         container-type: inline-size; enables
                                 responsive column classes (pc-col-sm-*,
-                                etc.) outside of .pa-layout__main.
+                                etc.) outside of .pc-layout__main.
 
 LOGICAL vs PHYSICAL:
 The framework ships both. Logical classes (ms-*, me-*, ps-*, pe-*,

@@ -19,80 +19,80 @@
   -->
   <link rel="stylesheet" href="../dist/css/main.css">
 </head>
-<body class="pa-layout--sticky">
+<body class="pc-layout--sticky">
 
   <!-- ============ NAVBAR ============ -->
-  <nav class="pa-navbar">
-    <div class="pa-navbar__inner">
-      <div class="pa-navbar__start">
-        <button class="pa-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+  <nav class="pc-navbar">
+    <div class="pc-navbar__inner">
+      <div class="pc-navbar__start">
+        <button class="pc-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
           <span></span><span></span><span></span>
         </button>
-        <div class="pa-app-header"><h1>Pure Admin</h1></div>
+        <div class="pc-app-header"><h1>Pure Admin</h1></div>
       </div>
 
-      <div class="pa-navbar__center">
-        <div class="pa-page-header"><h2>Dashboard</h2></div>
+      <div class="pc-navbar__center">
+        <div class="pc-page-header"><h2>Dashboard</h2></div>
       </div>
 
-      <div class="pa-navbar__end">
-        <button class="pa-navbar__profile-btn" aria-label="User profile">
+      <div class="pc-navbar__end">
+        <button class="pc-navbar__profile-btn" aria-label="User profile">
           <span class="pa-btn__icon">👤</span>
-          <span class="pa-navbar__profile-name">Jane Doe</span>
+          <span class="pc-navbar__profile-name">Jane Doe</span>
         </button>
       </div>
     </div>
   </nav>
 
   <!-- ============ LAYOUT ============ -->
-  <div class="pa-layout">
-    <div class="pa-layout__inner">
+  <div class="pc-layout">
+    <div class="pc-layout__inner">
 
       <!-- Sidebar -->
-      <aside class="pa-layout__sidebar">
-        <nav class="pa-sidebar__nav">
+      <aside class="pc-layout__sidebar">
+        <nav class="pc-sidebar__nav">
           <ul>
-            <li class="pa-sidebar__item">
-              <a href="#" class="pa-sidebar__link pa-sidebar__link--active">
-                <span class="pa-sidebar__icon">📊</span>
-                <span class="pa-sidebar__label">Dashboard</span>
+            <li class="pc-sidebar__item">
+              <a href="#" class="pc-sidebar__link pc-sidebar__link--active">
+                <span class="pc-sidebar__icon">📊</span>
+                <span class="pc-sidebar__label">Dashboard</span>
               </a>
             </li>
-            <li class="pa-sidebar__item">
-              <a href="#" class="pa-sidebar__link">
-                <span class="pa-sidebar__icon">📦</span>
-                <span class="pa-sidebar__label">Orders</span>
+            <li class="pc-sidebar__item">
+              <a href="#" class="pc-sidebar__link">
+                <span class="pc-sidebar__icon">📦</span>
+                <span class="pc-sidebar__label">Orders</span>
               </a>
             </li>
 
             <!-- Collapsible group -->
-            <li class="pa-sidebar__item">
-              <button class="pa-sidebar__toggle" onclick="toggleSubmenu(this)">
-                <span class="pa-sidebar__icon">📋</span>
-                <span class="pa-sidebar__label">Reports</span>
-                <span class="pa-sidebar__chevron">›</span>
+            <li class="pc-sidebar__item">
+              <button class="pc-sidebar__toggle" onclick="toggleSubmenu(this)">
+                <span class="pc-sidebar__icon">📋</span>
+                <span class="pc-sidebar__label">Reports</span>
+                <span class="pc-sidebar__chevron">›</span>
               </button>
-              <ul class="pa-sidebar__submenu">
-                <li class="pa-sidebar__item">
-                  <a href="#" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">•</span>
-                    <span class="pa-sidebar__label">Daily</span>
+              <ul class="pc-sidebar__submenu">
+                <li class="pc-sidebar__item">
+                  <a href="#" class="pc-sidebar__link">
+                    <span class="pc-sidebar__icon">•</span>
+                    <span class="pc-sidebar__label">Daily</span>
                   </a>
                 </li>
-                <li class="pa-sidebar__item">
-                  <a href="#" class="pa-sidebar__link">
-                    <span class="pa-sidebar__icon">•</span>
-                    <span class="pa-sidebar__label">Weekly</span>
+                <li class="pc-sidebar__item">
+                  <a href="#" class="pc-sidebar__link">
+                    <span class="pc-sidebar__icon">•</span>
+                    <span class="pc-sidebar__label">Weekly</span>
                   </a>
                 </li>
               </ul>
             </li>
 
-            <li class="pa-sidebar__section">Settings</li>
-            <li class="pa-sidebar__item">
-              <a href="#" class="pa-sidebar__link">
-                <span class="pa-sidebar__icon">⚙️</span>
-                <span class="pa-sidebar__label">Preferences</span>
+            <li class="pc-sidebar__section">Settings</li>
+            <li class="pc-sidebar__item">
+              <a href="#" class="pc-sidebar__link">
+                <span class="pc-sidebar__icon">⚙️</span>
+                <span class="pc-sidebar__label">Preferences</span>
               </a>
             </li>
           </ul>
@@ -100,8 +100,8 @@
       </aside>
 
       <!-- Content -->
-      <div class="pa-layout__content">
-        <main class="pa-layout__main">
+      <div class="pc-layout__content">
+        <main class="pc-layout__main">
 
           <!-- Welcome alert -->
           <div class="pa-alert pa-alert--info mb-lg">
@@ -221,9 +221,9 @@
     </div>
 
     <!-- Footer -->
-    <footer class="pa-layout__footer">
-      <div class="pa-footer__start"><p>&copy; 2026 Pure Admin Starter</p></div>
-      <div class="pa-footer__end"><span>@keenmate/pure-admin-core</span></div>
+    <footer class="pc-layout__footer">
+      <div class="pc-footer__start"><p>&copy; 2026 Pure Admin Starter</p></div>
+      <div class="pc-footer__end"><span>@keenmate/pure-admin-core</span></div>
     </footer>
   </div>
 
@@ -243,11 +243,11 @@
 
     // Collapsible sidebar group — flips --open on the item and its submenu.
     function toggleSubmenu(button) {
-      var item = button.closest('.pa-sidebar__item');
-      var submenu = item && item.querySelector('.pa-sidebar__submenu');
+      var item = button.closest('.pc-sidebar__item');
+      var submenu = item && item.querySelector('.pc-sidebar__submenu');
       if (!submenu) return;
-      item.classList.toggle('pa-sidebar__item--open');
-      submenu.classList.toggle('pa-sidebar__submenu--open');
+      item.classList.toggle('pc-sidebar__item--open');
+      submenu.classList.toggle('pc-sidebar__submenu--open');
     }
   </script>
 </body>

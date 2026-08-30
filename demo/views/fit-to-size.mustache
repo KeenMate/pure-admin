@@ -33,7 +33,7 @@
     .fit-toolbar > * { flex: 0 0 auto; white-space: nowrap; }
     /* Keep each step's icon + label on ONE line, so the engine folds the button
        rather than the button wrapping its own content when cramped. */
-    .fit-toolbar [data-pa-fit-step] {
+    .fit-toolbar [data-pc-fit-step] {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
@@ -109,7 +109,7 @@
     /* Example 4 — the SAME multi-level product card as example 3, but driven by
        the Container Breakpoint engine instead of a CSS @container. NOTE: .prodx
        does NOT set container-type, so no @container fires here — the swaps are
-       driven by the engine: data-pa-show toggles the shared .d-none (a class you
+       driven by the engine: data-pc-show toggles the shared .d-none (a class you
        can watch in devtools), and [data-mode="grid"] does the one real 2-D layout
        change. Swappable pieces are VISIBLE by default; the engine hides the
        out-of-mode ones. Structural rules below mirror example 3's .prod. */
@@ -150,12 +150,12 @@
 
 <div class="pa-callout pa-callout--info mb-4">
     <strong>The vocabulary.</strong>
-    <code>data-pa-fit="hide|steps|sidebar"</code> makes an element a slot;
-    <code>data-pa-fit-priority</code> orders them (lower goes first);
-    <code>data-pa-fit-auto</code> on a container folds in <em>every</em> child
-    without tagging each; <code>data-pa-fit-ignore</code> pins one out entirely;
+    <code>data-pc-fit="hide|steps|sidebar"</code> makes an element a slot;
+    <code>data-pc-fit-priority</code> orders them (lower goes first);
+    <code>data-pc-fit-auto</code> on a container folds in <em>every</em> child
+    without tagging each; <code>data-pc-fit-ignore</code> pins one out entirely;
     and <code>pureAdmin.config.fit.defaultPriority</code> (or a container's
-    <code>data-pa-fit-default-priority</code>) sets the fallback rank.
+    <code>data-pc-fit-default-priority</code>) sets the fallback rank.
     <strong>Drag the sliders</strong> — or just open this page on a narrow phone —
     to watch each row fold.
 </div>
@@ -168,10 +168,10 @@
     A <code>steps</code> slot degrades <strong>full label → icon-only → gone</strong>
     instead of vanishing outright, so an action stays reachable as an icon before
     it's dropped. Here <strong>Save</strong> is pinned full
-    (<code>data-pa-fit-ignore</code>); <strong>Duplicate</strong> and
+    (<code>data-pc-fit-ignore</code>); <strong>Duplicate</strong> and
     <strong>Export</strong> shrink to icons (higher priority survives longer);
     <strong>Delete</strong> is un-tagged, so it inherits the toolbar's
-    <code>data-pa-fit-default-priority="20"</code> and drops first.
+    <code>data-pc-fit-default-priority="20"</code> and drops first.
 </p>
 
 <div class="fit-slider-row">
@@ -187,17 +187,17 @@
             <div class="pa-card__title"><span class="pa-card__title-text">Sales Overview</span></div>
         </div>
         <div class="pa-card__body">
-            <div id="ex1-toolbar" class="fit-toolbar" data-pa-fit-auto data-pa-fit-default-priority="20">
-                <button class="pa-btn pa-btn--primary" data-pa-fit-ignore>
+            <div id="ex1-toolbar" class="fit-toolbar" data-pc-fit-auto data-pc-fit-default-priority="20">
+                <button class="pa-btn pa-btn--primary" data-pc-fit-ignore>
                     <span class="pa-btn__icon">💾</span> Save
                 </button>
-                <button class="pa-btn" data-pa-fit="steps" data-pa-fit-priority="40">
-                    <span data-pa-fit-step="0"><span class="pa-btn__icon">⧉</span> Duplicate</span>
-                    <span data-pa-fit-step="1" class="pa-fit-hidden"><span class="pa-btn__icon">⧉</span></span>
+                <button class="pa-btn" data-pc-fit="steps" data-pc-fit-priority="40">
+                    <span data-pc-fit-step="0"><span class="pa-btn__icon">⧉</span> Duplicate</span>
+                    <span data-pc-fit-step="1" class="pc-fit-hidden"><span class="pa-btn__icon">⧉</span></span>
                 </button>
-                <button class="pa-btn" data-pa-fit="steps" data-pa-fit-priority="30">
-                    <span data-pa-fit-step="0"><span class="pa-btn__icon">⬇️</span> Export</span>
-                    <span data-pa-fit-step="1" class="pa-fit-hidden"><span class="pa-btn__icon">⬇️</span></span>
+                <button class="pa-btn" data-pc-fit="steps" data-pc-fit-priority="30">
+                    <span data-pc-fit-step="0"><span class="pa-btn__icon">⬇️</span> Export</span>
+                    <span data-pc-fit-step="1" class="pc-fit-hidden"><span class="pa-btn__icon">⬇️</span></span>
                 </button>
                 <button class="pa-btn">
                     <span class="pa-btn__icon">🗑️</span> Delete
@@ -428,25 +428,25 @@
     wide enough to show it, and destroyed otherwise</em>. Watch the log.
 </p>
 <p style="color: var(--pc-text-color-2); font-size: var(--pc-font-size-sm, 1.4rem)">
-    <code>data-pa-breakpoints='{"icons":0,"tabs":34,"grid":64}'</code> names the
-    three modes; each swappable piece carries <code>data-pa-show="grid"</code> /
+    <code>data-pc-breakpoints='{"icons":0,"tabs":34,"grid":64}'</code> names the
+    three modes; each swappable piece carries <code>data-pc-show="grid"</code> /
     <code>"grid tabs"</code> / <code>"tabs"</code> and the engine toggles
     <code>.d-none</code> on the ones out of mode. <code>[data-mode="grid"]</code>
     still does the one thing that's a real layout change rather than a show/hide —
-    the 2-D panels grid — and the <code>pa:breakpoint</code> event drives the
+    the 2-D panels grid — and the <code>pc:breakpoint</code> event drives the
     chart's build / destroy. Every visible piece is a real <code>pa-*</code> component.
 </p>
 
 <div class="pa-callout pa-callout--info mb-3">
     <strong>What the numbers mean.</strong> The values in
-    <code>data-pa-breakpoints</code> are <strong>rem</strong> — minimum widths of
+    <code>data-pc-breakpoints</code> are <strong>rem</strong> — minimum widths of
     the <em>card itself</em> (its content-box inline size), not the viewport and
     not percentages. pure-admin's root font-size is <code>10px</code>, so
     <code>34</code> = 340px and <code>64</code> = 640px — the same numbers as the
     <code>@container</code> breakpoints in example 3. The engine picks the
     <strong>largest</strong> mode whose width the card has passed (700px → grid,
     500px → tabs). Prefer pixels? Add
-    <code>data-pa-breakpoint-unit="px"</code> and write
+    <code>data-pc-breakpoint-unit="px"</code> and write
     <code>{"icons":0,"tabs":340,"grid":640}</code> — identical behaviour.
     Percent isn't a unit here on purpose: "does this layout fit" is an
     absolute-pixel question (label widths, gaps, padding); for viewport-relative
@@ -462,7 +462,7 @@
 
 <div class="fit-stage" id="stage4" style="max-width: 760px; border: 0">
     <div class="pa-card prodx" id="ex4" style="margin: 0"
-         data-pa-breakpoints='{"icons":0,"tabs":34,"grid":64}' data-pa-breakpoint-initial="tabs">
+         data-pc-breakpoints='{"icons":0,"tabs":34,"grid":64}' data-pc-breakpoint-initial="tabs">
         <div class="pa-card__body">
 
             <!-- Header — sheds supplier (grid only), then packaging + trend (grid/tabs) -->
@@ -470,36 +470,36 @@
                 <div style="min-width: 0">
                     <span class="pa-badge pa-badge--color-3">Beverages</span>
                     <h4 class="prodx__title">Arabica Cold Brew</h4>
-                    <div class="prodx__meta"><code>SKU-4471</code><span data-pa-show="grid tabs"> · 1 L bottle · 12 per case</span><span class="d-none" data-pa-show="grid"> · Yirgacheffe Co-op</span></div>
+                    <div class="prodx__meta"><code>SKU-4471</code><span data-pc-show="grid tabs"> · 1 L bottle · 12 per case</span><span class="d-none" data-pc-show="grid"> · Yirgacheffe Co-op</span></div>
                 </div>
                 <div class="prodx__price">
                     <div class="prodx__price-num">$4.80</div>
-                    <span class="pa-badge pa-badge--success" data-pa-show="grid tabs">▲ 12.5%</span>
+                    <span class="pa-badge pa-badge--success" data-pc-show="grid tabs">▲ 12.5%</span>
                 </div>
             </div>
 
-            <!-- Hero revenue chart — ONLY in grid mode. The engine's pa:breakpoint
+            <!-- Hero revenue chart — ONLY in grid mode. The engine's pc:breakpoint
                  event builds the Chart.js instance on entering grid and destroys it
                  on leaving (mount on demand). Pre-stamped d-none to match initial="tabs". -->
-            <div class="prodx__chart d-none" data-pa-show="grid"><canvas id="ex4-chart"></canvas></div>
+            <div class="prodx__chart d-none" data-pc-show="grid"><canvas id="ex4-chart"></canvas></div>
 
             <!-- Tab strip — only in tabs/icons; labels only in tabs (icons → icon-only) -->
-            <div class="pa-tabs pa-tabs--full prodx__tabs" data-pa-show="tabs icons">
+            <div class="pa-tabs pa-tabs--full prodx__tabs" data-pc-show="tabs icons">
                 <button class="pa-tabs__item pa-tabs__item--active pa-tooltip" data-tooltip="Orders" data-panel="orders" onclick="prodxTab(this)">
-                    <i class="fa-solid fa-cart-shopping"></i><span data-pa-show="tabs">Orders</span>
+                    <i class="fa-solid fa-cart-shopping"></i><span data-pc-show="tabs">Orders</span>
                 </button>
                 <button class="pa-tabs__item pa-tooltip" data-tooltip="Stock" data-panel="stock" onclick="prodxTab(this)">
-                    <i class="fa-solid fa-boxes-stacked"></i><span data-pa-show="tabs">Stock</span>
+                    <i class="fa-solid fa-boxes-stacked"></i><span data-pc-show="tabs">Stock</span>
                 </button>
                 <button class="pa-tabs__item pa-tooltip" data-tooltip="Sales" data-panel="sales" onclick="prodxTab(this)">
-                    <i class="fa-solid fa-chart-line"></i><span data-pa-show="tabs">Sales</span>
+                    <i class="fa-solid fa-chart-line"></i><span data-pc-show="tabs">Sales</span>
                 </button>
             </div>
 
             <!-- Panels — 3-col grid in grid mode; one-at-a-time under the tabs otherwise -->
             <div class="prodx__panels">
                 <div class="prodx__panel prodx__panel--active" data-panel="orders">
-                    <h5 class="prodx__panel-title mb-1 d-none" data-pa-show="grid">Orders</h5>
+                    <h5 class="prodx__panel-title mb-1 d-none" data-pc-show="grid">Orders</h5>
                     <div class="pa-stat">
                         <div class="pa-stat__icon pa-stat__icon--primary">📦</div>
                         <div class="pa-stat__content">
@@ -514,7 +514,7 @@
                     </div>
                 </div>
                 <div class="prodx__panel" data-panel="stock">
-                    <h5 class="prodx__panel-title mb-1 d-none" data-pa-show="grid">Stock</h5>
+                    <h5 class="prodx__panel-title mb-1 d-none" data-pc-show="grid">Stock</h5>
                     <div class="pa-stat">
                         <div class="pa-stat__icon pa-stat__icon--warning">🏬</div>
                         <div class="pa-stat__content">
@@ -529,7 +529,7 @@
                     </div>
                 </div>
                 <div class="prodx__panel" data-panel="sales">
-                    <h5 class="prodx__panel-title mb-1 d-none" data-pa-show="grid">Sales</h5>
+                    <h5 class="prodx__panel-title mb-1 d-none" data-pc-show="grid">Sales</h5>
                     <div class="pa-stat">
                         <div class="pa-stat__icon pa-stat__icon--success">💰</div>
                         <div class="pa-stat__content">
@@ -636,8 +636,8 @@
 
 <script>
     // Example 4 — the engine-driven twin of example 3. container-breakpoint.js
-    // auto-wires the card (data-pa-breakpoints), toggles .d-none on the
-    // data-pa-show pieces, reflects [data-mode], and fires 'pa:breakpoint'. We use
+    // auto-wires the card (data-pc-breakpoints), toggles .d-none on the
+    // data-pc-show pieces, reflects [data-mode], and fires 'pc:breakpoint'. We use
     // that event to BUILD the hero revenue chart only in 'grid' mode and DESTROY
     // it otherwise — the "mount on demand" a Svelte {#if} would automate — and to
     // switch tabs. prodxTab handles clicks in the tabbed (narrow) modes.
@@ -689,7 +689,7 @@
         };
 
         log('waiting — the revenue Chart.js instance is NOT built until the card reaches grid mode (~640px)');
-        card.addEventListener('pa:breakpoint', function (e) {
+        card.addEventListener('pc:breakpoint', function (e) {
             var w = Math.round(e.detail.width);
             log('mode → ' + e.detail.mode + ' (card ' + w + 'px)');
             if (e.detail.mode === 'grid') {

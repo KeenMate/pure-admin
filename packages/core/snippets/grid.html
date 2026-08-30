@@ -10,7 +10,7 @@ Responsive column classes (pc-col-sm-*, pc-col-md-*, pc-col-lg-*,
 pc-col-xl-*) use CSS `@container` queries, NOT `@media`. They only
 activate inside a containment context.
 
-- Inside the framework's .pa-layout__main: works automatically (that
+- Inside the framework's .pc-layout__main: works automatically (that
   element sets container-type: inline-size).
 - Anywhere else: wrap the grid in an element with the .pc-cq utility
   (also container-type: inline-size) or set the container-type
@@ -157,7 +157,7 @@ responsive classes (pc-col-sm-50 won't stack, pc-col-50 will).
 <!--
 RESPONSIVE GRID
 Requires @container context. Works out of the box inside the framework
-layout (.pa-layout__main); elsewhere wrap in .pc-cq.
+layout (.pc-layout__main); elsewhere wrap in .pc-cq.
 -->
 
 <!-- Mobile: full width, Tablet+: half width -->
@@ -348,7 +348,7 @@ BREAKPOINTS ($grid-breakpoints map):
 
 CONTAINMENT CONTEXT:
 Responsive column classes require a container-query ancestor:
-  - .pa-layout__main              framework default (set automatically)
+  - .pc-layout__main              framework default (set automatically)
   - .pc-cq                        helper class (container-type: inline-size)
 
 Without one, pc-col-{sm,md,lg,xl}-* silently do nothing.

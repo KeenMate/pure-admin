@@ -131,7 +131,7 @@
 
       const pages = [];
       const seen = new Set();
-      const links = document.querySelectorAll('.pa-layout__sidebar .pa-sidebar__link[href]');
+      const links = document.querySelectorAll('.pc-layout__sidebar .pc-sidebar__link[href]');
 
       links.forEach((link) => {
         const href = (link.getAttribute('href') || '').trim();
@@ -140,25 +140,25 @@
         if (seen.has(path)) return;
         seen.add(path);
 
-        const labelEl = link.querySelector('.pa-sidebar__label');
+        const labelEl = link.querySelector('.pc-sidebar__label');
         const label = labelEl ? labelEl.textContent.trim() : '';
         if (!label) return;
 
         // Section name + icon come from the nearest ancestor submenu's toggle.
         let group = '';
         let groupIcon = '';
-        const submenu = link.closest('.pa-sidebar__submenu');
+        const submenu = link.closest('.pc-sidebar__submenu');
         const toggle = submenu && submenu.previousElementSibling;
-        if (toggle && toggle.classList.contains('pa-sidebar__toggle')) {
-          const gl = toggle.querySelector('.pa-sidebar__label');
-          const gi = toggle.querySelector('.pa-sidebar__icon');
+        if (toggle && toggle.classList.contains('pc-sidebar__toggle')) {
+          const gl = toggle.querySelector('.pc-sidebar__label');
+          const gi = toggle.querySelector('.pc-sidebar__icon');
           group = gl ? gl.textContent.trim() : '';
           groupIcon = gi ? gi.textContent.trim() : '';
         }
 
         // Prefer the item's own icon; ignore bullet placeholders and fall back
         // to the section icon, then a generic page glyph.
-        const iconEl = link.querySelector('.pa-sidebar__icon');
+        const iconEl = link.querySelector('.pc-sidebar__icon');
         let icon = iconEl ? iconEl.textContent.trim() : '';
         if (!icon || icon === '•') icon = (groupIcon && groupIcon !== '•') ? groupIcon : '📄';
 

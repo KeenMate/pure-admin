@@ -6,6 +6,31 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc18
+
+- **The app shell moved to the `@keenmate/pure-css` foundation (BREAKING).** The
+  navbar, sidebar, layout scaffold, footer, and width containers are now
+  foundation components — CSS **and** JS — and are `pc-*` prefixed (`pc-navbar`,
+  `pc-sidebar`, `pc-layout`, …). Core re-exports them via shims so the bundled CSS
+  is unchanged, but hand-authored markup must switch to the `pc-*` classes.
+  Data/admin components (cards, tables, KPI, …) stay `pa-*` — prefix now signals
+  which package owns a component.
+- **One namespace for the developer, via a facade.** The shell engines register on
+  `window.pureCss`; `window.pureAdmin` adopts pure-css's buses by reference and
+  reads its components through a prototype chain, so existing
+  `window.pureAdmin.components.fit` code keeps working unchanged — while a
+  standalone pure-css page now gets a fully working shell on its own.
+- **Pluggable relocation sinks for the fit engine.** `data-pc-fit="relocate"` +
+  `data-pc-fit-target` names a destination (`sidebar`, the new self-contained
+  `floating-menu`, or a custom `registerSink`); fit emits a cancelable
+  `pc:fit-relocate` event, and `data-pc-fit-managed` lets a framework re-render
+  from state instead of moving a stale node.
+- **Nav collapse is now part of the one fit engine** (`data-pc-fit-nav`) — the
+  old `navbar-collapse.js` is deleted, its sidebar-rebuild and "More ▾" behaviour
+  ported into `fit.js`. Fixes restore-on-widen, which never worked before.
+- **New Responsivity demo** (`/responsivity`) explaining both responsive engines,
+  the sink architecture, and a live relocate example.
+
 ## What's New in 2.9.0-rc17
 
 - **Container Breakpoint engine — the JS counterpart to a CSS container query.** A
@@ -32,40 +57,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
   `@keenmate/pure-admin-core/js/navbar-fit.js` imports to `.../js/fit.js`; the
   runtime `pureAdmin.components.navFit` name stays as an alias of the new
   `pureAdmin.components.fit`.
-
-## What's New in 2.9.0-rc16
-
-- **Foundation namespace migrated to pure-css rc04 (BREAKING).** Every framework
-  CSS variable is renamed `--pa-*` → `--pc-*`, the grid classes `.pa-row` /
-  `.pa-col*` → `.pc-*`, and the light/dark mode classes `.pa-mode-*` →
-  `.pc-mode-*`. Migrate markup, `var()` reads, inline `style="--pa-…"`, and theme
-  overrides with a boundary-aware find/replace of `--pa-` → `--pc-` (plus the
-  grid/mode classes). Requires `@keenmate/pure-css` ≥ 1.0.0-rc04.
-- **Component tokens now emitted by pure-admin, not the foundation.** pure-css
-  rc04 ships only the base token contract; the ~165 component `--pc-*` variables
-  (buttons, cards, tables, alerts, panels, …) are emitted by the new
-  `output-pc-component-variables` mixin. Theme authors add
-  `@include output-pc-component-variables;` after `output-pc-css-variables`;
-  consumers of the compiled CSS are unaffected.
-- **Sizing & flex utilities single-sourced in pure-css.** The duplicate rem-height
-  classes `h-Nx` / `min-h-Nx` / `max-h-Nx` are retired for the foundation's
-  `hr-N` / `minhr-N` / `maxhr-N` (`r` = rem); viewport heights (`h-full` /
-  `h-screen`) and flex shorthands (`flex-1` / `flex-none` / …) now ship from
-  pure-css. Migrate `h-Nx` → `hr-N`.
-- **Checkbox & radio rework.** Label position (`--label-start` / `--label-end` /
-  `--label-top`), group orientation with a responsive auto-grid, and first-class
-  two-/three-state (indeterminate) checkboxes — all on the custom `.pa-checkbox`
-  / `.pa-radio` with no DOM branching.
-- **Required-field marker, driven by the native attribute.** A field with
-  `required` renders a `*` marker automatically — no extra class; it reads the
-  real `required` attribute (inputs and checkbox/radio labels alike).
-- **`pa-tabs--wrap-labels` — multi-line tab titles.** Long tab titles wrap onto
-  multiple lines with the row kept level (the flex row's `align-items: stretch`),
-  instead of forcing the whole tab row to wrap; cap the wrap point with `maxwr-*`.
-- **Smaller adds:** `pa-badge--color-{1..9}` theme-slot badges,
-  `pureAdmin.toast.danger()` (alias of `error()`), translatable copy-hint text
-  (`--pc-copy-hint-text` / `--pc-copied-text`), and form gaps renamed +
-  runtime-tunable via `--pc-*`.
 
 ## Installation
 

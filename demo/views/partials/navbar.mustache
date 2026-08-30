@@ -1,11 +1,11 @@
 <!-- Fixed Navbar -->
-<nav class="pa-navbar">
-    <div class="pa-navbar__inner">
-        <!-- Hamburger — a FIXED anchor (no data-pa-fit), so it lives OUTSIDE the
+<nav class="pc-navbar">
+    <div class="pc-navbar__inner">
+        <!-- Hamburger — a FIXED anchor (no data-pc-fit), so it lives OUTSIDE the
              degradable start/center/end zones as __inner's first child. Omitted
              in the sidebar-less "simple" layout (nothing to toggle). -->
         {{^simpleLayout}}
-        <button class="pa-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <button class="pc-navbar__burger burger-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
             <span></span>
             <span></span>
             <span></span>
@@ -13,36 +13,36 @@
         {{/simpleLayout}}
 
         <!-- Start Section: Brand, Start Nav -->
-        <div class="pa-navbar__start">
+        <div class="pc-navbar__start">
             <!-- Brand. The wordmark is a fit "steps" slot (Pure Admin → PA) and
                  the version tag a fit "hide" slot, so as the header narrows the
                  version drops first (priority 10), then the wordmark shrinks to
                  a monogram (priority 30). See fit.js. -->
-            <div class="pa-app-header">
-                <h1><span class="pa-app-header__name" data-pa-fit="steps" data-pa-fit-priority="30"><span data-pa-fit-step="0">Pure Admin</span><span data-pa-fit-step="1" class="pa-fit-hidden">PA</span></span>{{#coreVersion}}<span class="pa-app-header__version" data-pa-fit="hide" data-pa-fit-priority="10">v{{coreVersion}}</span>{{/coreVersion}}</h1>
+            <div class="pc-app-header">
+                <h1><span class="pc-app-header__name" data-pc-fit="steps" data-pc-fit-priority="30"><span data-pc-fit-step="0">Pure Admin</span><span data-pc-fit-step="1" class="pc-fit-hidden">PA</span></span>{{#coreVersion}}<span class="pc-app-header__version" data-pc-fit="hide" data-pc-fit-priority="10">v{{coreVersion}}</span>{{/coreVersion}}</h1>
             </div>
 
-            <!-- Left Navigation Links. data-pa-fit-nav="sidebar" moves the
+            <!-- Left Navigation Links. data-pc-fit-nav="sidebar" moves the
                  lowest-priority items into the sidebar (as standard
-                 .pa-sidebar__* items under a "Menu" section heading) as the
+                 .pc-sidebar__* items under a "Menu" section heading) as the
                  header narrows, restoring them as it widens — the one Fit engine
                  (fit.js) now owns nav collapse too. The active item is
                  auto-pinned; Dashboard is also explicitly pinned via
-                 data-pa-fit-nav-priority. Omitted in the simple layout — it
+                 data-pc-fit-nav-priority. Omitted in the simple layout — it
                  folds into a sidebar that isn't there. -->
             {{^simpleLayout}}
-            <nav class="pa-navmenu" data-pa-fit-nav="sidebar" data-pa-fit-nav-label="Menu">
+            <nav class="pc-navmenu" data-pc-fit-nav="sidebar" data-pc-fit-nav-label="Menu">
                 <ul>
-                    <li class="pa-navmenu__item{{#isDashboard}} pa-navmenu__item--active{{/isDashboard}}" data-pa-fit-nav-priority="10" data-pa-nav-icon="📊"><a href="/">Dashboard</a></li>
-                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown{{#isComponents}} pa-navmenu__item--active{{/isComponents}}" data-pa-nav-icon="🧩">
-                        <a href="/components/overview" class="pa-navmenu__link">Components</a>
-                        <ul class="pa-navmenu__dropdown">
+                    <li class="pc-navmenu__item{{#isDashboard}} pc-navmenu__item--active{{/isDashboard}}" data-pc-fit-nav-priority="10" data-pc-nav-icon="📊"><a href="/">Dashboard</a></li>
+                    <li class="pc-navmenu__item pc-navmenu__item--has-dropdown{{#isComponents}} pc-navmenu__item--active{{/isComponents}}" data-pc-nav-icon="🧩">
+                        <a href="/components/overview" class="pc-navmenu__link">Components</a>
+                        <ul class="pc-navmenu__dropdown">
                             <li><a href="/components/buttons">Buttons</a></li>
                             <li><a href="/components/cards">Cards</a></li>
                             <li><a href="/components/tabs">Tabs</a></li>
-                            <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
-                                <a href="#" class="pa-navmenu__link">More ›</a>
-                                <ul class="pa-navmenu__dropdown pa-navmenu__dropdown--level2">
+                            <li class="pc-navmenu__item pc-navmenu__item--has-dropdown">
+                                <a href="#" class="pc-navmenu__link">More ›</a>
+                                <ul class="pc-navmenu__dropdown pc-navmenu__dropdown--level2">
                                     <li><a href="/components/badges">Badges</a></li>
                                     <li><a href="/components/modals">Modals</a></li>
                                     <li><a href="/components/loaders">Loaders</a></li>
@@ -51,15 +51,15 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown{{#isForms}} pa-navmenu__item--active{{/isForms}}" data-pa-nav-icon="📝">
-                        <a href="/forms" class="pa-navmenu__link">Forms</a>
-                        <ul class="pa-navmenu__dropdown">
+                    <li class="pc-navmenu__item pc-navmenu__item--has-dropdown{{#isForms}} pc-navmenu__item--active{{/isForms}}" data-pc-nav-icon="📝">
+                        <a href="/forms" class="pc-navmenu__link">Forms</a>
+                        <ul class="pc-navmenu__dropdown">
                             <li><a href="/forms">Form Elements</a></li>
                             <li><a href="/components/inputs">Inputs</a></li>
                             <li><a href="/components/validations">Validations</a></li>
-                            <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
-                                <a href="#" class="pa-navmenu__link">Selectors ›</a>
-                                <ul class="pa-navmenu__dropdown pa-navmenu__dropdown--level2">
+                            <li class="pc-navmenu__item pc-navmenu__item--has-dropdown">
+                                <a href="#" class="pc-navmenu__link">Selectors ›</a>
+                                <ul class="pc-navmenu__dropdown pc-navmenu__dropdown--level2">
                                     <li><a href="/components/multiselect">Multiselect</a></li>
                                     <li><a href="/components/date-picker">Date Picker</a></li>
                                     <li><a href="/components/checkbox-lists">Checkbox Lists</a></li>
@@ -68,15 +68,15 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown" data-pa-nav-icon="📋">
-                        <a href="/tables/standard" class="pa-navmenu__link">Data</a>
-                        <ul class="pa-navmenu__dropdown">
+                    <li class="pc-navmenu__item pc-navmenu__item--has-dropdown" data-pc-nav-icon="📋">
+                        <a href="/tables/standard" class="pc-navmenu__link">Data</a>
+                        <ul class="pc-navmenu__dropdown">
                             <li><a href="/tables/standard">Tables</a></li>
                             <li><a href="/components/data-grid">Data Grid</a></li>
                             <li><a href="/components/lists">Lists</a></li>
-                            <li class="pa-navmenu__item pa-navmenu__item--has-dropdown">
-                                <a href="#" class="pa-navmenu__link">Visualize ›</a>
-                                <ul class="pa-navmenu__dropdown pa-navmenu__dropdown--level2">
+                            <li class="pc-navmenu__item pc-navmenu__item--has-dropdown">
+                                <a href="#" class="pc-navmenu__link">Visualize ›</a>
+                                <ul class="pc-navmenu__dropdown pc-navmenu__dropdown--level2">
                                     <li><a href="/components/data-display">Data Display</a></li>
                                     <li><a href="/components/data-visualization">Data Visualization</a></li>
                                     <li><a href="/kpi/bento">KPI · Bento</a></li>
@@ -85,14 +85,14 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- data-pa-fit-nav="hide": rather than fold into the
+                    <!-- data-pc-fit-nav="hide": rather than fold into the
                          sidebar when space runs out, this item just hides. Fitting
                          here because its children (Theme Variables, Colors,
                          Helpers) already live in the main sidebar, so nothing is
                          lost when it disappears on narrow screens. -->
-                    <li class="pa-navmenu__item pa-navmenu__item--has-dropdown" data-pa-nav-icon="🎨" data-pa-fit-nav="hide">
-                        <a href="/design/theme-variables" class="pa-navmenu__link">Design</a>
-                        <ul class="pa-navmenu__dropdown">
+                    <li class="pc-navmenu__item pc-navmenu__item--has-dropdown" data-pc-nav-icon="🎨" data-pc-fit-nav="hide">
+                        <a href="/design/theme-variables" class="pc-navmenu__link">Design</a>
+                        <ul class="pc-navmenu__dropdown">
                             <li><a href="/design/theme-variables">Theme Variables</a></li>
                             <li><a href="/design/colors">Colors</a></li>
                             <li><a href="/design/helpers">Helpers</a></li>
@@ -107,51 +107,51 @@
         <!-- Center Section: Page Title (flexible) -->
         <!-- Search position "A" (inline navbar search) swaps the title for a live
              search box; toggled by the settings panel via #navbarTitle / #navbarSearchInline. -->
-        <div class="pa-navbar__center">
-            <div class="pa-page-header" id="navbarTitle" data-pa-fit="hide" data-pa-fit-priority="20">
+        <div class="pc-navbar__center">
+            <div class="pc-page-header" id="navbarTitle" data-pc-fit="hide" data-pc-fit-priority="20">
                 <h2>{{#pageTitle}}{{pageTitle}}{{/pageTitle}}{{^pageTitle}}Dashboard{{/pageTitle}}</h2>
             </div>
 
             <!-- A) Inline navbar search: a live search box with its own results
                  dropdown (independent of the Ctrl+K palette). Hidden until selected. -->
-            <div class="pa-navbar-search pa-navbar-search--field" id="navbarSearchInline" hidden>
-                <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
-                <input type="text" class="pa-navbar-search__field" id="navbarSearchInput"
+            <div class="pc-navbar-search pc-navbar-search--field" id="navbarSearchInline" hidden>
+                <span class="pc-navbar-search__icon" aria-hidden="true">🔍</span>
+                <input type="text" class="pc-navbar-search__field" id="navbarSearchInput"
                        placeholder="Search products, orders, users…" autocomplete="off" aria-label="Search">
                 <div class="pa-search-autocomplete" id="navbarSearchResults" hidden></div>
             </div>
         </div>
 
         <!-- End Section: End Nav, Notifications, Profile.
-             data-pa-fit-auto arms the zone: every child joins the fit set, so the
+             data-pc-fit-auto arms the zone: every child joins the fit set, so the
              search folds by its own priority (25) while the End nav, bell and
-             profile are held put with data-pa-fit-ignore (must stay reachable). -->
-        <div class="pa-navbar__end" data-pa-fit-auto>
+             profile are held put with data-pc-fit-ignore (must stay reachable). -->
+        <div class="pc-navbar__end" data-pc-fit-auto>
             <!-- B) Compact search box before the bell: opens the Ctrl+K palette
                  (which becomes a fullscreen sheet on phones). Hidden until selected. -->
-            <button type="button" class="pa-navbar-search" id="navbarSearchTrigger" hidden
-                    data-pa-fit="hide" data-pa-fit-priority="25"
+            <button type="button" class="pc-navbar-search" id="navbarSearchTrigger" hidden
+                    data-pc-fit="hide" data-pc-fit-priority="25"
                     onclick="window.pureAdmin && pureAdmin.commandPalette && pureAdmin.commandPalette.open()"
                     aria-label="Search (Ctrl+K)">
-                <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
-                <span class="pa-navbar-search__placeholder">Search…</span>
-                <span class="pa-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+                <span class="pc-navbar-search__icon" aria-hidden="true">🔍</span>
+                <span class="pc-navbar-search__placeholder">Search…</span>
+                <span class="pc-navbar-search__shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
             </button>
 
             <!-- D) Type-and-go search box: a real input in a <form>; Enter submits
                  (native GET) and navigates to /search?q=… — no dropdown, no palette.
                  This is pure HTML/CSS: an app wires its own action/route. Hidden
                  until selected. -->
-            <form class="pa-navbar-search pa-navbar-search--input" id="navbarSearchGo" hidden
-                  data-pa-fit="hide" data-pa-fit-priority="25"
+            <form class="pc-navbar-search pc-navbar-search--input" id="navbarSearchGo" hidden
+                  data-pc-fit="hide" data-pc-fit-priority="25"
                   action="/search" method="get" role="search">
-                <span class="pa-navbar-search__icon" aria-hidden="true">🔍</span>
-                <input type="search" name="q" class="pa-navbar-search__field"
+                <span class="pc-navbar-search__icon" aria-hidden="true">🔍</span>
+                <input type="search" name="q" class="pc-navbar-search__field"
                        placeholder="Search…" autocomplete="off" aria-label="Search">
             </form>
 
             <!-- End Navigation Links -->
-            <nav class="pa-navmenu" data-pa-fit-ignore>
+            <nav class="pc-navmenu" data-pc-fit-ignore>
                 <ul>
                     <li><a href="/components/alerts">Alerts</a></li>
                     <li><a href="/tables/standard">Tables</a></li>
@@ -159,7 +159,7 @@
             </nav>
 
             <!-- Notification Bell -->
-            <div class="pa-notifications" data-pa-fit-ignore>
+            <div class="pa-notifications" data-pc-fit-ignore>
                 <button class="pa-notifications__btn" onclick="toggleNotifications()" aria-label="Notifications">
                     <span class="pa-notifications__icon">🔔</span>
                     <span class="pa-notifications__badge">3</span>
@@ -219,9 +219,9 @@
             </div>
 
             <!-- Profile Button -->
-            <button class="pa-navbar__profile-btn" data-pa-fit-ignore onclick="toggleProfilePanel()" aria-label="User Profile">
+            <button class="pc-navbar__profile-btn" data-pc-fit-ignore onclick="toggleProfilePanel()" aria-label="User Profile">
                 <span class="pa-btn__icon">👤</span>
-                <span class="pa-navbar__profile-name">John Doe</span>
+                <span class="pc-navbar__profile-name">John Doe</span>
             </button>
         </div>
     </div>
