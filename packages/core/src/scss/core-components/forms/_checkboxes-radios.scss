@@ -298,17 +298,36 @@
 }
 
 // ============================================================================
-// Required marker on checkbox / radio option labels
+// Required marker on checkbox / radio option labels — hybrid placement
 // ============================================================================
-// The form-group required rule (see _form-layout.scss) deliberately excludes
-// .pa-checkbox / .pa-radio because their label WRAPS the control. Here the
-// marker instead targets the option's own .pa-*__label, so a required checkbox
-// or radio shows a danger asterisk after its text — following the label to
-// whichever position (start / end / top) it sits in.
+// The form-group required rule (see _form-layout.scss) excludes .pa-checkbox /
+// .pa-radio as targets because their label WRAPS the control, so a marker there
+// would land after the whole option. The requirement is instead shown per the
+// field's SHAPE:
+//
+//   • STANDALONE choice — a single .pa-checkbox / .pa-radio NOT inside a
+//     .pa-checkbox-group / .pa-radio-group (e.g. an "I accept the terms" consent
+//     box). The requirement IS this one control, so the marker sits on its own
+//     .pa-*__label, following the label to whichever position it takes.
+//
+//   • GROUPED choice — options inside a .pa-checkbox-group / .pa-radio-group
+//     ("pick one of these"). The requirement belongs to the GROUP, not to each
+//     box, so the marker is carried once by the group's heading <label> (via the
+//     .pa-form-group:has(:required) rule) and the per-option markers are
+//     suppressed below — otherwise every required option would repeat the * and
+//     the heading would double-mark.
+//
+// Base: mark the option's own label.
 .pa-checkbox:has(input:required) .pa-checkbox__label::after,
 .pa-radio:has(input:required) .pa-radio__label::after {
   content: '*';
   margin-inline-start: 0.2rem;
   color: var(--pc-danger);
   font-weight: $font-weight-medium;
+}
+
+// Grouped: suppress the per-option marker — the group heading carries it.
+.pa-checkbox-group .pa-checkbox:has(input:required) .pa-checkbox__label::after,
+.pa-radio-group .pa-radio:has(input:required) .pa-radio__label::after {
+  content: none;
 }

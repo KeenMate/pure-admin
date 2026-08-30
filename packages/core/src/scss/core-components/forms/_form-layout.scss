@@ -72,21 +72,32 @@
 }
 
 // Required-field marker
-// Driven purely by the native `required` attribute on the control — no extra
-// class needed. Whenever a form group contains a :required input / select /
-// textarea, a danger-coloured asterisk is appended after that field's label.
-// Works for hand-authored markup and for wrappers that just pass `required`
-// through. Checkbox / radio labels are excluded (their control sits inside the
-// label, so an appended asterisk would land after the option text).
-.pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after {
+// Two triggers, one marker:
+//   1. native `:required` on an input / select / textarea inside the group —
+//      the zero-effort path for simple fields (wrappers just pass `required`
+//      through; hand-authored markup gets it for free).
+//   2. the explicit `.pa-form-group--required` modifier — the escape hatch for
+//      COMPLEX fields (image browser, dropzone, web component, any non-native
+//      widget) where no descendant matches the `:required` pseudo-class, so
+//      there is nowhere to hang a native attribute. Set it on the group.
+// Checkbox / radio labels are excluded (their control sits inside the label, so
+// an appended asterisk would land after the option text — see _checkboxes-radios).
+.pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after,
+.pa-form-group--required > label:not(.pa-checkbox):not(.pa-radio)::after {
   content: '*';
   margin-inline-start: 0.2rem;
   color: var(--pc-danger);
   font-weight: $font-weight-medium;
 }
 
-// Inside .pa-form the label is a flex row whose `gap` already spaces the
-// marker, so drop the extra margin there.
-.pa-form .pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after {
-  margin-inline-start: 0;
+// Inside .pa-form the label is a flex row (gap: --pc-form-gap, there to space a
+// label icon from its text). The ::after marker is generated content, so it
+// becomes a flex ITEM — meaning that full gap, not the 0.2rem above, is what
+// sits between the word and the asterisk, detaching it. Pull the marker back by
+// exactly one gap and re-add the intended 0.2rem so it hugs the label text the
+// same way in both contexts (and whether or not the label also carries an icon —
+// a negative margin only reclaims the marker's own leading gap).
+.pa-form .pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after,
+.pa-form .pa-form-group--required > label:not(.pa-checkbox):not(.pa-radio)::after {
+  margin-inline-start: calc(0.2rem - var(--pc-form-gap, #{$form-gap}));
 }

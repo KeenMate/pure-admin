@@ -54,6 +54,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Responsivity demo** — a new `/responsivity` explainer covering both engines
   (fit + container-breakpoint), the sink architecture, and a live floating-menu
   relocate demo; "Fit to Size" moved under it.
+- **`.pa-form-group--required` modifier** — an explicit required-marker trigger
+  for COMPLEX fields (image browser, dropzone, web component, any non-native
+  widget) that have no descendant matching the CSS `:required` pseudo-class, so
+  there is nowhere to hang a native `required` attribute. The danger asterisk now
+  fires from either a native `:required` control (unchanged) or this modifier on
+  the group. Simple native fields need no markup change.
+- **Hybrid required-marker placement for checkbox / radio.** A required choice
+  control now shows exactly one asterisk, placed by the field's shape: a
+  STANDALONE `.pa-checkbox` / `.pa-radio` (e.g. a consent box) marks its own
+  option label; options inside a `.pa-checkbox-group` / `.pa-radio-group` let the
+  GROUP heading label carry the marker and suppress the per-option markers. Fixes
+  the previous double-marking (heading *and* every option) caused by the
+  `:has(:required)` group rule leaking onto a heading that already sat above
+  self-marking options.
 
 ### Removed
 
@@ -67,6 +81,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Restore-on-widen for relocated slots now actually works.** The old `sidebar`
   strategy moved a node out of its container so the engine could never find it to
   restore; relocation is now a pure function of width (placeholder-based reset).
+- **Required-asterisk spacing inside `.pa-form`.** The `::after` marker is a flex
+  item, so the label's `--pc-form-gap` (8px, meant to space a label icon) sat
+  between the word and the `*` instead of the intended 0.2rem — the marker floated
+  detached. The in-`.pa-form` rule now uses `calc(0.2rem - var(--pc-form-gap))` to
+  reclaim the gap, so the asterisk hugs the label text identically in and out of
+  `.pa-form`, with or without a label icon.
 
 ## [2.9.0-rc17] - 2026-08-27 [PUBLISHED]
 

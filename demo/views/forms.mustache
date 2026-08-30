@@ -701,6 +701,20 @@
                     </div>
                 </div>
                 <div class="pa-card__body">
+                    <div class="pa-callout pa-callout--info">
+                        <span class="pa-callout__icon">💡</span>
+                        <div class="pa-callout__content">
+                            <h4 class="pa-callout__heading">How the required asterisk is placed</h4>
+                            <p>The danger <strong>*</strong> is driven by the native <code>required</code> attribute — no class needed. Where it lands depends on the field's shape:</p>
+                            <ul>
+                                <li><strong>Simple fields</strong> (input / select / textarea) → the group's <code>&lt;label&gt;</code>, via <code>.pa-form-group:has(:required) &gt; label</code>.</li>
+                                <li><strong>Grouped choices</strong> (radios/checkboxes inside a <code>.pa-radio-group</code> / <code>.pa-checkbox-group</code>) → the requirement belongs to the group, so the <strong>*</strong> sits once on the group <strong>heading</strong> and the per-option markers are suppressed. See <em>Priority</em> below.</li>
+                                <li><strong>Standalone choice</strong> (a lone <code>.pa-checkbox</code> / <code>.pa-radio</code>, e.g. a consent box with no <code>*-group</code> wrapper) → the <strong>*</strong> sits on its <strong>own</strong> option label. See <em>I accept the terms</em> below.</li>
+                                <li><strong>Complex widgets</strong> with no native control (image browser, dropzone, web component) → add <code>.pa-form-group--required</code> to the group as the explicit trigger.</li>
+                            </ul>
+                            <p class="mb-0">The first “Horizontal orientation” group has no <code>required</code>, so it shows no marker.</p>
+                        </div>
+                    </div>
                     <form class="pa-form">
                         <div class="pa-form-group">
                             <label>Horizontal orientation</label>
@@ -716,21 +730,25 @@
                             </div>
                         </div>
 
+                        <!-- Grouped choice: the requirement belongs to the group ("pick one"),
+                             so the asterisk sits once on the GROUP HEADING — the options stay clean. -->
                         <div class="pa-form-group">
-                            <label>Required (asterisk on the option label)</label>
-                            <div class="pa-checkbox-group">
-                                <label class="pa-checkbox">
-                                    <input type="checkbox" required>
-                                    <span class="pa-checkbox__box"></span>
-                                    <span class="pa-checkbox__label">I accept the terms</span>
-                                </label>
+                            <label>Priority (required group)</label>
+                            <div class="pa-radio-group pa-radio-group--horizontal">
+                                <label class="pa-radio"><input type="radio" name="req-priority" required><span class="pa-radio__label">Low</span></label>
+                                <label class="pa-radio"><input type="radio" name="req-priority" required><span class="pa-radio__label">Medium</span></label>
+                                <label class="pa-radio"><input type="radio" name="req-priority" required><span class="pa-radio__label">High</span></label>
                             </div>
-                            <div class="pa-radio-group">
-                                <label class="pa-radio">
-                                    <input type="radio" name="req-radio" required>
-                                    <span class="pa-radio__label">Required choice</span>
-                                </label>
-                            </div>
+                        </div>
+
+                        <!-- Standalone consent checkbox (no *-group wrapper): the requirement IS
+                             this one control, so the asterisk sits on its OWN option label. -->
+                        <div class="pa-form-group">
+                            <label class="pa-checkbox">
+                                <input type="checkbox" required>
+                                <span class="pa-checkbox__box"></span>
+                                <span class="pa-checkbox__label">I accept the terms</span>
+                            </label>
                         </div>
                     </form>
                 </div>

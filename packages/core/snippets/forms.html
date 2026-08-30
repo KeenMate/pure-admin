@@ -494,21 +494,37 @@ NOT .pa-textarea):
 - .pa-form-group--warning
 - .pa-form-group--error
 
-(No .pa-form-group--required class — see REQUIRED FIELDS below.)
+(For .pa-form-group--required, see REQUIRED FIELDS below.)
 
 REQUIRED FIELDS:
-There is no required class or modifier. Put the native `required`
-attribute on the control and the framework appends a danger-coloured
-asterisk after that group's label automatically — via
-.pa-form-group:has(:required) > label::after. Nothing to add to the
-label; it is purely attribute-driven, so wrappers just pass `required`
-through and hand-authored markup gets the marker for free. Checkbox /
-radio labels are excluded (the control lives inside the label).
+Two triggers, one danger-coloured asterisk after the group's label:
 
-  <div class="pa-form-group">
-    <label for="email">Email</label>
-    <input type="email" id="email" class="pa-input" required>
-  </div>
+1. SIMPLE / native fields — put the native `required` attribute on the
+   control. The marker is appended automatically via
+   .pa-form-group:has(:required) > label::after. Nothing to add to the
+   label; wrappers just pass `required` through and hand-authored markup
+   gets it for free.
+
+     <div class="pa-form-group">
+       <label for="email">Email</label>
+       <input type="email" id="email" class="pa-input" required>
+     </div>
+
+2. COMPLEX fields — an image browser, dropzone, web component, or any
+   non-native widget has no descendant that matches the CSS :required
+   pseudo-class, so there is nowhere to hang `required`. Mark the GROUP
+   with .pa-form-group--required instead:
+
+     <div class="pa-form-group pa-form-group--required">
+       <label>Cover image</label>
+       <div class="pa-image-browser">...</div>
+     </div>
+
+Checkbox / radio use HYBRID placement (the control lives inside the label):
+  • standalone .pa-checkbox / .pa-radio → marker on its own option label;
+  • options inside a .pa-checkbox-group / .pa-radio-group → the group's heading
+    label carries the marker once, per-option markers are suppressed.
+See checkbox-lists.html.
 
 LABELS:
 Inside .pa-form .pa-form-group, a bare <label> gets framework styling
@@ -575,8 +591,10 @@ RADIO:
 - .pa-radio--label-end         Label after the input (DEFAULT).
 - .pa-radio--label-start       Label before the input.
 - .pa-radio--label-top         Label stacked above the input.
-- Required: `required` on the <input> appends a danger asterisk to
-  .pa-radio__label (.pa-radio:has(input:required)).
+- Required: `required` on the <input>. STANDALONE radio → asterisk on its own
+  .pa-radio__label. Inside a .pa-radio-group → the marker moves to the group's
+  heading <label> and per-option markers are suppressed (hybrid placement — see
+  REQUIRED FIELDS and checkbox-lists.html).
 - .pa-radio-group              Vertical flex stack
 - .pa-radio-group--horizontal  Wrapping row instead of a column
 - .pa-radio-group--grid        CSS-grid auto-flow (options wrap into rows by

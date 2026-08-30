@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run the generator after changing any `pa-*` class.
 > Machine-readable form: [`components.json`](./components.json).
 
-Framework version **2.9.0-rc17** · **58** components · **149** blocks · **601** class selectors.
+Framework version **2.9.0-rc18** · **58** components · **149** blocks · **602** class selectors.
 
 This catalog is the checklist for validating generated markup in the svelte / phoenix wrapper libraries and for auditing snippet coverage. A ✗ in the *Snippet* column marks a component with **no** `snippets/*.html` reference — a documentation gap.
 
@@ -185,7 +185,7 @@ Card wrapper specialised for tables: header/actions/body/footer chrome around a 
 Form grouping/layout: groups, horizontal layout, validation state, help text, actions row.
 
 - **Blocks:** `pa-form`, `pa-form-actions`, `pa-form-group`, `pa-form-help`
-- **Modifiers / states:** `pa-form-group--error`, `pa-form-group--horizontal`, `pa-form-group--success`, `pa-form-group--warning`, `pa-form-help--color`
+- **Modifiers / states:** `pa-form-group--error`, `pa-form-group--horizontal`, `pa-form-group--required`, `pa-form-group--success`, `pa-form-group--warning`, `pa-form-help--color`
 - **SCSS:** `core-components/_utilities.scss`, `core-components/forms/_form-layout.scss`, `core-components/forms/_form-states.scss`
 - **Snippet:** `forms.html`
 - **Demo:** `form-demo.mustache`, `forms.mustache`
