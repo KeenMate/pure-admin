@@ -5,6 +5,33 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc19] - 2026-09-08
+
+### Changed
+
+- **Depends on `@keenmate/pure-css` `^1.0.0-rc07`** (was `^1.0.0-rc06`). rc07
+  turns `--base-*` into the single runtime theming knob: the `--pc-*` component
+  tokens now derive from `--base-*` via `var(--base-x, fallback)`, so core
+  components and the KeenMate web components (multiselect, grid, treeview,
+  daterangepicker) re-theme together in light **and** dark instead of only
+  matching by coincidence at compile time. Light-mode rendering is unchanged.
+- **Surface tokens realigned — and core components repointed to match.** rc07
+  corrects a long-standing inversion: `--pc-main-bg` is now the **white surface**
+  (was the grey canvas) and `--pc-subtle-bg` is the **muted grey** (was white),
+  while `--pc-page-bg` stays the grey canvas. Because those two token *values*
+  flip, core components were repointed to their semantically-correct surface:
+  - **Muted chips / tiles / hovers → `--pc-subtle-bg`:** secondary-button hover,
+    `.pa-code` block, comparison label column, pill + boxed tab tracks, list-item
+    hover and avatar placeholder, and the search-results type pill + icon tiles.
+  - **White surfaces → `--pc-main-bg`:** timeline node dots, command-palette
+    keycaps, settings-panel content.
+  - **Canvas → `--pc-page-bg`:** the tabs scroll-fade masks and the logic-tree
+    condition-block border.
+
+  (No visual regression in the default theme; several of these — e.g. the
+  search-results pills/tiles, previously invisible white on white — now read
+  correctly as muted surfaces.)
+
 ## [2.9.0-rc18] - 2026-08-30 [PUBLISHED]
 
 ### Changed
