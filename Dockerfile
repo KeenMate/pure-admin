@@ -8,7 +8,7 @@
 FROM node:lts-alpine AS build
 
 # Theme source URL (override with --build-arg)
-ARG THEMES_URL=https://pureadmin.io/api/bundle?themes=audi,dark,express
+ARG THEMES_URL=https://pureadmin.io/api/bundle?themes=audi,dark,express,gruvbox,cobalt2,nato,cafeindustrial,ayu
 
 WORKDIR /app
 
