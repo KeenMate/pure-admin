@@ -5,7 +5,7 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0-rc19] - 2026-09-08
+## [2.9.0-rc19] - 2026-09-08 [PUBLISHED]
 
 ### Changed
 
@@ -22,15 +22,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   flip, core components were repointed to their semantically-correct surface:
   - **Muted chips / tiles / hovers → `--pc-subtle-bg`:** secondary-button hover,
     `.pa-code` block, comparison label column, pill + boxed tab tracks, list-item
-    hover and avatar placeholder, and the search-results type pill + icon tiles.
-  - **White surfaces → `--pc-main-bg`:** timeline node dots, command-palette
-    keycaps, settings-panel content.
+    hover and avatar placeholder, the search-results type pill + icon tiles, and
+    the settings-panel content.
+  - **White surfaces → `--pc-main-bg`:** timeline node dots and command-palette
+    keycaps.
   - **Canvas → `--pc-page-bg`:** the tabs scroll-fade masks and the logic-tree
     condition-block border.
 
   (No visual regression in the default theme; several of these — e.g. the
   search-results pills/tiles, previously invisible white on white — now read
   correctly as muted surfaces.)
+
+### Fixed
+
+- **Required-field marker gap widened to `0.5rem`** (was `0.2rem`) — on both the
+  form-group label marker (`_form-layout.scss`) and the checkbox/radio option
+  marker (`_checkboxes-radios.scss`), so the `*` sits clearly off the label text.
+- **Demo `validations.mustache` unified to the native required marker.** Its
+  required labels used a hand-authored `<span class="text-danger">*</span>` (a
+  wider word-space gap, off the `:required`→`::after` path); switched to the
+  native `required` attribute (and native `.pa-checkbox` `:required` for the
+  consent box) so it renders through the same marker mechanism as the Forms page.
 
 ## [2.9.0-rc18] - 2026-08-30 [PUBLISHED]
 
