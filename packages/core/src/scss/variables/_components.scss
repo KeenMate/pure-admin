@@ -50,6 +50,46 @@ $comparison-accent-orange: #f97316 !default;
 // COMMAND PALETTE input height (derived; must resolve after $base-input-size-*)
 $command-palette-input-height: #{$base-input-size-lg-height}rem !default;
 
+// ----------------------------------------------------------------------------
+// SYSTEM one-offs relocated from pure-css foundation (2026-09-09)
+// App-specific z-index tiers, component opacity one-offs, the profile-panel
+// shadow, the backdrop-pattern geometry, and the ripple effect. The GENERIC
+// scales (z-index base tiers, transitions, easings, the $opacity-* set,
+// $shadow-sm..2xl, focus-* widths) stay in pure-css as foundation primitives.
+// These derive from the foundation ($opacity-light is in scope), so the single
+// source of truth is unchanged.
+// ----------------------------------------------------------------------------
+
+// App-specific z-index tiers (coordinate against pure-css's shared scale)
+$z-index-detail-panel-card: 3500 !default;  // Card overlay detail panel (below navbar)
+$z-index-profile-panel: 5000 !default;
+$z-index-settings-panel: 10000 !default;
+$z-index-command-palette: 10500 !default;
+
+// Component-specific opacities
+$alert-secondary-bg-opacity: 0.05 !default;
+$alert-light-bg-opacity: 0.03 !default;
+$card-tab-hover-opacity: 0.05 !default;
+$bg-pattern-opacity: 0.03 !default;
+$popover-code-bg-opacity: 0.1 !default;
+$modal-warning-hover-bg-opacity: $opacity-light !default;
+
+// Profile-panel shadow
+$shadow-profile-panel: -4px 0 20px rgba(0, 0, 0, 0.15) !default;
+
+// Background-pattern geometry (decorative backdrop)
+$bg-pattern-circle-1-x: 20% !default;
+$bg-pattern-circle-1-y: 80% !default;
+$bg-pattern-circle-2-x: 80% !default;
+$bg-pattern-circle-2-y: 20% !default;
+$bg-pattern-gradient-start: 0% !default;
+$bg-pattern-gradient-stop: 50% !default;
+
+// Ripple interaction effect
+$ripple-color: rgba(255, 255, 255, 0.3) !default;
+$ripple-transition-duration: 0.6s !default;
+$ripple-size: 300px !default;
+
 // ============================================================================
 // BADGE SYSTEM
 // ============================================================================
