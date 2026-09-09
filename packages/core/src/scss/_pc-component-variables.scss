@@ -102,7 +102,8 @@
 
   // NOTE: the --pc-multiselect-* tokens were removed — web-multiselect themes
   // directly off --base-* (--base-dropdown-bg, --base-accent-color-light, …) and
-  // nothing ever read the --pc- mirror. See _colors.scss for the stray $-vars.
+  // nothing ever read the --pc- mirror. The stray $multiselect-* $-vars were
+  // likewise pruned from variables/_components.scss.
 }
 
 @mixin output-pc-component-variables {
@@ -234,7 +235,8 @@
   // NOTE: the simple --pc-badge-{success,warning,info,danger}-bg/-text tokens
   // were removed — pure-admin's badge CSS styles from --pc-btn-* / --pc-color-* /
   // the role tokens, and no web component reads --pc-badge-*. They were dead.
-  // (The $badge-* $-vars still live in variables/_colors.scss, now unreferenced.)
+  // (The $badge-* $-vars in variables/_components.scss stay — the badge component
+  // SCSS consumes them directly at build time; only the --pc-badge-* mirror was dead.)
 
   // Composite badge
   --pc-composite-badge-icon-bg: #{$composite-badge-icon-bg};

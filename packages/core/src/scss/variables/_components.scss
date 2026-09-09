@@ -367,27 +367,9 @@ $checkbox-checkmark-color: white !default;                // Checkmark/dash colo
 $checkbox-focus-shadow: 0 0 0 2px rgba($accent-color, 0.25) !default;
 $checkbox-transition: $transition-fast !default;
 
-// ============================================================================
-// MULTISELECT SYSTEM
-// ============================================================================
-$multiselect-input-padding-v: $input-padding-v !default;
-$multiselect-input-padding-h: $input-padding-h !default;
-$multiselect-dropdown-bg: $base-dropdown-bg !default;  // reconciled: floating surface → dropdown-bg (= main-bg default)
-$multiselect-dropdown-border: $border-color !default;
-$multiselect-dropdown-text: $text-color-1 !default;
-$multiselect-dropdown-shadow: $shadow-lg !default;
-$multiselect-dropdown-max-height: 32rem !default;  // 320px (was 20rem)
-$multiselect-hint-bg: $page-bg !default;  // canvas tone (was $main-bg, which is now the white surface)
-$multiselect-hint-border: $border-color !default;
-$multiselect-hint-padding: $spacing-sm !default;
-$multiselect-option-padding-v: $spacing-sm !default;
-$multiselect-option-padding-h: $spacing-md !default;
-$multiselect-option-hover-bg: $base-hover-bg !default;  // RECONCILED: was main-bg; now the shared hover surface
-$multiselect-pill-bg: $accent-light !default;
-$multiselect-pill-border: $accent-color !default;
-$multiselect-pill-padding: $spacing-xs $spacing-sm !default;
-$multiselect-pill-gap: $spacing-xs !default;
-$multiselect-selected-popover-width: 32rem !default;  // 320px (was 20rem)
+// NOTE: the $multiselect-* $-vars were removed — dead vocabulary. web-multiselect
+// themes off its own --ms-* namespace (falling back to --base-*), pure-admin no
+// longer emits --pc-multiselect-*, and no CSS read these $-vars.
 
 // ============================================================================
 // ALERT SYSTEM
