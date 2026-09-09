@@ -42,7 +42,8 @@
   --pc-btn-info-text: var(--base-text-on-info, #{$btn-info-text});
 
   --pc-btn-light-bg: var(--base-page-bg, #{$btn-light-bg});
-  --pc-btn-light-bg-hover: var(--base-subtle-bg, #{$btn-light-bg-hover});
+  // Hover is a STATE — track --base-hover-bg, not the recessed-surface token. (subtle de-conflation)
+  --pc-btn-light-bg-hover: var(--base-hover-bg, #{$btn-light-bg-hover});
   --pc-btn-light-text: var(--base-text-color-1, #{$btn-light-text});
 
   // Contextual surfaces — the hover + text-light of each role
