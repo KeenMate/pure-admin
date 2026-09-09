@@ -1,31 +1,34 @@
 // ============================================================================
-// BASE CSS VARIABLES — shim to @keenmate/pure-css
+// BASE CSS VARIABLES — the full --pc-*/--base-* emit-mixin entry point
 // ============================================================================
-// The emit mixins are single-sourced from the foundation package
-// @keenmate/pure-css and re-exported here via @import:
-//   - output-base-css-variables         (--base-* web-component bridge)
-//   - output-pc-css-variables           (the BASE --pc-* foundation tokens)
-//   - output-pc-component-variables      (pure-admin's component --pc-* tokens)
-//   - output-pc-alert-variables-{light,dark}
+// Re-exports every emit mixin so themes + main.scss have one import:
+//   from @keenmate/pure-css (the foundation's base contract):
+//     - output-base-css-variables         (--base-* web-component bridge)
+//     - output-pc-css-variables           (the BASE --pc-* foundation tokens)
+//   from core's own pc-component-variables (pure-admin's component contract):
+//     - output-pc-component-variables      (mode-invariant component --pc-*)
+//     - output-pc-component-mode-variables (themed component --pc-*, per-mode)
+//     - output-pc-alert-variables-{light,dark}
 //
-// pure-css DEFINES all of them (they read the shared $-variable vocabulary that
-// lives in pure-css's variables/*), but only EMITS the base pair from its own
-// bundle. pure-admin ships the components, so pure-admin's main.scss + every
-// theme call output-pc-component-variables + output-pc-alert-* alongside the
-// base pair. See the header of pure-css's _base-css-variables.scss.
+// The base pair is single-sourced in pure-css (it reads the $base-* SoT). The
+// component mixins now live HERE (core), next to the component CSS + the
+// component $-vocabulary (variables/_components.scss) — see
+// _pc-component-variables.scss. pure-admin's main.scss + every theme call
+// output-pc-component-variables + output-pc-alert-* alongside the base pair.
 //
 // MUST use `@import`, not `@use`/`@forward`. The emit mixins reference the
-// `$base-*` SCSS variables; a theme sets those BEFORE `@import`-ing this file,
-// so the mixin must be defined in the theme's GLOBAL scope (where the override
-// lives) to read the overridden value. `@forward` would load pure-css's
-// base-css-variables as a hermetic module whose internal `@use variables/index`
-// only ever sees the `!default` values — silently dropping every theme
-// override. `@import` flattens the file (mixins + its `@use … as *`) into the
-// caller's global scope, exactly as the pre-extraction file did.
+// `$base-*`/component SCSS variables; a theme sets those BEFORE `@import`-ing
+// this file, so the mixin must be defined in the theme's GLOBAL scope (where
+// the override lives) to read the overridden value. `@forward` would load these
+// as hermetic modules whose internal `@use variables/index` only ever sees the
+// `!default` values — silently dropping every theme override. `@import`
+// flattens the files (mixins + their `@use … as *`) into the caller's global
+// scope, exactly as the pre-extraction file did.
 //
-// `main.scss`'s `@use 'base-css-variables' as bcv` still resolves
-// `bcv.output-*`: `@import`ed mixins are public members of this shim module.
-// Resolved via the `--load-path=node_modules` passed to sass.
+// `main.scss`'s `@use 'base-css-variables' as bcv` still resolves `bcv.output-*`:
+// `@import`ed mixins are public members of this shim module. Resolved via the
+// `--load-path=node_modules` passed to sass.
 // ============================================================================
 
 @import '@keenmate/pure-css/src/scss/base-css-variables';
+@import 'pc-component-variables';

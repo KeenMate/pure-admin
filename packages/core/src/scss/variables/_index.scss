@@ -1,21 +1,29 @@
 // ============================================================================
-// VARIABLES INDEX — shim to @keenmate/pure-css
+// VARIABLES INDEX — foundation (pure-css) + component vocabulary (core)
 // ============================================================================
-// The variable modules (base + derived typography/spacing/colors/layout/
-// system/components) now live in the extracted foundation package
-// @keenmate/pure-css and are single-sourced from there.
+// The FOUNDATION variable modules (base + derived typography/spacing/colors/
+// layout/system) live in the extracted @keenmate/pure-css package and are
+// single-sourced from there — $base-* is the theming source of truth.
 //
-// This file is kept as core's public entry point so themes importing
+// The COMPONENT vocabulary (badge/card/table/modal/tabs/stats/timeline/dataviz/
+// command-palette/… — `_components.scss`) lives HERE, in core, next to the
+// component CSS that consumes it. It derives from pure-css's $base-*, so there
+// is one source of truth and no drift.
+//
+// This file is core's public entry point so themes importing
 // `@keenmate/pure-admin-core/src/scss/variables/index` keep resolving.
 //
 // IMPORTANT: This MUST stay `@import` (not `@use`/`@forward`). The legacy
-// `@import` flow shares global scope, so a theme that sets `$base-*` BEFORE
-// importing this file wins over the foundation's `!default` values.
-// Resolved via the `--load-path=node_modules` passed to sass (see the core
-// package.json build script and pack-theme.js for themes).
+// `@import` flow shares global scope, so a theme that sets `$base-*`/component
+// vars BEFORE importing this file wins over the `!default` values. Resolved via
+// the `--load-path=node_modules` passed to sass (see the core package.json
+// build script and pack-theme.js for themes).
 // ============================================================================
 
+// Foundation first (source of truth), then core's component vocabulary which
+// derives from it.
 @import '@keenmate/pure-css/src/scss/variables/index';
+@import 'components';
 
 // ----------------------------------------------------------------------------
 // $form-gap — the honestly-named form-gap token. Owned upstream by pure-css

@@ -1,0 +1,364 @@
+// ============================================================================
+// COMPONENT CSS VARIABLES — pure-admin's --pc-* component contract
+// ============================================================================
+// These mixins emit the component-scoped --pc-* tokens (buttons, cards, tables,
+// panels, tooltips, command palette, sentiment scale, form spacing, the derived
+// contextual/alert surfaces, admin layout chrome, …). They live HERE, in
+// pure-admin-core, next to the component CSS that consumes them — NOT in the
+// @keenmate/pure-css foundation, which ships only the base contract.
+//
+// They read the component `$`-vocabulary (core's variables/_components.scss)
+// which derives from the $base-* source of truth single-sourced in pure-css.
+// `@use 'variables/index' as *` pulls BOTH into scope: a Sass mixin resolves
+// its globals from its definition site, and the @import-flattened index places
+// pure-css's foundation + core's component vars into that scope, with theme
+// overrides already applied (themes set $base-*/component vars before importing,
+// and the !default flags skip them).
+//
+// Emitted by pure-admin's main.scss + every theme (alongside the base pair
+// output-base-css-variables + output-pc-css-variables, which come from
+// pure-css). The foundation bundle (pure-css) never calls these.
+//
+// output-pc-component-mode-variables carries the themed tokens that resolve
+// through var(--base-*); emit it at `:root, .pc-mode-light, .pc-mode-dark` so
+// each mode re-resolves against its own --base-*. The rest are mode-invariant.
+// ============================================================================
+@use 'variables/index' as *;
+
+@mixin output-pc-component-mode-variables {
+  // Buttons — primary (accent), per-role hover/text, and the light button
+  --pc-btn-primary-bg: var(--base-accent-color, #{$btn-primary-bg});
+  --pc-btn-primary-bg-hover: var(--base-accent-color-hover, #{$btn-primary-bg-hover});
+  --pc-btn-primary-bg-light: color-mix(in srgb, var(--pc-btn-primary-bg) 5%, transparent);
+  --pc-btn-primary-text: var(--base-text-color-on-accent, #{$btn-primary-text});
+
+  --pc-btn-success-bg-hover: var(--base-success-color-hover, #{$btn-success-bg-hover});
+  --pc-btn-success-text: var(--base-text-on-success, #{$btn-success-text});
+  --pc-btn-danger-bg-hover: var(--base-danger-color-hover, #{$btn-danger-bg-hover});
+  --pc-btn-danger-text: var(--base-text-on-danger, #{$btn-danger-text});
+  --pc-btn-warning-bg-hover: var(--base-warning-color-hover, #{$btn-warning-bg-hover});
+  --pc-btn-warning-text: var(--base-text-on-warning, #{$btn-warning-text});
+  --pc-btn-info-bg-hover: var(--base-info-color-hover, #{$btn-info-bg-hover});
+  --pc-btn-info-text: var(--base-text-on-info, #{$btn-info-text});
+
+  --pc-btn-light-bg: var(--base-page-bg, #{$btn-light-bg});
+  --pc-btn-light-bg-hover: var(--base-subtle-bg, #{$btn-light-bg-hover});
+  --pc-btn-light-text: var(--base-text-color-1, #{$btn-light-text});
+
+  // Contextual surfaces — the hover + text-light of each role
+  --pc-success-bg-hover: var(--base-success-color-hover, #{$success-bg-hover});
+  --pc-success-text-light: var(--base-success-text-light, #{$success-text-light});
+  --pc-danger-bg-hover: var(--base-danger-color-hover, #{$danger-bg-hover});
+  --pc-danger-text-light: var(--base-danger-text-light, #{$danger-text-light});
+  --pc-warning-bg-hover: var(--base-warning-color-hover, #{$warning-bg-hover});
+  --pc-warning-text-light: var(--base-warning-text-light, #{$warning-text-light});
+  --pc-info-bg-hover: var(--base-info-color-hover, #{$info-bg-hover});
+  --pc-info-text-light: var(--base-info-text-light, #{$info-text-light});
+
+  // Cards
+  --pc-card-bg: var(--base-main-bg, #{$card-bg});
+  --pc-card-header-bg: var(--base-elevated-bg, #{$card-header-bg});
+  --pc-card-footer-bg: var(--base-main-bg, #{$card-footer-bg});
+  --pc-card-tabs-bg: var(--base-elevated-bg, #{$card-tabs-bg});
+
+  // Inputs / forms
+  --pc-input-bg: var(--base-input-bg, #{$input-bg});
+  --pc-input-border: var(--base-input-border-color, #{$input-border});
+  --pc-input-text: var(--base-input-color, #{$input-text});
+  --pc-input-focus-border-color: var(--base-accent-color, #{$input-focus-border-color});
+  --pc-select-focus-border-color: var(--base-accent-color, #{$select-focus-border-color});
+  --pc-textarea-focus-border-color: var(--base-accent-color, #{$textarea-focus-border-color});
+
+  --pc-checkbox-border-color: var(--base-checkbox-border-color, #{$checkbox-border-color});
+  --pc-checkbox-border-color-hover: var(--base-accent-color, #{$checkbox-border-color-hover});
+  --pc-checkbox-border-color-checked: var(--base-accent-color, #{$checkbox-border-color-checked});
+  --pc-checkbox-bg: var(--base-input-bg, #{$checkbox-bg});
+  --pc-checkbox-bg-checked: var(--base-accent-color, #{$checkbox-bg-checked});
+  --pc-checkbox-bg-indeterminate: var(--base-accent-color, #{$checkbox-bg-indeterminate});
+
+  --pc-input-group-prepend-text: var(--base-text-color-2, #{$input-group-prepend-text});
+  --pc-input-group-append-text: var(--base-text-color-2, #{$input-group-append-text});
+
+  // Tables
+  --pc-table-bg: var(--base-main-bg, #{$table-bg});
+  --pc-table-header-bg: var(--base-elevated-bg, #{$table-header-bg});
+  --pc-table-stripe: var(--base-elevated-bg, #{$table-stripe});
+  --pc-table-hover-bg: var(--base-hover-bg, #{$table-hover-bg});
+  --pc-table-hover-accent-color: var(--base-accent-color, #{$table-hover-accent-color});
+
+  // Modal
+  --pc-modal-overlay-bg: var(--base-overlay-bg, #{$modal-overlay-bg});
+  --pc-modal-content-bg: var(--base-main-bg, #{$modal-content-bg});
+
+  // Tooltip / popover
+  --pc-tooltip-bg: var(--base-tooltip-bg, #{$tooltip-bg});
+  --pc-tooltip-text: var(--base-tooltip-text-color, #{$tooltip-text});
+  --pc-popover-content-bg: var(--base-dropdown-bg, #{$popover-content-bg});
+
+  // Command palette — keycaps
+  --pc-command-palette-key-bg: var(--base-subtle-bg, #{$subtle-bg});
+  --pc-command-palette-key-text: var(--base-text-color-1, #{$text-color-1});
+
+  // NOTE: the --pc-multiselect-* tokens were removed — web-multiselect themes
+  // directly off --base-* (--base-dropdown-bg, --base-accent-color-light, …) and
+  // nothing ever read the --pc- mirror. See _colors.scss for the stray $-vars.
+}
+
+@mixin output-pc-component-variables {
+  // =========================================================================
+  // SENTIMENT SCALE — 5-step direction-of-change (KPI / data-display).
+  // Middle three alias the role colours so retuning --pc-success / --pc-danger
+  // retunes the matching sentiment positions; outliers are explicit shades.
+  // =========================================================================
+  --pc-very-positive: #{$base-very-positive};
+  --pc-positive:      var(--pc-success);
+  --pc-neutral:       #{$base-neutral};
+  --pc-negative:      var(--pc-danger);
+  --pc-very-negative: #{$base-very-negative};
+
+  // =========================================================================
+  // CHART / SPARKLINE — shared trendline sizing.
+  // =========================================================================
+  --pc-chart-trendline-height: 3rem;
+  --pc-chart-trendline-stroke: 2.1;     // SVG user-space units (viewBox-relative)
+
+  // =========================================================================
+  // DETAIL POPOVER — Bloomberg-dark by default regardless of host theme.
+  // Override the five tokens to adopt a theme-aware popover instead.
+  // =========================================================================
+  --pc-detail-bg:        rgba(15, 17, 21, 0.97);
+  --pc-detail-text:      #ffffff;
+  --pc-detail-row-label: rgba(255, 255, 255, 0.75);
+  --pc-detail-title:     rgba(255, 255, 255, 0.55);
+  --pc-detail-shadow:    0 1.4rem 3.6rem rgba(0, 0, 0, 0.55);
+
+  // =========================================================================
+  // LAYOUT COLORS
+  // =========================================================================
+
+  // The app shell (navbar / sidebar / footer) is a DISTINCT brand surface: a
+  // theme sets its own $navbar-bg / $sidebar-bg / $footer-bg (e.g. Express's
+  // yellow bar), independent of the --base-* card/page palette. So emit these
+  // compile-time — NOT `var(--base-main-bg, …)`, which would let the always-set
+  // --base-main-bg win and erase the brand colour. The standalone (base.css
+  // only) fallback lives where it belongs: the shell CSS itself resolves
+  // `var(--pc-navbar-bg, var(--base-main-bg))` when no --pc-* is emitted.
+
+  // Navbar
+  --pc-navbar-bg: #{$navbar-bg};
+  --pc-navbar-border-color: #{$navbar-border-color};
+  --pc-navbar-text: #{$navbar-text};
+  --pc-navbar-text-secondary: #{$navbar-text-secondary};
+  --pc-navbar-profile-name-color: #{$navbar-profile-name-color};
+
+  // Sidebar
+  --pc-sidebar-bg: #{$sidebar-bg};
+  --pc-sidebar-text: #{$sidebar-text};
+  --pc-sidebar-text-secondary: #{$sidebar-text-secondary};
+  --pc-sidebar-submenu-bg: #{$sidebar-submenu-bg};
+  --pc-sidebar-submenu-hover-bg: #{$sidebar-submenu-hover-bg};
+  --pc-sidebar-submenu-active-bg: #{$sidebar-submenu-active-bg};
+  --pc-sidebar-submenu-active-text: #{$sidebar-submenu-active-text};
+
+  // Footer
+  --pc-footer-bg: #{$footer-bg};
+  --pc-footer-border-color: #{$footer-border-color};
+
+  // =========================================================================
+  // BUTTON COLORS
+  // =========================================================================
+
+  // Secondary
+  --pc-btn-secondary-bg: #{$btn-secondary-bg};
+  --pc-btn-secondary-bg-hover: #{$btn-secondary-bg-hover};
+  --pc-btn-secondary-text: #{$btn-secondary-text};
+  --pc-btn-secondary-outline-color: var(--pc-btn-secondary-bg);
+
+  // Role identities — -bg references the role colour (mode-invariant). The
+  // mode-aware primary / light buttons and every per-role -bg-hover / -text
+  // live in output-pc-component-mode-variables.
+  --pc-btn-success-bg: var(--pc-success);
+  --pc-btn-danger-bg: var(--pc-danger);
+  --pc-btn-warning-bg: var(--pc-warning);
+  --pc-btn-info-bg: var(--pc-info);
+
+  // Dark
+  --pc-btn-dark-bg: #{$btn-dark-bg};
+  --pc-btn-dark-bg-hover: #{$btn-dark-bg-hover};
+  --pc-btn-dark-text: #{$btn-dark-text};
+
+  // =========================================================================
+  // CONTEXTUAL/SEMANTIC SURFACES — derive from the base role identities.
+  // -bg/-bg-light/-bg-subtle/-border track the --pc-role colour (mode-invariant
+  // here). The mode-aware -bg-hover / -text-light live in
+  // output-pc-component-mode-variables. (The role text colours
+  // --pc-{success,danger,warning,info}-text live in the base contract.)
+  // =========================================================================
+  --pc-success-bg: var(--pc-success);
+  --pc-success-bg-light: color-mix(in srgb, var(--pc-success) 10%, transparent);
+  --pc-success-bg-subtle: color-mix(in srgb, var(--pc-success) 8%, transparent);
+  --pc-success-border: color-mix(in srgb, var(--pc-success) 20%, transparent);
+
+  --pc-danger-bg: var(--pc-danger);
+  --pc-danger-bg-light: color-mix(in srgb, var(--pc-danger) 10%, transparent);
+  --pc-danger-bg-subtle: color-mix(in srgb, var(--pc-danger) 8%, transparent);
+  --pc-danger-border: color-mix(in srgb, var(--pc-danger) 20%, transparent);
+
+  --pc-warning-bg: var(--pc-warning);
+  --pc-warning-bg-light: color-mix(in srgb, var(--pc-warning) 10%, transparent);
+  --pc-warning-bg-subtle: color-mix(in srgb, var(--pc-warning) 8%, transparent);
+  --pc-warning-border: color-mix(in srgb, var(--pc-warning) 20%, transparent);
+
+  --pc-info-bg: var(--pc-info);
+  --pc-info-bg-light: color-mix(in srgb, var(--pc-info) 10%, transparent);
+  --pc-info-bg-subtle: color-mix(in srgb, var(--pc-info) 8%, transparent);
+  --pc-info-border: color-mix(in srgb, var(--pc-info) 20%, transparent);
+
+  // =========================================================================
+  // INPUT/FORM COLORS — the mode-aware input surface/border/text, the checkbox
+  // border/bg tokens, and the input-group prepend/append TEXT live in
+  // output-pc-component-mode-variables. Only the mode-invariant bits remain.
+  // =========================================================================
+  // Checkbox (checkmark colour + focus shadow stay compile-time)
+  --pc-checkbox-checkmark-color: #{$checkbox-checkmark-color};
+  --pc-checkbox-focus-shadow: #{$checkbox-focus-shadow};
+
+  // Input group (prepend/append bg are the secondary grey — compile-time)
+  --pc-input-group-prepend-bg: #{$input-group-prepend-bg};
+  --pc-input-group-append-bg: #{$input-group-append-bg};
+
+  // =========================================================================
+  // COMPOSITE BADGE COLORS
+  // =========================================================================
+  // NOTE: the simple --pc-badge-{success,warning,info,danger}-bg/-text tokens
+  // were removed — pure-admin's badge CSS styles from --pc-btn-* / --pc-color-* /
+  // the role tokens, and no web component reads --pc-badge-*. They were dead.
+  // (The $badge-* $-vars still live in variables/_colors.scss, now unreferenced.)
+
+  // Composite badge
+  --pc-composite-badge-icon-bg: #{$composite-badge-icon-bg};
+  --pc-composite-badge-label-bg: #{$composite-badge-label-bg};
+  --pc-composite-badge-label-text: #{$composite-badge-label-text};
+  --pc-composite-badge-label-hover-bg: #{$composite-badge-label-hover-bg};
+
+  // =========================================================================
+  // TOOLTIP & POPOVER COLORS — tooltip bg/text and popover content-bg are
+  // mode-aware (output-pc-component-mode-variables); the fixed popover text
+  // colours stay here.
+  // =========================================================================
+  --pc-popover-text-light: #{$popover-text-light};
+  --pc-popover-text-dark: #{$popover-text-dark};
+
+  // =========================================================================
+  // LOADER COLORS
+  // =========================================================================
+  --pc-loader-overlay-bg: #{$loader-overlay-bg};
+
+  // =========================================================================
+  // PROFILE PANEL COLORS
+  // =========================================================================
+  --pc-profile-overlay-bg: #{$profile-overlay-bg};
+
+  // =========================================================================
+  // DETAIL PANEL COLORS
+  // =========================================================================
+  --pc-detail-panel-overlay-bg: #{$detail-panel-overlay-bg};
+  --pc-detail-panel-selected-bg: #{$detail-panel-selected-bg};
+  --pc-detail-panel-z-index: #{$detail-panel-z-index};
+
+  // =========================================================================
+  // COMMAND PALETTE COLORS
+  // =========================================================================
+  --pc-command-palette-backdrop-bg: #{$command-palette-backdrop-bg};
+  --pc-command-palette-item-hover-bg: #{$command-palette-item-hover-bg};
+  --pc-command-palette-item-active-bg: #{$command-palette-item-active-bg};
+  --pc-command-palette-highlight-bg: #{$command-palette-highlight-bg};
+  --pc-command-palette-highlight-text: #{$command-palette-highlight-text};
+  --pc-command-palette-key-font-size: #{$font-size-xs};
+  --pc-command-palette-key-font-weight: #{$font-weight-semibold};
+  // (mode-aware keycap --pc-command-palette-key-bg / -key-text and the whole
+  //  MULTISELECT block live in output-pc-component-mode-variables)
+
+  // =========================================================================
+  // FORM SPACING — the complete anatomy of a form's spacing. Runtime-tunable;
+  // the inline "gap" family chains to --pc-form-gap so one knob moves them all.
+  //   VERTICAL RHYTHM: --pc-label-gap (label→control), --pc-help-gap
+  //     (control→help), --pc-field-gap (field→field), --pc-form-actions-offset
+  //     (last field→actions row).
+  //   INLINE: --pc-form-gap (shared + label↔icon), --pc-choice-gap (between
+  //     options), --pc-choice-inner-gap (control↔label), --pc-form-actions-gap
+  //     (between buttons), --pc-field-horizontal-gap (label col↔input col).
+  // =========================================================================
+  --pc-form-gap: #{$form-gap};
+  --pc-choice-gap: var(--pc-form-gap);
+  --pc-choice-inner-gap: #{$spacing-sm};
+  --pc-form-actions-gap: var(--pc-form-gap);
+  --pc-field-horizontal-gap: #{$spacing-base};
+  --pc-label-gap: #{$form-label-margin-bottom};
+  --pc-help-gap: #{$form-help-margin-top};
+  --pc-field-gap: #{$form-group-margin-bottom};
+  --pc-form-actions-offset: #{$spacing-base};
+
+  // Mode-aware colour tokens — included here so existing single-scope callers
+  // (core main.scss at :root; themes at `:root, .pc-mode-light`) still emit the
+  // full component set with zero change. Consumers that want per-mode
+  // re-resolution ALSO @include output-pc-component-mode-variables under
+  // `:root, .pc-mode-light, .pc-mode-dark` (see that mixin's header) and can
+  // then drop their hand-written dark --pc-* overrides.
+  @include output-pc-component-mode-variables;
+}
+
+// ============================================================================
+// ALERT COLOR DERIVATION MIXINS — also pure-admin's contract (see above).
+// ============================================================================
+// Derive alert colours from the semantic role surfaces (--pc-success-bg, etc.)
+// via color-mix(). Consumers call the light or dark variant after
+// output-pc-component-variables. Light: dark text on subtle backgrounds.
+// Dark: white text on tinted backgrounds. Not emitted by pure-css's own bundle.
+// ============================================================================
+
+// Light mode: dark text on subtle backgrounds
+@mixin output-pc-alert-variables-light {
+  // Success
+  --pc-alert-success-text: color-mix(in srgb, var(--pc-success-bg) #{$alert-text-mix-light}, black);
+  --pc-alert-success-bg: color-mix(in srgb, var(--pc-success-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pc-alert-success-border: color-mix(in srgb, var(--pc-success-bg) #{$alert-border-opacity-light}%, transparent);
+
+  // Danger
+  --pc-alert-danger-text: color-mix(in srgb, var(--pc-danger-bg) #{$alert-text-mix-light}, black);
+  --pc-alert-danger-bg: color-mix(in srgb, var(--pc-danger-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pc-alert-danger-border: color-mix(in srgb, var(--pc-danger-bg) #{$alert-border-opacity-light}%, transparent);
+
+  // Warning
+  --pc-alert-warning-text: color-mix(in srgb, var(--pc-warning-bg) #{$alert-text-mix-light}, black);
+  --pc-alert-warning-bg: color-mix(in srgb, var(--pc-warning-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pc-alert-warning-border: color-mix(in srgb, var(--pc-warning-bg) #{$alert-border-opacity-light}%, transparent);
+
+  // Info
+  --pc-alert-info-text: color-mix(in srgb, var(--pc-info-bg) #{$alert-text-mix-light}, black);
+  --pc-alert-info-bg: color-mix(in srgb, var(--pc-info-bg) #{$alert-bg-opacity-light}%, transparent);
+  --pc-alert-info-border: color-mix(in srgb, var(--pc-info-bg) #{$alert-border-opacity-light}%, transparent);
+}
+
+// Dark mode: white text on tinted backgrounds (white text is always readable)
+@mixin output-pc-alert-variables-dark {
+  // Success
+  --pc-alert-success-text: #ffffff;
+  --pc-alert-success-bg: color-mix(in srgb, var(--pc-success-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pc-alert-success-border: color-mix(in srgb, var(--pc-success-bg) #{$alert-border-opacity-dark}%, transparent);
+
+  // Danger
+  --pc-alert-danger-text: #ffffff;
+  --pc-alert-danger-bg: color-mix(in srgb, var(--pc-danger-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pc-alert-danger-border: color-mix(in srgb, var(--pc-danger-bg) #{$alert-border-opacity-dark}%, transparent);
+
+  // Warning
+  --pc-alert-warning-text: #ffffff;
+  --pc-alert-warning-bg: color-mix(in srgb, var(--pc-warning-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pc-alert-warning-border: color-mix(in srgb, var(--pc-warning-bg) #{$alert-border-opacity-dark}%, transparent);
+
+  // Info
+  --pc-alert-info-text: #ffffff;
+  --pc-alert-info-bg: color-mix(in srgb, var(--pc-info-bg) #{$alert-bg-opacity-dark}%, transparent);
+  --pc-alert-info-border: color-mix(in srgb, var(--pc-info-bg) #{$alert-border-opacity-dark}%, transparent);
+}
