@@ -9,6 +9,47 @@
 
 // NOTE: 10px rem base - all rem values are now in 10px units (1rem = 10px)
 
+// =============================================================================
+// RELOCATED FROM pure-css FOUNDATION (2026-09-09)
+// These are niche, component-specific values (tables, code highlighting, the
+// comparison widget, the command-palette input) — not universal base-derived
+// primitives — and pure-css renders none of them. They derive from pure-css's
+// $base-* (in scope: foundation is @imported before this file in variables/
+// index), so the single source of truth is unchanged.
+// =============================================================================
+
+// TABLE COLORS (derived from base surfaces)
+$table-stripe: $base-elevated-bg !default;   // striped/elevated rows → elevated-bg (= page-bg default)
+$table-bg: $base-main-bg !default;
+$table-header-bg: $base-elevated-bg !default;  // header chrome → elevated-bg (= page-bg default)
+$table-hover-bg: $base-hover-bg !default;     // shared hover surface
+
+// Table row hover accent (border)
+$table-hover-accent-width: 0 !default;
+$table-hover-accent-color: $base-accent-color !default;
+$table-hover-accent-position: left !default;
+
+// CODE LANGUAGE COLORS (standalone - not themed)
+$code-language-json: #f59e0b !default;
+$code-language-javascript: #f0db4f !default;
+$code-language-html: #e34c26 !default;
+$code-language-css: #264de4 !default;
+$code-language-bash: #4eaa25 !default;
+$code-language-sql: #00758f !default;
+$code-language-python: #3776ab !default;
+$code-syntax-keyword: #0077aa !default;
+$code-syntax-string: #669900 !default;
+$code-syntax-number: #ff6600 !default;
+$code-syntax-function: #9933cc !default;
+$code-syntax-property: #dd4a68 !default;
+
+// COMPARISON TABLE COLORS
+$comparison-accent-pink: #ec4899 !default;
+$comparison-accent-orange: #f97316 !default;
+
+// COMMAND PALETTE input height (derived; must resolve after $base-input-size-*)
+$command-palette-input-height: #{$base-input-size-lg-height}rem !default;
+
 // ============================================================================
 // BADGE SYSTEM
 // ============================================================================
