@@ -6,6 +6,12 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc20
+
+- **Core now owns the `--pc-*` component variable layer (depends on pure-css `^1.0.0-rc08`).** pure-css rc08 became foundation-only and stopped emitting the component token mixins; core absorbed them (`variables/_components.scss` + `output-pc-component-variables` / `-mode-variables` / `-alert-*`), next to the component CSS they feed. Token names are unchanged — still `--pc-*`, one shared namespace — and the compiled `main.css` is byte-identical to rc19, so consumers of the bundled CSS see no change. Theme SCSS builds now need pure-css ≥ rc08.
+- **A shared, themeable icon contract — 13 `--pc-icon-*` glyphs tracing to pure-css's `--base-icon-*`.** `--pc-icon-x` now derives from `--base-icon-close`, and core adds `chevron`, `caret`/`-down`/`-up`, `clear`, `remove`, `expand`, `collapse`, `add`, `edit`, `delete`, `search` (Lucide defaults) with matching `.pa-icon--*` modifiers. One `--base-icon-*` override re-skins core components, the shell, and the web components together; `delete` is a trash bin, not an ✕.
+- **Hover/active states split off the recessed surface.** Secondary-button and list-item hovers now read `--pc-hover-bg` (and `--pc-btn-light-bg-hover` derives from `--base-hover-bg`) instead of the recessed `--pc-subtle-bg`, which read as *raised* in several dark themes. Light mode is unchanged; recessed surfaces (code, tab tracks, tiles, keycaps) keep `--pc-subtle-bg`.
+
 ## What's New in 2.9.0-rc18
 
 - **The app shell moved to the `@keenmate/pure-css` foundation (BREAKING).** The
@@ -30,33 +36,6 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
   ported into `fit.js`. Fixes restore-on-widen, which never worked before.
 - **New Responsivity demo** (`/responsivity`) explaining both responsive engines,
   the sink architecture, and a live relocate example.
-
-## What's New in 2.9.0-rc17
-
-- **Container Breakpoint engine — the JS counterpart to a CSS container query.** A
-  `@container` rule can only show/hide; the new `container-breakpoint.js` watches
-  an element's width and maps it to a **named mode** from declared rem/px
-  thresholds, firing `pa:breakpoint` only when the mode flips — so a wrapper can
-  *mount* the right branch instead of building an off-screen chart/widget just to
-  hide it. Reflects `[data-mode]`, toggles the shared `.d-none` on `data-pa-show`
-  children, and has a hysteresis dead-band against boundary flapping. Wire it
-  declaratively (`data-pa-breakpoints`) or programmatically
-  (`pureAdmin.components.containerBreakpoint.observe`).
-- **Fit engine — arm a whole container, pin individual items out.**
-  `data-pa-fit-auto` on a container folds every child into the fit set without
-  tagging each; `data-pa-fit-ignore` pins one out (a burger, a bell, a submit
-  button), even inside an armed container.
-- **Fit priority now has a fallback ladder.** A slot resolves
-  `data-pa-fit-priority` → ancestor `data-pa-fit-default-priority` →
-  `pureAdmin.config.fit.defaultPriority` → `0`, so the verbose per-element
-  attribute is rarely needed.
-- **Fit is no longer navbar-only.** The engine is container-generic —
-  `pureAdmin.components.fit.init(el)` shrinks any horizontal flex row (a toolbar,
-  a filter bar, a card's action cluster), not just the navbar.
-- **`navbar-fit.js` is now `fit.js` (BREAKING).** Update
-  `@keenmate/pure-admin-core/js/navbar-fit.js` imports to `.../js/fit.js`; the
-  runtime `pureAdmin.components.navFit` name stays as an alias of the new
-  `pureAdmin.components.fit`.
 
 ## Installation
 

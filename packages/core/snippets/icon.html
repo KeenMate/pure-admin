@@ -51,6 +51,36 @@
 
 
 <!-- ================================
+     GLYPH MODIFIERS — the shipped set
+     Each modifier points --pc-icon-src at a --pc-icon-* glyph variable (Lucide
+     by default), so it inherits currentColor + --pc-icon-size like any pa-icon.
+     Two families: DISMISS (share the "x" / clear marks) and ACTION (distinct
+     verbs). Disclosure: --chevron ROTATES one glyph (nav/expanders), while
+     --expand / --collapse SWAP two glyphs (+ / − tree nodes); --caret-up /
+     --caret-down are the STATIC sort pair.
+     ================================ -->
+
+<!-- Dismiss family -->
+<span class="pa-icon pa-icon--x" aria-hidden="true"></span>        <!-- close a surface -->
+<span class="pa-icon pa-icon--clear" aria-hidden="true"></span>    <!-- clear a field -->
+<span class="pa-icon pa-icon--remove" aria-hidden="true"></span>   <!-- remove an item -->
+
+<!-- Disclosure -->
+<span class="pa-icon pa-icon--chevron" aria-hidden="true"></span>
+<span class="pa-icon pa-icon--caret" aria-hidden="true"></span>         <!-- alias of --caret-down -->
+<span class="pa-icon pa-icon--caret-down" aria-hidden="true"></span>
+<span class="pa-icon pa-icon--caret-up" aria-hidden="true"></span>
+<span class="pa-icon pa-icon--expand" aria-hidden="true"></span>        <!-- + -->
+<span class="pa-icon pa-icon--collapse" aria-hidden="true"></span>      <!-- − -->
+
+<!-- Action family (CRUD + search) -->
+<span class="pa-icon pa-icon--add" aria-hidden="true"></span>
+<span class="pa-icon pa-icon--edit" aria-hidden="true"></span>
+<span class="pa-icon pa-icon--delete" aria-hidden="true"></span>        <!-- trash, not an x -->
+<span class="pa-icon pa-icon--search" aria-hidden="true"></span>
+
+
+<!-- ================================
      SWAPPING THE GLYPH (provider-agnostic)
      Each glyph modifier just points --pc-icon-src at a glyph variable. Override
      the glyph var (e.g. --pc-icon-x) with a different icon set's mask URL — at
