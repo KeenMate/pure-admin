@@ -24,8 +24,15 @@
   --pc-icon-x: var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E"));
   // Directional stroked chevron (expanders/nav; rotate to indicate open).
   --pc-icon-chevron: var(--base-icon-chevron, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m9 18 6-6-6-6%22/%3E%3C/svg%3E"));
-  // Static solid caret (the dropdown/select affordance).
+  // Static solid caret (the dropdown/select affordance). --pc-icon-caret is the
+  // down glyph (alias kept for callers); -caret-down/-up are the explicit pair
+  // (sort direction, upward dropdowns) — components swap, they don't rotate.
   --pc-icon-caret: var(--base-icon-caret-down, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23000%22 d=%22M12 15 6 9h12z%22/%3E%3C/svg%3E"));
+  --pc-icon-caret-down: var(--pc-icon-caret);
+  --pc-icon-caret-up: var(--base-icon-caret-up, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23000%22 d=%22M12 9 6 15h12z%22/%3E%3C/svg%3E"));
+  // Field-clear ✕ — same default glyph as --pc-icon-x but its own knob (follows
+  // --base-icon-clear, which in turn follows --base-icon-close).
+  --pc-icon-clear: var(--base-icon-clear, var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E")));
   // Swap-glyph disclosure pair (+/−) for tree nodes / accordions — the component
   // shows expand (+) when collapsed and collapse (−) when open. Also add/remove glyphs.
   --pc-icon-expand: var(--base-icon-expand, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3Cpath d=%22M12 5v14%22/%3E%3C/svg%3E"));
@@ -46,7 +53,10 @@
 // Per-glyph modifiers just point --pc-icon-src at the chosen glyph var.
 .pa-icon--x { --pc-icon-src: var(--pc-icon-x); }
 .pa-icon--chevron { --pc-icon-src: var(--pc-icon-chevron); }
-.pa-icon--caret { --pc-icon-src: var(--pc-icon-caret); }
+.pa-icon--caret,
+.pa-icon--caret-down { --pc-icon-src: var(--pc-icon-caret-down); }
+.pa-icon--caret-up { --pc-icon-src: var(--pc-icon-caret-up); }
+.pa-icon--clear { --pc-icon-src: var(--pc-icon-clear); }
 .pa-icon--expand { --pc-icon-src: var(--pc-icon-expand); }
 .pa-icon--collapse { --pc-icon-src: var(--pc-icon-collapse); }
 
