@@ -28,6 +28,18 @@
 // `main.scss`'s `@use 'base-css-variables' as bcv` still resolves `bcv.output-*`:
 // `@import`ed mixins are public members of this shim module. Resolved via the
 // `--load-path=node_modules` passed to sass.
+//
+// ── How the layers fit (why there's no $pc-* source here) ───────────────────
+// `--base-*` is the single canonical theming knob, owned by
+// @keenmate/base-css-variables and mirrored into pure-css's $base-* SCSS. Every
+// --pc-* token emitted below is wired as `var(--base-*, <fallback>)`, so at
+// runtime it IS the --base-* value; overriding ONE --base-* (at :root /
+// .pc-mode-* / any [data-*] scope) re-themes pure-admin's components AND the
+// KeenMate web components together. pure-admin defines NO parallel source of
+// truth and there is no `$pc-*` SCSS var — the `pc` layer is born at emission as
+// a CSS property pointing back at --base-*.
+// Full layered walk-through (the --pc-accent pipeline, LAYER 0→5):
+//   https://github.com/keenmate/base-css-variables  — README § "The layer pipeline"
 // ============================================================================
 
 @import '@keenmate/pure-css/src/scss/base-css-variables';
