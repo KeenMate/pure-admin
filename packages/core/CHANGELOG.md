@@ -37,6 +37,16 @@ the unpublished rc20, whose relocation ships within this release.)
   drops the shell's incidental references to the renamed component tokens so the
   foundation never points into pure-admin's `--pa-*` namespace.
 
+### Fixed
+
+- **Input-group prepend/append addon text was low-contrast (invisible) in some
+  dark themes.** The addon text defaulted to `--base-text-color-2` (muted), which
+  sits too close to the addon fill (`$secondary-bg`) in dark themes — faint in
+  nato, fully invisible in cafeindustrial (where the two were the identical tan).
+  Addon text now tracks `--base-text-color-1` (primary), which always contrasts.
+  (cafeindustrial's inverted palette also gets an explicit dark addon chip in its
+  own theme.) Pre-existing; unrelated to the token rename.
+
 ## [2.9.0-rc20] - 2026-09-10
 
 The **component-layer ownership** release. pure-css rc08 shed the `--pc-*`

@@ -77,8 +77,11 @@
   --pa-checkbox-bg-checked: var(--base-accent-color, #{$checkbox-bg-checked});
   --pa-checkbox-bg-indeterminate: var(--base-accent-color, #{$checkbox-bg-indeterminate});
 
-  --pa-input-group-prepend-text: var(--base-text-color-2, #{$input-group-prepend-text});
-  --pa-input-group-append-text: var(--base-text-color-2, #{$input-group-append-text});
+  // Addon text tracks PRIMARY text (not secondary) — the addon fill is
+  // $secondary-bg, and in dark themes the muted --base-text-color-2 sits too
+  // close to it (invisible in inverted palettes). Primary text always contrasts.
+  --pa-input-group-prepend-text: var(--base-text-color-1, #{$input-group-prepend-text});
+  --pa-input-group-append-text: var(--base-text-color-1, #{$input-group-append-text});
 
   // Tables
   --pa-table-bg: var(--base-main-bg, #{$table-bg});
