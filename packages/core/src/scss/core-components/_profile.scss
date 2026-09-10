@@ -6,14 +6,14 @@
 
 // Local CSS variables for profile panel (runtime state, modified by JS for resize)
 :root {
-  --pc-local-profile-panel-width: #{$profile-panel-width};
-  --pc-local-profile-panel-max-width: #{$profile-panel-max-width};
+  --pa-local-profile-panel-width: #{$profile-panel-width};
+  --pa-local-profile-panel-max-width: #{$profile-panel-max-width};
 }
 
 // Profile panel content width - :where() for low specificity (utility classes can override)
 :where(.pa-profile-panel__content) {
-  width: var(--pc-local-profile-panel-width);
-  max-width: var(--pc-local-profile-panel-max-width);
+  width: var(--pa-local-profile-panel-width);
+  max-width: var(--pa-local-profile-panel-max-width);
 }
 
 // ====================
@@ -78,7 +78,7 @@
     inset-inline-start: 0; // RTL: flips to right
     width: 100vw;
     height: 100vh;
-    background-color: var(--pc-profile-overlay-bg);
+    background-color: var(--pa-profile-overlay-bg);
     cursor: pointer;
   }
 
@@ -87,7 +87,7 @@
     top: 0;
     inset-inline-end: 0; // RTL: flips to left
     height: 100vh;
-    background-color: var(--pc-card-bg);
+    background-color: var(--pa-card-bg);
     box-shadow: $shadow-profile-panel;
     transform: translateX(100%);
     transition: transform $transition-medium $easing-snappy;
@@ -269,7 +269,7 @@
     flex-shrink: 0;
     padding: $spacing-lg; // Matches header padding
     border-top: $border-width-base solid var(--pc-border-color);
-    background-color: var(--pc-card-bg);
+    background-color: var(--pa-card-bg);
     display: flex;
     flex-direction: column;
     gap: $spacing-md;
@@ -384,8 +384,8 @@
                 background-color $transition-fast $easing-snappy;
 
     &:hover {
-      color: var(--pc-danger-bg);
-      background-color: var(--pc-danger-bg-light);
+      color: var(--pa-danger-bg);
+      background-color: var(--pa-danger-bg-light);
     }
   }
 

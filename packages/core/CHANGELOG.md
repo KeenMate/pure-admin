@@ -5,7 +5,39 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0-rc20] - 2026-09-10 [PUBLISHED]
+## [2.9.0-rc21] - 2026-09-10 [PUBLISHED]
+
+The **`--pa-*` component-token namespace** release (⚠ breaking). Now that core
+owns the component variable layer (rc20), its tokens carry core's own prefix:
+every component custom property is renamed `--pc-*` → `--pa-*`, so the property
+prefix finally matches the class prefix — `--pc-*` / `.pc-*` = the pure-css
+foundation + app shell, `--pa-*` / `.pa-*` = pure-admin components. (Supersedes
+the unpublished rc20, whose relocation ships within this release.)
+
+### ⚠ Breaking
+
+- **Every component `--pc-*` token is renamed to `--pa-*`** — ~190 tokens across
+  buttons, cards, tables, alerts, badges, modals, KPI, inputs/checkboxes/forms,
+  command palette, tooltips/popovers, detail & profile panels, gauges/charts,
+  icons, the range slider, and the role *fills/tints*
+  (`--pc-danger-bg`/`-border`/`-text-light` → `--pa-danger-bg`/…). The pure-css
+  **foundation** keeps `--pc-*` (surfaces, text, accent, links, radius, the role
+  *identities* `--pc-danger`/`--pc-success`/…, the `--pc-color-1..9` palette) and
+  the **shell** keeps `--pc-navbar-*` / `--pc-sidebar-*` / `--pc-footer-*`.
+  **Only names change — every resolved value is identical** (verified by a
+  normalized before/after diff of the compiled `main.css`: zero differences).
+  Anything overriding a component `--pc-*` token (custom themes, app CSS) must
+  rename it to `--pa-*`; there are **no back-compat aliases**.
+- The `.pa-icon--*` class modifiers are unchanged; only their backing tokens
+  (`--pc-icon-*` → `--pa-icon-*`) moved.
+
+### Changed
+
+- **Depends on `@keenmate/pure-css` `^1.0.0-rc09`** (was `^1.0.0-rc08`) — rc09
+  drops the shell's incidental references to the renamed component tokens so the
+  foundation never points into pure-admin's `--pa-*` namespace.
+
+## [2.9.0-rc20] - 2026-09-10
 
 The **component-layer ownership** release. pure-css rc08 shed the `--pc-*`
 component vocabulary to become a pure foundation; core now **owns** that layer

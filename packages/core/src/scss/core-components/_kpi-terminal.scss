@@ -43,7 +43,7 @@
 
   &.is-active {
     background: var(--pc-text-color-1);
-    color: var(--pc-card-bg);
+    color: var(--pa-card-bg);
   }
 }
 
@@ -86,7 +86,7 @@
      neighbour cells in a parent grid) — gets a full border + card bg so
      it doesn't look orphaned. */
   &--standalone {
-    background: var(--pc-card-bg);
+    background: var(--pa-card-bg);
     border: 1px solid var(--pc-border-color);
     margin-bottom: 1.2rem;
 
@@ -117,8 +117,8 @@
   line-height: 1.3;
 
   &--warn {
-    background: var(--pc-warning-bg);
-    color: var(--pc-btn-warning-text);
+    background: var(--pa-warning-bg);
+    color: var(--pa-btn-warning-text);
   }
 
   /* GOOD is the "default" state — text-only, no chrome */
@@ -159,11 +159,11 @@
   font-family: var(--base-font-family-mono);
   line-height: 1;
 
-  &--very-positive .pa-kpi-tile__num { color: var(--pc-very-positive); }
-  &--positive      .pa-kpi-tile__num { color: var(--pc-positive); }
-  &--neutral       .pa-kpi-tile__num { color: var(--pc-neutral); }
-  &--negative      .pa-kpi-tile__num { color: var(--pc-negative); }
-  &--very-negative .pa-kpi-tile__num { color: var(--pc-very-negative); }
+  &--very-positive .pa-kpi-tile__num { color: var(--pa-very-positive); }
+  &--positive      .pa-kpi-tile__num { color: var(--pa-positive); }
+  &--neutral       .pa-kpi-tile__num { color: var(--pa-neutral); }
+  &--negative      .pa-kpi-tile__num { color: var(--pa-negative); }
+  &--very-negative .pa-kpi-tile__num { color: var(--pa-very-negative); }
 }
 
 .pa-kpi-tile__num {
@@ -190,24 +190,24 @@
   color: var(--pc-text-tertiary);
 }
 .pa-kpi-tile__delta {
-  &--very-positive { color: var(--pc-very-positive); }
-  &--positive      { color: var(--pc-positive); }
-  &--neutral       { color: var(--pc-neutral); }
-  &--negative      { color: var(--pc-negative); }
-  &--very-negative { color: var(--pc-very-negative); }
+  &--very-positive { color: var(--pa-very-positive); }
+  &--positive      { color: var(--pa-positive); }
+  &--neutral       { color: var(--pa-neutral); }
+  &--negative      { color: var(--pa-negative); }
+  &--very-negative { color: var(--pa-very-negative); }
 }
 
 /* ----- Sparkline -------------------------------------------------------- */
 .pa-kpi-tile__spark {
   display: block;
   width: 100%;
-  height: var(--pc-chart-trendline-height);
+  height: var(--pa-chart-trendline-height);
   overflow: visible;
 
   polyline {
     fill: none;
     stroke: currentColor;
-    stroke-width: var(--pc-chart-trendline-stroke);
+    stroke-width: var(--pa-chart-trendline-stroke);
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -220,17 +220,17 @@
    for the SVG content (line) and the HTML dot (inside the wrap). */
 .pa-kpi-tile {
   &--up-strong   .pa-kpi-tile__spark,
-  &--up-strong   .pa-kpi-spark-wrap { color: var(--pc-very-positive); }
+  &--up-strong   .pa-kpi-spark-wrap { color: var(--pa-very-positive); }
 
   &--up          .pa-kpi-tile__spark,
-  &--up          .pa-kpi-spark-wrap { color: var(--pc-positive); }
+  &--up          .pa-kpi-spark-wrap { color: var(--pa-positive); }
 
   &--flat        .pa-kpi-tile__spark,
-  &--flat        .pa-kpi-spark-wrap { color: var(--pc-neutral); }
+  &--flat        .pa-kpi-spark-wrap { color: var(--pa-neutral); }
 
   &--down        .pa-kpi-tile__spark,
-  &--down        .pa-kpi-spark-wrap { color: var(--pc-negative); }
+  &--down        .pa-kpi-spark-wrap { color: var(--pa-negative); }
 
   &--down-strong .pa-kpi-tile__spark,
-  &--down-strong .pa-kpi-spark-wrap { color: var(--pc-very-negative); }
+  &--down-strong .pa-kpi-spark-wrap { color: var(--pa-very-negative); }
 }

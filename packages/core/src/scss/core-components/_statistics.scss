@@ -20,7 +20,7 @@
     font-size: $font-size-xl;
 
     // Colour variants resolve via CSS custom properties so theme overrides
-    // (--pc-success-bg, --pc-warning-bg, etc.) cascade at runtime instead of
+    // (--pa-success-bg, --pa-warning-bg, etc.) cascade at runtime instead of
     // baking at SCSS compile time.
     &--primary {
       background-color: var(--pc-accent-light);
@@ -28,23 +28,23 @@
     }
 
     &--success {
-      background-color: var(--pc-success-bg-light);
-      color: var(--pc-success-bg);
+      background-color: var(--pa-success-bg-light);
+      color: var(--pa-success-bg);
     }
 
     &--warning {
-      background-color: var(--pc-warning-bg-light);
-      color: var(--pc-warning-bg);
+      background-color: var(--pa-warning-bg-light);
+      color: var(--pa-warning-bg);
     }
 
     &--danger {
-      background-color: var(--pc-danger-bg-light);
-      color: var(--pc-danger-bg);
+      background-color: var(--pa-danger-bg-light);
+      color: var(--pa-danger-bg);
     }
 
     &--info {
-      background-color: var(--pc-info-bg-light);
-      color: var(--pc-info-bg);
+      background-color: var(--pa-info-bg-light);
+      color: var(--pa-info-bg);
     }
   }
 
@@ -96,11 +96,11 @@
       font-size: $font-size-xs;
       font-weight: $font-weight-semibold;
 
-      &--very-positive { color: var(--pc-very-positive); }
-      &--positive      { color: var(--pc-positive); }
-      &--neutral       { color: var(--pc-neutral); }
-      &--negative      { color: var(--pc-negative); }
-      &--very-negative { color: var(--pc-very-negative); }
+      &--very-positive { color: var(--pa-very-positive); }
+      &--positive      { color: var(--pa-positive); }
+      &--neutral       { color: var(--pa-neutral); }
+      &--negative      { color: var(--pa-negative); }
+      &--very-negative { color: var(--pa-very-negative); }
     }
   }
 
@@ -168,22 +168,22 @@
     // Color variants — use CSS vars so theme overrides apply at runtime
     &.pa-stat--primary {
       background-color: var(--pc-accent);
-      color: var(--pc-btn-primary-text);
+      color: var(--pa-btn-primary-text);
     }
 
     &.pa-stat--success {
-      background-color: var(--pc-success-bg);
-      color: var(--pc-btn-success-text);
+      background-color: var(--pa-success-bg);
+      color: var(--pa-btn-success-text);
     }
 
     &.pa-stat--info {
-      background-color: var(--pc-info-bg);
-      color: var(--pc-btn-info-text);
+      background-color: var(--pa-info-bg);
+      color: var(--pa-btn-info-text);
     }
 
     &.pa-stat--warning {
-      background-color: var(--pc-warning-bg);
-      color: var(--pc-btn-warning-text);
+      background-color: var(--pa-warning-bg);
+      color: var(--pa-btn-warning-text);
 
       // Warning is the one square variant with DARK text (on a light amber
       // surface). The number's default black text-shadow + drop-shadow stack is
@@ -198,13 +198,13 @@
     }
 
     &.pa-stat--danger {
-      background-color: var(--pc-danger-bg);
-      color: var(--pc-btn-danger-text);
+      background-color: var(--pa-danger-bg);
+      color: var(--pa-btn-danger-text);
     }
 
     &.pa-stat--secondary {
       background-color: var(--pc-text-color-2);
-      color: var(--pc-btn-primary-text);
+      color: var(--pa-btn-primary-text);
     }
 
     // ----------------------------------------------------------------
@@ -290,9 +290,9 @@
         text-overflow: ellipsis;
 
         // …opt-in sentiment tints (same scale as the hero variant's __change)
-        &--positive { color: var(--pc-positive); }
-        &--neutral  { color: var(--pc-neutral); }
-        &--negative { color: var(--pc-negative); }
+        &--positive { color: var(--pa-positive); }
+        &--neutral  { color: var(--pa-neutral); }
+        &--negative { color: var(--pa-negative); }
       }
       .pa-stat__context {
         flex: 0 0 auto;

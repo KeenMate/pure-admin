@@ -30,13 +30,13 @@
 .pa-modal__backdrop {
   position: fixed;
   inset: 0; // RTL: full screen works in both directions
-  background-color: var(--pc-modal-overlay-bg);
+  background-color: var(--pa-modal-overlay-bg);
   z-index: $z-index-modal-backdrop;
 }
 
 // Modal container (the actual dialog)
 .pa-modal__container {
-  background-color: var(--pc-modal-content-bg);
+  background-color: var(--pa-modal-content-bg);
   border-radius: var(--pc-border-radius);
   box-shadow: $modal-box-shadow;
   width: 100%;
@@ -115,42 +115,42 @@
 
 // Modal color variations
 .pa-modal--primary .pa-modal__header {
-  background-color: var(--pc-btn-primary-bg);
-  color: var(--pc-modal-content-bg);
-  border-bottom-color: var(--pc-btn-primary-bg);
+  background-color: var(--pa-btn-primary-bg);
+  color: var(--pa-modal-content-bg);
+  border-bottom-color: var(--pa-btn-primary-bg);
 
   .pa-modal__title {
-    color: var(--pc-modal-content-bg);
+    color: var(--pa-modal-content-bg);
   }
 }
 
 .pa-modal--success .pa-modal__header {
-  background-color: var(--pc-btn-success-bg);
-  color: var(--pc-btn-success-text);
-  border-bottom-color: var(--pc-btn-success-bg);
+  background-color: var(--pa-btn-success-bg);
+  color: var(--pa-btn-success-text);
+  border-bottom-color: var(--pa-btn-success-bg);
 
   .pa-modal__title {
-    color: var(--pc-btn-success-text);
+    color: var(--pa-btn-success-text);
   }
 }
 
 .pa-modal--warning .pa-modal__header {
-  background-color: var(--pc-btn-warning-bg);
-  color: var(--pc-btn-warning-text);
-  border-bottom-color: var(--pc-btn-warning-bg);
+  background-color: var(--pa-btn-warning-bg);
+  color: var(--pa-btn-warning-text);
+  border-bottom-color: var(--pa-btn-warning-bg);
 
   .pa-modal__title {
-    color: var(--pc-btn-warning-text);
+    color: var(--pa-btn-warning-text);
   }
 }
 
 .pa-modal--danger .pa-modal__header {
-  background-color: var(--pc-btn-danger-bg);
-  color: var(--pc-btn-danger-text);
-  border-bottom-color: var(--pc-btn-danger-bg);
+  background-color: var(--pa-btn-danger-bg);
+  color: var(--pa-btn-danger-text);
+  border-bottom-color: var(--pa-btn-danger-bg);
 
   .pa-modal__title {
-    color: var(--pc-btn-danger-text);
+    color: var(--pa-btn-danger-text);
   }
 }
 
@@ -166,19 +166,19 @@
 // source order (specificity is identical, last-rule wins).
 .pa-modal--banded {
   .pa-modal__header {
-    background-color: var(--pc-modal-band-bg);
-    color: var(--pc-modal-band-text);
-    border-bottom-color: var(--pc-modal-band-border);
+    background-color: var(--pa-modal-band-bg);
+    color: var(--pa-modal-band-text);
+    border-bottom-color: var(--pa-modal-band-border);
 
     .pa-modal__title {
-      color: var(--pc-modal-band-text);
+      color: var(--pa-modal-band-text);
     }
   }
 
   .pa-modal__footer {
-    background-color: var(--pc-modal-band-bg);
-    color: var(--pc-modal-band-text);
-    border-top-color: var(--pc-modal-band-border);
+    background-color: var(--pa-modal-band-bg);
+    color: var(--pa-modal-band-text);
+    border-top-color: var(--pa-modal-band-border);
   }
 
   // Buttons inside the bands invert the modal's colour scheme so they
@@ -188,7 +188,7 @@
   .pa-modal__header .pa-btn,
   .pa-modal__footer .pa-btn {
     background-color: var(--pc-text-color-1);
-    color: var(--pc-modal-content-bg);
+    color: var(--pa-modal-content-bg);
     border-color: var(--pc-text-color-1);
 
     &:hover {
@@ -199,27 +199,27 @@
 }
 
 .pa-modal--banded.pa-modal--success {
-  --pc-modal-band-bg: var(--pc-alert-success-bg);
-  --pc-modal-band-text: var(--pc-alert-success-text);
-  --pc-modal-band-border: var(--pc-alert-success-border);
+  --pa-modal-band-bg: var(--pa-alert-success-bg);
+  --pa-modal-band-text: var(--pa-alert-success-text);
+  --pa-modal-band-border: var(--pa-alert-success-border);
 }
 
 .pa-modal--banded.pa-modal--warning {
-  --pc-modal-band-bg: var(--pc-alert-warning-bg);
-  --pc-modal-band-text: var(--pc-alert-warning-text);
-  --pc-modal-band-border: var(--pc-alert-warning-border);
+  --pa-modal-band-bg: var(--pa-alert-warning-bg);
+  --pa-modal-band-text: var(--pa-alert-warning-text);
+  --pa-modal-band-border: var(--pa-alert-warning-border);
 }
 
 .pa-modal--banded.pa-modal--danger {
-  --pc-modal-band-bg: var(--pc-alert-danger-bg);
-  --pc-modal-band-text: var(--pc-alert-danger-text);
-  --pc-modal-band-border: var(--pc-alert-danger-border);
+  --pa-modal-band-bg: var(--pa-alert-danger-bg);
+  --pa-modal-band-text: var(--pa-alert-danger-text);
+  --pa-modal-band-border: var(--pa-alert-danger-border);
 }
 
 .pa-modal--banded.pa-modal--info {
-  --pc-modal-band-bg: var(--pc-alert-info-bg);
-  --pc-modal-band-text: var(--pc-alert-info-text);
-  --pc-modal-band-border: var(--pc-alert-info-border);
+  --pa-modal-band-bg: var(--pa-alert-info-bg);
+  --pa-modal-band-text: var(--pa-alert-info-text);
+  --pa-modal-band-border: var(--pa-alert-info-border);
 }
 
 // Modal scrollable content

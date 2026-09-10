@@ -122,7 +122,7 @@
     &--warning { background: var(--pc-warning); }
     &--danger  { background: var(--pc-danger); }
     &--info    { background: var(--pc-info); }
-    &--secondary { background: var(--pc-btn-secondary-bg); }
+    &--secondary { background: var(--pa-btn-secondary-bg); }
   }
 
   // Legend
@@ -152,7 +152,7 @@
     &--warning   { background: var(--pc-warning); }
     &--danger    { background: var(--pc-danger); }
     &--info      { background: var(--pc-info); }
-    &--secondary { background: var(--pc-btn-secondary-bg); }
+    &--secondary { background: var(--pa-btn-secondary-bg); }
   }
 
   // Size variants
@@ -185,7 +185,7 @@
     width: 70%;
     height: 70%;
     border-radius: 50%;
-    background: var(--pc-card-bg);
+    background: var(--pa-card-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -269,14 +269,14 @@
 
 .pa-gauge {
   // Single token controls the active fill; colour variants override just this.
-  --pc-gauge-fill: var(--pc-accent);
+  --pa-gauge-fill: var(--pc-accent);
   // Total width of the gauge. Height auto-derives at half the width (the
   // gauge is a top semi-circle, so aspect ratio is fixed 2:1). Override
-  // per instance via style="--pc-gauge-size: 16rem".
-  --pc-gauge-size: #{$gauge-size};
+  // per instance via style="--pa-gauge-size: 16rem".
+  --pa-gauge-size: #{$gauge-size};
 
-  width: var(--pc-gauge-size);
-  height: calc(var(--pc-gauge-size) / 2);
+  width: var(--pa-gauge-size);
+  height: calc(var(--pa-gauge-size) / 2);
   // Reserve room for the absolutely-positioned __min / __max labels that
   // sit below the baseline. Without this, parents see only the half-circle
   // height (gauge-size / 2) and the labels collide with whatever's below.
@@ -286,14 +286,14 @@
 
   // Ring is drawn on a pseudo so the mask carves out a true donut hole
   // (transparent center) without affecting child content. The previous
-  // technique overlaid an opaque inner element with --pc-card-bg to fake
-  // the hole, which only worked when the gauge sat on a --pc-card-bg
+  // technique overlaid an opaque inner element with --pa-card-bg to fake
+  // the hole, which only worked when the gauge sat on a --pa-card-bg
   // surface; on any other background the "hole" showed as a coloured fill.
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: var(--pc-gauge-size) var(--pc-gauge-size) 0 0;
+    border-radius: var(--pa-gauge-size) var(--pa-gauge-size) 0 0;
     // Conic and mask must share the same centre (50% 100% — bottom-centre)
     // so the colour transitions and the ring boundaries are concentric.
     // Without "at 50% 100%" on the conic, its centre defaults to the
@@ -301,7 +301,7 @@
     // and producing wedge-thicker bottom corners.
     background: conic-gradient(
       from 0.75turn at 50% 100%,
-      var(--pc-gauge-fill) calc(var(--value, 0) * 1.8deg),
+      var(--pa-gauge-fill) calc(var(--value, 0) * 1.8deg),
       var(--pc-surface-track) 0deg
     );
     -webkit-mask-image: radial-gradient(circle farthest-side at 50% 100%, transparent 0 70%, #000 70%);
@@ -357,10 +357,10 @@
   &__max { right: 0; }
 
   // Colour variants override only the fill token.
-  &--success { --pc-gauge-fill: var(--pc-success); }
-  &--warning { --pc-gauge-fill: var(--pc-warning); }
-  &--danger  { --pc-gauge-fill: var(--pc-danger); }
-  &--info    { --pc-gauge-fill: var(--pc-info); }
+  &--success { --pa-gauge-fill: var(--pc-success); }
+  &--warning { --pa-gauge-fill: var(--pc-warning); }
+  &--danger  { --pa-gauge-fill: var(--pc-danger); }
+  &--info    { --pa-gauge-fill: var(--pc-info); }
 
   // Multi-zone gauge replaces the entire gradient on the pseudo.
   &--zones::before {

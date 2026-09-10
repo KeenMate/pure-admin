@@ -30,10 +30,10 @@
                 --pc-accent             accent / brand colour
                 --pc-text-color-1       primary text
                 --pc-text-color-2       secondary / muted text
-                --pc-card-bg            card surface
+                --pa-card-bg            card surface
                 --pc-border-color       borders
-                --pc-input-bg           input background
-                --pc-success-bg / --pc-danger-bg / --pc-warning-bg / --pc-info-bg
+                --pa-input-bg           input background
+                --pa-success-bg / --pa-danger-bg / --pa-warning-bg / --pa-info-bg
                 --pc-color-1 ... --pc-color-9 + --pc-color-N-text
                                         nine theme palette slots
               Override at :root for app-wide change, or on a section /
@@ -69,7 +69,7 @@
 /* Scope to a single section without affecting the rest of the app */
 .special-section {
     --pc-accent: #6b46c1;
-    --pc-card-bg: #ffffff;
+    --pa-card-bg: #ffffff;
 }
 </style>
 
@@ -217,8 +217,8 @@ function setTheme(name /* e.g. 'corporate', 'audi', 'minimal' */) {
      dimensions so utility classes (.wr-*, .minwr-*, .maxwr-*) win
      without specificity battles. Same pattern in:
        - sidebar (layout.html — --pc-local-sidebar-width)
-       - profile panel (profile.html — --pc-local-profile-panel-width)
-       - detail panel (detail-panel.html — --pc-local-detail-panel-width)
+       - profile panel (profile.html — --pa-local-profile-panel-width)
+       - detail panel (detail-panel.html — --pa-local-detail-panel-width)
      ================================ -->
 
 <aside class="pc-layout__sidebar wr-25">
@@ -317,7 +317,7 @@ Section-scoped theme tweak:
 <style>
   .marketing-section {
     --pc-accent: #6b46c1;
-    --pc-card-bg: #ffffff;
+    --pa-card-bg: #ffffff;
   }
 </style>
 

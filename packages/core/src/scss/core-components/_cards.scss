@@ -6,7 +6,7 @@
 
 // Cards
 .pa-card {
-  background: var(--pc-card-bg);
+  background: var(--pa-card-bg);
   border: $card-border-width solid var(--pc-border-color);
   border-radius: var(--pc-border-radius-lg);
   margin-bottom: $spacing-base;
@@ -31,7 +31,7 @@
     // on coloured variants (--primary/--success/--warning/--danger/--color-*)
     // where the wedge shows as a white sliver against the variant colour.
     border-bottom: $border-width-base solid var(--pc-border-color);
-    background: var(--pc-card-header-bg);
+    background: var(--pa-card-header-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -100,7 +100,7 @@
       // truncation/flex sizing are unaffected — it only shifts the paint.
       // Font-metric dependent, so themes can retune via the CSS variable.
       position: relative;
-      top: var(--pc-card-description-offset-y, #{$card-description-offset-y});
+      top: var(--pa-card-description-offset-y, #{$card-description-offset-y});
     }
 
     // Actions container - fixed, doesn't shrink
@@ -165,7 +165,7 @@
       &.pa-card__header--underline-success h4,
       &.pa-card__header--underline-success h5,
       &.pa-card__header--underline-success h6 {
-        border-bottom-color: var(--pc-success-bg);
+        border-bottom-color: var(--pa-success-bg);
       }
 
       &.pa-card__header--underline-warning h1,
@@ -174,7 +174,7 @@
       &.pa-card__header--underline-warning h4,
       &.pa-card__header--underline-warning h5,
       &.pa-card__header--underline-warning h6 {
-        border-bottom-color: var(--pc-warning-bg);
+        border-bottom-color: var(--pa-warning-bg);
       }
 
       &.pa-card__header--underline-danger h1,
@@ -183,7 +183,7 @@
       &.pa-card__header--underline-danger h4,
       &.pa-card__header--underline-danger h5,
       &.pa-card__header--underline-danger h6 {
-        border-bottom-color: var(--pc-danger-bg);
+        border-bottom-color: var(--pa-danger-bg);
       }
 
       &.pa-card__header--underline-info h1,
@@ -192,7 +192,7 @@
       &.pa-card__header--underline-info h4,
       &.pa-card__header--underline-info h5,
       &.pa-card__header--underline-info h6 {
-        border-bottom-color: var(--pc-info-bg);
+        border-bottom-color: var(--pa-info-bg);
       }
 
       // Theme color slots (1-9)
@@ -282,7 +282,7 @@
     border-top: $border-width-base solid var(--pc-border-color);
     border-bottom-left-radius: var(--pc-border-radius-lg);
     border-bottom-right-radius: var(--pc-border-radius-lg);
-    background: var(--pc-card-footer-bg);
+    background: var(--pa-card-footer-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -383,7 +383,7 @@
     .pa-card__header {
       background-color: var(--pc-accent);
       border-bottom-color: var(--pc-accent);
-      color: var(--pc-btn-primary-text);
+      color: var(--pa-btn-primary-text);
 
       h1,
       h2,
@@ -391,18 +391,18 @@
       h4,
       h5,
       h6 {
-        color: var(--pc-btn-primary-text);
+        color: var(--pa-btn-primary-text);
       }
     }
   }
 
   &--success {
-    border-color: var(--pc-success-bg);
+    border-color: var(--pa-success-bg);
 
     .pa-card__header {
-      background-color: var(--pc-success-bg);
-      border-bottom-color: var(--pc-success-bg);
-      color: var(--pc-btn-success-text);
+      background-color: var(--pa-success-bg);
+      border-bottom-color: var(--pa-success-bg);
+      color: var(--pa-btn-success-text);
 
       h1,
       h2,
@@ -410,18 +410,18 @@
       h4,
       h5,
       h6 {
-        color: var(--pc-btn-success-text);
+        color: var(--pa-btn-success-text);
       }
     }
   }
 
   &--warning {
-    border-color: var(--pc-warning-bg);
+    border-color: var(--pa-warning-bg);
 
     .pa-card__header {
-      background-color: var(--pc-warning-bg);
-      border-bottom-color: var(--pc-warning-bg);
-      color: var(--pc-btn-warning-text);
+      background-color: var(--pa-warning-bg);
+      border-bottom-color: var(--pa-warning-bg);
+      color: var(--pa-btn-warning-text);
 
       h1,
       h2,
@@ -429,18 +429,18 @@
       h4,
       h5,
       h6 {
-        color: var(--pc-btn-warning-text);
+        color: var(--pa-btn-warning-text);
       }
     }
   }
 
   &--danger {
-    border-color: var(--pc-danger-bg);
+    border-color: var(--pa-danger-bg);
 
     .pa-card__header {
-      background-color: var(--pc-danger-bg);
-      border-bottom-color: var(--pc-danger-bg);
-      color: var(--pc-btn-danger-text);
+      background-color: var(--pa-danger-bg);
+      border-bottom-color: var(--pa-danger-bg);
+      color: var(--pa-btn-danger-text);
 
       h1,
       h2,
@@ -448,7 +448,7 @@
       h4,
       h5,
       h6 {
-        color: var(--pc-btn-danger-text);
+        color: var(--pa-btn-danger-text);
       }
     }
   }
@@ -485,12 +485,12 @@
   // Live-data state — persistent tinted background reflecting latest change
   // JS swaps the class on each data update; color stays until next update
   &--live-up {
-    background-color: color-mix(in srgb, var(--pc-positive) 10%, transparent);
+    background-color: color-mix(in srgb, var(--pa-positive) 10%, transparent);
     transition: background-color 0.3s ease;
   }
 
   &--live-down {
-    background-color: color-mix(in srgb, var(--pc-negative) 10%, transparent);
+    background-color: color-mix(in srgb, var(--pa-negative) 10%, transparent);
     transition: background-color 0.3s ease;
   }
 
@@ -526,7 +526,7 @@
   &__tabs {
     display: flex;
     border-bottom: $border-width-base solid var(--pc-border-color);
-    background: var(--pc-card-tabs-bg);
+    background: var(--pa-card-tabs-bg);
   }
 
   &__tab {
@@ -582,7 +582,7 @@
 
       &--active {
         background: var(--pc-accent);
-        color: var(--pc-btn-primary-text);
+        color: var(--pa-btn-primary-text);
       }
     }
   }

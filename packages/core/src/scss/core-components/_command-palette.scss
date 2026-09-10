@@ -14,7 +14,7 @@
   // Runtime-overridable size (fallback = the compile-time SCSS default). Set
   // --pc-command-palette-* at :root, inline, or per-instance to resize without
   // a recompile; the --sm/--lg/--xl modifiers below are presets that set width.
-  padding-top: var(--pc-command-palette-offset-top, #{$command-palette-offset-top});
+  padding-top: var(--pa-command-palette-offset-top, #{$command-palette-offset-top});
 
   &--active {
     display: flex;
@@ -23,15 +23,15 @@
   // Size presets — each sets the width + results-height vars the container and
   // results list read, so they compose with any inline override. Default (no
   // modifier) stays 60.8rem wide / 38.4rem tall.
-  &--sm { --pc-command-palette-width: 48rem;   --pc-command-palette-results-max-height: 28.8rem; }  // 480 / 288px
-  &--lg { --pc-command-palette-width: 76.8rem; --pc-command-palette-results-max-height: 51.2rem; }  // 768 / 512px
-  &--xl { --pc-command-palette-width: 89.6rem; --pc-command-palette-results-max-height: 64rem; }    // 896 / 640px
+  &--sm { --pa-command-palette-width: 48rem;   --pa-command-palette-results-max-height: 28.8rem; }  // 480 / 288px
+  &--lg { --pa-command-palette-width: 76.8rem; --pa-command-palette-results-max-height: 51.2rem; }  // 768 / 512px
+  &--xl { --pa-command-palette-width: 89.6rem; --pa-command-palette-results-max-height: 64rem; }    // 896 / 640px
 
   // Backdrop overlay
   &__backdrop {
     position: absolute;
     inset: 0; // RTL: full screen works in both directions
-    background-color: var(--pc-command-palette-backdrop-bg);
+    background-color: var(--pa-command-palette-backdrop-bg);
     backdrop-filter: blur($command-palette-backdrop-blur);
     animation: fadeIn $transition-normal $easing-smooth;
   }
@@ -40,8 +40,8 @@
   &__container {
     position: relative;
     width: 100%;
-    max-width: var(--pc-command-palette-width, #{$command-palette-width});
-    background-color: var(--pc-modal-content-bg);
+    max-width: var(--pa-command-palette-width, #{$command-palette-width});
+    background-color: var(--pa-modal-content-bg);
     border-radius: var(--pc-border-radius);
     box-shadow: $command-palette-shadow;
     animation: slideDown $transition-normal $easing-smooth;
@@ -110,7 +110,7 @@
     font-size: $command-palette-input-font-size;
     border: $border-width-base solid var(--pc-border-color);
     border-radius: var(--pc-border-radius);
-    background-color: var(--pc-input-bg);
+    background-color: var(--pa-input-bg);
     color: var(--pc-text-color-1);
     outline: none;
     transition: border-color $transition-fast $easing-snappy;
@@ -154,8 +154,8 @@
     // on very short windows. The mobile media query below overrides this on
     // narrow screens; the fullscreen sheet manages its own height entirely.
     max-height: min(
-      var(--pc-command-palette-results-max-height, #{$command-palette-results-max-height}),
-      max(16rem, calc(100dvh - var(--pc-command-palette-offset-top, #{$command-palette-offset-top}) - 12rem))
+      var(--pa-command-palette-results-max-height, #{$command-palette-results-max-height}),
+      max(16rem, calc(100dvh - var(--pa-command-palette-offset-top, #{$command-palette-offset-top}) - 12rem))
     );
     overflow-y: auto;
     padding: $spacing-sm 0;
@@ -167,7 +167,7 @@
         content: '';
         position: absolute;
         inset: 0; // RTL: full overlay works in both directions
-        background-color: color-mix(in srgb, var(--pc-modal-content-bg) 70%, transparent);
+        background-color: color-mix(in srgb, var(--pa-modal-content-bg) 70%, transparent);
         pointer-events: none;
         z-index: 1;
       }
@@ -237,11 +237,11 @@
     gap: $spacing-sm;
 
     &:hover {
-      background-color: var(--pc-command-palette-item-hover-bg);
+      background-color: var(--pa-command-palette-item-hover-bg);
     }
 
     &--active {
-      background-color: var(--pc-command-palette-item-active-bg);
+      background-color: var(--pa-command-palette-item-active-bg);
     }
   }
 
@@ -275,8 +275,8 @@
     text-overflow: ellipsis;
 
     mark {
-      background-color: var(--pc-command-palette-highlight-bg);
-      color: var(--pc-command-palette-highlight-text);
+      background-color: var(--pa-command-palette-highlight-bg);
+      color: var(--pa-command-palette-highlight-text);
       font-weight: $font-weight-semibold;
       padding: 0 2px;
       border-radius: var(--pc-border-radius-sm);
@@ -313,13 +313,13 @@
 
   &__key {
     padding: 2px $spacing-xs;
-    background-color: var(--pc-command-palette-key-bg);
-    color: var(--pc-command-palette-key-text);
+    background-color: var(--pa-command-palette-key-bg);
+    color: var(--pa-command-palette-key-text);
     border: $border-width-base solid var(--pc-border-color);
     border-radius: var(--pc-border-radius-sm);
     font-family: $body-font-family;
-    font-weight: var(--pc-command-palette-key-font-weight);
-    font-size: var(--pc-command-palette-key-font-size);
+    font-weight: var(--pa-command-palette-key-font-weight);
+    font-size: var(--pa-command-palette-key-font-size);
     line-height: 1;
   }
 
@@ -372,7 +372,7 @@
     padding: 0;
     border: $border-width-base solid var(--pc-border-color);
     border-radius: var(--pc-border-radius);
-    background-color: var(--pc-input-bg);
+    background-color: var(--pa-input-bg);
     color: var(--pc-text-color-1);
     cursor: pointer;
     transition: border-color $transition-fast $easing-snappy;
@@ -503,7 +503,7 @@
   // modifiers below override both height and font-size.
   height: #{$base-input-size-md-height}rem;
   font-size: $font-size-sm;
-  background-color: var(--pc-input-bg);
+  background-color: var(--pa-input-bg);
   border: $border-width-base solid var(--pc-border-color);
   border-radius: var(--pc-border-radius);
   cursor: pointer;

@@ -6,14 +6,14 @@
 
 // Local CSS variables for detail panel (runtime state, modified by JS for resize)
 :root {
-  --pc-local-detail-panel-width: #{$detail-panel-width};
-  --pc-local-detail-panel-max-width: #{$detail-panel-max-width};
+  --pa-local-detail-panel-width: #{$detail-panel-width};
+  --pa-local-detail-panel-max-width: #{$detail-panel-max-width};
 }
 
 // Detail panel content width - :where() for low specificity (utility classes can override)
 :where(.pa-detail-view__panel) {
-  width: var(--pc-local-detail-panel-width);
-  max-width: var(--pc-local-detail-panel-max-width);
+  width: var(--pa-local-detail-panel-width);
+  max-width: var(--pa-local-detail-panel-max-width);
 }
 
 // ============================================================================
@@ -43,9 +43,9 @@
 
     // Open state: show panel with configured width
     &--open {
-      width: var(--pc-local-detail-panel-width);
+      width: var(--pa-local-detail-panel-width);
       min-width: $detail-panel-min-width;
-      max-width: var(--pc-local-detail-panel-max-width);
+      max-width: var(--pa-local-detail-panel-max-width);
       border-inline-start-width: $border-width-base; // RTL: flips to right
       overflow: visible;
     }
@@ -79,7 +79,7 @@
 .pa-detail-view__overlay {
   position: absolute;
   inset: 0; // Covers full container
-  background-color: var(--pc-detail-panel-overlay-bg);
+  background-color: var(--pa-detail-panel-overlay-bg);
   z-index: $z-index-detail-panel-card; // 3500 - Below panel and header
   opacity: 0;
   visibility: hidden;
@@ -99,7 +99,7 @@
 .pa-detail-panel--overlay {
   position: fixed;
   inset: 0; // Cover full viewport for backdrop
-  z-index: var(--pc-detail-panel-z-index);
+  z-index: var(--pa-detail-panel-z-index);
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -124,7 +124,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--pc-card-bg);
+  background-color: var(--pa-card-bg);
   position: relative;
 
   // Bordered modifier: adds top and bottom borders
@@ -139,8 +139,8 @@
     right: 0;
     left: auto;
     height: 100vh;
-    width: var(--pc-local-detail-panel-width);
-    max-width: var(--pc-local-detail-panel-max-width);
+    width: var(--pa-local-detail-panel-width);
+    max-width: var(--pa-local-detail-panel-max-width);
     box-shadow: $detail-panel-shadow;
     transform: translateX(100%);
   }
@@ -162,7 +162,7 @@
 .pa-detail-panel__overlay {
   position: absolute;
   inset: 0; // Covers full viewport
-  background-color: var(--pc-detail-panel-overlay-bg);
+  background-color: var(--pa-detail-panel-overlay-bg);
   cursor: pointer;
 }
 
@@ -174,7 +174,7 @@
   gap: $spacing-sm;
   padding: $detail-panel-header-padding-v $detail-panel-header-padding-h;
   border-bottom: $border-width-base solid var(--pc-border-color);
-  background-color: var(--pc-card-bg);
+  background-color: var(--pa-card-bg);
   min-height: 0;
 }
 
@@ -220,7 +220,7 @@
   flex-shrink: 0;
   padding: 0 $detail-panel-header-padding-h;
   border-bottom: $border-width-base solid var(--pc-border-color);
-  background-color: var(--pc-card-bg);
+  background-color: var(--pa-card-bg);
 
   .pa-tabs__item {
     color: var(--pc-text-color-2);
@@ -251,7 +251,7 @@
   flex-shrink: 0;
   padding: $detail-panel-footer-padding-v $detail-panel-footer-padding-h;
   border-top: $border-width-base solid var(--pc-border-color);
-  background-color: var(--pc-card-bg);
+  background-color: var(--pa-card-bg);
   display: flex;
   align-items: center;
   gap: $spacing-sm;
@@ -288,10 +288,10 @@
 // ============================================================================
 
 .pa-table tbody tr.is-selected {
-  background-color: var(--pc-detail-panel-selected-bg);
+  background-color: var(--pa-detail-panel-selected-bg);
 
   &:hover {
-    background-color: var(--pc-detail-panel-selected-bg);
+    background-color: var(--pa-detail-panel-selected-bg);
   }
 }
 
@@ -310,7 +310,7 @@
     display: block;
     position: fixed;
     inset: 0; // Cover full viewport for backdrop
-    z-index: var(--pc-detail-panel-z-index);
+    z-index: var(--pa-detail-panel-z-index);
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
@@ -351,7 +351,7 @@
     .pa-detail-panel__overlay {
       position: absolute;
       inset: 0; // Covers full viewport
-      background-color: var(--pc-detail-panel-overlay-bg);
+      background-color: var(--pa-detail-panel-overlay-bg);
       cursor: pointer;
     }
   }

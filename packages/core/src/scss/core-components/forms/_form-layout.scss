@@ -7,7 +7,7 @@
 // Form Elements
 .pa-form-group {
   // Gap BETWEEN fields (one .pa-form-group = one field).
-  margin-bottom: var(--pc-field-gap, #{$form-group-margin-bottom});
+  margin-bottom: var(--pa-field-gap, #{$form-group-margin-bottom});
 
   // Remove margins when first/last child in card body (direct, in forms+grids, or in grid columns)
   .pa-card__body > &:first-child,
@@ -27,7 +27,7 @@
   display: flex;
   align-items: flex-start;
   // Horizontal field: gap between the label column and the input column.
-  gap: var(--pc-field-horizontal-gap, #{$spacing-base});
+  gap: var(--pa-field-horizontal-gap, #{$spacing-base});
 
   label {
     flex-shrink: 0;
@@ -51,9 +51,9 @@
     label {
       display: flex;
       align-items: center;
-      gap: var(--pc-form-gap, #{$form-gap});
+      gap: var(--pa-form-gap, #{$form-gap});
       // A field's label → its control.
-      margin-bottom: var(--pc-label-gap, #{$form-label-margin-bottom});
+      margin-bottom: var(--pa-label-gap, #{$form-label-margin-bottom});
       color: var(--pc-text-color-1);
       font-weight: $font-weight-medium;
       font-size: $font-size-sm;
@@ -62,11 +62,11 @@
 
   .pa-form-actions {
     // Space above the actions row (last field → buttons).
-    margin-top: var(--pc-form-actions-offset, #{$spacing-base});
+    margin-top: var(--pa-form-actions-offset, #{$spacing-base});
     display: flex;
-    // Gap between footer buttons. --pc-form-actions-gap overrides just this,
-    // falling back to the shared --pc-form-gap.
-    gap: var(--pc-form-actions-gap, var(--pc-form-gap, #{$form-gap}));
+    // Gap between footer buttons. --pa-form-actions-gap overrides just this,
+    // falling back to the shared --pa-form-gap.
+    gap: var(--pa-form-actions-gap, var(--pa-form-gap, #{$form-gap}));
     flex-wrap: wrap;
   }
 }
@@ -90,7 +90,7 @@
   font-weight: $font-weight-medium;
 }
 
-// Inside .pa-form the label is a flex row (gap: --pc-form-gap, there to space a
+// Inside .pa-form the label is a flex row (gap: --pa-form-gap, there to space a
 // label icon from its text). The ::after marker is generated content, so it
 // becomes a flex ITEM — meaning that full gap, not the 0.2rem above, is what
 // sits between the word and the asterisk, detaching it. Pull the marker back by
@@ -99,5 +99,5 @@
 // a negative margin only reclaims the marker's own leading gap).
 .pa-form .pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after,
 .pa-form .pa-form-group--required > label:not(.pa-checkbox):not(.pa-radio)::after {
-  margin-inline-start: calc(0.5rem - var(--pc-form-gap, #{$form-gap}));
+  margin-inline-start: calc(0.5rem - var(--pa-form-gap, #{$form-gap}));
 }

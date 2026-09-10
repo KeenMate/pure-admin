@@ -1,7 +1,7 @@
 /* ========================================
    KPI · shared base
    Cross-cutting building blocks used by every pa-kpi-* showcase.
-   Tokens (--pc-positive, --pc-detail-bg, --pc-chart-trendline-*) live in
+   Tokens (--pa-positive, --pa-detail-bg, --pc-chart-trendline-*) live in
    _base-css-variables.scss; this file only defines the shared class
    surface that consumes them.
    ======================================== */
@@ -24,8 +24,8 @@
     width: 0.8rem;
     height: 0.8rem;
     border-radius: 50%;
-    background: var(--pc-positive);
-    box-shadow: 0 0 6px var(--pc-positive);
+    background: var(--pa-positive);
+    box-shadow: 0 0 6px var(--pa-positive);
     animation: pa-kpi-pulse 1.6s ease-in-out infinite;
   }
 }
@@ -108,14 +108,14 @@
   z-index: 9000;
   min-width: 26rem;
   max-width: 32rem;
-  background: var(--pc-detail-bg);
-  color: var(--pc-detail-text);
+  background: var(--pa-detail-bg);
+  color: var(--pa-detail-text);
   padding: 1.2rem 1.5rem;
   font-family: var(--base-font-family-mono);
   font-size: 1.25rem;
   line-height: 1.5;
   border-radius: 0.4rem;
-  box-shadow: var(--pc-detail-shadow);
+  box-shadow: var(--pa-detail-shadow);
 
   &[data-show] {
     visibility: visible;
@@ -126,7 +126,7 @@
     letter-spacing: 0.08em;
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--pc-detail-title);
+    color: var(--pa-detail-title);
     margin-bottom: 0.6rem;
   }
 
@@ -139,7 +139,7 @@
 
   dt {
     margin: 0;
-    color: var(--pc-detail-row-label);
+    color: var(--pa-detail-row-label);
     font-weight: 400;
   }
 
@@ -151,8 +151,8 @@
   }
 
   /* Inline sentiment hints for dd content (e.g. <dd>+12% <span class="pos">…</span></dd>) */
-  .pos  { color: var(--pc-positive); }
-  .neg  { color: var(--pc-negative); }
+  .pos  { color: var(--pa-positive); }
+  .neg  { color: var(--pa-negative); }
   .warn { color: var(--pc-warning); }
 }
 

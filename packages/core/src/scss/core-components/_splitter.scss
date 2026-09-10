@@ -23,7 +23,7 @@
 // (compile-time) and the JS attribute. The JS reads this same custom
 // property via getComputedStyle to keep its default in sync.
 :root {
-  --pc-splitter-rail-size: #{$splitter-rail-size};
+  --pa-splitter-rail-size: #{$splitter-rail-size};
 }
 
 .pa-splitter {
@@ -35,7 +35,7 @@
   overflow: hidden;
 
   // Horizontal split: panes laid out as a row, gutter is a vertical bar.
-  // Gutter thickness is overridable per-instance via --pc-splitter-gutter-size;
+  // Gutter thickness is overridable per-instance via --pa-splitter-gutter-size;
   // breathing room around the gutter via native `gap` (the JS subtracts it
   // from the available space, so percent constraints stay accurate).
   &--horizontal {
@@ -43,7 +43,7 @@
 
     > .pa-splitter__gutter {
       cursor: col-resize;
-      width: var(--pc-splitter-gutter-size, #{$splitter-gutter-size});
+      width: var(--pa-splitter-gutter-size, #{$splitter-gutter-size});
       height: auto;
       align-self: stretch;
 
@@ -61,7 +61,7 @@
     > .pa-splitter__gutter {
       cursor: row-resize;
       width: auto;
-      height: var(--pc-splitter-gutter-size, #{$splitter-gutter-size});
+      height: var(--pa-splitter-gutter-size, #{$splitter-gutter-size});
       align-self: stretch;
 
       // Horizontal gutter → wide knob with a horizontal ⋯ grip.

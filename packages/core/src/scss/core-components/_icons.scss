@@ -12,82 +12,82 @@
        <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
      </button>
 
-   Size with --pc-icon-size (default 1em). Colour follows currentColor.
+   Size with --pa-icon-size (default 1em). Colour follows currentColor.
    ======================================== */
 
 :root {
   // The shared glyphs now trace to pure-css's --base-icon-* contract so a theme
   // re-skins pure-admin, the pure-css shell, and the web components in one place.
   // The literal fallback keeps core rendering if base.css is somehow absent.
-  // --pc-icon-x keeps its name (many components reference it) but is the close/
+  // --pa-icon-x keeps its name (many components reference it) but is the close/
   // clear/remove mark = --base-icon-close.
-  --pc-icon-x: var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E"));
+  --pa-icon-x: var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E"));
   // Directional stroked chevron (expanders/nav; rotate to indicate open).
-  --pc-icon-chevron: var(--base-icon-chevron, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m9 18 6-6-6-6%22/%3E%3C/svg%3E"));
-  // Static solid caret (the dropdown/select affordance). --pc-icon-caret is the
+  --pa-icon-chevron: var(--base-icon-chevron, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m9 18 6-6-6-6%22/%3E%3C/svg%3E"));
+  // Static solid caret (the dropdown/select affordance). --pa-icon-caret is the
   // down glyph (alias kept for callers); -caret-down/-up are the explicit pair
   // (sort direction, upward dropdowns) — components swap, they don't rotate.
-  --pc-icon-caret: var(--base-icon-caret-down, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23000%22 d=%22M12 15 6 9h12z%22/%3E%3C/svg%3E"));
-  --pc-icon-caret-down: var(--pc-icon-caret);
-  --pc-icon-caret-up: var(--base-icon-caret-up, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23000%22 d=%22M12 9 6 15h12z%22/%3E%3C/svg%3E"));
-  // Field-clear ✕ — same default glyph as --pc-icon-x but its own knob (follows
+  --pa-icon-caret: var(--base-icon-caret-down, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23000%22 d=%22M12 15 6 9h12z%22/%3E%3C/svg%3E"));
+  --pa-icon-caret-down: var(--pa-icon-caret);
+  --pa-icon-caret-up: var(--base-icon-caret-up, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23000%22 d=%22M12 9 6 15h12z%22/%3E%3C/svg%3E"));
+  // Field-clear ✕ — same default glyph as --pa-icon-x but its own knob (follows
   // --base-icon-clear, which in turn follows --base-icon-close).
-  --pc-icon-clear: var(--base-icon-clear, var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E")));
+  --pa-icon-clear: var(--base-icon-clear, var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E")));
   // Swap-glyph disclosure pair (+/−) for tree nodes / accordions — the component
   // shows expand (+) when collapsed and collapse (−) when open.
-  --pc-icon-expand: var(--base-icon-expand, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3Cpath d=%22M12 5v14%22/%3E%3C/svg%3E"));
-  --pc-icon-collapse: var(--base-icon-collapse, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3C/svg%3E"));
+  --pa-icon-expand: var(--base-icon-expand, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3Cpath d=%22M12 5v14%22/%3E%3C/svg%3E"));
+  --pa-icon-collapse: var(--base-icon-collapse, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3C/svg%3E"));
 
   // Item take-out (chip/tag/row) — non-destructive ✕, follows --base-icon-remove
-  // (→ close). Distinct from --pc-icon-delete (destructive trash) below.
-  --pc-icon-remove: var(--base-icon-remove, var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E")));
+  // (→ close). Distinct from --pa-icon-delete (destructive trash) below.
+  --pa-icon-remove: var(--base-icon-remove, var(--base-icon-close, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22/%3E%3Cpath d=%22m6 6 12 12%22/%3E%3C/svg%3E")));
 
   // Action icons — CRUD verbs (distinct glyphs). add = + (create/insert),
   // edit = pencil, delete = trash (DESTRUCTIVE; a bin, not an ✕).
-  --pc-icon-add: var(--base-icon-add, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3Cpath d=%22M12 5v14%22/%3E%3C/svg%3E"));
-  --pc-icon-edit: var(--base-icon-edit, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z%22/%3E%3C/svg%3E"));
-  --pc-icon-delete: var(--base-icon-delete, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M3 6h18%22/%3E%3Cpath d=%22M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2%22/%3E%3Cpath d=%22M10 11v6%22/%3E%3Cpath d=%22M14 11v6%22/%3E%3C/svg%3E"));
+  --pa-icon-add: var(--base-icon-add, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3Cpath d=%22M12 5v14%22/%3E%3C/svg%3E"));
+  --pa-icon-edit: var(--base-icon-edit, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z%22/%3E%3C/svg%3E"));
+  --pa-icon-delete: var(--base-icon-delete, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M3 6h18%22/%3E%3Cpath d=%22M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2%22/%3E%3Cpath d=%22M10 11v6%22/%3E%3Cpath d=%22M14 11v6%22/%3E%3C/svg%3E"));
 
   // Utility: magnifying glass (search inputs, filters, command palette).
-  --pc-icon-search: var(--base-icon-search, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22/%3E%3Cpath d=%22m21 21-4.3-4.3%22/%3E%3C/svg%3E"));
+  --pa-icon-search: var(--base-icon-search, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22/%3E%3Cpath d=%22m21 21-4.3-4.3%22/%3E%3C/svg%3E"));
 }
 
 .pa-icon {
   display: inline-block;
-  inline-size: var(--pc-icon-size, 1em);
-  block-size: var(--pc-icon-size, 1em);
+  inline-size: var(--pa-icon-size, 1em);
+  block-size: var(--pa-icon-size, 1em);
   flex-shrink: 0;
   // The mask paints the shape; the box colour is what shows through it.
   background-color: currentColor;
-  -webkit-mask: var(--pc-icon-src, none) no-repeat center / contain;
-          mask: var(--pc-icon-src, none) no-repeat center / contain;
+  -webkit-mask: var(--pa-icon-src, none) no-repeat center / contain;
+          mask: var(--pa-icon-src, none) no-repeat center / contain;
 }
 
-// Per-glyph modifiers just point --pc-icon-src at the chosen glyph var.
-.pa-icon--x { --pc-icon-src: var(--pc-icon-x); }
-.pa-icon--chevron { --pc-icon-src: var(--pc-icon-chevron); }
+// Per-glyph modifiers just point --pa-icon-src at the chosen glyph var.
+.pa-icon--x { --pa-icon-src: var(--pa-icon-x); }
+.pa-icon--chevron { --pa-icon-src: var(--pa-icon-chevron); }
 .pa-icon--caret,
-.pa-icon--caret-down { --pc-icon-src: var(--pc-icon-caret-down); }
-.pa-icon--caret-up { --pc-icon-src: var(--pc-icon-caret-up); }
-.pa-icon--clear { --pc-icon-src: var(--pc-icon-clear); }
-.pa-icon--remove { --pc-icon-src: var(--pc-icon-remove); }
-.pa-icon--expand { --pc-icon-src: var(--pc-icon-expand); }
-.pa-icon--collapse { --pc-icon-src: var(--pc-icon-collapse); }
-.pa-icon--add { --pc-icon-src: var(--pc-icon-add); }
-.pa-icon--edit { --pc-icon-src: var(--pc-icon-edit); }
-.pa-icon--delete { --pc-icon-src: var(--pc-icon-delete); }
-.pa-icon--search { --pc-icon-src: var(--pc-icon-search); }
+.pa-icon--caret-down { --pa-icon-src: var(--pa-icon-caret-down); }
+.pa-icon--caret-up { --pa-icon-src: var(--pa-icon-caret-up); }
+.pa-icon--clear { --pa-icon-src: var(--pa-icon-clear); }
+.pa-icon--remove { --pa-icon-src: var(--pa-icon-remove); }
+.pa-icon--expand { --pa-icon-src: var(--pa-icon-expand); }
+.pa-icon--collapse { --pa-icon-src: var(--pa-icon-collapse); }
+.pa-icon--add { --pa-icon-src: var(--pa-icon-add); }
+.pa-icon--edit { --pa-icon-src: var(--pa-icon-edit); }
+.pa-icon--delete { --pa-icon-src: var(--pa-icon-delete); }
+.pa-icon--search { --pa-icon-src: var(--pa-icon-search); }
 
 // Pseudo-element variant of the masked icon. Use inside a `::before`/`::after`
 // where markup can't carry a `.pa-icon` span (JS-generated glyphs, pure-CSS
 // affordances). Paints the glyph in currentColor like `.pa-icon`.
 //   &::before { @include pa-icon-mask; }              // defaults to the x glyph
-//   &::before { @include pa-icon-mask(var(--pc-icon-x)); }
-@mixin pa-icon-mask($src: var(--pc-icon-x)) {
+//   &::before { @include pa-icon-mask(var(--pa-icon-x)); }
+@mixin pa-icon-mask($src: var(--pa-icon-x)) {
   content: '';
   display: inline-block;
-  inline-size: var(--pc-icon-size, 1em);
-  block-size: var(--pc-icon-size, 1em);
+  inline-size: var(--pa-icon-size, 1em);
+  block-size: var(--pa-icon-size, 1em);
   background-color: currentColor;
   -webkit-mask: #{$src} no-repeat center / contain;
           mask: #{$src} no-repeat center / contain;

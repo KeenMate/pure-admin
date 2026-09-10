@@ -6,36 +6,15 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc21
+
+- **Component tokens are now `--pa-*`, not `--pc-*` (breaking).** Now that core owns the component variable layer, its ~190 component custom properties are renamed `--pc-*` → `--pa-*` so the property prefix matches the class prefix: `--pc-*` / `.pc-*` = pure-css foundation + app shell, `--pa-*` / `.pa-*` = pure-admin components. Buttons, cards, tables, alerts, badges, modals, KPI, forms, command palette, tooltips/popovers, panels, gauges/charts, icons, the range slider, and the role fills/tints (`--pa-danger-bg`, …) all move; the foundation keeps `--pc-*` (surfaces, text, accent, radius, role *identities* like `--pc-danger`, the `--pc-color-1..9` palette) and the shell keeps `--pc-navbar-*`/`--pc-sidebar-*`/`--pc-footer-*`. **Only names change — every resolved value is identical** (verified by a zero-diff normalized comparison of the compiled CSS). There are **no back-compat aliases**: anything overriding a component `--pc-*` token must switch to `--pa-*`. Depends on `@keenmate/pure-css` `^1.0.0-rc09`.
+
 ## What's New in 2.9.0-rc20
 
 - **Core now owns the `--pc-*` component variable layer (depends on pure-css `^1.0.0-rc08`).** pure-css rc08 became foundation-only and stopped emitting the component token mixins; core absorbed them (`variables/_components.scss` + `output-pc-component-variables` / `-mode-variables` / `-alert-*`), next to the component CSS they feed. Token names are unchanged — still `--pc-*`, one shared namespace — and the compiled `main.css` is byte-identical to rc19, so consumers of the bundled CSS see no change. Theme SCSS builds now need pure-css ≥ rc08.
 - **A shared, themeable icon contract — 13 `--pc-icon-*` glyphs tracing to pure-css's `--base-icon-*`.** `--pc-icon-x` now derives from `--base-icon-close`, and core adds `chevron`, `caret`/`-down`/`-up`, `clear`, `remove`, `expand`, `collapse`, `add`, `edit`, `delete`, `search` (Lucide defaults) with matching `.pa-icon--*` modifiers. One `--base-icon-*` override re-skins core components, the shell, and the web components together; `delete` is a trash bin, not an ✕.
 - **Hover/active states split off the recessed surface.** Secondary-button and list-item hovers now read `--pc-hover-bg` (and `--pc-btn-light-bg-hover` derives from `--base-hover-bg`) instead of the recessed `--pc-subtle-bg`, which read as *raised* in several dark themes. Light mode is unchanged; recessed surfaces (code, tab tracks, tiles, keycaps) keep `--pc-subtle-bg`.
-
-## What's New in 2.9.0-rc18
-
-- **The app shell moved to the `@keenmate/pure-css` foundation (BREAKING).** The
-  navbar, sidebar, layout scaffold, footer, and width containers are now
-  foundation components — CSS **and** JS — and are `pc-*` prefixed (`pc-navbar`,
-  `pc-sidebar`, `pc-layout`, …). Core re-exports them via shims so the bundled CSS
-  is unchanged, but hand-authored markup must switch to the `pc-*` classes.
-  Data/admin components (cards, tables, KPI, …) stay `pa-*` — prefix now signals
-  which package owns a component.
-- **One namespace for the developer, via a facade.** The shell engines register on
-  `window.pureCss`; `window.pureAdmin` adopts pure-css's buses by reference and
-  reads its components through a prototype chain, so existing
-  `window.pureAdmin.components.fit` code keeps working unchanged — while a
-  standalone pure-css page now gets a fully working shell on its own.
-- **Pluggable relocation sinks for the fit engine.** `data-pc-fit="relocate"` +
-  `data-pc-fit-target` names a destination (`sidebar`, the new self-contained
-  `floating-menu`, or a custom `registerSink`); fit emits a cancelable
-  `pc:fit-relocate` event, and `data-pc-fit-managed` lets a framework re-render
-  from state instead of moving a stale node.
-- **Nav collapse is now part of the one fit engine** (`data-pc-fit-nav`) — the
-  old `navbar-collapse.js` is deleted, its sidebar-rebuild and "More ▾" behaviour
-  ported into `fit.js`. Fixes restore-on-widen, which never worked before.
-- **New Responsivity demo** (`/responsivity`) explaining both responsive engines,
-  the sink architecture, and a live relocate example.
 
 ## Installation
 

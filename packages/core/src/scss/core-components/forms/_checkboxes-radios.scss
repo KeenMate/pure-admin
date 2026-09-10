@@ -9,39 +9,39 @@
 .pa-radio-group {
   display: flex;
   flex-direction: column;
-  // Gap BETWEEN options. --pc-choice-gap overrides just this; it falls back to
-  // the shared --pc-form-gap, then the $form-gap default.
-  gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap}));
+  // Gap BETWEEN options. --pa-choice-gap overrides just this; it falls back to
+  // the shared --pa-form-gap, then the $form-gap default.
+  gap: var(--pa-choice-gap, var(--pa-form-gap, #{$form-gap}));
 
   // Horizontal orientation — options lay out in a wrapping row instead of a
   // column (mirrors the "orientation: horizontal | vertical" contract).
   &--horizontal {
     flex-direction: row;
     flex-wrap: wrap;
-    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+    gap: var(--pa-choice-gap, var(--pa-form-gap, #{$form-gap})) $spacing-base;
   }
 
   // Grid layout — options auto-flow into as many columns as fit and wrap into
   // rows by themselves (no hand-authored row markup). --grid is responsive
   // (column count follows container width via auto-fill); --2col / --3col force
   // a fixed count. Mirrors .pa-checkbox-list--grid / --2col / --3col. Tune the
-  // responsive minimum with --pc-checkbox-group-col-min.
+  // responsive minimum with --pa-checkbox-group-col-min.
   &--grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--pc-checkbox-group-col-min, 12rem), 1fr));
-    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+    grid-template-columns: repeat(auto-fill, minmax(var(--pa-checkbox-group-col-min, 12rem), 1fr));
+    gap: var(--pa-choice-gap, var(--pa-form-gap, #{$form-gap})) $spacing-base;
   }
 
   &--2col {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+    gap: var(--pa-choice-gap, var(--pa-form-gap, #{$form-gap})) $spacing-base;
   }
 
   &--3col {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--pc-choice-gap, var(--pc-form-gap, #{$form-gap})) $spacing-base;
+    gap: var(--pa-choice-gap, var(--pa-form-gap, #{$form-gap})) $spacing-base;
   }
 }
 
@@ -55,9 +55,9 @@
   display: inline-flex;
   align-items: center;
   // Gap between the box and its label (the tight inner gap). Shared with
-  // .pa-radio so checkbox / radio option rows match. --pc-choice-inner-gap
-  // overrides it; default is the tight $spacing-sm (not the looser --pc-form-gap).
-  gap: var(--pc-choice-inner-gap, #{$spacing-sm});
+  // .pa-radio so checkbox / radio option rows match. --pa-choice-inner-gap
+  // overrides it; default is the tight $spacing-sm (not the looser --pa-form-gap).
+  gap: var(--pa-choice-inner-gap, #{$spacing-sm});
   cursor: pointer;
   font-size: $font-size-sm;
   color: var(--pc-text-color-1);
@@ -77,9 +77,9 @@
     position: relative;
     width: $checkbox-size;
     height: $checkbox-size;
-    border: $checkbox-border-width solid var(--pc-checkbox-border-color);
+    border: $checkbox-border-width solid var(--pa-checkbox-border-color);
     border-radius: var(--pc-border-radius-sm);
-    background-color: var(--pc-checkbox-bg);
+    background-color: var(--pa-checkbox-bg);
     transition: all $checkbox-transition $easing-snappy;
     flex-shrink: 0;
 
@@ -93,19 +93,19 @@
 
   // Hover state
   &:hover &__box {
-    border-color: var(--pc-checkbox-border-color-hover);
+    border-color: var(--pa-checkbox-border-color-hover);
   }
 
   // Focus state (keyboard navigation)
   input:focus-visible + &__box {
-    box-shadow: var(--pc-checkbox-focus-shadow);
-    border-color: var(--pc-checkbox-border-color-checked);
+    box-shadow: var(--pa-checkbox-focus-shadow);
+    border-color: var(--pa-checkbox-border-color-checked);
   }
 
   // Checked state
   input:checked + &__box {
-    background-color: var(--pc-checkbox-bg-checked);
-    border-color: var(--pc-checkbox-border-color-checked);
+    background-color: var(--pa-checkbox-bg-checked);
+    border-color: var(--pa-checkbox-border-color-checked);
 
     &::after {
       display: block;
@@ -114,7 +114,7 @@
       top: 10%;
       width: 30%;
       height: 55%;
-      border: solid var(--pc-checkbox-checkmark-color);
+      border: solid var(--pa-checkbox-checkmark-color);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
@@ -122,8 +122,8 @@
 
   // Indeterminate state (dash)
   input:indeterminate + &__box {
-    background-color: var(--pc-checkbox-bg-indeterminate);
-    border-color: var(--pc-checkbox-border-color-checked);
+    background-color: var(--pa-checkbox-bg-indeterminate);
+    border-color: var(--pa-checkbox-border-color-checked);
 
     &::after {
       display: block;
@@ -132,7 +132,7 @@
       top: 45%;
       width: 60%;
       height: 0;
-      border: solid var(--pc-checkbox-checkmark-color);
+      border: solid var(--pa-checkbox-checkmark-color);
       border-width: 0 0 2px 0;
       transform: none;
     }
@@ -168,7 +168,7 @@
       top: 50%;
       width: 60%;
       height: 0;
-      border: solid var(--pc-checkbox-checkmark-color);
+      border: solid var(--pa-checkbox-checkmark-color);
       border-width: 0 0 2px 0;
       transform: translate(-50%, -50%) rotate(45deg);
     }
@@ -181,7 +181,7 @@
       top: 50%;
       width: 60%;
       height: 0;
-      border: solid var(--pc-checkbox-checkmark-color);
+      border: solid var(--pa-checkbox-checkmark-color);
       border-width: 0 0 2px 0;
       transform: translate(-50%, -50%) rotate(-45deg);
     }
@@ -235,7 +235,7 @@
   align-items: center;
   // Gap between the input and its label — shared with .pa-checkbox (was the
   // looser $form-gap; now matches the checkbox's tight inner gap).
-  gap: var(--pc-choice-inner-gap, #{$spacing-sm});
+  gap: var(--pa-choice-inner-gap, #{$spacing-sm});
   cursor: pointer;
   font-size: $font-size-sm;
   color: var(--pc-text-color-1);
