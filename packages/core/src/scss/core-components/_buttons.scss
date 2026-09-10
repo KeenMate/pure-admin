@@ -177,7 +177,9 @@
   &--outline-primary {
     background-color: transparent;
     border-color: var(--pc-accent);
-    color: var(--pc-accent);
+    // mix the vivid fill toward primary text so the label stays readable on the
+    // surface in BOTH modes (text-color-1 is dark in light mode, light in dark)
+    color: color-mix(in srgb, var(--pc-accent) 50%, var(--base-text-color-1));
 
     &:hover {
       background-color: var(--pc-accent);
@@ -199,7 +201,7 @@
   &--outline-success {
     background-color: transparent;
     border-color: var(--pa-btn-success-bg);
-    color: var(--pa-btn-success-bg);
+    color: color-mix(in srgb, var(--pa-btn-success-bg) 50%, var(--base-text-color-1));
 
     &:hover {
       background-color: var(--pa-btn-success-bg);
@@ -210,7 +212,7 @@
   &--outline-warning {
     background-color: transparent;
     border-color: var(--pa-btn-warning-bg);
-    color: var(--pa-btn-warning-bg);
+    color: color-mix(in srgb, var(--pa-btn-warning-bg) 50%, var(--base-text-color-1));
 
     &:hover {
       background-color: var(--pa-btn-warning-bg);
@@ -221,7 +223,7 @@
   &--outline-danger {
     background-color: transparent;
     border-color: var(--pa-btn-danger-bg);
-    color: var(--pa-btn-danger-bg);
+    color: color-mix(in srgb, var(--pa-btn-danger-bg) 50%, var(--base-text-color-1));
 
     &:hover {
       background-color: var(--pa-btn-danger-bg);
@@ -232,7 +234,7 @@
   &--outline-info {
     background-color: transparent;
     border-color: var(--pa-btn-info-bg);
-    color: var(--pa-btn-info-bg);
+    color: color-mix(in srgb, var(--pa-btn-info-bg) 50%, var(--base-text-color-1));
 
     &:hover {
       background-color: var(--pa-btn-info-bg);
@@ -255,7 +257,7 @@
     &--outline-color-#{$i} {
       background-color: transparent;
       border-color: var(--pc-color-#{$i});
-      color: var(--pc-color-#{$i});
+      color: color-mix(in srgb, var(--pc-color-#{$i}) 50%, var(--base-text-color-1));
 
       &:hover {
         background-color: var(--pc-color-#{$i});

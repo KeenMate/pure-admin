@@ -46,6 +46,13 @@ the unpublished rc20, whose relocation ships within this release.)
   Addon text now tracks `--base-text-color-1` (primary), which always contrasts.
   (cafeindustrial's inverted palette also gets an explicit dark addon chip in its
   own theme.) Pre-existing; unrelated to the token rename.
+- **Outline button labels were low-contrast on light surfaces.** `.pa-btn--outline-*`
+  (and `--outline-color-N`) used the vivid role/palette *fill* as the label colour,
+  which is only ~2.1–2.5:1 on white for light hues (warning, success, info,
+  color-1/3). The label now uses `color-mix(in srgb, <fill> 50%, var(--base-text-color-1))`
+  — because `--base-text-color-1` is dark in light mode and light in dark mode, the
+  mix stays readable in **both** modes (worst case across all 16 themes ≈ 5:1, AA).
+  The border keeps the vivid hue for brand recognition. Pre-existing.
 
 ## [2.9.0-rc20] - 2026-09-10
 
