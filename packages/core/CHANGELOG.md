@@ -5,14 +5,14 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0-rc21] - 2026-09-10 [PUBLISHED]
+## [2.9.0-rc20] - 2026-09-10 [PUBLISHED]
 
-The **`--pa-*` component-token namespace** release (⚠ breaking). Now that core
-owns the component variable layer (rc20), its tokens carry core's own prefix:
-every component custom property is renamed `--pc-*` → `--pa-*`, so the property
-prefix finally matches the class prefix — `--pc-*` / `.pc-*` = the pure-css
-foundation + app shell, `--pa-*` / `.pa-*` = pure-admin components. (Supersedes
-the unpublished rc20, whose relocation ships within this release.)
+The **component-layer ownership + `--pa-*` namespace** release (⚠ breaking). Core
+takes ownership of the component variable layer that pure-css shed, and its tokens
+now carry core's own prefix: every component custom property is renamed
+`--pc-*` → `--pa-*` so the property prefix matches the class prefix — `--pc-*` /
+`.pc-*` = the pure-css foundation + app shell, `--pa-*` / `.pa-*` = pure-admin
+components.
 
 ### ⚠ Breaking
 
@@ -33,9 +33,33 @@ the unpublished rc20, whose relocation ships within this release.)
 
 ### Changed
 
-- **Depends on `@keenmate/pure-css` `^1.0.0-rc09`** (was `^1.0.0-rc08`) — rc09
-  drops the shell's incidental references to the renamed component tokens so the
-  foundation never points into pure-admin's `--pa-*` namespace.
+- **Core owns the component variable layer.** The component `$`-vocabulary
+  (`variables/_components.scss`, ~591 vars) and the emit mixins
+  (`output-pc-component-variables`, `output-pc-component-mode-variables`,
+  `output-pc-alert-variables-{light,dark}`) moved from pure-css into core, next to
+  the component CSS they feed. `main.scss` and every theme keep the same imports
+  and mixin names, so the emitted token *set* and compiled `main.css` are unchanged
+  aside from the `--pc-*` → `--pa-*` renames.
+- **Depends on `@keenmate/pure-css` `^1.0.0-rc09`** (was `^1.0.0-rc07`). pure-css
+  is now foundation-only — it no longer emits the component mixins (core provides
+  them), and rc09 drops the shell's incidental references to the renamed component
+  tokens so the foundation never points into pure-admin's `--pa-*` namespace. This
+  bump is **required**.
+- **Component hover/active states read the dedicated interaction-state axis.**
+  Secondary-button hover and list-item hover now use `--pa-hover-bg` (← the base
+  `--pc-hover-bg`/`--base-hover-bg`), instead of borrowing the recessed
+  `--pa-subtle-bg` surface — which read as *raised* in several dark themes.
+  Recessed surfaces (code blocks, tab tracks, tiles, keycaps) keep the subtle
+  surface. Light mode is unchanged.
+
+### Added
+
+- **Themeable icon contract traced to pure-css's `--base-icon-*`.** `--pa-icon-x`
+  now derives from `--base-icon-close`, and core emits the full set —
+  `--pa-icon-{chevron,caret,caret-down,caret-up,clear,remove,expand,collapse,add,edit,delete,search}`,
+  each `var(--base-icon-*, <Lucide literal>)` — plus matching `.pa-icon--*`
+  modifiers. One `--base-icon-*` override re-skins core components, the app shell,
+  and the KeenMate web components together.
 
 ### Fixed
 
@@ -45,52 +69,14 @@ the unpublished rc20, whose relocation ships within this release.)
   nato, fully invisible in cafeindustrial (where the two were the identical tan).
   Addon text now tracks `--base-text-color-1` (primary), which always contrasts.
   (cafeindustrial's inverted palette also gets an explicit dark addon chip in its
-  own theme.) Pre-existing; unrelated to the token rename.
+  own theme.)
 - **Outline button labels were low-contrast on light surfaces.** `.pa-btn--outline-*`
   (and `--outline-color-N`) used the vivid role/palette *fill* as the label colour,
   which is only ~2.1–2.5:1 on white for light hues (warning, success, info,
   color-1/3). The label now uses `color-mix(in srgb, <fill> 50%, var(--base-text-color-1))`
   — because `--base-text-color-1` is dark in light mode and light in dark mode, the
   mix stays readable in **both** modes (worst case across all 16 themes ≈ 5:1, AA).
-  The border keeps the vivid hue for brand recognition. Pre-existing.
-
-## [2.9.0-rc20] - 2026-09-10
-
-The **component-layer ownership** release. pure-css rc08 shed the `--pc-*`
-component vocabulary to become a pure foundation; core now **owns** that layer
-(it was always core's contract — it just lived upstream). No change to core's
-emitted token set or compiled CSS for consumers; the move is internal, paired
-with a shared themeable icon contract and the subtle/hover axis split.
-
-### Changed
-
-- **Depends on `@keenmate/pure-css` `^1.0.0-rc08`** (was `^1.0.0-rc07`). rc08 is
-  foundation-only — it no longer emits the `--pc-*` component mixins. This bump
-  is **required**: core now provides those mixins itself (see below), and pairing
-  core rc20 with pure-css rc07 (or older) would double-define them.
-- **Core owns the `--pc-*` component variable layer.** The component
-  `$`-vocabulary (`variables/_components.scss`, ~591 vars) and the emit mixins
-  (`output-pc-component-variables`, `output-pc-component-mode-variables`,
-  `output-pc-alert-variables-{light,dark}`) moved from pure-css into core, next to
-  the component CSS they feed. `main.scss` and every theme keep the same imports
-  and mixin names, so **the emitted token set and compiled `main.css` are
-  unchanged** (byte-identical to rc19 minus the already-dead tokens). Theme SCSS
-  builds now require pure-css ≥ rc08.
-- **Component hover/active states read the dedicated interaction-state axis.**
-  Secondary-button hover and list-item hover now use `--pc-hover-bg`, and
-  `--pc-btn-light-bg-hover` derives from `--base-hover-bg`, instead of borrowing
-  the recessed `--pc-subtle-bg` surface — which read as *raised* in several dark
-  themes. Recessed surfaces (code blocks, tab tracks, tiles, keycaps) keep
-  `--pc-subtle-bg`. Light mode is unchanged.
-
-### Added
-
-- **Themeable icon contract traced to pure-css's `--base-icon-*`.** `--pc-icon-x`
-  now derives from `--base-icon-close`, and core emits the full set —
-  `--pc-icon-{chevron,caret,caret-down,caret-up,clear,remove,expand,collapse,add,edit,delete,search}`,
-  each `var(--base-icon-*, <Lucide literal>)` — plus matching `.pa-icon--*`
-  modifiers. One `--base-icon-*` override re-skins core components, the app shell,
-  and the KeenMate web components together.
+  The border keeps the vivid hue for brand recognition.
 
 ### Removed
 
@@ -103,7 +89,7 @@ with a shared themeable icon contract and the subtle/hover axis split.
 - Received the niche component vars (table / code / comparison / command-palette)
   and system one-offs (app-specific z-index tiers, component opacity one-offs,
   decorative pattern/ripple geometry) relocated out of the pure-css foundation.
-- Documented the `--pc-* ← --base-*` layering in `_base-css-variables.scss` with a
+- Documented the `--pa-* ← --base-*` layering in `_base-css-variables.scss` with a
   link to the `@keenmate/base-css-variables` README § "The layer pipeline".
 
 ## [2.9.0-rc19] - 2026-09-08 [PUBLISHED]
