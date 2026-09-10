@@ -6,7 +6,7 @@
   </div>
   <div class="pa-card__body">
     <p>
-      Advanced multiselect web component from <code>@keenmate/web-multiselect</code> (v2.0.0-rc04) with virtual
+      Advanced multiselect web component from <code>@keenmate/web-multiselect</code> (v2.0.0-rc12) with virtual
       scrolling, search, tree-of-options rendering, and a full-screen mobile overlay. Built as a
       framework-agnostic web component with excellent performance.
     </p>
@@ -14,7 +14,8 @@
       <strong>Key Features:</strong> Virtual scrolling (handles 15,000+ options), full keyboard navigation,
       multiple display modes, <strong>tree / hierarchy mode</strong> with cascade checkboxes,
       <strong>phone full-screen overlay</strong>, RTL support, external/async search, and comprehensive
-      theming via <code>--ms-*</code> / <code>--base-*</code> CSS variables.
+      theming via <code>--ms-*</code> / <code>--base-*</code> CSS variables — including
+      <strong>swappable icons</strong> through the <code>--base-icon-*</code> tokens.
     </p>
   </div>
 </div>
@@ -464,6 +465,105 @@
   </div>
 </div>
 
+<!-- Custom Icons (v2.0) -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">🎨 Custom Icons</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      Every built-in glyph is a CSS variable, so re-skinning the picker is pure CSS — no slots, no JS.
+      One <code>--base-icon-*</code> swap cascades to matching parts:
+      <code>--base-icon-chevron</code> drives the toggle arrow <em>and</em> the fullscreen pager, while
+      <code>--base-icon-close</code> covers <strong>every ✕</strong> (badge remove, count clear, popover close).
+      Need finer control? <code>--base-icon-remove</code> (badge ✕), <code>--base-icon-clear</code>
+      (count clear) and <code>--base-icon-search</code> override individually and win over
+      <code>--base-icon-close</code>. Each is a full <code>url(...)</code> value — an inline SVG data-URI,
+      an external file, whatever <code>background-image</code> accepts.
+    </p>
+
+    <!-- Scope the icon tokens to just these three demo instances. -->
+    <style>
+      /* A — one-line re-skin: soft rounded circle glyphs for the chevron + all ✕. */
+      #icons-rounded {
+        --base-icon-chevron: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m10 8 4 4-4 4'/></svg>");
+        --base-icon-close: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m15 9-6 6'/><path d='m9 9 6 6'/></svg>");
+      }
+
+      /* B — granular: theme ONLY the badge remove ✕ (chunky filled square-x),
+         leaving the chevron at its framework default. --base-icon-remove wins
+         over --base-icon-close for the per-badge button. */
+      #icons-granular {
+        --base-icon-remove: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'><path d='M19 2h-14a3 3 0 0 0 -3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3 -3v-14a3 3 0 0 0 -3 -3zm-9.387 6.21l.094 .083l2.293 2.292l2.293 -2.292a1 1 0 0 1 1.497 1.32l-.083 .094l-2.292 2.293l2.292 2.293a1 1 0 0 1 -1.32 1.497l-.094 -.083l-2.293 -2.292l-2.293 2.292a1 1 0 0 1 -1.497 -1.32l.083 -.094l2.292 -2.293l-2.292 -2.293a1 1 0 0 1 1.32 -1.497z'/></svg>");
+      }
+
+      /* C — pre-oriented glyph + rotation opt-out: Material's dropdown indicator is a
+         PRE-ORIENTED down-caret, so hand it a down glyph and tell the toggle NOT to
+         rotate the source closed (0°) while still flipping it up on open (180°). */
+      #icons-preoriented {
+        --base-icon-chevron: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'><path d='M18 9c.852 0 1.297 .986 .783 1.623l-.076 .084l-6 6a1 1 0 0 1 -1.32 .083l-.094 -.083l-6 -6a1 1 0 0 1 1.32 -1.497l.094 .083l5.293 5.292l5.293 -5.292a1 1 0 0 1 .703 -.293z'/></svg>");
+        --ms-toggle-rotate-closed: 0deg;
+        --ms-toggle-rotate-open: 180deg;
+      }
+    </style>
+
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-1-3">
+        <div class="pa-form-group">
+          <label>One-line re-skin</label>
+          <web-multiselect id="icons-rounded" badges-display-mode="pills"
+            value-member="value" display-value-member="label">
+            <option value="react" selected>React</option>
+            <option value="vue" selected>Vue</option>
+            <option value="svelte">Svelte</option>
+            <option value="solid">Solid</option>
+            <option value="angular">Angular</option>
+          </web-multiselect>
+          <small class="pa-form-text">
+            <code>--base-icon-chevron</code> + <code>--base-icon-close</code> → rounded circle chevron and
+            circle-✕ on every badge remove.
+          </small>
+        </div>
+      </div>
+      <div class="pc-col-100 pc-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Granular — badge ✕ only</label>
+          <web-multiselect id="icons-granular" badges-display-mode="pills"
+            value-member="value" display-value-member="label">
+            <option value="js" selected>JavaScript</option>
+            <option value="ts" selected>TypeScript</option>
+            <option value="py">Python</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+          </web-multiselect>
+          <small class="pa-form-text">
+            Only <code>--base-icon-remove</code> is set — a filled square-✕ on badges, while the toggle
+            chevron keeps the framework default.
+          </small>
+        </div>
+      </div>
+      <div class="pc-col-100 pc-col-md-1-3">
+        <div class="pa-form-group">
+          <label>Pre-oriented glyph + rotate opt-out</label>
+          <web-multiselect id="icons-preoriented" multiple="false"
+            value-member="value" display-value-member="label">
+            <option value="low">Low</option>
+            <option value="med" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="crit">Critical</option>
+          </web-multiselect>
+          <small class="pa-form-text">
+            A pre-oriented down-caret with <code>--ms-toggle-rotate-closed: 0deg</code> /
+            <code>--ms-toggle-rotate-open: 180deg</code> — no rotation closed, flips up on open.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Programmatic Control -->
 <div class="pa-card">
   <div class="pa-card__header">
@@ -551,10 +651,11 @@
   </div>
   <div class="pa-card__body">
     <ul>
-      <li><strong>npm Package:</strong> <code>@keenmate/web-multiselect</code> (v2.0.0-rc04)</li>
+      <li><strong>npm Package:</strong> <code>@keenmate/web-multiselect</code> (v2.0.0-rc12)</li>
       <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-multiselect" target="_blank" class="pa-link">github.com/keenmate/web-multiselect</a></li>
       <li><strong>Documentation:</strong> See package README and AI instructions in <code>../../web-multiselect/ai/</code></li>
       <li><strong>CSS Variables:</strong> Uses <code>--ms-*</code> prefix (component) and <code>--base-*</code> prefix (theme integration)</li>
+      <li><strong>Custom Icons:</strong> <code>--base-icon-chevron</code> (toggle + pager), <code>--base-icon-close</code> (all&nbsp;✕), plus granular <code>--base-icon-remove</code> / <code>--base-icon-clear</code> / <code>--base-icon-search</code>; opt out of chevron rotation with <code>--ms-toggle-rotate-closed/open</code></li>
       <li><strong>Theming:</strong> Pure Admin provides <code>--base-*</code> variables via <code>src/scss/_base-css-variables.scss</code></li>
     </ul>
   </div>
