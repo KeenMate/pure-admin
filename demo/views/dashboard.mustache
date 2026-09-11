@@ -448,9 +448,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!container) return;
         container.innerHTML = '';
 
-        // Mode classes (.pc-mode-light/.pc-mode-dark) live on <body>, so read from there.
-        // Reading from documentElement misses the mode override and yields the :root (dark-default) values.
-        const rootStyle = getComputedStyle(document.body);
+        // Mode classes (.pc-mode-light/.pc-mode-dark) live on <html> (:root); body
+        // inherits the resolved values, so reading from either works. Read :root.
+        const rootStyle = getComputedStyle(document.documentElement);
         const cssVar = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
         const accentColor  = cssVar('--pc-accent',         '#3b82f6');
         const textPrimary  = cssVar('--pc-text-color-1',   '#1f2937');

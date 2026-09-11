@@ -251,16 +251,34 @@
         const systemMode = () => window.pureAdmin?.colorScheme?.mode
             || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
-        // Apply a concrete mode class ('light'/'dark') to <body>. No persistence —
-        // callers decide what value ('light'/'dark'/'auto') to store.
+        // Swap classes on :root with CSS transitions momentarily disabled, so
+        // token changes apply instantly instead of animating each affected element
+        // through intermediate colours (the "strange transition" flash on mode /
+        // variant switch). A single synchronous reflow settles the new values while
+        // transitions are off; removing the class afterwards can't animate because
+        // the element already holds the target value.
+        const withTransitionsSuppressed = (swap) => {
+            const root = document.documentElement;
+            root.classList.add('pc-theme-switching');
+            swap();
+            void root.offsetWidth; // force reflow with transitions disabled
+            root.classList.remove('pc-theme-switching');
+        };
+
+        // Apply a concrete mode class ('light'/'dark') to <html> (the :root element).
+        // It MUST be on :root, not <body>: the token overrides in .pc-mode-* only
+        // re-resolve the :root-declared --pa-* tokens (e.g. --pa-btn-info-bg:
+        // var(--pc-info)) when the override sits on the same element that declares
+        // them. On <body> those derived tokens freeze at the :root default.
+        // No persistence — callers decide what value ('light'/'dark'/'auto') to store.
         const applyModeClass = (mode, manifest) => {
             const cssClassPattern = manifest?.modeCssClass || manifest?.modes?.cssClass || 'pc-mode-{mode}';
+            const root = document.documentElement;
 
-            // Remove all mode classes
-            body.classList.remove('pc-mode-light', 'pc-mode-dark');
-
-            // Apply new mode class
-            body.classList.add(cssClassPattern.replace('{mode}', mode));
+            withTransitionsSuppressed(() => {
+                root.classList.remove('pc-mode-light', 'pc-mode-dark');
+                root.classList.add(cssClassPattern.replace('{mode}', mode));
+            });
 
             // Set data-theme attribute for web components (web-grid, etc.)
             body.dataset.theme = mode;
@@ -292,23 +310,26 @@
             localStorage.setItem('theme-mode', mode);
         };
 
-        // Apply color variant class
+        // Apply color variant class — on <html> (:root), like the mode class,
+        // because .pa-color-* emits :root-level token overrides.
         const applyColorVariant = (variant, manifest) => {
             const cssClassPattern = manifest?.variantCssClass || manifest?.colorVariants?.cssClass || 'pa-color-{variant}';
+            const root = document.documentElement;
 
-            // Remove all color variant classes
-            const variants = getManifestVariants(manifest);
-            for (const v of variants) {
-                if (v.id) {
-                    body.classList.remove(cssClassPattern.replace('{variant}', v.id));
+            withTransitionsSuppressed(() => {
+                // Remove all color variant classes
+                const variants = getManifestVariants(manifest);
+                for (const v of variants) {
+                    if (v.id) {
+                        root.classList.remove(cssClassPattern.replace('{variant}', v.id));
+                    }
                 }
-            }
 
-            // Apply new variant class if not empty
-            if (variant) {
-                const variantClass = cssClassPattern.replace('{variant}', variant);
-                body.classList.add(variantClass);
-            }
+                // Apply new variant class if not empty
+                if (variant) {
+                    root.classList.add(cssClassPattern.replace('{variant}', variant));
+                }
+            });
 
             localStorage.setItem('color-variant', variant);
             notifyThemeChange({ kind: 'variant', variant });

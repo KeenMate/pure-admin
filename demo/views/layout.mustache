@@ -6,6 +6,16 @@
     <title>{{#pageTitle}}{{pageTitle}}{{/pageTitle}}{{^pageTitle}}Dashboard{{/pageTitle}} - Pure Admin Visual</title>
     <!-- Critical CSS: Loader (inline to prevent FOUC) -->
     <style>
+        /* Kill all transitions while a mode/variant swap is in flight so tokens
+           don't animate through intermediate colours (see withTransitionsSuppressed
+           in settings-panel.js). !important beats the themes' `transition: all`. */
+        html.pc-theme-switching,
+        html.pc-theme-switching *,
+        html.pc-theme-switching *::before,
+        html.pc-theme-switching *::after {
+            transition: none !important;
+        }
+
         .page-loader {
             position: fixed;
             top: 0;
@@ -191,11 +201,16 @@
             const resolvedThemeMode = savedThemeMode === 'auto'
                 ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
                 : savedThemeMode;
+            // Mode class goes on <html> (the :root element) so that --pc-*/--base-*
+            // overrides re-resolve the --pa-* tokens derived from them at :root.
+            // On <body> those derived tokens freeze at the :root (dark-default)
+            // value and never pick up the mode override. data-theme stays on body
+            // (web-component signal, not part of the CSS custom-property cascade).
             if (resolvedThemeMode === 'dark') {
-                document.body.classList.add('pc-mode-dark');
+                document.documentElement.classList.add('pc-mode-dark');
                 document.body.dataset.theme = 'dark'; // For web components (web-grid, etc.)
             } else if (resolvedThemeMode === 'light') {
-                document.body.classList.add('pc-mode-light');
+                document.documentElement.classList.add('pc-mode-light');
                 document.body.dataset.theme = 'light';
             }
 
@@ -207,7 +222,9 @@
             }
             const savedColorVariant = colorVariantOverride || localStorage.getItem('color-variant');
             if (savedColorVariant) {
-                document.body.classList.add(`pa-color-${savedColorVariant}`);
+                // On <html> (:root) for the same reason as the mode class above —
+                // .pa-color-* emits :root-level token overrides.
+                document.documentElement.classList.add(`pa-color-${savedColorVariant}`);
             }
 
             // Apply font size immediately to prevent size jump
