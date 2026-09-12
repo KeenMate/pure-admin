@@ -103,6 +103,13 @@
   --pa-command-palette-key-bg: var(--base-subtle-bg, #{$subtle-bg});
   --pa-command-palette-key-text: var(--base-text-color-1, #{$text-color-1});
 
+  // Code syntax highlighting — lighter pastels for the dark code surface
+  --pa-code-keyword: #{$code-syntax-keyword-dark};
+  --pa-code-string: #{$code-syntax-string-dark};
+  --pa-code-number: #{$code-syntax-number-dark};
+  --pa-code-function: #{$code-syntax-function-dark};
+  --pa-code-property: #{$code-syntax-property-dark};
+
   // NOTE: the --pc-multiselect-* tokens were removed — web-multiselect themes
   // directly off --base-* (--base-dropdown-bg, --base-accent-color-light, …) and
   // nothing ever read the --pc- mirror. The stray $multiselect-* $-vars were
@@ -241,11 +248,31 @@
   // (The $badge-* $-vars in variables/_components.scss stay — the badge component
   // SCSS consumes them directly at build time; only the --pc-badge-* mirror was dead.)
 
-  // Composite badge
-  --pa-composite-badge-icon-bg: #{$composite-badge-icon-bg};
-  --pa-composite-badge-label-bg: #{$composite-badge-label-bg};
-  --pa-composite-badge-label-text: #{$composite-badge-label-text};
-  --pa-composite-badge-label-hover-bg: #{$composite-badge-label-hover-bg};
+  // Composite badge — the neutral label surface (used by the primary/secondary/
+  // light/dark variants) derives from the runtime --pc-* neutrals so it stays
+  // mode-aware AND themeable. Previously these baked the core-DEFAULT secondary
+  // palette (the variant SCSS @use'd variables, so no theme override reached
+  // them) which mixed a light literal bg with mode-aware var() text → light-on-
+  // light in dark mode. $-var fallbacks keep compiled-CSS-only consumers working.
+  // Label = a MID-elevation surface: a small amount of the body text colour
+  // mixed into the main surface. This sits a guaranteed step off --pc-main-bg
+  // (so it separates from BOTH the near-white light-variant and near-black
+  // dark-variant neutral button fills, in either mode), keeps high contrast
+  // with --pc-text-color-1, and — unlike a state token like --pc-hover-bg —
+  // is built only from per-scope-re-emitted tokens, so dark-first themes and
+  // the contrast audit resolve it correctly in every mode.
+  --pa-composite-badge-icon-bg: var(--pa-btn-secondary-bg, #{$composite-badge-icon-bg});
+  --pa-composite-badge-label-bg: color-mix(in srgb, var(--pc-text-color-1) 12%, var(--pc-main-bg));
+  --pa-composite-badge-label-text: var(--pc-text-color-1, #{$composite-badge-label-text});
+  --pa-composite-badge-label-hover-bg: color-mix(in srgb, var(--pc-text-color-1) 20%, var(--pc-main-bg));
+
+  // Code syntax highlighting (light-mode values; dark overrides live in
+  // output-pc-component-mode-variables since the code surface flips with mode).
+  --pa-code-keyword: #{$code-syntax-keyword};
+  --pa-code-string: #{$code-syntax-string};
+  --pa-code-number: #{$code-syntax-number};
+  --pa-code-function: #{$code-syntax-function};
+  --pa-code-property: #{$code-syntax-property};
 
   // =========================================================================
   // TOOLTIP & POPOVER COLORS — tooltip bg/text and popover content-bg are

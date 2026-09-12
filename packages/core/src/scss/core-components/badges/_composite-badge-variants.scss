@@ -1,396 +1,100 @@
 /* ========================================
    Composite Badge Variants
    Color variations for composite badges
+
+   All colours come from RUNTIME --pa-x / --pc-x tokens (mode-aware + themeable),
+   NOT compile-time $var literals. The previous version referenced $btn-x,
+   $badge-x, $page-bg, $navbar-bg directly while using the variables module via
+   @use, so every $var resolved to the core DEFAULT palette (theme overrides
+   never reached it) and baked light literals that broke dark mode and dodged
+   the contrast audit. Reusing the existing token pairs (the --pa-btn-<v>,
+   --pa-alert-<v> and --pa-composite-badge-label groups) means the audit now
+   covers these labels transitively, and they adapt to theme + light/dark.
    ======================================== */
 @use '../../variables' as *;
-@use "sass:color";
+
+// All variants — icon + button are the SOLID role fill (same tokens as the
+// standalone .pa-btn--<v>, so a composite badge's button === that button).
+$_variants: primary, secondary, success, danger, warning, info, light, dark;
+
+// Variants that own a readable role tint pair (alert surface); their label uses
+// it directly. The rest fall back to the neutral composite label surface.
+$_tinted: success, danger, warning, info;
+$_neutral: primary, secondary, light, dark;
+
+@mixin _solid-section($v) {
+  background-color: var(--pa-btn-#{$v}-bg);
+  color: var(--pa-btn-#{$v}-text);
+}
+
+@mixin _button-focus($v) {
+  &:focus {
+    box-shadow: 0 0 0 $focus-outline-width
+      color-mix(in srgb, var(--pa-btn-#{$v}-bg) #{$btn-focus-ring-opacity * 100%}, transparent);
+  }
+}
 
 .pa-composite-badge {
-  // Standard color variations - all sections match
-  &--primary {
-    .pa-composite-badge__icon {
-      background-color: $btn-primary-bg;
-      color: $btn-primary-text;
+  // ---- Full variants: all three sections take the variant colour ----------
+  @each $v in $_variants {
+    &--#{$v} {
+      .pa-composite-badge__icon {
+        @include _solid-section($v);
+      }
+
+      .pa-composite-badge__button {
+        @include _solid-section($v);
+
+        &:hover {
+          background-color: var(--pa-btn-#{$v}-bg-hover);
+        }
+
+        @include _button-focus($v);
+      }
     }
-    .pa-composite-badge__label {
-      background-color: $accent-light;
-      color: $btn-primary-bg;
+  }
+
+  // ---- Label section: tinted variants use their alert surface -------------
+  // (alert-<v>-text is tuned readable on alert-<v>-bg per theme AND per mode).
+  @each $v in $_tinted {
+    &--#{$v} .pa-composite-badge__label,
+    &--label-#{$v} .pa-composite-badge__label {
+      background-color: var(--pa-alert-#{$v}-bg);
+      color: var(--pa-alert-#{$v}-text);
+
       &:hover {
-        background-color: $accent-hover;
+        background-color: color-mix(in srgb, var(--pa-alert-#{$v}-bg) 88%, var(--pc-text-color-1));
       }
     }
-    .pa-composite-badge__button {
-      background-color: $btn-primary-bg;
-      color: $btn-primary-text;
+  }
+
+  // ---- Label section: neutral variants use the mode-aware neutral surface --
+  @each $v in $_neutral {
+    &--#{$v} .pa-composite-badge__label,
+    &--label-#{$v} .pa-composite-badge__label {
+      background-color: var(--pa-composite-badge-label-bg);
+      color: var(--pa-composite-badge-label-text);
+
       &:hover {
-        background-color: $btn-primary-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
+        background-color: var(--pa-composite-badge-label-hover-bg);
       }
     }
   }
 
-  &--secondary {
-    .pa-composite-badge__icon {
-      background-color: $btn-secondary-bg;
-      color: $btn-secondary-text;
+  // ---- Mixed-section modifiers: icon / button take any variant colour -----
+  @each $v in $_variants {
+    &--icon-#{$v} .pa-composite-badge__icon {
+      @include _solid-section($v);
     }
-    .pa-composite-badge__label {
-      background-color: $page-bg;
-      color: var(--pc-text-color-2);
+
+    &--btn-#{$v} .pa-composite-badge__button {
+      @include _solid-section($v);
+
       &:hover {
-        background-color: $table-hover-bg;
+        background-color: var(--pa-btn-#{$v}-bg-hover);
       }
-    }
-    .pa-composite-badge__button {
-      background-color: $btn-secondary-bg;
-      color: $btn-secondary-text;
-      &:hover {
-        background-color: $btn-secondary-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
-      }
-    }
-  }
 
-  &--success {
-    .pa-composite-badge__icon {
-      background-color: $btn-success-bg;
-      color: $btn-success-text;
-    }
-    .pa-composite-badge__label {
-      background-color: $badge-success-bg;
-      color: $badge-success-text;
-      &:hover {
-        background-color: color.adjust($badge-success-bg, $lightness: -5%);
-      }
-    }
-    .pa-composite-badge__button {
-      background-color: $btn-success-bg;
-      color: $btn-success-text;
-      &:hover {
-        background-color: $btn-success-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
-      }
-    }
-  }
-
-  &--danger {
-    .pa-composite-badge__icon {
-      background-color: $btn-danger-bg;
-      color: $btn-danger-text;
-    }
-    .pa-composite-badge__label {
-      background-color: $badge-danger-bg;
-      color: $badge-danger-text;
-      &:hover {
-        background-color: color.adjust($badge-danger-bg, $lightness: -5%);
-      }
-    }
-    .pa-composite-badge__button {
-      background-color: $btn-danger-bg;
-      color: $btn-danger-text;
-      &:hover {
-        background-color: $btn-danger-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
-      }
-    }
-  }
-
-  &--warning {
-    .pa-composite-badge__icon {
-      background-color: $btn-warning-bg;
-      color: $btn-warning-text;
-    }
-    .pa-composite-badge__label {
-      background-color: $badge-warning-bg;
-      color: $badge-warning-text;
-      &:hover {
-        background-color: color.adjust($badge-warning-bg, $lightness: -5%);
-      }
-    }
-    .pa-composite-badge__button {
-      background-color: $btn-warning-bg;
-      color: $btn-warning-text;
-      &:hover {
-        background-color: $btn-warning-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
-      }
-    }
-  }
-
-  &--info {
-    .pa-composite-badge__icon {
-      background-color: $btn-info-bg;
-      color: $btn-info-text;
-    }
-    .pa-composite-badge__label {
-      background-color: $badge-info-bg;
-      color: $badge-info-text;
-      &:hover {
-        background-color: color.adjust($badge-info-bg, $lightness: -5%);
-      }
-    }
-    .pa-composite-badge__button {
-      background-color: $btn-info-bg;
-      color: $btn-info-text;
-      &:hover {
-        background-color: $btn-info-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
-      }
-    }
-  }
-
-  &--light {
-    .pa-composite-badge__icon {
-      background-color: $btn-light-bg;
-      color: $btn-light-text;
-    }
-    .pa-composite-badge__label {
-      background-color: $navbar-bg;
-      color: $btn-light-text;
-      &:hover {
-        background-color: $btn-light-bg-hover;
-      }
-    }
-    .pa-composite-badge__button {
-      background-color: $btn-light-bg;
-      color: $btn-light-text;
-      &:hover {
-        background-color: $btn-light-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
-      }
-    }
-  }
-
-  &--dark {
-    .pa-composite-badge__icon {
-      background-color: $btn-dark-bg;
-      color: $btn-dark-text;
-    }
-    .pa-composite-badge__label {
-      background-color: $table-hover-bg;
-      color: var(--pc-text-color-1);
-      &:hover {
-        background-color: $border-color;
-      }
-    }
-    .pa-composite-badge__button {
-      background-color: $btn-dark-bg;
-      color: $btn-dark-text;
-      &:hover {
-        background-color: $btn-dark-bg-hover;
-      }
-      &:focus {
-        box-shadow: 0 0 0 $focus-outline-width $accent-hover;
-      }
-    }
-  }
-
-  // Color variants for icon section only
-  &--primary &__icon {
-    background-color: $btn-primary-bg;
-  }
-
-  &--secondary &__icon {
-    background-color: $btn-secondary-bg;
-  }
-
-  &--success &__icon {
-    background-color: $btn-success-bg;
-  }
-
-  &--danger &__icon {
-    background-color: $btn-danger-bg;
-  }
-
-  &--warning &__icon {
-    background-color: $btn-warning-bg;
-    color: $btn-warning-color;
-  }
-
-  &--info &__icon {
-    background-color: $btn-info-bg;
-  }
-
-  &--light &__icon {
-    background-color: $btn-light-bg;
-    color: $btn-light-text;
-  }
-
-  &--dark &__icon {
-    background-color: $btn-dark-bg;
-  }
-
-  // Color variants for label section
-  &--label-primary &__label {
-    background-color: color.adjust($btn-primary-bg, $lightness: 40%);
-    color: color.adjust($btn-primary-bg, $lightness: -30%);
-
-    &:hover {
-      background-color: color.adjust($btn-primary-bg, $lightness: 35%);
-    }
-  }
-
-  &--label-secondary &__label {
-    background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
-    color: $secondary-text;
-
-    &:hover {
-      background-color: color.adjust($btn-secondary-bg, $lightness: 30%);
-    }
-  }
-
-  &--label-success &__label {
-    background-color: $badge-success-bg;
-    color: $badge-success-text;
-
-    &:hover {
-      background-color: color.adjust($badge-success-bg, $lightness: -5%);
-    }
-  }
-
-  &--label-danger &__label {
-    background-color: $badge-danger-bg;
-    color: $badge-danger-text;
-
-    &:hover {
-      background-color: color.adjust($badge-danger-bg, $lightness: -5%);
-    }
-  }
-
-  &--label-warning &__label {
-    background-color: $badge-warning-bg;
-    color: $badge-warning-text;
-
-    &:hover {
-      background-color: color.adjust($badge-warning-bg, $lightness: -5%);
-    }
-  }
-
-  &--label-info &__label {
-    background-color: $badge-info-bg;
-    color: $badge-info-text;
-
-    &:hover {
-      background-color: color.adjust($badge-info-bg, $lightness: -5%);
-    }
-  }
-
-  &--label-light &__label {
-    background-color: color.adjust($btn-light-bg, $lightness: 2%);
-    color: $btn-light-text;
-
-    &:hover {
-      background-color: color.adjust($btn-secondary-bg, $lightness: 35%);
-    }
-  }
-
-  &--label-dark &__label {
-    background-color: color.adjust($btn-dark-bg, $lightness: 50%);
-    color: color.adjust($btn-dark-bg, $lightness: 5%);
-
-    &:hover {
-      background-color: color.adjust($btn-dark-bg, $lightness: 45%);
-    }
-  }
-
-  // Color variants for button section
-  &--btn-primary &__button {
-    background-color: $btn-primary-bg;
-
-    &:hover {
-      background-color: $btn-primary-bg-hover;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pa-btn-primary-bg) #{$btn-focus-ring-opacity * 100%}, transparent);
-    }
-  }
-
-  &--btn-secondary &__button {
-    background-color: $btn-secondary-bg;
-
-    &:hover {
-      background-color: $btn-secondary-bg-hover;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pa-btn-secondary-bg) #{$btn-focus-ring-opacity * 100%}, transparent);
-    }
-  }
-
-  &--btn-success &__button {
-    background-color: $btn-success-bg;
-
-    &:hover {
-      background-color: $btn-success-bg-hover;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pc-success) #{$btn-focus-ring-opacity * 100%}, transparent);
-    }
-  }
-
-  &--btn-warning &__button {
-    background-color: $btn-warning-bg;
-    color: $btn-warning-color;
-
-    &:hover {
-      background-color: $btn-warning-bg-hover;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pc-warning) #{$btn-focus-ring-opacity * 100%}, transparent);
-    }
-  }
-
-  &--btn-info &__button {
-    background-color: $btn-info-bg;
-
-    &:hover {
-      background-color: $btn-info-bg-hover;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pc-info) #{$btn-focus-ring-opacity * 100%}, transparent);
-    }
-  }
-
-  &--btn-light &__button {
-    background-color: $btn-light-bg;
-    color: $btn-light-text;
-
-    &:hover {
-      background-color: $btn-light-bg-hover;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pa-btn-light-bg) #{$btn-focus-ring-opacity * 100%}, transparent);
-    }
-  }
-
-  &--btn-dark &__button {
-    background-color: $btn-dark-bg;
-
-    &:hover {
-      background-color: $btn-dark-bg-hover;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $focus-outline-width color-mix(in srgb, var(--pa-btn-dark-bg) #{$btn-focus-ring-opacity * 100%}, transparent);
+      @include _button-focus($v);
     }
   }
 }

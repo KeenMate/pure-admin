@@ -6,7 +6,7 @@
 
 .pa-logic-tree {
     padding: $spacing-base;
-    background: #f9fafb;
+    background: var(--pc-subtle-bg);
     border-radius: var(--pc-border-radius);
     min-height: 6.4rem;
     font-family: $body-font-family;
@@ -24,8 +24,8 @@
         color: var(--pc-text-color-2);
         font-style: italic;
         padding: $spacing-sm $spacing-md;
-        background: #f9fafb;
-        border: 1.6px dashed #d1d5db;
+        background: var(--pc-subtle-bg);
+        border: 1.6px dashed var(--pc-border-color);
         border-radius: var(--pc-border-radius-sm);
         text-align: center;
     }
@@ -41,7 +41,7 @@
 
     // Block (condition, logical, group)
     &__block {
-        background: #fff;
+        background: var(--pa-card-bg);
         border: 3.2px solid var(--pc-border-color);
         border-radius: var(--pc-border-radius);
         padding: $spacing-sm;
@@ -54,7 +54,7 @@
 
         // Condition block (field operator value)
         &--condition {
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            background: linear-gradient(135deg, var(--pc-subtle-bg) 0%, var(--pa-card-bg) 100%);
             border-color: var(--pc-page-bg);
             border-left-width: 6.4px;
         }
@@ -62,24 +62,24 @@
         // Logical operator blocks
         &--logical {
             padding: $spacing-md;
-            background: #fff;
+            background: var(--pa-card-bg);
         }
 
         &--and {
             border-color: var(--pc-warning);
-            background: linear-gradient(135deg, #fff8e1 0%, #ffffff 100%);
+            background: linear-gradient(135deg, var(--pa-alert-warning-bg) 0%, var(--pa-card-bg) 100%);
         }
 
         &--or {
             border-color: var(--pc-info);
-            background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+            background: linear-gradient(135deg, var(--pa-alert-info-bg) 0%, var(--pa-card-bg) 100%);
         }
 
         // Group block (parentheses)
         &--group {
-            border-color: $secondary-bg;
+            border-color: var(--pc-border-color);
             border-style: dashed;
-            background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+            background: linear-gradient(135deg, var(--pc-hover-bg) 0%, var(--pa-card-bg) 100%);
         }
     }
 
@@ -110,7 +110,7 @@
             top: 0;
             bottom: 50%;
             width: 3.2px;
-            background: #94a3b8;
+            background: var(--pc-text-color-2);
         }
 
         // Horizontal line connector
@@ -121,7 +121,7 @@
             top: 1.6rem;
             width: 1.6rem;
             height: 3.2px;
-            background: #94a3b8;
+            background: var(--pc-text-color-2);
         }
 
         // Left branch - extends vertical line down
@@ -153,7 +153,7 @@
             top: -0.8rem;
             bottom: -0.8rem;
             width: 3.2px;
-            background: #94a3b8;
+            background: var(--pc-text-color-2);
         }
 
         // Horizontal line to operator
@@ -165,14 +165,14 @@
             transform: translateY(-50%);
             width: 1.6rem;
             height: 3.2px;
-            background: #94a3b8;
+            background: var(--pc-text-color-2);
         }
 
         .pa-logic-tree__token--logical {
             display: inline-block;
-            background: #fff3e0;
-            color: #e65100;
-            border: 3.2px solid #ff9800;
+            background: var(--pa-alert-warning-bg);
+            color: var(--pa-alert-warning-text);
+            border: 3.2px solid var(--pc-warning);
             padding: 0.4rem 1.2rem;
             border-radius: var(--pc-border-radius);
             font-weight: $font-weight-bold;
@@ -189,7 +189,7 @@
         color: var(--pc-text-color-2);
         margin-bottom: $spacing-sm;
         padding-bottom: $spacing-sm;
-        border-bottom: 1.6px dashed $border-color;
+        border-bottom: 1.6px dashed var(--pc-border-color);
     }
 
     // Group content (indented)
@@ -209,30 +209,30 @@
 
         // Field token (blue)
         &--field {
-            background: #e3f2fd;
-            color: #1565c0;
-            border: 1.6px solid #bbdefb;
+            background: var(--pa-alert-info-bg);
+            color: var(--pa-alert-info-text);
+            border: 1.6px solid color-mix(in srgb, var(--pc-info) 35%, transparent);
         }
 
         // Operator token (gray)
         &--operator {
-            background: #f5f5f5;
-            color: #616161;
-            border: 1.6px solid #e0e0e0;
+            background: var(--pc-subtle-bg);
+            color: var(--pc-text-color-2);
+            border: 1.6px solid var(--pc-border-color);
         }
 
         // Value token (green)
         &--value {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1.6px solid #c8e6c9;
+            background: var(--pa-alert-success-bg);
+            color: var(--pa-alert-success-text);
+            border: 1.6px solid color-mix(in srgb, var(--pc-success) 35%, transparent);
         }
 
         // Logical token (orange/blue)
         &--logical {
-            background: #fff3e0;
-            color: #e65100;
-            border: 1.6px solid #ffe0b2;
+            background: var(--pa-alert-warning-bg);
+            color: var(--pa-alert-warning-text);
+            border: 1.6px solid color-mix(in srgb, var(--pc-warning) 35%, transparent);
             font-weight: $font-weight-bold;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -240,9 +240,9 @@
 
         // Paren token (purple)
         &--paren {
-            background: #f3e5f5;
-            color: #7b1fa2;
-            border: 1.6px solid #e1bee7;
+            background: color-mix(in srgb, var(--pc-color-5, #8b5cf6) 15%, var(--pa-card-bg));
+            color: var(--pc-color-5, #8b5cf6);
+            border: 1.6px solid color-mix(in srgb, var(--pc-color-5, #8b5cf6) 35%, transparent);
         }
     }
 

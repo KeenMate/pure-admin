@@ -18,7 +18,7 @@
     top: 0;
     width: $profile-panel-toggle-size;
     height: $profile-panel-toggle-size;
-    background: $accent-color;
+    background: var(--pc-accent);
     color: white;
     border: none;
     border-start-start-radius: var(--pc-border-radius); // RTL: top-right in RTL
@@ -34,7 +34,7 @@
     box-shadow: $shadow-sidebar;
 
     &:hover {
-      background: $accent-hover;
+      background: var(--pc-accent-hover);
       width: $profile-panel-toggle-size-open;
       inset-inline-end: calc($profile-panel-width-fixed + $settings-panel-hover-offset);
     }
@@ -94,8 +94,8 @@
 
     &:focus {
       outline: none;
-      border-color: $accent-color;
-      box-shadow: 0 0 0 $focus-ring-width $accent-light;
+      border-color: var(--pc-accent);
+      box-shadow: 0 0 0 $focus-ring-width var(--pc-accent-light);
     }
   }
 
@@ -125,7 +125,7 @@
     }
 
     &:hover {
-      color: $accent-color;
+      color: var(--pc-accent);
     }
   }
 
@@ -134,7 +134,7 @@
     inset-inline-end: 0; // RTL: flips to left: 0, slide panel into view
 
     .pa-settings-panel__toggle {
-      background: $accent-hover;
+      background: var(--pc-accent-hover);
       transform: rotate(180deg);
     }
   }
