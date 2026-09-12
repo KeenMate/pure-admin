@@ -95,6 +95,65 @@
     </div>
 </div>
 
+<!-- Custom Glyphs via --base-icon-* override -->
+<div class="pa-card">
+    <div class="pa-card__header">
+        <div class="pa-card__title">
+            <h3 class="pa-card__title-text">Custom Glyphs via <code>--base-icon-*</code></h3>
+        </div>
+        <p class="pa-text pa-text--secondary">The checkmark and indeterminate dash are SVG masks that read <code>--base-icon-check</code> / <code>--base-icon-indeterminate</code> — the same tokens the web components use. Override those CSS variables (inline, on a wrapper, or in a theme) to swap the glyph without touching the component.</p>
+    </div>
+    <div class="pa-card__body">
+        <div class="pc-row">
+            <div class="pc-col-100 pc-col-md-50">
+                <h4>Per-checkbox override</h4>
+                <div class="d-flex flex-column gap-12">
+                    <label class="pa-checkbox" style="--base-icon-check: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22black%22%3E%3Cpath d=%22M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z%22/%3E%3C/svg%3E');">
+                        <input type="checkbox" checked>
+                        <span class="pa-checkbox__box"></span>
+                        <span class="pa-checkbox__label">Heart <code>--base-icon-check</code></span>
+                    </label>
+                    <label class="pa-checkbox" style="--base-icon-check: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22black%22%3E%3Cpath d=%22M12 2l2.9 6.9 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.5l7.1-.6z%22/%3E%3C/svg%3E');">
+                        <input type="checkbox" checked>
+                        <span class="pa-checkbox__box"></span>
+                        <span class="pa-checkbox__label">Star <code>--base-icon-check</code></span>
+                    </label>
+                    <label class="pa-checkbox pa-checkbox--lg" style="--base-icon-check: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22black%22%3E%3Cpath d=%22M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.1 14.2l-4-4 1.4-1.4 2.6 2.6 5.4-5.4 1.4 1.4-6.8 6.8z%22/%3E%3C/svg%3E');">
+                        <input type="checkbox" checked>
+                        <span class="pa-checkbox__box"></span>
+                        <span class="pa-checkbox__label">Filled circle-check (lg)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="pc-col-100 pc-col-md-50">
+                <h4>Group override (wrapper sets both vars)</h4>
+                <div class="d-flex flex-column gap-12"
+                     style="--base-icon-check: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%223%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M12 5v14M5 12h14%22/%3E%3C/svg%3E'); --base-icon-indeterminate: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22black%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%225%22/%3E%3C/svg%3E');">
+                    <label class="pa-checkbox">
+                        <input type="checkbox" checked>
+                        <span class="pa-checkbox__box"></span>
+                        <span class="pa-checkbox__label">Checked → plus glyph</span>
+                    </label>
+                    <label class="pa-checkbox">
+                        <input type="checkbox" id="custom-indeterminate-demo">
+                        <span class="pa-checkbox__box"></span>
+                        <span class="pa-checkbox__label">Indeterminate → dot glyph</span>
+                    </label>
+                    <label class="pa-checkbox">
+                        <input type="checkbox">
+                        <span class="pa-checkbox__box"></span>
+                        <span class="pa-checkbox__label">Unchecked (unaffected)</span>
+                    </label>
+                </div>
+                <p class="pa-text pa-text--secondary" style="margin-top: 0.75rem;">Both children inherit the wrapper's <code>--base-icon-*</code> — exactly how a theme would re-skin every checkbox at once.</p>
+                <script>
+                    document.getElementById('custom-indeterminate-demo').indeterminate = true;
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Indeterminate "Select All" Pattern -->
 <div class="pa-card">
     <div class="pa-card__header">
