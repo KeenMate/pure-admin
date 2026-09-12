@@ -44,11 +44,13 @@
     padding: $spacing-xs $spacing-sm;
     border-radius: var(--pc-border-radius);
     font-size: $font-size-xs;
-    white-space: nowrap;
+    // Tooltips must show their FULL text. Wrap within max-width rather than
+    // single-line nowrap (which overflowed the bubble for long labels) or
+    // ellipsis-clipping (which hid the very content you hover to read).
+    white-space: normal;
+    width: max-content;
     max-width: $tooltip-max-width;
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   // Multiline tooltip variant
@@ -560,7 +562,9 @@
   padding: $spacing-xs $spacing-sm;
   border-radius: var(--pc-border-radius);
   font-size: $font-size-xs;
-  white-space: nowrap;
+  // Wrap long labels within max-width instead of overflowing the bubble.
+  white-space: normal;
+  width: max-content;
   max-width: $tooltip-max-width;
   text-align: center;
   box-shadow: $shadow-md;

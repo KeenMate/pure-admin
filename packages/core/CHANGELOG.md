@@ -5,6 +5,46 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc21] - 2026-09-12 [PUBLISHED]
+
+The **stable pure-css foundation + themeable checkbox glyphs** release. Core moves
+off the pure-css release-candidate onto the first stable `1.0.0`, adopts its shared
+`--base-icon-*` glyphs for the custom checkbox, and routes a batch of component
+colours through the runtime token cascade so they follow the active theme and dark
+mode.
+
+### Changed
+
+- **Depends on `@keenmate/pure-css` `^1.0.0`** (was `^1.0.0-rc09`) — the first
+  stable foundation. Purely additive over rc09: it adds the
+  `--base-icon-{filter,check,indeterminate}` tokens core now consumes. No breaking
+  changes.
+- **Custom-checkbox check + indeterminate glyphs now render from the shared
+  `--base-icon-check` / `--base-icon-indeterminate`** as SVG masks, instead of the
+  hand-drawn CSS border trick. The checkbox glyph is now identical to the KeenMate
+  web components (multiselect, tree), and overriding either `--base-icon-*` — inline,
+  on a wrapper element, or in a theme — re-skins the checkmark/dash without touching
+  the component. A compile-time literal fallback keeps the glyph working even in a
+  theme built against a pre-`1.0.0` pure-css. The `--x` X-mark modifier keeps its
+  border-drawn cross (no shared X glyph); the per-size checkmark-position tweaks are
+  gone (the mask scales with the box on its own).
+
+### Fixed
+
+- **Component colours now route through the runtime token cascade for theme +
+  dark-mode correctness.** A batch of components referenced theme-overridable colour
+  `$`-variables directly — which `@use` bakes to the *default* palette, ignoring
+  theme overrides and breaking dark mode — or hardcoded hex. Composite badges (behind
+  new `--pa-composite-badge-*` tokens), live-neutral cards, the logic tree,
+  code-syntax highlighting (with dark-mode values added), and accent-drift in the
+  command palette / query editor / settings panel / notifications / loaders /
+  splitter / timeline / tabs now consume the `--pa-*` / `--pc-*` cascade, so they
+  follow the active theme and mode.
+- **Long tooltips overflowed their bubble.** `.pa-tooltip-floating` and the CSS
+  `::before` tooltip used `white-space: nowrap` (spilling past `max-width`) or
+  ellipsis-clipping (hiding the very text you hover to read). Both now wrap within
+  `max-width` (`white-space: normal; width: max-content`).
+
 ## [2.9.0-rc20] - 2026-09-10 [PUBLISHED]
 
 The **component-layer ownership + `--pa-*` namespace** release (⚠ breaking). Core

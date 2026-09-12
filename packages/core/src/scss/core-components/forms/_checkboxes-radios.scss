@@ -109,32 +109,31 @@
 
     &::after {
       display: block;
-      // Checkmark shape (CSS border trick)
-      left: 30%;
-      top: 10%;
-      width: 30%;
-      height: 55%;
-      border: solid var(--pa-checkbox-checkmark-color);
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
+      // Checkmark rendered as an SVG mask so the glyph is IDENTICAL to the one
+      // the web components (multiselect, tree) draw — both read the shared
+      // --base-icon-check from pure-css. The mask scales with the box, so no
+      // per-size positioning is needed. #{$base-icon-check} is the compile-time
+      // fallback for themes built against a pure-css that predates the token
+      // (without it a missing mask would let the background flood the box).
+      inset: 0;
+      background-color: var(--pa-checkbox-checkmark-color);
+      -webkit-mask: var(--base-icon-check, #{$base-icon-check}) center / 68% no-repeat;
+              mask: var(--base-icon-check, #{$base-icon-check}) center / 68% no-repeat;
     }
   }
 
-  // Indeterminate state (dash)
+  // Indeterminate state (dash) — shares --base-icon-indeterminate with the
+  // web components (same mask mechanism as the checkmark above).
   input:indeterminate + &__box {
     background-color: var(--pa-checkbox-bg-indeterminate);
     border-color: var(--pa-checkbox-border-color-checked);
 
     &::after {
       display: block;
-      // Dash shape
-      left: 20%;
-      top: 45%;
-      width: 60%;
-      height: 0;
-      border: solid var(--pa-checkbox-checkmark-color);
-      border-width: 0 0 2px 0;
-      transform: none;
+      inset: 0;
+      background-color: var(--pa-checkbox-checkmark-color);
+      -webkit-mask: var(--base-icon-indeterminate, #{$base-icon-indeterminate}) center / 68% no-repeat;
+              mask: var(--base-icon-indeterminate, #{$base-icon-indeterminate}) center / 68% no-repeat;
     }
   }
 
@@ -148,21 +147,17 @@
   &--sm &__box { width: $checkbox-size-sm; height: $checkbox-size-sm; }
   &--lg &__box { width: $checkbox-size-lg; height: $checkbox-size-lg; }
   &--xl &__box { width: $checkbox-size-xl; height: $checkbox-size-xl; }
+  // No per-size checkmark tweaks: the mask is sized relative to the box (68%),
+  // so it scales cleanly across xs/sm/lg/xl on its own.
 
-  // Checkmark position adjustments for smaller sizes
-  &--xs input:checked + &__box::after,
-  &--sm input:checked + &__box::after {
-    left: 25%;
-    top: 5%;
-  }
-  &--xs input:indeterminate + &__box::after,
-  &--sm input:indeterminate + &__box::after {
-    top: 40%;
-  }
-
-  // X mark modifier (instead of checkmark)
+  // X mark modifier (instead of checkmark) — keeps the CSS border trick (there
+  // is no shared X glyph), so it must cancel the checkmark mask/fill it would
+  // otherwise inherit from the :checked rule above.
   &--x input:checked + &__box {
     &::after {
+      background-color: transparent;
+      -webkit-mask: none;
+              mask: none;
       // First diagonal of X
       left: 50%;
       top: 50%;

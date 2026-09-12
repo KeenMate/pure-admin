@@ -6,6 +6,13 @@ Lightweight, data-focused CSS/SCSS admin framework with Corporate theme as defau
 > [`starter/index.html`](starter/index.html) in a browser — a complete, runnable
 > admin page that works straight from this package with no install or build.
 
+## What's New in 2.9.0-rc21
+
+- **Stable pure-css foundation.** Core now builds on `@keenmate/pure-css` `1.0.0` (was `^1.0.0-rc09`), picking up its shared `--base-icon-check` / `--base-icon-indeterminate` / `--base-icon-filter` glyphs. Additive over rc09 — no breaking changes.
+- **Themeable checkbox glyphs.** The custom checkbox's check and indeterminate marks now render from `--base-icon-*` (the same tokens the KeenMate web components use) instead of a hand-drawn CSS border trick, so one CSS-variable override — inline, on a wrapper, or in a theme — re-skins the checkmark/dash across pure-admin *and* the web components at once. The `--x` X-mark modifier is unchanged.
+- **Theme & dark-mode colour correctness.** Composite badges, live-neutral cards, the logic tree, code-syntax highlighting, and several accent-drift spots (command palette, query editor, notifications, loaders, splitter, timeline, tabs) now read the runtime token cascade instead of baked-in default colours, so they follow the active theme and dark mode.
+- **Tooltip overflow fixed.** Long tooltip labels now wrap inside the bubble instead of spilling past its right edge or getting clipped with an ellipsis.
+
 ## What's New in 2.9.0-rc20
 
 - **Core now owns the component variable layer, and its tokens are `--pa-*`, not `--pc-*` (breaking).** pure-css became foundation-only and shed the component token mixins; core absorbed them (`variables/_components.scss` + `output-pc-component-variables` / `-mode-variables` / `-alert-*`), and its ~190 component custom properties are renamed `--pc-*` → `--pa-*` so the property prefix matches the class prefix: `--pc-*` / `.pc-*` = pure-css foundation + app shell, `--pa-*` / `.pa-*` = pure-admin components. Buttons, cards, tables, alerts, badges, modals, KPI, forms, command palette, tooltips/popovers, panels, gauges/charts, icons, the range slider, and the role fills/tints (`--pa-danger-bg`, …) all move; the foundation keeps `--pc-*` (surfaces, text, accent, radius, role *identities* like `--pc-danger`, the `--pc-color-1..9` palette) and the shell keeps `--pc-navbar-*`/`--pc-sidebar-*`/`--pc-footer-*`. **Only names change — every resolved value is identical** (verified by a zero-diff normalized comparison of the compiled CSS). There are **no back-compat aliases**: anything overriding a component `--pc-*` token must switch to `--pa-*`. Depends on `@keenmate/pure-css` `^1.0.0-rc09`.
