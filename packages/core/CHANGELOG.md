@@ -5,6 +5,18 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-rc22] - 2026-09-13
+
+### Fixed
+
+- **Native date/time picker icons were invisible (black) on dark themes.** The
+  dark-mode `::-webkit-calendar-picker-indicator { filter: invert(1) }` rule in
+  `_form-inputs.scss` predated `color-scheme` adoption and now double-flipped:
+  every theme emits `color-scheme: dark` in its dark contexts, which already
+  makes the browser render the native calendar/clock/week glyph white — so
+  inverting it turned it back to black. Removed the hack; the glyph now tracks
+  `color-scheme` (white on dark, dark on light) with no override.
+
 ## [2.9.0-rc21] - 2026-09-12 [PUBLISHED]
 
 The **stable pure-css foundation + themeable checkbox glyphs** release. Core moves

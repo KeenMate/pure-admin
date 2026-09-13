@@ -122,15 +122,10 @@
   font-size: $font-size-lg;
 }
 
-// Dark mode: invert native date/time picker icons for visibility
-.pc-mode-dark {
-  input[type="date"],
-  input[type="time"],
-  input[type="datetime-local"],
-  input[type="month"],
-  input[type="week"] {
-    &::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-    }
-  }
-}
+// Native date/time picker icon colour is driven by `color-scheme`, which every
+// theme emits per mode (`color-scheme: dark` in dark contexts, `light` in
+// light) — the browser then paints the calendar/clock/week glyph light on dark
+// and dark on light automatically. Do NOT re-add a `filter: invert(1)` hack
+// here: under `color-scheme: dark` the glyph is already white, so inverting it
+// flips it back to black (the double-flip that made the icons invisible on
+// dark themes like Dracula).
