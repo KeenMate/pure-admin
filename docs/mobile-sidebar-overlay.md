@@ -114,9 +114,11 @@ the two drawers slide identically).
   `body.classList.toggle('sidebar-visible')` + burger icon, and calls
   `lockBodyScroll()` / `unlockBodyScroll()` to match the open state. State is
   **not** persisted on mobile.
-- **`checkMobileLayout()`** — on `resize`, if mobile, force-removes both
-  `sidebar-hidden` and `sidebar-visible` (drawer always starts closed) and
-  releases the scroll lock.
+- **`checkMobileLayout()`** — resets drawer state for the current band: if mobile,
+  force-removes both `sidebar-hidden` and `sidebar-visible` (drawer always starts
+  closed) and releases the scroll lock; if desktop, restores the persisted
+  `sidebar-hidden` state. **It runs on load and only on breakpoint *crossings*,
+  NOT on every `resize`** — see [Don't reset drawer state on every resize](#dont-reset-drawer-state-on-every-resize-the-mobile-keyboard-trap).
 - **`closeMobileSidebar(event)`** — wired as
   `document.body.addEventListener('click', closeMobileSidebar)`. Closes on any
   click **outside the drawer** (i.e. `event.target` is not inside
@@ -126,6 +128,51 @@ the two drawers slide identically).
   backdrop is a `body::before` pseudo, so a tap on the scrim can report the
   underlying `.pa-layout` element as the target, which that check missed and left
   the drawer stuck open. Fixed in rc11.)
+
+## Don't reset drawer state on every resize (the mobile-keyboard trap)
+
+**Rule: any handler that resets mobile drawer state must fire only on breakpoint
+*crossings*, never on every `resize` event.**
+
+The mobile **soft keyboard** fires a `window` `resize` when an in-drawer input
+gains focus — most notably the sidebar **type-and-go search**
+(`.pc-sidebar__search--input`, a real `<input type="search">` living inside the
+open drawer). The keyboard changes the viewport height while the width stays in
+the *same* mobile band, so it is **not** a breakpoint crossing.
+
+A resize handler that unconditionally re-runs the mobile reset will strip
+`sidebar-visible` on that keyboard resize and **slam the drawer shut the instant
+the user taps the search field** — surfacing as "tapping the sidebar search
+closes the sidebar." It only reproduces on a real phone (a soft keyboard exists);
+desktop devtools mobile emulation has no keyboard, so it looks fine there.
+
+The fix is a `wasMobile` crossing guard around the reset:
+
+```js
+// demo/views/layout.mustache
+var wasMobileLayout = window.innerWidth <= mobileBreakpoint();
+window.addEventListener('resize', function () {
+  var isMobileLayout = window.innerWidth <= mobileBreakpoint();
+  if (isMobileLayout === wasMobileLayout) return; // ignore in-band resizes (keyboard)
+  wasMobileLayout = isMobileLayout;
+  checkMobileLayout();                             // only on an actual crossing
+});
+```
+
+**Across the wrappers:**
+
+- **keen** (`lib/assets/js/hooks/sidebar.js`) already guards this way — `_onResize`
+  early-returns unless `isMobile === this._lastMobile` flips. No change needed.
+- **svelte** (`@keenmate/svelte-pure-admin`) ships **no** drawer/resize handler at
+  all — the consuming app owns drawer open/close, so the app must adopt the same
+  crossing guard if it wires a resize reset. The `pure-admin-templates` starters
+  currently wire no resize reset (drawer toggles only via the burger), so they
+  don't hit this — but any app that *adds* a resize reset must use the guard.
+
+This is the same "outside the panel, not `target === body`" spirit as
+tap-to-close: the trigger must be the *intended* signal (a real breakpoint
+crossing / a real outside tap), never a coincidental event (an in-band keyboard
+resize / a scrim pseudo-element reporting the wrong target).
 
 ## Background scroll-lock (implemented)
 

@@ -656,7 +656,20 @@
             }, 50);
 
             checkMobileLayout();
-            window.addEventListener('resize', checkMobileLayout);
+            // Only re-run the mobile/desktop reset when we actually CROSS the
+            // breakpoint. The mobile soft keyboard fires `resize` when an in-drawer
+            // input (e.g. the sidebar type-and-go search) gains focus; running the
+            // full reset on every resize would strip `sidebar-visible` and slam the
+            // drawer shut the instant the user taps the search field — the classic
+            // "tapping the sidebar search closes the sidebar" bug. keen's sidebar
+            // hook guards its resize the same way (_onResize / _lastMobile).
+            var wasMobileLayout = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
+            window.addEventListener('resize', function () {
+                var isMobileLayout = window.innerWidth <= ((window.pureAdmin && window.pureAdmin.config && window.pureAdmin.config.mobileBreakpoint) || 768);
+                if (isMobileLayout === wasMobileLayout) return; // ignore in-band resizes (mobile keyboard)
+                wasMobileLayout = isMobileLayout;
+                checkMobileLayout();
+            });
             document.body.addEventListener('click', closeMobileSidebar);
         });
 
