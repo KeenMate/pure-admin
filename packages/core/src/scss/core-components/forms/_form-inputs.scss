@@ -12,7 +12,12 @@
   border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
   background-color: var(--pa-input-bg);
-  color: var(--pc-text-color-1);
+  // Text on the input surface must use the input text token (--pa-input-text →
+  // --base-input-color), NOT the global primary text (--pc-text-color-1). They
+  // coincide on most themes, but pairing surface-text keeps the field legible on
+  // any theme that gives inputs a distinct text colour (same class of bug as the
+  // sidebar search that used the sidebar-surface text token on an input bg).
+  color: var(--pa-input-text);
   transition: border-color $transition-fast $easing-snappy;
 
   &:focus {
@@ -31,7 +36,7 @@
   font-size: $font-size-sm;
   line-height: normal;
   background-color: var(--pa-input-bg);
-  color: var(--pc-text-color-1);
+  color: var(--pa-input-text); // input-surface text token (see .pa-input)
   transition: border-color $transition-fast $easing-snappy;
 
   &:focus {
@@ -48,7 +53,7 @@
   border-radius: var(--pc-border-radius);
   font-size: $font-size-sm;
   background-color: var(--pa-input-bg);
-  color: var(--pc-text-color-1);
+  color: var(--pa-input-text); // input-surface text token (see .pa-input)
   transition: border-color $transition-fast $easing-snappy;
   resize: vertical;
   min-height: $textarea-min-height;

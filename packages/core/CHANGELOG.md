@@ -5,10 +5,28 @@ All notable changes to Pure Admin Visual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0-rc22] - 2026-09-13
+## [3.0.0] - 2026-09-13 [PUBLISHED]
+
+Stable cut of the `2.9.0-rc` foundation series (2.8.0 → 3.0.0). Bumped to **major**
+because that series carries breaking renames with no back-compat aliases — the
+`--pc-*` → `--pa-*` component-token rename and the `.pa-*` → `.pc-*` shell-class
+rename (`.pc-navbar` / `.pc-sidebar` / `.pc-layout` / `.pc-footer`). Full detail and
+migration notes are in the `[2.9.0-rc20]` / `[2.9.0-rc18]` sections below; this
+section lists only the changes since the last rc.
 
 ### Fixed
 
+- **Input field text now uses the input-surface text token (`--pa-input-text`),
+  not the global primary text (`--pc-text-color-1`).** `--pa-input-text`
+  (`= var(--base-input-color)`) was defined but never wired up — every field
+  painted its text with `--pc-text-color-1`. The two coincide on the current
+  themes, so it was latent, but it's the same class of bug as the sidebar search
+  that went white-on-white: text on the input surface (`--pa-input-bg`) must pair
+  with the input text colour so it stays legible on any theme that gives inputs a
+  distinct text colour. Applied to `.pa-input` / `.pa-select` / `.pa-textarea`,
+  the command-palette input, `.pa-virtual-textbox` + the query-editor caret, the
+  range-group toggle, and the settings-panel select. No visual change on the
+  shipped themes.
 - **Native date/time picker icons were invisible (black) on dark themes.** The
   dark-mode `::-webkit-calendar-picker-indicator { filter: invert(1) }` rule in
   `_form-inputs.scss` predated `color-scheme` adoption and now double-flipped:
