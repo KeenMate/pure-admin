@@ -564,6 +564,84 @@
   </div>
 </div>
 
+<!-- Shared Icon Bridge — one --base-icon-* re-skins framework + web component together -->
+<div class="pa-card">
+  <div class="pa-card__header">
+    <div class="pa-card__title">
+        <h3 class="pa-card__title-text">🔗 Shared Icon Bridge — Pure Admin ↔ Web Component</h3>
+    </div>
+  </div>
+  <div class="pa-card__body">
+    <p>
+      The <code>--base-icon-*</code> tokens aren't private to the web component — they're a
+      <strong>shared contract</strong>. Pure Admin's own controls read the exact same tokens:
+      the custom <code>.pa-checkbox</code> paints its tick with <code>--base-icon-check</code> (as an
+      SVG mask), which is the <em>identical</em> glyph <code>&lt;web-multiselect&gt;</code> masks for its
+      selected rows. So overriding <code>--base-icon-check</code> <strong>once</strong> on a wrapper
+      re-skins the framework checkbox and the web component in lockstep — no per-component theming, no JS.
+    </p>
+
+    <!-- Scope the shared token to this panel only. The star is deliberately
+         un-checkmark-like so the "both changed together" effect is unmistakable. -->
+    <style>
+      #shared-icon-bridge {
+        --base-icon-check: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'><path d='M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.11-6.46-4.7-4.58 6.49-.94z'/></svg>");
+      }
+    </style>
+
+    <div id="shared-icon-bridge" class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
+        <div class="pa-form-group">
+          <label>Native Pure Admin <code>.pa-checkbox</code></label>
+          <div class="d-flex flex-column gap-5" style="padding-top: 0.25rem;">
+            <label class="pa-checkbox">
+              <input type="checkbox" checked>
+              <span class="pa-checkbox__box"></span>
+              <span class="pa-checkbox__label">React</span>
+            </label>
+            <label class="pa-checkbox">
+              <input type="checkbox" checked>
+              <span class="pa-checkbox__box"></span>
+              <span class="pa-checkbox__label">Svelte</span>
+            </label>
+            <label class="pa-checkbox">
+              <input type="checkbox">
+              <span class="pa-checkbox__box"></span>
+              <span class="pa-checkbox__label">Angular</span>
+            </label>
+          </div>
+          <small class="pa-form-text">Framework checkbox — tick masked from <code>--base-icon-check</code>.</small>
+        </div>
+      </div>
+      <div class="pc-col-100 pc-col-md-50">
+        <div class="pa-form-group">
+          <label><code>&lt;web-multiselect&gt;</code> with <code>show-checkboxes</code></label>
+          <web-multiselect id="shared-icon-ms" multiple="true" show-checkboxes="true"
+            badges-display-mode="pills" value-member="value" display-value-member="label">
+            <option value="react" selected>React</option>
+            <option value="svelte" selected>Svelte</option>
+            <option value="vue">Vue</option>
+            <option value="solid">Solid</option>
+            <option value="angular">Angular</option>
+          </web-multiselect>
+          <small class="pa-form-text">
+            Open the dropdown — the checked rows carry the <strong>same star</strong>, from the same token.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="pa-alert pa-alert--info mt-4">
+      <small>
+        This is the whole point of the <code>--base-*</code> bridge: it lets shadow-DOM web components and
+        the SCSS-compiled framework share one theming surface. Pure Admin emits the defaults at
+        <code>:root</code> via <code>_base-css-variables.scss</code>, so out of the box the picker already
+        matches the framework's glyphs — this panel just proves the swap propagates to both at once.
+      </small>
+    </div>
+  </div>
+</div>
+
 <!-- Programmatic Control -->
 <div class="pa-card">
   <div class="pa-card__header">
@@ -651,7 +729,7 @@
   </div>
   <div class="pa-card__body">
     <ul>
-      <li><strong>npm Package:</strong> <code>@keenmate/web-multiselect</code> (v2.0.0-rc12)</li>
+      <li><strong>npm Package:</strong> <code>@keenmate/web-multiselect</code> (v2.0.0)</li>
       <li><strong>Repository:</strong> <a href="https://github.com/keenmate/web-multiselect" target="_blank" class="pa-link">github.com/keenmate/web-multiselect</a></li>
       <li><strong>Documentation:</strong> See package README and AI instructions in <code>../../web-multiselect/ai/</code></li>
       <li><strong>CSS Variables:</strong> Uses <code>--ms-*</code> prefix (component) and <code>--base-*</code> prefix (theme integration)</li>
